@@ -1,6 +1,6 @@
-@extends('layouts.cpanel')
+@extends('layouts.backEnd.cpanel')
 @section('sidebar')
-    @include('layouts.includes.sidebars._main')
+    @include('layouts.backEnd.includes.sidebars._main')
 @endsection
 @section('content')
 <div class="content-header row">
@@ -9,7 +9,7 @@
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">{{ trans('staff::admin.dashboard') }}</a>
+            <li class="breadcrumb-item"><a href="{{route('main.dashboard')}}">{{ trans('admin.dashboard') }}</a>
             </li>
             <li class="breadcrumb-item active">{{$title}}
             </li>

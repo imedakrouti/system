@@ -1,6 +1,6 @@
-@extends('layouts.cpanel')
+@extends('layouts.backEnd.cpanel')
 @section('sidebar')
-    @include('layouts.includes.sidebars._main')
+    @include('layouts.backEnd.includes.sidebars._main')
 @endsection
 @section('styles')
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
@@ -59,22 +59,22 @@
 <script>
     $(function () {
         var myTable = $('#dynamic-table').DataTable({
-        @include('layouts.includes.datatables._datatableConfig')
+        @include('layouts.backEnd.includes.datatables._datatableConfig')
             dom: 'Bfrtip',
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('admin.new_account')}}",
+                    "text": "{{trans('admin.new_admin_account')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('accounts.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.includes.datatables._deleteBtn',['route'=>'accounts.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'accounts.destroy'])
 
                 // default btns
-                @include('layouts.includes.datatables._datatableBtn')
+                @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
           ajax: "{{ route('accounts.index') }}",
           columns: [
@@ -86,10 +86,10 @@
               {data: 'status', 	    name: 'status'},
               {data: 'action', 	    name: 'action', orderable: false, searchable: false},
           ],
-          @include('layouts.includes.datatables._datatableLang')
+          @include('layouts.backEnd.includes.datatables._datatableLang')
       });
-      @include('layouts.includes.datatables._multiSelect')
+      @include('layouts.backEnd.includes.datatables._multiSelect')
     });
 </script>
-@include('layouts.includes.datatables._datatable')
+@include('layouts.backEnd.includes.datatables._datatable')
 @endsection

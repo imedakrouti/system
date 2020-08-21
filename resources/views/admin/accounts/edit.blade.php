@@ -1,6 +1,6 @@
-@extends('layouts.cpanel')
+@extends('layouts.backEnd.cpanel')
 @section('sidebar')
-    @include('layouts.includes.sidebars._main')
+    @include('layouts.backEnd.includes.sidebars._main')
 @endsection
 @section('content')
 <div class="content-header row">
@@ -10,7 +10,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{aurl('dashboard')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('accounts.index')}}">{{ trans('admin.users_accounts') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('accounts.index')}}">{{ trans('admin.admin_accounts') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>
@@ -37,7 +37,6 @@
                             @endforeach
                         </div>
                     @endif
-
                     <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control" for="userinput1">{{ trans('admin.account_name') }}</label>

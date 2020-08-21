@@ -15,11 +15,11 @@ class CreateHistoriesTable extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('section',['system','staff','admission','students','school_fees','public_relations','bus','accounting','school_control','clinic','inventory','timetable']);
+            $table->enum('section',['system','staff','students','school_fees','public_relations','buses','accounting','school_control','clinic','inventory']);
             $table->string('history'); // notes
             $table->enum('crud',['index','store','update','destroy','import']);
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('admins');
+            $table->unsignedBigInteger('admin_id');
+            $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
     }

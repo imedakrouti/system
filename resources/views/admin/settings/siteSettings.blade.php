@@ -1,7 +1,4 @@
-@extends('layouts.cpanel')
-@section('sidebar')
-    @include('layouts.includes.sidebars._main')
-@endsection
+@extends('layouts.backEnd.cpanel')
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
@@ -9,7 +6,7 @@
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">{{ trans('staff::admin.dashboard') }}</a>
+            <li class="breadcrumb-item"><a href="{{route('main.dashboard')}}">{{ trans('admin.dashboard') }}</a>
             </li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
@@ -47,7 +44,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.site_english_name') }}</label>
+                        <label class="col-md-3 label-control">{{ trans('admin.site_english_name') }}</label>
                         <div class="col-md-9">
                           <input type="text" id="userinput2" class="form-control border-primary" placeholder="{{ trans('admin.site_english_name') }}"
                           name="siteNameEnglish" value="{{settingHelper()->siteNameEnglish}}">
@@ -56,7 +53,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.address') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('admin.address') }}</label>
                           <div class="col-md-9">
                             <input type="text" id="userinput2" class="form-control border-primary" placeholder="{{ trans('admin.address') }}"
                             name="address" value="{{settingHelper()->address}}">
@@ -65,7 +62,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.contact') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('admin.contact') }}</label>
                           <div class="col-md-9">
                             <input type="text" id="userinput2" class="form-control border-primary" placeholder="{{ trans('admin.contact') }}"
                             name="contact" value="{{settingHelper()->contact}}">
@@ -74,7 +71,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.email') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('admin.email') }}</label>
                           <div class="col-md-9">
                             <input type="text" id="userinput2" class="form-control border-primary" placeholder="{{ trans('admin.email') }}"
                             name="email" value="{{settingHelper()->email}}">
@@ -83,7 +80,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.siteStatus') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('admin.siteStatus') }}</label>
                           <div class="col-md-9">
                               <select name="status" class="form-control">
                                   <option value=""></option>
@@ -95,28 +92,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.open_time') }}</label>
-                          <div class="col-md-9">
-                            <input type="time" id="timesheetinput5" class="form-control" name="openTime" value="{{settingHelper()->openTime}}">
-                            <div class="form-control-position">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.close_time') }}</label>
-                          <div class="col-md-9">
-                            <input type="time" id="timesheetinput5" class="form-control" name="closeTime" value="{{settingHelper()->closeTime}}">
-                            <div class="form-control-position">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.fb') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('admin.fb') }}</label>
                           <div class="col-md-9">
                             <input type="text" id="userinput2" class="form-control border-primary" placeholder="{{ trans('admin.fb') }}"
                             name="facebook" value="{{settingHelper()->facebook}}">
@@ -125,7 +101,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.yt') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('admin.yt') }}</label>
                           <div class="col-md-9">
                             <input type="text" id="userinput2" class="form-control border-primary" placeholder="{{ trans('admin.yt') }}"
                             name="youtube" value="{{settingHelper()->youtube}}">
