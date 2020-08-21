@@ -66,7 +66,7 @@ if (!function_exists('history')) {
             'section'   => $section,
             'history'   => $history,
             'crud'      => $crud,
-            'user_id'   => auth()->id()
+            'admin_id'   => auth()->id()
         ]);
 	}
 }
