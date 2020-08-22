@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboards.dashboard',['title'=>trans('staff::admin.dashboard')]);
+        return view('layouts.backEnd.dashboards.dashboard',['title'=>trans('admin.dashboard')]);
     }
     public function admission()
     {

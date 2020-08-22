@@ -31,7 +31,7 @@ class AdminAuth extends Controller
             if (!session()->has('lang')) {
                 session()->put('lang',authInfo()->lang);
             }
-            return redirect(aurl('dashboard'));
+            return redirect(route('main.dashboard'));
         }
 
         return redirect(aurl('login'))->with('error',trans('admin.invalid_login'));
