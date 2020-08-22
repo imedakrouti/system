@@ -8,25 +8,24 @@ class Setting extends Model
 {
     protected $fillable = [
         'id',
-        'siteNameArabic',
-        'siteNameEnglish',
+        'ar_school_name',
+        'en_school_name',
         'logo',
         'icon',
         'email',
         'address',
-        'contact',
-        'openTime',
-        'closeTime',
-        'facebook',
-        'youtube',
-        'arabicDescription',
-        'englishDescription',
-        'keywords',
+        'contact1',
+        'contact2',
+        'contact3',
+        'open_time',
+        'close_time',
+        'fb',
+        'yt',
         'status',
-        'messageMaintenance'
+        'msg_maintenance'
     ];
 
-    public function users()
+    public function admins()
     {
         $this->belongsTo(App\Models\Admin::class);
     }

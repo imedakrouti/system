@@ -121,8 +121,8 @@ class AdminController extends Controller
     private function msgProfile()
     {
         return [
-            'imageProfile.image' => trans('admin.logoImageValidate'),
-            'imageProfile.mimes' => trans('admin.logoMimesValidate'),
+            'image_profile.image' => trans('admin.logoImageValidate'),
+            'image_profile.mimes' => trans('admin.logoMimesValidate'),
         ];
     }
     public function updateProfile()
@@ -131,26 +131,26 @@ class AdminController extends Controller
 
         $data = request()->except('_token','_method','/admin/admin/profile');
 
-        if (request()->hasFile('imageProfile'))
+        if (request()->hasFile('image_profile'))
         {
             // remove old image
-            $image_path = public_path("/images/imagesProfile/".authInfo()->imageProfile);
+            $image_path = public_path("/images/imagesProfile/".authInfo()->image_profile);
             // return dd($image_path);
             if(File::exists($image_path)) {
                 File::delete($image_path);
             }
-            $imageProfile = request('imageProfile');
-            $fileName = time().'-'.$imageProfile->getClientOriginalName();
+            $image_profile = request('image_profile');
+            $fileName = time().'-'.$image_profile->getClientOriginalName();
             $location = public_path('images/imagesProfile');
 
-            $imageProfile->move($location,$fileName);
-            $data['imageProfile'] = $fileName;
+            $image_profile->move($location,$fileName);
+            $data['image_profile'] = $fileName;
         }
 
         Admin::where('id',authInfo()->id)->update($data);
 
         session()->forget('lang');
-        session()->put('lang',authInfo()->preferredLanguage);
+        session()->put('lang',authInfo()->lang);
 
         alert()->success(trans('msg.updated_successfully'), trans('admin.profile'));
         return back();

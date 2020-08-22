@@ -1,5 +1,82 @@
 [
     {
+        "name": "barryvdh/laravel-debugbar",
+        "version": "v3.4.1",
+        "version_normalized": "3.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/barryvdh/laravel-debugbar.git",
+            "reference": "9e785aa5584e8839fd43070202dd7f2e912db51c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/9e785aa5584e8839fd43070202dd7f2e912db51c",
+            "reference": "9e785aa5584e8839fd43070202dd7f2e912db51c",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/routing": "^5.5|^6|^7",
+            "illuminate/session": "^5.5|^6|^7",
+            "illuminate/support": "^5.5|^6|^7",
+            "maximebf/debugbar": "^1.16.3",
+            "php": ">=7.0",
+            "symfony/debug": "^3|^4|^5",
+            "symfony/finder": "^3|^4|^5"
+        },
+        "require-dev": {
+            "orchestra/testbench": "^3.5|^4.0|^5.0",
+            "phpunit/phpunit": "^6.0|^7.0|^8.5|^9.0"
+        },
+        "time": "2020-08-11T10:30:51+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.2-dev"
+            },
+            "laravel": {
+                "providers": [
+                    "Barryvdh\\Debugbar\\ServiceProvider"
+                ],
+                "aliases": {
+                    "Debugbar": "Barryvdh\\Debugbar\\Facade"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Barryvdh\\Debugbar\\": "src/"
+            },
+            "files": [
+                "src/helpers.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Barry vd. Heuvel",
+                "email": "barryvdh@gmail.com"
+            }
+        ],
+        "description": "PHP Debugbar integration for Laravel",
+        "keywords": [
+            "debug",
+            "debugbar",
+            "laravel",
+            "profiler",
+            "webprofiler"
+        ],
+        "funding": [
+            {
+                "url": "https://github.com/barryvdh",
+                "type": "github"
+            }
+        ]
+    },
+    {
         "name": "dnoegel/php-xdg-base-dir",
         "version": "v0.1.1",
         "version_normalized": "0.1.1.0",
@@ -1408,6 +1485,69 @@
                 "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
                 "type": "tidelift"
             }
+        ]
+    },
+    {
+        "name": "maximebf/debugbar",
+        "version": "v1.16.3",
+        "version_normalized": "1.16.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/maximebf/php-debugbar.git",
+            "reference": "1a1605b8e9bacb34cc0c6278206d699772e1d372"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/1a1605b8e9bacb34cc0c6278206d699772e1d372",
+            "reference": "1a1605b8e9bacb34cc0c6278206d699772e1d372",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.1",
+            "psr/log": "^1.0",
+            "symfony/var-dumper": "^2.6|^3|^4|^5"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5"
+        },
+        "suggest": {
+            "kriswallsmith/assetic": "The best way to manage assets",
+            "monolog/monolog": "Log using Monolog",
+            "predis/predis": "Redis storage"
+        },
+        "time": "2020-05-06T07:06:27+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.16-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "DebugBar\\": "src/DebugBar/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Maxime Bouroumeau-Fuseau",
+                "email": "maxime.bouroumeau@gmail.com",
+                "homepage": "http://maximebf.com"
+            },
+            {
+                "name": "Barry vd. Heuvel",
+                "email": "barryvdh@gmail.com"
+            }
+        ],
+        "description": "Debug bar in the browser for php application",
+        "homepage": "https://github.com/maximebf/php-debugbar",
+        "keywords": [
+            "debug",
+            "debugbar"
         ]
     },
     {
@@ -3009,6 +3149,92 @@
             "guid",
             "identifier",
             "uuid"
+        ]
+    },
+    {
+        "name": "realrashid/sweet-alert",
+        "version": "v3.1.6",
+        "version_normalized": "3.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/realrashid/sweet-alert.git",
+            "reference": "7253f8f1b9c7c26ee70d6b7ae641637317e291ee"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/realrashid/sweet-alert/zipball/7253f8f1b9c7c26ee70d6b7ae641637317e291ee",
+            "reference": "7253f8f1b9c7c26ee70d6b7ae641637317e291ee",
+            "shasum": ""
+        },
+        "require": {
+            "laravel/framework": "^5.4|^6.0|^7.0",
+            "php": "^7.2"
+        },
+        "require-dev": {
+            "symfony/thanks": "^1.0"
+        },
+        "time": "2020-07-17T18:23:42+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "RealRashid\\SweetAlert\\SweetAlertServiceProvider"
+                ],
+                "aliases": {
+                    "Alert": "RealRashid\\SweetAlert\\Facades\\Alert"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "RealRashid\\SweetAlert\\": "src/"
+            },
+            "files": [
+                "src/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Rashid Ali",
+                "email": "realrashid05@gmail.com",
+                "homepage": "https://realrashid.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A BEAUTIFUL, RESPONSIVE, CUSTOMIZABLE, ACCESSIBLE (WAI-ARIA) REPLACEMENT FOR JAVASCRIPT'S POPUP BOXES FOR LARAVEL BY RASHID ALI",
+        "homepage": "https://github.com/realrashid/sweet-alert",
+        "keywords": [
+            "alert",
+            "laravel",
+            "laravel-package",
+            "notifier",
+            "noty",
+            "sweet-alert",
+            "sweet-alert2",
+            "toast"
+        ],
+        "funding": [
+            {
+                "url": "https://ko-fi.com/realrashid",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.buymeacoffee.com/realrashid",
+                "type": "custom"
+            },
+            {
+                "url": "https://issuehunt.io/r/realrashid",
+                "type": "issuehunt"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/realrashid/sweet-alert",
+                "type": "tidelift"
+            }
         ]
     },
     {

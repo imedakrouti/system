@@ -18,7 +18,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','username', 'email', 'password','image','lang','status'
+        'name','username', 'email', 'password','image_profile','lang','status'
     ];
 
     /**
@@ -44,7 +44,7 @@ class Admin extends Authenticatable
     }
     public function settings()
     {
-        $this->hasOne(App\Models\Setting::class);
+        $this->hasOne(Setting::class);
     }
     public function setPasswordAttribute($value)
     {

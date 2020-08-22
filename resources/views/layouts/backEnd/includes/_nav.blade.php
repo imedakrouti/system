@@ -6,7 +6,7 @@
           <li class="nav-item ">
             <a class="navbar-brand" href="{{route('main.dashboard')}}">
               <img class="brand-logo" alt="logo" src="{{asset('images/website/'.settingHelper()->logo)}}">
-            <h3 class="brand-text">{{session('lang') == 'ar' ?settingHelper()->siteNameArabic:settingHelper()->siteNameEnglish}}</h3>
+            <h3 class="brand-text">{{session('lang') == 'ar' ?settingHelper()->ar_school_name:settingHelper()->en_school_name}}</h3>
             </a>
           </li>
           <li class="nav-item d-md-none">
@@ -41,7 +41,7 @@
                         <span class="user-name text-bold-700">{{authInfo()->name}}</span>
                     </span>
                     <span class="avatar avatar-online">
-                        <img src="{{asset('/images/imagesProfile/'.authInfo()->imageProfile)}}" alt="avatar"><i></i>
+                        <img src="{{asset('/images/imagesProfile/'.authInfo()->image_profile)}}" alt="avatar"><i></i>
                     </span>
 
                 </a>

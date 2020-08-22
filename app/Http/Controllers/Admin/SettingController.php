@@ -15,20 +15,16 @@ class SettingController extends Controller
     public function updateSettings()
     {
         $data = $this->validate(request(),[
-            'siteNameArabic'    =>'required',
-            'siteNameEnglish'   =>'required',
-            'openTime'          =>'required',
-            'closeTime'         =>'required',
-            'logo'              => 'image|mimes:jpg,jpeg,png|max:2048',
-            'icon'              => 'mimes:ico',
+            'ar_school_name'    => 'required',
+            'en_school_name'    => 'required',
+            'open_time'         => 'required',
+            'close_time'        => 'required'            
         ],[
-            'siteNameArabic.required'   => trans('msg.site_arabic_name_required'),
-            'siteNameEnglish.required'  => trans('msg.site_english_name_required'),
-            'openTime.required'         => trans('msg.open_time_required'),
-            'closeTime.required'        => trans('msg.close_time_required'),
-            'logo.image'                => trans('msg.logo_image_validate'),
-            'logo.mimes'                => trans('msg.logo_mimes_validate'),
-            'icon.mimes'                => trans('msg.icon_mimes_validate'),
+            'ar_school_name.required'   => trans('msg.ar_school_name_required'),
+            'en_school_name.required'   => trans('msg.en_school_name_required'),
+            'open_time.required'        => trans('msg.open_time_required'),
+            'close_time.required'       => trans('msg.close_time_required'),
+
         ]);
         $data = request()->except('_token','_method');
 
