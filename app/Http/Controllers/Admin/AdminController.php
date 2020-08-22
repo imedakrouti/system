@@ -57,8 +57,8 @@ class AdminController extends Controller
      */
     public function store(AdminRequest $request)
     {
-        Admin::create($request->all());
-        alert()->success(trans('msg.stored_successfully'), trans('admin.new_account'));
+        Admin::create($request->all());        
+        toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('accounts.index');
     }
 
@@ -84,8 +84,8 @@ class AdminController extends Controller
     public function update(AdminRequest $request, $id)
     {
         $admin = Admin::findOrFail($id);
-        $admin->update($request->except('_token','_method','/admin/admin/profile'));
-        alert()->success(trans('msg.updated_successfully'), trans('admin.edit_user_account'));
+        $admin->update($request->except('_token','_method','/admin/admin/profile'));        
+        toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('accounts.index');
     }
 

@@ -19,3 +19,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     vertical-align: top;
     border-top:0px solid #E3EBF3;
 }
+.table-responsive {
+    overflow-x:auto;
+    overflow-y: hidden;
+}
