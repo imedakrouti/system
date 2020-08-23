@@ -82,12 +82,9 @@ class Admin extends Authenticatable
 
         });
     }
-    public function sectors()
+    public function years()
     {
-        return $this->hasMany(Sector::class);
+        return $this->hasMany('Student\Models\Settings\Year','admin_id');
     }
-    public function departments()
-    {
-        return $this->hasMany(Department::class);
-    }
+
 }

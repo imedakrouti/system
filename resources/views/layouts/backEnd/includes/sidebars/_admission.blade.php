@@ -21,9 +21,9 @@
             </ul>
         </li>
         {{-- settings --}}
-        <li class=" nav-item"><a href="#"><i class="la la-gear"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
+        <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gear"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">
-            <li class="{{request()->segment(3)=='countries'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.academic_years') }}</a></li>           
+            <li class="{{request()->segment(3)=='years'?'active':''}}"><a class="menu-item" href="{{route('years.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.academic_years') }}</a></li>           
             <li class="{{request()->segment(3)=='countries'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.divisions') }}</a></li>           
             <li class="{{request()->segment(3)=='countries'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.grades') }}</a></li>           
             <li class="{{request()->segment(3)=='countries'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.admission_documents') }}</a></li>           

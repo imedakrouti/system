@@ -7,8 +7,7 @@ $moduleName = basename(dirname(__DIR__));
  */
 Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'])->group(function() use($moduleName){
     Route::prefix(buildPrefix($moduleName))->group(function(){
-        Route::group(['namespace'=>'Setting'],function(){
-            Route::get('settings','AdmissionSettingController@index')->name('staff.setting');
+        Route::group(['namespace'=>'Setting','prefix'=>'settings'],function(){            
             require 'setting.php';
         });
         require 'admissions/admissionRoutes.php';
