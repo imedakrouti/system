@@ -77,7 +77,8 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- fixed-top-->
     @include('layouts.backEnd.includes._nav')
   <!-- ////////////////////////////////////////////////////////////////////////////-->
-  @include('layouts.backEnd.includes.sidebars._main')
+  
+  @yield('sidebar')
   {{-- {{dd(Config('app.locale'))}} --}}
     {{-- {{dd(session('lang'))}} --}}
   <div class="app-content content">

@@ -13,10 +13,9 @@ class DashboardController extends Controller
     }
     public function admission()
     {
-        return view('dashboards.admission',['title'=>trans('admin.admissions')]);
-    }
-    public function staff()
-    {
-        return view('dashboards.staff',['title'=>trans('staff::admin.hr')]);
+        /**
+         * including all statistics for admissions and students
+         */
+        return view('student::dashboard._admission',['title'=>trans('admin.admissions')]);
     }
 }

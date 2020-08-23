@@ -11,5 +11,7 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
             Route::get('settings','AdmissionSettingController@index')->name('staff.setting');
             require 'setting.php';
         });
+        require 'admissions/admissionRoutes.php';
+        require 'students/studentRoutes.php';
     });
 });
