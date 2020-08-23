@@ -14,3 +14,11 @@
     Route::post('divisions/destroy','DivisionController@destroy')->name('divisions.destroy');
     Route::get('get/divisions','DivisionController@getDivisions')->name('get.divisions');
     Route::put('division/selected','DivisionController@getDivisionSelected')->name('division.selected');    
+
+    /**
+     * Grade
+     */
+    Route::resource('/grades','GradeController')->except('show','destroy');
+    Route::post('grades/destroy','GradeController@destroy')->name('grades.destroy');
+    Route::get('get/grades','GradeController@getGrades')->name('get.grades');
+    Route::put('grade/selected','GradeController@getGradeSelected')->name('grade.selected');      

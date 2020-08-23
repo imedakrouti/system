@@ -90,5 +90,9 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Settings\Division','admin_id');
     }
+    public function grades()
+    {
+        return $this->hasMany('Student\Models\Settings\Grade','admin_id');
+    }
 
 }
