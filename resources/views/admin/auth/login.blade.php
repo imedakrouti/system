@@ -62,11 +62,11 @@ data-open="click" data-menu="vertical-menu" data-col="1-column">
                 <div class="card-header border-0">
                   <div class="card-title text-center">
                     <div class="p-1">
-                      <img src="{{asset('cpanel/app-assets/images/logo/logo-dark.png')}}" alt="branding logo">
+                      <img width="100" height="100" src="{{asset('images/website/'.settingHelper()->logo)}}" alt="branding logo">
                     </div>
                   </div>
                   <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
-                    <span>Login with Modern</span>
+                    <span>{{ trans('admin.login_data') }}</span>
                   </h6>
                         @if($errors->any())
                             <div class="alert bg-danger alert-dismissible mb-2 text-center">

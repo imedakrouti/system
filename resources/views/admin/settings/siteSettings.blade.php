@@ -152,24 +152,26 @@
                             placeholder="{{ trans('admin.message_maintenance') }}">{{settingHelper()->msg_maintenance}}</textarea>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control" >{{ trans('admin.icon') }}</label>
-                          <div class="col-md-9">
-                            <input multiple="" type="file" id="id-input-file-31" name="icon"/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control" >{{ trans('admin.logo') }}</label>
-                          <div class="col-md-9">
-                            <input multiple="" type="file" id="id-input-file-3" name="logo"/>
-                          </div>
-                        </div>
-                      </div>
+                      </div>   
                   </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" >{{ trans('admin.icon') }}</label>
+                        <div class="col-md-9">
+                          <input multiple="" type="file" id="id-input-file-31" name="icon"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" >{{ trans('admin.logo') }}</label>
+                        <div class="col-md-9">
+                          <input multiple="" type="file" id="id-input-file-3" name="logo"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>                      
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

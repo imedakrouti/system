@@ -21,7 +21,7 @@
           <label for="remember-me">{{trans('admin.rememberme')}}</label>
         </fieldset>
       </div>
-      <div class="col-md-6 col-12 text-center text-md-right"><a href="recover-password.html" class="card-link">{{trans('admin.forgetPassword')}}</a></div>
+      {{-- <div class="col-md-6 col-12 text-center text-md-right"><a href="recover-password.html" class="card-link">{{trans('admin.forgetPassword')}}</a></div> --}}
     </div>
     <button type="submit" class="btn btn-info btn-lg btn-block"><i class="ft-unlock"></i> {{trans('admin.login')}}</button>
   </form>
