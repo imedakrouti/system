@@ -86,5 +86,9 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Settings\Year','admin_id');
     }
+    public function divisions()
+    {
+        return $this->hasMany('Student\Models\Settings\Division','admin_id');
+    }
 
 }

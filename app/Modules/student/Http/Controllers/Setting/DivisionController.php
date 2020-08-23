@@ -2,12 +2,11 @@
 
 namespace Student\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\YearRequest;
-use Student\Models\Settings\Year;
-
+use App\Http\Requests\DivisionRequest;
+use Student\Models\Settings\Division;
 use Illuminate\Http\Request;
 
-class YearController extends Controller
+class DivisionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,11 @@ class YearController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Year::latest();
+            $data = Division::latest();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('years.edit',$data->id).'">
+                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('divisions.edit',$data->id).'">
                            <i class=" la la-edit"></i>
                        </a>';
                             return $btn;
@@ -36,7 +35,7 @@ class YearController extends Controller
                     ->rawColumns(['action','check'])
                     ->make(true);
         }
-        return view('student::settings.years.index',['title'=>trans('student::local.academic_years')]);        
+        return view('student::settings.divisions.index',['title'=>trans('student::local.divisions')]);        
     }
 
     /**
@@ -46,15 +45,15 @@ class YearController extends Controller
      */
     public function create()
     {
-        return view('student::settings.years.create',
-        ['title'=>trans('student::local.new_academic_years')]);
+        return view('student::settings.divisions.create',
+        ['title'=>trans('student::local.new_division')]);
     }
     private function attributes()
     {
         return [
-            'name',
-            'start_from',
-            'end_from'
+            'ar_division_name',
+            'en_division_name',
+            'sort'
         ];
     }
     /**
@@ -63,79 +62,84 @@ class YearController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(YearRequest $request)
-    {                
-        $request->user()->years()->create($request->only($this->attributes()));        
+    public function store(DivisionRequest $request)
+    {
+        $request->user()->divisions()->create($request->only($this->attributes()));        
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('years.index');
+        return redirect()->route('divisions.index');
     }
+
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Year  $year
+     * @param  \App\Division  $division
      * @return \Illuminate\Http\Response
      */
-    public function edit(Year $year)
+    public function edit(Division $division)
     {
-        return view('student::settings.years.edit',
-        ['title'=>trans('student::local.edit_academic_years'),'year'=>$year]);
+        return view('student::settings.divisions.edit',
+        ['title'=>trans('student::local.edit_division'),'division'=>$division]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Year  $year
+     * @param  \App\Division  $division
      * @return \Illuminate\Http\Response
      */
-    public function update(YearRequest $request, Year $year)
+    public function update(DivisionRequest $request, Division $division)
     {
-        $year->update($request->only($this->attributes()));
+        $division->update($request->only($this->attributes()));
         toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('years.index');
+        return redirect()->route('divisions.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Year  $year
+     * @param  \App\Division  $division
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Year $year)
+    public function destroy(Division $division)
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Year::destroy($id);
+                    Division::destroy($id);
                 }
             }
         }
         return response(['status'=>true]);
     }
-
-    public function getYears()
+    private function divisions()
     {
-        $years = Year::all();
+        $divisions = Division::all();
+        foreach ($divisions as $country) {
+            $country->setAttribute('divisionName',session('lang')=='en'?$country->ar_division_name:$country->en_division_name);
+        }
+        return $divisions;
+    }
+    public function getDivisions()
+    {
         $output = "";
         $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($years as $year) {
-            $output .= ' <option value="'.$year->id.'">'.$year->name.'</option>';
+        foreach ($this->divisions() as $division) {
+            $output .= ' <option value="'.$division->id.'">'.$division->divisionName.'</option>';
         };
         return json_encode($output);
     }
-
-    public function getYearSelected()
+    public function getDivisionSelected()
     {
-        $id = request()->get('year_id');
-        $years = Year::all();
+        $id = request()->get('division_id');
         $output = "";
         $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($years as $year) {
-            $selected = $year->id == $id?"selected":"";
-            $output .= ' <option '.$selected.' value="'.$year->id.'">'.$year->name.'</option>';
+        foreach ($this->divisions() as $division) {
+            $selected = $division->id == $id?"selected":"";
+            $output .= ' <option '.$selected.' value="'.$division->id.'">'.$division->divisionName.'</option>';
         };
         return json_encode($output);
-    }
+    }    
 }
