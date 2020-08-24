@@ -21,4 +21,11 @@
     Route::resource('/grades','GradeController')->except('show','destroy');
     Route::post('grades/destroy','GradeController@destroy')->name('grades.destroy');
     Route::get('get/grades','GradeController@getGrades')->name('get.grades');
-    Route::put('grade/selected','GradeController@getGradeSelected')->name('grade.selected');      
+    Route::put('grade/selected','GradeController@getGradeSelected')->name('grade.selected');    
+    
+    /**
+     * Admission Documents
+     */
+    Route::resource('/admission-documents','AdmissionDocController')->except('show','destroy');
+    Route::post('admission-documents/destroy','AdmissionDocController@destroy')->name('admission-documents.destroy');    
+    Route::put('admission/Documents/filter','AdmissionDocController@filterByType')->name('admission-documents.filter');    

@@ -94,5 +94,9 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Settings\Grade','admin_id');
     }
+    public function admissionDocuments()
+    {
+        return $this->hasMany('Student\Models\Settings\AdmissionDoc','admin_id');
+    }
 
 }

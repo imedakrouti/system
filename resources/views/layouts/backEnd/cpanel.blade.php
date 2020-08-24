@@ -28,8 +28,9 @@
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/app.css')}}">
-  {{-- <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/custom-rtl.css')}}"> --}}
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/custom-rtl.css')}}">
   @endif
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/forms/selects/select2.min.css')}}">
 
   <!-- END MODERN CSS-->
   <!-- BEGIN Page Level CSS-->
@@ -104,6 +105,8 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
 
   <!-- BEGIN VENDOR JS-->
   <script src="{{asset('public/cpanel/app-assets/vendors/js/vendors.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('public/cpanel/app-assets/vendors/js/forms/select/select2.full.min.js')}}" type="text/javascript"></script>
+  
   @yield('script')
   <!-- BEGIN VENDOR JS-->
   <!-- BEGIN PAGE VENDOR JS-->
@@ -116,11 +119,12 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <script src="{{asset('public/cpanel/app-assets/js/scripts/customizer.js')}}" type="text/javascript"></script>
   <!-- END MODERN JS-->
   <!-- BEGIN PAGE LEVEL JS-->
-
-{{-- sweet alert --}}
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
-{{-- message alerts --}}
+  
+  {{-- sweet alert --}}
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
+  {{-- message alerts --}}
+  <script src="{{asset('public/cpanel/app-assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
 <script>$(".se-pre-con").fadeOut("slow");</script>
 </body>
 </html>
