@@ -117,8 +117,8 @@ class DivisionController extends Controller
     private function divisions()
     {
         $divisions = Division::all();
-        foreach ($divisions as $country) {
-            $country->setAttribute('divisionName',session('lang')=='en'?$country->ar_division_name:$country->en_division_name);
+        foreach ($divisions as $division) {
+            $division->setAttribute('divisionName',session('lang')=='en'?$division->ar_division_name:$division->en_division_name);
         }
         return $divisions;
     }

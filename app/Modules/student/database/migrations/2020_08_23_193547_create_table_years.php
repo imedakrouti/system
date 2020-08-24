@@ -15,7 +15,7 @@ class CreateTableYears extends Migration
     {
         Schema::create('years', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name',9);
             $table->date('start_from');
             $table->date('end_from');
             $table->unsignedBigInteger('admin_id');

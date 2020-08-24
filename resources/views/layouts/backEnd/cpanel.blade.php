@@ -61,19 +61,32 @@
   @if (session('lang') == trans('admin.ar') || session('lang') == 'ar'))
     <style>
         body,h1,h2,h3,h4,h5,h6,a,li,p,span {font-family: 'Cairo', sans-serif;}
+
+      .sweet-alert h2 {font-family: 'Cairo', sans-serif;font-weight: 500;}
+      .sweet-alert p {font-family: 'Cairo', sans-serif;}
+      .sweet-alert button {font-family: 'Cairo', sans-serif;}
+      .sweet-alert {font-family: 'Cairo', sans-serif;}
     </style>
   @endif
-
-  <style>
-    .sweet-alert h2 {font-family: 'Cairo', sans-serif;font-weight: 500;}
-    .sweet-alert p {font-family: 'Cairo', sans-serif;}
-    .sweet-alert button {font-family: 'Cairo', sans-serif;}
-    .sweet-alert {font-family: 'Cairo', sans-serif;}
-  </style>
   @yield('map')
+  <style>
+            .se-pre-con {
+          position: fixed;
+          left: 0px;
+          top: 0px;
+          width: 100%;
+          height: 100%;
+          z-index: 9999;
+          background: url("{{url('public/cpanel/app-assets/loader-64x/load.gif')}}") center no-repeat #fff;        }
+          .message{
+          position: absolute;width: 100%;height: 50px;background-color: #11c011;color: white;line-height: 50px;
+          z-index: 1200;text-align: center;opacity: 1;top: -50px ;
+      }
+  </style>
 </head>
 <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
+<div class="se-pre-con"></div>
   <!-- fixed-top-->
     @include('layouts.backEnd.includes._nav')
   <!-- ////////////////////////////////////////////////////////////////////////////-->
@@ -108,5 +121,6 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
 {{-- message alerts --}}
+<script>$(".se-pre-con").fadeOut("slow");</script>
 </body>
 </html>

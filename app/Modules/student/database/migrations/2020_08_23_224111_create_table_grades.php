@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableDivisions extends Migration
+class CreateTableGrades extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,16 @@ class CreateTableDivisions extends Migration
      */
     public function up()
     {
-        Schema::create('divisions', function (Blueprint $table) {
+        Schema::create('grades', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('ar_division_name',50);
-            $table->string('en_division_name',50);
+            $table->string('ar_grade_name',30);
+            $table->string('en_grade_name',30);
+            $table->string('ar_grade_parent',30)->nullable();
+            $table->string('en_grade_parent',30)->nullable();
+            $table->integer('from_age_year')->nullable();
+            $table->integer('from_age_month')->nullable();
+            $table->integer('to_age_year')->nullable();
+            $table->integer('to_age_month')->nullable();            
             $table->integer('sort');
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins');
@@ -31,6 +37,6 @@ class CreateTableDivisions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('divisions');
+        Schema::dropIfExists('grades');
     }
 }
