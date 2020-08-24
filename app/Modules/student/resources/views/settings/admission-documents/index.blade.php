@@ -120,6 +120,14 @@
                 },
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'admission-documents.destroy'])
+                // new btn
+                {
+                    "text": "<i class='la la-refresh'></i> <span class='hidden'>Export to Excel</span>",
+                    "className": "btn btn-info buttons-print btn-success mr-1",
+                    action : function ( e, dt, node, config ) {
+                        window.location.href = "{{route('admission-documents.index')}}";
+                        }
+                },                
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')              
             ],
