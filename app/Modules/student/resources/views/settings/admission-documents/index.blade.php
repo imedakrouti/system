@@ -120,7 +120,6 @@
                 },
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'admission-documents.destroy'])
-
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')              
             ],
