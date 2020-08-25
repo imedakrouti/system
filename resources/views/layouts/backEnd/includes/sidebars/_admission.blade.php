@@ -30,6 +30,7 @@
             <li class="{{request()->segment(3)=='documents-grades'?'active':''}}"><a class="menu-item" href="{{route('documents-grades.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.grade_documents') }}</a></li>           
             <li class="{{request()->segment(3)=='steps'?'active':''}}"><a class="menu-item" href="{{route('steps.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.admission_steps') }}</a></li>           
             <li class="{{request()->segment(3)=='acceptance-tests'?'active':''}}"><a class="menu-item" href="{{route('acceptance-tests.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.acceptance_tests') }}</a></li>           
+            <li class="{{request()->segment(3)=='registration-status'?'active':''}}"><a class="menu-item" href="{{route('registration-status.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.registration_status') }}</a></li>           
             </ul>
         </li>        
 

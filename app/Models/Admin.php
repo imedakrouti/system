@@ -110,4 +110,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Settings\DocumentGrade','admin_id');
     }
+    public function registrationStatus()
+    {
+        return $this->hasMany('Student\Models\Settings\RegistrationStatus','admin_id');
+    }
 }

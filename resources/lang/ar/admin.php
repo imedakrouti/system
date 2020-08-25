@@ -105,7 +105,7 @@ return
     'grade_documents'                       => 'مستندات كل مرحلة',
     'admission_steps'                       => 'خطوات التقديم',
     'acceptance_tests'                      => 'اختبارات التقديم',
-    '' => '',
+    'registration_status'                   => 'حالات القيد',
     '' => '',
     '' => '',
     '' => '',

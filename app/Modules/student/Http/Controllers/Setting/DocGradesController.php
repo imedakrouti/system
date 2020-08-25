@@ -2,7 +2,7 @@
 
 namespace Student\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DocumentGradeRequest;
+use Student\Http\Requests\DocumentGradeRequest;
 use Student\Models\Settings\DocumentGrade;
 use Illuminate\Http\Request;
 use Student\Models\Settings\AdmissionDoc;

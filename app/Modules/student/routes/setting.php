@@ -46,3 +46,9 @@
      */
     Route::resource('/acceptance-tests','AcceptanceTestController')->except('show','destroy');
     Route::post('acceptance-tests/destroy','AcceptanceTestController@destroy')->name('acceptance-tests.destroy');     
+
+    /**
+     * Registration Status
+     */
+    Route::resource('/registration-status','RegistrationStatusController')->except('show','destroy');
+    Route::post('registration-status/destroy','RegistrationStatusController@destroy')->name('registration-status.destroy');     
