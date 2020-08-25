@@ -52,3 +52,9 @@
      */
     Route::resource('/registration-status','RegistrationStatusController')->except('show','destroy');
     Route::post('registration-status/destroy','RegistrationStatusController@destroy')->name('registration-status.destroy');     
+
+    /**
+     * Nationality
+     */
+    Route::resource('/nationalities','NationalityController')->except('show','destroy');
+    Route::post('nationalities/destroy','NationalityController@destroy')->name('nationalities.destroy');     

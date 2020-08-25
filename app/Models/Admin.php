@@ -114,4 +114,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Settings\RegistrationStatus','admin_id');
     }
+    public function nationalities()
+    {
+        return $this->hasMany('Student\Models\Settings\Nationality','admin_id');
+    }
 }

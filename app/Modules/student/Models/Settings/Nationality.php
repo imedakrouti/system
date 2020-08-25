@@ -3,19 +3,14 @@
 namespace Student\Models\Settings;
 
 use Illuminate\Database\Eloquent\Model;
-use League\CommonMark\Extension\Attributes\Node\Attributes;
 
-class AdmissionDoc extends Model
+class Nationality extends Model
 {
-    protected $table = 'admission_documents';
-
     protected $fillable = [
         'id',
-        'ar_document_name',
-        'en_document_name',
-        'sort',
-        'notes',
-        'registration_type',
+        'ar_name_nationality',
+        'en_name_nationality',
+        'sort',   
         'admin_id'
     ];
 
