@@ -10,7 +10,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('dashboard.admission')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('nationalities.index')}}">{{ trans('student::local.registration_status') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('nationalities.index')}}">{{ trans('student::local.nationalities') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>

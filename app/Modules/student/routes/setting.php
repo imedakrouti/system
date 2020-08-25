@@ -58,3 +58,9 @@
      */
     Route::resource('/nationalities','NationalityController')->except('show','destroy');
     Route::post('nationalities/destroy','NationalityController@destroy')->name('nationalities.destroy');     
+
+/**
+     * Interviews
+     */
+    Route::resource('/interviews','InterviewController')->except('show','destroy');
+    Route::post('interviews/destroy','InterviewController@destroy')->name('interviews.destroy');         
