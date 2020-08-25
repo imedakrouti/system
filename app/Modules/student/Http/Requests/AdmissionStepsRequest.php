@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Student\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class YearRequest extends FormRequest
+class AdmissionStepsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,17 @@ class YearRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required',
-            'start_from'    => 'required',
-            'end_from'      => 'required'
+            'ar_step'  => 'required',
+            'en_step'  => 'required',
+            'sort'     => 'required'
         ];
     }
     public function messages()
     {
         return [
-            'name.required'         => trans('student::local.name_required'),
-            'start_from.required'   => trans('student::local.start_from_required'),
-            'end_from.required'     => trans('student::local.end_from_required')
+            'ar_step.required'   => trans('student::local.ar_step_required'),
+            'en_step.required'   => trans('student::local.en_step_required'),
+            'sort.required'      => trans('student::local.sort_required')
         ];
     }
 }

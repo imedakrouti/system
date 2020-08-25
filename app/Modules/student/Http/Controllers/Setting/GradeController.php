@@ -2,7 +2,7 @@
 
 namespace Student\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\GradeRequest;
+use Student\Http\Requests\GradeRequest;
 use Student\Models\Settings\Grade;
 use Illuminate\Http\Request;
 

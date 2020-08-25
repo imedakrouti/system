@@ -2,7 +2,7 @@
 
 namespace Student\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdmissionDocRequest;
+use Student\Http\Requests\AdmissionDocRequest;
 use Student\Models\Settings\AdmissionDoc;
 use Illuminate\Http\Request;
 

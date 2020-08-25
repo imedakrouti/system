@@ -98,5 +98,12 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Settings\AdmissionDoc','admin_id');
     }
-
+    public function steps()
+    {
+        return $this->hasMany('Student\Models\Settings\Step','admin_id');
+    }
+    public function acceptanceTest()
+    {
+        return $this->hasMany('Student\Models\Settings\AcceptanceTest','admin_id');
+    }
 }

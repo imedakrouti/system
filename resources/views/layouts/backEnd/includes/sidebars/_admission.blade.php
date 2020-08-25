@@ -27,9 +27,9 @@
             <li class="{{request()->segment(3)=='divisions'?'active':''}}"><a class="menu-item" href="{{route('divisions.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.divisions') }}</a></li>           
             <li class="{{request()->segment(3)=='grades'?'active':''}}"><a class="menu-item" href="{{route('grades.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.grades') }}</a></li>           
             <li class="{{request()->segment(3)=='admission-documents'?'active':''}}"><a class="menu-item" href="{{route('admission-documents.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.admission_documents') }}</a></li>           
-            <li class="{{request()->segment(3)=='countries'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.grade_documents') }}</a></li>           
-            <li class="{{request()->segment(3)=='countries'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.admission_steps') }}</a></li>           
-            <li class="{{request()->segment(3)=='countries'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.acceptance_tests') }}</a></li>           
+            <li class="{{request()->segment(3)=='stseps'?'active':''}}"><a class="menu-item" href="{{route('steps.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.grade_documents') }}</a></li>           
+            <li class="{{request()->segment(3)=='steps'?'active':''}}"><a class="menu-item" href="{{route('steps.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.admission_steps') }}</a></li>           
+            <li class="{{request()->segment(3)=='acceptance-tests'?'active':''}}"><a class="menu-item" href="{{route('acceptance-tests.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.acceptance_tests') }}</a></li>           
             </ul>
         </li>        
 

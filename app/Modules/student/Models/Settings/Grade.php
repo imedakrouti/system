@@ -23,4 +23,8 @@ class Grade extends Model
     {
         return $this->belongsTo('App\Models\Admin','admin_id');
     }
+    public function scopeSort($query)
+    {
+        return $query->orderBy('sort','asc');
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace Student\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DivisionRequest;
+use Student\Http\Requests\DivisionRequest;
 use Student\Models\Settings\Division;
 use Illuminate\Http\Request;
 

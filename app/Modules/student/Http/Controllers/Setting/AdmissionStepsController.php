@@ -2,12 +2,12 @@
 
 namespace Student\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use Student\Http\Requests\YearRequest;
-use Student\Models\Settings\Year;
 
+use Student\Models\Settings\Step;
 use Illuminate\Http\Request;
+use Student\Http\Requests\AdmissionStepsRequest;
 
-class YearController extends Controller
+class AdmissionStepsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +17,11 @@ class YearController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Year::latest();
+            $data = Step::latest();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('years.edit',$data->id).'">
+                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('steps.edit',$data->id).'">
                            <i class=" la la-edit"></i>
                        </a>';
                             return $btn;
@@ -36,7 +36,7 @@ class YearController extends Controller
                     ->rawColumns(['action','check'])
                     ->make(true);
         }
-        return view('student::settings.years.index',['title'=>trans('student::local.academic_years')]);        
+        return view('student::settings.admission-steps.index',['title'=>trans('student::local.steps')]);        
     }
 
     /**
@@ -46,96 +46,74 @@ class YearController extends Controller
      */
     public function create()
     {
-        return view('student::settings.years.create',
-        ['title'=>trans('student::local.new_academic_years')]);
+        return view('student::settings.admission-steps.create',
+        ['title'=>trans('student::local.new_step')]);
     }
     private function attributes()
     {
         return [
-            'name',
-            'start_from',
-            'end_from'
+            'ar_step',
+            'en_step',
+            'sort',
         ];
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(YearRequest $request)
-    {                
-        $request->user()->years()->create($request->only($this->attributes()));        
+    public function store(AdmissionStepsRequest $request)
+    {
+        $request->user()->steps()->create($request->only($this->attributes()));        
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('years.index');
+        return redirect()->route('steps.index');
     }
+
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Year  $year
+     * @param  \App\Step  $step
      * @return \Illuminate\Http\Response
      */
-    public function edit(Year $year)
+    public function edit(Step $step)
     {
-        return view('student::settings.years.edit',
-        ['title'=>trans('student::local.edit_academic_years'),'year'=>$year]);
+        return view('student::settings.admission-steps.edit',
+        ['title'=>trans('student::local.edit_step'),'step'=>$step]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Year  $year
+     * @param  \App\Step  $step
      * @return \Illuminate\Http\Response
      */
-    public function update(YearRequest $request, Year $year)
+    public function update(AdmissionStepsRequest $request, Step $step)
     {
-        $year->update($request->only($this->attributes()));
+        $step->update($request->only($this->attributes()));
         toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('years.index');
+        return redirect()->route('steps.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Year  $year
+     * @param  \App\Step  $step
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Year $year)
+    public function destroy(Step $step)
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Year::destroy($id);
+                    Step::destroy($id);
                 }
             }
         }
         return response(['status'=>true]);
-    }
-
-    public function getYears()
-    {
-        $years = Year::all();
-        $output = "";
-        $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($years as $year) {
-            $output .= ' <option value="'.$year->id.'">'.$year->name.'</option>';
-        };
-        return json_encode($output);
-    }
-
-    public function getYearSelected()
-    {
-        $id = request()->get('year_id');
-        $years = Year::all();
-        $output = "";
-        $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($years as $year) {
-            $selected = $year->id == $id?"selected":"";
-            $output .= ' <option '.$selected.' value="'.$year->id.'">'.$year->name.'</option>';
-        };
-        return json_encode($output);
     }
 }

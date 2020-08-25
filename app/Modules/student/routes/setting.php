@@ -29,3 +29,15 @@
     Route::resource('/admission-documents','AdmissionDocController')->except('show','destroy');
     Route::post('admission-documents/destroy','AdmissionDocController@destroy')->name('admission-documents.destroy');    
     Route::put('admission/Documents/filter','AdmissionDocController@filterByType')->name('admission-documents.filter');    
+
+    /**
+     * Admission Steps
+     */
+    Route::resource('/steps','AdmissionStepsController')->except('show','destroy');
+    Route::post('steps/destroy','AdmissionStepsController@destroy')->name('steps.destroy');   
+    
+    /**
+     * Acceptance Test
+     */
+    Route::resource('/acceptance-tests','AcceptanceTestController')->except('show','destroy');
+    Route::post('acceptance-tests/destroy','AcceptanceTestController@destroy')->name('acceptance-tests.destroy');     

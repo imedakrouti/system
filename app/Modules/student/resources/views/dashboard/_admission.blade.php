@@ -3,5 +3,5 @@
     @include('layouts.backEnd.includes.sidebars._admission')
 @endsection
 @section('content')
-sss
+
 @endsection

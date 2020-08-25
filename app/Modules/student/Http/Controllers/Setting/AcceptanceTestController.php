@@ -1,13 +1,13 @@
 <?php
-
 namespace Student\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use Student\Http\Requests\YearRequest;
-use Student\Models\Settings\Year;
 
+use Student\Models\Settings\AcceptanceTest;
 use Illuminate\Http\Request;
+use Student\Http\Requests\AcceptanceTestRequest;
+use Student\Models\Settings\Grade;
 
-class YearController extends Controller
+class AcceptanceTestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,14 +17,17 @@ class YearController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Year::latest();
+            $data = AcceptanceTest::with('grades')->latest();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('years.edit',$data->id).'">
+                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('acceptance-tests.edit',$data->id).'">
                            <i class=" la la-edit"></i>
                        </a>';
                             return $btn;
+                    })
+                    ->addColumn('grade_id',function($data){
+                        return session('lang') ==trans('admin.ar') ? $data->grades->ar_grade_name : $data->grades->en_grade_name;
                     })
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
@@ -36,7 +39,7 @@ class YearController extends Controller
                     ->rawColumns(['action','check'])
                     ->make(true);
         }
-        return view('student::settings.years.index',['title'=>trans('student::local.academic_years')]);        
+        return view('student::settings.acceptance-tests.index',['title'=>trans('student::local.acceptance_tests')]);        
     }
 
     /**
@@ -46,15 +49,16 @@ class YearController extends Controller
      */
     public function create()
     {
-        return view('student::settings.years.create',
-        ['title'=>trans('student::local.new_academic_years')]);
+        $grades = Grade::sort()->get();        
+        return view('student::settings.acceptance-tests.create',
+        ['title'=>trans('student::local.new_admission_test'),'grades'=>$grades]);
     }
     private function attributes()
     {
         return [
-            'name',
-            'start_from',
-            'end_from'
+            'ar_test_name',
+            'en_test_name',            
+            'sort'
         ];
     }
     /**
@@ -63,79 +67,63 @@ class YearController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(YearRequest $request)
-    {                
-        $request->user()->years()->create($request->only($this->attributes()));        
+    public function store(AcceptanceTestRequest $request)
+    {
+        foreach ($request->grade_id as $grade_id) {
+            $request->user()->acceptanceTest()->create($request->only($this->attributes())
+            + ['grade_id' => $grade_id]);                    
+        }
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('years.index');
+        return redirect()->route('acceptance-tests.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Year  $year
+     * @param  \App\AcceptanceTest  $AcceptanceTest
      * @return \Illuminate\Http\Response
      */
-    public function edit(Year $year)
+    public function edit($id)
     {
-        return view('student::settings.years.edit',
-        ['title'=>trans('student::local.edit_academic_years'),'year'=>$year]);
+        $acceptanceTest = AcceptanceTest::findOrFail($id);
+        $grades = Grade::sort()->get();  
+        return view('student::settings.acceptance-tests.edit',
+        ['title'=>trans('student::local.edit_admission_test'),
+        'acceptanceTest'=>$acceptanceTest,'grades'=>$grades]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Year  $year
+     * @param  \App\AcceptanceTest  $AcceptanceTest
      * @return \Illuminate\Http\Response
      */
-    public function update(YearRequest $request, Year $year)
+    public function update(AcceptanceTestRequest $request, $id)
     {
-        $year->update($request->only($this->attributes()));
+        $acceptanceTest = AcceptanceTest::findOrFail($id);        
+        $acceptanceTest->update($request->only($this->attributes())
+            + ['grade_id' => $request->grade_id]);                                  
         toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('years.index');
+        return redirect()->route('acceptance-tests.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Year  $year
+     * @param  \App\AcceptanceTest  $AcceptanceTest
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Year $year)
+    public function destroy(AcceptanceTest $acceptanceTest)
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Year::destroy($id);
+                    AcceptanceTest::destroy($id);
                 }
             }
         }
         return response(['status'=>true]);
-    }
-
-    public function getYears()
-    {
-        $years = Year::all();
-        $output = "";
-        $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($years as $year) {
-            $output .= ' <option value="'.$year->id.'">'.$year->name.'</option>';
-        };
-        return json_encode($output);
-    }
-
-    public function getYearSelected()
-    {
-        $id = request()->get('year_id');
-        $years = Year::all();
-        $output = "";
-        $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($years as $year) {
-            $selected = $year->id == $id?"selected":"";
-            $output .= ' <option '.$selected.' value="'.$year->id.'">'.$year->name.'</option>';
-        };
-        return json_encode($output);
     }
 }
