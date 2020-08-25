@@ -28,8 +28,13 @@
      */
     Route::resource('/admission-documents','AdmissionDocController')->except('show','destroy');
     Route::post('admission-documents/destroy','AdmissionDocController@destroy')->name('admission-documents.destroy');    
-    Route::put('admission/Documents/filter','AdmissionDocController@filterByType')->name('admission-documents.filter');    
-
+    
+    /**
+     * Documents Grades
+     */
+    Route::resource('/documents-grades','DocGradesController')->except('show','destroy');
+    Route::post('documents-grades/destroy','DocGradesController@destroy')->name('documents-grades.destroy');        
+    Route::put('documents/grades/filter','DocGradesController@filterByGrade')->name('documents-grades.filter');    
     /**
      * Admission Steps
      */

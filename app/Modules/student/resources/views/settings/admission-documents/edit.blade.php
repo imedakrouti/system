@@ -51,11 +51,11 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.registration_type') }}</label>
                           <div class="col-md-9">
-                            <select name="registration_type" class="form-control">
-                                <option {{old('registration_type',$admissionDoc->registration_type) == trans('student::local.new') ? 'selected' : ''}} value="new">{{ trans('student::local.new') }}</option>
-                                <option {{old('registration_type',$admissionDoc->registration_type) == trans('student::local.transfer') ? 'selected' : ''}} value="transfer">{{ trans('student::local.transfer') }}</option>
-                                <option {{old('registration_type',$admissionDoc->registration_type) == trans('student::local.returning') ? 'selected' : ''}} value="returning">{{ trans('student::local.returning') }}</option>
-                                <option {{old('registration_type',$admissionDoc->registration_type) == trans('student::local.arrival') ? 'selected' : ''}} value="arrival">{{ trans('student::local.arrival') }}</option>
+                            <select name="registration_type[]" class="form-control select2" multiple>
+                                <option {{ preg_match('/\bnew\b/', $admissionDoc->registration_type) != 0 ?'selected':'' }}  value="new">{{ trans('student::local.new') }}</option>
+                                <option {{ preg_match('/\btransfer\b/', $admissionDoc->registration_type) != 0 ?'selected':'' }}  value="transfer">{{ trans('student::local.transfer') }}</option>
+                                <option {{ preg_match('/\breturning\b/', $admissionDoc->registration_type) != 0 ?'selected':'' }}  value="returning">{{ trans('student::local.returning') }}</option>
+                                <option {{ preg_match('/\barrival\b/', $admissionDoc->registration_type) != 0 ?'selected':'' }}  value="arrival">{{ trans('student::local.arrival') }}</option>
                             </select>
                           </div>
                         </div>

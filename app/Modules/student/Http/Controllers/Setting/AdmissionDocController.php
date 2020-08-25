@@ -15,9 +15,37 @@ class AdmissionDocController extends Controller
      */
     public function index()
     {
-        $data = AdmissionDoc::latest();
         if (request()->ajax()) {
-            return $this->dataTable($data);
+            $data = AdmissionDoc::sort();
+            return datatables($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($data){
+                    $btn = '<a class="btn btn-warning btn-sm" href="'.route('admission-documents.edit',$data->id).'">
+                    <i class=" la la-edit"></i>
+                </a>';
+                        return $btn;
+                })
+                ->addColumn('registration_type',function($data){
+                    $registration_type = '';
+                    $type = explode(',',$data->registration_type);            
+                    for ($i=0; $i < count($type) ; $i++) { 
+                        // dd($type[$i]);
+                        $registration_type .= preg_match('/\bnew\b/', $type[$i]) != 0 ? "<span class='btn btn-info'>".trans('student::local.new')."</span>" .' ':'';
+                        $registration_type .= preg_match('/\btransfer\b/', $type[$i]) != 0 ? "<span class='btn btn-info'>".trans('student::local.transfer')."</span>" .' ':'';
+                        $registration_type .= preg_match('/\breturning\b/', $type[$i])  != 0 ? "<span class='btn btn-info'>".trans('student::local.returning')."</span>" .' ':'';
+                        $registration_type .= preg_match('/\barrival\b/', $type[$i]) != 0 ? "<span class='btn btn-info'>".trans('student::local.arrival')."</span>" :'';
+                    }
+                    return  $registration_type;
+                })  
+                ->addColumn('check', function($data){
+                    $btnCheck = '<label class="pos-rel">
+                                    <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                                    <span class="lbl"></span>
+                                </label>';
+                        return $btnCheck;
+                })
+                ->rawColumns(['action','check','registration_type'])
+                ->make(true);
         }
         return view('student::settings.admission-documents.index',['title'=>trans('student::local.admission_documents')]);        
     }
@@ -49,11 +77,10 @@ class AdmissionDocController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(AdmissionDocRequest $request)
-    {
-        foreach ($request->registration_type as $value) {
-            $request->user()->admissionDocuments()->create($request->only($this->attributes())
-            + ['registration_type' =>  $value]);            
-        }
+    {      
+        $request->user()->admissionDocuments()->create($request->only($this->attributes())
+        + ['registration_type' =>  implode(",",request('registration_type'))]);   
+           
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('admission-documents.index');
     }
@@ -82,7 +109,8 @@ class AdmissionDocController extends Controller
     public function update(AdmissionDocRequest $request,$id)
     {        
         $admissionDoc = AdmissionDoc::findOrFail($id);
-        $admissionDoc->update($request->only($this->attributes())+ ['registration_type' =>  $request->registration_type]);
+        $admissionDoc->update($request->only($this->attributes())
+        + ['registration_type' =>  implode(",",request('registration_type'))]);  
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('admission-documents.index');
     }
@@ -105,31 +133,5 @@ class AdmissionDocController extends Controller
         }
         return response(['status'=>true]);
     }
-    public function filterByType()
-    {        
-        $data = AdmissionDoc::where('registration_type',request('filterType'))->get();
-        if (request()->ajax()) {
-            return $this->dataTable($data);
-        } 
-    }
-    public function dataTable($data)
-    {
-        return datatables($data)
-        ->addIndexColumn()
-        ->addColumn('action', function($data){
-               $btn = '<a class="btn btn-warning btn-sm" href="'.route('admission-documents.edit',$data->id).'">
-               <i class=" la la-edit"></i>
-           </a>';
-                return $btn;
-        })
-        ->addColumn('check', function($data){
-               $btnCheck = '<label class="pos-rel">
-                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
-                            <span class="lbl"></span>
-                        </label>';
-                return $btnCheck;
-        })
-        ->rawColumns(['action','check'])
-        ->make(true);
-    }
+
 }

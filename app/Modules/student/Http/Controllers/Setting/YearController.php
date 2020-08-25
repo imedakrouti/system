@@ -36,7 +36,8 @@ class YearController extends Controller
                     ->rawColumns(['action','check'])
                     ->make(true);
         }
-        return view('student::settings.years.index',['title'=>trans('student::local.academic_years')]);        
+        return view('student::settings.years.index',
+        ['title'=>trans('student::local.academic_years')]);        
     }
 
     /**

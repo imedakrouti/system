@@ -46,15 +46,17 @@
                           </div>
                         </div>
                     </div>
+                    
                     <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.registration_type') }}</label>
+                         
                           <div class="col-md-9">
                             <select name="registration_type[]" class="select2 form-control" multiple="multiple">
-                                <option {{old('registration_type') == trans('student::local.new') ? 'selected' : ''}} value="new">{{ trans('student::local.new') }}</option>
-                                <option {{old('registration_type') == trans('student::local.transfer') ? 'selected' : ''}} value="transfer">{{ trans('student::local.transfer') }}</option>
-                                <option {{old('registration_type') == trans('student::local.returning') ? 'selected' : ''}} value="returning">{{ trans('student::local.returning') }}</option>
-                                <option {{old('registration_type') == trans('student::local.arrival') ? 'selected' : ''}} value="arrival">{{ trans('student::local.arrival') }}</option>
+                                <option value="new">{{ trans('student::local.new') }}</option>
+                                <option value="transfer">{{ trans('student::local.transfer') }}</option>
+                                <option value="returning">{{ trans('student::local.returning') }}</option>
+                                <option value="arrival">{{ trans('student::local.arrival') }}</option>
                             </select>
                           </div>
                         </div>

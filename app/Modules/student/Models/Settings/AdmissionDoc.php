@@ -23,21 +23,8 @@ class AdmissionDoc extends Model
     {
         return $this->belongsTo('App\Models\Admin','admin_id');
     }
-    public function getRegistrationTypeAttribute()
+    public function scopeSort($query)
     {
-        switch ($this->attributes['registration_type']) {
-            case 'new':
-                return trans('student::local.new');
-                break;
-            case 'transfer':                
-                return trans('student::local.transfer');
-                break;
-            case 'returning':                
-                return trans('student::local.returning');
-                break;                            
-            default:
-                return trans('student::local.arrival');            
-                break;
-        }
+        return $query->orderBy('sort','asc');
     }
 }
