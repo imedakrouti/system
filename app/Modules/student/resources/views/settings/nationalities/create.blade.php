@@ -30,13 +30,22 @@
                     @include('layouts.backEnd.includes._msg')
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.ar_name_nationality') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('student::local.ar_name_nat_male') }}</label>
                           <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('ar_name_nationality')}}" placeholder="{{ trans('student::local.ar_name_nationality') }}"
-                              name="ar_name_nationality">
+                            <input type="text" class="form-control " value="{{old('ar_name_nat_male')}}" placeholder="{{ trans('student::local.ar_name_nat_male') }}"
+                              name="ar_name_nat_male">
                           </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.ar_name_nat_female') }}</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control " value="{{old('ar_name_nat_female')}}" placeholder="{{ trans('student::local.ar_name_nat_female') }}"
+                            name="ar_name_nat_female">
+                        </div>
+                      </div>
+                   </div>
                     <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.en_name_nationality') }}</label>

@@ -53,7 +53,8 @@ class NationalityController extends Controller
     private function attributes()
     {
         return [            
-            'ar_name_nationality',
+            'ar_name_nat_male',
+            'ar_name_nat_female',
             'en_name_nationality',
             'sort'
         ];

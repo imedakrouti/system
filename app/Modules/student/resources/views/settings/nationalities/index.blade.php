@@ -37,7 +37,8 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('student::local.ar_name_nationality')}}</th>
+                                <th>{{trans('student::local.ar_name_nat_male')}}</th>
+                                <th>{{trans('student::local.ar_name_nat_female')}}</th>
                                 <th>{{trans('student::local.en_name_nationality')}}</th>
                                 <th>{{trans('student::local.sort')}}</th>
                                 <th>{{trans('student::local.edit')}}</th>
@@ -79,7 +80,8 @@
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'ar_name_nationality', name: 'ar_name_nationality'},
+              {data: 'ar_name_nat_male',    name: 'ar_name_nat_male'},
+              {data: 'ar_name_nat_female',  name: 'ar_name_nat_female'},
               {data: 'en_name_nationality', name: 'en_name_nationality'},
               {data: 'sort',                name: 'sort'}, 
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
