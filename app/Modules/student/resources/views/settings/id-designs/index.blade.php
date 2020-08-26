@@ -44,7 +44,7 @@
                                     
                                 </p>
 
-                                <form action="{{route('id-designs.destroy',$design->id)}}" method="post" id="formData">
+                                <form action="{{route('id-designs.destroy',$design->id)}}" method="post" class="formData">
                                     @csrf
                                     @method('DELETE')                                    
                                     <a href="{{route('id-designs.edit',$design->id)}}"class="btn btn-warning btn-sm ">{{ trans('student::local.editing') }}</a>
@@ -74,7 +74,7 @@
 @endsection
 @section('script')
 <script>
-   $("#formData").submit(function(e){
+   $(".formData").submit(function(e){
         event.preventDefault();        
         swal({
             title: "{{trans('msg.delete_confirmation')}}",
