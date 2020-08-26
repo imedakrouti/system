@@ -126,4 +126,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Settings\Language','admin_id');
     }
+    public function classrooms()
+    {
+        return $this->hasMany('Student\Models\Settings\Classroom','admin_id');
+    }
 }

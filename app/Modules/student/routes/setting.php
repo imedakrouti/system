@@ -70,3 +70,10 @@
      */
     Route::resource('/languages','LanguageController')->except('show','destroy');
     Route::post('languages/destroy','LanguageController@destroy')->name('languages.destroy');      
+
+    /**
+     * Classrooms
+     */
+    Route::resource('/classrooms','ClassroomController')->except('show','destroy');
+    Route::post('classrooms/destroy','ClassroomController@destroy')->name('classrooms.destroy');      
+    Route::put('classrooms/q/filter','ClassroomController@filter')->name('classrooms.filter');    
