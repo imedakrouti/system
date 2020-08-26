@@ -87,7 +87,7 @@
             closeOnConfirm: false
             },
             function(){
-                $("#formData").submit();
+                $(".formData").submit();
         });       
     });
 
