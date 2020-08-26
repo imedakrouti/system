@@ -23,11 +23,12 @@
         <div class="card-header">
           <h4 class="card-title">{{$title}}</h4>
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-          <a href="{{route('id-designs.create')}}" class="btn btn-success buttons-print btn-success mb-1 mt-3">{{ trans('student::local.new_id_design') }}</a>
+          @include('student::settings.id-designs._filter')
         </div>
         <div class="card-content collapse show">
-          <div class="card-body card-dashboard">
+          <div class="card-body card-dashboard">            
                 <div class="row">
+                  @if (count($designs) > 0)
                     @foreach ($designs as $design)
                         <div class="col-xl-4 col-md-6 col-sm-12">
                             <div class="card">
@@ -54,7 +55,15 @@
                             </div>
                             </div>
                         </div>
-                    @endforeach
+                    @endforeach                      
+                  @else
+                      <div class="col-md-12">
+                        <div class="alert alert-danger">
+                          <h5>{{ trans('student::local.no_results') }}</h5>
+                        </div>
+                      </div>
+                  @endif
+
                 </div>
                 {{$designs->links()}}
           </div>
@@ -65,8 +74,8 @@
 @endsection
 @section('script')
 <script>
-   $("form").submit(function(e){
-        event.preventDefault();
+   $("#formData").submit(function(e){
+        event.preventDefault();        
         swal({
             title: "{{trans('msg.delete_confirmation')}}",
             text: "{{trans('student::local.design_delete_ask')}}",
@@ -79,8 +88,13 @@
             },
             function(){
                 $("#formData").submit();
-        });
-        
+        });       
     });
+
+    $("#filter").click(function() {
+       $('#formSearch').submit();
+    });
+
 </script>
+
 @endsection

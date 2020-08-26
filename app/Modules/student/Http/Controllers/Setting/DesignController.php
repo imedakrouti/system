@@ -140,4 +140,17 @@ class DesignController extends Controller
         toast(trans('msg.delete_successfully'),'success');
         return redirect()->route('id-designs.index');       
     }
+    public function filter()
+    {
+        $grades = Grade::sort()->get();        
+        $divisions = Division::sort()->get();
+        $title = trans('student::local.id_designs');
+        $designs = Design::with('grade','division')
+        ->where('division_id',request('division_id'))
+        ->where('grade_id',request('grade_id'))
+        ->orderBy('id','desc')->paginate(6);
+        // dd($designs);
+        return view('student::settings.id-designs.index',
+        compact('grades','divisions','title','designs'));
+    }
 }

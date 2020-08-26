@@ -83,3 +83,4 @@
      * ID Designs
      */
     Route::resource('/id-designs','DesignController')->except('show');    
+    Route::get('/id-designs/filter','DesignController@filter')->name('id-designs.filter');
