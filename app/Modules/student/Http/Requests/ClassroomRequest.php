@@ -42,7 +42,6 @@ class ClassroomRequest extends FormRequest
             'grade_id.required'             => trans('student::local.grade_required'),            
             'sort.required'                 => trans('student::local.sort_required'),            
             'sort.numeric'                  => trans('student::local.sort_numeric'),
-
         ];
     }
 }

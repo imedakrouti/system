@@ -77,3 +77,9 @@
     Route::resource('/classrooms','ClassroomController')->except('show','destroy');
     Route::post('classrooms/destroy','ClassroomController@destroy')->name('classrooms.destroy');      
     Route::put('classrooms/q/filter','ClassroomController@filter')->name('classrooms.filter');    
+
+
+    /**
+     * ID Designs
+     */
+    Route::resource('/id-designs','DesignController')->except('show');    
