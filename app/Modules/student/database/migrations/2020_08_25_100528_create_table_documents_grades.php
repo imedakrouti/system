@@ -16,9 +16,9 @@ class CreateTableDocumentsGrades extends Migration
         Schema::create('documents_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('admission_document_id');
-            $table->foreign('admission_document_id')->references('id')->on('admission_documents');
+            $table->foreign('admission_document_id')->references('id')->on('admission_documents')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('grade_id');
-            $table->foreign('grade_id')->references('id')->on('grades');
+            $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
