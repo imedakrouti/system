@@ -181,6 +181,7 @@ return [
 
         Yajra\DataTables\DataTablesServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        PDFAnony\TCPDF\AnonyServiceProvider::class,
 
     ],
 
@@ -236,7 +237,7 @@ return [
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-
+        'PDF' =>  PDFAnony\TCPDF\Facades\AnonyPDF::class,
     ],
 
 ];
