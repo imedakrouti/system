@@ -33,6 +33,7 @@ return array(
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Requests\\AdminRequest' => $baseDir . '/app/Http/Requests/AdminRequest.php',
     'App\\Http\\Requests\\LoginRequest' => $baseDir . '/app/Http/Requests/LoginRequest.php',
+    'App\\Http\\Traits\\PDF_Converter' => $baseDir . '/app/Http/Traits/PDF_Converter.php',
     'App\\Models\\Admin' => $baseDir . '/app/Models/Admin.php',
     'App\\Models\\History' => $baseDir . '/app/Models/History.php',
     'App\\Models\\Setting' => $baseDir . '/app/Models/Setting.php',

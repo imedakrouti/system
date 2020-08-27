@@ -511,6 +511,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\AdminRequest' => __DIR__ . '/../..' . '/app/Http/Requests/AdminRequest.php',
         'App\\Http\\Requests\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/LoginRequest.php',
+        'App\\Http\\Traits\\PDF_Converter' => __DIR__ . '/../..' . '/app/Http/Traits/PDF_Converter.php',
         'App\\Models\\Admin' => __DIR__ . '/../..' . '/app/Models/Admin.php',
         'App\\Models\\History' => __DIR__ . '/../..' . '/app/Models/History.php',
         'App\\Models\\Setting' => __DIR__ . '/../..' . '/app/Models/Setting.php',

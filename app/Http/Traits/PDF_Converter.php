@@ -15,7 +15,7 @@ trait PDF_Converter
                 'data'=>$html, // render file blade with content html
                 'header'=>['show'=>true], // header content
                 'footer'=>['show'=>true], // Footer content                
-                'font'=>'dejavusans', //  dejavusans, aefurat ,aealarabiya ,times ,xnazanin,'freeserif'
+                'font'=>'freeserif', //  dejavusans, aefurat ,aealarabiya ,times ,xnazanin,'freeserif'
                 'font-size'=>12, // font-size
                 'text'=>'sssssss', //Write
                 'rtl'=>$rtl, //true or false
