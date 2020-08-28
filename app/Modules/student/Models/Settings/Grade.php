@@ -3,6 +3,7 @@
 namespace Student\Models\Settings;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Grade extends Model
 {
@@ -26,5 +27,9 @@ class Grade extends Model
     public function scopeSort($query)
     {
         return $query->orderBy('sort','asc');
+    }
+    public function designs()
+    {
+        return $this->hasMany('Student\Models\Settings\Design','grade_id');
     }
 }

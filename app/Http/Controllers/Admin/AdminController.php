@@ -140,6 +140,7 @@ class AdminController extends Controller
                 File::delete($image_path);
             }
             $image_profile = request('image_profile');
+            // dd($image_profile);
             $fileName = time().'-'.$image_profile->getClientOriginalName();
             $location = public_path('images/imagesProfile');
 

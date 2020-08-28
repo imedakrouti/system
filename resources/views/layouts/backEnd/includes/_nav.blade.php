@@ -41,7 +41,7 @@
                         <span class="user-name text-bold-700">{{authInfo()->name}}</span>
                     </span>
                     <span class="avatar avatar-online">
-                        <img src="{{asset('public/images/imagesProfile/'.authInfo()->image_profile)}}" alt="avatar"><i></i>
+                        <img src="{{asset('images/imagesProfile/'.authInfo()->image_profile)}}" alt="avatar"><i></i>
                     </span>
 
                 </a>
