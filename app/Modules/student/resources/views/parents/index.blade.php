@@ -38,11 +38,11 @@
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
                                 <th>{{trans('student::local.father_name')}}</th>
+                                <th>{{trans('student::local.father_id_number')}}</th>
                                 <th>{{trans('student::local.mobile1')}}</th>
                                 <th>{{trans('student::local.job')}}</th>
                                 <th>{{trans('student::local.mother_name')}}</th>
-                                <th>{{trans('student::local.mother_mobile')}}</th>
-                                <th>{{trans('student::local.edit')}}</th>
+                                <th>{{trans('student::local.mother_mobile')}}</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -82,11 +82,11 @@
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'father_name',         name: 'father_name'},
+              {data: 'id_number',           name: 'id_number'},
               {data: 'mobile1',             name: 'mobile1'}, 
               {data: 'job',                 name: 'job'}, 
               {data: 'mother_name',         name: 'mother_name'},
-              {data: 'mother_mobile',       name: 'mother_mobile'},
-              {data: 'action', 	            name: 'action', orderable: false, searchable: false},
+              {data: 'mother_mobile',       name: 'mother_mobile'},              
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

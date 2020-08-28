@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Student\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FatherMotherRequest extends FormRequest
+class ParentsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
