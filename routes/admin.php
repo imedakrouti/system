@@ -51,5 +51,4 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
         });
 });
 
-Route::get('/pdf','HomeController@testExportPdf');
 

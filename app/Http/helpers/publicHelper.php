@@ -70,3 +70,14 @@ if (!function_exists('history')) {
         ]);
 	}
 }
+if (!function_exists('currentYear')) {
+	function currentYear()
+	{
+		$year =  \Student\Models\Settings\Year::where('status','current')->first();		
+		if ($year != null) {
+			return $year->id;
+		}else{
+			return \Student\Models\Settings\Year::orderBy('id','desc')->first()->id;
+		}
+	}
+}

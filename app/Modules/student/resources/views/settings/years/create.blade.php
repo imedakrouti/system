@@ -54,7 +54,18 @@
                               name="end_from">
                           </div>
                         </div>
-                    </div>                    
+                    </div>  
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.default_year') }}</label>
+                        <div class="col-md-3">
+                          <input type="radio"  name="status" {{old('status') == 'current'?'checked' : ''}} value="current"> {{ trans('student::local.current') }}                          
+                        </div>
+                        <div class="col-md-3">                          
+                          <input type="radio"  name="status" {{old('status') == 'not current' || old('status') == '' ?'checked' : ''}}  value="not current"> {{ trans('student::local.not_current') }}
+                        </div>
+                      </div>
+                  </div>                   
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

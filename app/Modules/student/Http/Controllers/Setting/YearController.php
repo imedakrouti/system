@@ -55,7 +55,8 @@ class YearController extends Controller
         return [
             'name',
             'start_from',
-            'end_from'
+            'end_from',
+            'status'
         ];
     }
     /**
