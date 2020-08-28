@@ -10,7 +10,13 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
         Route::group(['namespace'=>'Setting','prefix'=>'settings'],function(){            
             require 'setting.php';
         });
+       
+        require 'parents.php';
         require 'admissions/admissionRoutes.php';
-        require 'students/studentRoutes.php';
+        require 'students/studentRoutes.php';        
     });
+});
+Route::get('/admission',function()
+{
+    return redirect('admin/dashboard/admission');
 });
