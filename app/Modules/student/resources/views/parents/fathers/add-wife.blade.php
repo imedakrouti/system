@@ -47,7 +47,7 @@
                             <label class="col-md-2 label-control">{{ trans('student::local.mother_full_name') }}</label>
                             <div class="col-md-10">
                                 <input type="text" class="form-control " value="{{old('full_name')}}" placeholder="{{ trans('student::local.mother_full_name') }}"
-                                name="full_name">
+                                name="full_name" required>
                                 <span class="red">{{ trans('student::local.requried') }}</span>
                             </div>
                             </div>
@@ -58,7 +58,7 @@
                             <div class="form-group row">
                             <label class="col-md-3 label-control">{{ trans('student::local.id_type') }}</label>
                             <div class="col-md-9">                    
-                                <select name="id_type_m" class="form-control">
+                                <select name="id_type_m" class="form-control" required>
                                     <option value="">{{ trans('student::local.select') }}</option>
                                     <option {{old('id_type_m') == 'national_id' ?'selected':''}} value="national_id">{{ trans('student::local.national_id') }}</option>
                                     <option {{old('id_type_m') == 'passport' ?'selected':''}} value="passport">{{ trans('student::local.passport') }}</option>                                
@@ -72,7 +72,7 @@
                             <label class="col-md-3 label-control">{{ trans('student::local.id_number') }}</label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('id_number')}}" placeholder="{{ trans('student::local.id_number') }}"
-                                name="id_number_m">
+                                name="id_number_m" required>
                                 <span class="red">{{ trans('student::local.requried') }}</span>
                             </div>
                             </div>
@@ -81,7 +81,7 @@
                             <div class="form-group row">
                             <label class="col-md-3 label-control">{{ trans('student::local.religion') }}</label>
                             <div class="col-md-9">                    
-                                <select name="religion_m" class="form-control">
+                                <select name="religion_m" class="form-control" required>
                                     <option value="">{{ trans('student::local.select') }}</option>
                                     <option {{old('religion_m') == 'muslim' ?'selected':''}} value="muslim">{{ trans('student::local.muslim_m') }}</option>
                                     <option {{old('religion_m') == 'non_muslim' ?'selected':''}} value="non_muslim">{{ trans('student::local.non_muslim_m') }}</option>                                
@@ -94,7 +94,7 @@
                             <div class="form-group row">
                             <label class="col-md-3 label-control">{{ trans('student::local.nationality_id') }}</label>
                             <div class="col-md-9">
-                                <select name="nationality_id_m" class="form-control ">
+                                <select name="nationality_id_m" class="form-control " required>
                                     <option value="">{{ trans('student::local.select') }}</option>
                                     @foreach ($nationalities as $nationality)
                                         <option {{old('nationality_id_m') == $nationality->id ?'selected' : ''}} value="{{$nationality->id}}">{{$nationality->ar_name_nat_female}}</option>
@@ -111,7 +111,7 @@
                             <label class="col-md-3 label-control">{{ trans('student::local.job') }}</label>
                             <div class="col-md-9">
                             <input type="text" class="form-control " value="{{old('job')}}" placeholder="{{ trans('student::local.job') }}"
-                                name="job_m">
+                                name="job_m" required>
                                 <span class="red">{{ trans('student::local.requried') }}</span>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                             <label class="col-md-3 label-control">{{ trans('student::local.qualification') }}</label>
                             <div class="col-md-9">
                             <input type="text" class="form-control " value="{{old('qualification')}}" placeholder="{{ trans('student::local.qualification') }}"
-                                name="qualification_m">
+                                name="qualification_m" required>
                                 <span class="red">{{ trans('student::local.requried') }}</span>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.mobile1') }}</label>
                               <div class="col-md-9">
                                 <input type="number" min="0" class="form-control " value="{{old('mobile1')}}" placeholder="{{ trans('student::local.mobile1') }}"
-                                  name="mobile1_m">
+                                  name="mobile1_m" required>
                                   <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
@@ -191,7 +191,7 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.block_no') }}</label>
                               <div class="col-md-9">
                                 <input type="number" min="0" class="form-control " value="{{old('block_no')}}" placeholder="{{ trans('student::local.block_no') }}"
-                                  name="block_no_m">
+                                  name="block_no_m" required>
                                   <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
@@ -201,7 +201,7 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.street_name') }}</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('street_name')}}" placeholder="{{ trans('student::local.street_name') }}"
-                                  name="street_name_m">
+                                  name="street_name_m" required>
                                   <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
@@ -211,7 +211,7 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.state') }}</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('state')}}" placeholder="{{ trans('student::local.state') }}"
-                                  name="state_m">
+                                  name="state_m" required>
                                   <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
@@ -221,7 +221,7 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.government') }}</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('government')}}" placeholder="{{ trans('student::local.government') }}"
-                                  name="government_m">
+                                  name="government_m" required>
                                   <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
@@ -234,7 +234,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
                       </button>
-                    <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('parents.index')}}';">
+                    <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('father.show',$id)}}';">
                     <i class="ft-x"></i> {{ trans('admin.cancel') }}
                   </button>
                 </div>

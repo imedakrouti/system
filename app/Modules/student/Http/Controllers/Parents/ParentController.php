@@ -3,9 +3,7 @@
 namespace Student\Http\Controllers\Parents;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
 use DB;
-use Student\Http\Requests\ParentsRequest;
 use Student\Http\Requests\FatherRequest;
 use Student\Http\Requests\MotherRequest;
 use Student\Models\Parents\Father;
@@ -29,7 +27,7 @@ class ParentController extends Controller
 
                         $fatherName = $this->getFatherName($data);
 
-                        return '<a href="'.route('father.show',[$data->id,$fatherName]).'">'.$fatherName.'</a></br>'
+                        return '<a href="'.route('father.show',$data->id).'">'.$fatherName.'</a></br>'
                         .$nationality;
                     })
                     ->addColumn('mother_name',function($data){
@@ -37,15 +35,17 @@ class ParentController extends Controller
                         foreach ($data->mothers as $mother) {  
                             $nationality = session('lang') ==trans('admin.ar') ? 
                             $mother->nationalities->ar_name_nat_female : $data->nationalities->en_name_nationality;                                                      
-                            $motherName .= '<a class="a-hover" href="'.route('mother.show',[$mother->id,$mother->full_name]).'">'.$mother->full_name.'</a> 
+                            $motherName .= '<a class="a-hover" href="'.route('mother.show',$mother->id).'">'.$mother->full_name.'</a> 
                             ['.$nationality . ']</br>';
                         }
                         return $motherName;
                     })
                     ->addColumn('mother_mobile',function($data){
+                        $mobileNumber = '';
                         foreach ($data->mothers as $mother) {                                                       
-                            return $mother->mobile1_m;
+                            $mobileNumber .= $mother->mobile1_m .'</br>';
                         }
+                        return $mobileNumber;
                     })                    
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
@@ -129,14 +129,14 @@ class ParentController extends Controller
         return view('student::parents.create',
         compact('nationalities','title'));
     }
-    public function store(ParentsRequest $request)
+    public function store(FatherRequest $fatherRequest,MotherRequest $motherRequest)
     {
-        $this->father = $request->only($this->fatherAttributes());
-        $this->mother = $request->only($this->motherAttributes());
+        $this->father = $fatherRequest->only($this->fatherAttributes());
+        $this->mother = $motherRequest->only($this->motherAttributes());
         
-        DB::transaction(function () use ($request) {            
-            $fatherData = $request->user()->fathers()->create($this->father);        
-            $motherData = $request->user()->mothers()->create($this->mother);    
+        DB::transaction(function () use ($fatherRequest,$motherRequest) {            
+            $fatherData = $fatherRequest->user()->fathers()->create($this->father);        
+            $motherData = $motherRequest->user()->mothers()->create($this->mother);    
             
             $father = Father::find($fatherData->id);
             $father->mothers()->attach($motherData->id);            
@@ -157,17 +157,19 @@ class ParentController extends Controller
         }
         return response(['status'=>true]);
     }
-    public function fatherShow($id,$fatherName)
+    public function fatherShow($id)
     {
-        $title = trans('student::local.father_data');        
-        return view('student::parents.father-show',compact('title','id','fatherName'));
+        $title = trans('student::local.father_data');    
+        $father = Father::findOrFail($id);    
+        return view('student::parents.fathers.father-show',
+        compact('title','id','father'));
     }
     public function editFather($id)
     {
         $nationalities = Nationality::sort()->get();
         $father = Father::findOrFail($id);
         $title = trans('student::local.edit_father_data');
-        return view('student::parents.father-edit',
+        return view('student::parents.fathers.father-edit',
         compact('nationalities','title','father'));
     }
     public function updateFather(FatherRequest $request,$id)
@@ -175,7 +177,7 @@ class ParentController extends Controller
         $father = Father::findOrFail($id);
         $father->update($request->only($this->fatherAttributes()));
         toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('parents.index');
+        return redirect()->route('father.show',$id);
     }
     public function addWife($id)
     {
@@ -183,7 +185,7 @@ class ParentController extends Controller
         $father = Father::findOrFail($id);
         $fatherName = $this->getFatherName($father);
         $title = trans('student::local.add_mother');
-        return view('student::parents.add-wife',
+        return view('student::parents.fathers.add-wife',
         compact('nationalities','title','id','fatherName'));
     }
     public function storeWife(MotherRequest $request)
@@ -197,11 +199,47 @@ class ParentController extends Controller
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('parents.index');
     }
-    public function motherShow($id,$motherName)
+    public function motherShow($id)
     {
-        $title = trans('student::local.mother_data');        
-        return view('student::parents.mother-show',compact('title','id','motherName'));
+        $title = trans('student::local.mother_data');  
+        $mother = Mother::with('nationalities')->findOrFail($id);      
+        return view('student::parents.mothers.mother-show',
+        compact('title','id','mother'));
     }
-    
+    public function editMother($id)
+    {
+        $nationalities = Nationality::sort()->get();
+        $mother = Mother::findOrFail($id);
+        $title = trans('student::local.edit_mother_data');
+        return view('student::parents.mothers.mother-edit',
+        compact('nationalities','title','mother'));
+    }
+    public function updateMother(MotherRequest $request,$id)
+    {        
+        $mother = Mother::findOrFail($id);
+        $mother->update($request->only($this->motherAttributes()));
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('parents.index');
+    }
+    public function addHusband($id)
+    {
+        $nationalities = Nationality::sort()->get();   
+        $mother = Mother::findOrFail($id);
+        $motherName = $mother->full_name;
+        $title = trans('student::local.add_father');
+        return view('student::parents.mothers.add-husband',
+        compact('nationalities','title','id','motherName'));
+    }
+    public function storeHusband(FatherRequest $request)
+    {        
+        DB::transaction(function () use ($request) {            
+            $fatherData = $request->user()->fathers()->create($request->only($this->fatherAttributes()));        
+
+            $father = father::find($fatherData->id);
+            $father->mothers()->attach($request->mother_id);            
+        });
+        toast(trans('msg.stored_successfully'),'success');
+        return redirect()->route('parents.index');
+    }
 
 }

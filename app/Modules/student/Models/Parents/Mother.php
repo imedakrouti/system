@@ -40,4 +40,9 @@ class Mother extends Model
     {
         return $this->belongsToMany('Student\Models\Parents\Father','father_mother','mother_id','father_id');
     }
+    public function getIdTypeMAttribute()
+    {
+        return $this->attributes['id_type_m'] == 'national_id' ? trans('student::local.national_id'):
+        trans('student::local.passport');
+    }
 }
