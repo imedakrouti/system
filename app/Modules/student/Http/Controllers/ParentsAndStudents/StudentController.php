@@ -4,6 +4,7 @@ namespace Student\Http\Controllers\ParentsAndStudents;
 use App\Http\Controllers\Controller;
 use Student\Http\Controllers\Setting\AdmissionStepsController;
 use Student\Http\Requests\StudentRequest;
+use Student\Models\Guardians\Guardian;
 use Student\Models\Parents\Father;
 use Student\Models\Parents\Mother;
 use Student\Models\Settings\AdmissionDoc;
@@ -73,11 +74,12 @@ class StudentController extends Controller
             $q->where('father_id',$father_id);
         })->get();
         $schools = School::all();
+        $guardians = Guardian::all();
         
         $title = trans('student::local.new_student');
         return view('student::students.create',
         compact('nationalities','title','speakingLangs','studyLangs','regStatus',
-        'father','mothers','divisions','grades','documents','steps','schools'));
+        'father','mothers','divisions','grades','documents','steps','schools','guardians'));
     }
 
     private function attributes()

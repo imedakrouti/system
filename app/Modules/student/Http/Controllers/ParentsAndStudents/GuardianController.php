@@ -1,12 +1,12 @@
 <?php
 
-namespace Student\Http\Controllers\Setting;
+namespace Student\Http\Controllers\ParentsAndStudents;
 use App\Http\Controllers\Controller;
-use Student\Http\Requests\GradeRequest;
-use Student\Models\Settings\Grade;
-use Illuminate\Http\Request;
 
-class GradeController extends Controller
+use Student\Models\Guardians\Guardian;
+use Student\Http\Requests\GuardianRequest;
+
+class GuardianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +16,11 @@ class GradeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Grade::latest();
+            $data = Guardian::latest();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('grades.edit',$data->id).'">
+                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('guardians.edit',$data->id).'">
                            <i class=" la la-edit"></i>
                        </a>';
                             return $btn;
@@ -35,7 +35,7 @@ class GradeController extends Controller
                     ->rawColumns(['action','check'])
                     ->make(true);
         }
-        return view('student::settings.grades.index',['title'=>trans('student::local.grades')]);        
+        return view('student::guardians.index',['title'=>trans('student::local.guardians')]);   
     }
 
     /**
@@ -45,8 +45,8 @@ class GradeController extends Controller
      */
     public function create()
     {
-        return view('student::settings.grades.create',
-        ['title'=>trans('student::local.new_grade')]);
+        return view('student::guardians.create',
+        ['title'=>trans('student::local.new_guardian')]);
     }
     private function attributes()
     {
@@ -62,92 +62,77 @@ class GradeController extends Controller
             'guardian_block_no' ,
             'guardian_street_name' ,
             'guardian_state' ,
-            'guardian_government' ,                 
+            'guardian_government' ,     
+            'admin_id'        
         ];
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GradeRequest $request)
+    public function store(GuardianRequest $request)
     {
-        $request->user()->grades()->create($request->only($this->attributes()));        
+        $request->user()->guardians()->create($request->only($this->attributes()));        
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('grades.index');
+        return redirect()->route('guardians.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Guardian  $guardian
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Guardian $guardian)
+    {
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Grade  $grade
+     * @param  \App\Guardian  $guardian
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grade $grade)
+    public function edit(Guardian $guardian)
     {
-        return view('student::settings.grades.edit',
-        ['title'=>trans('student::local.edit_grade'),'grade'=>$grade]);
+        return view('student::guardians.edit',
+        ['title'=>trans('student::local.edit_guardian'),'guardian'=>$guardian]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Grade  $grade
+     * @param  \App\Guardian  $guardian
      * @return \Illuminate\Http\Response
      */
-    public function update(GradeRequest $request, Grade $grade)
+    public function update(GuardianRequest $request, Guardian $guardian)
     {
-        $grade->update($request->only($this->attributes()));
+        $guardian->update($request->only($this->attributes()));
         toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('grades.index');
+        return redirect()->route('guardians.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Grade  $grade
+     * @param  \App\Guardian  $guardian
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grade $grade)
+    public function destroy(Guardian $guardian)
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Grade::destroy($id);
+                    Guardian::destroy($id);
                 }
             }
         }
         return response(['status'=>true]);
     }
-    private function grades()
-    {
-        $grades = Grade::all();
-        foreach ($grades as $grade) {
-            $grade->setAttribute('gradeName',session('lang')=='en'?$grade->ar_grade_name:$grade->en_grade_name);
-        }
-        return $grades;
-    }
-    public function getGrades()
-    {
-        $output = "";
-        $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($this->grades() as $grade) {
-            $output .= ' <option value="'.$grade->id.'">'.$grade->gradeName.'</option>';
-        };
-        return json_encode($output);
-    }
-    public function getGradeSelected()
-    {
-        $id = request()->get('grade_id');
-        $output = "";
-        $output .='<option value="">'.trans('admin.select').'</option>';
-        foreach ($this->grades() as $grade) {
-            $selected = $grade->id == $id?"selected":"";
-            $output .= ' <option '.$selected.' value="'.$grade->id.'">'.$grade->gradeName.'</option>';
-        };
-        return json_encode($output);
-    }     
 }

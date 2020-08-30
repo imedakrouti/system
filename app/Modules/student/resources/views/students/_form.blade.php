@@ -204,6 +204,11 @@
                   <div class="col-md-9">                    
                     <select name="guardian_id" class="form-control">
                         <option value="">{{ trans('student::local.select') }}</option>
+                        @foreach ($guardians as $guardian)
+                            <option {{old('guardian_id') == $guardian->id ?'selected' : ''}} value="{{$guardian->id}}">
+                                {{$guardian->guardian_full_name}}
+                            </option>
+                        @endforeach
                     </select>
                   </div>
                 </div>
