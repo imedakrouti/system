@@ -1,5 +1,5 @@
 <?php
- Route::group(['namespace'=>'Parents'],function(){            
+ Route::group(['namespace'=>'ParentsAndStudents'],function(){            
      Route::get('/parents','ParentController@index')->name('parents.index');
      Route::get('/parents/create','ParentController@create')->name('parents.create');
      Route::post('/parents/store','ParentController@store')->name('parents.store');

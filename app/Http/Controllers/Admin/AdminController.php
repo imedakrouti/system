@@ -152,8 +152,9 @@ class AdminController extends Controller
 
         session()->forget('lang');
         session()->put('lang',authInfo()->lang);
+        toast(trans('msg.updated_successfully'),'success');
 
-        alert()->success(trans('msg.updated_successfully'), trans('admin.profile'));
+        
         return back();
     }
 }

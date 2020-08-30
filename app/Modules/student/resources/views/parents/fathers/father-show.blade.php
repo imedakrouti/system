@@ -25,11 +25,16 @@
           <div class="card-body">
               <div class="col-md-12">
                   <h2 class="mb-2">
-                    {{session('lang')==trans('admin.ar') ?$father->ar_st_name : $father->en_st_name }}
+                    @if (session('lang')==trans('admin.ar'))
+                    {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
+                    @else
+                    {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
+                    @endif
+                   
                   </h2>
               </div>
             <div class="col-md-12">
-                <a href="#" class="btn btn-success white"><i class="la la-graduation-cap"></i> {{ trans('student::local.add_son') }}</a>
+                <a href="{{route('applicant.create',$id)}}" class="btn btn-success white"><i class="la la-graduation-cap"></i> {{ trans('student::local.add_son') }}</a>
                 <a href="{{route('fathers.addWife',$id)}}" class="btn btn-secondary white"><i class="la la-female"></i> {{ trans('student::local.add_mother') }}</a>                
                 <a href="{{route('fathers.edit',$id)}}" class="btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit_father_data') }}</a>
             </div>

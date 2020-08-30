@@ -467,7 +467,7 @@
     <div class="tab-pane" id="tab3" aria-labelledby="base-tab3">
         <h4 class="form-section"> {{ trans('student::local.extra_info') }}</h4> 
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group row">
                   <label class="col-md-3 label-control">{{ trans('student::local.educational_mandate') }}</label>
                   <div class="col-md-9">                    
@@ -480,7 +480,7 @@
                   </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group row">
                   <label class="col-md-3 label-control">{{ trans('student::local.marital_status') }}</label>
                   <div class="col-md-9">                    
@@ -495,7 +495,7 @@
                   </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group row">
                   <label class="col-md-3 label-control">{{ trans('student::local.recognition') }}</label>
                   <div class="col-md-9">                    
@@ -508,8 +508,7 @@
                       </select>
                   </div>
                 </div>
-            </div>
-            <div class="col-md-3"></div>
+            </div>            
         </div>  
     </div>
 </div>  

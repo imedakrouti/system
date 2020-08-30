@@ -299,6 +299,51 @@
                             </div>
                         </div>
                     </div>  
+                    <h4 class="form-section"> {{ trans('student::local.extra_info') }}</h4> 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                              <label class="col-md-3 label-control">{{ trans('student::local.educational_mandate') }}</label>
+                              <div class="col-md-9">                    
+                                  <select name="educational_mandate" class="form-control" required>
+                                      <option value="">{{ trans('student::local.select') }}</option>
+                                      <option {{old('educational_mandate') == 'father' ?'selected':''}} value="father">{{ trans('student::local.father') }}</option>
+                                      <option {{old('educational_mandate') == 'mother' ?'selected':''}} value="mother">{{ trans('student::local.mother') }}</option>                                                                                                                  
+                                  </select>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                              <label class="col-md-3 label-control">{{ trans('student::local.marital_status') }}</label>
+                              <div class="col-md-9">                    
+                                  <select name="marital_status" class="form-control" required>
+                                      <option value="">{{ trans('student::local.select') }}</option>
+                                      <option {{old('marital_status') == 'married' ?'selected':''}} value="married">{{ trans('student::local.married') }}</option>
+                                      <option {{old('marital_status') == 'divorced' ?'selected':''}} value="divorced">{{ trans('student::local.divorced') }}</option>                                
+                                      <option {{old('marital_status') == 'separated' ?'selected':''}} value="separated">{{ trans('student::local.separated') }}</option>                                
+                                      <option {{old('marital_status') == 'widower' ?'selected':''}} value="widower">{{ trans('student::local.widower') }}</option>
+                                  </select>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group row">
+                              <label class="col-md-3 label-control">{{ trans('student::local.recognition') }}</label>
+                              <div class="col-md-9">                    
+                                  <select name="recognition" class="form-control" required>
+                                      <option value="">{{ trans('student::local.select') }}</option>
+                                      <option {{old('recognition') == 'facebook' ?'selected':''}} value="facebook">{{ trans('student::local.fb') }}</option>
+                                      <option {{old('recognition') == 'parent' ?'selected':''}} value="parent">{{ trans('student::local.parent') }}</option>                                
+                                      <option {{old('recognition') == 'street' ?'selected':''}} value="street">{{ trans('student::local.street') }}</option>                                
+                                      <option {{old('recognition') == 'school_hub' ?'selected':''}} value="school_hub">{{ trans('student::local.school_hub') }}</option>
+                                  </select>
+                              </div>
+                            </div>
+                        </div>            
+                    </div> 
                 </div>                                
   
                 <div class="form-actions left">

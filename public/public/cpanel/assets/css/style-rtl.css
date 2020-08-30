@@ -26,3 +26,9 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 html body a:hover {
     color: #df3f3f;
 }
+.nav.nav-tabs.nav-top-border .nav-item a {
+    color: #0963c2;
+}
+.nav.nav-tabs.nav-top-border .nav-item a.nav-link.active {
+    border-top: 3px solid #0963c2;
+}

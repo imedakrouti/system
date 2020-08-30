@@ -71,7 +71,7 @@
                             <div class="form-group row">
                             <label class="col-md-3 label-control">{{ trans('student::local.id_number') }}</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control " value="{{old('id_number')}}" placeholder="{{ trans('student::local.id_number') }}"
+                                <input type="text" class="form-control " value="{{old('id_number_m')}}" placeholder="{{ trans('student::local.id_number') }}"
                                 name="id_number_m" required>
                                 <span class="red">{{ trans('student::local.requried') }}</span>
                             </div>

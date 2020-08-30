@@ -12,11 +12,10 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
         });
        
         require 'parents.php';
+        require 'students.php';
         require 'admissions/admissionRoutes.php';
-        require 'students/studentRoutes.php';        
+        require 'studentsAffairs/studentRoutes.php';        
     });
 });
-Route::get('/admission',function()
-{
-    return redirect('admin/dashboard/admission');
-});
+
+Route::redirect('/admission','admin/dashboard/admission');

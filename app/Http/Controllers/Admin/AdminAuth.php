@@ -78,8 +78,9 @@ class AdminAuth extends Controller
         $admin = Admin::findOrFail(authInfo()->id);
         $admin->password   = request('password');
         $admin->save();
+        
+        toast(trans('msg.updated_password'),'success');
 
-        alert()->success('', trans('msg.updated_password'));
         return back();
     }
 }

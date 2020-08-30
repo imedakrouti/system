@@ -1,6 +1,6 @@
 <?php
 
-namespace Student\Http\Controllers\Parents;
+namespace Student\Http\Controllers\ParentsAndStudents;
 use App\Http\Controllers\Controller;
 
 use DB;
@@ -151,7 +151,11 @@ class ParentController extends Controller
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Father::destroy($id);
+                    DB::transaction(function () use ($id) {    
+                        $mother = DB::table('father_mother')->where('father_id',$id)->first();                          
+                        Mother::destroy($mother->mother_id);
+                        Father::destroy($id);
+                    });
                 }
             }
         }

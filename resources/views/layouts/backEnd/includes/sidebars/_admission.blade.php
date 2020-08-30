@@ -17,7 +17,8 @@
         <li class=" nav-item {{request()->segment(2)=='parents'?'active':''}}"><a href="#"><i class="la la-exchange"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.internal_admission') }}</span></a>
             <ul class="menu-content">
             <li class="{{request()->segment(2)=='parents'?'active':''}}"><a class="menu-item" href="{{route('parents.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.parents') }}</a></li>           
-            <li class="{{request()->segment(2)=='students'?'active':''}}"><a class="menu-item" href="{{route('main.dashboard')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.applicants') }}</a></li>           
+            <li class="{{request()->segment(2)=='applicants'?'active':''}}"><a class="menu-item" href="{{route('applicants.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.applicants') }}</a></li>           
+            {{-- <li class="{{request()->segment(2)=='students'?'active':''}}"><a class="menu-item" href="{{route('students.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.students') }}</a></li>            --}}
             </ul>
         </li>
         {{-- settings --}}
