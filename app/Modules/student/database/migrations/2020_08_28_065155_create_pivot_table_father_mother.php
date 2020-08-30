@@ -16,9 +16,9 @@ class CreatePivotTableFatherMother extends Migration
         Schema::create('father_mother', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('father_id');
-            $table->foreign('father_id')->references('id')->on('fathers')->onDelete('cascade')->onUpdate('cascade');;
+            $table->foreign('father_id')->references('id')->on('fathers')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('mother_id');
-            $table->foreign('mother_id')->references('id')->on('mothers')->onDelete('cascade')->onUpdate('cascade');;
+            $table->foreign('mother_id')->references('id')->on('mothers')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

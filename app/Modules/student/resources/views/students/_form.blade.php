@@ -480,7 +480,7 @@
         <div class="form-group col-12 mb-2 contact-repeater">
             <div data-repeater-list="repeater-group">
               <div class="input-group mb-1" data-repeater-item>
-                <input type="tel" placeholder="{{ trans('student::local.full_address') }}" class="form-control" id="example-tel-input">
+                <input type="tel" name="full_address" placeholder="{{ trans('student::local.full_address') }}" class="form-control" id="example-tel-input">
                 <span class="input-group-append" id="button-addon2">
                   <button class="btn btn-danger" type="button" data-repeater-delete><i class="ft-x"></i></button>
                 </span>
