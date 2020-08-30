@@ -37,6 +37,7 @@
             <li class="{{request()->segment(3)=='languages'?'active':''}}"><a class="menu-item" href="{{route('languages.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.languages') }}</a></li>           
             <li class="{{request()->segment(3)=='classrooms'?'active':''}}"><a class="menu-item" href="{{route('classrooms.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.classrooms') }}</a></li>           
             <li class="{{request()->segment(3)=='id-designs'?'active':''}}"><a class="menu-item" href="{{route('id-designs.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.id_designs') }}</a></li>           
+            <li class="{{request()->segment(3)=='schools'?'active':''}}"><a class="menu-item" href="{{route('schools.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.schools_names') }}</a></li>           
             </ul>
         </li>        
 

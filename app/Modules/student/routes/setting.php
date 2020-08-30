@@ -85,4 +85,8 @@
     Route::resource('/id-designs','DesignController')->except('show');    
     Route::get('/id-designs/filter','DesignController@filter')->name('id-designs.filter');
 
-    
+    /**
+     * Schools
+     */
+    Route::resource('/schools','SchoolController')->except('show','destroy');
+    Route::post('schools/destroy','SchoolController@destroy')->name('schools.destroy');      

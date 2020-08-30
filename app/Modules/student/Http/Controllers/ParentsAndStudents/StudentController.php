@@ -12,6 +12,7 @@ use Student\Models\Settings\Grade;
 use Student\Models\Settings\Language;
 use Student\Models\Settings\Nationality;
 use Student\Models\Settings\RegistrationStatus;
+use Student\Models\Settings\School;
 use Student\Models\Settings\Step;
 use Student\Models\Students\Student;
 
@@ -71,11 +72,12 @@ class StudentController extends Controller
         $mothers = Mother::whereHas('fathers',function($q) use ($father_id){
             $q->where('father_id',$father_id);
         })->get();
+        $schools = School::all();
         
         $title = trans('student::local.new_student');
         return view('student::students.create',
         compact('nationalities','title','speakingLangs','studyLangs','regStatus',
-        'father','mothers','divisions','grades','documents','steps'));
+        'father','mothers','divisions','grades','documents','steps','schools'));
     }
 
     private function attributes()

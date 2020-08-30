@@ -371,9 +371,9 @@
                 <div class="col-md-9">
                     <select name="school_id" class="form-control">
                         <option value="">{{ trans('student::local.select') }}</option>
-                        @foreach ($regStatus as $status)
-                            <option {{old('school_id') == $status->id ?'selected' : ''}} value="{{$status->id}}">
-                                {{session('lang') == trans('admin.ar') ?$status->ar_name_status:$status->en_name_status}}
+                        @foreach ($schools as $school)
+                            <option {{old('school_id') == $school->id ?'selected' : ''}} value="{{$school->id}}">
+                                {{$school->school_name}}
                             </option>
                         @endforeach
                     </select>                    
