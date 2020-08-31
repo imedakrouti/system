@@ -7,32 +7,39 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $fillable = [
+        'father_id',
+        'mother_id',
         'student_type',
         'ar_student_name',
         'en_student_name',
-        'id_type',
         'id_number',
+        'id_type',
+        'student_number',
         'gender',
+        'nationality_id',
         'religion',
         'native_lang_id',
         'second_lang_id',
         'term',
         'dob',
         'reg_type',
+        'grade_id',
+        'division_id',
         'student_image',
         'submitted_application',
         'submitted_name',
         'submitted_id_number',
         'submitted_mobile',
+        'school_id',
+        'transfer_reason',
         'application_date',
-        'liveWith',
-        'grade_id',
-        'division_id',
+        'guardian_id',
+        'place_birth',
+        'return_country',
         'registration_status_id',
-        'nationality_id',
-        'father_id',
-        'mother_id',
+        'year_id',
         'admin_id',
+    
     ];
     public function admin()
     {
@@ -62,5 +69,6 @@ class Student extends Model
     {
         return $this->belongsTo('Student\Models\Settings\Grade','grade_id');
     }
+
 
 }

@@ -94,4 +94,69 @@
     </div>
   </div>  
 </div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-content collapse show">
+        <div class="card-body">
+          <h4 class="center blue"> {{ trans('student::local.sons') }}</h4>                
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>{{ trans('student::local.student_number') }}</th>
+                  <th>{{ trans('student::local.student_name') }}</th>
+                  <th>{{ trans('student::local.father_name') }}</th>
+                  <th>{{ trans('student::local.registration_status') }}</th>
+                  <th>{{ trans('student::local.grade') }}</th>
+                  <th>{{ trans('student::local.division') }}</th>                  
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($mother->fathers as $father)
+                    @foreach ($father->students as $student)                    
+                      @if ($mother->id == $student->mother_id)
+                        <tr>
+                            {{-- stuednt number --}}
+                            <td>{{$student->student_number}}</td>
+                            {{-- student name --}}
+                            <td>
+                              <a href="#">{{session('lang') == trans('admin.ar') ? $student->ar_student_name : $student->en_student_name}}</a>
+                            </td>
+                            {{-- father name --}}
+                            <td>
+                              {{-- {{dd($student->father->id)}} --}}
+                                  {{-- father name --}}
+                                  @if (session('lang')==trans('admin.ar'))
+                                    <a href="{{route('father.show',$student->father->id)}}">{{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}</a>
+                                  @else
+                                    <a href="{{route('father.show',$student->father->id)}}">{{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}</a>
+                                  @endif                                                                  
+                            </td>
+                            {{-- status --}}
+                            <td>
+                                {{session('lang') == trans('admin.ar')?$student->regStatus->ar_name_status:$student->regStatus->en_name_status }}
+                            </td>
+                            {{-- grade --}}
+                            <td>
+                              {{session('lang') == trans('admin.ar')?$student->grade->ar_grade_name:$student->grade->en_grade_name }}
+                            </td>
+                            {{-- division --}}
+                            <td>
+                              {{session('lang') == trans('admin.ar')?$student->division->ar_division_name:$student->division->en_division_name }}
+                            </td>                         
+                        </tr>
+                      @endif
+                    @endforeach
+                @endforeach
+              </tbody>
+            </table>  
+          </div>         
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 @endsection

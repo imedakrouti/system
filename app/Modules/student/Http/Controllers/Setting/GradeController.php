@@ -51,18 +51,15 @@ class GradeController extends Controller
     private function attributes()
     {
         return [
-            'guardian_full_name' ,   
-            'guardian_guardian_type' ,   
-            'guardian_mobile1' ,
-            'guardian_mobile2' ,     
-            'guardian_id_type' ,
-            'guardian_id_number' ,        
-            'guardian_email' ,
-            'guardian_job' ,        
-            'guardian_block_no' ,
-            'guardian_street_name' ,
-            'guardian_state' ,
-            'guardian_government' ,                 
+            'ar_grade_name',
+            'en_grade_name',
+            'ar_grade_parent',
+            'en_grade_parent',
+            'from_age_year',
+            'from_age_month',
+            'to_age_year',
+            'to_age_month',
+            'sort',                
         ];
     }
     /**

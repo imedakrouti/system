@@ -83,7 +83,7 @@
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'father_name',         name: 'father_name'},
               {data: 'id_number',           name: 'id_number'},
-              {data: 'mobile1',             name: 'mobile1'}, 
+              {data: 'mobile',               name: 'mobile'}, 
               {data: 'job',                 name: 'job'}, 
               {data: 'mother_name',         name: 'mother_name'},
               {data: 'mother_mobile',       name: 'mother_mobile'},              

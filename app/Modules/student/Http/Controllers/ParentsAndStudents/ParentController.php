@@ -13,6 +13,7 @@ use Student\Models\Settings\Nationality;
 class ParentController extends Controller
 {
     private $father;
+    private $father_id;
     private $mother;
 
     public function index()
@@ -29,6 +30,9 @@ class ParentController extends Controller
 
                         return '<a href="'.route('father.show',$data->id).'">'.$fatherName.'</a></br>'
                         .$nationality;
+                    })
+                    ->addColumn('mobile',function($data){
+                        return $data->mobile1 . '</br>' . $data->mobile2;
                     })
                     ->addColumn('mother_name',function($data){
                         $motherName = '';
@@ -54,7 +58,7 @@ class ParentController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['check','father_name','mother_name','mother_mobile'])
+                    ->rawColumns(['check','father_name','mother_name','mother_mobile','mobile'])
                     ->make(true);
         }
         return view('student::parents.index',
@@ -137,26 +141,31 @@ class ParentController extends Controller
         DB::transaction(function () use ($fatherRequest,$motherRequest) {            
             $fatherData = $fatherRequest->user()->fathers()->create($this->father);        
             $motherData = $motherRequest->user()->mothers()->create($this->mother);    
-            
-            $father = Father::find($fatherData->id);
+            $this->father_id = $fatherData->id;
+            $father = Father::find($this->father_id);
             $father->mothers()->attach($motherData->id);            
         });
             
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('parents.index');
+        return redirect()->route('father.show',$this->father_id);
     }
     public function destroy()
-    {
+    {                
         if (request()->ajax()) {
             if (request()->has('id'))
             {
+                DB::transaction(function () {    
                 foreach (request('id') as $id) {
-                    DB::transaction(function () use ($id) {    
-                        $mother = DB::table('father_mother')->where('father_id',$id)->first();                          
-                        Mother::destroy($mother->mother_id);
+                        $mothers = DB::table('father_mother')->where('father_id',$id)->get();  
+                        foreach ($mothers as $mother) {
+                            Mother::destroy($mother->mother_id);                            
+                        }
+                        $father = Father::findOrFail($id);
+                        
                         Father::destroy($id);
-                    });
-                }
+                        $father->mothers()->detach();
+                    }
+                });
             }
         }
         return response(['status'=>true]);
@@ -164,7 +173,7 @@ class ParentController extends Controller
     public function fatherShow($id)
     {
         $title = trans('student::local.father_data');    
-        $father = Father::findOrFail($id);    
+        $father = Father::with('students')->findOrFail($id);    
         return view('student::parents.fathers.father-show',
         compact('title','id','father'));
     }
@@ -206,7 +215,8 @@ class ParentController extends Controller
     public function motherShow($id)
     {
         $title = trans('student::local.mother_data');  
-        $mother = Mother::with('nationalities')->findOrFail($id);      
+        $mother = Mother::with('fathers','students')->findOrFail($id);  
+
         return view('student::parents.mothers.mother-show',
         compact('title','id','mother'));
     }
@@ -238,12 +248,12 @@ class ParentController extends Controller
     {        
         DB::transaction(function () use ($request) {            
             $fatherData = $request->user()->fathers()->create($request->only($this->fatherAttributes()));        
-
+            $this->father_id = $fatherData->id;
             $father = father::find($fatherData->id);
             $father->mothers()->attach($request->mother_id);            
         });
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('parents.index');
+        return redirect()->route('father.show',$this->father_id);
     }
 
 }

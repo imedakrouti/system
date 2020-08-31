@@ -93,4 +93,8 @@ class Father extends Model
                 break;
         }
     }
+    public function students()
+    {
+        return $this->hasMany('Student\Models\Students\Student','father_id')->orderBy('dob','asc');
+    }
 }

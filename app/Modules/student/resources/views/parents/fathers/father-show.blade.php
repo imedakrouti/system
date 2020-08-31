@@ -29,14 +29,16 @@
                     {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
                     @else
                     {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
-                    @endif
-                   
+                    @endif                   
                   </h2>
               </div>
             <div class="col-md-12">
                 <a href="{{route('applicant.create',$id)}}" class="btn btn-success white"><i class="la la-graduation-cap"></i> {{ trans('student::local.add_son') }}</a>
                 <a href="{{route('fathers.addWife',$id)}}" class="btn btn-secondary white"><i class="la la-female"></i> {{ trans('student::local.add_mother') }}</a>                
                 <a href="{{route('fathers.edit',$id)}}" class="btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit_father_data') }}</a>
+                <a href="{{route('fathers.edit',$id)}}" class="btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
+                <a href="{{route('fathers.edit',$id)}}" class="btn btn-primary white"><i class="la la-users"></i> {{ trans('student::local.meetings') }}</a>
+                <a href="{{route('fathers.edit',$id)}}" class="btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.acceptance_report') }}</a>
             </div>
           </div>
         </div>
@@ -44,7 +46,7 @@
     </div>
 </div>
 <div class="row">
-  <div class="col-6">
+  <div class="col-md-4 col-xs-12">
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
@@ -73,7 +75,7 @@
       </div>
     </div>
   </div>
-  <div class="col-6">
+  <div class="col-md-5 col-xs-12">
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
@@ -101,9 +103,7 @@
       </div>
     </div>
   </div>  
-</div>
-<div class="row">
-  <div class="col-12">
+  <div class="col-md-3 col-xs-12">
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
@@ -112,7 +112,7 @@
                 <h5> {{ trans('student::local.extra_info') }}</h5>
                 <hr>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <h6>{{ trans('student::local.educational_mandate') }} : {{$father->educational_mandate}}</h6>                    
                     <h6>{{ trans('student::local.marital_status') }} : {{$father->marital_status}}</h6>
                     <h6>{{ trans('student::local.recognition') }} : {{$father->recognition}}</h6>
@@ -120,6 +120,55 @@
                 </div>
               </div>
             </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-content collapse show">
+        <div class="card-body">
+          <h4 class="center blue"> {{ trans('student::local.sons') }}</h4>                
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>{{ trans('student::local.student_number') }}</th>
+                  <th>{{ trans('student::local.student_name') }}</th>
+                  <th>{{ trans('student::local.registration_status') }}</th>
+                  <th>{{ trans('student::local.grade') }}</th>
+                  <th>{{ trans('student::local.division') }}</th>
+                  <th>{{ trans('student::local.mother_name') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($father->students as $student)
+                  <tr>
+                    <td>
+                      {{$student->student_number}}
+                    </td>
+                    <td>
+                      <a href="#">{{session('lang') == trans('admin.ar')?$student->ar_student_name:$student->en_student_name }}</a>
+                    </td>
+                    <td>
+                      {{session('lang') == trans('admin.ar')?$student->regStatus->ar_name_status:$student->regStatus->en_name_status }}
+                    </td>
+                    <td>
+                      {{session('lang') == trans('admin.ar')?$student->grade->ar_grade_name:$student->grade->en_grade_name }}
+                    </td>
+                    <td>
+                      {{session('lang') == trans('admin.ar')?$student->division->ar_division_name:$student->division->en_division_name }}
+                    </td>
+                    <td>
+                      <a href="{{route('mother.show',$student->mother_id)}}">{{$student->mother->full_name}}</a>
+                    </td>
+                  </tr>
+                @endforeach                  
+              </tbody>
+            </table>  
+          </div>         
         </div>
       </div>
     </div>

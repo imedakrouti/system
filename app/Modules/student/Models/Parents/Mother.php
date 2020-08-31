@@ -45,4 +45,8 @@ class Mother extends Model
         return $this->attributes['id_type_m'] == 'national_id' ? trans('student::local.national_id'):
         trans('student::local.passport');
     }
+    public function students()
+    {
+        return $this->hasMany('Student\Models\Students\Student','father_id')->orderBy('dob','asc');
+    }
 }

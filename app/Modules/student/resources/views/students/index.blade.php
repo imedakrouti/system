@@ -37,10 +37,12 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('student::local.academic_year_name')}}</th>
-                                <th>{{trans('student::local.start_from')}}</th>
-                                <th>{{trans('student::local.end_from')}}</th>
-                                <th>{{trans('student::local.default_year')}}</th>
+                                <th>{{trans('student::local.application_date')}}</th>                                                                
+                                <th>{{trans('student::local.student_name')}}</th>
+                                <th>{{trans('student::local.registration_status')}}</th>
+                                <th>{{trans('student::local.religion')}}</th>
+                                <th>{{trans('student::local.grade')}}</th>
+                                <th>{{trans('student::local.division')}}</th>                                
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -72,10 +74,12 @@
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'ar_student_name',                name: 'ar_student_name'},
-              {data: 'en_student_name',          name: 'en_student_name'},
-              {data: 'id_card',            name: 'id_card'}, 
-              {data: 'id_type',              name: 'id_type'}, 
+              {data: 'application_date',    name: 'application_date'},
+              {data: 'studentName',         name: 'studentName'},
+              {data: 'registration_status', name: 'registration_status'},
+              {data: 'religion',            name: 'religion'},              
+              {data: 'grade',               name: 'grade'},
+              {data: 'division',            name: 'division'},              
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')

@@ -30,8 +30,7 @@ class CreateTableStudents extends Migration
             $table->unsignedBigInteger('second_lang_id');
             $table->enum('term',['all','first','second'])->default('all');
             $table->date('dob');
-            $table->enum('reg_type',['return','arrival','noob','transfer'])->default('noob');
-            $table->unsignedBigInteger('register_status_id');
+            $table->enum('reg_type',['return','arrival','noob','transfer'])->default('noob');            
             $table->unsignedBigInteger('grade_id');
             $table->unsignedBigInteger('division_id');
             $table->string('student_image',75)->nullable();
@@ -39,14 +38,15 @@ class CreateTableStudents extends Migration
             $table->string('submitted_name',75)->nullable();
             $table->string('submitted_id_number',15)->nullable();
             $table->string('submitted_mobile',15)->nullable();
-            $table->unsignedBigInteger('school_id');
+            $table->unsignedBigInteger('school_id')->nullable();  
             $table->string('transfer_reason')->nullable();
             $table->date('application_date')->nullable();                    
-            $table->unsignedBigInteger('guardian_id');            
+            $table->unsignedBigInteger('guardian_id')->nullable();             
             $table->string('place_birth',30)->nullable();
             $table->string('return_country',30)->nullable();            
             $table->unsignedBigInteger('registration_status_id');            
             $table->unsignedBigInteger('admin_id');
+            $table->unsignedBigInteger('year_id');
             $table->foreign('school_id')->references('id')->on('schools')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('native_lang_id')->references('id')->on('languages')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('second_lang_id')->references('id')->on('languages')->onDelete('cascade')->onUpdate('cascade');
@@ -57,6 +57,7 @@ class CreateTableStudents extends Migration
             $table->foreign('nationality_id')->references('id')->on('nationalities')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('father_id')->references('id')->on('fathers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('mother_id')->references('id')->on('mothers')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
