@@ -341,11 +341,15 @@
         aria-expanded="false">
         <ul style="list-style: none">
             @foreach ($documents as $document)
-                <li>
-                    <h6><input type="checkbox" name="admission_document_id[]" value="{{$document->id}}">
-                        {{session('lang') == trans('admin.ar')?$document->ar_document_name:$document->ar_document_name}}
-                    </h6>
-                </li>
+                <h5>
+                    <li>
+                        <label class="pos-rel">
+                            <input type="checkbox" class="ace" name="admission_document_id[]" value="{{$document->id}}">
+                    <span class="lbl"></span> {{session('lang') == trans('admin.ar')?$document->ar_document_name:
+                    $document->ar_document_name}}
+                        </label>                                                            
+                    </li>
+                </h5>
             @endforeach   
         </ul>      
     </div> 
@@ -367,13 +371,16 @@
             <div class="col-md-12">
                 <ul style="list-style: none">
                     @foreach ($steps as $step)
-                        <li>
-                            <h6>
-                                <input type="checkbox" name="admission_step_id[]" value="{{$step->id}}">
-                                {{session('lang') == trans('admin.ar')?$step->ar_step:$step->ar_step}}
-                            </h6>
-                        </li>
-                    @endforeach   
+                        <h5>
+                            <li>
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" name="admission_step_id[]" value="{{$step->id}}">
+                                    <span class="lbl"></span> {{session('lang') == trans('admin.ar')?$step->ar_step:$step->ar_step}}
+                                </label>                                                            
+                            </li>
+                        </h5>
+                    @endforeach 
+                 
                 </ul>
             </div>
         </div>

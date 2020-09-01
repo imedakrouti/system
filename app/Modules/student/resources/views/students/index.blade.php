@@ -37,6 +37,7 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
+                                <th>{{trans('student::local.student_image')}}</th>
                                 <th>{{trans('student::local.application_date')}}</th>                                                                
                                 <th>{{trans('student::local.student_name')}}</th>
                                 <th>{{trans('student::local.registration_status')}}</th>
@@ -70,10 +71,11 @@
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('applicants.index') }}",
+          ajax: "{{ route('students.index') }}",
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
+              {data: 'studentImage',        name: 'studentImage'},
               {data: 'application_date',    name: 'application_date'},
               {data: 'studentName',         name: 'studentName'},
               {data: 'registration_status', name: 'registration_status'},

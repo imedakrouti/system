@@ -33,3 +33,6 @@ html body a:hover {
     border-top: 3px solid #0963c2;
 }
 .center{text-align: center;}
+.student-image{
+    width: 75px;height: 75px;border-radius: 25%;border:1px solid #d1d2d5;
+}

@@ -10,7 +10,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('dashboard.admission')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('parents.index')}}">{{ trans('student::local.students') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('students.index')}}">{{ trans('student::local.students') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>
@@ -35,7 +35,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
                       </button>
-                    <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('parents.index')}}';">
+                    <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('students.show',$student->id)}}';">
                     <i class="ft-x"></i> {{ trans('admin.cancel') }}
                   </button>
                 </div>

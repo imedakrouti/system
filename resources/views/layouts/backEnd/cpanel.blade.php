@@ -17,7 +17,7 @@
   <!-- BEGIN VENDOR CSS-->
   @yield('styles')
 
-  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar'))
+  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/vendors.css')}}">
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
@@ -35,7 +35,7 @@
   <!-- END MODERN CSS-->
   <!-- BEGIN Page Level CSS-->
 
-  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar'))
+  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-gradient.css')}}">
   @else
@@ -52,14 +52,14 @@
   <!-- BEGIN Custom CSS-->
 
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/fonts/simple-line-icons/style.min.css')}}">
-  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar'))
+  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/assets/css/style-rtl.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
   @else
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/assets/css/style.css')}}">
   @endif
   <!-- END Custom CSS-->
-  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar'))
+  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
     <style>
         body,h1,h2,h3,h4,h5,h6,a,li,p,span {font-family: 'Cairo', sans-serif;}
 

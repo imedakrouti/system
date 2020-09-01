@@ -122,7 +122,7 @@
                             <td>{{$student->student_number}}</td>
                             {{-- student name --}}
                             <td>
-                              <a href="#">{{session('lang') == trans('admin.ar') ? $student->ar_student_name : $student->en_student_name}}</a>
+                              <a href="{{route('students.show',$student->id)}}">{{session('lang') == trans('admin.ar') ? $student->ar_student_name : $student->en_student_name}}</a>
                             </td>
                             {{-- father name --}}
                             <td>

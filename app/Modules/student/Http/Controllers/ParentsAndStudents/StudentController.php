@@ -29,10 +29,6 @@ class StudentController extends Controller
      */
     public function index()
     {
-
-    }
-    public function applicants()
-    {
         if (request()->ajax()) {
             $data = Student::with('nationalities','regStatus','division','father','grade')->get();
             return datatables($data)
@@ -45,6 +41,9 @@ class StudentController extends Controller
                     })
                     ->addColumn('studentName',function($data){
                         return $this->getFullStudentName($data);                                         
+                    })
+                    ->addColumn('studentImage',function($data){
+                        return '<img class=" editable img-responsive student-image" alt="" id="avatar2" src="'.asset('images/imagesProfile/'.authInfo()->image_profile).'" />';                                         
                     })
                     ->addColumn('registration_status',function($data){
                         return session('lang') == trans('admin.ar') ? $data->regStatus->ar_name_status:
@@ -68,20 +67,20 @@ class StudentController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['action','check','studentName','registration_status','religion','grade','division'])
+                    ->rawColumns(['action','check','studentName','registration_status','religion','grade','division','studentImage'])
                     ->make(true);
         }
         return view('student::students.index',
-        ['title'=>trans('student::local.applicants')]);  
+        ['title'=>trans('student::local.students')]);  
     }
 
     private function getFullStudentName($data)
     {        
         if (session('lang') == trans('admin.ar')) {
-            return '<a href="#">'.$data->ar_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->ar_st_name.
+            return '<a href="'.route('students.show',$data->id).'">'.$data->ar_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->ar_st_name.
             ' '.$data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name.'</a> ' ;    
         }else{
-            return '<a href="#">'.$data->ar_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->ar_st_name.
+            return '<a href="'.route('students.show',$data->id).'">'.$data->ar_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->ar_st_name.
             ' '.$data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name.'</a> ' ;    
         }
     }
@@ -287,7 +286,23 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
+        $title = trans('student::local.show_student_data');
+        $nationalities = Nationality::sort()->get();
+        $speakingLangs = Language::sort()->where('lang_type','speak')->get();
+        $studyLangs = Language::sort()->where('lang_type','<>','speak')->get();
+        $regStatus = RegistrationStatus::sort()->get();
+        $divisions = Division::sort()->get();
+        $grades = Grade::sort()->get();                
+        $schools = School::all();
+        $guardians = Guardian::all();        
+        $father_id = Student::findOrFail($student)->first()->father_id;
+        $mothers = Mother::whereHas('fathers',function($q) use ($father_id){
+            $q->where('father_id',$father_id);
+        })->get();
+                
+        return view('student::students.show',
+        compact('student','title','nationalities','speakingLangs','studyLangs','regStatus',
+        'divisions','grades','schools','guardians','mothers'));
     }
 
     /**
@@ -342,7 +357,7 @@ class StudentController extends Controller
 
         
         toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('applicants.index');
+        return redirect()->route('students.show',$student->id);
     }
 
     /**

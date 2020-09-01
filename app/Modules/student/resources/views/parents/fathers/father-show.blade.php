@@ -33,12 +33,12 @@
                   </h2>
               </div>
             <div class="col-md-12">
-                <a href="{{route('applicant.create',$id)}}" class="btn btn-success white"><i class="la la-graduation-cap"></i> {{ trans('student::local.add_son') }}</a>
-                <a href="{{route('fathers.addWife',$id)}}" class="btn btn-secondary white"><i class="la la-female"></i> {{ trans('student::local.add_mother') }}</a>                
-                <a href="{{route('fathers.edit',$id)}}" class="btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit_father_data') }}</a>
-                <a href="{{route('fathers.edit',$id)}}" class="btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
-                <a href="{{route('fathers.edit',$id)}}" class="btn btn-primary white"><i class="la la-users"></i> {{ trans('student::local.meetings') }}</a>
-                <a href="{{route('fathers.edit',$id)}}" class="btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.acceptance_report') }}</a>
+                <a href="{{route('student.create',$id)}}" class="mb-1 btn btn-success white"><i class="la la-graduation-cap"></i> {{ trans('student::local.add_son') }}</a>
+                <a href="{{route('fathers.addWife',$id)}}" class="mb-1 btn btn-secondary white"><i class="la la-female"></i> {{ trans('student::local.add_mother') }}</a>                
+                <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit_father_data') }}</a>
+                <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
+                <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-primary white"><i class="la la-users"></i> {{ trans('student::local.meetings') }}</a>
+                <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.acceptance_report') }}</a>
             </div>
           </div>
         </div>
@@ -150,7 +150,7 @@
                       {{$student->student_number}}
                     </td>
                     <td>
-                      <a href="#">{{session('lang') == trans('admin.ar')?$student->ar_student_name:$student->en_student_name }}</a>
+                      <a href="{{route('students.show',$student->id)}}">{{session('lang') == trans('admin.ar')?$student->ar_student_name:$student->en_student_name }}</a>
                     </td>
                     <td>
                       {{session('lang') == trans('admin.ar')?$student->regStatus->ar_name_status:$student->regStatus->en_name_status }}
@@ -175,29 +175,4 @@
   </div>
 
 </div>
-@endsection
-@section('script')
-<script>
-  $(".formData").submit(function(e){
-       event.preventDefault();        
-       swal({
-           title: "{{trans('msg.delete_confirmation')}}",
-           text: "{{trans('student::local.design_delete_ask')}}",
-           type: "warning",
-           showCancelButton: true,
-           confirmButtonClass: "btn-danger",
-           confirmButtonText: "{{trans('msg.yes')}}",
-           cancelButtonText: "{{trans('msg.no')}}",
-           closeOnConfirm: false
-           },
-           function(){
-               $(".formData").submit();
-       });       
-   });
-
-   $("#filter").click(function() {
-      $('#formSearch').submit();
-   });
-
-</script>
 @endsection

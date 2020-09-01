@@ -168,12 +168,12 @@ class DocGradesController extends Controller
             $document_id->admission_document_id:0;
             
             $checked = $document->id == $documentValue ?"checked":"";
-               $documentName = session('lang')== trans('admin.ar')?$document->ar_document_name:
-               $document->en_document_name;
-            $output .= '<li>
-                        <input type="checkbox" name="admission_document_id[]" '.$checked.
-                        ' value="'.$document->id.'" /> '.$documentName.'
-                    </li>';
+            $documentName = session('lang')== trans('admin.ar')?$document->ar_document_name:
+            $document->en_document_name;
+            $output .= '<h5><li><label class="pos-rel">
+                        <input type="checkbox" class="ace" name="admission_document_id[]" '.$checked.' value="'.$document->id.'" />
+                        <span class="lbl"></span> '.$documentName.'
+                    </label></li></h5>';                    
         };                        
         return json_encode($output);
     }
