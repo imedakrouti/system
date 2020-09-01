@@ -406,7 +406,7 @@ return [
     'father_contacts'               => 'جهات اتصال',
     'meetings'                      => 'الاجتماعات',
     'acceptance_report'             => 'تقرير القبول',
-    '' => '',
+    'delete_student'                => 'حذف الطالب',
     '' => '',
     '' => '',
     '' => '',

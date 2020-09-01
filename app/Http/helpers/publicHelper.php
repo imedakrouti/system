@@ -1,4 +1,5 @@
 <?php
+
 if (!function_exists('aurl')) {
     function aurl($url=null)
     {
@@ -79,5 +80,17 @@ if (!function_exists('currentYear')) {
 		}else{
 			return \Student\Models\Settings\Year::orderBy('id','desc')->first()->id;
 		}
+	}
+}
+if (!function_exists('getYearAcademic')) {
+	function getYearAcademic()
+	{
+		$year =  \Student\Models\Settings\Year::where('status','current')->first();	
+		
+		if ($year != null) {
+			$date = \DateTime::createFromFormat("Y-m-d",$year->start_from);
+			return $date->format("Y");			
+		}
+		return '0000';
 	}
 }

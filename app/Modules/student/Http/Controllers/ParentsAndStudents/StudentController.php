@@ -20,6 +20,7 @@ use DB;
 
 class StudentController extends Controller
 {
+    private $father_id;
     /**
      * Display a listing of the resource.
      *
@@ -203,16 +204,17 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
-        dd(request()->all());
         DB::transaction(function () use ($request) {            
             $student = $request->user()->students()->create($request->only($this->studentAttributes()) 
             + ['student_number'=>$this->studentNumber(), 'year_id' => currentYear()]);  
-
+            
             $this->studentAdmissionSteps($student->id);
-
+            
             $this->studentDeliverDocuments($student->id);
-
+            
             $this->studentMedicalQuery($student->id);
+            
+            $this->studentAddresses($student->id);
         });      
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('father.show',$request->father_id);
@@ -255,8 +257,29 @@ class StudentController extends Controller
             'division_id'   => request('division_id'),
             'grade_id'      => request('grade_id')            
         ])->count('id');
-        return currentYear().request('division_id').$student_id.rand(1,132);
+        return getYearAcademic().request('division_id').$student_id;
         
+    }
+    private function studentAddresses($student_id)
+    {        
+        if (request()->has('repeater-group')) {                    
+            foreach (request('repeater-group') as $value) {                                    
+                if (!empty($value['full_address'])) {
+                    DB::table('student_address')->insert(
+                        [
+                            'full_address'  =>$value['full_address'],
+                            'student_id'    =>$student_id,
+                            'admin_id'      => authInfo()->id
+                        ]);
+                }             
+            }            
+        }        
+    }
+
+    public function destroyStudent()
+    {           
+        Student::destroy(request('student_id'));
+        return response(['status'=>true]);
     }
 
     /**
@@ -301,6 +324,14 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        if (request()->ajax()) {
+            if (request()->has('id'))
+            {
+                foreach (request('id') as $id) {
+                    Student::destroy($id);
+                }
+            }
+        }
+        return response(['status'=>true]);
     }
 }
