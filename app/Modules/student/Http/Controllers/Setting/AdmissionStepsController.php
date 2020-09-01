@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Student\Models\Settings\Step;
 use Illuminate\Http\Request;
 use Student\Http\Requests\AdmissionStepsRequest;
+use DB;
 
 class AdmissionStepsController extends Controller
 {
@@ -115,5 +116,28 @@ class AdmissionStepsController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function getStepsSelected()
+    {
+        $id = request()->get('id');        
+        $output = "";
+        
+        $steps = Step::all();
+        foreach ($steps as $step) {
+            
+            $step_id = DB::table('student_steps')->select('admission_step_id')
+            ->where('student_id',$id)->where('admission_step_id',$step->id)->first();
+            
+            $stepValue = !empty($step_id->admission_step_id)?$step_id->admission_step_id:0;
+            
+            $checked = $step->id == $stepValue ?"checked":"";
+               $stepName = session('lang')== trans('admin.ar')?$step->ar_step:$step->en_step;
+            $output .= '<li><label class="pos-rel">
+                        <input type="checkbox" class="ace" name="admission_step_id[]" '.$checked.' value="'.$step->id.'" />
+                        <span class="lbl"></span> '.$stepName.'
+                    </label></li>';
+        };
+        
+        return json_encode($output);
     }
 }

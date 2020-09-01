@@ -7,6 +7,7 @@ use Student\Models\Settings\DocumentGrade;
 use Illuminate\Http\Request;
 use Student\Models\Settings\AdmissionDoc;
 use Student\Models\Settings\Grade;
+use DB;
 
 class DocGradesController extends Controller
 {
@@ -151,5 +152,29 @@ class DocGradesController extends Controller
         })
         ->rawColumns(['action','check'])
         ->make(true);
+    }
+    public function getDocumentSelected()
+    {        
+        $id = request()->get('id');        
+        $output = "";
+        
+        $admissionDocuments = AdmissionDoc::all();
+        foreach ($admissionDocuments as $document) {
+            
+            $document_id = DB::table('student_doc_delivers')->select('admission_document_id')
+            ->where('student_id',$id)->where('admission_document_id',$document->id)->first();
+            
+            $documentValue = !empty($document_id->admission_document_id)?
+            $document_id->admission_document_id:0;
+            
+            $checked = $document->id == $documentValue ?"checked":"";
+               $documentName = session('lang')== trans('admin.ar')?$document->ar_document_name:
+               $document->en_document_name;
+            $output .= '<li>
+                        <input type="checkbox" name="admission_document_id[]" '.$checked.
+                        ' value="'.$document->id.'" /> '.$documentName.'
+                    </li>';
+        };                        
+        return json_encode($output);
     }
 }

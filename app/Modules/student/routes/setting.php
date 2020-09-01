@@ -34,12 +34,14 @@
      */
     Route::resource('/documents-grades','DocGradesController')->except('show','destroy');
     Route::post('documents-grades/destroy','DocGradesController@destroy')->name('documents-grades.destroy');        
-    Route::put('documents/grades/filter','DocGradesController@filterByGrade')->name('documents-grades.filter');    
+    Route::put('documents/grades/filter','DocGradesController@filterByGrade')->name('documents-grades.filter'); 
+    Route::put('documents/grades/get-require','DocGradesController@getDocumentSelected')->name('getDocumentSelected');   
     /**
      * Admission Steps
      */
     Route::resource('/steps','AdmissionStepsController')->except('show','destroy');
     Route::post('steps/destroy','AdmissionStepsController@destroy')->name('steps.destroy');   
+    Route::put('steps/students/get-require','AdmissionStepsController@getStepsSelected')->name('getStepsSelected');   
     
     /**
      * Acceptance Test

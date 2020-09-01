@@ -156,6 +156,6 @@ class Admin extends Authenticatable
     }
     public function medicals()
     {
-        return $this->hasMany('App\Medical','admin_id');
+        return $this->hasMany('Student\Models\Students\Medical','admin_id');
     }
 }

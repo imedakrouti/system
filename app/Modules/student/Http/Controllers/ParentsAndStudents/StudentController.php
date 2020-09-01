@@ -17,6 +17,7 @@ use Student\Models\Settings\School;
 use Student\Models\Settings\Step;
 use Student\Models\Students\Student;
 use DB;
+use Student\Models\Students\Address;
 
 class StudentController extends Controller
 {
@@ -173,26 +174,26 @@ class StudentController extends Controller
     }
     private function medicalAttributes()
     {
-        return [
-            'blood_type'            => request('blood_type'),
-            'food_sensitivity'      => request('food_sensitivity'),
-            'medicine_sensitivity'  => request('medicine_sensitivity'),
-            'other_sensitivity'     => request('other_sensitivity'),
-            'have_medicine'         => request('have_medicine'),
-            'vision_problem'        => request('vision_problem'),
-            'use_glasses'           => request('use_glasses'),
-            'hearing_problems'      => request('hearing_problems'),
-            'speaking_problems'     => request('speaking_problems'),
-            'chest_pain'            => request('chest_pain'),
-            'breath_problem'        => request('breath_problem'),
-            'asthma'                => request('asthma'),
-            'have_asthma_medicine'  => request('have_asthma_medicine'),
-            'heart_problem'         => request('heart_problem'),
-            'hypertension'          => request('hypertension'),
-            'diabetic'              => request('diabetic'),
-            'anemia'                => request('anemia'),
-            'cracking_blood'        => request('cracking_blood'),
-            'coagulation'           => request('coagulation'),
+        return [            
+            'blood_type',
+            'food_sensitivity',
+            'medicine_sensitivity',
+            'other_sensitivity',
+            'have_medicine',
+            'vision_problem',
+            'use_glasses',
+            'hearing_problems',
+            'speaking_problems',
+            'chest_pain',
+            'breath_problem',
+            'asthma',
+            'have_asthma_medicine',
+            'heart_problem',
+            'hypertension',
+            'diabetic',
+            'anemia',
+            'cracking_blood',
+            'coagulation',            
         ];
     }
 
@@ -210,9 +211,7 @@ class StudentController extends Controller
             
             $this->studentAdmissionSteps($student->id);
             
-            $this->studentDeliverDocuments($student->id);
-            
-            $this->studentMedicalQuery($student->id);
+            $this->studentDeliverDocuments($student->id);                    
             
             $this->studentAddresses($student->id);
         });      
@@ -220,7 +219,8 @@ class StudentController extends Controller
         return redirect()->route('father.show',$request->father_id);
     }
     private function studentAdmissionSteps($student_id)
-    {
+    {              
+        DB::table('student_steps')->where('student_id',$student_id)->delete();
         if (request()->has('admission_step_id'))
         {
             foreach (request('admission_step_id') as  $step) {
@@ -233,13 +233,14 @@ class StudentController extends Controller
         }
     }
     private function studentDeliverDocuments($student_id)
-    {
-        if (request()->has('student_doc_delivers'))
+    {              
+        DB::table('student_doc_delivers')->where('student_id',$student_id)->delete();
+        if (request()->has('admission_document_id'))
         {
-            foreach (request('admission_document_id') as  $step) {
-                DB::table('student_steps')->insert([
+            foreach (request('admission_document_id') as  $document) {
+                DB::table('student_doc_delivers')->insert([
                     'student_id'                => $student_id,
-                    'admission_document_id'     => $step,
+                    'admission_document_id'     => $document,
                     'admin_id'                  => authInfo()->id
                 ]);
             }
@@ -247,8 +248,8 @@ class StudentController extends Controller
     }
     private function studentMedicalQuery($student_id)
     {
-        DB::table('medicals')->insert($this->medicalAttributes() 
-        + ['student_id'=>$student_id,'admin_id'=> authInfo()->id]);
+        request()->user()->medicals()->create(request()->only($this->medicalAttributes())
+        + ['student_id'=>$student_id]);        
     }
     private function studentNumber()
     {
@@ -262,24 +263,20 @@ class StudentController extends Controller
     }
     private function studentAddresses($student_id)
     {        
-        if (request()->has('repeater-group')) {                    
+        if (request()->has('repeater-group')) {  
+            DB::table('student_address')->where('student_id',$student_id)->delete();
+
             foreach (request('repeater-group') as $value) {                                    
                 if (!empty($value['full_address'])) {
                     DB::table('student_address')->insert(
                         [
-                            'full_address'  =>$value['full_address'],
-                            'student_id'    =>$student_id,
+                            'full_address'  => $value['full_address'],
+                            'student_id'    => $student_id,
                             'admin_id'      => authInfo()->id
                         ]);
                 }             
             }            
         }        
-    }
-
-    public function destroyStudent()
-    {           
-        Student::destroy(request('student_id'));
-        return response(['status'=>true]);
     }
 
     /**
@@ -301,7 +298,25 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
+        $father_id = Student::findOrFail($student)->first()->father_id;
+        $mothers = Mother::whereHas('fathers',function($q) use ($father_id){
+            $q->where('father_id',$father_id);
+        })->get();
+                
+        $nationalities = Nationality::sort()->get();
+        $speakingLangs = Language::sort()->where('lang_type','speak')->get();
+        $studyLangs = Language::sort()->where('lang_type','<>','speak')->get();
+        $regStatus = RegistrationStatus::sort()->get();
+        $divisions = Division::sort()->get();
+        $grades = Grade::sort()->get();        
         
+        $schools = School::all();
+        $guardians = Guardian::all();        
+        
+        $title = trans('student::local.edit_student');
+        return view('student::students.edit',
+        compact('nationalities','title','speakingLangs','studyLangs','regStatus','mothers',
+        'divisions','grades','schools','guardians','student'));
     }
 
     /**
@@ -312,8 +327,22 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(StudentRequest $request, Student $student)
-    {
-        //
+    {            
+        DB::transaction(function () use ($request,$student) {            
+            $student->update($request->only($this->studentAttributes()));
+            
+            $this->studentAdmissionSteps($student->id);
+            
+            $this->studentDeliverDocuments($student->id);
+            
+            $this->studentMedicalQuery($student->id);
+            
+            $this->studentAddresses($student->id);
+        });   
+
+        
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('applicants.index');
     }
 
     /**

@@ -69,6 +69,14 @@ class Student extends Model
     {
         return $this->belongsTo('Student\Models\Settings\Grade','grade_id');
     }
+    public function medical()
+    {
+        return $this->hasOne('Student\Models\Students\Medical','student_id');
+    }
+    public function addresses()
+    {
+        return $this->hasMany('Student\Models\Students\Address','student_id');
+    }
 
 
 }
