@@ -37,6 +37,18 @@
     <div role="tabpanel" class="tab-pane active" id="active1" aria-labelledby="active-tab1"
         aria-expanded="true">
         <div class="row">
+            <div class="col-md-4">
+                <div class="form-group row">
+                <label class="col-md-3 label-control">{{ trans('student::local.application_date') }}</label>
+                <div class="col-md-9">
+                    <input type="date" class="form-control " value="{{old('application_date')}}" placeholder="{{ trans('student::local.application_date') }}"
+                    name="application_date" required>
+                    <span class="red">{{ trans('student::local.requried') }}</span>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <input type="hidden" name="father_id" value="{{$father->id}}">
             <div class="col-md-4">
                 <div class="form-group row">
@@ -355,18 +367,6 @@
     </div> 
     <div class="tab-pane" id="active4" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
         aria-expanded="false">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.application_date') }}</label>
-                <div class="col-md-9">
-                    <input type="date" class="form-control " value="{{old('application_date')}}" placeholder="{{ trans('student::local.application_date') }}"
-                    name="application_date" required>
-                    <span class="red">{{ trans('student::local.requried') }}</span>
-                </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <ul style="list-style: none">

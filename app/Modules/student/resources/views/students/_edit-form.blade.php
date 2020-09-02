@@ -36,6 +36,18 @@
   <div class="tab-content px-1 pt-1">
     <div role="tabpanel" class="tab-pane active" id="active1" aria-labelledby="active-tab1"
         aria-expanded="true">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group row">
+                <label class="col-md-3 label-control">{{ trans('student::local.application_date') }}</label>
+                <div class="col-md-9">
+                    <input type="date" class="form-control " value="{{old('application_date',$student->application_date)}}" placeholder="{{ trans('student::local.application_date') }}"
+                    name="application_date" required>
+                    <span class="red">{{ trans('student::local.requried') }}</span>
+                </div>
+                </div>
+            </div>
+        </div>
         <div class="row">            
             <div class="col-md-4">
                 <div class="form-group row">
@@ -247,8 +259,12 @@
                     <div class="col-md-9">                    
                         <select name="student_type" class="form-control" required>
                             <option value="">{{ trans('student::local.select') }}</option>
-                            <option {{old('student_type',$student->student_type) == trans('student::local.applicant') ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
-                            <option {{old('student_type',$student->student_type) == trans('student::local.student') ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
+                            <option {{old('student_type',$student->student_type) == trans('student::local.applicant') ||
+                            old('student_type',$student->student_type) == 'applicant'
+                            ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
+                            <option {{old('student_type',$student->student_type) == trans('student::local.student') ||
+                            old('student_type',$student->student_type) == 'student'
+                            ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
                         </select>
                         <span class="red">{{ trans('student::local.requried') }}</span>
                     </div>
@@ -344,18 +360,7 @@
     </div> 
     <div class="tab-pane" id="active4" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
         aria-expanded="false">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.application_date') }}</label>
-                <div class="col-md-9">
-                    <input type="date" class="form-control " value="{{old('application_date',$student->application_date)}}" placeholder="{{ trans('student::local.application_date') }}"
-                    name="application_date" required>
-                    <span class="red">{{ trans('student::local.requried') }}</span>
-                </div>
-                </div>
-            </div>
-        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <ul style="list-style: none" id="stepId">
