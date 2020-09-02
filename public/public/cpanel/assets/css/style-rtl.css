@@ -36,3 +36,9 @@ html body a:hover {
 .student-image{
     width: 75px;height: 75px;border-radius: 25%;border:1px solid #d1d2d5;
 }
+table.dataTable tbody tr.selected a, table.dataTable tbody th.selected a, table.dataTable tbody td.selected a {
+    color:black;
+}
+table.dataTable tbody tr.selected a:hover, table.dataTable tbody th.selected a:hover, table.dataTable tbody td.selected a:hover {
+    color: #df3f3f;
+}

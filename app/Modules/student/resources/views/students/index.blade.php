@@ -6,6 +6,7 @@
 @include('layouts.backEnd.includes.sidebars._admission')
 @endsection
 @section('content')
+
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
       <h3 class="content-header-title">{{$title}}</h3>
@@ -40,11 +41,12 @@
                                 <th>{{trans('student::local.student_image')}}</th>
                                 <th>{{trans('student::local.application_date')}}</th>                                                                
                                 <th>{{trans('student::local.student_name')}}</th>
+                                <th>{{trans('student::local.student_type')}}</th>
                                 <th>{{trans('student::local.registration_status')}}</th>
                                 <th>{{trans('student::local.religion')}}</th>
                                 <th>{{trans('student::local.grade')}}</th>
                                 <th>{{trans('student::local.division')}}</th>                                
-                                <th>{{trans('student::local.edit')}}</th>
+                                <th>{{trans('student::local.more')}}</th>                                                                
                             </tr>
                         </thead>
                         <tbody>
@@ -78,11 +80,12 @@
               {data: 'studentImage',        name: 'studentImage'},
               {data: 'application_date',    name: 'application_date'},
               {data: 'studentName',         name: 'studentName'},
+              {data: 'student_type',        name: 'student_type'},
               {data: 'registration_status', name: 'registration_status'},
               {data: 'religion',            name: 'religion'},              
               {data: 'grade',               name: 'grade'},
               {data: 'division',            name: 'division'},              
-              {data: 'action', 	            name: 'action', orderable: false, searchable: false},
+              {data: 'moreBtn',             name: 'moreBtn', orderable: false, searchable: false},                            
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

@@ -30,7 +30,8 @@
                     @else
                     {{$student->en_student_name}} <a href="{{route('father.show',$student->father_id)}}">{{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}</a>
                     @endif                   
-                  </h2>
+                    | <a href="{{route('mother.show',$student->mother_id)}}">{{$student->mother->full_name}}</a>  
+                </h2> 
               </div>
             <div class="col-md-12">
                 <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit') }}</a>
@@ -58,7 +59,13 @@
               <div class="row">
                 <div class="col-md-12">                
                     <img class="editable img-responsive" alt="Alex's Avatar" id="avatar2" src="{{asset('images/imagesProfile/'.authInfo()->image_profile)}}" />
-                </div>
+                </div>                
+              </div>
+              <hr>
+              <div class="col-md-12">
+                <h6><strong>{{ trans('student::local.created_by') }} : {{$student->admin->name}}</strong></h6>
+                <h6><strong>{{ trans('student::local.created_at') }} : </strong></h6>{{$student->created_at}}
+                <h6><strong>{{ trans('student::local.updated_at') }} : </strong></h6>{{$student->updated_at}}
               </div>
           </div>
         </div>
@@ -305,8 +312,8 @@
                                         <div class="col-md-9">                    
                                             <select name="student_type" class="form-control" >
                                                 <option value="">{{ trans('student::local.select') }}</option>
-                                                <option {{old('student_type',$student->student_type) == 'applicant' ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
-                                                <option {{old('student_type',$student->student_type) == 'student' ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
+                                                <option {{old('student_type',$student->student_type) == trans('student::local.applicant') ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
+                                                <option {{old('student_type',$student->student_type) == trans('student::local.student') ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
                                             </select>
                                             
                                         </div>
@@ -505,6 +512,41 @@
         </div>
       </div>
     </div>  
+
+  
+    
+</div>
+
+<div class="row" >
+    <div class="col-md-2 col-xs-12">
+      <div style="min-height: 300px"></div>
+    </div>
+    <div class="col-md-10 col-xs-12">
+      <div class="card" style="min-height: 200px">
+        <div class="card-content collapse show">
+          <div class="card-body">
+              <h3>{{ trans('student::local.include_statement') }}</h3>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>{{ trans('student::local.year') }}</th>
+                      <th>{{ trans('student::local.grade') }}</th>
+                      <th>{{ trans('student::local.division') }}</th>
+                      <th>{{ trans('student::local.registration_status_id') }}</th>                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                
+                  </tbody>
+                </table>  
+              </div> 
+          </div>
+        </div>
+      </div>
+    </div>  
+
+  
     
 </div>
 @endsection

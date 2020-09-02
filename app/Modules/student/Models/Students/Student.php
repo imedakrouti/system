@@ -77,6 +77,10 @@ class Student extends Model
     {
         return $this->hasMany('Student\Models\Students\Address','student_id');
     }
+    public function getStudentTypeAttribute()
+    {
+        return $this->attributes['student_type'] == 'student' ? trans('student::local.student') : trans('student::local.applicant');
+    }
 
 
 }

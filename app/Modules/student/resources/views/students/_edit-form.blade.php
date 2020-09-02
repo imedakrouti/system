@@ -247,8 +247,8 @@
                     <div class="col-md-9">                    
                         <select name="student_type" class="form-control" required>
                             <option value="">{{ trans('student::local.select') }}</option>
-                            <option {{old('student_type',$student->student_type) == 'applicant' ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
-                            <option {{old('student_type',$student->student_type) == 'student' ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
+                            <option {{old('student_type',$student->student_type) == trans('student::local.applicant') ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
+                            <option {{old('student_type',$student->student_type) == trans('student::local.student') ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
                         </select>
                         <span class="red">{{ trans('student::local.requried') }}</span>
                     </div>

@@ -130,7 +130,7 @@
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
-          <h4 class="center blue"> {{ trans('student::local.sons') }}</h4>                
+          <h3 class="center blue"> {{ trans('student::local.sons') }}</h3>                
           <div class="table-responsive">
             <table class="table">
               <thead>

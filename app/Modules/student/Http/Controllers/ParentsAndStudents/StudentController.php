@@ -33,17 +33,18 @@ class StudentController extends Controller
             $data = Student::with('nationalities','regStatus','division','father','grade')->get();
             return datatables($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('students.edit',$data->id).'">
-                           <i class=" la la-edit"></i>
-                       </a>';
-                            return $btn;
-                    })
                     ->addColumn('studentName',function($data){
                         return $this->getFullStudentName($data);                                         
                     })
+                    ->addColumn('moreBtn',function($data){
+                        return $this->moreBtn($data);                                         
+                    })
                     ->addColumn('studentImage',function($data){
-                        return '<img class=" editable img-responsive student-image" alt="" id="avatar2" src="'.asset('images/imagesProfile/'.authInfo()->image_profile).'" />';                                         
+                        return '<a href="'.route('students.show',$data->id).'">
+                            <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                            src="'.asset('images/imagesProfile/'.authInfo()->image_profile).'" />
+                        </a>';
+                        
                     })
                     ->addColumn('registration_status',function($data){
                         return session('lang') == trans('admin.ar') ? $data->regStatus->ar_name_status:
@@ -51,6 +52,9 @@ class StudentController extends Controller
                     })
                     ->addColumn('religion',function($data){
                         return $this->getReligion($data);     
+                    })
+                    ->addColumn('student_type',function($data){
+                        return $data->student_type == trans('student::local.applicant') ? '<span class="red">'.$data->student_type.'</span>':$data->student_type;     
                     })
                     ->addColumn('grade',function($data){
                         return session('lang') == trans('admin.ar') ? $data->grade->ar_grade_name:
@@ -67,11 +71,43 @@ class StudentController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['action','check','studentName','registration_status','religion','grade','division','studentImage'])
+                    ->rawColumns(['check','studentName','registration_status','religion','grade','student_type',
+                    'division','studentImage','moreBtn'])
                     ->make(true);
         }
         return view('student::students.index',
         ['title'=>trans('student::local.students')]);  
+    }
+
+    private function moreBtn($data)
+    {
+        return $data->student_type == trans('student::local.student')?'
+        <div class="btn-group mr-1 mb-1">
+            <button type="button" class="btn btn-primary"><i class="la la-user"></i> '.trans('student::local.more').'</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="'.route('students.edit',$data->id).'">'.trans('student::local.editing').'</a>
+                <a class="dropdown-item" href="'.route('students.edit',$data->id).'">'.trans('student::local.print_id_card').'</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">'.trans('student::local.add_permission').'</a>
+                <a class="dropdown-item" href="#">'.trans('student::local.add_parent_request').'</a>
+                <a class="dropdown-item" href="#">'.trans('student::local.add_proof_enrollments').'</a>
+                <a class="dropdown-item" href="#">'.trans('student::local.include_statement').'</a>
+            </div>
+        </div>':'
+        <div class="btn-group mr-1 mb-1">
+            <button type="button" class="btn btn-primary"><i class="la la-user"></i> '.trans('student::local.more').'</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="'.route('students.edit',$data->id).'">'.trans('student::local.editing').'</a>                
+            </div>
+        </div>';
     }
 
     private function getFullStudentName($data)
