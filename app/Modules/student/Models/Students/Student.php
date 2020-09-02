@@ -22,6 +22,7 @@ class Student extends Model
         'second_lang_id',
         'term',
         'dob',
+        'code',
         'reg_type',
         'grade_id',
         'division_id',

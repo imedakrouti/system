@@ -34,6 +34,7 @@
                 </h2> 
               </div>
             <div class="col-md-12">
+                <a href="{{route('student.create',$student->father_id)}}" class="mb-1 btn btn-success white"><i class="la la-plus"></i> {{ trans('student::local.add_sibling') }}</a>
                 <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit') }}</a>
                 <a href="#" class="mb-1 btn btn-info white"><i class="la la-archive"></i> {{ trans('student::local.archive') }}</a>
                 <a href="#" class="mb-1 btn btn-info white"><i class="la la-cc-visa"></i> {{ trans('student::local.payments') }}</a>                

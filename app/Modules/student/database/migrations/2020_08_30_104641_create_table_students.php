@@ -21,6 +21,7 @@ class CreateTableStudents extends Migration
             $table->string('ar_student_name',20);
             $table->string('en_student_name',20);
             $table->string('id_number',15)->unique();
+            $table->integer('code');
             $table->enum('id_type',['national_id','passport'])->default('national_id');
             $table->string('student_number',15)->unique();
             $table->enum('gender',['male','female'])->default('male');

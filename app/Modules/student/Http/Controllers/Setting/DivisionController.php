@@ -16,7 +16,7 @@ class DivisionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Division::latest();
+            $data = Division::sort()->get();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){

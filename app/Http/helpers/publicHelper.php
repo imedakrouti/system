@@ -89,7 +89,7 @@ if (!function_exists('getYearAcademic')) {
 		
 		if ($year != null) {
 			$date = \DateTime::createFromFormat("Y-m-d",$year->start_from);
-			return $date->format("Y");			
+			return $date->format("y");			
 		}
 		return '0000';
 	}

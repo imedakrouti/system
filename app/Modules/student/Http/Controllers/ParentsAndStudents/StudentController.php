@@ -99,8 +99,8 @@ class StudentController extends Controller
             </div>
         </div>':'
         <div class="btn-group mr-1 mb-1">
-            <button type="button" class="btn btn-primary"><i class="la la-user"></i> '.trans('student::local.more').'</button>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+            <button type="button" class="btn btn-secondary"><i class="la la-user"></i> '.trans('student::local.more').'</button>
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -205,6 +205,7 @@ class StudentController extends Controller
             'place_birth',
             'return_country',
             'registration_status_id',
+            'code',
         ];
     }
     private function medicalAttributes()
@@ -242,7 +243,10 @@ class StudentController extends Controller
     {
         DB::transaction(function () use ($request) {            
             $student = $request->user()->students()->create($request->only($this->studentAttributes()) 
-            + ['student_number'=>$this->studentNumber(), 'year_id' => currentYear()]);  
+            + [
+                'student_number'=> $this->studentNumber(),
+                'code'          => $this->studentCode(),
+                'year_id'       => currentYear()]);  
             
             $this->studentAdmissionSteps($student->id);
             
@@ -288,12 +292,19 @@ class StudentController extends Controller
     }
     private function studentNumber()
     {
-        $student_id = Student::where([
-            'year_id'       => currentYear(),
-            'division_id'   => request('division_id'),
-            'grade_id'      => request('grade_id')            
-        ])->count('id');
+        $student_id = $this->studentCode();
+        
         return getYearAcademic().request('division_id').$student_id;
+        
+    }
+    private function studentCode()
+    {
+        $studentCode = Student::where([
+            'year_id'      => currentYear(),
+            'division_id'  => request('division_id'),            
+        ])->max('code')+1;
+        
+        return $studentCode;
         
     }
     private function studentAddresses($student_id)
