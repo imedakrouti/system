@@ -450,7 +450,7 @@ return [
     'stu_division_id_required'      => 'يجب تحديد القسم الاكاديمي',
     'stu_application_date_required' => 'يجب ادخال تاريخ فتح الملف',
     'stu_reg_status_id_required'    => 'يجب تحديد حالة التسجيل',
-    '' => '',
+    'student_guardians'             => 'الموصي عليهم',
     '' => '',
     '' => '',
     '' => '',

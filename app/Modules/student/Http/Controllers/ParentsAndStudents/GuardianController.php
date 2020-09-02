@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Student\Models\Guardians\Guardian;
 use Student\Http\Requests\GuardianRequest;
+use Student\Models\Students\Student;
 
 class GuardianController extends Controller
 {
@@ -25,6 +26,9 @@ class GuardianController extends Controller
                        </a>';
                             return $btn;
                     })
+                    ->addColumn('guardian_full_name',function($data){
+                        return '<a href="'.route('guardians.show.students',$data->id).'">'.$data->guardian_full_name.'</a>';
+                    })
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
                                         <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -32,7 +36,7 @@ class GuardianController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['action','check'])
+                    ->rawColumns(['action','check','guardian_full_name'])
                     ->make(true);
         }
         return view('student::guardians.index',['title'=>trans('student::local.guardians')]);   
@@ -134,5 +138,14 @@ class GuardianController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function guardiansShowStudents($id)
+    {
+        $guardian = Guardian::findOrFail($id);
+        $students = Student::with('guardian')->where('guardian_id',$id)->get();
+ 
+        $title = trans('student::local.student_guardians');
+        return view('student::guardians.students-guardians',
+        compact('title','students','guardian'));
     }
 }

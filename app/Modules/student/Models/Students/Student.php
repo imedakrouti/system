@@ -82,6 +82,9 @@ class Student extends Model
     {
         return $this->attributes['student_type'] == 'student' ? trans('student::local.student') : trans('student::local.applicant');
     }
-
+    public function guardian()
+    {
+        return $this->belongsTo('Student\Models\Guardians\Guardian','guardian_id');
+    }
 
 }

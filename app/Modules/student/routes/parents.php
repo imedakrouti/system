@@ -19,4 +19,5 @@
 
      Route::resource('/guardians','GuardianController')->except('destroy');
      Route::post('/guardians/destroy','GuardianController@destroy')->name('guardians.destroy');
+     Route::get('/guardians/show/students/{id}','GuardianController@guardiansShowStudents')->name('guardians.show.students');
 });

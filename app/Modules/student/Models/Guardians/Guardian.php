@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Guardian extends Model
 {
+    protected $table= 'guardians';
     protected $fillable = 
     [
         'guardian_full_name' ,   
@@ -29,5 +30,9 @@ class Guardian extends Model
     {
         return $this->attributes['guardian_id_type'] == 'national_id' ? trans('student::local.national_id'):
         trans('student::local.passport');
+    }
+    public function students()
+    {
+        return $this->hasMany('Student\Models\Students\Student','guardian_id');
     }
 }

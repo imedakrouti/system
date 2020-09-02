@@ -41,6 +41,7 @@
                                 <th>{{trans('student::local.student_image')}}</th>
                                 <th>{{trans('student::local.application_date')}}</th>                                                                
                                 <th>{{trans('student::local.student_name')}}</th>
+                                <th>{{trans('student::local.student_number')}}</th>
                                 <th>{{trans('student::local.student_type')}}</th>
                                 <th>{{trans('student::local.registration_status')}}</th>
                                 <th>{{trans('student::local.religion')}}</th>
@@ -79,6 +80,7 @@
               {data: 'studentImage',        name: 'studentImage'},
               {data: 'application_date',    name: 'application_date'},
               {data: 'studentName',         name: 'studentName'},
+              {data: 'student_number',      name: 'student_number'},
               {data: 'student_type',        name: 'student_type'},
               {data: 'registration_status', name: 'registration_status'},
               {data: 'religion',            name: 'religion'},              
