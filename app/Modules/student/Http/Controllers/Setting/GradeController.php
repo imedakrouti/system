@@ -16,7 +16,7 @@ class GradeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Grade::latest();
+            $data = Grade::sort()->get();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){

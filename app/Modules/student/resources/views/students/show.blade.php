@@ -144,8 +144,7 @@
                                             @foreach ($mothers as $mother)
                                                 <option {{old('mother_id',$student->mother_id) == $mother->id ?'selected' : ''}} value="{{$mother->id}}">{{$mother->full_name}}</option>
                                             @endforeach
-                                        </select>
-                                        <span class="red">{{ trans('student::local.requried') }}</span>
+                                        </select>                                        
                                     </div>
                                     </div>
                                 </div>  

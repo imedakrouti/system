@@ -27,4 +27,8 @@ class AdmissionDoc extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function docsGrade()
+    {
+        return $this->hasMany('Student\Models\Settings\DocumentGrade','admission_document_id');
+    }
 }

@@ -315,12 +315,15 @@ class StudentController extends Controller
 
             foreach (request('repeater-group') as $address) {                 
                 foreach ($address as $value) {
-                    DB::table('student_address')->insert(
-                        [
-                            'full_address'  => $value,
-                            'student_id'    => $student_id,
-                            'admin_id'      => authInfo()->id
-                        ]);                                
+                    if (!empty($value)) {
+                        DB::table('student_address')->insert(
+                            [
+                                'full_address'  => $value,
+                                'student_id'    => $student_id,
+                                'admin_id'      => authInfo()->id
+                            ]); 
+                    }
+                                                  
                 }
             }            
         }        

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Student\Models\Settings\AdmissionDoc;
 use Student\Models\Settings\Grade;
 use DB;
+use Student\Models\Students\Student;
 
 class DocGradesController extends Controller
 {
@@ -155,10 +156,14 @@ class DocGradesController extends Controller
     }
     public function getDocumentSelected()
     {        
-        $id = request()->get('id');        
+        $id = request()->get('id');      
+        $student = Student::findOrFail($id);
         $output = "";
+
         
-        $admissionDocuments = AdmissionDoc::all();
+        $admissionDocuments = AdmissionDoc::with('docsGrade')->whereHas('docsGrade',function($q) use ($student){
+            $q->where('grade_id',$student->grade_id);
+        })->get();        
         foreach ($admissionDocuments as $document) {
             
             $document_id = DB::table('student_doc_delivers')->select('admission_document_id')
@@ -166,7 +171,7 @@ class DocGradesController extends Controller
             
             $documentValue = !empty($document_id->admission_document_id)?
             $document_id->admission_document_id:0;
-            
+            // dd($document_id);
             $checked = $document->id == $documentValue ?"checked":"";
             $documentName = session('lang')== trans('admin.ar')?$document->ar_document_name:
             $document->en_document_name;
