@@ -310,17 +310,18 @@ class StudentController extends Controller
     private function studentAddresses($student_id)
     {        
         if (request()->has('repeater-group')) {  
+            
             DB::table('student_address')->where('student_id',$student_id)->delete();
 
-            foreach (request('repeater-group') as $value) {                                    
-                if (!empty($value['full_address'])) {
+            foreach (request('repeater-group') as $address) {                 
+                foreach ($address as $value) {
                     DB::table('student_address')->insert(
                         [
-                            'full_address'  => $value['full_address'],
+                            'full_address'  => $value,
                             'student_id'    => $student_id,
                             'admin_id'      => authInfo()->id
-                        ]);
-                }             
+                        ]);                                
+                }
             }            
         }        
     }
