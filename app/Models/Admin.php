@@ -158,4 +158,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Students\Medical','admin_id');
     }
+    public function contacts()
+    {
+        return $this->hasMany('Student\Models\Parents\Contact','admin_id');
+    }
 }

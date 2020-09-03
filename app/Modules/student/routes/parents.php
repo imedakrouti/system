@@ -16,8 +16,14 @@
      Route::post('/parents/mothers/update/{id}','ParentController@updateMother')->name('mothers.update');
      Route::get('/parents/mothers/add-wife/{id}','ParentController@addHusband')->name('mothers.addHusband');
      Route::post('/parents/mothers/add-wife','ParentController@storeHusband')->name('addHusband.store');
-
+    // Guardian
      Route::resource('/guardians','GuardianController')->except('destroy');
      Route::post('/guardians/destroy','GuardianController@destroy')->name('guardians.destroy');
      Route::get('/guardians/show/students/{id}','GuardianController@guardiansShowStudents')->name('guardians.show.students');
+
+    // Contacts
+    Route::resource('/contacts','ContactController')->except('destroy','show','create','index');
+    Route::get('/contacts/index/{id}','ContactController@index')->name('contacts.index');
+    Route::get('/contacts/create/{id}','ContactController@create')->name('contacts.create');
+    Route::post('/contacts/destroy','ContactController@destroy')->name('contacts.destroy');
 });
