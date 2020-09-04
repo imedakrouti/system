@@ -8,6 +8,7 @@ class Meeting extends Model
 {
     protected $fillable = [
         'father_id',        
+        'interview_id',        
         'start',
         'end',
         'meeting_status',
@@ -21,6 +22,10 @@ class Meeting extends Model
     public function fathers()
     {
         return $this->belongsTo('Student\Models\Parents\Father','father_id');
+    }
+    public function interviews()
+    {
+        return $this->belongsTo('Student\Models\Settings\Interview','interview_id');
     }
     public function getMeetingStatusAttribute()
     {

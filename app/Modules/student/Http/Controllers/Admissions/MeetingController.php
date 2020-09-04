@@ -6,6 +6,7 @@ use App\Http\Requests\MeetingRequest;
 use Student\Models\Admissions\Meeting;
 use Illuminate\Http\Request;
 use Student\Models\Parents\Father;
+use Student\Models\Settings\Interview;
 
 class MeetingController extends Controller
 {
@@ -17,7 +18,7 @@ class MeetingController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Meeting::with('fathers')->latest();
+            $data = Meeting::with('fathers','interviews')->latest();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
@@ -29,6 +30,10 @@ class MeetingController extends Controller
                     ->addColumn('father_name',function($data){
                         return $this-> getFatherName($data);
                     })
+                    ->addColumn('interview_id',function($data){
+                        return session('lang') == trans('admin.ar') ? $data->interviews->ar_name_interview :
+                        $data->interviews->en_name_interview;
+                    })
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
                                         <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -36,7 +41,7 @@ class MeetingController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['action','check','father_name'])
+                    ->rawColumns(['action','check','father_name','interview_id'])
                     ->make(true);
         }
         return view('student::admissions.interviews-dates.index',['title'=>trans('student::local.interviews_dates')]);
@@ -87,13 +92,16 @@ class MeetingController extends Controller
     public function create()
     {
         $fathers = Father::all();
+        $interviews = Interview::all();
+        $title = trans('student::local.new_interview');
         return view('student::admissions.interviews-dates.create',
-        ['title'=>trans('student::local.new_interview'),'fathers'=>$fathers]);
+        compact('fathers','interviews','title'));
     }
     private function attributes()
     {
         return [
             'father_id',            
+            'interview_id',            
             'start',
             'end',
             'meeting_status',

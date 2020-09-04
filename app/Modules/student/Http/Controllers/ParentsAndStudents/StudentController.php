@@ -83,7 +83,7 @@ class StudentController extends Controller
     {
         return $data->student_type == trans('student::local.student')?'
         <div class="btn-group mr-1 mb-1">
-            <button type="button" class="btn btn-primary"><i class="la la-user"></i> '.trans('student::local.more').'</button>
+            <button type="button" class="btn btn-primary"> '.trans('student::local.more').'</button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>

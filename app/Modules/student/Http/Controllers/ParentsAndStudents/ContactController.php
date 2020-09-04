@@ -58,7 +58,7 @@ class ContactController extends Controller
             'relative_mobile',
             'relative_notes',
             'relative_relation',
-            'father_id'            
+            'father_id',         
         ];
     }
     /**
@@ -69,6 +69,7 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request)
     {
+        // dd(request('father_id'));
         $request->user()->contacts()->create($request->only($this->attributes()));        
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('contacts.index',$request->father_id);

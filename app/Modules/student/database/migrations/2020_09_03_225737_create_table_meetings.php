@@ -19,6 +19,8 @@ class CreateTableMeetings extends Migration
             $table->enum('meeting_status',['done','canceled','pending'])->default('pending');
             $table->datetime('start');
             $table->datetime('end');
+            $table->unsignedBigInteger('interview_id');
+            $table->foreign('interview_id')->references('id')->on('interviews')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('father_id');
             $table->foreign('father_id')->references('id')->on('fathers')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('admin_id');

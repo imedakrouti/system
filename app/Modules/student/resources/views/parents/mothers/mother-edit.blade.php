@@ -219,7 +219,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
                       </button>
-                    <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('parents.index')}}';">
+                    <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('mother.show',$mother->id)}}';">
                     <i class="ft-x"></i> {{ trans('admin.cancel') }}
                   </button>
                 </div>

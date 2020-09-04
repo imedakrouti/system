@@ -42,6 +42,19 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.type_interview') }}</label>
+                        <div class="col-md-9">
+                          <select name="interview_id" class="form-control" required>
+                              @foreach ($interviews as $interview)
+                                  <option {{old('interview_id') == $interview->id ? 'selected' :''}} value="{{$interview->id}}">{{$interview->ar_name_interview}}</option>
+                              @endforeach
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>
+                        </div>
+                      </div>
+                  </div>                    
+                    <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
                           <div class="col-md-9">                            

@@ -76,6 +76,7 @@
               {data: 'start',               name: 'start'},
               {data: 'end',                 name: 'end'}, 
               {data: 'meeting_status',      name: 'meeting_status'}, 
+              {data: 'interview_id',        name: 'interview_id'}, 
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')

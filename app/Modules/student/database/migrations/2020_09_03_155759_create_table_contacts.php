@@ -20,7 +20,7 @@ class CreateTableContacts extends Migration
             $table->string('relative_notes')->nullable();
             $table->enum('relative_relation',['grand_pa','grand_ma','uncle','aunt','neighbor','other']);
             $table->unsignedBigInteger('father_id');
-            $table->foreign('father_id')->references('id')->on('fathers')->on('students')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('father_id')->references('id')->on('fathers')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();

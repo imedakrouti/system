@@ -32,6 +32,7 @@
                                                 <th>{{trans('student::local.father_name')}}</th>
                                                 <th>{{trans('student::local.start_time')}}</th>                                                
                                                 <th>{{trans('student::local.end_time')}}</th>                                                
+                                                <th>{{trans('student::local.type_interview')}}</th>
                                                 <th>{{trans('student::local.status')}}</th>
                                                 <th>{{trans('student::local.edit')}}</th>
                                             </tr>

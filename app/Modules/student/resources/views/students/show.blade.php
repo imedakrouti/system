@@ -33,22 +33,30 @@
                     | <a href="{{route('mother.show',$student->mother_id)}}">{{$student->mother->full_name}}</a>  
                 </h2> 
               </div>
-              
-            <div class="col-md-12">
-                <a href="{{route('student.create',$student->father_id)}}" class="mb-1 btn btn-success white"><i class="la la-plus"></i> {{ trans('student::local.add_sibling') }}</a>
-                <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit') }}</a>
-                <a href="{{route('contacts.index',$student->father_id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
+              <div class="col-md-12">
+                <div class="btn-group">
+                    <a href="{{route('student.create',$student->father_id)}}" class="mb-1 btn btn-success white"><i class="la la-plus"></i> {{ trans('student::local.add_sibling') }}</a>
+                    <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit') }}</a>
+                    <a href="{{route('contacts.index',$student->father_id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
+                    <a href="#" class="mb-1 btn btn-primary white"><i class="la la-reorder"></i> {{ trans('student::local.notes') }}</a>
+                </div>
                 @if ($student->student_type == trans('student::local.student'))                  
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-archive"></i> {{ trans('student::local.archive') }}</a>
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-cc-visa"></i> {{ trans('student::local.payments') }}</a>                
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-book"></i> {{ trans('student::local.books') }}</a>
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-tag"></i> {{ trans('student::local.uniform') }}</a>
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-bed"></i> {{ trans('student::local.absence') }}</a>
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.parent_requests') }}</a>
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.permissions') }}</a>
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-users"></i> {{ trans('student::local.authorizations') }}</a>
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-bus"></i> {{ trans('student::local.buses') }}</a>                
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-bus"></i> {{ trans('student::local.health_status') }}</a>                
+                    <div class="btn-group mr-1 mb-1">
+                        <button type="button" class="btn btn-info btn-min-width dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"> {{ trans('student::local.more') }}</button>
+                        <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.archive') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.payments') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.books') }}</a>                      
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.uniform') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.absence') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.parent_requests') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.permissions') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.authorizations') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.buses') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.health_status') }}</a>                      
+                        </div>
+                    </div>                                 
                 @endif
             </div>
           </div>
