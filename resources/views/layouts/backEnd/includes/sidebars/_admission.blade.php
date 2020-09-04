@@ -14,14 +14,27 @@
             </a>
         </li>        
         {{-- internal addmissions --}}
-        <li class=" nav-item {{request()->segment(2)=='parents'?'active':''}}"><a href="#"><i class="la la-exchange"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.internal_admission') }}</span></a>
-            <ul class="menu-content">
-            <li class="{{request()->segment(2)=='parents'?'active':''}}"><a class="menu-item" href="{{route('parents.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.parents') }}</a></li>           
-            <li class="{{request()->segment(2)=='students'?'active':''}}"><a class="menu-item" href="{{route('students.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.students') }}</a></li>           
-            <li class="{{request()->segment(2)=='guardians'?'active':''}}"><a class="menu-item" href="{{route('guardians.index')}}" data-i18n="nav.dash.ecommerce">{{ trans('admin.guardians') }}</a></li>           
-            
-            </ul>
-        </li>
+
+        <li class=" nav-item {{request()->segment(2)=='parents'?'active':''}}">
+            <a href="{{route('parents.index')}}"><i class="la la-users">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parents') }}</span>
+            </a>
+        </li>  
+        <li class=" nav-item {{request()->segment(2)=='students'?'active':''}}">
+            <a href="{{route('students.index')}}"><i class="la la-graduation-cap">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students') }}</span>
+            </a>
+        </li>  
+        <li class=" nav-item {{request()->segment(2)=='guardians'?'active':''}}">
+            <a href="{{route('guardians.index')}}"><i class="la la-male">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.guardians') }}</span>
+            </a>
+        </li>  
+        <li class=" nav-item {{request()->segment(2)=='meetings'?'active':''}}">
+            <a href="{{route('meetings.index')}}"><i class="la la-calendar-check-o">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.interviews_dates') }}</span>
+            </a>
+        </li>   
         {{-- settings --}}
         <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gear"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">

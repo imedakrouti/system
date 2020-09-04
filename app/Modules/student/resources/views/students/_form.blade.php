@@ -33,7 +33,7 @@
         {{ trans('student::local.more_address') }}</a>
     </li>       
 </ul>
-  <div class="tab-content px-1 pt-1">
+<div class="tab-content px-1 pt-1">
     <div role="tabpanel" class="tab-pane active" id="active1" aria-labelledby="active-tab1"
         aria-expanded="true">
         <div class="row">
@@ -511,4 +511,4 @@
             </button>
           </div>
     </div>         
-  </div>
+</div>

@@ -52,3 +52,10 @@ select.form-control:not([size]):not([multiple]) {
         margin-top: -65px;
     }
 }
+
+.fc-day-grid-event .fc-content {  
+    color: white;
+    font-size: 18px;
+    text-align: right;
+    padding: 7px;
+}

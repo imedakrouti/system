@@ -11,7 +11,6 @@
       <a class="nav-link" id="base-tab3" data-toggle="tab" aria-controls="tab3" href="#tab3"
       aria-expanded="false">{{ trans('student::local.extra_info') }}</a>
     </li>
-
 </ul>
 <div class="tab-content px-1 pt-1">
     <div role="tabpanel" class="tab-pane active" id="tab1" aria-expanded="true" aria-labelledby="base-tab1">
