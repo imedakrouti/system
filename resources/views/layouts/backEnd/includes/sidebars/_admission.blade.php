@@ -35,6 +35,16 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.interviews_dates') }}</span>
             </a>
         </li>   
+        <li class=" nav-item {{request()->segment(2)=='parent-reports'?'active':''}}">
+            <a href="{{route('parent-reports.index')}}"><i class="la la-commenting">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parent_reports') }}</span>
+            </a>
+        </li> 
+        <li class=" nav-item {{request()->segment(2)=='meetings'?'active':''}}">
+            <a href="{{route('student-reports.index')}}"><i class="la la-commenting">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.student_reports') }}</span>
+            </a>
+        </li> 
         {{-- settings --}}
         <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gear"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">

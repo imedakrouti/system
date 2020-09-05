@@ -166,4 +166,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Admissions\Meeting','admin_id');
     }
+    public function reports()
+    {
+        return $this->hasMany('Student\Models\Admissions\AdmissionReport','admin_id');
+    }
 }

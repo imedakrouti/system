@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Student\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MeetingRequest extends FormRequest
+class AdmissionReportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

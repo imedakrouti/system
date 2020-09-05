@@ -47,6 +47,6 @@ class Mother extends Model
     }
     public function students()
     {
-        return $this->hasMany('Student\Models\Students\Student','father_id')->orderBy('dob','asc');
+        return $this->hasMany('Student\Models\Students\Student','mother_id')->orderBy('dob','asc');
     }
 }
