@@ -70,9 +70,13 @@ class MeetingController extends Controller
                         $color = '#28D094';
                         break;
                 }
+                $fatherName = session('lang')==trans('admin.ar') ?
+                $value->fathers->ar_st_name .' '.$value->fathers->ar_nd_name .' '.$value->fathers->ar_rd_name:
+                $value->fathers->en_st_name .' '.$value->fathers->en_nd_name .' '.$value->fathers->en_rd_name ;
+
                 $data[] = array(
                     'id'        => $value->id,
-                    'title'     => $value->fathers->ar_st_name,
+                    'title'     => $fatherName,
                     'start'     => $value->start,
                     'end'       => $value->end,
                     'color'     => $color
@@ -99,8 +103,7 @@ class MeetingController extends Controller
     }
     private function attributes()
     {
-        return [
-            'father_id',            
+        return [            
             'interview_id',            
             'start',
             'end',
@@ -117,9 +120,13 @@ class MeetingController extends Controller
      */
     public function store(MeetingRequest $request)
     {
-        $request->user()->meetings()->create($request->only($this->attributes()));        
+        // dd($request->father_id);
+        foreach ($request->father_id as $fatherId) {
+            $request->user()->meetings()->create($request->only($this->attributes())
+            + ['father_id' => $fatherId]);        
+        }
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('meetings.index');
+        return redirect()->route('meetings.index');            
     }
 
     /**
@@ -166,5 +173,16 @@ class MeetingController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function fatherMeetings($fatherId)
+    {
+        $father = Father::findOrFail($fatherId);
+        $title = trans('student::local.meetings');
+        $meetings =  Meeting::with('fathers','interviews')->whereHas('fathers',function($q) use ($fatherId){
+            $q->where('father_id',$fatherId);
+        })->get();
+
+        return view('student::admissions.interviews-dates.father-meetings',
+        compact('father','title','meetings'));
     }
 }

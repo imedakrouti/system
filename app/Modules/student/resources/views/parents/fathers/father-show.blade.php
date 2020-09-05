@@ -37,7 +37,7 @@
                 <a href="{{route('fathers.addWife',$id)}}" class="mb-1 btn btn-secondary white"><i class="la la-female"></i> {{ trans('student::local.add_mother') }}</a>                
                 <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit_father_data') }}</a>
                 <a href="{{route('contacts.index',$id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
-                <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-primary white"><i class="la la-users"></i> {{ trans('student::local.meetings') }}</a>
+                <a href="{{route('father.meetings',$id)}}" class="mb-1 btn btn-primary white"><i class="la la-users"></i> {{ trans('student::local.meetings') }}</a>
                 <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.acceptance_report') }}</a>
                 <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-dark white"><i class="la la-reorder"></i> {{ trans('student::local.notes') }}</a>
             </div>

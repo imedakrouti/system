@@ -32,9 +32,15 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.father_name') }}</label>
                           <div class="col-md-9">
-                            <select name="father_id" class="form-control select2" required>
+                            <select name="father_id[]" class="form-control select2" required multiple>
                                 @foreach ($fathers as $father)
-                                    <option {{old('father_id') == $father->id ? 'selected' :''}} value="{{$father->id}}">{{$father->ar_st_name}}</option>
+                                    <option {{old('father_id') == $father->id ? 'selected' :''}} value="{{$father->id}}">
+                                    @if (session('lang') == trans('admin.ar'))
+                                      {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
+                                    @else
+                                      {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
+                                    @endif
+                                    </option>
                                 @endforeach
                             </select>
                             <span class="red">{{ trans('student::local.requried') }}</span>
@@ -56,7 +62,7 @@
                   </div>                    
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('student::local.start') }}</label>
                           <div class="col-md-9">                            
                               <input type="datetime-local" name="start" value="{{old('start')}}" class="form-control" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
@@ -65,7 +71,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('student::local.end') }}</label>
                           <div class="col-md-9">                            
                               <input type="datetime-local" name="end" value="{{old('end')}}" class="form-control" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
