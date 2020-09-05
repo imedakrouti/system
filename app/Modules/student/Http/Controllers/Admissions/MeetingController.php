@@ -185,4 +185,37 @@ class MeetingController extends Controller
         return view('student::admissions.interviews-dates.father-meetings',
         compact('father','title','meetings'));
     }
+    public function fatherAttend()
+    {
+        if (request()->ajax()) {
+            if (request()->has('id')) {
+                foreach (request('id') as $id) {                                        
+                    Meeting::where('id',$id)->update(['meeting_status' => 'done']);
+                }
+            }
+        }
+        return response(['status'=>true]);
+    }
+    public function fatherPending()
+    {
+        if (request()->ajax()) {
+            if (request()->has('id')) {
+                foreach (request('id') as $id) {                                        
+                    Meeting::where('id',$id)->update(['meeting_status' => 'pending']);
+                }
+            }
+        }
+        return response(['status'=>true]);
+    }
+    public function fatherCanceled  ()
+    {
+        if (request()->ajax()) {
+            if (request()->has('id')) {
+                foreach (request('id') as $id) {                                        
+                    Meeting::where('id',$id)->update(['meeting_status' => 'canceled']);
+                }
+            }
+        }
+        return response(['status'=>true]);
+    }
 }

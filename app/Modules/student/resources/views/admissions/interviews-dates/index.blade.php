@@ -57,7 +57,7 @@
                 // new btn
                 {
                     "text": "{{trans('student::local.new_meeting')}}",
-                    "className": "btn btn-success buttons-print btn-success mr-1",
+                    "className": "btn btn-success btn-success mr-1",
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('meetings.create')}}";
                         }
@@ -66,7 +66,192 @@
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'meetings.destroy'])
 
                 // default btns
-                @include('layouts.backEnd.includes.datatables._datatableBtn')
+                @include('layouts.backEnd.includes.datatables._datatableBtn'),
+                // attend
+                {
+                    "text": "{{trans('student::local.meeting_done')}}",
+                    "className": "btn btn-success btn-success mr-1",
+                    action : function ( e, dt, node, config ) {
+                      event.preventDefault();
+                      var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
+                      if (itemChecked > 0) {
+                        var form_data = $('#formData').serialize();
+                        swal({
+                            title: "{{trans('student::local.confirm_father_attend')}}",
+                            text: "{{trans('student::local.fathers_attend')}}",
+                            showCancelButton: true,
+                            confirmButtonColor: "#87B87F",
+                            confirmButtonText: "{{trans('msg.yes')}}",
+                            cancelButtonText: "{{trans('msg.no')}}",
+                            closeOnConfirm: false,
+                            },
+                            function() {
+                                $.ajax({
+                                    url:"{{route('father.attend')}}",
+                                    method:"POST",
+                                    data:form_data,
+                                    dataType:"json",
+                                    beforeSend:function(){
+                                        $('.alert-danger ul').empty();
+                                        $('.alert-danger').hide();
+                                    },
+                                    // display succees message
+                                    success:function(data)
+                                    {
+                                        $('.alert-danger').hide();
+                                        $('#dynamic-table').DataTable().ajax.reload();
+                                    },
+                                    // display validations error in page
+                                    error:function(data_error,exception){
+                                        if (exception == 'error'){
+                                            $('.alert-danger').show();
+                                            $.each(data_error.responseJSON.errors,function(index,value){
+                                                $('.alert-danger ul').append("<li>"+ value +"</li>");
+                                            })
+                                        }
+                                        else{
+                                            $('.alert-danger').hide();
+                                        }
+                                    }
+                                })
+                                // display success confirm message
+                                .done(function(data) {
+                                    swal("{{trans('msg.success')}}", "{{trans('student::local.meetings')}}", "success");
+                                })
+                                // display error message
+                                .error(function(data) {
+                                    swal("{{trans('msg.error')}}", "{{trans('msg.fail')}}");
+                                });
+                            }
+                        );
+                      }else{
+                          swal("{{trans('student::local.meeting_confirm')}}", "{{trans('msg.no_records_selected')}}", "info");
+                      }                      
+                     }
+                },                  
+                // pending
+                {
+                    "text": "{{trans('student::local.meeting_pending')}}",
+                    "className": "btn btn-warning btn-success mr-1",
+                    action : function ( e, dt, node, config ) {
+                      var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
+                      if (itemChecked > 0) {
+                        var form_data = $('#formData').serialize();
+                        swal({
+                            title: "{{trans('student::local.confirm_father_pending')}}",
+                            text: "{{trans('student::local.fathers_pending')}}",
+                            showCancelButton: true,
+                            confirmButtonColor: "#87B87F",
+                            confirmButtonText: "{{trans('msg.yes')}}",
+                            cancelButtonText: "{{trans('msg.no')}}",
+                            closeOnConfirm: false,
+                            },
+                            function() {
+                                $.ajax({
+                                    url:"{{route('father.pending')}}",
+                                    method:"POST",
+                                    data:form_data,
+                                    dataType:"json",
+                                    beforeSend:function(){
+                                        $('.alert-danger ul').empty();
+                                        $('.alert-danger').hide();
+                                    },
+                                    // display succees message
+                                    success:function(data)
+                                    {
+                                        $('.alert-danger').hide();
+                                        $('#dynamic-table').DataTable().ajax.reload();
+                                    },
+                                    // display validations error in page
+                                    error:function(data_error,exception){
+                                        if (exception == 'error'){
+                                            $('.alert-danger').show();
+                                            $.each(data_error.responseJSON.errors,function(index,value){
+                                                $('.alert-danger ul').append("<li>"+ value +"</li>");
+                                            })
+                                        }
+                                        else{
+                                            $('.alert-danger').hide();
+                                        }
+                                    }
+                                })
+                                // display success confirm message
+                                .done(function(data) {
+                                    swal("{{trans('msg.success')}}", "{{trans('student::local.meetings')}}", "success");
+                                })
+                                // display error message
+                                .error(function(data) {
+                                    swal("{{trans('msg.error')}}", "{{trans('msg.fail')}}");
+                                });
+                            }
+                        );
+                      }else{
+                          swal("{{trans('student::local.meeting_confirm')}}", "{{trans('msg.no_records_selected')}}", "info");
+                      }                                     
+                     }
+                },
+                // new btn
+                {
+                    "text": "{{trans('student::local.meeting_canceled')}}",
+                    "className": "btn btn-danger btn-success mr-1",
+                    action : function ( e, dt, node, config ) {
+                      var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
+                      if (itemChecked > 0) {
+                        var form_data = $('#formData').serialize();
+                        swal({
+                            title: "{{trans('student::local.confirm_father_canceled')}}",
+                            text: "{{trans('student::local.fathers_canceled')}}",
+                            showCancelButton: true,
+                            confirmButtonColor: "#87B87F",
+                            confirmButtonText: "{{trans('msg.yes')}}",
+                            cancelButtonText: "{{trans('msg.no')}}",
+                            closeOnConfirm: false,
+                            },
+                            function() {
+                                $.ajax({
+                                    url:"{{route('father.canceled')}}",
+                                    method:"POST",
+                                    data:form_data,
+                                    dataType:"json",
+                                    beforeSend:function(){
+                                        $('.alert-danger ul').empty();
+                                        $('.alert-danger').hide();
+                                    },
+                                    // display succees message
+                                    success:function(data)
+                                    {
+                                        $('.alert-danger').hide();
+                                        $('#dynamic-table').DataTable().ajax.reload();
+                                    },
+                                    // display validations error in page
+                                    error:function(data_error,exception){
+                                        if (exception == 'error'){
+                                            $('.alert-danger').show();
+                                            $.each(data_error.responseJSON.errors,function(index,value){
+                                                $('.alert-danger ul').append("<li>"+ value +"</li>");
+                                            })
+                                        }
+                                        else{
+                                            $('.alert-danger').hide();
+                                        }
+                                    }
+                                })
+                                // display success confirm message
+                                .done(function(data) {
+                                    swal("{{trans('msg.success')}}", "{{trans('student::local.doneAccept')}}", "success");
+                                })
+                                // display error message
+                                .error(function(data) {
+                                    swal("{{trans('msg.error')}}", "{{trans('msg.fail')}}");
+                                });
+                            }
+                        );
+                      }else{
+                          swal("{{trans('student::local.meeting_confirm')}}", "{{trans('msg.no_records_selected')}}", "info");
+                      }                          
+                    }
+                },
+                                              
             ],
           ajax: "{{ route('meetings.index') }}",
           columns: [
@@ -84,6 +269,7 @@
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });
 </script>
+
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection
 
