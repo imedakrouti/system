@@ -162,11 +162,22 @@ class ParentReportController extends Controller
         return response(['status'=>true]);
     }
     public function parentReportPdf($id)
-    {        
-        $fileBladePath = 'student::admissions.parents-reports.pdf-report';        
-        $data =AdmissionReport::with('admin','fathers')->findOrFail($id);
-        
-        $titleFile = 'title file';
+    {              
+        $fileBladePath = 'student::admissions.parents-reports.pdf-report';   
+
+        $fatherId = AdmissionReport::findOrFail($id)->father_id;
+
+        $data['reports'] = AdmissionReport::with('admin','fathers')->findOrFail($id);
+
+        $data['mothers'] = Mother::with('fathers','students')
+        ->whereHas('fathers',function($q) use ($fatherId){
+            $q->where('father_id',$fatherId);
+        })
+        ->whereHas('students',function($q) use ($fatherId){
+            $q->where('father_id',$fatherId);
+        })
+        ->get();
+        $titleFile = 'Parent Report';
         $display = 'stream';
         $filename = 'trial.pdf';
         $rtl = true;
