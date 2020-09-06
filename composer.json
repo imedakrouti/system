@@ -17,8 +17,7 @@
         "uxweb/sweet-alert": "^2.0",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
-    "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.4",
+    "require-dev": {        
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.9.1",
         "laravel/ui": "^1.0",
