@@ -21,34 +21,40 @@
       </div>
     </div>
 </div>
-@include('student::admissions.interviews-dates._form')
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard">
+                    <div class="table-responsive">
+                        <form action="" id='formData' method="post">
+                            @csrf
+                            <table id="dynamic-table" class="table data-table" style="width: 100%">
+                                <thead class="bg-info white">
+                                    <tr>
+                                        <th><input type="checkbox" class="ace" /></th>
+                                        <th>#</th>
+                                        <th>{{trans('student::local.father_name')}}</th>
+                                        <th>{{trans('student::local.start_time')}}</th>                                                
+                                        <th>{{trans('student::local.end_time')}}</th>                                                
+                                        <th>{{trans('student::local.type_interview')}}</th>
+                                        <th>{{trans('student::local.status')}}</th>
+                                        <th>{{trans('student::local.edit')}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
 @endsection
 
 @section('script')
-<script src="{{asset('public/cpanel/app-assets/vendors/js/extensions/moment.min.js')}}"></script>
-<script src="{{asset('public/cpanel/app-assets/vendors/js/extensions/fullcalendar.min.js')}}"></script>
-<script>
-
-    $(document).ready(function(){
-
-    /****************************************
-    *				Basic Views				*
-    ****************************************/
-    $('#fc-basic-views').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-        },
-        // defaultDate: '2016-06-12',
-        editable: false,
-        eventLimit: true, // allow "more" link when too many events
-        events: "{{route('show.meetings')}}"
-    });
-
-
-    });
-</script>
 <script>
     $(function () {
         var myTable = $('#dynamic-table').DataTable({
@@ -250,8 +256,7 @@
                           swal("{{trans('student::local.meeting_confirm')}}", "{{trans('msg.no_records_selected')}}", "info");
                       }                          
                     }
-                },
-                                              
+                },                                              
             ],
           ajax: "{{ route('meetings.index') }}",
           columns: [

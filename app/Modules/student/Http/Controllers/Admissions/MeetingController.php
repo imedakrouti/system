@@ -52,41 +52,7 @@ class MeetingController extends Controller
         '<a href="'.route('father.show',$data->father_id).'" >'.$data->fathers->ar_st_name .' '.$data->fathers->ar_nd_name .' '.$data->fathers->ar_rd_name .' '.$data->fathers->ar_th_name .'</a>':
         $data->fathers->en_st_name .' '.$data->fathers->en_nd_name .' '.$data->fathers->en_rd_name .' '.$data->fathers->en_th_name;  
     }
-    public function showMeetings()
-    {
-        if (request()->ajax()) {
-            $data = [];
-            $meetings = Meeting::with('fathers')->get();
-            foreach ($meetings as  $value) {
-                $color = '';
-                switch ($value->meeting_status) {
-                    case trans('student::local.meeting_pending'):
-                        $color = '#FF9149';
-                        break;
-                    case trans('student::local.meeting_canceled'):
-                        $color = '#FF4961';
-                        break;
-                    default:
-                        $color = '#28D094';
-                        break;
-                }
-                $fatherName = session('lang')==trans('admin.ar') ?
-                $value->fathers->ar_st_name .' '.$value->fathers->ar_nd_name .' '.$value->fathers->ar_rd_name:
-                $value->fathers->en_st_name .' '.$value->fathers->en_nd_name .' '.$value->fathers->en_rd_name ;
 
-                $data[] = array(
-                    'id'        => $value->id,
-                    'title'     => $fatherName,
-                    'start'     => $value->start,
-                    'end'       => $value->end,
-                    'color'     => $color
-                   );
-            }
-
-            return json_encode($data);
-        }
-
-    }
 
     /**
      * Show the form for creating a new resource.

@@ -30,19 +30,34 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.guardians') }}</span>
             </a>
         </li>  
+        <li class=" nav-item {{request()->segment(2)=='parwent-reports'?'active':''}}">
+            <a href="{{route('parent-reports.index')}}"><i class="la la-search">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.advanced_search') }}</span>
+            </a>
+        </li> 
         <li class=" nav-item {{request()->segment(2)=='meetings'?'active':''}}">
             <a href="{{route('meetings.index')}}"><i class="la la-calendar-check-o">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.interviews_dates') }}</span>
             </a>
-        </li>   
+        </li>  
+        <li class=" nav-item {{request()->segment(2)=='meetsings'?'active':''}}">
+            <a href="{{route('student-reports.index')}}"><i class="la la-calendar">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.assessment_dates') }}</span>
+            </a>
+        </li>  
         <li class=" nav-item {{request()->segment(2)=='parent-reports'?'active':''}}">
             <a href="{{route('parent-reports.index')}}"><i class="la la-commenting">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parent_reports') }}</span>
             </a>
         </li> 
-        <li class=" nav-item {{request()->segment(2)=='meetings'?'active':''}}">
+        <li class=" nav-item {{request()->segment(2)=='meetinsgs'?'active':''}}">
             <a href="{{route('student-reports.index')}}"><i class="la la-commenting">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.student_reports') }}</span>
+            </a>
+        </li> 
+        <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+            <a href="{{route('calendar.index')}}"><i class="la la-calendar">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.calendar') }}</span>
             </a>
         </li> 
         {{-- settings --}}
