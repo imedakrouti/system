@@ -58,7 +58,14 @@
                                     @else
                                       {{$student->en_student_name}}
                                     @endif
-                                    | <span style="font-size: 18px;">{{$student->division->ar_division_name}} | {{$student->grade->ar_grade_name}}</span> 
+                                    | <span style="font-size: 18px;">
+                                      | <span style="font-size: 18px;">
+                                        @if (session('lang') == trans('admin.ar'))
+                                            {{$student->division->ar_division_name}} | {{$student->grade->ar_grade_name}}
+                                        @else
+                                            {{$student->division->en_division_name}} | {{$student->grade->en_grade_name}}
+                                        @endif
+                                    </span> 
                                   </a> 
                                 </h3>
                               @endforeach
@@ -73,8 +80,8 @@
                 <div class="col-md-12">
                     <div class="form-group row">                          
                         <div class="col-md-12">
-                            <h2 class="purple">{{$report->report_title}}</h2>
-                            <h4>{{$report->report}}</h4>
+                            <h2 class="purple mb-1">{{$report->report_title}}</h2>
+                            <textarea class="form-control f-1" cols="30" readonly rows="30">{{$report->report}}</textarea>
                             <hr>
                         </div>                                                                                                                                                                                    
                     </div>
@@ -90,25 +97,4 @@
       </div>
     </div>
 </div>
-@endsection
-@section('script')
-<script>
-   $(".formData").submit(function(e){
-        event.preventDefault();        
-        swal({
-            title: "{{trans('msg.delete_confirmation')}}",
-            text: "{{trans('student::local.report_delete_ask')}}",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "{{trans('msg.yes')}}",
-            cancelButtonText: "{{trans('msg.no')}}",
-            closeOnConfirm: false
-            },
-            function(){
-                $(".formData").submit();
-        });       
-    });
-</script>
-
 @endsection

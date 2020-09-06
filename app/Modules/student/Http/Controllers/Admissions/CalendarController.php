@@ -29,7 +29,7 @@ class CalendarController extends Controller
 
                 $data[] = array(
                     'id'        => $value->id,
-                    'title'     => $fatherName,
+                    'title'     => $fatherName . ' [ '.trans('student::local.parent').' ]',
                     'start'     => $value->start,
                     'end'       => $value->end,
                     'color'     => $color

@@ -2,7 +2,7 @@
 
 namespace Student\Http\Controllers\Admissions;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MeetingRequest;
+use Student\Http\Requests\MeetingRequest;
 use Student\Models\Admissions\Meeting;
 use Illuminate\Http\Request;
 use Student\Models\Parents\Father;

@@ -50,7 +50,7 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parent_reports') }}</span>
             </a>
         </li> 
-        <li class=" nav-item {{request()->segment(2)=='meetinsgs'?'active':''}}">
+        <li class=" nav-item {{request()->segment(2)=='student-reports'?'active':''}}">
             <a href="{{route('student-reports.index')}}"><i class="la la-commenting">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.student_reports') }}</span>
             </a>
