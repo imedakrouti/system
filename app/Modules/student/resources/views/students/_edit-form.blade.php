@@ -360,7 +360,18 @@
     </div> 
     <div class="tab-pane" id="active4" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
         aria-expanded="false">
-
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group row">
+                  <label class="col-md-4 label-control" >{{ trans('student::local.emp_open_app') }}</label>
+                  <div class="col-md-8">                    
+                    <select name="son_employee" class="form-control">
+                        <option value="">{{ trans('student::local.select') }}</option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <ul style="list-style: none" id="stepId">

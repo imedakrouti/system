@@ -1,9 +1,5 @@
 <?php
 
-use Student\Models\Settings\Year;
-use DateTime;
-use Carbon;
-
 if (!function_exists('aurl')) {
     function aurl($url=null)
     {
@@ -115,8 +111,8 @@ if (!function_exists('fullAcademicYear')) {
 if (!function_exists('getStudentAge')) {
 	function getStudentAge($dob)
 	{
-        $dob_in = Year::current()->first()->start_from;                        
-		$dobObject = new DateTime($dob);		
+        $dob_in = Student\Models\Settings\Year::current()->first()->start_from;                        
+		$dobObject = new \DateTime($dob);		
 		$now = new \Carbon\Carbon($dob_in);
 		$thisYear   = $now->year;
 		$nowObject = Carbon\Carbon::create( $thisYear,10, 1 , 0, 0, 0);

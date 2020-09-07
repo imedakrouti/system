@@ -177,6 +177,7 @@ class StudentController extends Controller
         return [
             'father_id',
             'mother_id',
+            'employee_id',
             'student_type',
             'ar_student_name',
             'en_student_name',

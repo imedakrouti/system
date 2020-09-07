@@ -425,20 +425,31 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group row">
-                                    <label class="col-md-4 label-control">{{ trans('student::local.application_date') }}</label>
-                                    <div class="col-md-8">
-                                        <input type="date" class="form-control " value="{{old('application_date',$student->application_date)}}" placeholder="{{ trans('student::local.application_date') }}"
-                                        name="application_date"  disabled>
-                                        
-                                    </div>
+                                        <label class="col-md-4 label-control">{{ trans('student::local.application_date') }}</label>
+                                        <div class="col-md-8">
+                                            <input type="date" class="form-control " value="{{old('application_date',$student->application_date)}}" placeholder="{{ trans('student::local.application_date') }}"
+                                            name="application_date"  disabled>                                        
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                      <label class="col-md-4 label-control" >{{ trans('student::local.emp_open_app') }}</label>
+                                      <div class="col-md-8">                    
+                                        <select name="son_employee" class="form-control">
+                                            <option value="">{{ trans('student::local.select') }}</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="row">
+                                <div class="col-md-4">
                                     <ul style="list-style: none" id="stepId" disabled>
                                      
                                     </ul>
                                 </div>
-                            </div>                          
+                            </div>                      
                         </div>       
                         <div class="tab-pane" id="active5" role="tabpanel" aria-labelledby="dropdownOpt1-tab1"
                             aria-expanded="false">
