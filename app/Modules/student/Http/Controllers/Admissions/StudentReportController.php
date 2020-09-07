@@ -187,4 +187,16 @@ class StudentReportController extends Controller
 
         PDF_Converter::getPDFFile($fileBladePath,$data,$titleFile,$display,$filename,$rtl);
     }
+    public function studentReport($studentId)
+    {        
+        $student = Student::findOrFail($studentId);
+        $title = trans('student::local.student_reports');
+        $reports =  AdmissionReport::with('students','admin')->whereHas('students',function($q) use ($studentId){
+            $q->where('student_id',$studentId);
+        })->get();
+
+
+        return view('student::admissions.students-reports.student-report',
+        compact('student','title','reports'));
+    }    
 }
