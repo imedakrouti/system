@@ -39,8 +39,8 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.advanced_search') }}</span>
             </a>
         </li> 
-        <li class=" nav-item {{request()->segment(2)=='guardians'?'active':''}}">
-            <a href="{{route('guardians.index')}}"><i class="la la-calculator">
+        <li class=" nav-item {{request()->segment(2)=='calculate-student-age'?'active':''}}">
+            <a href="{{route('calculate.age')}}"><i class="la la-calculator">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.calculate_student_page') }}</span>
             </a>
         </li>          

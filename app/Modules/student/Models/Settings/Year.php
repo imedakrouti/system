@@ -16,4 +16,8 @@ class Year extends Model
     {
         return $this->attributes['status'] == 'current' ? trans('student::local.current') : trans('student::local.not_current');
     }
+    public function scopeCurrent($q)
+    {
+        return $q->where('status','current');
+    }
 }

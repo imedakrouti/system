@@ -1,5 +1,9 @@
 <?php
 
+use Student\Models\Settings\Year;
+use DateTime;
+use Carbon;
+
 if (!function_exists('aurl')) {
     function aurl($url=null)
     {
@@ -92,5 +96,35 @@ if (!function_exists('getYearAcademic')) {
 			return $date->format("y");			
 		}
 		return '0000';
+	}
+}
+if (!function_exists('fullAcademicYear')) {
+	function fullAcademicYear()
+	{
+		$year =  \Student\Models\Settings\Year::where('status','current')->first();	
+		
+		if ($year != null) {
+			$date = \DateTime::createFromFormat("Y-m-d",$year->start_from);
+			return $year->name;		
+		}
+		return 'none';
+	}
+}
+
+// calculate student age
+if (!function_exists('getStudentAge')) {
+	function getStudentAge($dob)
+	{
+        $dob_in = Year::current()->first()->start_from;                        
+		$dobObject = new DateTime($dob);		
+		$now = new \Carbon\Carbon($dob_in);
+		$thisYear   = $now->year;
+		$nowObject = Carbon\Carbon::create( $thisYear,10, 1 , 0, 0, 0);
+		$diff = $dobObject->diff($nowObject);
+		$data['dd'] = $diff->d;
+		$data['mm'] = $diff->m;
+		$data['yy'] = $diff->y;
+
+		return $data;
 	}
 }
