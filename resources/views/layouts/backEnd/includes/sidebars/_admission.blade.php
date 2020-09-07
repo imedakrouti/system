@@ -1,20 +1,24 @@
 <div class="main-menu menu-dark menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true">
     <div class="main-menu-content">
       <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+          {{-- back --}}
+          <li class=" nav-item">
+              <a href="{{route('main.dashboard')}}"><i class="la la-undo">
+                  </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.main_departments') }}</span>
+              </a>
+          </li>        
         {{-- dashboard --}}
         <li class=" nav-item {{request()->segment(2)=='dashboard'?'active':''}}">
             <a href="{{route('dashboard.admission')}}"><i class="la la-home">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.dashboard') }}</span>
             </a>
         </li>
-        {{-- dashboard --}}
-        <li class=" nav-item">
-            <a href="{{route('main.dashboard')}}"><i class="la la-undo">
-                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.main_departments') }}</span>
+        <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+            <a href="{{route('calendar.index')}}"><i class="la la-calendar">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.calendar') }}</span>
             </a>
-        </li>        
+        </li>         
         {{-- internal addmissions --}}
-
         <li class=" nav-item {{request()->segment(2)=='parents'?'active':''}}">
             <a href="{{route('parents.index')}}"><i class="la la-users">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parents') }}</span>
@@ -35,13 +39,18 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.advanced_search') }}</span>
             </a>
         </li> 
+        <li class=" nav-item {{request()->segment(2)=='guardians'?'active':''}}">
+            <a href="{{route('guardians.index')}}"><i class="la la-calculator">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.calculate_student_page') }}</span>
+            </a>
+        </li>          
         <li class=" nav-item {{request()->segment(2)=='meetings'?'active':''}}">
-            <a href="{{route('meetings.index')}}"><i class="la la-calendar-check-o">
+            <a href="{{route('meetings.index')}}"><i class="la la-clock-o">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.interviews_dates') }}</span>
             </a>
         </li>  
         <li class=" nav-item {{request()->segment(2)=='meetsings'?'active':''}}">
-            <a href="{{route('student-reports.index')}}"><i class="la la-calendar">
+            <a href="{{route('student-reports.index')}}"><i class="la la-clock-o">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.assessment_dates') }}</span>
             </a>
         </li>  
@@ -55,11 +64,7 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.student_reports') }}</span>
             </a>
         </li> 
-        <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-            <a href="{{route('calendar.index')}}"><i class="la la-calendar">
-                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.calendar') }}</span>
-            </a>
-        </li> 
+
         {{-- settings --}}
         <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gear"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">

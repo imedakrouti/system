@@ -121,7 +121,7 @@ return
     'calendar'                              => 'التقويم',
     'assessment_dates'                      => 'مواعيد اختبار التقييم',
     'advanced_search'                       => 'بحث متقدم',
-    '' => '',
+    'calculate_student_page'                => 'حساب عمر الطالب',
     '' => '',
     '' => '',
     '' => '',
