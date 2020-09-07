@@ -21,6 +21,7 @@ Route::group(['namespace'=>'Admissions'],function(){
     Route::resource('/student-reports','StudentReportController')->except('destroy');
     Route::post('/student-reports/destroy','StudentReportController@destroy')->name('student-reports.destroy');    
     Route::get('/student-reports/pdf/{id}','StudentReportController@studentReportPdf')->name('student-reports.pdf');    
-    Route::get('/student-reports/student/{id}','StudentReportController@studentReport')->name('student.report');    
-
+    Route::get('/student-reports/student/{id}','StudentReportController@studentReport')->name('student.report');   
+    
+    
 });

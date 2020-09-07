@@ -11,11 +11,5 @@ class DashboardController extends Controller
     {
         return view('layouts.backEnd.dashboards.dashboard',['title'=>trans('admin.dashboard')]);
     }
-    public function admission()
-    {
-        /**
-         * including all statistics for admissions and students
-         */
-        return view('student::dashboard._admission',['title'=>trans('admin.admissions')]);
-    }
+
 }

@@ -11,11 +11,14 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
             require 'setting.php';
         });
         
+        require 'dashboard.php';
         require 'age.php';
         require 'parents.php';
         require 'students.php';
         require 'admissions/admissionRoutes.php';
-        require 'studentsAffairs/studentRoutes.php';        
+        require 'studentsAffairs/studentRoutes.php';    
+        
+  
     });
 });
 
