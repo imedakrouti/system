@@ -62,3 +62,9 @@ select.form-control:not([size]):not([multiple]) {
 .f-1{
     font-size: 18px;;
 }
+.dark{
+    background-color: #2C303B;
+    /* opacity: 0.9; */
+    color: #fff;
+}
+.dark > h4{color: #fff;}

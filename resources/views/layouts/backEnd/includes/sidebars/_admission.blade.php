@@ -34,8 +34,8 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.guardians') }}</span>
             </a>
         </li>  
-        <li class=" nav-item {{request()->segment(2)=='parwent-reports'?'active':''}}">
-            <a href="{{route('parent-reports.index')}}"><i class="la la-search">
+        <li class=" nav-item {{request()->segment(2)=='advanced-search'?'active':''}}">
+            <a href="{{route('advanced.search')}}"><i class="la la-search">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.advanced_search') }}</span>
             </a>
         </li> 

@@ -498,7 +498,7 @@
                 <div class="form-group row">
                   <label class="col-md-3 label-control">{{ trans('student::local.recognition') }}</label>
                   <div class="col-md-9">                    
-                      <select name="recognition" class="form-control" required>
+                      <select name="recognition" class="form-control">
                           <option value="">{{ trans('student::local.select') }}</option>
                           <option {{old('recognition') == 'facebook' ?'selected':''}} value="facebook">{{ trans('student::local.fb') }}</option>
                           <option {{old('recognition') == 'parent' ?'selected':''}} value="parent">{{ trans('student::local.parent') }}</option>                                

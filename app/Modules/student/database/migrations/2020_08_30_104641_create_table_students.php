@@ -20,9 +20,9 @@ class CreateTableStudents extends Migration
             $table->enum('student_type',['applicant','student'])->default('applicant');
             $table->string('ar_student_name',20);
             $table->string('en_student_name',20);
-            $table->string('id_number',15)->unique();
+            $table->string('student_id_number',15)->unique();
             $table->integer('code');
-            $table->enum('id_type',['national_id','passport'])->default('national_id');
+            $table->enum('student_id_type',['national_id','passport'])->default('national_id');
             $table->string('student_number',15)->unique();
             $table->enum('gender',['male','female'])->default('male');
             $table->unsignedBigInteger('nationality_id');

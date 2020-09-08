@@ -15,7 +15,7 @@ class AddColumnEmployeeOpenAddmission extends Migration
     public function up()
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->unsignedBigInteger('employee_id')->Nullable();
+            $table->unsignedBigInteger('employee_id')->nullable();
         });
     }
 
