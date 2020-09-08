@@ -71,8 +71,15 @@
         <div class="card-content collapse show">
           <div class="card-body">
               <div class="row">
-                <div class="col-md-12">                
-                    <img class="editable img-responsive" alt="Alex's Avatar" id="avatar2" src="{{asset('images/imagesProfile/'.authInfo()->image_profile)}}" />
+                <div class="col-md-12">      
+                    @empty($student->student_image)
+                    <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
+                    src="{{asset('storage/student_image/stu.jpg')}}" />
+                    @else
+
+                    <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
+                    src="{{asset('storage/student_image/'.$student->student_image)}}" />
+                    @endempty          
                 </div>                
               </div>
               <hr>

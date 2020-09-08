@@ -89,10 +89,10 @@
                 <div class="form-group row">
                 <label class="col-md-3 label-control">{{ trans('student::local.id_type') }}</label>
                 <div class="col-md-9">                    
-                    <select name="id_type" class="form-control" required>
+                    <select name="student_id_type" class="form-control" required>
                         <option value="">{{ trans('student::local.select') }}</option>
-                        <option {{old('id_type') == 'national_id' ?'selected':''}} value="national_id">{{ trans('student::local.national_id') }}</option>
-                        <option {{old('id_type') == 'passport' ?'selected':''}} value="passport">{{ trans('student::local.passport') }}</option>                                
+                        <option {{old('student_id_type') == 'national_id' ?'selected':''}} value="national_id">{{ trans('student::local.national_id') }}</option>
+                        <option {{old('student_id_type') == 'passport' ?'selected':''}} value="passport">{{ trans('student::local.passport') }}</option>                                
                     </select>
                     <span class="red">{{ trans('student::local.requried') }}</span>
                 </div>

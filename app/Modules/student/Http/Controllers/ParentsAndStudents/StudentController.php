@@ -22,6 +22,7 @@ use Student\Models\Students\Address;
 class StudentController extends Controller
 {
     private $father_id;
+    private $student_image;
     /**
      * Display a listing of the resource.
      *
@@ -40,11 +41,7 @@ class StudentController extends Controller
                         return $this->moreBtn($data);                                         
                     })
                     ->addColumn('studentImage',function($data){
-                        return '<a href="'.route('students.show',$data->id).'">
-                            <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                            src="'.asset('images/imagesProfile/'.authInfo()->image_profile).'" />
-                        </a>';
-                        
+                        return $this->studentImage($data);                        
                     })
                     ->addColumn('registration_status',function($data){
                         return session('lang') == trans('admin.ar') ? $data->regStatus->ar_name_status:
@@ -77,6 +74,18 @@ class StudentController extends Controller
         }
         return view('student::students.index',
         ['title'=>trans('student::local.students')]);  
+    }
+    private function studentImage($data)
+    {
+        return !empty($data->student_image)?
+            '<a href="'.route('students.show',$data->id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset('storage/student_image/'.$data->student_image).'" />
+            </a>':
+            '<a href="'.route('students.show',$data->id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset('storage/student_image/stu.jpg').'" />
+            </a>';
     }
 
     private function moreBtn($data)
@@ -193,8 +202,7 @@ class StudentController extends Controller
             'dob',
             'reg_type',
             'grade_id',
-            'division_id',
-            'student_image',
+            'division_id',            
             'submitted_application',
             'submitted_name',
             'submitted_id_number',
@@ -242,9 +250,11 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
-        DB::transaction(function () use ($request) {            
+        DB::transaction(function () use ($request) {        
+            $this->uploadStudentImage();
             $student = $request->user()->students()->create($request->only($this->studentAttributes()) 
             + [
+                'student_image' => $this->student_image,
                 'student_number'=> $this->studentNumber(),
                 'code'          => $this->studentCode(),
                 'year_id'       => currentYear()]);  
@@ -254,9 +264,26 @@ class StudentController extends Controller
             $this->studentDeliverDocuments($student->id);                    
             
             $this->studentAddresses($student->id);
+
+ 
         });      
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('father.show',$request->father_id);
+    }
+    private function uploadStudentImage()
+    {
+        if (request()->hasFile('student_image'))
+        {
+
+            $student_image = request('student_image');
+            
+            $fileName = $student_image->getClientOriginalName();            
+            
+            $imagePath = request()->file('student_image')->store('public/student_image');
+            $imagePath = explode('/',$imagePath);
+            $imagePath = $imagePath[2];                
+            $this->student_image = empty($imagePath)?'':$imagePath;
+        } 
     }
     private function studentAdmissionSteps($student_id)
     {              
@@ -393,8 +420,10 @@ class StudentController extends Controller
      */
     public function update(StudentRequest $request, Student $student)
     {            
-        DB::transaction(function () use ($request,$student) {            
-            $student->update($request->only($this->studentAttributes()));
+        DB::transaction(function () use ($request,$student) {  
+            $this->uploadStudentImage();          
+            $student->update($request->only($this->studentAttributes())
+            + ['student_image' => $this->student_image]);
             
             $this->studentAdmissionSteps($student->id);
             

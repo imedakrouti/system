@@ -68,3 +68,6 @@ select.form-control:not([size]):not([multiple]) {
     color: #fff;
 }
 .dark > h4{color: #fff;}
+.student-image-profile{
+    width: 200px;height: 190px;border-radius: 25%;border:1px solid #d1d2d5;
+}
