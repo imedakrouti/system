@@ -36,11 +36,10 @@ class SettingController extends Controller
             if(File::exists($image_path)) {
                 File::delete($image_path);
             }
-            $logo = request('logo');
-            $fileName = time().'-'.$logo->getClientOriginalName();
-            $location = public_path('images/website');
-            $logo->move($location,$fileName);
-            $data['logo'] = $fileName;
+            $imagePath = request()->file('logo')->store('public/logo');
+            $imagePath = explode('/',$imagePath);
+            $imagePath = $imagePath[2];                        
+            $data['logo'] = $imagePath;
         }
         if (request()->hasFile('icon'))
         {

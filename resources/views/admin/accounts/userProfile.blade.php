@@ -39,7 +39,8 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.imageProfile') }}</label>
                           <div class="col-md-9">
-                            <img class="editable img-responsive" alt="Alex's Avatar" id="avatar2" src="{{asset('images/imagesProfile/'.authInfo()->image_profile)}}" />
+                            <img class="editable img-responsive" alt="Alex's Avatar" id="avatar2"                             
+                            src="{{ asset('storage/imageProfile/'.authInfo()->image_profile) }}" />
                             <input  type="file" name="image_profile"/>
                           </div>
                         </div>

@@ -140,12 +140,14 @@ class AdminController extends Controller
                 File::delete($image_path);
             }
             $image_profile = request('image_profile');
-            // dd($image_profile);
-            $fileName = time().'-'.$image_profile->getClientOriginalName();
-            $location = public_path('images/imagesProfile');
-
-            $image_profile->move($location,$fileName);
-            $data['image_profile'] = $fileName;
+            
+            $fileName = $image_profile->getClientOriginalName();            
+            
+            $imagePath = request()->file('image_profile')->store('public/imageProfile');
+            $imagePath = explode('/',$imagePath);
+            $imagePath = $imagePath[2];
+                        
+            $data['image_profile'] = $imagePath;
         }
 
         Admin::where('id',authInfo()->id)->update($data);
