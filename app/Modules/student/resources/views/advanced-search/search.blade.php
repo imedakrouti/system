@@ -154,6 +154,11 @@
 @section('script')
 
     <script>
+        $(document).on('keypress',function(e) {
+            if(e.which == 13) {
+                find();
+            }
+        });    
        function find()
             {   $('#result').removeClass('hidden');
                 $('#dynamic-table').DataTable().destroy();

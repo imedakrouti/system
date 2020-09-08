@@ -339,7 +339,7 @@ class StudentController extends Controller
     {
         $title = trans('student::local.show_student_data');
         $nationalities = Nationality::sort()->get();
-        $speakingLangs = Language::sort()->where('lang_type','speak')->get();
+        $speakingLangs = Language::sort()->where('lang_type','<>','study')->get();
         $studyLangs = Language::sort()->where('lang_type','<>','speak')->get();
         $regStatus = RegistrationStatus::sort()->get();
         $divisions = Division::sort()->get();
@@ -369,7 +369,7 @@ class StudentController extends Controller
         })->get();
                 
         $nationalities = Nationality::sort()->get();
-        $speakingLangs = Language::sort()->where('lang_type','speak')->get();
+        $speakingLangs = Language::sort()->where('lang_type','<>','study')->get();
         $studyLangs = Language::sort()->where('lang_type','<>','speak')->get();
         $regStatus = RegistrationStatus::sort()->get();
         $divisions = Division::sort()->get();
@@ -586,25 +586,28 @@ class StudentController extends Controller
                     return $this->getFatherName($data);
                 })
                 ->addColumn('registration_status',function($data){
-                    return session('lang') == trans('admin.ar') ? $data->ar_name_status:
-                    $data->en_name_status;
+                    return session('lang') == trans('admin.ar') ? $data->ar_name_status:$data->en_name_status;
                 })
                 ->addColumn('religion',function($data){
                     return $this->getReligion($data);     
                 })
+                ->addColumn('reg_type',function($data){
+                    return $this->regType($data);     
+                })                
                 ->addColumn('student_type',function($data){
-                    return $data->student_type == trans('student::local.applicant') ? '<span class="red">'.$data->student_type.'</span>':$data->student_type;     
+                    return $data->student_type == 'applicant'? trans('student::local.applicant').'</span>':trans('student::local.student');     
+                })
+                ->addColumn('student_id_type',function($data){
+                    return $data->student_id_type == 'passport' ?  trans('student::local.passport'): trans('student::local.national_id');     
                 })
                 ->addColumn('grade',function($data){
-                    return session('lang') == trans('admin.ar') ? $data->ar_grade_name:
-                    $data->en_grade_name;
+                    return session('lang') == trans('admin.ar') ? $data->ar_grade_name:$data->en_grade_name;
                 })
                 ->addColumn('division',function($data){
-                    return session('lang') == trans('admin.ar') ? $data->ar_division_name:
-                    $data->en_division_name;
+                    return session('lang') == trans('admin.ar') ? $data->ar_division_name: $data->en_division_name;
                 })                
                 ->rawColumns(['check','father_name','studentImage','registration_status','religion','student_type',
-                'grade','division','student_name'])
+                'grade','division','student_name','reg_type','student_id_type'])
                 ->make(true);
         }
         private function getFatherName($data)
@@ -612,5 +615,24 @@ class StudentController extends Controller
             return session('lang') == trans('admin.ar') ?
             '<a href="'.route('father.show',$data->father_id).'">'.$data->ar_st_name .' '.$data->ar_nd_name .' '.$data->ar_rd_name .' '.$data->ar_th_name.'</a>'  :
             '<a href="'.route('father.show',$data->father_id).'">'.$data->en_st_name .' '.$data->en_nd_name .' '.$data->en_rd_name .' '.$data->en_th_name.'</a>';  
+        }
+        private function regType($data)
+        {
+            $regType = '';
+            switch ($data->reg_type) {
+                case 'return':
+                    $regType = trans('student::local.return');
+                    break;
+                case 'arrival':
+                    $regType = trans('student::local.arrival');
+                    break;
+                case 'noob':
+                    $regType = trans('student::local.noob');
+                    break;                                        
+                default:
+                $regType = trans('student::local.transfer');
+                    break;
+            }
+            return $regType;
         }
 }
