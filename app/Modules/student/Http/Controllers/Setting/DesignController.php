@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use File;
 use Student\Models\Settings\Design;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Student\Http\Requests\DesignRequest;
 use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
@@ -66,27 +67,22 @@ class DesignController extends Controller
     {
         $fileName = '';           
         $designImage = !empty($design) ? $design : '';    
-     
+       
         if (request()->has('design_name'))
         {
-            if (!empty($designImage)) {
-                $image_path = public_path("/images/designs/".$designImage->design_name);
-                
-                if(File::exists($image_path)) {
-                    File::delete($image_path);
-                }
+            if (!empty($designImage)) {                                
+                Storage::delete('public/id-designs/'.$designImage->design_name);    
             }
             
-            $design_name = request('design_name');
-            $fileName = time().'-'.$design_name->getClientOriginalName();
-            
-            $location = public_path('images/designs');
-            
-            $design_name->move($location,$fileName);
-            $data['design_name'] = $fileName;
+            $imagePath = request()->file('design_name')->store('public/id-designs');
+          
+            $imagePath = explode('/',$imagePath);
+            $imagePath = $imagePath[2];
+                        
+            $data['design_name'] = $imagePath;
         }                          
         
-        return empty($fileName) ? $designImage->design_name : $fileName ;
+        return $imagePath ;
     }
 
     /**
@@ -131,11 +127,9 @@ class DesignController extends Controller
     public function destroy($id)
     {
         $design = Design::findOrFail($id);        
-        $image_path = public_path("/images/designs/".$design->design_name);
-
-        if(File::exists($image_path)) {
-            File::delete($image_path);
-        }
+        
+        Storage::delete('public/id-designs/'.$design->design_name);    
+  
         $design->delete();
         toast(trans('msg.delete_successfully'),'success');
         return redirect()->route('id-designs.index');       

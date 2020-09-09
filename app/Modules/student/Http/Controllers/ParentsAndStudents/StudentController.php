@@ -17,6 +17,8 @@ use Student\Models\Settings\School;
 use Student\Models\Settings\Step;
 use Student\Models\Students\Student;
 use DB;
+use File;
+use Illuminate\Support\Facades\Storage;
 use Student\Models\Students\Address;
 
 class StudentController extends Controller
@@ -251,7 +253,7 @@ class StudentController extends Controller
     public function store(StudentRequest $request)
     {
         DB::transaction(function () use ($request) {        
-            $this->uploadStudentImage();
+            $this->uploadStudentImage($request->id);
             $student = $request->user()->students()->create($request->only($this->studentAttributes()) 
             + [
                 'student_image' => $this->student_image,
@@ -270,18 +272,17 @@ class StudentController extends Controller
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('father.show',$request->father_id);
     }
-    private function uploadStudentImage()
+    private function uploadStudentImage($studentId)
     {
         if (request()->hasFile('student_image'))
         {
-
-            $student_image = request('student_image');
-            
-            $fileName = $student_image->getClientOriginalName();            
+            $imageName = Student::findOrFail($studentId)->student_image;
+            Storage::delete('public/student_image/'.$imageName);                                             
             
             $imagePath = request()->file('student_image')->store('public/student_image');
             $imagePath = explode('/',$imagePath);
-            $imagePath = $imagePath[2];                
+            $imagePath = $imagePath[2];     
+                       
             $this->student_image = empty($imagePath)?'':$imagePath;
         } 
     }
@@ -421,7 +422,7 @@ class StudentController extends Controller
     public function update(StudentRequest $request, Student $student)
     {            
         DB::transaction(function () use ($request,$student) {  
-            $this->uploadStudentImage();          
+            $this->uploadStudentImage($student->id);        
             $student->update($request->only($this->studentAttributes())
             + ['student_image' => $this->student_image]);
             

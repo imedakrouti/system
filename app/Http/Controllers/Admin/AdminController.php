@@ -6,6 +6,7 @@ use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -134,14 +135,8 @@ class AdminController extends Controller
         if (request()->hasFile('image_profile'))
         {
             // remove old image
-            $image_path = public_path("/images/imagesProfile/".authInfo()->image_profile);
-            // return dd($image_path);
-            if(File::exists($image_path)) {
-                File::delete($image_path);
-            }
-            $image_profile = request('image_profile');
             
-            $fileName = $image_profile->getClientOriginalName();            
+            Storage::delete('public/imageProfile/'.authInfo()->image_profile);                             
             
             $imagePath = request()->file('image_profile')->store('public/imageProfile');
             $imagePath = explode('/',$imagePath);

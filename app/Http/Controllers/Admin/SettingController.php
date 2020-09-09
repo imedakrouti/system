@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -30,12 +31,8 @@ class SettingController extends Controller
 
         if (request()->hasFile('logo'))
         {
-            // remove old image
-            $image_path = public_path("/images/website/".settingHelper()->logo);
-            // return dd($image_path);
-            if(File::exists($image_path)) {
-                File::delete($image_path);
-            }
+            // remove old image           
+            Storage::delete('public/logo/'.settingHelper()->logo);
             $imagePath = request()->file('logo')->store('public/logo');
             $imagePath = explode('/',$imagePath);
             $imagePath = $imagePath[2];                        
@@ -43,17 +40,12 @@ class SettingController extends Controller
         }
         if (request()->hasFile('icon'))
         {
-            // remove old image
-            $image_path = public_path("/images/website/".settingHelper()->icon);
-            // return dd($image_path);
-            if(File::exists($image_path)) {
-                File::delete($image_path);
-            }
-            $icon = request('icon');
-            $fileName = time().'-'.$icon->getClientOriginalName();
-            $location = public_path('images/website');
-            $icon->move($location,$fileName);
-            $data['icon'] = $fileName;
+            // remove old image           
+            Storage::delete('public/icon/'.settingHelper()->icon);
+            $imagePath = request()->file('icon')->store('public/icon');
+            $imagePath = explode('/',$imagePath);
+            $imagePath = $imagePath[2];                        
+            $data['icon'] = $imagePath;
         }
         unset($data["/admin/setting"]);
         // update settings
