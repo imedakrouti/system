@@ -44,7 +44,7 @@
                                     
                                 </p>
 
-                                <form action="{{route('id-designs.destroy',$design->id)}}" method="post" class="formData">
+                                <form action="{{route('id-designs.destroy',$design->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')                                    
                                     <a href="{{route('id-designs.edit',$design->id)}}"class="btn btn-warning btn-sm ">{{ trans('student::local.editing') }}</a>
@@ -71,30 +71,4 @@
       </div>
     </div>
 </div>
-@endsection
-@section('script')
-<script>
-   $(".formData").submit(function(e){
-        event.preventDefault();        
-        swal({
-            title: "{{trans('msg.delete_confirmation')}}",
-            text: "{{trans('student::local.design_delete_ask')}}",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "{{trans('msg.yes')}}",
-            cancelButtonText: "{{trans('msg.no')}}",
-            closeOnConfirm: false
-            },
-            function(){
-                $(".formData").submit();
-        });       
-    });
-
-    $("#filter").click(function() {
-       $('#formSearch').submit();
-    });
-
-</script>
-
 @endsection
