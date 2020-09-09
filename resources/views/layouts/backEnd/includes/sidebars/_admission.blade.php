@@ -50,8 +50,8 @@
             </a>
         </li>  
         <li class=" nav-item {{request()->segment(2)=='meetsings'?'active':''}}">
-            <a href="{{route('student-reports.index')}}"><i class="la la-clock-o">
-                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.assessment_dates') }}</span>
+            <a href="{{route('student-reports.index')}}"><i class="la la-check">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.assessment_results') }}</span>
             </a>
         </li>  
         <li class=" nav-item {{request()->segment(2)=='parent-reports'?'active':''}}">

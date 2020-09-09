@@ -24,7 +24,16 @@ class AdmissionReportRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'report_title'      => 'required',
+            'report'            => 'required'            
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'report_title.required'   => trans('student::local.report_title_required'),
+            'report.required'         => trans('student::local.report_required'),
+            
         ];
     }
 }
