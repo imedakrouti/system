@@ -4,7 +4,7 @@ namespace Student\Http\Controllers\Admissions;
 use App\Http\Controllers\Controller;
 
 use Student\Models\Admissions\AdmissionReport;
-use App\Http\Traits\PDF_Converter;
+use PDF;
 use Student\Http\Requests\AdmissionReportRequest;
 use Student\Models\Parents\Mother;
 use Student\Models\Students\Student;
@@ -179,13 +179,11 @@ class StudentReportController extends Controller
             $q->where('father_id',$fatherId);
         })
         ->get();
-        $titleFile = 'Parent Report';
-        $display = 'stream';
-        $filename = 'trial.pdf';
-        $rtl = true;
-        
+        $data['title'] = 'Student Report';        
+        $filename = 'student-report.pdf';
 
-        PDF_Converter::getPDFFile($fileBladePath,$data,$titleFile,$display,$filename,$rtl);
+        $pdf = PDF::loadView('student::admissions.students-reports.pdf-report', $data);
+		return $pdf->stream( $filename);
     }
     public function studentReport($studentId)
     {        

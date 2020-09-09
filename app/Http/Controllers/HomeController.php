@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Traits\PDF_Converter;
 use Illuminate\Http\Request;
 use Student\Models\Settings\Grade;
+use PDF;
 
 class HomeController extends Controller
 {
@@ -14,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -27,16 +28,13 @@ class HomeController extends Controller
         return view('home');
     }
     public function testExportPdf()
-    {
-        $fileBladePath = 'test-pdf';
-        $data = Grade::all();
-        $titleFile = 'title file';
-        $display = 'stream';
-        $filename = 'trial.pdf';
-        $rtl = true;
-        
+    {  
 
-        PDF_Converter::getPDFFile($fileBladePath,$data,$titleFile,$display,$filename,$rtl);
+        $data = [
+			'foo' => 'bar'
+		];
+		$pdf = PDF::loadView('test-pdf', $data);
+		return $pdf->stream('test-pdf');
     }
 
 }

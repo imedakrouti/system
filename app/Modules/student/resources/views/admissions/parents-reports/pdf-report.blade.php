@@ -19,7 +19,6 @@
         @endforeach        
     </ol>
 
-
     <hr>
     <h4 >{{$reports->report}}</h4>    
     @include('layouts.backEnd.layout-report.footer')

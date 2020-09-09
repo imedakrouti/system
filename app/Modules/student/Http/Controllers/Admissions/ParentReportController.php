@@ -4,7 +4,7 @@ namespace Student\Http\Controllers\Admissions;
 use App\Http\Controllers\Controller;
 
 use Student\Models\Admissions\AdmissionReport;
-use App\Http\Traits\PDF_Converter;
+use PDF;
 use Student\Http\Requests\AdmissionReportRequest;
 use Student\Models\Parents\Father;
 use Student\Models\Parents\Mother;
@@ -177,13 +177,11 @@ class ParentReportController extends Controller
             $q->where('father_id',$fatherId);
         })
         ->get();
-        $titleFile = 'Parent Report';
-        $display = 'stream';
-        $filename = 'trial.pdf';
-        $rtl = true;
-        
+        $data['title'] = 'Parent Report';        
+        $filename = 'parent-report.pdf';
 
-        PDF_Converter::getPDFFile($fileBladePath,$data,$titleFile,$display,$filename,$rtl);
+        $pdf = PDF::loadView('student::admissions.parents-reports.pdf-report', $data);
+		return $pdf->stream( $filename);
     }
     public function fatherReport($fatherId)
     {
