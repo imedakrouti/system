@@ -175,9 +175,15 @@
                 <div class="form-group row">
                 <label class="col-md-3 label-control">{{ trans('student::local.dob') }}</label>
                 <div class="col-md-9">
-                    <input type="date" class="form-control " value="{{old('dob')}}" placeholder="{{ trans('student::local.dob') }}"
+                    <input type="date" class="form-control" id="dob" value="{{old('dob')}}" placeholder="{{ trans('student::local.dob') }}"
                     name="dob" required>
                     <span class="red">{{ trans('student::local.requried') }}</span>
+                    <input type="text" class="age-display" value="0" id="dd" readonly>
+                    <span>{{ trans('student::local.dd') }}</span>
+                    <input type="text" class="age-display" value="0" id="mm" readonly>
+                    <span>{{ trans('student::local.mm') }}</span>
+                    <input type="text" class="age-display" value="0" id="yy" readonly>
+                    <span>{{ trans('student::local.yy') }}</span>
                 </div>
                 </div>
             </div>

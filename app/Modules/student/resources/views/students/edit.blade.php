@@ -92,4 +92,43 @@ $(document).ready(function(){
 </script>
 <script src="{{asset('public/cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
 <script src="{{asset('public/cpanel/app-assets/js/scripts/forms/form-repeater.js')}}"></script>
+@section('script')
+    <script>
+      $('#dob').on('change',function(){        
+        var dob    = $('#dob').val();
+        $.ajax({
+          type:'POST',
+          url:'{{route("student.age")}}',
+          data: {
+              _method     : 'PUT',
+              dob         : dob,              
+              _token      : '{{ csrf_token() }}'
+          },
+          success:function(response){
+            $('#dd').val(response.data.dd);
+            $('#mm').val(response.data.mm);
+            $('#yy').val(response.data.yy);            
+          }
+        })
+      })    
+      $(document).ready(function(){
+        (function(){
+          var dob    = "{{$student->dob}}";
+              $.ajax({
+                type:'POST',
+                url:'{{route("student.age")}}',
+                data: {
+                    _method     : 'PUT',
+                    dob         : dob,              
+                    _token      : '{{ csrf_token() }}'
+                },
+                success:function(response){
+                  $('#dd').val(response.data.dd);
+                  $('#mm').val(response.data.mm);
+                  $('#yy').val(response.data.yy);            
+                }
+              })
+        }())
+      })      
+    </script>
 @endsection

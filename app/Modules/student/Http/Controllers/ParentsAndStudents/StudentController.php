@@ -17,13 +17,15 @@ use Student\Models\Settings\School;
 use Student\Models\Settings\Step;
 use Student\Models\Students\Student;
 use DB;
-use File;
 use Illuminate\Support\Facades\Storage;
 use Student\Models\Students\Address;
 
 class StudentController extends Controller
 {
     private $father_id;
+    private $dd;
+    private $mm;
+    private $yy;
     private $student_image;
     /**
      * Display a listing of the resource.
@@ -252,6 +254,15 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
+        if ($this->checkAgeForGrade() == 'older' ) {
+            return back()->withInput()->with('error',trans('student::local.older_message'));            
+        }
+        if ($this->checkAgeForGrade() == 'smaller' ) {
+            return back()->withInput()->with('error',trans('student::local.smaller_message'));            
+        }
+        if ($this->checkAgeForGrade() == 'invalid' ) {
+            return back()->withInput()->with('error',trans('student::local.invalid_message'));            
+        }
         DB::transaction(function () use ($request) {        
             $this->uploadStudentImage($request->id);
             $student = $request->user()->students()->create($request->only($this->studentAttributes()) 
@@ -266,8 +277,6 @@ class StudentController extends Controller
             $this->studentDeliverDocuments($student->id);                    
             
             $this->studentAddresses($student->id);
-
- 
         });      
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('father.show',$request->father_id);
@@ -458,7 +467,6 @@ class StudentController extends Controller
         }
         return response(['status'=>true]);
     }
-
     public function advancedSearchPage()
     {     
         $nationalities = Nationality::sort()->get();        
@@ -481,188 +489,219 @@ class StudentController extends Controller
         return ' SELECT * FROM full_student_data WHERE ar_student_name <> "" ';
     }
     public function search()
-        {            
-            // filer
-                $filter         = array();
-                $attribute      = array();
+    {            
+        // filer
+            $filter         = array();
+            $attribute      = array();
 
-                if (!empty(request('student_id_type'))) {
-                    $filter[] = request('student_id_type');
-                    $attribute[] = 'student_id_type';
-                }
-                if (!empty(request('gender'))) {
-                    $filter[] = request('gender');
-                    $attribute[] = 'gender';
-                }
-                if (!empty(request('student_type'))) {
-                    $filter[] = request('student_type');
-                    $attribute[] = 'student_type';
-                }
-                if (!empty(request('reg_type'))) {
-                    $filter[] = request('reg_type');
-                    $attribute[] = 'reg_type';
-                }
-                if (!empty(request('registration_status_id'))) {
-                    $filter[] = request('registration_status_id');
-                    $attribute[] = 'registration_status_id';
-                }
-                if (!empty(request('educational_mandate'))) {
-                    $filter[] = "'" .request('educational_mandate') ."'";
-                    $attribute[] = 'educational_mandate';
-                }
-                if (!empty(request('division_id'))) {
-                    $filter[] = "'" .request('division_id') ."'";
-                    $attribute[] = 'division_id';
-                }
-                if (!empty(request('grade_id'))) {
-                    $filter[] = "'" .request('grade_id') ."'";
-                    $attribute[] = 'grade_id';
-                }
-                if (!empty(request('term'))) {
-                    $filter[] = "'" .request('term') ."'";
-                    $attribute[] = 'term';
-                }
-                if (!empty(request('school_id'))) {
-                    $filter[] = "'" .request('school_id') ."'";
-                    $attribute[] = 'school_id';
-                }
-                if (!empty(request('second_lang_id'))) {
-                    $filter[] = "'" .request('second_lang_id') ."'";
-                    $attribute[] = 'second_lang_id';
-                }
-                if (!empty(request('recognition'))) {
-                    $filter[] = "'" .request('recognition') ."'";
-                    $attribute[] = 'recognition';
-                }
-            // end filter
-                
-            // set = or Null
-                $filterCounter = count($filter);
-                $orderBy = ' order by full_student_data.ar_student_name asc';
-                $factor = array();
-
-                if (isset($filter[0])) {$factor[0] = $filter[0] == 'Null'? $attribute[0].' is ' . $filter[0]: $attribute[0].' = ' . $filter[0];}
-                if (isset($filter[1])) {$factor[1] = $filter[1] == 'Null'? $attribute[1].' is ' . $filter[1]: $attribute[1].' = ' . $filter[1];}
-                if (isset($filter[2])) {$factor[2] = $filter[2] == 'Null'? $attribute[2].' is ' . $filter[2]: $attribute[2].' = ' . $filter[2];}
-                if (isset($filter[3])) {$factor[3] = $filter[3] == 'Null'? $attribute[3].' is ' . $filter[3]: $attribute[3].' = ' . $filter[3];}
-                if (isset($filter[4])) {$factor[4] = $filter[4] == 'Null'? $attribute[4].' is ' . $filter[4]: $attribute[4].' = ' . $filter[4];}
-                if (isset($filter[5])) {$factor[5] = $filter[5] == 'Null'? $attribute[5].' is ' . $filter[5]: $attribute[5].' = ' . $filter[5];}
-                if (isset($filter[6])) {$factor[6] = $filter[6] == 'Null'? $attribute[6].' is ' . $filter[6]: $attribute[6].' = ' . $filter[6];}
-                if (isset($filter[7])) {$factor[7] = $filter[7] == 'Null'? $attribute[7].' is ' . $filter[7]: $attribute[7].' = ' . $filter[7];}
-                if (isset($filter[8])) {$factor[8] = $filter[8] == 'Null'? $attribute[8].' is ' . $filter[8]: $attribute[8].' = ' . $filter[8];}
-                if (isset($filter[9])) {$factor[9] = $filter[9] == 'Null'? $attribute[9].' is ' . $filter[9]: $attribute[9].' = ' . $filter[9];}
-                if (isset($filter[10])) {$factor[10] = $filter[10] == 'Null'? $attribute[10].' is ' . $filter[10]: $attribute[10].' = ' . $filter[10];}
-                if (isset($filter[11])) {$factor[11] = $filter[11] == 'Null'? $attribute[11].' is ' . $filter[11]: $attribute[11].' = ' . $filter[11];}
-               
-                $where = '';
-                $sqlWhere = '';
-                $searchWord = empty( request('inputSearch'))? 'null':request('inputSearch');
-                
-                $searchWord = str_replace('\'', '"', $searchWord);
-                for ($i=0; $i < $filterCounter ; $i++) {
-                    $where .=  ' and '. $factor[$i];
-                }
-                // field search
-                if (request()->has('field')) {
-                    $filedSearch = request('field');
-                    
-                    $filedSearchCount = count(request('field'));
-                    $logicFactor = $filedSearchCount == 1 ? '' : ' or ';
-                   
-                    $sqlWhere .= ' and (';
-                    // set like or =
-                    $sql_like = '';
-                    for ($i=0; $i < $filedSearchCount ; $i++) {
-                        if ($filedSearch[$i] == 'student_number') {
-                            $sql_like = " = " . $searchWord ;
-                        }
-                        elseif ($filedSearch[$i] == 'student_id_number') {
-                            $sql_like = " = " . $searchWord ;
-                        }
-                        elseif ($filedSearch[$i] == 'id_number') {
-                            $sql_like = " = " . $searchWord ;
-                        }  
-                        elseif ($filedSearch[$i] == 'id_number_m') {
-                            $sql_like = " = " . $searchWord ;
-                        }                                                 
-                        else{
-                            $sql_like = " like '%" . $searchWord . "%'";
-                        }
-                        $sqlWhere .= $logicFactor . '' . $filedSearch[$i] . $sql_like;
-                    }
-                    $sqlWhere .= ')';
-                }
-                $sql = $where . $sqlWhere . $orderBy;
-                $sql = str_replace('( or', '(', $sql);
-                $data = DB::select($this->returnDataQuery() . $sql) ;
-              
-               
-            // end set = or Null
-
-            return datatables($data)
-                ->addIndexColumn()                
-                ->addColumn('check', function($data){
-                    $btnCheck = '<label class="pos-rel">
-                                 <input type="checkbox" class="ace" name="id[]" />
-                                 <span class="lbl"></span>
-                             </label>';
-                     return $btnCheck;
-                })
-                ->addColumn('student_name',function($data){
-                    $studentName = session('lang') == trans('admin.ar') ? $data->ar_student_name:$data->en_student_name;
-                    return '<a href="'.route('students.show',$data->student_id).'">'.$studentName.'</a>';
-                })                
-                ->addColumn('father_name',function($data){
-                    return $this->getFatherName($data);
-                })
-                ->addColumn('registration_status',function($data){
-                    return session('lang') == trans('admin.ar') ? $data->ar_name_status:$data->en_name_status;
-                })
-                ->addColumn('religion',function($data){
-                    return $this->getReligion($data);     
-                })
-                ->addColumn('reg_type',function($data){
-                    return $this->regType($data);     
-                })                
-                ->addColumn('student_type',function($data){
-                    return $data->student_type == 'applicant'? trans('student::local.applicant').'</span>':trans('student::local.student');     
-                })
-                ->addColumn('student_id_type',function($data){
-                    return $data->student_id_type == 'passport' ?  trans('student::local.passport'): trans('student::local.national_id');     
-                })
-                ->addColumn('grade',function($data){
-                    return session('lang') == trans('admin.ar') ? $data->ar_grade_name:$data->en_grade_name;
-                })
-                ->addColumn('division',function($data){
-                    return session('lang') == trans('admin.ar') ? $data->ar_division_name: $data->en_division_name;
-                })                
-                ->rawColumns(['check','father_name','studentImage','registration_status','religion','student_type',
-                'grade','division','student_name','reg_type','student_id_type'])
-                ->make(true);
-        }
-        private function getFatherName($data)
-        {
-            return session('lang') == trans('admin.ar') ?
-            '<a href="'.route('father.show',$data->father_id).'">'.$data->ar_st_name .' '.$data->ar_nd_name .' '.$data->ar_rd_name .' '.$data->ar_th_name.'</a>'  :
-            '<a href="'.route('father.show',$data->father_id).'">'.$data->en_st_name .' '.$data->en_nd_name .' '.$data->en_rd_name .' '.$data->en_th_name.'</a>';  
-        }
-        private function regType($data)
-        {
-            $regType = '';
-            switch ($data->reg_type) {
-                case 'return':
-                    $regType = trans('student::local.return');
-                    break;
-                case 'arrival':
-                    $regType = trans('student::local.arrival');
-                    break;
-                case 'noob':
-                    $regType = trans('student::local.noob');
-                    break;                                        
-                default:
-                $regType = trans('student::local.transfer');
-                    break;
+            if (!empty(request('student_id_type'))) {
+                $filter[] = request('student_id_type');
+                $attribute[] = 'student_id_type';
             }
-            return $regType;
+            if (!empty(request('gender'))) {
+                $filter[] = request('gender');
+                $attribute[] = 'gender';
+            }
+            if (!empty(request('student_type'))) {
+                $filter[] = request('student_type');
+                $attribute[] = 'student_type';
+            }
+            if (!empty(request('reg_type'))) {
+                $filter[] = request('reg_type');
+                $attribute[] = 'reg_type';
+            }
+            if (!empty(request('registration_status_id'))) {
+                $filter[] = request('registration_status_id');
+                $attribute[] = 'registration_status_id';
+            }
+            if (!empty(request('educational_mandate'))) {
+                $filter[] = "'" .request('educational_mandate') ."'";
+                $attribute[] = 'educational_mandate';
+            }
+            if (!empty(request('division_id'))) {
+                $filter[] = "'" .request('division_id') ."'";
+                $attribute[] = 'division_id';
+            }
+            if (!empty(request('grade_id'))) {
+                $filter[] = "'" .request('grade_id') ."'";
+                $attribute[] = 'grade_id';
+            }
+            if (!empty(request('term'))) {
+                $filter[] = "'" .request('term') ."'";
+                $attribute[] = 'term';
+            }
+            if (!empty(request('school_id'))) {
+                $filter[] = "'" .request('school_id') ."'";
+                $attribute[] = 'school_id';
+            }
+            if (!empty(request('second_lang_id'))) {
+                $filter[] = "'" .request('second_lang_id') ."'";
+                $attribute[] = 'second_lang_id';
+            }
+            if (!empty(request('recognition'))) {
+                $filter[] = "'" .request('recognition') ."'";
+                $attribute[] = 'recognition';
+            }
+        // end filter
+            
+        // set = or Null
+            $filterCounter = count($filter);
+            $orderBy = ' order by full_student_data.ar_student_name asc';
+            $factor = array();
+
+            if (isset($filter[0])) {$factor[0] = $filter[0] == 'Null'? $attribute[0].' is ' . $filter[0]: $attribute[0].' = ' . $filter[0];}
+            if (isset($filter[1])) {$factor[1] = $filter[1] == 'Null'? $attribute[1].' is ' . $filter[1]: $attribute[1].' = ' . $filter[1];}
+            if (isset($filter[2])) {$factor[2] = $filter[2] == 'Null'? $attribute[2].' is ' . $filter[2]: $attribute[2].' = ' . $filter[2];}
+            if (isset($filter[3])) {$factor[3] = $filter[3] == 'Null'? $attribute[3].' is ' . $filter[3]: $attribute[3].' = ' . $filter[3];}
+            if (isset($filter[4])) {$factor[4] = $filter[4] == 'Null'? $attribute[4].' is ' . $filter[4]: $attribute[4].' = ' . $filter[4];}
+            if (isset($filter[5])) {$factor[5] = $filter[5] == 'Null'? $attribute[5].' is ' . $filter[5]: $attribute[5].' = ' . $filter[5];}
+            if (isset($filter[6])) {$factor[6] = $filter[6] == 'Null'? $attribute[6].' is ' . $filter[6]: $attribute[6].' = ' . $filter[6];}
+            if (isset($filter[7])) {$factor[7] = $filter[7] == 'Null'? $attribute[7].' is ' . $filter[7]: $attribute[7].' = ' . $filter[7];}
+            if (isset($filter[8])) {$factor[8] = $filter[8] == 'Null'? $attribute[8].' is ' . $filter[8]: $attribute[8].' = ' . $filter[8];}
+            if (isset($filter[9])) {$factor[9] = $filter[9] == 'Null'? $attribute[9].' is ' . $filter[9]: $attribute[9].' = ' . $filter[9];}
+            if (isset($filter[10])) {$factor[10] = $filter[10] == 'Null'? $attribute[10].' is ' . $filter[10]: $attribute[10].' = ' . $filter[10];}
+            if (isset($filter[11])) {$factor[11] = $filter[11] == 'Null'? $attribute[11].' is ' . $filter[11]: $attribute[11].' = ' . $filter[11];}
+            
+            $where = '';
+            $sqlWhere = '';
+            $searchWord = empty( request('inputSearch'))? 'null':request('inputSearch');
+            
+            $searchWord = str_replace('\'', '"', $searchWord);
+            for ($i=0; $i < $filterCounter ; $i++) {
+                $where .=  ' and '. $factor[$i];
+            }
+            // field search
+            if (request()->has('field')) {
+                $filedSearch = request('field');
+                
+                $filedSearchCount = count(request('field'));
+                $logicFactor = $filedSearchCount == 1 ? '' : ' or ';
+                
+                $sqlWhere .= ' and (';
+                // set like or =
+                $sql_like = '';
+                for ($i=0; $i < $filedSearchCount ; $i++) {
+                    if ($filedSearch[$i] == 'student_number') {
+                        $sql_like = " = " . $searchWord ;
+                    }
+                    elseif ($filedSearch[$i] == 'student_id_number') {
+                        $sql_like = " = " . $searchWord ;
+                    }
+                    elseif ($filedSearch[$i] == 'id_number') {
+                        $sql_like = " = " . $searchWord ;
+                    }  
+                    elseif ($filedSearch[$i] == 'id_number_m') {
+                        $sql_like = " = " . $searchWord ;
+                    }                                                 
+                    else{
+                        $sql_like = " like '%" . $searchWord . "%'";
+                    }
+                    $sqlWhere .= $logicFactor . '' . $filedSearch[$i] . $sql_like;
+                }
+                $sqlWhere .= ')';
+            }
+            $sql = $where . $sqlWhere . $orderBy;
+            $sql = str_replace('( or', '(', $sql);
+            $data = DB::select($this->returnDataQuery() . $sql) ;
+            
+            
+        // end set = or Null
+
+        return datatables($data)
+            ->addIndexColumn()                
+            ->addColumn('check', function($data){
+                $btnCheck = '<label class="pos-rel">
+                                <input type="checkbox" class="ace" name="id[]" />
+                                <span class="lbl"></span>
+                            </label>';
+                    return $btnCheck;
+            })
+            ->addColumn('student_name',function($data){
+                $studentName = session('lang') == trans('admin.ar') ? $data->ar_student_name:$data->en_student_name;
+                return '<a href="'.route('students.show',$data->student_id).'">'.$studentName.'</a>';
+            })                
+            ->addColumn('father_name',function($data){
+                return $this->getFatherName($data);
+            })
+            ->addColumn('registration_status',function($data){
+                return session('lang') == trans('admin.ar') ? $data->ar_name_status:$data->en_name_status;
+            })
+            ->addColumn('religion',function($data){
+                return $this->getReligion($data);     
+            })
+            ->addColumn('reg_type',function($data){
+                return $this->regType($data);     
+            })                
+            ->addColumn('student_type',function($data){
+                return $data->student_type == 'applicant'? trans('student::local.applicant').'</span>':trans('student::local.student');     
+            })
+            ->addColumn('student_id_type',function($data){
+                return $data->student_id_type == 'passport' ?  trans('student::local.passport'): trans('student::local.national_id');     
+            })
+            ->addColumn('grade',function($data){
+                return session('lang') == trans('admin.ar') ? $data->ar_grade_name:$data->en_grade_name;
+            })
+            ->addColumn('division',function($data){
+                return session('lang') == trans('admin.ar') ? $data->ar_division_name: $data->en_division_name;
+            })                
+            ->rawColumns(['check','father_name','studentImage','registration_status','religion','student_type',
+            'grade','division','student_name','reg_type','student_id_type'])
+            ->make(true);
+    }
+    private function getFatherName($data)
+    {
+        return session('lang') == trans('admin.ar') ?
+        '<a href="'.route('father.show',$data->father_id).'">'.$data->ar_st_name .' '.$data->ar_nd_name .' '.$data->ar_rd_name .' '.$data->ar_th_name.'</a>'  :
+        '<a href="'.route('father.show',$data->father_id).'">'.$data->en_st_name .' '.$data->en_nd_name .' '.$data->en_rd_name .' '.$data->en_th_name.'</a>';  
+    }
+    private function regType($data)
+    {
+        $regType = '';
+        switch ($data->reg_type) {
+            case 'return':
+                $regType = trans('student::local.return');
+                break;
+            case 'arrival':
+                $regType = trans('student::local.arrival');
+                break;
+            case 'noob':
+                $regType = trans('student::local.noob');
+                break;                                        
+            default:
+            $regType = trans('student::local.transfer');
+                break;
         }
+        return $regType;
+    }
+    private function checkAgeForGrade()
+    {
+        //  calculate age
+        $age = getStudentAge(request('dob'));
+   
+        $this->mm = $age['mm'];
+        $this->yy = $age['yy'];
+        $gradeData = Grade::where('id',request('grade_id'))->first();  
+        
+        if ($this->yy != 0) {
+            if ($this->yy > $gradeData->to_age_year) {
+                return 'older';
+            }elseif($this->yy == $gradeData->to_age_year){
+                if ($this->mm > $gradeData->to_age_month) {
+                    return 'older';
+                }
+            }
+        }
+        if ($this->yy != 0) {
+            if ($this->yy < $gradeData->from_age_year) {
+                return 'smaller';
+            }elseif($this->yy == $gradeData->from_age_year){
+                if ($this->mm < $gradeData->from_age_month) {
+                    return 'smaller';
+                }
+            }
+        }
+        if ($this->yy == 0) {
+            return 'invalid';
+        }
+    }
 }

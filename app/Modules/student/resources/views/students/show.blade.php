@@ -257,9 +257,14 @@
                                     <div class="form-group row">
                                     <label class="col-md-3 label-control">{{ trans('student::local.dob') }}</label>
                                     <div class="col-md-9">
-                                        <input type="date" class="form-control " value="{{old('dob',$student->dob)}}" placeholder="{{ trans('student::local.dob') }}"
+                                        <input type="date" class="form-control" id="dob" value="{{old('dob',$student->dob)}}" placeholder="{{ trans('student::local.dob') }}"
                                         name="dob"  disabled>
-                                        
+                                        <input type="text" class="age-display" value="0" id="dd" readonly>
+                                        <span>{{ trans('student::local.dd') }}</span>
+                                        <input type="text" class="age-display" value="0" id="mm" readonly>
+                                        <span>{{ trans('student::local.mm') }}</span>
+                                        <input type="text" class="age-display" value="0" id="yy" readonly>
+                                        <span>{{ trans('student::local.yy') }}</span>
                                     </div>
                                     </div>
                                 </div>
@@ -634,6 +639,25 @@ $(document).ready(function(){
         });
     }());
 })
+$(document).ready(function(){
+        (function(){
+          var dob    = "{{$student->dob}}";
+              $.ajax({
+                type:'POST',
+                url:'{{route("student.age")}}',
+                data: {
+                    _method     : 'PUT',
+                    dob         : dob,              
+                    _token      : '{{ csrf_token() }}'
+                },
+                success:function(response){
+                  $('#dd').val(response.data.dd);
+                  $('#mm').val(response.data.mm);
+                  $('#yy').val(response.data.yy);            
+                }
+              })
+        }())
+      }) 
 </script>
 @endsection
 

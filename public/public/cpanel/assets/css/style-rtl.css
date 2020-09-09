@@ -71,3 +71,11 @@ select.form-control:not([size]):not([multiple]) {
 .student-image-profile{
     width: 200px;height: 190px;border-radius: 25%;border:1px solid #d1d2d5;
 }
+.age-display{
+    border: 0px;
+    width: 30px;
+    text-align: center;
+    margin: 0 3px;
+    color: green;
+    font-weight: bold;
+}
