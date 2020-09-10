@@ -6,7 +6,7 @@
           <li class="nav-item ">
             <a class="navbar-brand" href="{{route('main.dashboard')}}">
               <img class="brand-logo" alt="logo" src="{{asset('storage/logo/'.settingHelper()->logo)}}">
-            <h3 class="brand-text">{{session('lang') == 'ar' || session('lang') == trans('admin.ar') ?settingHelper()->ar_school_name:settingHelper()->en_school_name}}</h3>
+            <h4 class="brand-text">{{session('lang') == 'ar' || session('lang') == trans('admin.ar') ?settingHelper()->ar_school_name:settingHelper()->en_school_name}}</h4>
             </a>
           </li>
           <li class="nav-item d-md-none">
