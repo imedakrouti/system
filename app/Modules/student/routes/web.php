@@ -5,7 +5,7 @@ $moduleName = basename(dirname(__DIR__));
  * web middleware group in App\Http\Kernel.php. That means that if you need
  * session access for your routes you can use that middleware group
  */
-Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'])->group(function() use($moduleName){
+Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin','lang'])->group(function() use($moduleName){
     Route::prefix(buildPrefix($moduleName))->group(function(){
         Route::group(['namespace'=>'Setting','prefix'=>'settings'],function(){            
             require 'setting.php';
@@ -16,8 +16,7 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
         require 'parents.php';
         require 'students.php';
         require 'admissions/admissionRoutes.php';
-        require 'studentsAffairs/studentRoutes.php';    
-        
+        require 'studentsAffairs/studentRoutes.php';            
   
     });
 });

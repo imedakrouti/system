@@ -40,7 +40,7 @@
                       <div class="form-group row">
                         <label class="col-md-3 label-control" >{{ trans('admin.ar_school_name') }}</label>
                         <div class="col-md-9">
-                          <input type="text"  class="form-control border-primary" placeholder="{{ trans('admin.ar_school_name') }}"
+                          <input type="text"  class="form-control" placeholder="{{ trans('admin.ar_school_name') }}"
                             name="ar_school_name" value="{{settingHelper()->ar_school_name}}">
                         </div>
                       </div>
@@ -49,7 +49,7 @@
                       <div class="form-group row">
                         <label class="col-md-3 label-control">{{ trans('admin.en_school_name') }}</label>
                         <div class="col-md-9">
-                          <input type="text"  class="form-control border-primary" placeholder="{{ trans('admin.en_school_name') }}"
+                          <input type="text"  class="form-control" placeholder="{{ trans('admin.en_school_name') }}"
                           name="en_school_name" value="{{settingHelper()->en_school_name}}">
                         </div>
                       </div>
@@ -58,7 +58,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.address') }}</label>
                           <div class="col-md-9">
-                            <input type="text"  class="form-control border-primary" placeholder="{{ trans('admin.address') }}"
+                            <input type="text"  class="form-control" placeholder="{{ trans('admin.address') }}"
                             name="address" value="{{settingHelper()->address}}">
                           </div>
                         </div>
@@ -67,7 +67,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.contact1') }}</label>
                           <div class="col-md-9">
-                            <input type="number"  class="form-control border-primary" placeholder="{{ trans('admin.contact1') }}"
+                            <input type="number"  class="form-control" placeholder="{{ trans('admin.contact1') }}"
                             name="contact1" value="{{settingHelper()->contact1}}">
                           </div>
                         </div>
@@ -76,7 +76,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.contact2') }}</label>
                           <div class="col-md-9">
-                            <input type="number"  class="form-control border-primary" placeholder="{{ trans('admin.contact2') }}"
+                            <input type="number"  class="form-control" placeholder="{{ trans('admin.contact2') }}"
                             name="contact2" value="{{settingHelper()->contact2}}">
                           </div>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.contact3') }}</label>
                           <div class="col-md-9">
-                            <input type="number"  class="form-control border-primary" placeholder="{{ trans('admin.contact3') }}"
+                            <input type="number"  class="form-control" placeholder="{{ trans('admin.contact3') }}"
                             name="contact3" value="{{settingHelper()->contact3}}">
                           </div>
                         </div>
@@ -94,7 +94,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.open_time') }}</label>
                           <div class="col-md-9">
-                            <input type="time"  class="form-control border-primary" placeholder="{{ trans('admin.open_time') }}"
+                            <input type="time"  class="form-control" placeholder="{{ trans('admin.open_time') }}"
                             name="open_time" value="{{settingHelper()->open_time}}">
                           </div>
                         </div>
@@ -103,7 +103,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.close_time') }}</label>
                           <div class="col-md-9">
-                            <input type="time"  class="form-control border-primary" placeholder="{{ trans('admin.close_time') }}"
+                            <input type="time"  class="form-control" placeholder="{{ trans('admin.close_time') }}"
                             name="close_time" value="{{settingHelper()->close_time}}">
                           </div>
                         </div>
@@ -112,7 +112,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.email') }}</label>
                           <div class="col-md-9">
-                            <input type="text"  class="form-control border-primary" placeholder="{{ trans('admin.email') }}"
+                            <input type="text"  class="form-control" placeholder="{{ trans('admin.email') }}"
                             name="email" value="{{settingHelper()->email}}">
                           </div>
                         </div>
@@ -133,7 +133,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.fb') }}</label>
                           <div class="col-md-9">
-                            <input type="text"  class="form-control border-primary" placeholder="{{ trans('admin.fb') }}"
+                            <input type="text"  class="form-control" placeholder="{{ trans('admin.fb') }}"
                             name="fb" value="{{settingHelper()->fb}}">
                           </div>
                         </div>
@@ -142,7 +142,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.yt') }}</label>
                           <div class="col-md-9">
-                            <input type="text"  class="form-control border-primary" placeholder="{{ trans('admin.yt') }}"
+                            <input type="text"  class="form-control" placeholder="{{ trans('admin.yt') }}"
                             name="yt" value="{{settingHelper()->yt}}">
                           </div>
                         </div>
@@ -151,7 +151,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.message_maintenance') }}</label>
                           <div class="col-md-9">
-                            <textarea id="userinput8" rows="6" class="form-control border-primary" name="msg_maintenance"
+                            <textarea id="userinput8" rows="6" class="form-control" name="msg_maintenance"
                             placeholder="{{ trans('admin.message_maintenance') }}">{{settingHelper()->msg_maintenance}}</textarea>
                           </div>
                         </div>

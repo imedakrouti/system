@@ -18,22 +18,43 @@
   {{-- sweet alert style --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
 
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/vendors.css')}}">
+  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/vendors.css')}}">    
+  @else
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/vendors.css')}}">        
+  @endif
+
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/forms/icheck/icheck.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/forms/icheck/custom.css')}}">
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
+  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/app.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/custom-rtl.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/custom-rtl.css')}}">      
+  @else
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/app.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/custom-rtl.css')}}">      
+  @endif
+  
   <!-- END MODERN CSS-->
   <!-- BEGIN Page Level CSS-->
+  @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-gradient.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/pages/login-register.css')}}">
+      
+  @else
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/colors/palette-gradient.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/pages/login-register.css')}}">      
+  @endif
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
-    
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/assets/css/style-rtl.css')}}">
+@if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
+<link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/assets/css/style-rtl.css')}}">    
+@else
+<link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/assets/css/style.css')}}">        
+@endif    
   <!-- END Custom CSS-->
   <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
 

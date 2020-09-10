@@ -9,3 +9,82 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+.table-striped tbody tr.odd.selected, .table-striped tbody tr.even.selected {
+    background-color: #83bef1;
+    color: #FFFFFF;
+}
+.table th, .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top:0px solid #E3EBF3;
+}
+.table-responsive {
+    overflow-x:auto;
+    overflow-y: hidden;
+}
+html body a:hover {
+    color: #df3f3f;
+}
+.nav.nav-tabs.nav-top-border .nav-item a {
+    color: #0963c2;
+}
+.nav.nav-tabs.nav-top-border .nav-item a.nav-link.active {
+    border-top: 3px solid #0963c2;
+}
+.center{text-align: center;}
+.student-image{
+    width: 75px;height: 75px;border-radius: 25%;border:1px solid #d1d2d5;
+}
+table.dataTable tbody tr.selected a, table.dataTable tbody th.selected a, table.dataTable tbody td.selected a {
+    color:black;
+}
+table.dataTable tbody tr.selected a:hover, table.dataTable tbody th.selected a:hover, table.dataTable tbody td.selected a:hover {
+    color: #df3f3f;
+}
+select.form-control:not([size]):not([multiple]) {  
+    margin-top: 10px;
+}
+@media(min-width: 600px){
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        /* float: left; */
+        margin-top: -65px;
+    }
+}
+
+.fc-day-grid-event .fc-content {  
+    color: white;
+    font-size: 18px;
+    text-align: right;
+    padding: 7px;
+}
+.f-1{
+    font-size: 18px;;
+}
+.dark{
+    background-color: #2C303B;
+    /* opacity: 0.9; */
+    color: #fff;
+}
+.dark > h4{color: #fff;}
+.student-image-profile{
+    width: 200px;height: 190px;border-radius: 25%;border:1px solid #d1d2d5;
+}
+.age-display{
+    border: 0px;
+    width: 30px;
+    text-align: center;
+    margin: 0 3px;
+    color: green;
+    font-weight: bold;
+}
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .btn-group:not(:last-child) > .btn {
+    /* margin-bottom: 10px; */
+}
+.btn-group > .btn:not(:first-child), .btn-group > .btn-group:not(:first-child) > .btn {
+    /* margin-bottom: 10px; */
+}
+.main-menu.menu-dark .navigation > li ul li > a {
+    font-size: 15px;
+}
