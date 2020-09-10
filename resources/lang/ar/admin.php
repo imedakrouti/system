@@ -122,7 +122,7 @@ return
     'assessment_results'                    => 'نتائج اختبار التقييم',
     'advanced_search'                       => 'بحث متقدم',
     'calculate_student_page'                => 'حساب عمر الطالب',
-    '' => '',
+    'bonus'                                 => 'المكافأت',
     '' => '',
     '' => '',
     '' => '',
