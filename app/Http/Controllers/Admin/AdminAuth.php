@@ -11,7 +11,7 @@ class AdminAuth extends Controller
     public function login()
     {
         if (session()->has('login') == true) {
-            return view('layouts.cpanel');
+            return redirect()->route('main.dashboard');
         }else{
             return view('admin.auth.login');
         }
@@ -29,7 +29,11 @@ class AdminAuth extends Controller
             session()->put('login',true);
 
             if (!session()->has('lang')) {
-                session()->put('lang',authInfo()->lang);
+                if (authInfo()->lang == trans('admin.ar')) {
+                    session()->put('lang','ar');                    
+                }else{
+                    session()->put('lang','en');                    
+                }
             }
             return redirect(route('main.dashboard'));
         }
@@ -41,6 +45,12 @@ class AdminAuth extends Controller
     {
     	adminAuth()->logout();
         session()->forget('login');
+        
+        if (!session()->has('lang')) {
+            session()->put('lang',authInfo()->lang);
+        }
+        
+        session()->forget('lang');
         alert()->success(trans('msg.log_out'), trans('msg.good_bye'));
     	return redirect(aurl('login'));
     }
