@@ -27,10 +27,10 @@
                 width: 100px; float: left;margin-top: -20px;
             }
             .right-header{
-                float: right;text-align: center;width: 25%;;
+                float: right;text-align: center;width: 25%;padding-top: 40px
             }
             .left-header{
-                float: left;width:25%;;
+                float: left;width:25%;padding-top: 40px
             }
             .center-header{
                 float: right;

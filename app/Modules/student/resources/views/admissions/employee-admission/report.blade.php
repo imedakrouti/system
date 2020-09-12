@@ -3,18 +3,17 @@
     {{$schoolName}} <br>
     {{ trans('student::local.admission_department') }}
 </div>
-<div class="center-header">
-   
 
-</div>
 <div class="left-header">
     <img src="{{$logo}}" alt="" class="logo">
 </div>
 <div class="clear"></div>
 <h4 class="center">{{ trans('student::local.emp_open_admission_report') }}</h4>
 <div class="clear"></div>
-<h5>{{ trans('student::local.employee_name') }} : {{$employeeName}}</h5>
-<h5>{{ trans('student::local.fils_count') }} : {{$count}}</h5>
+<h5>{{ trans('student::local.employee_name') }} : {{$employeeName}} <br>
+{{ trans('student::local.period') }}
+{{ trans('student::local.from') }} : {{$fromDate}} {{ trans('student::local.to') }} : {{$toDate}} <br>
+{{ trans('student::local.fils_count') }} : {{$count}}</h5>
 <table>
     <thead>
         <tr>

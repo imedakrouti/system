@@ -576,7 +576,7 @@ return [
     'emp_open_admission_report'     => 'كشف باسماء الطلاب الذين تم فتح ملف لهم',
     'fils_count'                    => 'عدد الملفات',
     'admission_department'          => 'قسم التقديمات',
-    '' => '',
+    'period'                        => 'خلال الفترة',
     '' => '',
     '' => '',
     '' => '',

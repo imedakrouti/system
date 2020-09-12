@@ -87,6 +87,7 @@ class EmployeeAdmissionController extends Controller
     public function report()
     {
         $data['employeeName'] = Admin::findOrFail(request('adminId'))->name;
+        
         $data['students'] = Student::with('father','mother','division','grade')
             ->where('employee_id',request('adminId'))
             ->whereBetween('application_date',[request('fromDate'),request('toDate')])
@@ -96,9 +97,12 @@ class EmployeeAdmissionController extends Controller
             ->where('employee_id',request('adminId'))
             ->whereBetween('application_date',[request('fromDate'),request('toDate')])
             ->orderBy('application_date','asc')
-            ->count();           
+            ->count();      
+                 
         $data['title'] = 'Employee Open Admission';    
-        $data['schoolName'] = settingHelper()->ar_school_name;    
+        $data['schoolName'] = session('lang') == 'ar'?settingHelper()->ar_school_name:settingHelper()->en_school_name;    
+        $data['fromDate'] = request('fromDate');
+        $data['toDate'] = request('toDate');
 
         $data['logo'] = public_path('storage/logo/'.settingHelper()->logo);    
         // dd(public_path('storage/icon/'.settingHelper()->icon));
