@@ -2,6 +2,7 @@
 
 namespace Student\Http\Controllers\ParentsAndStudents;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Student\Http\Controllers\Setting\AdmissionStepsController;
 use Student\Http\Requests\StudentRequest;
 use Student\Models\Guardians\Guardian;
@@ -48,7 +49,7 @@ class StudentController extends Controller
                         return $this->studentImage($data);                        
                     })
                     ->addColumn('registration_status',function($data){
-                        return session('lang') == trans('admin.ar') ? $data->regStatus->ar_name_status:
+                        return session('lang') == 'ar' ? $data->regStatus->ar_name_status:
                         $data->regStatus->en_name_status;
                     })
                     ->addColumn('religion',function($data){
@@ -58,11 +59,11 @@ class StudentController extends Controller
                         return $data->student_type == trans('student::local.applicant') ? '<span class="red">'.$data->student_type.'</span>':$data->student_type;     
                     })
                     ->addColumn('grade',function($data){
-                        return session('lang') == trans('admin.ar') ? $data->grade->ar_grade_name:
+                        return session('lang') == 'ar' ? $data->grade->ar_grade_name:
                         $data->grade->en_grade_name;
                     })
                     ->addColumn('division',function($data){
-                        return session('lang') == trans('admin.ar') ? $data->division->ar_division_name:
+                        return session('lang') == 'ar' ? $data->division->ar_division_name:
                         $data->division->en_division_name;
                     })
                     ->addColumn('check', function($data){
@@ -125,7 +126,7 @@ class StudentController extends Controller
 
     private function getFullStudentName($data)
     {        
-        if (session('lang') == trans('admin.ar')) {
+        if (session('lang') == 'ar') {
             return '<a href="'.route('students.show',$data->id).'">'.$data->ar_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->ar_st_name.
             ' '.$data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name.'</a> ' ;    
         }else{
@@ -136,7 +137,7 @@ class StudentController extends Controller
 
     private function getReligion($data)
     {
-        if (session('lang') == trans('admin.ar')) {
+        if (session('lang') == 'ar') {
             if ($data->gender == 'male') {
                 if ($data->religion == 'muslim') {
                     return trans('student::local.muslim');
@@ -177,12 +178,13 @@ class StudentController extends Controller
             $q->where('father_id',$father_id);
         })->get();
         $schools = School::all();
+        $admins = Admin::active()->get();
         $guardians = Guardian::all();
         
         $title = trans('student::local.new_student');
         return view('student::students.create',
         compact('nationalities','title','speakingLangs','studyLangs','regStatus',
-        'father','mothers','divisions','grades','documents','steps','schools','guardians'));
+        'father','mothers','divisions','grades','documents','steps','schools','guardians','admins'));
     }
 
     private function studentAttributes()
@@ -382,7 +384,8 @@ class StudentController extends Controller
         $divisions = Division::sort()->get();
         $grades = Grade::sort()->get();                
         $schools = School::all();
-        $guardians = Guardian::all();        
+        $guardians = Guardian::all(); 
+        $admins = Admin::active()->get();       
         $father_id = Student::findOrFail($student)->first()->father_id;
         $mothers = Mother::whereHas('fathers',function($q) use ($father_id){
             $q->where('father_id',$father_id);
@@ -390,7 +393,7 @@ class StudentController extends Controller
                 
         return view('student::students.show',
         compact('student','title','nationalities','speakingLangs','studyLangs','regStatus',
-        'divisions','grades','schools','guardians','mothers'));
+        'divisions','grades','schools','guardians','mothers','admins'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -414,11 +417,11 @@ class StudentController extends Controller
         
         $schools = School::all();
         $guardians = Guardian::all();        
-        
+        $admins = Admin::active()->get();
         $title = trans('student::local.edit_student');
         return view('student::students.edit',
         compact('nationalities','title','speakingLangs','studyLangs','regStatus','mothers',
-        'divisions','grades','schools','guardians','student'));
+        'divisions','grades','schools','guardians','student','admins'));
     }
 
     /**
@@ -617,14 +620,14 @@ class StudentController extends Controller
                     return $btnCheck;
             })
             ->addColumn('student_name',function($data){
-                $studentName = session('lang') == trans('admin.ar') ? $data->ar_student_name:$data->en_student_name;
+                $studentName = session('lang') == 'ar' ? $data->ar_student_name:$data->en_student_name;
                 return '<a href="'.route('students.show',$data->student_id).'">'.$studentName.'</a>';
             })                
             ->addColumn('father_name',function($data){
                 return $this->getFatherName($data);
             })
             ->addColumn('registration_status',function($data){
-                return session('lang') == trans('admin.ar') ? $data->ar_name_status:$data->en_name_status;
+                return session('lang') == 'ar' ? $data->ar_name_status:$data->en_name_status;
             })
             ->addColumn('religion',function($data){
                 return $this->getReligion($data);     
@@ -639,10 +642,10 @@ class StudentController extends Controller
                 return $data->student_id_type == 'passport' ?  trans('student::local.passport'): trans('student::local.national_id');     
             })
             ->addColumn('grade',function($data){
-                return session('lang') == trans('admin.ar') ? $data->ar_grade_name:$data->en_grade_name;
+                return session('lang') == 'ar' ? $data->ar_grade_name:$data->en_grade_name;
             })
             ->addColumn('division',function($data){
-                return session('lang') == trans('admin.ar') ? $data->ar_division_name: $data->en_division_name;
+                return session('lang') == 'ar' ? $data->ar_division_name: $data->en_division_name;
             })                
             ->rawColumns(['check','father_name','studentImage','registration_status','religion','student_type',
             'grade','division','student_name','reg_type','student_id_type'])
@@ -650,7 +653,7 @@ class StudentController extends Controller
     }
     private function getFatherName($data)
     {
-        return session('lang') == trans('admin.ar') ?
+        return session('lang') == 'ar' ?
         '<a href="'.route('father.show',$data->father_id).'">'.$data->ar_st_name .' '.$data->ar_nd_name .' '.$data->ar_rd_name .' '.$data->ar_th_name.'</a>'  :
         '<a href="'.route('father.show',$data->father_id).'">'.$data->en_st_name .' '.$data->en_nd_name .' '.$data->en_rd_name .' '.$data->en_th_name.'</a>';  
     }

@@ -170,4 +170,12 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Admissions\AdmissionReport','admin_id');
     }
+    public function scopeActive($q)
+    {
+        return $q->where('status','enable');
+    }
+    public function employees()
+    {
+        return $this->hasMany('Student\Models\Students\Student','employee_id');
+    }
 }

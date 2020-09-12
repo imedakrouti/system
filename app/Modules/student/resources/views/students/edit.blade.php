@@ -49,50 +49,10 @@
 @endsection
 @section('script')
 
-<script>
-$(document).ready(function(){
-  (function getDocumentSelected()
-    {
-      var id = "{{$student->id}}";
-      
-        $.ajax({
-          type:'POST',
-          url:'{{route("getDocumentSelected")}}',
-      data: {
-          _method : 'PUT',
-          id      : id,
-          _token  : '{{ csrf_token() }}'
-        },
-          dataType:'json',
-          success:function(data){
-            $('#documentId').html(data);
-          }
-        });
-    }());
 
-    (function getStepsSelected()
-    {
-      var id = "{{$student->id}}";
-      
-        $.ajax({
-          type:'POST',
-          url:'{{route("getStepsSelected")}}',
-      data: {
-          _method : 'PUT',
-          id      : id,
-          _token  : '{{ csrf_token() }}'
-        },
-          dataType:'json',
-          success:function(data){
-            $('#stepId').html(data);
-          }
-        });
-    }());
-})
-</script>
 <script src="{{asset('public/cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
 <script src="{{asset('public/cpanel/app-assets/js/scripts/forms/form-repeater.js')}}"></script>
-@section('script')
+
     <script>
       $('#dob').on('change',function(){        
         var dob    = $('#dob').val();
@@ -112,7 +72,44 @@ $(document).ready(function(){
         })
       })    
       $(document).ready(function(){
-        (function(){
+        (function getDocumentSelected()
+        {
+          var id = "{{$student->id}}";
+          
+            $.ajax({
+              type:'POST',
+              url:'{{route("getDocumentSelected")}}',
+          data: {
+              _method : 'PUT',
+              id      : id,
+              _token  : '{{ csrf_token() }}'
+            },
+              dataType:'json',
+              success:function(data){
+                $('#documentId').html(data);
+              }
+            });
+        }());
+        (function getStepsSelected()
+        {
+          var id = "{{$student->id}}";
+          
+            $.ajax({
+              type:'POST',
+              url:'{{route("getStepsSelected")}}',
+          data: {
+              _method : 'PUT',
+              id      : id,
+              _token  : '{{ csrf_token() }}'
+            },
+              dataType:'json',
+              success:function(data){
+                $('#stepId').html(data);
+              }
+            });
+        }());
+        (function()
+        {
           var dob    = "{{$student->dob}}";
               $.ajax({
                 type:'POST',
@@ -128,7 +125,7 @@ $(document).ready(function(){
                   $('#yy').val(response.data.yy);            
                 }
               })
-        }())
+        }())   
       })      
     </script>
 @endsection

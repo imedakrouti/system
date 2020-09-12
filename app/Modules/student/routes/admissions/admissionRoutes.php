@@ -23,5 +23,10 @@ Route::group(['namespace'=>'Admissions'],function(){
     Route::get('/student-reports/pdf/{id}','StudentReportController@studentReportPdf')->name('student-reports.pdf');    
     Route::get('/student-reports/student/{id}','StudentReportController@studentReport')->name('student.report');   
     
+    // Employee open admission
+    Route::get('/employee-admission/','EmployeeAdmissionController@bonus')->name('employee-admission');   
+    Route::put('/employee-admission/find','EmployeeAdmissionController@find')->name('employee-admission.find');   
+    Route::get('/employee-admission/report','EmployeeAdmissionController@report')->name('emp-open.print');   
+
     
 });

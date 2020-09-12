@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use phpDocumentor\Reflection\Types\Nullable;
+
 
 class AddColumnEmployeeOpenAddmission extends Migration
 {
@@ -16,6 +16,7 @@ class AddColumnEmployeeOpenAddmission extends Migration
     {
         Schema::table('students', function (Blueprint $table) {
             $table->unsignedBigInteger('employee_id')->nullable();
+            $table->foreign('employee_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

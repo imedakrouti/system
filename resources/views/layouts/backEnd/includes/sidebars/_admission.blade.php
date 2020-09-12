@@ -64,9 +64,9 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.student_reports') }}</span>
             </a>
         </li> 
-        <li class=" nav-item {{request()->segment(2)=='bonus'?'active':''}}">
-            <a href="{{route('student-reports.index')}}"><i class="la la-dollar">
-                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.bonus') }}</span>
+        <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
+            <a href="{{route('employee-admission')}}"><i class="la la-user">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.employee_admission') }}</span>
             </a>
         </li> 
         {{-- settings --}}

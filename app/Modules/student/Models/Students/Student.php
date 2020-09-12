@@ -87,5 +87,9 @@ class Student extends Model
     {
         return $this->belongsTo('Student\Models\Guardians\Guardian','guardian_id');
     }
+    public function employee()
+    {
+        return $this->belongsTo('App\Models\Admin','employee_id');
+    }
 
 }

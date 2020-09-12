@@ -41,7 +41,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" for="userinput1">{{ trans('admin.account_name') }}</label>
                           <div class="col-md-9">
-                            <input type="text" id="userinput1" class="form-control border-primary" value="{{old('name')}}" placeholder="{{ trans('admin.account_name') }}"
+                            <input type="text" id="userinput1" class="form-control" value="{{old('name')}}" placeholder="{{ trans('admin.account_name') }}"
                               name="name">
                           </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.username') }}</label>
                           <div class="col-md-9">
-                            <input type="text"  class="form-control border-primary" value="{{old('username')}}" placeholder="{{ trans('admin.username') }}"
+                            <input type="text"  class="form-control" value="{{old('username')}}" placeholder="{{ trans('admin.username') }}"
                             name="username" >
                           </div>
                         </div>
@@ -60,7 +60,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.email') }}</label>
                           <div class="col-md-9">
-                            <input type="email"  class="form-control border-primary" value="{{old('email')}}" placeholder="{{ trans('admin.email') }}"
+                            <input type="email"  class="form-control" value="{{old('email')}}" placeholder="{{ trans('admin.email') }}"
                             name="email" >
                           </div>
                         </div>
@@ -93,7 +93,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.password') }}</label>
                           <div class="col-md-9">
-                            <input type="password"  class="form-control border-primary" placeholder="{{ trans('admin.password') }}"
+                            <input type="password"  class="form-control" placeholder="{{ trans('admin.password') }}"
                             name="password" >
                           </div>
                         </div>
@@ -102,7 +102,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.confirm_password') }}</label>
                           <div class="col-md-9">
-                            <input type="password"  class="form-control border-primary" placeholder="{{ trans('admin.confirm_password') }}"
+                            <input type="password"  class="form-control" placeholder="{{ trans('admin.confirm_password') }}"
                             name="cPassword" >
                           </div>
                         </div>

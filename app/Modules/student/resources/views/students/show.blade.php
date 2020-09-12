@@ -448,8 +448,11 @@
                                     <div class="form-group row">
                                       <label class="col-md-4 label-control" >{{ trans('student::local.emp_open_app') }}</label>
                                       <div class="col-md-8">                    
-                                        <select name="son_employee" class="form-control">
+                                        <select name="employee_id" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
+                                            @foreach ($admins as $admin)
+                                            <option  {{old('employee_id',$student->employee_id) == $admin->id ?'selected':''}} value="{{$admin->id}}">{{$admin->name}}</option>
+                                            @endforeach
                                         </select>
                                       </div>
                                     </div>

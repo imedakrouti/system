@@ -160,239 +160,239 @@
             }
         });    
        function find()
-            {   $('#result').removeClass('hidden');
-                $('#dynamic-table').DataTable().destroy();
-                var myTable = $('#dynamic-table').DataTable({
-                @include('layouts.backEnd.includes.datatables._datatableConfig')            
-                buttons: [
-                                    // delete btn
-                    @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
+        {   $('#result').removeClass('hidden');
+            $('#dynamic-table').DataTable().destroy();
+            var myTable = $('#dynamic-table').DataTable({
+            @include('layouts.backEnd.includes.datatables._datatableConfig')            
+            buttons: [
+                                // delete btn
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
 
-                    // default btns
-                    @include('layouts.backEnd.includes.datatables._datatableBtn')
+                // default btns
+                @include('layouts.backEnd.includes.datatables._datatableBtn')
+            ],
+            columnDefs: [
+                    
+                    { visible: false, targets: [ 5,9,10,12,13,14,15,16,18,20,21,22,23,24 ] },
+                    { orderable: false, targets: [0 ] }
                 ],
-                columnDefs: [
-                        
-                        { visible: false, targets: [ 5,9,10,12,13,14,15,16,18,20,21,22,23,24 ] },
-                        { orderable: false, targets: [0 ] }
-                    ],
-                ajax:{
-                        type:'POST',
-                        url:'{{route("advancedSearch")}}',
-                        data:function(data){
-                            data._method                     = 'PUT';
-                            data._token                      = '{{ csrf_token() }}';
-                            // input box search vvalue
-                            data.inputSearch 		         = $('#searchboxId').val().trim();
+            ajax:{
+                    type:'POST',
+                    url:'{{route("advancedSearch")}}',
+                    data:function(data){
+                        data._method                     = 'PUT';
+                        data._token                      = '{{ csrf_token() }}';
+                        // input box search vvalue
+                        data.inputSearch 		         = $('#searchboxId').val().trim();
 
-                            // start filter
-                                data.student_id_type 		= $('#student_id_type').val();
-                                data.gender 		        = $('#gender').val();
-                                data.student_type 		    = $('#student_type').val();
-                                data.reg_type 		        = $('#reg_type').val();
-                                data.registration_status_id = $('#registration_status_id').val();
-                                data.educational_mandate 	= $('#educational_mandate').val();
-                                data.division_id 		    = $('#division_id').val();
-                                data.grade_id 		        = $('#grade_id').val();
-                                data.term                   = $('#term').val();
-                                data.school_id 		        = $('#school_id').val();
-                                data.second_lang_id 	    = $('#second_lang_id').val();
-                                data.recognition 	        = $('#recognition').val();
-                            // end filter
+                        // start filter
+                            data.student_id_type 		= $('#student_id_type').val();
+                            data.gender 		        = $('#gender').val();
+                            data.student_type 		    = $('#student_type').val();
+                            data.reg_type 		        = $('#reg_type').val();
+                            data.registration_status_id = $('#registration_status_id').val();
+                            data.educational_mandate 	= $('#educational_mandate').val();
+                            data.division_id 		    = $('#division_id').val();
+                            data.grade_id 		        = $('#grade_id').val();
+                            data.term                   = $('#term').val();
+                            data.school_id 		        = $('#school_id').val();
+                            data.second_lang_id 	    = $('#second_lang_id').val();
+                            data.recognition 	        = $('#recognition').val();
+                        // end filter
 
-                            // find in
-                                var student_number 		        = $('#searchField').val();
-                                var ar_student_name 	        = $('#searchField').val();
-                                var en_student_name             = $('#searchField').val();
-                                var ar_father_name              = $('#searchField').val();
-                                var en_father_name              = $('#searchField').val();
-                                var ar_st_name 		            = $('#searchField').val();
-                                var ar_nd_name 		            = $('#searchField').val();
-                                var ar_rd_name 		            = $('#searchField').val();
-                                var ar_th_name 		            = $('#searchField').val();
-                                var en_st_name 		            = $('#searchField').val();
-                                var en_nd_name 		            = $('#searchField').val();
-                                var en_rd_name 	                = $('#searchField').val();
-                                var en_th_name 	                = $('#searchField').val();
-                                var full_name 		            = $('#searchField').val();
-                                var student_id_number 		    = $('#searchField').val();
-                                var id_number 		            = $('#searchField').val();
-                                var id_number_m 		        = $('#searchField').val();
-                                var mobile1 		            = $('#searchField').val();
-                                var mobile2 		            = $('#searchField').val();
-                                var mobile1_m 		            = $('#searchField').val();
-                                var mobile2_m 		            = $('#searchField').val();
-                                var submitted_name 		        = $('#searchField').val();
-                                var submitted_id_number 		= $('#searchField').val();
-                                var submitted_mobile 		    = $('#searchField').val();
-                                var home_phone 		            = $('#searchField').val();
-                                var email 		                = $('#searchField').val();
-                                var job 		                = $('#searchField').val();
-                                var qualification 		        = $('#searchField').val();
-                                var facebook 		            = $('#searchField').val();
-                                var whatsapp_number 		    = $('#searchField').val();
-                                var street_name 		        = $('#searchField').val();
-                                var state 		                = $('#searchField').val();
-                                var home_phone_m 		        = $('#searchField').val();
-                                var job_m 		                = $('#searchField').val();
-                                var email_m 		            = $('#searchField').val();
-                                var qualification_m 		    = $('#searchField').val();
-                                var facebook_m 		            = $('#searchField').val();
-                                var whatsapp_number_m 		    = $('#searchField').val();
-                                var street_name_m 		        = $('#searchField').val();
-                                var state_m 		            = $('#searchField').val();
-                            // end find in
+                        // find in
+                            var student_number 		        = $('#searchField').val();
+                            var ar_student_name 	        = $('#searchField').val();
+                            var en_student_name             = $('#searchField').val();
+                            var ar_father_name              = $('#searchField').val();
+                            var en_father_name              = $('#searchField').val();
+                            var ar_st_name 		            = $('#searchField').val();
+                            var ar_nd_name 		            = $('#searchField').val();
+                            var ar_rd_name 		            = $('#searchField').val();
+                            var ar_th_name 		            = $('#searchField').val();
+                            var en_st_name 		            = $('#searchField').val();
+                            var en_nd_name 		            = $('#searchField').val();
+                            var en_rd_name 	                = $('#searchField').val();
+                            var en_th_name 	                = $('#searchField').val();
+                            var full_name 		            = $('#searchField').val();
+                            var student_id_number 		    = $('#searchField').val();
+                            var id_number 		            = $('#searchField').val();
+                            var id_number_m 		        = $('#searchField').val();
+                            var mobile1 		            = $('#searchField').val();
+                            var mobile2 		            = $('#searchField').val();
+                            var mobile1_m 		            = $('#searchField').val();
+                            var mobile2_m 		            = $('#searchField').val();
+                            var submitted_name 		        = $('#searchField').val();
+                            var submitted_id_number 		= $('#searchField').val();
+                            var submitted_mobile 		    = $('#searchField').val();
+                            var home_phone 		            = $('#searchField').val();
+                            var email 		                = $('#searchField').val();
+                            var job 		                = $('#searchField').val();
+                            var qualification 		        = $('#searchField').val();
+                            var facebook 		            = $('#searchField').val();
+                            var whatsapp_number 		    = $('#searchField').val();
+                            var street_name 		        = $('#searchField').val();
+                            var state 		                = $('#searchField').val();
+                            var home_phone_m 		        = $('#searchField').val();
+                            var job_m 		                = $('#searchField').val();
+                            var email_m 		            = $('#searchField').val();
+                            var qualification_m 		    = $('#searchField').val();
+                            var facebook_m 		            = $('#searchField').val();
+                            var whatsapp_number_m 		    = $('#searchField').val();
+                            var street_name_m 		        = $('#searchField').val();
+                            var state_m 		            = $('#searchField').val();
+                        // end find in
 
-                            // set request field
-                                if (student_number != null) {
-                                    data.field 		    = student_number;
-                                }
-                                if (ar_student_name != null) {
-                                    data.field 		    = ar_student_name;
-                                }
-                                if (en_student_name != null) {
-                                    data.field 		    = en_student_name;
-                                }
-                                if (ar_st_name != null) {
-                                    data.field 		    = ar_st_name;
-                                }
-                                if (ar_nd_name != null) {
-                                    data.field 		    = ar_nd_name;
-                                }
-                                if (ar_rd_name != null) {
-                                    data.field 		    = ar_rd_name;
-                                }
-                                if (ar_th_name != null) {
-                                    data.field 		    = ar_th_name;
-                                }
-                                if (en_st_name != null) {
-                                    data.field 		    = en_st_name;
-                                }
-                                if (en_nd_name != null) {
-                                    data.field 		    = en_nd_name;
-                                }
-                                if (en_rd_name != null) {
-                                    data.field 		    = en_rd_name;
-                                }
-                                if (en_th_name != null) {
-                                    data.field 		    = en_th_name;
-                                }
-                                if (full_name != null) {
-                                    data.field 		    = full_name;
-                                }
-                                if (student_id_number != null) {
-                                    data.field 		    = student_id_number;
-                                }
-                                if (id_number != null) {
-                                    data.field 		    = id_number;
-                                }
-                                if (id_number_m != null) {
-                                    data.field 		    = id_number_m;
-                                }
-                                if (mobile1 != null) {
-                                    data.field 		    = mobile1;
-                                }
-                                if (mobile2 != null) {
-                                    data.field 		    = mobile2;
-                                }
-                                if (mobile1_m != null) {
-                                    data.field 		    = mobile1_m;
-                                }
-                                if (mobile2_m != null) {
-                                    data.field 		    = mobile2_m;
-                                }
-                                if (submitted_name != null) {
-                                    data.field 		    = submitted_name;
-                                }
-                                if (submitted_id_number != null) {
-                                    data.field 		    = submitted_id_number;
-                                }
-                                if (submitted_mobile != null) {
-                                    data.field 		    = submitted_mobile;
-                                }
-                                if (home_phone != null) {
-                                    data.field 		    = home_phone;
-                                }
-                                if (email != null) {
-                                    data.field 		    = email;
-                                }
-                                if (job != null) {
-                                    data.field 		    = job;
-                                }
-                                if (qualification != null) {
-                                    data.field 		    = qualification;
-                                }
-                                if (facebook != null) {
-                                    data.field 		    = facebook;
-                                }
-                                if (whatsapp_number != null) {
-                                    data.field 		    = whatsapp_number;
-                                }
-                                if (street_name != null) {
-                                    data.field 		    = street_name;
-                                }
-                                if (state != null) {
-                                    data.field 		    = state;
-                                }
-                                if (home_phone_m != null) {
-                                    data.field 		    = home_phone_m;
-                                }
-                                if (job_m != null) {
-                                    data.field 		    = job_m;
-                                }
-                                if (email_m != null) {
-                                    data.field 		    = email_m;
-                                }
-                                if (qualification_m != null) {
-                                    data.field 		    = qualification_m;
-                                }
-                                if (facebook_m != null) {
-                                    data.field 		    = facebook_m;
-                                }
-                                if (whatsapp_number_m != null) {
-                                    data.field 		    = whatsapp_number_m;
-                                }
-                                if (street_name_m != null) {
-                                    data.field 		    = street_name_m;
-                                }  
-                                if (state_m != null) {
-                                    data.field 		    = state_m;
-                                }                                  
-                                
-                            // end set request field
-                        }
-                    },
-                columns: [
-                    {data: 'check',                 name: 'check', orderable: false, searchable: false},
-                    {data: 'DT_RowIndex',           name: 'DT_RowIndex', orderable: false, searchable: false},
-                    {data: 'student_number',        name: 'student_number'}, 
-                    {data: 'student_name',          name: 'student_name'},
-                    {data: 'father_name',           name: 'father_name'},
-                    {data: 'full_name',             name: 'full_name'}, 
-                    {data: 'division',              name: 'division'},                        
-                    {data: 'grade',                 name: 'grade'},                        
-                    {data: 'student_type',          name: 'student_type'},                        
-                    {data: 'religion',              name: 'religion'},                        
-                    {data: 'reg_type',              name: 'reg_type'},                        
-                    {data: 'registration_status',   name: 'registration_status'},                        
-                    {data: 'student_id_type',       name: 'student_id_type'},                        
-                    {data: 'student_id_number',     name: 'student_id_number'},                        
-                    {data: 'application_date',      name: 'application_date'},                        
-                    {data: 'submitted_name',        name: 'submitted_name'},                        
-                    {data: 'submitted_mobile',      name: 'submitted_mobile'},                        
-                    {data: 'mobile1',               name: 'mobile1'},                        
-                    {data: 'mobile2',               name: 'mobile2'},                        
-                    {data: 'mobile1_m',             name: 'mobile1_m'},                        
-                    {data: 'mobile2_m',             name: 'mobile2_m'},                        
-                    {data: 'id_number',             name: 'id_number'},                        
-                    {data: 'id_number_m',           name: 'id_number_m'},                        
-                    {data: 'email',                 name: 'email'},                        
-                    {data: 'email_m',               name: 'email_m'},                        
-                ],
-                @include('layouts.backEnd.includes.datatables._datatableLang')
-            });
+                        // set request field
+                            if (student_number != null) {
+                                data.field 		    = student_number;
+                            }
+                            if (ar_student_name != null) {
+                                data.field 		    = ar_student_name;
+                            }
+                            if (en_student_name != null) {
+                                data.field 		    = en_student_name;
+                            }
+                            if (ar_st_name != null) {
+                                data.field 		    = ar_st_name;
+                            }
+                            if (ar_nd_name != null) {
+                                data.field 		    = ar_nd_name;
+                            }
+                            if (ar_rd_name != null) {
+                                data.field 		    = ar_rd_name;
+                            }
+                            if (ar_th_name != null) {
+                                data.field 		    = ar_th_name;
+                            }
+                            if (en_st_name != null) {
+                                data.field 		    = en_st_name;
+                            }
+                            if (en_nd_name != null) {
+                                data.field 		    = en_nd_name;
+                            }
+                            if (en_rd_name != null) {
+                                data.field 		    = en_rd_name;
+                            }
+                            if (en_th_name != null) {
+                                data.field 		    = en_th_name;
+                            }
+                            if (full_name != null) {
+                                data.field 		    = full_name;
+                            }
+                            if (student_id_number != null) {
+                                data.field 		    = student_id_number;
+                            }
+                            if (id_number != null) {
+                                data.field 		    = id_number;
+                            }
+                            if (id_number_m != null) {
+                                data.field 		    = id_number_m;
+                            }
+                            if (mobile1 != null) {
+                                data.field 		    = mobile1;
+                            }
+                            if (mobile2 != null) {
+                                data.field 		    = mobile2;
+                            }
+                            if (mobile1_m != null) {
+                                data.field 		    = mobile1_m;
+                            }
+                            if (mobile2_m != null) {
+                                data.field 		    = mobile2_m;
+                            }
+                            if (submitted_name != null) {
+                                data.field 		    = submitted_name;
+                            }
+                            if (submitted_id_number != null) {
+                                data.field 		    = submitted_id_number;
+                            }
+                            if (submitted_mobile != null) {
+                                data.field 		    = submitted_mobile;
+                            }
+                            if (home_phone != null) {
+                                data.field 		    = home_phone;
+                            }
+                            if (email != null) {
+                                data.field 		    = email;
+                            }
+                            if (job != null) {
+                                data.field 		    = job;
+                            }
+                            if (qualification != null) {
+                                data.field 		    = qualification;
+                            }
+                            if (facebook != null) {
+                                data.field 		    = facebook;
+                            }
+                            if (whatsapp_number != null) {
+                                data.field 		    = whatsapp_number;
+                            }
+                            if (street_name != null) {
+                                data.field 		    = street_name;
+                            }
+                            if (state != null) {
+                                data.field 		    = state;
+                            }
+                            if (home_phone_m != null) {
+                                data.field 		    = home_phone_m;
+                            }
+                            if (job_m != null) {
+                                data.field 		    = job_m;
+                            }
+                            if (email_m != null) {
+                                data.field 		    = email_m;
+                            }
+                            if (qualification_m != null) {
+                                data.field 		    = qualification_m;
+                            }
+                            if (facebook_m != null) {
+                                data.field 		    = facebook_m;
+                            }
+                            if (whatsapp_number_m != null) {
+                                data.field 		    = whatsapp_number_m;
+                            }
+                            if (street_name_m != null) {
+                                data.field 		    = street_name_m;
+                            }  
+                            if (state_m != null) {
+                                data.field 		    = state_m;
+                            }                                  
+                            
+                        // end set request field
+                    }
+                },
+            columns: [
+                {data: 'check',                 name: 'check', orderable: false, searchable: false},
+                {data: 'DT_RowIndex',           name: 'DT_RowIndex', orderable: false, searchable: false},
+                {data: 'student_number',        name: 'student_number'}, 
+                {data: 'student_name',          name: 'student_name'},
+                {data: 'father_name',           name: 'father_name'},
+                {data: 'full_name',             name: 'full_name'}, 
+                {data: 'division',              name: 'division'},                        
+                {data: 'grade',                 name: 'grade'},                        
+                {data: 'student_type',          name: 'student_type'},                        
+                {data: 'religion',              name: 'religion'},                        
+                {data: 'reg_type',              name: 'reg_type'},                        
+                {data: 'registration_status',   name: 'registration_status'},                        
+                {data: 'student_id_type',       name: 'student_id_type'},                        
+                {data: 'student_id_number',     name: 'student_id_number'},                        
+                {data: 'application_date',      name: 'application_date'},                        
+                {data: 'submitted_name',        name: 'submitted_name'},                        
+                {data: 'submitted_mobile',      name: 'submitted_mobile'},                        
+                {data: 'mobile1',               name: 'mobile1'},                        
+                {data: 'mobile2',               name: 'mobile2'},                        
+                {data: 'mobile1_m',             name: 'mobile1_m'},                        
+                {data: 'mobile2_m',             name: 'mobile2_m'},                        
+                {data: 'id_number',             name: 'id_number'},                        
+                {data: 'id_number_m',           name: 'id_number_m'},                        
+                {data: 'email',                 name: 'email'},                        
+                {data: 'email_m',               name: 'email_m'},                        
+            ],
+            @include('layouts.backEnd.includes.datatables._datatableLang')
+        });
             @include('layouts.backEnd.includes.datatables._multiSelect')
-            };                
+        };                
                   
     </script>
     @include('layouts.backEnd.includes.datatables._datatable')

@@ -131,7 +131,7 @@ class AdmissionStepsController extends Controller
             $stepValue = !empty($step_id->admission_step_id)?$step_id->admission_step_id:0;
             
             $checked = $step->id == $stepValue ?"checked":"";
-            $stepName = session('lang')== trans('admin.ar')?$step->ar_step:$step->en_step;
+            $stepName = session('lang')== 'ar'?$step->ar_step:$step->en_step;
             $output .= '<h5><li><label class="pos-rel">
                         <input type="checkbox" class="ace" name="admission_step_id[]" '.$checked.' value="'.$step->id.'" />
                         <span class="lbl"></span> '.$stepName.'
