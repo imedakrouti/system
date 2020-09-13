@@ -32,7 +32,7 @@
                           <h4>{{ trans('student::local.father_name') }}</h4>                       
                             <h3>
                                 <a href="{{route('father.show',$report->fathers->id)}}">
-                                    @if (session('lang') == trans('admin.ar'))
+                                    @if (session('lang') == 'ar')
                                         {{$report->fathers->ar_st_name}} {{$report->fathers->ar_nd_name}} {{$report->fathers->ar_rd_name}} {{$report->fathers->ar_th_name}}
                                     @else
                                         {{$report->fathers->en_st_name}} {{$report->fathers->en_nd_name}} {{$report->fathers->en_rd_name}} {{$report->fathers->en_th_name}}
@@ -53,14 +53,14 @@
                               @foreach ($mother->students as $student)
                                 <h3>
                                     <a href="{{route('students.show',$student->id)}}">
-                                    @if (session('lang') == trans('admin.ar'))
+                                    @if (session('lang') == 'ar')
                                       {{$student->ar_student_name}} 
                                     @else
                                       {{$student->en_student_name}}
                                     @endif
                                     | <span style="font-size: 18px;">
                                       | <span style="font-size: 18px;">
-                                        @if (session('lang') == trans('admin.ar'))
+                                        @if (session('lang') == 'ar')
                                             {{$student->division->ar_division_name}} | {{$student->grade->ar_grade_name}}
                                         @else
                                             {{$student->division->en_division_name}} | {{$student->grade->en_grade_name}}

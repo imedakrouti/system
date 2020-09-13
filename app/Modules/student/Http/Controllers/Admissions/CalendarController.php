@@ -23,7 +23,7 @@ class CalendarController extends Controller
                         $color = '#28D094';
                         break;
                 }
-                $fatherName = session('lang')==trans('admin.ar') ?
+                $fatherName = session('lang')=='ar' ?
                 $value->fathers->ar_st_name .' '.$value->fathers->ar_nd_name .' '.$value->fathers->ar_rd_name:
                 $value->fathers->en_st_name .' '.$value->fathers->en_nd_name .' '.$value->fathers->en_rd_name ;
 

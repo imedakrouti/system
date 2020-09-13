@@ -122,13 +122,13 @@
                             <td>{{$student->student_number}}</td>
                             {{-- student name --}}
                             <td>
-                              <a href="{{route('students.show',$student->id)}}">{{session('lang') == trans('admin.ar') ? $student->ar_student_name : $student->en_student_name}}</a>
+                              <a href="{{route('students.show',$student->id)}}">{{session('lang') == 'ar' ? $student->ar_student_name : $student->en_student_name}}</a>
                             </td>
                             {{-- father name --}}
                             <td>
                               {{-- {{dd($student->father->id)}} --}}
                                   {{-- father name --}}
-                                  @if (session('lang')==trans('admin.ar'))
+                                  @if (session('lang')=='ar')
                                     <a href="{{route('father.show',$student->father->id)}}">{{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}</a>
                                   @else
                                     <a href="{{route('father.show',$student->father->id)}}">{{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}</a>
@@ -136,15 +136,15 @@
                             </td>
                             {{-- status --}}
                             <td>
-                                {{session('lang') == trans('admin.ar')?$student->regStatus->ar_name_status:$student->regStatus->en_name_status }}
+                                {{session('lang') == 'ar'?$student->regStatus->ar_name_status:$student->regStatus->en_name_status }}
                             </td>
                             {{-- grade --}}
                             <td>
-                              {{session('lang') == trans('admin.ar')?$student->grade->ar_grade_name:$student->grade->en_grade_name }}
+                              {{session('lang') == 'ar'?$student->grade->ar_grade_name:$student->grade->en_grade_name }}
                             </td>
                             {{-- division --}}
                             <td>
-                              {{session('lang') == trans('admin.ar')?$student->division->ar_division_name:$student->division->en_division_name }}
+                              {{session('lang') == 'ar'?$student->division->ar_division_name:$student->division->en_division_name }}
                             </td>                         
                         </tr>
                       @endif

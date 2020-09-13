@@ -25,7 +25,7 @@
           <div class="card-body">
               <div class="col-md-12">
                   <h2 class="mb-2">
-                    @if (session('lang')==trans('admin.ar'))
+                    @if (session('lang')=='ar')
                     {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
                     @else
                     {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
@@ -151,16 +151,16 @@
                       {{$student->student_number}}
                     </td>
                     <td>
-                      <a href="{{route('students.show',$student->id)}}">{{session('lang') == trans('admin.ar')?$student->ar_student_name:$student->en_student_name }}</a>
+                      <a href="{{route('students.show',$student->id)}}">{{session('lang') == 'ar'?$student->ar_student_name:$student->en_student_name }}</a>
                     </td>
                     <td>
-                      {{session('lang') == trans('admin.ar')?$student->regStatus->ar_name_status:$student->regStatus->en_name_status }}
+                      {{session('lang') == 'ar'?$student->regStatus->ar_name_status:$student->regStatus->en_name_status }}
                     </td>
                     <td>
-                      {{session('lang') == trans('admin.ar')?$student->grade->ar_grade_name:$student->grade->en_grade_name }}
+                      {{session('lang') == 'ar'?$student->grade->ar_grade_name:$student->grade->en_grade_name }}
                     </td>
                     <td>
-                      {{session('lang') == trans('admin.ar')?$student->division->ar_division_name:$student->division->en_division_name }}
+                      {{session('lang') == 'ar'?$student->division->ar_division_name:$student->division->en_division_name }}
                     </td>
                     <td>
                       <a href="{{route('mother.show',$student->mother_id)}}">{{$student->mother->full_name}}</a>

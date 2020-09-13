@@ -25,7 +25,7 @@
           <div class="card-body">
               <div class="col-md-12">
                   <h2 class="mb-2">
-                    @if (session('lang')==trans('admin.ar'))
+                    @if (session('lang')=='ar')
                     {{$student->ar_student_name}} <a href="{{route('father.show',$student->father_id)}}">{{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}</a>
                     @else
                     {{$student->en_student_name}} <a href="{{route('father.show',$student->father_id)}}">{{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}</a>
@@ -227,7 +227,7 @@
                                                 <option value="">{{ trans('student::local.select') }}</option>
                                                 @foreach ($speakingLangs as $lang)
                                                     <option {{old('native_lang_id',$student->native_lang_id) == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
-                                                        {{session('lang') == trans('admin.ar') ?$lang->ar_name_lang:$lang->en_name_lang}}
+                                                        {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -243,7 +243,7 @@
                                                 <option value="">{{ trans('student::local.select') }}</option>
                                                 @foreach ($studyLangs as $lang)
                                                     <option {{old('second_lang_id',$student->second_lang_id) == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
-                                                        {{session('lang') == trans('admin.ar') ?$lang->ar_name_lang:$lang->en_name_lang}}
+                                                        {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -367,7 +367,7 @@
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($regStatus as $status)
                                                 <option {{old('registration_status_id',$student->registration_status_id) == $status->id ?'selected' : ''}} value="{{$status->id}}">
-                                                    {{session('lang') == trans('admin.ar') ?$status->ar_name_status:$status->en_name_status}}
+                                                    {{session('lang') == 'ar' ?$status->ar_name_status:$status->en_name_status}}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -386,7 +386,7 @@
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($divisions as $division)
                                                 <option {{old('division_id',$student->division_id) == $division->id ?'selected' : ''}} value="{{$division->id}}">
-                                                    {{session('lang') == trans('admin.ar') ?$division->ar_division_name:$division->en_division_name}}
+                                                    {{session('lang') == 'ar' ?$division->ar_division_name:$division->en_division_name}}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -402,7 +402,7 @@
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($grades as $grade)
                                                 <option {{old('grade_id',$student->grade_id) == $grade->id ?'selected' : ''}} value="{{$grade->id}}">
-                                                    {{session('lang') == trans('admin.ar') ?$grade->ar_grade_name:$grade->en_grade_name}}
+                                                    {{session('lang') == 'ar' ?$grade->ar_grade_name:$grade->en_grade_name}}
                                                 </option>
                                             @endforeach
                                         </select>

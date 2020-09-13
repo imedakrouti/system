@@ -35,7 +35,7 @@
                             <select name="father_id[]" class="form-control select2" required multiple>
                                 @foreach ($fathers as $father)
                                     <option {{old('father_id') == $father->id ? 'selected' :''}} value="{{$father->id}}">
-                                    @if (session('lang') == trans('admin.ar'))
+                                    @if (session('lang') == 'ar')
                                       {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
                                     @else
                                       {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}

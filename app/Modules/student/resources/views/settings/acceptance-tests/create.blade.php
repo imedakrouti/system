@@ -53,7 +53,7 @@
                             <select name="grade_id[]" class="form-control select2" multiple>
                                 @foreach ($grades as $grade)
                                     <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
-                                        {{session('lang') ==trans('admin.ar') ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
+                                        {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
                                 @endforeach
                             </select>
                           </div>

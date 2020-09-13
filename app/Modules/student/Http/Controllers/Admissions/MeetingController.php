@@ -31,7 +31,7 @@ class MeetingController extends Controller
                         return $this-> getFatherName($data);
                     })
                     ->addColumn('interview_id',function($data){
-                        return session('lang') == trans('admin.ar') ? $data->interviews->ar_name_interview :
+                        return session('lang') == 'ar' ? $data->interviews->ar_name_interview :
                         $data->interviews->en_name_interview;
                     })
                     ->addColumn('check', function($data){
@@ -48,7 +48,7 @@ class MeetingController extends Controller
     }
     private function getFatherName($data)
     {
-        return session('lang') == trans('admin.ar') ?
+        return session('lang') == 'ar' ?
         '<a href="'.route('father.show',$data->father_id).'" >'.$data->fathers->ar_st_name .' '.$data->fathers->ar_nd_name .' '.$data->fathers->ar_rd_name .' '.$data->fathers->ar_th_name .'</a>':
         $data->fathers->en_st_name .' '.$data->fathers->en_nd_name .' '.$data->fathers->en_rd_name .' '.$data->fathers->en_th_name;  
     }

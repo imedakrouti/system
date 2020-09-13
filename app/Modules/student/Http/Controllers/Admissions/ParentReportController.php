@@ -48,7 +48,7 @@ class ParentReportController extends Controller
 
     private function getFatherName($data)
     {
-        return session('lang') == trans('admin.ar') ?
+        return session('lang') == 'ar' ?
         '<a href="'.route('father.show',$data->fathers->id).'">'.$data->fathers->ar_st_name .' '.$data->fathers->ar_nd_name .' '.$data->fathers->ar_rd_name .' '.$data->fathers->ar_th_name .'</a>':
         
         '<a href="'.route('father.show',$data->fathers->id).'">'.$data->fathers->en_st_name .' '.$data->fathers->en_nd_name .' '.$data->fathers->en_rd_name .' '.$data->fathers->en_th_name .'</a>';  

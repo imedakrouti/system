@@ -27,7 +27,7 @@ class AcceptanceTestController extends Controller
                             return $btn;
                     })
                     ->addColumn('grade_id',function($data){
-                        return session('lang') ==trans('admin.ar') ? 
+                        return session('lang') =='ar' ? 
                         $data->grades->ar_grade_name : $data->grades->en_grade_name;
                     })
                     ->addColumn('check', function($data){

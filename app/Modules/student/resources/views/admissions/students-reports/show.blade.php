@@ -31,7 +31,7 @@
                         <div class="col-md-4">   
                           <h4>{{ trans('student::local.father_name') }}</h4>                       
                             <h3>                                
-                                @if (session('lang') == trans('admin.ar'))
+                                @if (session('lang') == 'ar')
                                     <a href="{{route('students.show',$report->students->id)}}">{{$report->students->ar_student_name}} </a> <a href="{{route('father.show',$report->students->father->id)}}">{{$report->students->father->ar_st_name}} {{$report->students->father->ar_nd_name}} {{$report->students->father->ar_rd_name}} {{$report->students->father->ar_th_name}}</a>
                                 @else
                                     <a href="{{route('students.show',$report->students->id)}}">{{$report->students->en_student_name}} </a> <a href="{{route('father.show',$report->students->father->id)}}">{{$report->students->father->en_st_name}} {{$report->students->father->en_nd_name}} {{$report->students->father->en_rd_name}} {{$report->students->father->en_th_name}}</a>
@@ -53,13 +53,13 @@
                                     @if ($student->id <> $report->students->id)
                                         <h3>
                                             <a href="{{route('students.show',$student->id)}}">
-                                            @if (session('lang') == trans('admin.ar'))
+                                            @if (session('lang') == 'ar')
                                                 {{$student->ar_student_name}} 
                                             @else
                                                 {{$student->en_student_name}}
                                             @endif
                                             | <span style="font-size: 18px;">
-                                                @if (session('lang') == trans('admin.ar'))
+                                                @if (session('lang') == 'ar')
                                                     {{$student->division->ar_division_name}} | {{$student->grade->ar_grade_name}}
                                                 @else
                                                     {{$student->division->en_division_name}} | {{$student->grade->en_grade_name}}

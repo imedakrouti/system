@@ -25,7 +25,7 @@
       <div class="card">
         <div class="card-header">
             <h4 class="card-title">{{$title}} | 
-                @if (session('lang')==trans('admin.ar'))
+                @if (session('lang')=='ar')
                 <a href="{{route('father.show',$father->id)}}">{{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}</a>
                 @else
                 <a href="{{route('father.show',$father->id)}}">{{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}</a>
@@ -40,7 +40,7 @@
                     @csrf
                     <table id="dynamic-table" class="table data-table" >
                         <caption>
-                            @if (session('lang')==trans('admin.ar'))
+                            @if (session('lang')=='ar')
                             {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
                             @else
                             {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}

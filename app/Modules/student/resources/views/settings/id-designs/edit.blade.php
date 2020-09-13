@@ -36,7 +36,7 @@
                             <select name="division_id" class="form-control">
                                 @foreach ($divisions as $division)
                                     <option {{old('division_id',$design->division_id) == $division->id ? 'selected' : ''}} value="{{$division->id}}">
-                                        {{session('lang') ==trans('admin.ar') ?$division->ar_division_name:$division->en_division_name}}</option>                                    
+                                        {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
                                 @endforeach
                             </select>
                           </div>
@@ -49,7 +49,7 @@
                             <select name="grade_id" class="form-control">
                                 @foreach ($grades as $grade)
                                     <option {{old('grade_id',$design->grade_id) == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
-                                        {{session('lang') ==trans('admin.ar') ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
+                                        {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
                                 @endforeach
                             </select>
                           </div>

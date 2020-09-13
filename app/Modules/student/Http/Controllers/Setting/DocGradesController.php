@@ -137,11 +137,11 @@ class DocGradesController extends Controller
                 return $btn;
         })
         ->addColumn('grade_id',function($data){
-            return session('lang') == trans('admin.ar') ? 
+            return session('lang') == 'ar' ? 
             $data->grades->ar_grade_name : $data->grades->en_grade_name;
         })
         ->addColumn('admission_document_id',function($data){
-            return session('lang') == trans('admin.ar') ? 
+            return session('lang') == 'ar' ? 
             $data->admissionDocuments->ar_document_name :$data->admissionDocuments->en_document_name;
         })                    
         ->addColumn('check', function($data){
@@ -173,7 +173,7 @@ class DocGradesController extends Controller
             $document_id->admission_document_id:0;
             // dd($document_id);
             $checked = $document->id == $documentValue ?"checked":"";
-            $documentName = session('lang')== trans('admin.ar')?$document->ar_document_name:
+            $documentName = session('lang')== 'ar'?$document->ar_document_name:
             $document->en_document_name;
             $output .= '<h5><li><label class="pos-rel">
                         <input type="checkbox" class="ace" name="admission_document_id[]" '.$checked.' value="'.$document->id.'" />

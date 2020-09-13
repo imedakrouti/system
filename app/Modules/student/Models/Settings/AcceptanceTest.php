@@ -24,4 +24,8 @@ class AcceptanceTest extends Model
     {
         return $this->belongsTo('Student\Models\Settings\Grade','grade_id');
     }
+    public function scopeSort($query)
+    {
+        return $query->orderBy('sort','asc');
+    }
 }

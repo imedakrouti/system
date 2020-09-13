@@ -91,5 +91,9 @@ class Student extends Model
     {
         return $this->belongsTo('App\Models\Admin','employee_id');
     }
+    public function assessments()
+    {
+        return $this->hasMany('Student\Models\Admissions\Assessment','student_id');
+    }
 
 }

@@ -38,9 +38,9 @@
                                 <div class="card-body">                                
                                 <p>                                    
                                     <strong>{{ trans('student::local.division') }}</strong> : 
-                                    {{session('lang') == trans('admin.ar') ? $design->division->ar_division_name : $design->division->en_division_name}} <br>
+                                    {{session('lang') == 'ar' ? $design->division->ar_division_name : $design->division->en_division_name}} <br>
                                     <strong>{{ trans('student::local.grade') }}</strong> : 
-                                    {{session('lang') == trans('admin.ar') ? $design->grade->ar_grade_name : $design->grade->en_grade_name}}
+                                    {{session('lang') == 'ar' ? $design->grade->ar_grade_name : $design->grade->en_grade_name}}
                                     
                                 </p>
 

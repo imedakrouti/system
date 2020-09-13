@@ -28,5 +28,11 @@ Route::group(['namespace'=>'Admissions'],function(){
     Route::put('/employee-admission/find','EmployeeAdmissionController@find')->name('employee-admission.find');   
     Route::get('/employee-admission/report','EmployeeAdmissionController@report')->name('emp-open.print');   
 
+    // Assessment result
+    Route::resource('/assessment-result','AssessmentController')->except('destroy');
+    Route::post('/assessment-result/destroy','AssessmentController@destroy')->name('assessment-result.destroy');    
+    // Test
+    Route::post('/test/store','AssessmentController@storeTest')->name('test.store');
+    Route::post('/test/store/destroy','AssessmentController@destroyTest')->name('test.destroy');
     
 });

@@ -35,7 +35,7 @@
                             <select name="grade_id[]" class="form-control select2" multiple>
                                 @foreach ($grades as $grade)
                                     <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
-                                        {{session('lang') ==trans('admin.ar') ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
+                                        {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
                                 @endforeach
                             </select>
                           </div>
@@ -48,7 +48,7 @@
                             <select name="admission_document_id[]" class="form-control select2" multiple>
                                 @foreach ($documents as $document)
                                     <option {{old('admission_document_id') == $document->id ? 'selected' : ''}} value="{{$document->id}}">
-                                        {{session('lang') ==trans('admin.ar') ?$document->ar_document_name:$document->en_document_name}}</option>                                    
+                                        {{session('lang') =='ar' ?$document->ar_document_name:$document->en_document_name}}</option>                                    
                                 @endforeach
                             </select>
                           </div>

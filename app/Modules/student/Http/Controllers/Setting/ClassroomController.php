@@ -145,14 +145,14 @@ class ClassroomController extends Controller
                             return $btn;
                     })
                     ->addColumn('division_id',function($data){
-                        return session('lang') == trans('admin.ar') ? 
+                        return session('lang') == 'ar' ? 
                         $data->division->ar_division_name : $data->division->en_division_name;
                     })
                     ->addColumn('year_id',function($data){
                         return $data->year->name;
                     })
                     ->addColumn('grade_id',function($data){
-                        return session('lang') == trans('admin.ar') ? 
+                        return session('lang') == 'ar' ? 
                         $data->grade->ar_grade_name : $data->grade->en_grade_name;
                     })
                     ->addColumn('check', function($data){

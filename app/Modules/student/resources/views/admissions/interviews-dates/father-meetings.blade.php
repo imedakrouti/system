@@ -25,7 +25,7 @@
           <div class="card-body">
               <div class="col-md-12">
                   <h2 class="mb-2">
-                    @if (session('lang')==trans('admin.ar'))
+                    @if (session('lang')=='ar')
                     <a href="{{route('father.show',$father->id)}}">{{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}</a>
                     @else
                     <a href="{{route('father.show',$father->id)}}">{{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}</a>

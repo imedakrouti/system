@@ -4,7 +4,7 @@
 <h6>{{ trans('student::local.created_at') }} : {{$report->created_at}}</h6>
 <h6>{{ trans('student::local.updated_at') }} : {{$report->updated_at}}</h6>
 <h4 class="mt-1">{{ trans('student::local.parent_name') }} :         
-    @if (session('lang') == trans('admin.ar'))
+    @if (session('lang') == 'ar')
     {{$report->students->ar_student_name}} {{$report->students->father->ar_st_name}} {{$report->students->father->ar_nd_name}} {{$report->students->father->ar_rd_name}} {{$report->students->father->ar_th_name}}
     @else
     {{$report->students->en_student_name}} {{$report->students->father->en_st_name}} {{$report->students->father->en_nd_name}} {{$report->students->father->en_rd_name}} {{$report->students->father->en_th_name}}
