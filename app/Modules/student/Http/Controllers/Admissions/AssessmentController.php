@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Student\Models\Settings\AcceptanceTest;
 use Student\Models\Students\Student;
 use DB;
+use PDF;
 use Student\Models\Admissions\Test;
 
 class AssessmentController extends Controller
@@ -152,10 +153,12 @@ class AssessmentController extends Controller
      */
     public function show($id)
     {
+        $employees = Employee::all();
+        $tests = AcceptanceTest::sort()->get();
         $assessment = Assessment::with('students','tests')->findOrFail($id);                
         $title = trans('student::local.show_tests');        
         return view('student::admissions.assessment-results.show',
-        compact('title','assessment'));
+        compact('title','assessment','tests','employees'));
     }
 
     /**
@@ -210,5 +213,29 @@ class AssessmentController extends Controller
             }
         }
         return response(['status'=>true]);        
+    }
+    public function storeTest()
+    {
+        if (request()->ajax()) {
+            Test::create([
+                'assessment_id'         => request('assessment_id'),
+                'acceptance_test_id'    => request('acceptance_test_id'),
+                'test_result'           => request('test_result'),
+                'employee_id'           => request('employee_id'),
+            ]); 
+        }
+        return response(['status'=>true]);   
+    }
+    public function printReport($id)
+    {
+        $data['schoolName'] = session('lang') == 'ar'?settingHelper()->ar_school_name:settingHelper()->en_school_name;    
+        $data['logo'] = public_path('storage/logo/'.settingHelper()->logo);    
+        $data['tests'] =  AcceptanceTest::sort()->get();
+        $data['assessment'] =  Assessment::with('students','tests')->findOrFail($id); 
+        $data['title'] = 'Assessment Result';        
+        $filename = 'result.pdf';
+
+        $pdf = PDF::loadView('student::admissions.assessment-results.pdf-report', $data);
+		return $pdf->stream( $filename);
     }
 }

@@ -101,10 +101,10 @@ class EmployeeAdmissionController extends Controller
                  
         $data['title'] = 'Employee Open Admission';    
         $data['schoolName'] = session('lang') == 'ar'?settingHelper()->ar_school_name:settingHelper()->en_school_name;    
+        $data['logo'] = public_path('storage/logo/'.settingHelper()->logo);    
         $data['fromDate'] = request('fromDate');
         $data['toDate'] = request('toDate');
 
-        $data['logo'] = public_path('storage/logo/'.settingHelper()->logo);    
         // dd(public_path('storage/icon/'.settingHelper()->icon));
         $filename = 'admissions.pdf';
 

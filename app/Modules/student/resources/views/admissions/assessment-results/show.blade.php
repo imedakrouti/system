@@ -34,7 +34,7 @@
                 </h3>
                 <h5><strong>{{ trans('student::local.grade') }}</strong> : {{session('lang') == 'ar' ?$assessment->students->grade->ar_grade_name:$assessment->student->grade->en_grade_name}}</h5>
                 <h5><strong>{{ trans('student::local.division') }}</strong> : {{session('lang') == 'ar' ?$assessment->students->division->ar_division_name:$assessment->students->division->en_division_name}}</h5>
-                <h5><strong>{{ trans('student::local.application_date') }} : {{$assessment->students->application_date}}</strong></h5>
+                <h5><strong>{{ trans('student::local.application_date') }}</strong> : {{$assessment->students->application_date}}</h5>
             </div>
         </div>
       </div>
@@ -50,10 +50,11 @@
               <h5 class="mb-1"><strong> {{ trans('student::local.acceptance') }}</strong> :{{$assessment->acceptance}}</h5>
               <h5 class="mb-2"><strong> {{ trans('student::local.notes') }}</strong> :{{$assessment->notes}}</h5>
                             
-              <a href="#" class="btn btn-success mb-1" data-toggle="modal" data-target="#defaultSize">
+              <a href="#" class="btn btn-success mb-1" data-toggle="modal" data-target="#addTest">
                 {{ trans('student::local.add_test_result') }}
               </a>
               <a href="#" id="btnDelete" class="btn btn-danger mb-1">{{ trans('admin.delete') }}</a>
+              <a href="{{route('print-testReport.pdf',$assessment->id)}}" id="btnDelete" class="btn btn-info mb-1">{{ trans('admin.print') }}</a>
               <div class="table-responsive">
                 <form action="" method="POST" id="formData">
                   @csrf
@@ -69,7 +70,7 @@
                           <td>
                             <label class="pos-rel">
                               <input type="checkbox" class="ace" name="id[]" value="{{$test->id}}">
-                              <span class="lbl"></span> {{$test->acceptTest->ar_test_name}}
+                              <span class="lbl"></span>{{session('lang') == 'ar' ?$test->acceptTest->ar_test_name : $test->acceptTest->en_test_name}}
                           </label> 
                           </td>
                           <td class="center">{{$test->test_result}}</td>
@@ -123,6 +124,35 @@
           }	else{
               swal("{{trans('msg.delete_confirmation')}}", "{{trans('msg.no_records_selected')}}", "info");
           }          
+        })
+
+        $('#btnSave').on('click',function(event){
+          event.preventDefault();
+          var form_data = $('#formTest').serialize();
+          $.ajax({
+                url:"{{route('test.store')}}",
+                method:"POST",
+                data:form_data,
+                dataType:"json",
+                // display succees message
+                success:function(data)
+                {
+                  location.reload();
+                },
+                // display validations error in page
+                error:function(data_error,exception){
+                  if (exception == 'error'){
+                    $('.classModal').show();
+                    $.each(data_error.responseJSON.errors,function(index,value){
+                      $('.classModal ul').append("<li>"+ value +"</li>");
+                    })
+                  }
+                  else{
+                    $('.classModal').hide();
+                  }
+                }
+              })
+          // end swal
         })
     </script>
 @endsection

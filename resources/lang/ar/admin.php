@@ -124,7 +124,7 @@ return
     'calculate_student_page'                => 'حساب عمر الطالب',
     'employee_admission'                    => 'موظفي التقديمات',
     'print_date'                            => 'تاريخ الطباعة',
-    '' => '',
+    'print'                                 => 'طباعه',
     '' => '',
     '' => '',
     '' => '',

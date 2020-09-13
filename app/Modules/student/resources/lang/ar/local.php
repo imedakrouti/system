@@ -581,7 +581,7 @@ return [
     'new_assessment'                => 'اضافة نتيجة اختيار',
     'tests'                         => 'الاختبارات',
     'add_test_result'               => 'اضافة نتيجة اختبار',
-    'excellent'                     => 'ممتار',
+    'excellent'                     => 'ممتاز',
     'very_good'                     => 'جيد جدا',
     'good'                          => 'جيد',
     'weak'                          => 'ضعيف',

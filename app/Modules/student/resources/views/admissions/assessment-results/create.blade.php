@@ -99,7 +99,7 @@
                                         <option value="good">{{ trans('student::local.good') }}</option>
                                         <option value="weak">{{ trans('student::local.weak') }}</option>
                                     </select>
-                                    <select name="employee_id" required class="form-control select2" style="margin-top: 10px;">
+                                    <select name="employee_id" required class="form-control" style="margin-top: 10px;">
                                         <option value="">{{ trans('student::local.teacher_name') }}</option>
                                         @foreach ($employees as $employee)
                                             <option value="{{$employee->id}}">{{$employee->arEmployeeName}}</option>

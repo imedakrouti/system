@@ -34,5 +34,6 @@ Route::group(['namespace'=>'Admissions'],function(){
     // Test
     Route::post('/test/store','AssessmentController@storeTest')->name('test.store');
     Route::post('/test/store/destroy','AssessmentController@destroyTest')->name('test.destroy');
+    Route::get('/test/report/{id}','AssessmentController@printReport')->name('print-testReport.pdf');
     
 });

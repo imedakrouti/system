@@ -37,6 +37,8 @@
                 width: 50%
             }
             .clear{clear: both;}
+            .mb-1{margin:1px;}
+            .mb-5{margin:5px;}
   
              
     </style>
