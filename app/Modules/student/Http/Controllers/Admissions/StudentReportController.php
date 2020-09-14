@@ -181,6 +181,8 @@ class StudentReportController extends Controller
         ->get();
         $data['title'] = 'Student Report';        
         $filename = 'student-report.pdf';
+        $data['schoolName'] = schoolName();    
+        $data['logo'] = logo(); 
 
         $pdf = PDF::loadView('student::admissions.students-reports.pdf-report', $data);
 		return $pdf->stream( $filename);

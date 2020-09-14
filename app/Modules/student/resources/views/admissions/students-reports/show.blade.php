@@ -73,9 +73,9 @@
                         </div>                        
                     </div>
                 </div>   
-                <a href="{{route('student-reports.edit',$report->id)}}"class="btn btn-warning"><i class="la la-edit"></i>{{ trans('student::local.editing') }}</a>                                                                            
-                <a target="blank" href="{{route('student-reports.pdf',$report->id)}}" class="btn btn-info"><i class="la la-print"></i>{{ trans('student::local.print') }}</a>
-                <a href="{{route('student-reports.index')}}" class="btn btn-light"><i class="la la-mail-forward"></i>{{ trans('admin.back') }}</a>   
+                <a href="{{route('student-reports.edit',$report->id)}}"class="btn btn-warning">{{ trans('student::local.editing') }}</a>                                                                            
+                <a target="blank" href="{{route('student-reports.pdf',$report->id)}}" class="btn btn-info">{{ trans('student::local.print') }}</a>
+                <a href="{{route('student-reports.index')}}" class="btn btn-light">{{ trans('admin.back') }}</a>   
                 <hr>
                 <div class="col-md-12">
                     <div class="form-group row">                          

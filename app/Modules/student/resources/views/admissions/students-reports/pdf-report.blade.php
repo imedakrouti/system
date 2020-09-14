@@ -1,9 +1,10 @@
 @include('layouts.backEnd.layout-report.header')
-<h4 class="mt-1">{{ trans('student::local.report_title') }} : {{$report->report_title}}</h4>
-<h6>{{ trans('student::local.created_by') }} : {{$report->admin['name']}}</h6>
-<h6>{{ trans('student::local.created_at') }} : {{$report->created_at}}</h6>
-<h6>{{ trans('student::local.updated_at') }} : {{$report->updated_at}}</h6>
-<h4 class="mt-1">{{ trans('student::local.parent_name') }} :         
+@include('student::_includes._header-admission')
+<h4 class="center">{{ trans('student::local.student_reports') }}</h4>
+
+<h4>{{ trans('student::local.report_title') }} : {{$report->report_title}}</h4>
+
+<h4>{{ trans('student::local.student_name') }} :         
     @if (session('lang') == 'ar')
     {{$report->students->ar_student_name}} {{$report->students->father->ar_st_name}} {{$report->students->father->ar_nd_name}} {{$report->students->father->ar_rd_name}} {{$report->students->father->ar_th_name}}
     @else
@@ -24,5 +25,5 @@
 
 <hr>
 
-<h4 >{{$report->report}}</h4>    
+<p style="text-align: justify">{{$report->report}}</p>
 @include('layouts.backEnd.layout-report.footer')

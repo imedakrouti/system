@@ -124,3 +124,17 @@ if (!function_exists('getStudentAge')) {
 		return $data;
 	}
 }
+
+if (!function_exists('schoolName')) {
+	function schoolName()
+	{
+		return session('lang') == 'ar'?settingHelper()->ar_school_name:settingHelper()->en_school_name;
+	}
+}
+
+if (!function_exists('logo')) {
+	function logo()
+	{
+		return public_path('storage/logo/'.settingHelper()->logo);   
+	}
+}

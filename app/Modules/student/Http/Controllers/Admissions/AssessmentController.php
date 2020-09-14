@@ -233,8 +233,8 @@ class AssessmentController extends Controller
     }
     public function printReport($id)
     {
-        $data['schoolName'] = session('lang') == 'ar'?settingHelper()->ar_school_name:settingHelper()->en_school_name;    
-        $data['logo'] = public_path('storage/logo/'.settingHelper()->logo);    
+        $data['schoolName'] = schoolName();    
+        $data['logo'] = logo(); 
         $data['tests'] =  AcceptanceTest::sort()->get();
         $data['assessment'] =  Assessment::with('students','tests')->findOrFail($id); 
         $data['title'] = 'Assessment Result';        

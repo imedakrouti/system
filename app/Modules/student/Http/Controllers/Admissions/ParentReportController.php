@@ -180,6 +180,9 @@ class ParentReportController extends Controller
         $data['title'] = 'Parent Report';        
         $filename = 'parent-report.pdf';
 
+        $data['schoolName'] = schoolName();    
+        $data['logo'] = logo(); 
+
         $pdf = PDF::loadView('student::admissions.parents-reports.pdf-report', $data);
 		return $pdf->stream( $filename);
     }
