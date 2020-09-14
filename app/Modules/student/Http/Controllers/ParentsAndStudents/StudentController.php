@@ -77,8 +77,10 @@ class StudentController extends Controller
                     'division','studentImage','moreBtn'])
                     ->make(true);
         }
+
         return view('student::students.index',
-        ['title'=>trans('student::local.students')]);  
+        ['title'=>trans('student::local.students'),
+        'sidebar_path'=> 'layouts.backEnd.includes.sidebars._admission']);  
     }
     private function studentImage($data)
     {

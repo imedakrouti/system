@@ -21,6 +21,6 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
     });
 });
 
-Route::redirect('/admission','admin/dashboard/admission');
+Route::redirect('/admission','admission/dashboard/admission');
 
 

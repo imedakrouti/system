@@ -47,8 +47,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
             Route::get('/','DashboardController@index');
             // dashboards
             Route::get('/dashboard','DashboardController@index')->name('main.dashboard');
-            
-            Route::get('/dashboard/staff','DashboardController@staff')->name('dashboard.staff');
+                        
 
             // change password
             Route::get('/password','AdminAuth@changePassword');

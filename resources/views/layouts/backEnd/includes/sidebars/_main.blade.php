@@ -27,7 +27,7 @@
         </li>
         {{-- students --}}
         <li class=" nav-item {{request()->segment(2)=='students'?'active':''}}">
-            <a href="{{route('site.settings')}}"><i class="la la-graduation-cap">
+            <a href="{{route('dashboard.students-affairs')}}"><i class="la la-graduation-cap">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_affairs') }}</span>
             </a>
         </li>      
