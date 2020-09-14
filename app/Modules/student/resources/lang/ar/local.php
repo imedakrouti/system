@@ -604,7 +604,7 @@ return [
     'today_applicants'              => 'المتقدمين اليوم',
     'applicants_name'               => 'اسماء المتقدمين',
     'update'                        => 'تحديث',
-    '' => '',
+    'student_id_required'           => 'يجب تحديد اسم الطالب',
     '' => '',
     '' => '',
     '' => '',

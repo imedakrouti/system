@@ -33,7 +33,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.ar_name_lang') }}</label>
                           <div class="col-md-9">
                             <input type="text" class="form-control " value="{{old('ar_name_lang')}}" placeholder="{{ trans('student::local.ar_name_lang') }}"
-                              name="ar_name_lang">
+                              name="ar_name_lang" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>
@@ -42,7 +43,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.en_name_lang') }}</label>
                           <div class="col-md-9">
                             <input type="text" class="form-control " value="{{old('en_name_lang')}}" placeholder="{{ trans('student::local.en_name_lang') }}"
-                              name="en_name_lang">
+                              name="en_name_lang" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span> 
                           </div>
                         </div>
                     </div>  
@@ -50,11 +52,12 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.lang_type') }}</label>                         
                           <div class="col-md-9">
-                            <select name="lang_type" class="form-control">
+                            <select name="lang_type" class="form-control" required>
                                 <option {{old('lang_type') == 'speak'?'selected':''}} value="speak">{{ trans('student::local.speak') }}</option>
                                 <option {{old('lang_type') == 'study' ?'selected':''}} value="study">{{ trans('student::local.study') }}</option>                                
                                 <option {{old('lang_type') == 'speak_study' ?'selected':''}} value="speak_study">{{ trans('student::local.speak_study') }}</option>                                
                             </select>
+                            <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>                                      
@@ -63,7 +66,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
                           <div class="col-md-9">
                             <input type="number" min="0" class="form-control " value="{{old('sort')}}" placeholder="{{ trans('student::local.sort') }}"
-                              name="sort">
+                              name="sort" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div> 

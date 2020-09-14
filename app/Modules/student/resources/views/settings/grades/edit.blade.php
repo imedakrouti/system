@@ -35,7 +35,8 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.ar_grade_name') }}</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('ar_grade_name',$grade->ar_grade_name)}}" placeholder="{{ trans('student::local.ar_grade_name') }}"
-                                  name="ar_grade_name">
+                                  name="ar_grade_name" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div>
@@ -44,7 +45,8 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.en_grade_name') }}</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('en_grade_name',$grade->en_grade_name)}}" placeholder="{{ trans('student::local.en_grade_name') }}"
-                                  name="en_grade_name">
+                                  name="en_grade_name" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div>
@@ -55,7 +57,8 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.ar_grade_parent') }}</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('ar_grade_parent',$grade->ar_grade_parent)}}" placeholder="{{ trans('student::local.ar_grade_parent') }}"
-                                  name="ar_grade_parent">
+                                  name="ar_grade_parent" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div>
@@ -64,7 +67,8 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.en_grade_parent') }}</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control " value="{{old('en_grade_parent',$grade->en_grade_parent)}}" placeholder="{{ trans('student::local.en_grade_parent') }}"
-                                  name="en_grade_parent">
+                                  name="en_grade_parent" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div>
@@ -75,7 +79,8 @@
                               <label class="col-md-6 label-control">{{ trans('student::local.from_age_year') }}</label>
                               <div class="col-md-6">
                                 <input type="number" min="0" class="form-control " value="{{old('from_age_year',$grade->from_age_year)}}" placeholder="{{ trans('student::local.from_age_year') }}"
-                                  name="from_age_year">
+                                  name="from_age_year" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div> 
@@ -84,7 +89,8 @@
                               <label class="col-md-6 label-control">{{ trans('student::local.from_age_month') }}</label>
                               <div class="col-md-6">
                                 <input type="number" min="0" class="form-control " value="{{old('from_age_month',$grade->from_age_month)}}" placeholder="{{ trans('student::local.from_age_month') }}"
-                                  name="from_age_month">
+                                  name="from_age_month" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div> 
@@ -93,7 +99,8 @@
                               <label class="col-md-6 label-control">{{ trans('student::local.to_age_year') }}</label>
                               <div class="col-md-6">
                                 <input type="number" min="0" class="form-control " value="{{old('to_age_year',$grade->to_age_year)}}" placeholder="{{ trans('student::local.to_age_year') }}"
-                                  name="to_age_year">
+                                  name="to_age_year" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div> 
@@ -102,7 +109,8 @@
                               <label class="col-md-6 label-control">{{ trans('student::local.to_age_month') }}</label>
                               <div class="col-md-6">
                                 <input type="number" min="0" class="form-control " value="{{old('to_age_month',$grade->to_age_month)}}" placeholder="{{ trans('student::local.to_age_month') }}"
-                                  name="to_age_month">
+                                  name="to_age_month" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div> 
@@ -113,7 +121,8 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
                               <div class="col-md-9">
                                 <input type="number" min="0" class="form-control " value="{{old('sort',$grade->sort)}}" placeholder="{{ trans('student::local.sort') }}"
-                                  name="sort">
+                                  name="sort" required>
+                                  <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
                             </div>
                         </div> 

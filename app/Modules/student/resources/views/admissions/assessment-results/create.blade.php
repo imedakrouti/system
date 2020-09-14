@@ -43,7 +43,8 @@
                                     @endif
                                     </option>
                                 @endforeach
-                            </select>                            
+                            </select>    
+                            <span class="red">{{ trans('student::local.requried') }}</span>                        
                           </div>
                         </div>
                     </div>    
@@ -55,6 +56,7 @@
                               <option value="assessment">{{ trans('student::local.assessment') }}</option>
                               <option value="re-assessment">{{ trans('student::local.re_assessment') }}</option>
                             </select>
+                            <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>  
@@ -66,6 +68,7 @@
                             <option value="accepted">{{ trans('student::local.accepted') }}</option>
                             <option value="rejected">{{ trans('student::local.rejected') }}</option>
                           </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>
                         </div>
                       </div>
                   </div>                      
@@ -109,6 +112,7 @@
                                     <span class="input-group-append" id="button-addon2">
                                       <button style="height: 40px;" class="btn btn-danger btn-sm" type="button" data-repeater-delete><i class="ft-x"></i></button>
                                     </span>
+                                    <span class="red">{{ trans('student::local.requried') }}</span>
                                   </div>
                                 </div>
                                 <button type="button" data-repeater-create class="btn btn-primary">

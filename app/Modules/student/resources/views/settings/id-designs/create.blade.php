@@ -32,12 +32,13 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.division') }}</label>
                           <div class="col-md-9">
-                            <select name="division_id" class="form-control">
+                            <select name="division_id" class="form-control" required>
                                 @foreach ($divisions as $division)
                                     <option {{old('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
                                         {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
                                 @endforeach
                             </select>
+                            <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>    
@@ -45,12 +46,13 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.grade') }}</label>
                           <div class="col-md-9">
-                            <select name="grade_id" class="form-control">
+                            <select name="grade_id" class="form-control" required>
                                 @foreach ($grades as $grade)
                                     <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
                                         {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
                                 @endforeach
                             </select>
+                            <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>    
@@ -58,7 +60,8 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('student::local.design_name') }}</label>
                           <div class="col-md-9">                            
-                            <input  type="file" name="design_name"/>
+                            <input  type="file" name="design_name" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>                                                                             

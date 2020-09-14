@@ -33,7 +33,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.ar_name_status') }}</label>
                           <div class="col-md-9">
                             <input type="text" class="form-control " value="{{old('ar_name_status')}}" placeholder="{{ trans('student::local.ar_name_status') }}"
-                              name="ar_name_status">
+                              name="ar_name_status" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>
@@ -42,7 +43,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.en_name_status') }}</label>
                           <div class="col-md-9">
                             <input type="text" class="form-control " value="{{old('en_name_status')}}" placeholder="{{ trans('student::local.en_name_status') }}"
-                              name="en_name_status">
+                              name="en_name_status" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>                    
@@ -61,7 +63,7 @@
                             <select name="shown" class="form-control">
                                 <option {{old('shown') == 'show' ?'selected':''}} value="show">{{ trans('student::local.show_regg') }}</option>
                                 <option {{old('shown') == 'hidden' ?'selected':''}} value="hidden">{{ trans('student::local.hidden_reg') }}</option>                                
-                            </select>
+                            </select>                            
                           </div>
                         </div>
                     </div>                     
@@ -70,7 +72,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
                           <div class="col-md-9">
                             <input type="number" min="0" class="form-control " value="{{old('sort')}}" placeholder="{{ trans('student::local.sort') }}"
-                              name="sort">
+                              name="sort" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div> 

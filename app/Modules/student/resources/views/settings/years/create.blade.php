@@ -33,7 +33,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.academic_year_name') }}</label>
                           <div class="col-md-9">
                             <input type="text" class="form-control " value="{{old('name')}}" placeholder="{{ trans('student::local.academic_year_name') }}"
-                              name="name">
+                              name="name" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>
@@ -42,7 +43,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.start_from') }}</label>
                           <div class="col-md-9">
                             <input type="date" class="form-control " value="{{old('start_from')}}" placeholder="{{ trans('student::local.start_from') }}"
-                              name="start_from">
+                              name="start_from" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>
@@ -51,7 +53,8 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.end_from') }}</label>
                           <div class="col-md-9">
                             <input type="date" class="form-control " value="{{old('end_from')}}" placeholder="{{ trans('student::local.end_from') }}"
-                              name="end_from">
+                              name="end_from" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>  

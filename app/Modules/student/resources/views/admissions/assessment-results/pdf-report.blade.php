@@ -57,9 +57,11 @@
 {{ trans('student::local.assessment_results') }}
 <table>
     <thead>                        
-      <th class="center">{{ trans('student::local.subject_name') }}</th>
-      <th class="center">{{ trans('student::local.evaluation') }}</th>
-      <th class="center">{{ trans('student::local.teacher_name') }}</th>
+        <tr>
+            <th class="center">{{ trans('student::local.subject_name') }}</th>
+            <th class="center">{{ trans('student::local.evaluation') }}</th>
+            <th class="center">{{ trans('student::local.teacher_name') }}</th>
+        </tr>
     </thead>
     <tbody>
       @foreach ($assessment->tests as $test)

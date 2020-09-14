@@ -38,7 +38,7 @@ class AdmissionDashController extends Controller
         $students = Student::with('grade','division')
         ->where('student_type','applicant')
         ->whereDate('created_at', '=', Carbon\Carbon::today()->toDateString())
-        ->limit(5)->orderBy('id','desc')
+        ->limit(10)->orderBy('id','desc')
         ->get();
 
         return view('student::dashboard._admission',      

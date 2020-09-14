@@ -40,6 +40,7 @@
                                     <th>{{trans('student::local.student_type')}}</th>
                                     <th>{{trans('student::local.grade')}}</th>                              
                                     <th>{{trans('student::local.division')}}</th>                              
+                                    <th>{{trans('student::local.assessment_type')}}</th>                              
                                     <th>{{trans('student::local.acceptance')}}</th>                              
                                     <th>{{trans('student::local.show_tests')}}</th>                              
                                 </tr>
@@ -85,6 +86,7 @@
             {data: 'student_type',          name: 'student_type'},                                       
             {data: 'grade',                 name: 'grade'},                     
             {data: 'division',              name: 'division'},                     
+            {data: 'assessment_type',       name: 'assessment_type'},                     
             {data: 'acceptance',            name: 'acceptance'},                     
             {data: 'show_tests',            name: 'show_tests'},                     
           ],

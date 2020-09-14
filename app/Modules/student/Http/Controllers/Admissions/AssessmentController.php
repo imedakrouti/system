@@ -36,6 +36,12 @@ class AssessmentController extends Controller
             ->addColumn('application_date',function($data){
                 return $data->students->application_date;                       
             })
+            ->addColumn('assessment_type',function($data){
+                return $data->assessment_type == trans('student::local.assessment') ? $data->assessment_type: '<span class="blue">'.$data->assessment_type.'</span>';                       
+            })
+            ->addColumn('acceptance',function($data){
+                return $data->acceptance == trans('student::local.accepted') ? '<span class="success">'.$data->acceptance.'</span>': '<span class="red">'.$data->acceptance.'</span>';                       
+            })
             ->addColumn('student_number',function($data){
                 return $data->students->student_number;                       
             })            
@@ -61,7 +67,7 @@ class AssessmentController extends Controller
                     return $btnCheck;
             })
             ->rawColumns(['check','studentName','grade','student_type',
-            'division','studentImage','show_tests','studentImage','application_date','student_type'])
+            'division','studentImage','show_tests','studentImage','application_date','student_type','assessment_type','acceptance'])
             ->make(true);
             
         }

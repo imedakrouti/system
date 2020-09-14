@@ -23,8 +23,14 @@ class AssessmentRequest extends FormRequest
      */
     public function rules()
     {
+        return [            
+            // 'student_id'    => 'required'            
+        ];
+    }
+    public function messages()
+    {
         return [
-            //
+            // 'student_id.required'         => trans('student::local.student_id_required'),            
         ];
     }
 }
