@@ -44,12 +44,46 @@
   <div class="col-12">
   <div class="card">
       <div class="card-content collapse show">
-          <div class="card-body">         
+          <div class="card-body">    
+            <form action="{{route('assessment-result.update',$assessment->id)}}" method="post">
+              @csrf
+              @method('PUT')
+              <div class="col-md-9">
+                <div class="form-group row">
+                  <label class="col-md-1 label-control"><strong>{{ trans('student::local.assessment_type') }}</strong></label>
+                  <div class="col-md-4">
+                    <select name="assessment_type" class="form-control" required>
+                      <option {{old('assessment_type' ,$assessment->assessment_type) == trans('student::local.assessment') ? 'selected' : ''}} value="assessment">{{ trans('student::local.assessment') }}</option>
+                      <option {{old('assessment_type' ,$assessment->assessment_type) == trans('student::local.re_assessment') ? 'selected' : ''}} value="re-assessment">{{ trans('student::local.re_assessment') }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div> 
+              <div class="col-md-9">
+                <div class="form-group row">
+                  <label class="col-md-1 label-control"><strong>{{ trans('student::local.acceptance') }}</strong></label>
+                  <div class="col-md-4">
+                    <select name="acceptance" class="form-control" required>
+                      <option {{old('acceptance' ,$assessment->acceptance) == trans('student::local.accepted') ? 'selected' : ''}} value="accepted">{{ trans('student::local.accepted') }}</option>
+                      <option {{old('acceptance' ,$assessment->acceptance) == trans('student::local.rejected') ? 'selected' : ''}} value="rejected">{{ trans('student::local.rejected') }}</option>
+                    </select>                    
+                  </div>
+                </div>
+              </div>   
               <h5 class="mb-1"><strong> {{ trans('student::local.assessmentDate') }}</strong> :{{$assessment->created_at}}</h5>
-              <h5 class="mb-1"><strong> {{ trans('student::local.assessment_type') }}</strong> :{{$assessment->assessment_type}}</h5>
-              <h5 class="mb-1"><strong> {{ trans('student::local.acceptance') }}</strong> :{{$assessment->acceptance}}</h5>
               <h5 class="mb-2"><strong> {{ trans('student::local.notes') }}</strong> :{{$assessment->notes}}</h5>
-                            
+              <button class="btn btn-warning btm-sm">{{ trans('student::local.update') }}</button>                          
+            </form>                 
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+  <div class="card">
+      <div class="card-content collapse show">
+          <div class="card-body">                                
               <a href="#" class="btn btn-success mb-1" data-toggle="modal" data-target="#addTest">
                 {{ trans('student::local.add_test_result') }}
               </a>
@@ -88,7 +122,6 @@
 </div>
 
 @include('student::admissions.assessment-results._test-model')
-
 
 @endsection
 @section('script')

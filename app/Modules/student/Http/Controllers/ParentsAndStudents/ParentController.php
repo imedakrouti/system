@@ -23,7 +23,7 @@ class ParentController extends Controller
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('father_name',function($data){
-                        $nationality = session('lang') ==trans('admin.ar') ? $data->nationalities->ar_name_nat_male :
+                        $nationality = session('lang') =='ar' ? $data->nationalities->ar_name_nat_male :
                         $data->nationalities->en_name_nationality;
 
                         $fatherName = $this->getFatherName($data);
@@ -37,7 +37,7 @@ class ParentController extends Controller
                     ->addColumn('mother_name',function($data){
                         $motherName = '';
                         foreach ($data->mothers as $mother) {  
-                            $nationality = session('lang') ==trans('admin.ar') ? 
+                            $nationality = session('lang') =='ar' ? 
                             $mother->nationalities->ar_name_nat_female : $data->nationalities->en_name_nationality;                                                      
                             $motherName .= '<a class="a-hover" href="'.route('mother.show',$mother->id).'">'.$mother->full_name.'</a> 
                             ['.$nationality . ']</br>';
@@ -66,7 +66,7 @@ class ParentController extends Controller
     }
     private function getFatherName($father)
     {
-        return session('lang') == trans('admin.ar') ?
+        return session('lang') == 'ar' ?
         $father->ar_st_name .' '.$father->ar_nd_name .' '.$father->ar_rd_name .' '.$father->ar_th_name :
         $father->en_st_name .' '.$father->en_nd_name .' '.$father->en_rd_name .' '.$father->en_th_name;  
     }

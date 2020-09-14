@@ -29,7 +29,7 @@ Route::group(['namespace'=>'Admissions'],function(){
     Route::get('/employee-admission/report','EmployeeAdmissionController@report')->name('emp-open.print');   
 
     // Assessment result
-    Route::resource('/assessment-result','AssessmentController')->except('destroy');
+    Route::resource('/assessment-result','AssessmentController')->except('destroy','edit');
     Route::post('/assessment-result/destroy','AssessmentController@destroy')->name('assessment-result.destroy');    
     // Test
     Route::post('/test/store','AssessmentController@storeTest')->name('test.store');

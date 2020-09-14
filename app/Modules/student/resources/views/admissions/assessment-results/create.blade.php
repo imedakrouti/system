@@ -51,7 +51,7 @@
                         <div class="form-group row">
                           <label class="col-md-2 label-control">{{ trans('student::local.assessment_type') }}</label>
                           <div class="col-md-4">
-                            <select name="acceptance" class="form-control" required>
+                            <select name="assessment_type" class="form-control" required>
                               <option value="assessment">{{ trans('student::local.assessment') }}</option>
                               <option value="re-assessment">{{ trans('student::local.re_assessment') }}</option>
                             </select>
@@ -99,7 +99,7 @@
                                         <option value="good">{{ trans('student::local.good') }}</option>
                                         <option value="weak">{{ trans('student::local.weak') }}</option>
                                     </select>
-                                    <select name="employee_id" required class="form-control" style="margin-top: 10px;">
+                                    <select name="employee_id" required class="form-control" style="margin-top:0px">
                                         <option value="">{{ trans('student::local.teacher_name') }}</option>
                                         @foreach ($employees as $employee)
                                             <option value="{{$employee->id}}">{{$employee->arEmployeeName}}</option>
@@ -107,7 +107,7 @@
                                     </select>
                                                                       
                                     <span class="input-group-append" id="button-addon2">
-                                      <button style="    height: 40px;" class="btn btn-danger btn-sm" type="button" data-repeater-delete><i class="ft-x"></i></button>
+                                      <button style="height: 40px;" class="btn btn-danger btn-sm" type="button" data-repeater-delete><i class="ft-x"></i></button>
                                     </span>
                                   </div>
                                 </div>

@@ -43,7 +43,7 @@ table.dataTable tbody tr.selected a:hover, table.dataTable tbody th.selected a:h
     color: #df3f3f;
 }
 select.form-control:not([size]):not([multiple]) {  
-    margin-top: 10px;
+    margin-top: 5px;
 }
 @media(min-width: 600px){
     div.dataTables_wrapper div.dataTables_filter {

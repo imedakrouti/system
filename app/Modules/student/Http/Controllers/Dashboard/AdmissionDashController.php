@@ -7,17 +7,96 @@ use Illuminate\Http\Request;
 use Student\Models\Guardians\Guardian;
 use Student\Models\Parents\Father;
 use Student\Models\Students\Student;
+use Carbon;
+use DB;
+use Student\Models\Settings\Division;
+
 
 class AdmissionDashController extends Controller
 {
     public function dashboard()
-    {
-        $data['applicants'] = Student::where('student_type','applicant')->count();
-        $data['students'] = Student::where('student_type','student')->count();
+    {        
+        $data['applicants'] = Student::whereHas('assessments',function($q){
+            $q->where('acceptance','accepted');
+        })
+        ->where('student_type','applicant')
+        ->count();
+
+        $data['students'] = Student::whereHas('regStatus',function($q){
+            $q->where('shown','show');
+        })
+        ->where('student_type','student')
+        ->count();
+
+        // $data['students'] = Student::where('student_type','student')->count();
         $data['parents'] = Father::count();
         $data['guardians'] = Guardian::count();
-        return view('student::dashboard._admission',
-        ['title'=>trans('admin.admissions'),'data'=>$data]);
+        
+        $gradeCounts = $this->gradeCountQuery();
+        $title = trans('admin.admissions');
+
+        $students = Student::with('grade','division')
+        ->where('student_type','applicant')
+        ->whereDate('created_at', '=', Carbon\Carbon::today()->toDateString())
+        ->limit(5)->orderBy('id','desc')
+        ->get();
+
+        return view('student::dashboard._admission',      
+        compact('title','data','students','gradeCounts'));
+    }
+
+    private function gradeCountQuery()
+    {
+     
+        return DB::table('students')
+        ->select('grades.ar_grade_name',DB::raw('count(students.id) as applicants'))
+        ->join('grades','students.grade_id','=','grades.id')
+        ->groupBy('students.grade_id')
+        ->orderBy('grades.sort','asc')
+        ->where('student_type' , 'applicant')
+        ->get();
+    }
+
+    public function applicantsByDivision()
+    {
+        $divisions = Division::sort()->get();
+        $title = trans('student::local.statistic');
+        return view('student::dashboard.applicants-divisions',
+        compact('title','divisions'));
+    }
+    public function applicantsToday()
+    {
+        $students = Student::with('grade','division')
+        ->where('student_type','applicant')
+        ->whereDate('created_at', '=', Carbon\Carbon::today()->toDateString())
+        ->orderBy('id','desc')
+        ->paginate(20);
+        $n = 1;
+        $title = trans('student::local.today_applicants');
+        return view('student::dashboard.applicants-today',
+        compact('title','students','n'));
+    }
+    private function filterByDivision()
+    {
+        return DB::table('students')
+        ->select('grades.ar_grade_name',DB::raw('count(students.id) as applicants'))
+        ->join('grades','students.grade_id','=','grades.id')
+        ->groupBy('students.grade_id')
+        ->orderBy('grades.sort','asc')
+        ->where([
+            'student_type' => request('student_type'),
+            'division_id' => request('division_id')
+        ])
+        ->get();
+    }
+    public function find()
+    {
+        if (request()->ajax()) {
+            $data = $this->filterByDivision();            
+            return datatables($data)
+                ->addIndexColumn()
+                ->make(true);
+        }
     }
  
 }

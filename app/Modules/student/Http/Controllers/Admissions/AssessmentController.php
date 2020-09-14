@@ -110,7 +110,9 @@ class AssessmentController extends Controller
         return [
             'student_id',
             'notes',
-            'admin_id'
+            'admin_id',
+            'assessment_type',
+            'acceptance'
         ];
     }
     /**
@@ -179,9 +181,12 @@ class AssessmentController extends Controller
      * @param  \App\Assessment  $assessment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Assessment $assessment)
+    public function update(AssessmentRequest $request,$id)
     {
-        //
+        $assessment = Assessment::findOrFail($id);
+        $assessment->update($request->only($this->attributes()));
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('assessment-result.show',$id);
     }
 
     /**

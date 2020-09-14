@@ -87,4 +87,94 @@
     </div>
 </div>
 
+<div class="row">
+  <div id="recent-sales" class="col-12 col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"><a href="{{route('applicants-counts.divisions')}}">{{ trans('student::local.statistic') }}</a></h4>
+        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+      </div>
+      <div class="card-content mt-1">
+        <div class="table-responsive">
+          <table id="recent-orders" class="table table-hover table-xl mb-0">
+            <thead>
+              <tr>
+                <th class="border-top-0">{{ trans('student::local.grades') }}</th>
+                <th class="border-top-0">{{ trans('student::local.applicants_count') }}</th>                        
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($gradeCounts as $count)
+                  <tr>
+                    <td>{{$count->ar_grade_name}}</td>
+                    <td>{{$count->applicants}}</td>
+                  </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"><a href="{{route('applicants.today')}}">{{ trans('student::local.today_applicants') }}</a></h4>
+        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+      </div>
+      <div class="card-content mt-1">
+        <div class="table-responsive">
+          <table id="recent-orders" class="table table-hover table-xl mb-0">
+            <thead>
+              <tr>
+                <th class="border-top-0">{{ trans('student::local.applicants_name') }}</th>
+                <th class="border-top-0">{{ trans('student::local.grade') }}</th>
+                <th class="border-top-0">{{ trans('student::local.division') }}</th>                            
+                <th class="border-top-0">{{ trans('student::local.mother_name') }}</th>                            
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($students as $student)
+                  <tr>
+                    <td>
+                      <a href="{{route('students.show',$student->id)}}">
+                        @if (session('lang') == 'ar')
+                          {{$student->ar_student_name}}
+                          {{$student->father->ar_st_name}}
+                          {{$student->father->ar_nd_name}}                          
+                          {{$student->father->ar_rd_name}}                          
+                          {{$student->father->ar_th_name}}                          
+                        @else
+                          {{$student->en_student_name}}
+                          {{$student->father->en_st_name}}
+                          {{$student->father->ar_nd_name}}                          
+                          {{$student->father->ar_rd_name}}                          
+                          {{$student->father->en_th_name}}                                                 
+                        @endif
+                      </a>
+                    </td>
+                    <td>
+                      {{session('lang') == 'ar' ? $student->grade->ar_grade_name : $student->grade->en_grade_name}}
+                    </td>
+                    <td>
+                      {{session('lang') == 'ar' ? $student->division->ar_division_name : $student->division->en_division_name}}
+                    </td>  
+                    <td>
+                      <a href="{{route('mother.show',$student->mother_id)}}">{{$student->mother->full_name}}</a>  
+                    </td>                  
+                  </tr>
+              @endforeach
+  
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+@endsection
+@section('script')
+
 @endsection
