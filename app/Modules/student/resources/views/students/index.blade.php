@@ -3,7 +3,7 @@
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
 @endsection
 @section('sidebar')
-@include($sidebar_path)
+@include('layouts.backEnd.includes.sidebars._admission')
 @endsection
 @section('content')
 

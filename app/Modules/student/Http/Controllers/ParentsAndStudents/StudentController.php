@@ -79,8 +79,7 @@ class StudentController extends Controller
         }
 
         return view('student::students.index',
-        ['title'=>trans('student::local.students'),
-        'sidebar_path'=> 'layouts.backEnd.includes.sidebars._admission']);  
+        ['title'=>trans('student::local.students')]);  
     }
     private function studentImage($data)
     {
