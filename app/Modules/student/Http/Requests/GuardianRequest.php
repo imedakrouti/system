@@ -23,7 +23,7 @@ class GuardianRequest extends FormRequest
      */
     public function rules()
     {
-        $id = request()->segment(3);
+        $id = request()->segment(2);
         return [            
             'guardian_full_name'             => 'required|max:30',
             'guardian_id_type'               => 'required',

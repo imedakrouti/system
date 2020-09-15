@@ -23,7 +23,7 @@ class FatherRequest extends FormRequest
      */
     public function rules()
     {
-        $id = request()->segment(5);
+        $id = request()->segment(4);
         return [
             'ar_st_name'            => 'required|max:30',
             'ar_nd_name'            => 'required|max:30',

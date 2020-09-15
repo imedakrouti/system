@@ -23,7 +23,7 @@ class StudentRequest extends FormRequest
      */
     public function rules()
     {
-        $id = request()->segment(3);
+        $id = request()->segment(2);
         return [
             'mother_id'             => 'required',
             'student_type'          => 'required',
