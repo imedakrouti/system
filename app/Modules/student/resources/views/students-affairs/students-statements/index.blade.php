@@ -68,12 +68,20 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('student::local.add_to_statement')}}",
+                    "text": "{{trans('student::local.data_migration')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('statements.create')}}";
                         }
                 },
+                // new btn
+                {
+                    "text": "{{trans('student::local.restore_migration')}}",
+                    "className": "btn btn-dark mr-1",
+                    action : function ( e, dt, node, config ) {
+                        window.location.href = "{{route('statements.create')}}";
+                        }
+                },                
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])
                 // print 
@@ -119,7 +127,7 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('student::local.add_to_statement')}}",
+                    "text": "{{trans('student::local.data_migration')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('statements.create')}}";
@@ -150,7 +158,7 @@
                     _token      : '{{ csrf_token() }}'
                 }
               },
-          columns: [
+            columns: [
               {data: 'check',                       name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',                 name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'student_name',                name: 'student_name'},
@@ -166,10 +174,8 @@
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
-    }
-    
-    </script>
-    
+    }    
+    </script>    
     @include('layouts.backEnd.includes.datatables._datatable')
 @endsection
 

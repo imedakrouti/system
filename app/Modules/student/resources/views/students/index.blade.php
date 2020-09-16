@@ -67,6 +67,8 @@
         var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')        
             buttons: [
+                // new
+                @include('student::students-affairs.students-statements._storeToStatement')
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
 

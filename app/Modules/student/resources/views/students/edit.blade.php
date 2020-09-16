@@ -18,7 +18,9 @@
       </div>
     </div>
 </div>
-
+@if(session('error'))
+<h3 class="red"> {{session('error')}}</h3>
+@endif  
 <div class="row">
     <div class="col-12">
       <div class="card">

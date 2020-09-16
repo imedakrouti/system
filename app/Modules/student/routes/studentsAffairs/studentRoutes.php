@@ -5,5 +5,6 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::resource('statements','StudentStatementsController')->except('show','edit','destroy');
     Route::put('statements/filter/students','StudentStatementsController@filter')->name('statements.filter');
     Route::post('/statements/destroy','StudentStatementsController@destroy')->name('statements.destroy');   
+    Route::post('/statements/store-to-statement','StudentStatementsController@storeToStatement')->name('statements.storeToStatement');   
     
 });

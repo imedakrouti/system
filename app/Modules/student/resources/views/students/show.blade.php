@@ -584,17 +584,19 @@
                 <div class="col-md-6">
                     <h3 class="blue">{{ trans('student::local.include_statement') }}</h3>                    
                 </div>
-                <div class="col-md-6">
-                    <form action="{{route('statement.addStudent')}}" method="post">
-                        @csrf
-                        <input type="hidden" name="student_id" value="{{$student->id}}">
-                        <input type="hidden" name="division_id" value="{{$student->division_id}}">
-                        <input type="hidden" name="grade_id" value="{{$student->grade_id}}">                        
-                        <input type="hidden" name="dob" value="{{$student->dob}}">
-                        <input type="hidden" name="registration_status_id" value="{{$student->registration_status_id}}">
-                        <button class="btn btn-dark pull-left"><i class="la la-file-text"></i> {{ trans('student::local.add_to_statement') }}</button>                    
-                    </form>
-                </div>                
+                @if ($student->student_type == trans('student::local.student')) 
+                    <div class="col-md-6">
+                        <form action="{{route('statement.addStudent')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="student_id" value="{{$student->id}}">
+                            <input type="hidden" name="division_id" value="{{$student->division_id}}">
+                            <input type="hidden" name="grade_id" value="{{$student->grade_id}}">                        
+                            <input type="hidden" name="dob" value="{{$student->dob}}">
+                            <input type="hidden" name="registration_status_id" value="{{$student->registration_status_id}}">
+                            <button class="btn btn-dark pull-left"><i class="la la-file-text"></i> {{ trans('student::local.add_to_statement') }}</button>                    
+                        </form>
+                    </div>                                
+                @endif
               </div>
               <div class="table-responsive">
                 <table class="table">

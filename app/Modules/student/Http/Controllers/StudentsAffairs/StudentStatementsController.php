@@ -9,6 +9,7 @@ use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
 use Student\Models\Settings\RegistrationStatus;
 use Student\Models\Settings\Year;
+use Student\Models\Students\Student;
 
 class StudentStatementsController extends Controller
 {
@@ -18,15 +19,21 @@ class StudentStatementsController extends Controller
     {
         $this->dob = getStudentAge(request('dob'));
     }
-    private function shownRegStatus()
+
+    private function shownRegStatus($regStatusId = null)
     {
+        if (!request()->has('registration_status_id')) {
+            return RegistrationStatus::findOrFail($regStatusId)->shown;                    
+        }
         return RegistrationStatus::findOrFail(request('registration_status_id'))->shown;        
     }
-    private function checkExists()
-    {
+
+    private function checkExists($studentId)
+    {      
+        $year = request()->has('to_year_id') ? request('to_year_id') : currentYear();  
         $statement = StudentStatement::where([
-            'student_id' => request('student_id'),
-            'year_id' => currentYear(),            
+            'student_id' =>  $studentId,
+            'year_id'    => $year,            
         ])->count();
         if ($statement > 0) {
             return true;
@@ -54,14 +61,14 @@ class StudentStatementsController extends Controller
         $this->prepareDateBirth();  
         $this->shownRegStatus();
 
+        if ($this->checkExists(request('student_id'))) {
+            return back()->with('error',trans('student::local.student_exist_in_statement'));            
+        }          
+
         if ($this->shownRegStatus() != trans('student::local.show_regg')) {
             return back()->with('error',trans('student::local.invalid_reg_status'));            
         }   
-        
-        if ($this->checkExists()) {
-            return back()->with('error',trans('student::local.student_exist_in_statement'));            
-        }  
-                            
+                                    
         request()->user()->statements()->create($this->attributes());        
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('students.show',request('student_id'));
@@ -148,16 +155,13 @@ class StudentStatementsController extends Controller
         $grades = Grade::sort()->get();
         $years = Year::get();
         $divisions = Division::sort()->get();
-
-        $title = trans('student::local.add_to_statement');
+        $regStatus = RegistrationStatus::sort()->get();
+        $title = trans('student::local.data_migration');
         return view('student::students-affairs.students-statements.create',
-        compact('title','grades','years','divisions'));    
+        compact('title','grades','years','divisions','regStatus'));    
 
     }
-    public function store()
-    {
-        
-    }
+
     public function destroy()
     {
         if (request()->ajax()) {
@@ -170,4 +174,68 @@ class StudentStatementsController extends Controller
         }
         return response(['status'=>true]);
     }   
+    
+    public function storeToStatement()
+    {
+        if (request()->ajax()) {
+            foreach (request('id') as $studentId) {
+                $student = Student::findOrFail($studentId);
+                $this->dob = getStudentAge($student->dob); // get dob of student
+                $this->insertInToStatement($studentId);                              
+            }
+        }
+        return response(['status'=>true]);
+    }
+
+    public function store()
+    {
+        $whereData = [
+            ['year_id'     , request('from_year_id')],
+            ['division_id' , request('from_division_id')],
+            ['grade_id'    , request('from_grade_id')]
+        ];
+        $currentStatement = StudentStatement::where($whereData)->get();
+
+        foreach ($currentStatement as $statement) {        
+            // update grade and reg_status
+            Student::where('id',$statement->student_id)
+            ->whereIn('registration_status_id',request('from_status_id'))
+            ->update([
+                'grade_id'                  => request('to_grade_id') , 
+                'registration_status_id'    => request('to_status_id')]);
+            
+            $student = Student::findOrFail($statement->student_id);
+
+            $this->dob = getStudentAgeByYear(request('to_year_id'),$student->dob); // get dob of student
+          
+            $this->insertInToStatement($statement->student_id);            
+        }
+        toast(trans('msg.stored_successfully'),'success');
+        return redirect()->route('statements.index');
+        
+    }
+    private function insertInToStatement($studentId)
+    {
+        $student = Student::findOrFail($studentId);        
+
+        if ($this->shownRegStatus($student->registration_status_id) == trans('student::local.show_regg')) {
+
+            if (!$this->checkExists($student->id)) { // not exist in statement
+
+                if ($student->student_type == trans('student::local.student')) { // only add students not applicants
+                    $year_id = request()->has('to_year_id')?request('to_year_id') : currentYear();
+                    request()->user()->statements()->create([
+                        'student_id'                => $student->id,
+                        'division_id'               => $student->division_id,
+                        'grade_id'                  => $student->grade_id,
+                        'registration_status_id'    => $student->registration_status_id,
+                        'year_id'                   => $year_id,
+                        'dd'                        => $this->dob['dd'],
+                        'mm'                        => $this->dob['mm'],
+                        'yy'                        => $this->dob['yy'],
+                    ]);                             
+                }                        
+            }  
+        }  
+    }    
 }

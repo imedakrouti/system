@@ -141,8 +141,8 @@ class StudentController extends Controller
     private function getReligion($data)
     {
         if (session('lang') == 'ar') {
-            if ($data->gender == 'male') {
-                if ($data->religion == 'muslim') {
+            if ($data->gender == trans('student::local.male')) {
+                if ($data->religion == trans('student::local.muslim')) {
                     return trans('student::local.muslim');
                 }
                 else{
@@ -150,7 +150,7 @@ class StudentController extends Controller
 
                 }
             }else{
-                if ($data->religion == 'muslim') {
+                if ($data->religion == trans('student::local.muslim')) {
                     return trans('student::local.muslim_m');
                 }
                 else{
@@ -436,7 +436,17 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(StudentRequest $request, Student $student)
-    {            
+    {    
+        if ($this->checkAgeForGrade() == 'older' ) {
+            return back()->withInput()->with('error',trans('student::local.older_message'));            
+        }
+        if ($this->checkAgeForGrade() == 'smaller' ) {
+            return back()->withInput()->with('error',trans('student::local.smaller_message'));            
+        }
+        if ($this->checkAgeForGrade() == 'invalid' ) {
+            return back()->withInput()->with('error',trans('student::local.invalid_message'));            
+        }
+
         DB::transaction(function () use ($request,$student) {  
             $this->uploadStudentImage($student->id);        
             $student->update($request->only($this->studentAttributes())
@@ -450,7 +460,6 @@ class StudentController extends Controller
             
             $this->studentAddresses($student->id);
         });   
-
         
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('students.show',$student->id);
