@@ -78,8 +78,8 @@
         {{-- students --}}
         <li class=" nav-item {{request()->segment(1)=='admissions'?'active':''}}"><a href="#"><i class="la la-graduation-cap"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.students_affairs') }}</span></a>
             <ul class="menu-content">
-                <li class=" nav-item {{request()->segment(1)=='meetings'?'active':''}}">
-                    <a href="{{route('meetings.index')}}"><i class="la la-database">
+                <li class=" nav-item {{request()->segment(1)=='statements'?'active':''}}">
+                    <a href="{{route('statements.index')}}"><i class="la la-database">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_statements') }}</span>
                     </a>
                 </li>                      
@@ -109,7 +109,11 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.transfers') }}</span>
                     </a>
                 </li> 
-            
+                <li class=" nav-item {{request()->segment(1)=='employee-admission'?'active':''}}">
+                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_id_card') }}</span>
+                    </a>
+                </li>                             
             </ul>
         </li>   
         {{-- settings --}}

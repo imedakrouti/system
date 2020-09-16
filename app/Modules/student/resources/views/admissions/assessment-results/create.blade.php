@@ -72,7 +72,7 @@
                         </div>
                       </div>
                   </div>                      
-                    <div class="col-md-9">
+                  <div class="col-md-9">
                       <div class="form-group row">
                         <label class="col-md-2 label-control">{{ trans('student::local.notes') }}</label>
                         <div class="col-md-10">

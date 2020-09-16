@@ -7,11 +7,11 @@
         <thead>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.assessmentDate') }}</th>
-                <td>{{$assessment->created_at}}</td>
+                <td class="right">{{$assessment->created_at}}</td>
             </tr>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.student_name') }}</th>
-                <td>
+                <td class="right">
                     @if (session('lang') == 'ar')
                     {{$assessment->students->ar_student_name}} 
                       {{$assessment->students->father->ar_st_name}} {{$assessment->students->father->ar_nd_name}} 
@@ -25,31 +25,31 @@
             </tr>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.grade') }}</th>
-                <td>
+                <td class="right">
                     {{session('lang') == 'ar' ?$assessment->students->grade->ar_grade_name:$assessment->student->grade->en_grade_name}}
                 </td>
             </tr>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.division') }}</th>
-                <td>
+                <td class="right">
                     {{session('lang') == 'ar' ?$assessment->students->division->ar_division_name:$assessment->students->division->en_division_name}}
                 </td>
             </tr>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.assessment_type') }}</th>
-                <td>{{$assessment->assessment_type}}</td>
+                <td class="right">{{$assessment->assessment_type}}</td>
             </tr>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.application_date') }}</th>
-                <td>{{$assessment->students->application_date}}</td>
+                <td class="right">{{$assessment->students->application_date}}</td>
             </tr>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.acceptance') }}</th>
-                <td>{{$assessment->acceptance}}</td>
+                <td class="right">{{$assessment->acceptance}}</td>
             </tr>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.notes') }}</th>
-                <td>{{$assessment->notes}}</td>
+                <td class="right">{{$assessment->notes}}</td>
             </tr>
         </thead>
     </table>

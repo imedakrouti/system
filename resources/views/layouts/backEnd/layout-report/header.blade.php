@@ -7,7 +7,7 @@
     <title>{{$title}}</title>
     <style>
         .mt-1{margin-top: 100px;"}
-        .text-align{text-align:justify}
+        .right{text-align:justify}
             table {
                 border-collapse: collapse;
                 text-align: center;

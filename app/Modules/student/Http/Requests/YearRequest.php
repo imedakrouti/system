@@ -24,7 +24,7 @@ class YearRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required',
+            'name'          => 'required|max:9',
             'start_from'    => 'required',
             'end_from'      => 'required'
         ];
@@ -33,6 +33,7 @@ class YearRequest extends FormRequest
     {
         return [
             'name.required'         => trans('student::local.name_required'),
+            'name.max'              => trans('student::local.name_max'),
             'start_from.required'   => trans('student::local.start_from_required'),
             'end_from.required'     => trans('student::local.end_from_required')
         ];

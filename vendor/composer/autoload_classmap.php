@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AdminTableSeeder' => $baseDir . '/database/seeds/AdminTableSeeder.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Employee' => $baseDir . '/app/Employee.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Admin\\AdminAuth' => $baseDir . '/app/Http/Controllers/Admin/AdminAuth.php',
     'App\\Http\\Controllers\\Admin\\AdminController' => $baseDir . '/app/Http/Controllers/Admin/AdminController.php',
@@ -3719,6 +3720,7 @@ return array(
     'Student\\Http\\Controllers\\Admissions\\StudentReportController' => $baseDir . '/app/Modules/student/Http/Controllers/Admissions/StudentReportController.php',
     'Student\\Http\\Controllers\\Age\\AgeCalculateController' => $baseDir . '/app/Modules/student/Http/Controllers/Age/AgeCalculateController.php',
     'Student\\Http\\Controllers\\Dashboard\\AdmissionDashController' => $baseDir . '/app/Modules/student/Http/Controllers/Dashboard/AdmissionDashController.php',
+    'Student\\Http\\Controllers\\Dashboard\\StudentDashController' => $baseDir . '/app/Modules/student/Http/Controllers/Dashboard/StudentDashController.php',
     'Student\\Http\\Controllers\\ParentsAndStudents\\ContactController' => $baseDir . '/app/Modules/student/Http/Controllers/ParentsAndStudents/ContactController.php',
     'Student\\Http\\Controllers\\ParentsAndStudents\\GuardianController' => $baseDir . '/app/Modules/student/Http/Controllers/ParentsAndStudents/GuardianController.php',
     'Student\\Http\\Controllers\\ParentsAndStudents\\ParentController' => $baseDir . '/app/Modules/student/Http/Controllers/ParentsAndStudents/ParentController.php',

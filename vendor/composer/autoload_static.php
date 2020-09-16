@@ -499,6 +499,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
     public static $classMap = array (
         'AdminTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminTableSeeder.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Employee' => __DIR__ . '/../..' . '/app/Employee.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AdminAuth' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminAuth.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',
@@ -4210,6 +4211,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Student\\Http\\Controllers\\Admissions\\StudentReportController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/Admissions/StudentReportController.php',
         'Student\\Http\\Controllers\\Age\\AgeCalculateController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/Age/AgeCalculateController.php',
         'Student\\Http\\Controllers\\Dashboard\\AdmissionDashController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/Dashboard/AdmissionDashController.php',
+        'Student\\Http\\Controllers\\Dashboard\\StudentDashController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/Dashboard/StudentDashController.php',
         'Student\\Http\\Controllers\\ParentsAndStudents\\ContactController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/ParentsAndStudents/ContactController.php',
         'Student\\Http\\Controllers\\ParentsAndStudents\\GuardianController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/ParentsAndStudents/GuardianController.php',
         'Student\\Http\\Controllers\\ParentsAndStudents\\ParentController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/ParentsAndStudents/ParentController.php',

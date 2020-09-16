@@ -33,7 +33,7 @@ class AdmissionDashController extends Controller
         $data['guardians'] = Guardian::count();
         
         $gradeCounts = $this->gradeCountQuery();
-        $title = trans('admin.admissions');
+        $title = trans('admin.students_affairs');
 
         $students = Student::with('grade','division')
         ->where('student_type','applicant')

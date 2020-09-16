@@ -20,6 +20,7 @@ use Student\Models\Students\Student;
 use DB;
 use Illuminate\Support\Facades\Storage;
 use Student\Models\Students\Address;
+use Student\Models\Students\StudentStatement;
 
 class StudentController extends Controller
 {
@@ -376,7 +377,7 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Student $student)
-    {
+    {        
         $title = trans('student::local.show_student_data');
         $nationalities = Nationality::sort()->get();
         $speakingLangs = Language::sort()->where('lang_type','<>','study')->get();
@@ -387,14 +388,15 @@ class StudentController extends Controller
         $schools = School::all();
         $guardians = Guardian::all(); 
         $admins = Admin::active()->get();       
-        $father_id = Student::findOrFail($student)->first()->father_id;
+        $father_id = $student->father_id;
+        $statements = StudentStatement::where('student_id',$student->id)->get();        
         $mothers = Mother::whereHas('fathers',function($q) use ($father_id){
             $q->where('father_id',$father_id);
         })->get();
                 
         return view('student::students.show',
         compact('student','title','nationalities','speakingLangs','studyLangs','regStatus',
-        'divisions','grades','schools','guardians','mothers','admins'));
+        'divisions','grades','schools','guardians','mothers','admins','statements'));
     }
     /**
      * Show the form for editing the specified resource.

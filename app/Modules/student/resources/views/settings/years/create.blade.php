@@ -2,6 +2,12 @@
 @section('sidebar')
 @include('layouts.backEnd.includes.sidebars._admission')
 @endsection
+@section('styles')
+<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/vendors/css/forms/toggle/bootstrap-switch.min.css')}}">
+<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/vendors/css/forms/toggle/switchery.min.css')}}">
+<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/css-rtl/plugins/forms/switch.css')}}">
+<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-switch.css')}}">
+@endsection
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
@@ -28,6 +34,9 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
+                    @if(session('error'))
+                        <h4 class="red"> {{session('error')}}</h4>
+                    @endif                      
                     <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.academic_year_name') }}</label>
@@ -62,11 +71,8 @@
                       <div class="form-group row">
                         <label class="col-md-3 label-control">{{ trans('student::local.default_year') }}</label>
                         <div class="col-md-3">
-                          <input type="radio"  name="status" {{old('status') == 'current'?'checked' : ''}} value="current"> {{ trans('student::local.current') }}                          
-                        </div>
-                        <div class="col-md-3">                          
-                          <input type="radio"  name="status" {{old('status') == 'not current' || old('status') == '' ?'checked' : ''}}  value="not current"> {{ trans('student::local.not_current') }}
-                        </div>
+                          <input type="checkbox" class="switch"  name="status" {{old('status') == trans('student::local.current')?'checked' : ''}} value="current" />
+                        </div>                     
                       </div>
                   </div>                   
                 </div>
@@ -84,4 +90,11 @@
       </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script src="{{asset('public/cpanel/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js')}}"></script>
+<script src="{{asset('public/cpanel/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js')}}"></script>
+<script src="{{asset('public/cpanel/app-assets/vendors/js/forms/toggle/switchery.min.js')}}"></script>
+<script src="{{asset('public/cpanel/app-assets/js/scripts/forms/switch.js')}}"></script>
+    
 @endsection

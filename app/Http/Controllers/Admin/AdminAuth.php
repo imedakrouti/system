@@ -50,7 +50,7 @@ class AdminAuth extends Controller
             session()->put('lang',authInfo()->lang);
         }
         
-        session()->forget('lang');
+        // session()->forget('lang');
         alert()->success(trans('msg.log_out'), trans('msg.good_bye'));
     	return redirect(aurl('login'));
     }

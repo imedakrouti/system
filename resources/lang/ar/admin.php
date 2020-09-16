@@ -131,7 +131,7 @@ return
     'archive'                               => 'الارشيف',
     'commissioners'                         => 'المفوضين',
     'transfers'                             => 'التحويلات',
-    '' => '',
+    'students_id_card'                      => 'كرنيهات الطلاب',
     '' => '',
     '' => '',
     '' => '',

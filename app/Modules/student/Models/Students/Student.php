@@ -95,5 +95,17 @@ class Student extends Model
     {
         return $this->hasMany('Student\Models\Admissions\Assessment','student_id');
     }
+    public function statements()
+    {
+        return $this->hasMany('Student\Models\Students\StudentStatement','student_id');
+    }
+    public function getGenderAttribute()
+    {
+        return $this->attributes['gender'] == 'male' ? trans('student::local.male') : trans('student::local.female');
+    }
+    public function getReligionAttribute()
+    {
+        return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim') : trans('student::local.non_muslim');
+    }    
 
 }

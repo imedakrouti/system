@@ -48,6 +48,7 @@
             <form action="{{route('assessment-result.update',$assessment->id)}}" method="post">
               @csrf
               @method('PUT')
+              <h5 class="mb-1"><strong> {{ trans('student::local.assessmentDate') }}</strong> :{{$assessment->created_at}}</h5>
               <div class="col-md-9">
                 <div class="form-group row">
                   <label class="col-md-1 label-control"><strong>{{ trans('student::local.assessment_type') }}</strong></label>
@@ -70,9 +71,17 @@
                   </div>
                 </div>
               </div>   
-              <h5 class="mb-1"><strong> {{ trans('student::local.assessmentDate') }}</strong> :{{$assessment->created_at}}</h5>
-              <h5 class="mb-2"><strong> {{ trans('student::local.notes') }}</strong> :{{$assessment->notes}}</h5>
-              <button class="btn btn-warning btm-sm">{{ trans('student::local.update') }}</button>                          
+              <div class="col-md-9">
+                <div class="form-group row">
+                  <label class="col-md-1 label-control">{{ trans('student::local.notes') }}</label>
+                  <div class="col-md-8">
+                    <textarea name="notes" class="form-control" cols="30" rows="5">{{$assessment->notes}}</textarea>                           
+                  </div>
+                </div>
+            </div>                             
+              <button type="submit" class="btn btn-success">
+                <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
+              </button>                                    
             </form>                 
           </div>
       </div>

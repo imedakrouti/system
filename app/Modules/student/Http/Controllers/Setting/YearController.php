@@ -55,8 +55,8 @@ class YearController extends Controller
         return [
             'name',
             'start_from',
-            'end_from',
-            'status'
+            'end_from'
+           
         ];
     }
     /**
@@ -66,8 +66,23 @@ class YearController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(YearRequest $request)
-    {                
-        $request->user()->years()->create($request->only($this->attributes()));        
+    {      
+        $status = '';
+        if (!request()->has('status')) {
+            $active = Year::where('status','current')->count();
+            if ($active == 1) {
+                return back()->withInput()->with('error',trans('student::local.must_active_year'));
+            }
+            
+           $status = 'not current';
+         
+        }else{
+            \DB::table('years')->update(['status'=>'not current']);
+            $status = request('status');
+        }    
+        $request->user()->years()->create($request->only($this->attributes()) + ['status' => $status]);  
+        $this->setCurrentYear();    
+           
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('years.index');
     }
@@ -93,7 +108,19 @@ class YearController extends Controller
      */
     public function update(YearRequest $request, Year $year)
     {
-        $year->update($request->only($this->attributes()));
+        $status = '';
+        if (!request()->has('status')) {
+            $active = Year::where('status','current')->count();
+            if ($active == 1) {
+                return back()->withInput()->with('error',trans('student::local.must_active_year'));
+            }
+            
+           $status = 'not current';
+        }else{
+            \DB::table('years')->update(['status'=>'not current']);
+            $status = request('status');
+        }
+        $year->update($request->only($this->attributes()) + ['status' => $status]);
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('years.index');
     }
@@ -110,10 +137,11 @@ class YearController extends Controller
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Year::destroy($id);
+                    Year::destroy($id);                    
                 }
             }
         }
+        $this->setCurrentYear();
         return response(['status'=>true]);
     }
 
@@ -139,5 +167,15 @@ class YearController extends Controller
             $output .= ' <option '.$selected.' value="'.$year->id.'">'.$year->name.'</option>';
         };
         return json_encode($output);
+    }
+    private function setCurrentYear()
+    {
+        $active = Year::where('status','current')->count();
+        if ($active < 1) {
+            $max = Year::max('id');
+            if (!empty($max)) {
+                Year::where('id',$max)->update(['status' => 'current']);                
+            }
+        }
     }
 }

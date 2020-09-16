@@ -19,15 +19,9 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.settings') }}</span>
             </a>
         </li>
-        {{-- admissions --}}
-        <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}">
-            <a href="{{route('dashboard.admission')}}"><i class="la la-child">
-                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.admissions') }}</span>
-            </a>
-        </li>
         {{-- students --}}
         <li class=" nav-item {{request()->segment(2)=='students'?'active':''}}">
-            <a href="{{route('dashboard.students-affairs')}}"><i class="la la-graduation-cap">
+            <a href="{{route('dashboard.admission')}}"><i class="la la-graduation-cap">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_affairs') }}</span>
             </a>
         </li>      

@@ -38,9 +38,7 @@
                     <a href="{{route('student.create',$student->father_id)}}" class="mb-1 btn btn-success white"><i class="la la-plus"></i> {{ trans('student::local.add_sibling') }}</a>
                     <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit') }}</a>
                     <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-primary white"><i class="la la-print"></i> {{ trans('student::local.print') }}</a>
-                    <a href="{{route('contacts.index',$student->father_id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
-                    <a href="{{route('student.report',$student->id)}}" class="mb-1 btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.pr_reports') }}</a>
-                    <a href="#" class="mb-1 btn btn-dark white"><i class="la la-reorder"></i> {{ trans('student::local.notes') }}</a>
+                    <a href="{{route('contacts.index',$student->father_id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>                                        
                 </div>
                 @if ($student->student_type == trans('student::local.student'))                  
                     <div class="btn-group mr-1 mb-1">
@@ -48,6 +46,8 @@
                         aria-haspopup="true" aria-expanded="false"> {{ trans('student::local.more') }}</button>
                         <div class="dropdown-menu">
                         <a href="#" class="dropdown-item" href="#">{{ trans('student::local.archive') }}</a>
+                        <a href="{{route('student.report',$student->id)}}" class="dropdown-item" href="#">{{ trans('student::local.student_reports') }}</a>
+                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.notes') }}</a>
                         <a href="#" class="dropdown-item" href="#">{{ trans('student::local.payments') }}</a>
                         <a href="#" class="dropdown-item" href="#">{{ trans('student::local.books') }}</a>                      
                         <a href="#" class="dropdown-item" href="#">{{ trans('student::local.uniform') }}</a>
@@ -61,6 +61,9 @@
                     </div>                                 
                 @endif
             </div>
+            @if(session('error'))
+                <h4 class="red"> {{session('error')}}</h4>
+            @endif              
           </div>
         </div>
       </div>
@@ -85,6 +88,7 @@
               </div>
               <hr>
               <div class="col-md-12">
+                <h3 class="red center"><strong>{{$student->student_number}}</strong></h3>
                 <h6><strong>{{ trans('student::local.created_by') }} : {{$student->admin->name}}</strong></h6>
                 <h6><strong>{{ trans('student::local.created_at') }} : </strong></h6>{{$student->created_at}}
                 <h6><strong>{{ trans('student::local.updated_at') }} : </strong></h6>{{$student->updated_at}}
@@ -213,8 +217,8 @@
                                     <div class="col-md-9">                    
                                         <select name="religion" class="form-control"  disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
-                                            <option {{old('religion',$student->religion) == 'muslim' ?'selected':''}} value="muslim">{{ trans('student::local.muslim') }}</option>
-                                            <option {{old('religion',$student->religion) == 'non_muslim' ?'selected':''}} value="non_muslim">{{ trans('student::local.non_muslim') }}</option>                                
+                                            <option {{old('religion',$student->religion) == trans('student::local.muslim') ?'selected':''}} value="muslim">{{ trans('student::local.muslim') }}</option>
+                                            <option {{old('religion',$student->religion) == trans('student::local.non_muslim') ?'selected':''}} value="non_muslim">{{ trans('student::local.non_muslim') }}</option>                                
                                         </select>
                                         
                                     </div>
@@ -285,8 +289,8 @@
                                     <div class="col-md-9">                    
                                         <select name="gender" class="form-control"  disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
-                                            <option {{old('gender',$student->gender) == 'male' ?'selected':''}} value="male">{{ trans('student::local.male') }}</option>
-                                            <option {{old('gender',$student->gender) == 'female' ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
+                                            <option {{old('gender',$student->gender) == trans('student::local.male') ?'selected':''}} value="male">{{ trans('student::local.male') }}</option>
+                                            <option {{old('gender',$student->gender) == trans('student::local.female') ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
                                         </select>
                                         
                                     </div>
@@ -576,7 +580,22 @@
       <div class="card" style="min-height: 200px">
         <div class="card-content collapse show">
           <div class="card-body">
-              <h3>{{ trans('student::local.include_statement') }}</h3>
+              <div class="row mb-1">
+                <div class="col-md-6">
+                    <h3 class="blue">{{ trans('student::local.include_statement') }}</h3>                    
+                </div>
+                <div class="col-md-6">
+                    <form action="{{route('statement.addStudent')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="student_id" value="{{$student->id}}">
+                        <input type="hidden" name="division_id" value="{{$student->division_id}}">
+                        <input type="hidden" name="grade_id" value="{{$student->grade_id}}">                        
+                        <input type="hidden" name="dob" value="{{$student->dob}}">
+                        <input type="hidden" name="registration_status_id" value="{{$student->registration_status_id}}">
+                        <button class="btn btn-dark pull-left"><i class="la la-file-text"></i> {{ trans('student::local.add_to_statement') }}</button>                    
+                    </form>
+                </div>                
+              </div>
               <div class="table-responsive">
                 <table class="table">
                   <thead>
@@ -585,10 +604,23 @@
                       <th>{{ trans('student::local.grade') }}</th>
                       <th>{{ trans('student::local.division') }}</th>
                       <th>{{ trans('student::local.registration_status_id') }}</th>                      
+                      <th>{{ trans('student::local.dd') }}</th>                      
+                      <th>{{ trans('student::local.mm') }}</th>                      
+                      <th>{{ trans('student::local.yy') }}</th>                      
                     </tr>
                   </thead>
                   <tbody>
-                
+                    @foreach ($statements as $statement)
+                        <tr>
+                            <td>{{$statement->year->name}}</td>
+                            <td>{{session('lang') == 'ar' ? $statement->grade->ar_grade_name : $statement->grade->en_grade_name}}</td>
+                            <td>{{session('lang') == 'ar' ? $statement->division->ar_division_name : $statement->division->en_division_name}}</td>                            
+                            <td>{{session('lang') == 'ar' ? $statement->regStatus->ar_name_status : $statement->regStatus->en_name_status}}</td>                                                        
+                            <td>{{$statement->dd}}</td>
+                            <td>{{$statement->mm}}</td>
+                            <td>{{$statement->yy}}</td>
+                        </tr>
+                    @endforeach
                   </tbody>
                 </table>  
               </div> 
@@ -597,7 +629,7 @@
       </div>
     </div>  
 
-  
+
     
 </div>
 @endsection

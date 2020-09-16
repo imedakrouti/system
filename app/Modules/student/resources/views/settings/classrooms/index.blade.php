@@ -62,8 +62,7 @@
 <script>
     $(function () {
         var myTable = $('#dynamic-table').DataTable({
-        @include('layouts.backEnd.includes.datatables._datatableConfig')
-            dom: 'Bfrtip',
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
                 // new btn
                 {
@@ -115,8 +114,7 @@
       var division_id = $('#division_id').val();
       var year_id 		= $('#year_id').val();
       var myTable = $('#dynamic-table').DataTable({
-        @include('layouts.backEnd.includes.datatables._datatableConfig')
-            dom: 'Bfrtip',
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
                 // new btn
                 {

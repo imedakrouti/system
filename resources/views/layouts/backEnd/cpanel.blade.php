@@ -126,5 +126,6 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   {{-- message alerts --}}
   <script src="{{asset('public/cpanel/app-assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
 <script>$(".se-pre-con").fadeOut("slow");</script>
+
 </body>
 </html>

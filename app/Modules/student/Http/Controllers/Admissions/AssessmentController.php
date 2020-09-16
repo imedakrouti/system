@@ -1,9 +1,9 @@
 <?php
 
 namespace Student\Http\Controllers\Admissions;
+use App\Http\Controllers\Controller;
 
 use App\Employee;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\AssessmentRequest;
 use Student\Models\Admissions\Assessment;
 use Illuminate\Http\Request;

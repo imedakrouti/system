@@ -129,8 +129,8 @@
                 <div class="col-md-9">                    
                     <select name="religion" class="form-control" required>
                         <option value="">{{ trans('student::local.select') }}</option>
-                        <option {{old('religion',$student->religion) == 'muslim' ?'selected':''}} value="muslim">{{ trans('student::local.muslim') }}</option>
-                        <option {{old('religion',$student->religion) == 'non_muslim' ?'selected':''}} value="non_muslim">{{ trans('student::local.non_muslim') }}</option>                                
+                        <option {{old('religion',$student->religion) == trans('student::local.muslim') ?'selected':''}} value="muslim">{{ trans('student::local.muslim') }}</option>
+                        <option {{old('religion',$student->religion) == trans('student::local.non_muslim') ?'selected':''}} value="non_muslim">{{ trans('student::local.non_muslim') }}</option>                                
                     </select>
                     <span class="red">{{ trans('student::local.requried') }}</span>
                 </div>
@@ -202,8 +202,8 @@
                 <div class="col-md-9">                    
                     <select name="gender" class="form-control" required>
                         <option value="">{{ trans('student::local.select') }}</option>
-                        <option {{old('gender',$student->gender) == 'male' ?'selected':''}} value="male">{{ trans('student::local.male') }}</option>
-                        <option {{old('gender',$student->gender) == 'female' ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
+                        <option {{old('gender',$student->gender) == trans('student::local.male') ?'selected':''}} value="male">{{ trans('student::local.male') }}</option>
+                        <option {{old('gender',$student->gender) == trans('student::local.female') ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
                     </select>
                     <span class="red">{{ trans('student::local.requried') }}</span>
                 </div>
