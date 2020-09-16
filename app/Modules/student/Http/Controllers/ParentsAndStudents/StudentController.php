@@ -18,6 +18,7 @@ use Student\Models\Settings\School;
 use Student\Models\Settings\Step;
 use Student\Models\Students\Student;
 use DB;
+use PDF;
 use Illuminate\Support\Facades\Storage;
 use Student\Models\Students\Address;
 use Student\Models\Students\StudentStatement;
@@ -709,5 +710,22 @@ class StudentController extends Controller
         if ($this->yy == 0) {
             return 'invalid';
         }
+    }
+    public function printApplicationReport($student_id)
+    {
+        $filename                   = 'student-report.pdf';
+        $student                    = Student::with('nationalities','regStatus','division','grade','father','mother')
+        ->findOrFail($student_id);
+           
+        $data = [
+            'title'             => 'Student Report',       
+            'logo'              => logo(),
+            'schoolName'        => schoolName(),          
+            'student'           => $student,
+            'studentPathImage'  =>public_path('storage/student_image/'.$student->student_image),
+        		];
+
+        $pdf = PDF::loadView('student::students.pdf-application', $data);
+		return $pdf->stream( $filename);
     }
 }

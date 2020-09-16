@@ -37,7 +37,7 @@
                 <div class="btn-group">
                     <a href="{{route('student.create',$student->father_id)}}" class="mb-1 btn btn-success white"><i class="la la-plus"></i> {{ trans('student::local.add_sibling') }}</a>
                     <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('student::local.edit') }}</a>
-                    <a href="{{route('students.edit',$student->id)}}" class="mb-1 btn btn-primary white"><i class="la la-print"></i> {{ trans('student::local.print') }}</a>
+                    <a href="{{route('students.print',$student->id)}}" class="mb-1 btn btn-primary white"><i class="la la-print"></i> {{ trans('student::local.print') }}</a>
                     <a href="{{route('contacts.index',$student->father_id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>                                        
                 </div>
                 @if ($student->student_type == trans('student::local.student'))                  
