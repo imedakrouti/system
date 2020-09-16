@@ -27,8 +27,7 @@ class AdmissionDashController extends Controller
         })
         ->where('student_type','student')
         ->count();
-
-        // $data['students'] = Student::where('student_type','student')->count();
+        
         $data['parents'] = Father::count();
         $data['guardians'] = Guardian::count();
         
@@ -37,7 +36,7 @@ class AdmissionDashController extends Controller
 
         $students = Student::with('grade','division')
         ->where('student_type','applicant')
-        ->whereDate('created_at', '=', Carbon\Carbon::today()->toDateString())
+        ->whereDate('application_date', '=', Carbon\Carbon::today()->toDateString())
         ->limit(10)->orderBy('id','desc')
         ->get();
 
@@ -68,7 +67,7 @@ class AdmissionDashController extends Controller
     {
         $students = Student::with('grade','division')
         ->where('student_type','applicant')
-        ->whereDate('created_at', '=', Carbon\Carbon::today()->toDateString())
+        ->whereDate('application_date', '=', Carbon\Carbon::today()->toDateString())
         ->orderBy('id','desc')
         ->paginate(20);
         $n = 1;
