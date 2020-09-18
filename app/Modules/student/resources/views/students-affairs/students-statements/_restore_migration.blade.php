@@ -15,14 +15,14 @@
                 <p>{{ trans('student::local.restore_tip') }}</p>
             </div>
               
-            <form action="" method="post" id="formTest">
+            <form action="" method="post" id="formRestore">
               @csrf
               
                 <div class="col-md-12">
                     <div class="form-group row">
                         <label class="col-md-4 label-control">{{ trans('student::local.current_year') }}</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" value="{{fullAcademicYear()}}" readonly>                                                          
+                            <input type="text"  class="form-control" value="{{fullAcademicYear()}}" readonly>                                                          
                           </div>
                       </div>
                 </div>
@@ -39,18 +39,19 @@
                             </select>                                                                                  
                         </div>
                       </div>
-                </div>
+                </div>   
+                <div class="col-md-12">
+                  <div class="form-group row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8">
+                        <button type="button" id="btnRestore" class="btn btn-success">{{ trans('admin.restore') }}</button>                   
+                        <button type="button" data-dismiss="modal" class="btn btn-light">{{ trans('admin.cancel') }}</button>                                                                                              
+                      </div>
+                    </div>
+              </div>                           
                 
-
-              
-
-                 
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="btnSave" class="btn btn-success">{{ trans('admin.restore') }}</button>              
-            <button type="button" data-dismiss="modal" class="btn btn-light">{{ trans('admin.cancel') }}</button>              
-          </div>
+          </div>        
         </div>
       </div>
     </div>

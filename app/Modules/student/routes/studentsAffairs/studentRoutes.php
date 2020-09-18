@@ -6,6 +6,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::put('statements/filter/students','StudentStatementsController@filter')->name('statements.filter');
     Route::post('/statements/destroy','StudentStatementsController@destroy')->name('statements.destroy');   
     Route::post('/statements/store-to-statement','StudentStatementsController@storeToStatement')->name('statements.storeToStatement');   
+    Route::post('/statements/restore','StudentStatementsController@restoreMigration')->name('statements.restore');   
     
     // set-migration
     Route::get('/set-migrations','SetMigrationController@index')->name('setMigration.index');   

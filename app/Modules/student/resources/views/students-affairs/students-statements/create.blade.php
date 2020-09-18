@@ -32,85 +32,62 @@
                       <h3 class="red"> {{session('error')}}</h3>
                     @endif 
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-3">
+                        <select name="from_division_id" class="form-control" id="division_id" required>
+                            <option value="">{{ trans('student::local.divisions') }}</option>
+                            @foreach ($divisions as $division)
+                                <option value="{{$division->id}}">
+                                    {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
+                            @endforeach
+                        </select>
+                        <span class="red">{{ trans('student::local.requried') }}</span>
+                    </div> 
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
                         <h5 class="mb-1">{{ trans('student::local.move_from') }}</h5>
-                        <div class="col-md-6">
-                          <select name="from_year_id" class="form-control" id="year_id">
-                              @foreach ($years as $year)
-                                @if (currentYear() == $year->id )
-                                    <option {{currentYear() == $year->id ? 'selected' : ''}} value="{{$year->id}}">{{$year->name}}</option>                                    
-                                @endif
-                              @endforeach
-                          </select>                          
-                        </div>
-
-                        <div class="col-md-6">
-                            <select name="from_division_id" class="form-control" id="division_id" required>
-                                <option value="">{{ trans('student::local.divisions') }}</option>
-                                @foreach ($divisions as $division)
-                                    <option value="{{$division->id}}">
-                                        {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>    
-
-                        <div class="col-md-6">
-                          <select name="from_grade_id" class="form-control" id="grade_id" required>
-                              <option value="">{{ trans('student::local.grades') }}</option>
-                              @foreach ($grades as $grade)
-                                  <option value="{{$grade->id}}">
-                                      {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
-                              @endforeach
-                          </select>
-                          <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>    
-                        <div class="col-md-6 mt-1">
-                            <select name="from_status_id[]" class="form-control select2" multiple id="status_id" required>
-                                <option value="">{{ trans('student::local.register_status_id') }}</option>
-                                @foreach ($regStatus as $status)
-                                    <option value="{{$status->id}}">{{session('lang') == 'ar' ? $status->ar_name_status : $status->en_name_status}}</option>                                    
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>  
-                                                                    
+                        <select name="from_year_id" class="form-control" id="year_id">
+                            @foreach ($years as $year)
+                              @if (currentYear() == $year->id )
+                                  <option {{currentYear() == $year->id ? 'selected' : ''}} value="{{$year->id}}">{{$year->name}}</option>                                    
+                              @endif
+                            @endforeach
+                        </select> 
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-3">
                         <h5 class="mb-1">{{ trans('student::local.move_to') }}</h5>
-                        <div class="col-md-6">
-                          <select name="to_year_id" class="form-control" id="year_id" required>
+                        <select name="to_year_id" class="form-control" id="year_id" required>
                               <option value="">{{ trans('student::local.year') }}</option>
                               @foreach ($years as $year)
                                   @if (currentYear() != $year->id)
                                     <option value="{{$year->id}}">{{$year->name}}</option>                                                                          
                                   @endif
                               @endforeach
-                          </select>
-                          <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>  
-                                          
-                        <div class="col-md-6">
-                          <select name="to_grade_id" class="form-control" id="grade_id" required>
-                              <option value="">{{ trans('student::local.grades') }}</option>
-                              @foreach ($grades as $grade)
-                                  <option value="{{$grade->id}}">
-                                      {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
+                        </select>
+                        <span class="red">{{ trans('student::local.requried') }}</span>
+                      </div> 
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                          <select name="from_status_id[]" class="form-control select2" multiple id="status_id" required>
+                              <option value="">{{ trans('student::local.register_status_id') }}</option>
+                              @foreach ($regStatus as $status)
+                                  <option value="{{$status->id}}">{{session('lang') == 'ar' ? $status->ar_name_status : $status->en_name_status}}</option>                                    
                               @endforeach
                           </select>
                           <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>    
-                        
-                        <div class="col-md-6 mt-1">
-                            <select name="to_status_id" class="form-control" id="status_id" required>
-                                <option value="">{{ trans('student::local.register_status_id') }}</option>
-                                @foreach ($regStatus as $status)
-                                    <option value="{{$status->id}}">{{session('lang') == 'ar' ? $status->ar_name_status : $status->en_name_status}}</option>                                    
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>                          
                       </div>
+                      <div class="col-md-3">
+                          <select name="to_status_id" class="form-control" id="status_id" required>
+                              <option value="">{{ trans('student::local.register_status_id') }}</option>
+                              @foreach ($regStatus as $status)
+                                  <option value="{{$status->id}}">{{session('lang') == 'ar' ? $status->ar_name_status : $status->en_name_status}}</option>                                    
+                              @endforeach
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>
+                      </div>
+
                     </div>
                 </div>
                 <div class="form-actions left">

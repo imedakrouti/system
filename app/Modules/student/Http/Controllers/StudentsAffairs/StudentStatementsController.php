@@ -4,11 +4,12 @@ namespace Student\Http\Controllers\StudentsAffairs;
 use App\Http\Controllers\Controller;
 
 use Student\Models\Students\StudentStatement;
-use Illuminate\Http\Request;
+use DB;
 use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
 use Student\Models\Settings\RegistrationStatus;
 use Student\Models\Settings\Year;
+use Student\Models\Students\SetMigration;
 use Student\Models\Students\Student;
 
 class StudentStatementsController extends Controller
@@ -216,33 +217,33 @@ class StudentStatementsController extends Controller
         /**
          * loop all grades
          */
-        $grades = Grade::with('fromMigration')->get();
+        $grades = Grade::sort()->get();
         
         foreach ($grades as $grade) {
-            
-        }
-
-        // get all students in current year
-        $whereData = [
-            ['year_id'     , request('from_year_id')],
-            ['division_id' , request('from_division_id')],
-            ['grade_id'    , request('from_grade_id')]
-        ];
-        $currentStatement = StudentStatement::where($whereData)->get();
-
-        foreach ($currentStatement as $statement) {        
-            // update grade and reg_status in students table
-            Student::where('id',$statement->student_id)
-            ->whereIn('registration_status_id',request('from_status_id'))
-            ->update([
-                'grade_id'                  => request('to_grade_id') , 
-                'registration_status_id'    => request('to_status_id')]);
-            
-            $student = Student::findOrFail($statement->student_id);
-
-            $this->dob = getStudentAgeByYear(request('to_year_id'),$student->dob); // get dob of student
-            // insert students in statements
-            $this->insertInToStatement($statement->student_id);            
+            // get all students in current year
+            $whereData = [
+                ['year_id'     , request('from_year_id')],
+                ['division_id' , request('from_division_id')],
+                ['grade_id'    , $grade->id ]
+            ];
+            $currentStatement = StudentStatement::where($whereData)->get();
+    
+            foreach ($currentStatement as $statement) {     
+                
+                $toGradeId = SetMigration::where('from_grade_id',$grade->id)->first();
+                // update grade and reg_status in students table
+                Student::where('id',$statement->student_id)
+                ->whereIn('registration_status_id',request('from_status_id'))
+                ->update([
+                    'grade_id'                  => $toGradeId->to_grade_id , 
+                    'registration_status_id'    => request('to_status_id')]);
+                
+                $student = Student::findOrFail($statement->student_id);
+    
+                $this->dob = getStudentAgeByYear(request('to_year_id'),$student->dob); // get dob of student
+                // insert students in statements
+                $this->insertInToStatement($statement->student_id);            
+            }            
         }
 
         toast(trans('msg.stored_successfully'),'success');
@@ -273,5 +274,54 @@ class StudentStatementsController extends Controller
             }  
         }  
     }  
+
+    public function restoreMigration()
+    {
+        if (request()->ajax()) {
+            $invalid = '';
+            
+            /**
+             *  make sure current year is open and next year is close
+             */
+            if (!checkYearStatus(currentYear())) {                
+                $invalid = trans('student::local.close_year_first');
+            }
+            elseif (checkYearStatus(request('to_year_id'))) {                
+                $invalid = trans('student::local.open_year_first');
+            }  
+            else{                
+                DB::transaction(function ()  {
+                    $students = StudentStatement::where('year_id',request('to_year_id'))->get();
+                    foreach ($students as $student) {
+                        $whereData = [
+                            ['year_id',currentYear()],
+                            ['student_id',$student->student_id]
+                        ];
+                        
+                        $currentStatement = StudentStatement::where($whereData)->first();
+                        Student::where('id',$student->student_id)
+                        ->update([
+                            'grade_id'                  => $currentStatement->grade_id,
+                            'registration_status_id'    => $currentStatement->registration_status_id,
+                        ]);
+        
+                        $students = StudentStatement::where('year_id',request('to_year_id'))->get();
+                        
+                        $where = [
+                            ['year_id',request('to_year_id')],
+                            ['student_id',$student->student_id]
+                        ];
+                        StudentStatement::where($where)->delete();
+                    }                
+                });
+            }
+
+        }
+        if (empty($invalid)) {
+            return response(['status'=> true]);            
+        }else{
+            return response(['status' => false,'msg'=>$invalid]);
+        }
+    }
  
 }
