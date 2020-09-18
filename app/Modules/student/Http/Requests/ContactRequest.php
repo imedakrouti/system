@@ -23,7 +23,7 @@ class ContactRequest extends FormRequest
      */
     public function rules()
     {
-        $id = request()->segment(2);
+        $id = request()->segment(3);
         return [
             'relative_name'         => 'required',
             'relative_mobile'       => 'required|numeric|unique:contacts,relative_mobile,'.$id            

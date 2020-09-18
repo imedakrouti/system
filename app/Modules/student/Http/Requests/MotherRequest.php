@@ -23,7 +23,7 @@ class MotherRequest extends FormRequest
      */
     public function rules()
     {
-        $id = request()->segment(4);
+        $id = request()->segment(5);
         return [
             'full_name'             => 'required',
             'id_type_m'             => 'required',

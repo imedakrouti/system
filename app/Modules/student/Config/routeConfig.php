@@ -5,5 +5,5 @@ return [
         'backend' => 'backend',
         'frontend' => 'frontend'
     ],
-    'moduleName' => ''
+    'moduleName' => 'students-affairs'
 ];

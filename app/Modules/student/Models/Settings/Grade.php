@@ -32,4 +32,8 @@ class Grade extends Model
     {
         return $this->hasMany('Student\Models\Settings\Design','grade_id');
     }
+    public function fromMigration()
+    {
+        return $this->hasMany('Student\Models\Students\SetMigration','from_grade_id');
+    }
 }

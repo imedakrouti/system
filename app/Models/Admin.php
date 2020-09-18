@@ -186,4 +186,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Students\StudentStatement','admin_id');
     }
+    public function setMigration()
+    {
+        return $this->hasMany('Student\Models\Students\SetMigration','admin_id');
+    }
 }

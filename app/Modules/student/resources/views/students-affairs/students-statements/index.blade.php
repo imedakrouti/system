@@ -3,7 +3,7 @@
 @include('layouts.backEnd.includes.sidebars._admission')
 @endsection
 @section('styles')
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">    
 @endsection
 @section('content')
 <div class="content-header row">
@@ -38,15 +38,15 @@
                           <tr>
                             <th><input type="checkbox" class="ace" /></th>
                             <th>#</th>
-                            <th>{{ trans('student::local.student_name') }}</th>
-                            <th>{{ trans('student::local.gender') }}</th>
-                            <th>{{ trans('student::local.religion') }}</th>
+                            <th>{{ trans('student::local.student_name') }}</th>          
                             <th>{{ trans('student::local.student_id_number') }}</th>
                             <th>{{ trans('student::local.register_status_id') }}</th>
                             <th>{{ trans('student::local.dob') }}</th>
                             <th>{{ trans('student::local.dd') }}</th>                      
                             <th>{{ trans('student::local.mm') }}</th>                      
                             <th>{{ trans('student::local.yy') }}</th>                                                                                  
+                            <th>{{ trans('student::local.grade') }}</th>                                                                                  
+                            <th>{{ trans('student::local.year') }}</th>                                                                                  
                           </tr>
                       </thead>
                       <tbody>
@@ -60,6 +60,7 @@
   </div>
 </div>
 @endsection
+@include('student::students-affairs.students-statements._restore_migration')
 @section('script')
 <script>
     $(function () {
@@ -79,11 +80,11 @@
                     "text": "{{trans('student::local.restore_migration')}}",
                     "className": "btn btn-dark mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('statements.create')}}";
+                      $('#restoreMigration').modal({backdrop: 'static', keyboard: false})
+				              $('#restoreMigration').modal('show');
                         }
                 },                
-                // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])
+                
                 // print 
                 {
                     "text": "{{trans('student::local.print_statement')}}",
@@ -91,7 +92,17 @@
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('statements.create')}}";
                         }
-                },   
+                },  
+                // delete btn
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])                 
+                // new btn
+                {
+                    "text": "{{trans('student::local.set_migration')}}",
+                    "className": "btn btn-light mr-1",
+                    action : function ( e, dt, node, config ) {
+                        window.location.href = "{{route('setMigration.index')}}";
+                        }
+                },                
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
@@ -99,15 +110,15 @@
           columns: [
               {data: 'check',                       name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',                 name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'student_name',                name: 'student_name'},
-              {data: 'gender',                      name: 'gender'},              
-              {data: 'religion',                    name: 'religion'},              
+              {data: 'student_name',                name: 'student_name'},                       
               {data: 'student_id_number',           name: 'student_id_number'},              
               {data: 'regStatus',                   name: 'regStatus'},
               {data: 'dob',                         name: 'dob'},              
               {data: 'dd',                          name: 'dd'},              
               {data: 'mm',                          name: 'mm'},              
               {data: 'yy',                          name: 'yy'},   
+              {data: 'grade',                       name: 'grade'},                                      
+              {data: 'year',                        name: 'year'},   
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
@@ -118,10 +129,10 @@
     function filter()
     {
       $('#dynamic-table').DataTable().destroy();
-      var grade_id 		  = $('#grade_id').val();
-      var division_id   = $('#division_id').val();
-      var year_id 		  = $('#year_id').val();
-      var status_id 		= $('#status_id').val();
+      var grade_id 		  = $('#filter_grade_id').val();
+      var division_id   = $('#filter_division_id').val();
+      var year_id 		  = $('#filter_year_id').val();
+      var status_id 		= $('#filter_status_id').val();
       var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
@@ -132,9 +143,17 @@
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('statements.create')}}";
                         }
+                },              
+                // new btn
+                {
+                    "text": "{{trans('student::local.restore_migration')}}",
+                    "className": "btn btn-dark buttons-print btn-dark mr-1",
+                    action : function ( e, dt, node, config ) {
+                          $('#restoreMigration').modal({backdrop: 'static', keyboard: false})
+                          $('#restoreMigration').modal('show');
+                        }
                 },                
-                // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])    
+                
                 // print 
                 {
                     "text": "{{trans('student::local.print_statement')}}",
@@ -142,7 +161,18 @@
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('statements.create')}}";
                         }
-                },           
+                },     
+                      
+                // delete btn
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])    
+                // new btn
+                {
+                    "text": "{{trans('student::local.set_migration')}}",
+                    "className": "btn btn-light mr-1",
+                    action : function ( e, dt, node, config ) {
+                        window.location.href = "{{route('setMigration.index')}}";
+                        }
+                },                  
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')              
             ],
@@ -161,15 +191,15 @@
             columns: [
               {data: 'check',                       name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',                 name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'student_name',                name: 'student_name'},
-              {data: 'gender',                      name: 'gender'},              
-              {data: 'religion',                    name: 'religion'},              
+              {data: 'student_name',                name: 'student_name'},                       
               {data: 'student_id_number',           name: 'student_id_number'},              
               {data: 'regStatus',                   name: 'regStatus'},
               {data: 'dob',                         name: 'dob'},              
               {data: 'dd',                          name: 'dd'},              
               {data: 'mm',                          name: 'mm'},              
               {data: 'yy',                          name: 'yy'},                                      
+              {data: 'grade',                       name: 'grade'},                                      
+              {data: 'year',                        name: 'year'},                                      
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

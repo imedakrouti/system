@@ -57,7 +57,11 @@ class StudentStatementsController extends Controller
     }
 
     public function addToStatement()
-    {       
+    {   
+        if (checkYearStatus(currentYear())) {
+            return back()->with('error',trans('student::local.year_close_add'));                        
+        }  
+
         $this->prepareDateBirth();  
         $this->shownRegStatus();
 
@@ -92,7 +96,7 @@ class StudentStatementsController extends Controller
     public function filter()
     {
         if (request()->ajax()) {
-            $status = empty(request('status_id')) ? ['year_id', request('year_id')] :['registration_status_id', request('status_id')]   ;
+            $status = empty(request('status_id')) ? ['registration_status_id','<>', ''] :['registration_status_id', request('status_id')]   ;
             $whereData = [
                 ['division_id', request('division_id')],
                 ['grade_id', request('grade_id')],
@@ -102,8 +106,7 @@ class StudentStatementsController extends Controller
             $data = StudentStatement::with('student','grade','division','regStatus')
             ->where($whereData)
             ->get();     
-            
-            // dd(request('status_id'));
+                        
             return $this->dataTable($data);
         }
     }
@@ -128,18 +131,18 @@ class StudentStatementsController extends Controller
                 ->addColumn('regStatus',function($data){
                     return session('lang') == 'ar' ?$data->regStatus->ar_name_status:$data->regStatus->en_name_status;
                 })        
-                ->addColumn('gender',function($data){
-                    return $data->student->gender;
-                })   
-                ->addColumn('religion',function($data){
-                    return $data->student->religion;
-                })   
                 ->addColumn('student_id_number',function($data){
                     return $data->student->student_id_number;
                 })   
                 ->addColumn('dob',function($data){
                     return $data->student->dob;
-                })                                                                                                                                  
+                })    
+                ->addColumn('grade',function($data){
+                    return session('lang') == 'ar' ? $data->grade->ar_grade_name:$data->grade->en_grade_name;
+                })   
+                ->addColumn('year',function($data){
+                    return $data->year->name;
+                })                                                                                                                                                                 
                 ->addColumn('check', function($data){
                     $btnCheck = '<label class="pos-rel">
                                     <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -147,7 +150,7 @@ class StudentStatementsController extends Controller
                                 </label>';
                         return $btnCheck;
                 })
-                ->rawColumns(['check','student_name','regStatus','gender','religion','student_id_number','dob'])
+                ->rawColumns(['check','student_name','regStatus','student_id_number','dob','grade','year'])
                 ->make(true);
     }
     public function create()
@@ -164,15 +167,26 @@ class StudentStatementsController extends Controller
 
     public function destroy()
     {
+        $result = '';
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    StudentStatement::destroy($id);
+                    $year = StudentStatement::findOrFail($id);
+                    if (!checkYearStatus($year->year_id)) {
+                        StudentStatement::destroy($id);                        
+                    }else{
+                        $result = trans('student::local.year_close_delete');
+                    }
                 }
             }
         }
-        return response(['status'=>true]);
+        if (empty($result)) {
+            return response(['status'=>true]);
+        }else{
+            return response(['status'=>false,'msg'=>$result]);
+        }
+       
     }   
     
     public function storeToStatement()
@@ -189,6 +203,26 @@ class StudentStatementsController extends Controller
 
     public function store()
     {
+        /**
+         *  make sure current year is open and next year is close
+         */
+        if (!checkYearStatus(request('from_year_id'))) {
+            return back()->withInput()->with('error',trans('student::local.close_year_first'));
+        }
+
+        if (checkYearStatus(request('to_year_id'))) {
+            return back()->withInput()->with('error',trans('student::local.open_year_first'));
+        }
+        /**
+         * loop all grades
+         */
+        $grades = Grade::with('fromMigration')->get();
+        
+        foreach ($grades as $grade) {
+            
+        }
+
+        // get all students in current year
         $whereData = [
             ['year_id'     , request('from_year_id')],
             ['division_id' , request('from_division_id')],
@@ -197,7 +231,7 @@ class StudentStatementsController extends Controller
         $currentStatement = StudentStatement::where($whereData)->get();
 
         foreach ($currentStatement as $statement) {        
-            // update grade and reg_status
+            // update grade and reg_status in students table
             Student::where('id',$statement->student_id)
             ->whereIn('registration_status_id',request('from_status_id'))
             ->update([
@@ -207,13 +241,14 @@ class StudentStatementsController extends Controller
             $student = Student::findOrFail($statement->student_id);
 
             $this->dob = getStudentAgeByYear(request('to_year_id'),$student->dob); // get dob of student
-          
+            // insert students in statements
             $this->insertInToStatement($statement->student_id);            
         }
+
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('statements.index');
-        
+        return redirect()->route('statements.index');        
     }
+
     private function insertInToStatement($studentId)
     {
         $student = Student::findOrFail($studentId);        
@@ -237,5 +272,6 @@ class StudentStatementsController extends Controller
                 }                        
             }  
         }  
-    }    
+    }  
+ 
 }

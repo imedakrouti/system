@@ -26,6 +26,16 @@ class YearController extends Controller
                        </a>';
                             return $btn;
                     })
+                    ->addColumn('status',function($data){
+                        return  $data->status == trans('student::local.current') ? 
+                        '<span class="badge badge-success">'.trans('student::local.current').'</span>' : 
+                        '<span class="badge badge-danger">'.trans('student::local.not_current').'</span>';
+                    })
+                    ->addColumn('year_status',function($data){
+                        return  $data->year_status == trans('student::local.open') ? 
+                        '<span class="badge badge-success">'.trans('student::local.open').'</span>' : 
+                        '<span class="badge badge-danger">'.trans('student::local.close').'</span>';
+                    })                    
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
                                         <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -33,7 +43,7 @@ class YearController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['action','check'])
+                    ->rawColumns(['action','check','status','year_status'])
                     ->make(true);
         }
         return view('student::settings.years.index',
@@ -98,8 +108,7 @@ class YearController extends Controller
      */
     public function update(YearRequest $request, Year $year)
     {        
-        $year->update($request->only($this->attributes()));        
-        Year::where('id','<>',$year->id)->update(['status'=>'not current']);        
+        $year->update($request->only($this->attributes()));                
         $active = Year::where('status','current')->count();
         
         if ($active == 0) {
@@ -118,16 +127,27 @@ class YearController extends Controller
      */
     public function destroy(Year $year)
     {
+        $invalid = '';
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Year::destroy($id);                    
+                    $open = Year::findOrFail($id);
+                    
+                    if ($open->year_status == trans('student::local.open')) {
+                        Year::destroy($id);                    
+                    }else{
+                        $invalid = 'invalid';
+                    }
                 }
             }
         }
         $this->setCurrentYear();
-        return response(['status'=>true]);
+        if (empty($invalid)) {
+            return response(['status'=>true]);
+        }else{
+            return response(['status'=>false]);
+        }
     }
 
     public function getYears()

@@ -28,17 +28,20 @@
                 <div class="form-body">
                   <h4 class="form-section"> {{ $title }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
                     @include('layouts.backEnd.includes._msg')
+                    @if(session('error'))
+                      <h3 class="red"> {{session('error')}}</h3>
+                    @endif 
                     <div class="row">
                       <div class="col-md-6">
                         <h5 class="mb-1">{{ trans('student::local.move_from') }}</h5>
                         <div class="col-md-6">
-                          <select name="from_year_id" class="form-control" id="year_id" required>
-                              <option value="">{{ trans('student::local.year') }}</option>
+                          <select name="from_year_id" class="form-control" id="year_id">
                               @foreach ($years as $year)
-                                  <option {{currentYear() == $year->id ? 'selected' : ''}} value="{{$year->id}}">{{$year->name}}</option>                                    
+                                @if (currentYear() == $year->id )
+                                    <option {{currentYear() == $year->id ? 'selected' : ''}} value="{{$year->id}}">{{$year->name}}</option>                                    
+                                @endif
                               @endforeach
-                          </select>
-                          <span class="red">{{ trans('student::local.requried') }}</span>
+                          </select>                          
                         </div>
 
                         <div class="col-md-6">
@@ -85,18 +88,7 @@
                               @endforeach
                           </select>
                           <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>
-
-                        <div class="col-md-6">
-                            <select name="to_division_id" class="form-control" id="division_id" required>
-                                <option value="">{{ trans('student::local.divisions') }}</option>
-                                @foreach ($divisions as $division)
-                                    <option value="{{$division->id}}">
-                                        {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>    
+                        </div>  
                                           
                         <div class="col-md-6">
                           <select name="to_grade_id" class="form-control" id="grade_id" required>
@@ -124,7 +116,8 @@
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('student::local.data_migration') }}
-                      </button>
+                    </button>
+                      
                     <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('statements.index')}}';">
                     <i class="ft-x"></i> {{ trans('admin.cancel') }}
                   </button>

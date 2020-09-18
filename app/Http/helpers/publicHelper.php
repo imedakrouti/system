@@ -82,6 +82,19 @@ if (!function_exists('currentYear')) {
 		}
 	}
 }
+
+if (!function_exists('checkYearStatus')) {
+	function checkYearStatus($year_id)
+	{
+		$year_status =  Student\Models\Settings\Year::findOrFail($year_id)->year_status;
+		if ($year_status == trans('student::local.close')) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+}
+
 if (!function_exists('getYearAcademic')) {
 	function getYearAcademic()
 	{

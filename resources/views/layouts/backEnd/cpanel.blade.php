@@ -38,9 +38,11 @@
   @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-gradient.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-callout.css')}}">
   @else
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
   <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/colors/palette-gradient.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/colors/palette-callout.css')}}">
   @endif
 
 

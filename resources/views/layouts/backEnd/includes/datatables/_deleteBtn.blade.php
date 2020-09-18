@@ -28,7 +28,12 @@
                     })
                     // display success confirm message
                     .done(function(data) {
-                        swal("{{trans('msg.delete')}}", "{{trans('msg.delete_successfully')}}", "success");
+                        if(data.status == true)
+                        {
+                            swal("{{trans('msg.delete')}}", "{{trans('msg.delete_successfully')}}", "success");
+                        }else{
+                            swal("{{trans('msg.delete')}}", data.msg, "error");                        
+                        }
                     });
                 }
             );
