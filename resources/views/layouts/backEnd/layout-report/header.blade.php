@@ -43,6 +43,8 @@
         .photo{  border:2px solid #333;
                  background-color: white;width: 120px;height: 130px
                 }
+        .red{color: red}
+        .blue{color: blue}
         
   
              

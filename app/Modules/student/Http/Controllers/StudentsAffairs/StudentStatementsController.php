@@ -5,12 +5,14 @@ use App\Http\Controllers\Controller;
 
 use Student\Models\Students\StudentStatement;
 use DB;
+use PhpParser\Node\Expr\FuncCall;
 use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
 use Student\Models\Settings\RegistrationStatus;
 use Student\Models\Settings\Year;
 use Student\Models\Students\SetMigration;
 use Student\Models\Students\Student;
+use PDF;
 
 class StudentStatementsController extends Controller
 {
@@ -322,6 +324,68 @@ class StudentStatementsController extends Controller
         }else{
             return response(['status' => false,'msg'=>$invalid]);
         }
+    }
+
+    public function statisticsReport()
+    {
+        // Foundation 1
+        // muslims
+        // boys
+        $grades = Grade::sort()->get();
+
+
+        foreach ($grades as $grade) {
+            $where = [
+                ['year_id',12],
+                ['division_id',1],
+                ['grade_id',$grade->id],
+            ];            
+            // male
+            $male_muslim[] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q) use ($grade){
+                $q->where('gender','male');
+                $q->where('religion','muslim');               
+            })
+            ->where($where)->count();  
+
+            $male_non_muslim[] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q) use ($grade){
+                $q->where('gender','male');
+                $q->where('religion','non muslim');               
+            })
+            ->where($where)->count();   
+            // female
+            $female_muslim[] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q) use ($grade){
+                $q->where('gender','female');
+                $q->where('religion','muslim');               
+            })
+            ->where($where)->count();  
+            
+            $female_non_muslim[] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q) use ($grade){
+                $q->where('gender','female');
+                $q->where('religion','non muslim');
+                $q->where('grade_id',$grade->id);
+            })
+            ->where($where)->count();  
+
+        }
+        
+        
+        $data = [
+            'male_muslims'       => $male_muslim,
+            'male_non_muslims'   => $male_non_muslim,
+            'female_muslims'     => $female_muslim,
+            'female_non_muslims' => $female_non_muslim,
+            'grades'            => $grades,
+            'title'             => 'Statistics Report',       
+            'logo'              => logo(),
+            'schoolName'        => schoolName(),   
+           
+        	];
+		$pdf = PDF::loadView('student::students-affairs.students-statements.statistics-report', $data);
+		return $pdf->stream('Statistics');
     }
  
 }

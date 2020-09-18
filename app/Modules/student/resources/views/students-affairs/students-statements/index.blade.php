@@ -24,7 +24,7 @@
   <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">{{$title}}</h4>
+            <h4 class="card-title">{{$title}} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
             @include('student::students-affairs.students-statements._filter')
         </div>
@@ -67,10 +67,18 @@
         var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
+                // add students to statement
+                {
+                    "text": "{{trans('student::local.add_student_statement')}}",
+                    "className": "btn btn-info mr-1",
+                    action : function ( e, dt, node, config ) {
+                        window.location.href = "{{route('statements.create')}}";
+                        }
+                },                
                 // new btn
                 {
                     "text": "{{trans('student::local.data_migration')}}",
-                    "className": "btn btn-success buttons-print btn-success mr-1",
+                    "className": "btn btn-success mr-1",
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('statements.create')}}";
                         }
@@ -90,7 +98,7 @@
                     "text": "{{trans('student::local.print_statement')}}",
                     "className": "btn btn-primary buttons-print btn-primary mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('statements.create')}}";
+                        window.location.href = "{{route('statistics.report')}}";
                         }
                 },  
                 // delete btn
@@ -159,15 +167,23 @@ function filter()
   var myTable = $('#dynamic-table').DataTable({
     @include('layouts.backEnd.includes.datatables._datatableConfig')            
         buttons: [
-            // new btn
+            // add students to statement
+            {
+                "text": "{{trans('student::local.add_student_statement')}}",
+                "className": "btn btn-info mr-1",
+                action : function ( e, dt, node, config ) {
+                    window.location.href = "{{route('statements.create')}}";
+                    }
+            },  
+            // move students to statement
             {
                 "text": "{{trans('student::local.data_migration')}}",
                 "className": "btn btn-success buttons-print btn-success mr-1",
                 action : function ( e, dt, node, config ) {
                     window.location.href = "{{route('statements.create')}}";
                     }
-            },              
-            // new btn
+            },                          
+            // restore migration
             {
                 "text": "{{trans('student::local.restore_migration')}}",
                 "className": "btn btn-dark buttons-print btn-dark mr-1",
@@ -177,12 +193,12 @@ function filter()
                     }
             },                
             
-            // print 
+            // print statement
             {
                 "text": "{{trans('student::local.print_statement')}}",
                 "className": "btn btn-primary buttons-print btn-primary mr-1",
                 action : function ( e, dt, node, config ) {
-                    window.location.href = "{{route('statements.create')}}";
+                    window.location.href = "{{route('statistics.report')}}";
                     }
             },     
                   

@@ -7,6 +7,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('/statements/destroy','StudentStatementsController@destroy')->name('statements.destroy');   
     Route::post('/statements/store-to-statement','StudentStatementsController@storeToStatement')->name('statements.storeToStatement');   
     Route::post('/statements/restore','StudentStatementsController@restoreMigration')->name('statements.restore');   
+    Route::get('/statements/statistics-report','StudentStatementsController@statisticsReport')->name('statistics.report');   
     
     // set-migration
     Route::get('/set-migrations','SetMigrationController@index')->name('setMigration.index');   
