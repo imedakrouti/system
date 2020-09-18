@@ -69,20 +69,8 @@ class YearController extends Controller
      */
     public function store(YearRequest $request)
     {      
-        $status = '';
-        if (!request()->has('status')) {
-            $active = Year::where('status','current')->count();
-            if ($active == 1) {
-                return back()->withInput()->with('error',trans('student::local.must_active_year'));
-            }            
-           $status = 'not current';
-         
-        }else{
-            \DB::table('years')->update(['status'=>'not current']);
-            $status = request('status');
-        } 
 
-        $request->user()->years()->create($request->only($this->attributes()) + ['status' => $status]);  
+        $request->user()->years()->create($request->only($this->attributes()));  
         $this->setCurrentYear();    
            
         toast(trans('msg.stored_successfully'),'success');
@@ -168,7 +156,8 @@ class YearController extends Controller
     private function setCurrentYear()
     {
         $active = Year::where('status','current')->count();
-        if ($active < 1) {
+        
+        if ($active != 1) {
             $max = Year::max('id');
             if (!empty($max)) {
                 Year::where('id',$max)->update(['status' => 'current']);                

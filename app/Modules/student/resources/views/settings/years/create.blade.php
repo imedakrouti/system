@@ -64,10 +64,9 @@
                     </div>  
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.year_status') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('student::local.default_year') }}</label>
                           <div class="col-md-4">
-                            <select name="status" class="form-control">
-                                <option value="">{{ trans('student::local.select') }}</option>
+                            <select name="status" class="form-control">                              
                                 <option {{old('status') == trans('student::local.not_current') ? 'selected' : ''}} value="not current">{{ trans('student::local.not_current') }}</option>
                                 <option {{old('status') == trans('student::local.current') ? 'selected' : ''}} value="current">{{ trans('student::local.current') }}</option>
                             </select>
@@ -78,10 +77,9 @@
                       <div class="form-group row">
                         <label class="col-md-3 label-control">{{ trans('student::local.year_status') }}</label>
                         <div class="col-md-4">
-                          <select name="year_status" class="form-control">
-                              <option value="">{{ trans('student::local.select') }}</option>
-                              <option {{old('year_status') == trans('student::local.close') ? 'selected' : ''}} value="close">{{ trans('student::local.close') }}</option>
-                              <option {{old('year_status') == trans('student::local.open') ? 'selected' : ''}} value="open">{{ trans('student::local.open') }}</option>
+                          <select name="year_status" class="form-control">                              
+                              <option {{old('year_status') == trans('student::local.close') ? 'selected' : ''}} value="close">{{ trans('student::local.no') }}</option>
+                              <option {{old('year_status') == trans('student::local.open') ? 'selected' : ''}} value="open">{{ trans('student::local.yes') }}</option>
                           </select>
                         </div>                     
                       </div>
