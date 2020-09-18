@@ -55,7 +55,9 @@ class YearController extends Controller
         return [
             'name',
             'start_from',
-            'end_from'
+            'end_from',
+            'status',
+            'year_status'
            
         ];
     }
@@ -72,14 +74,14 @@ class YearController extends Controller
             $active = Year::where('status','current')->count();
             if ($active == 1) {
                 return back()->withInput()->with('error',trans('student::local.must_active_year'));
-            }
-            
+            }            
            $status = 'not current';
          
         }else{
             \DB::table('years')->update(['status'=>'not current']);
             $status = request('status');
-        }    
+        } 
+
         $request->user()->years()->create($request->only($this->attributes()) + ['status' => $status]);  
         $this->setCurrentYear();    
            
@@ -107,20 +109,15 @@ class YearController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(YearRequest $request, Year $year)
-    {
-        $status = '';
-        if (!request()->has('status')) {
-            $active = Year::where('status','current')->count();
-            if ($active == 1) {
-                return back()->withInput()->with('error',trans('student::local.must_active_year'));
-            }
-            
-           $status = 'not current';
-        }else{
-            \DB::table('years')->update(['status'=>'not current']);
-            $status = request('status');
-        }
-        $year->update($request->only($this->attributes()) + ['status' => $status]);
+    {        
+        $year->update($request->only($this->attributes()));        
+        Year::where('id','<>',$year->id)->update(['status'=>'not current']);        
+        $active = Year::where('status','current')->count();
+        
+        if ($active == 0) {
+            return back()->withInput()->with('error',trans('student::local.must_active_year'));
+        }  
+
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('years.index');
     }

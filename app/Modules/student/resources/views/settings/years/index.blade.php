@@ -41,6 +41,7 @@
                                 <th>{{trans('student::local.start_from')}}</th>
                                 <th>{{trans('student::local.end_from')}}</th>
                                 <th>{{trans('student::local.default_year')}}</th>
+                                <th>{{trans('student::local.year_status')}}</th>
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -84,6 +85,7 @@
               {data: 'start_from',          name: 'start_from'},
               {data: 'end_from',            name: 'end_from'}, 
               {data: 'status',              name: 'status'}, 
+              {data: 'year_status',         name: 'year_status'}, 
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
