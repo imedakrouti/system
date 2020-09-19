@@ -111,9 +111,13 @@ class DesignController extends Controller
     public function update(DesignRequest $request, $id)
     {         
         $design = Design::findOrFail($id);
-        $design->update($request->only($this->attributes())
-        + ['design_name'=>  $this->uploadDesign($design)]);
-
+        if (request()->has('design_name')) {
+            $design->update($request->only($this->attributes())
+            + ['design_name'=>  $this->uploadDesign($design)]);            
+        }else{
+            $design->update($request->only($this->attributes()));
+        }
+        
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('id-designs.index');
     }

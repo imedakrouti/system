@@ -61,8 +61,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('student::local.design_name') }}</label>
                           <div class="col-md-9">                            
-                            <input  type="file" name="design_name" required>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
+                            <input  type="file" name="design_name">                            
                           </div>
                         </div>
                     </div>   

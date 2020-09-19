@@ -8,6 +8,10 @@
     //  advanced search
     Route::get('advanced-search/students','StudentController@advancedSearchPage')->name('advanced.search');
     Route::put('advanced-search/students/ajax','StudentController@search')->name('advancedSearch');
+
+    // print student id
+    Route::get('students/print/id-card/{id}','StudentController@printStudentCard')->name('students.card');
+
     
      
 });

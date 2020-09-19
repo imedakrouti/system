@@ -20,6 +20,7 @@ use Student\Models\Students\Student;
 use DB;
 use PDF;
 use Illuminate\Support\Facades\Storage;
+use Student\Models\Settings\Design;
 use Student\Models\Students\Address;
 use Student\Models\Students\StudentStatement;
 
@@ -98,6 +99,8 @@ class StudentController extends Controller
 
     private function moreBtn($data)
     {
+        $image = !empty($data->student_image) ? '<a class="dropdown-item" href="'.route('students.card',$data->id).'">'.trans('student::local.print_id_card').'</a>' :
+        '';
         return $data->student_type == trans('student::local.student')?'
         <div class="btn-group mr-1 mb-1">
             <button type="button" class="btn btn-primary"> '.trans('student::local.more').'</button>
@@ -107,7 +110,7 @@ class StudentController extends Controller
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="'.route('students.edit',$data->id).'">'.trans('student::local.editing').'</a>
-                <a class="dropdown-item" href="'.route('students.edit',$data->id).'">'.trans('student::local.print_id_card').'</a>
+                '.$image.'
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">'.trans('student::local.add_permission').'</a>
                 <a class="dropdown-item" href="#">'.trans('student::local.add_parent_request').'</a>
@@ -736,5 +739,22 @@ class StudentController extends Controller
 
         $pdf = PDF::loadView('student::students.pdf-application', $data);
 		return $pdf->stream( $filename);
+    }
+    public function printStudentCard($student_id)
+    {
+        $student = Student::with('father','division','grade','mother')
+        ->where('student_image','<>','null')
+        ->first();
+        $design  = Design::where('division_id',$student->division_id)->where('grade_id',$student->grade_id)
+        ->orderBy('id','desc')->first()->design_name;
+        $data = [
+            'schoolName'        => settingHelper()->ar_school_name,
+            'path'              => public_path('storage/icon/Fpp0u5uXWs3o4vk9wn2hLJhMol3704IoVPXGT0CZ.png'),
+            'design'            => public_path('storage/id-designs/'.$design),
+            'student'          => $student,
+            'studentPathImage'  =>public_path('storage/student_image/'),
+        		];
+		$pdf = PDF::loadView('student::students.student-card', $data);
+		return $pdf->stream($student->student_number);
     }
 }
