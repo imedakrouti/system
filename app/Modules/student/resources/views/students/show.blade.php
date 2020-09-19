@@ -582,7 +582,7 @@
           <div class="card-body">
               <div class="row mb-1">
                 <div class="col-md-6">
-                    <h3 class="blue">{{ trans('student::local.include_statement') }}</h3>                    
+                    <h3 class="red">{{ trans('student::local.include_statement') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h3>                    
                 </div>
                 @if ($student->student_type == trans('student::local.student')) 
                     <div class="col-md-6">
