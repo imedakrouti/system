@@ -136,8 +136,8 @@ class StudentController extends Controller
             return '<a href="'.route('students.show',$data->id).'">'.$data->ar_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->ar_st_name.
             ' '.$data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name.'</a> ' ;    
         }else{
-            return '<a href="'.route('students.show',$data->id).'">'.$data->ar_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->ar_st_name.
-            ' '.$data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name.'</a> ' ;    
+            return '<a href="'.route('students.show',$data->id).'">'.$data->en_student_name .'</a> <br> <a href="'.route('father.show',$data->father_id).'">'.$data->father->en_st_name.
+            ' '.$data->father->en_nd_name.' '.$data->father->en_rd_name.' '.$data->father->en_th_name.'</a> ' ;    
         }
     }
 
@@ -450,10 +450,14 @@ class StudentController extends Controller
             return back()->withInput()->with('error',trans('student::local.invalid_message'));            
         }
 
-        DB::transaction(function () use ($request,$student) {  
-            $this->uploadStudentImage($student->id);        
-            $student->update($request->only($this->studentAttributes())
-            + ['student_image' => $this->student_image]);
+        DB::transaction(function () use ($request,$student) { 
+            if (request()->has('student_image')) {
+                $this->uploadStudentImage($student->id);        
+                $student->update($request->only($this->studentAttributes())
+                + ['student_image' => $this->student_image]);                
+            } else{
+                $student->update($request->only($this->studentAttributes()));              
+            }
             
             $this->studentAdmissionSteps($student->id);
             
