@@ -106,6 +106,11 @@ class Student extends Model
     public function getReligionAttribute()
     {
         return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim') : trans('student::local.non_muslim');
-    }    
+    }   
+    public function scopeStudent($q)
+    {
+        return $q->where('student_type','student');
+    }
+    
 
 }

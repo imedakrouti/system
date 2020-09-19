@@ -88,7 +88,7 @@ class StudentStatementsController extends Controller
             $data = StudentStatement::with('student','grade','division','regStatus')->limit(100)->orderBy('id','desc');
             return $this->dataTable($data);
         }
-        $regStatus = RegistrationStatus::sort()->get();
+        $regStatus = RegistrationStatus::sort()->shown()->get();
         $grades = Grade::sort()->get();
         $years = Year::get();
         $divisions = Division::sort()->get();
@@ -136,7 +136,10 @@ class StudentStatementsController extends Controller
                 })        
                 ->addColumn('student_id_number',function($data){
                     return $data->student->student_id_number;
-                })   
+                }) 
+                ->addColumn('student_number',function($data){
+                    return $data->student->student_number;
+                })                   
                 ->addColumn('dob',function($data){
                     return $data->student->dob;
                 })    
@@ -153,7 +156,7 @@ class StudentStatementsController extends Controller
                                 </label>';
                         return $btnCheck;
                 })
-                ->rawColumns(['check','student_name','regStatus','student_id_number','dob','grade','year'])
+                ->rawColumns(['check','student_name','regStatus','student_id_number','dob','grade','year','student_number'])
                 ->make(true);
     }
     public function create()
@@ -161,7 +164,7 @@ class StudentStatementsController extends Controller
         $grades = Grade::sort()->get();
         $years = Year::get();
         $divisions = Division::sort()->get();
-        $regStatus = RegistrationStatus::sort()->get();
+        $regStatus = RegistrationStatus::sort()->shown()->get();
         $title = trans('student::local.data_migration');
         return view('student::students-affairs.students-statements.create',
         compact('title','grades','years','divisions','regStatus'));    
@@ -255,13 +258,13 @@ class StudentStatementsController extends Controller
     private function insertInToStatement($studentId)
     {
         $student = Student::findOrFail($studentId);        
-
         if ($this->shownRegStatus($student->registration_status_id) == trans('student::local.show_regg')) {
-
+            
             if (!$this->checkExists($student->id)) { // not exist in statement
-
+                
                 if ($student->student_type == trans('student::local.student')) { // only add students not applicants
                     $year_id = request()->has('to_year_id')?request('to_year_id') : currentYear();
+                                        
                     request()->user()->statements()->create([
                         'student_id'                => $student->id,
                         'division_id'               => $student->division_id,
@@ -386,6 +389,33 @@ class StudentStatementsController extends Controller
         	];
 		$pdf = PDF::loadView('student::students-affairs.students-statements.statistics-report', $data);
 		return $pdf->stream('Statistics');
+    }
+
+    public function insertStatement()
+    {
+        $result = '';
+        if (request()->ajax()) {
+            if (!checkYearStatus(currentYear())) {
+                $students = Student::with('statements','regStatus')->whereDoesntHave('statements')
+                ->whereHas('regStatus',function($q){
+                    $q->where('shown','show');
+                })
+                ->student()
+                ->get(); 
+                foreach ($students as $student) {    
+                    $this->dob = getStudentAgeByYear(currentYear(),$student->dob); // get dob of student                
+                    $this->insertInToStatement($student->id);
+                }
+                
+            }else{
+                $result = trans('student::local.open_year_first');
+            }
+        }
+        if (empty($result)) {
+            return response(['status'=>true]);
+        }else{
+            return response(['status'=>false,'msg'=>trans('student::local.year_close_add')]);
+        }
     }
  
 }

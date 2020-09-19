@@ -29,4 +29,8 @@ class RegistrationStatus extends Model
     {
         return $this->attributes['shown'] == 'show' ? trans('student::local.show_regg') : trans('student::local.hidden_reg');        
     }
+    public function scopeShown($query)
+    {
+        return $query->where('shown','show');
+    }
 }

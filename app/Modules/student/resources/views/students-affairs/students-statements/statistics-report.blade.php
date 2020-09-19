@@ -47,14 +47,19 @@
             <td class="red"><strong>{{ trans('student::local.totalStudents') }}</strong></td>     
             <td class="red"><strong>{{ array_sum($male_muslims) }}</strong></td>     
             <td class="red"><strong>{{ array_sum($female_muslims) }}</strong></td>     
-            <td class="red"><strong>{{ array_sum($male_muslims) }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($male_muslims) + array_sum($female_muslims) }}</strong></td>     
             <td class="red"><strong>{{ array_sum($male_non_muslims) }}</strong></td>     
             <td class="red"><strong>{{ array_sum($female_non_muslims) }}</strong></td>     
-            <td class="red"><strong>{{ array_sum($male_non_muslims) }}</strong></td>     
-            <td class="red"><strong>{{ array_sum($male_muslims) }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($male_non_muslims) + array_sum($female_non_muslims) }}</strong></td>     
+            <td class="red"><strong>
+                {{ array_sum($male_muslims) + array_sum($female_muslims)+ 
+                 array_sum($male_non_muslims) + array_sum($female_non_muslims) }}
+            </strong></td>     
    
         </tr>                           
     </tbody>
 </table>
-
+<div class="signature">
+    <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('admin.students_affairs') }}</strong></h3>
+</div>
 @include('layouts.backEnd.layout-report.footer')
