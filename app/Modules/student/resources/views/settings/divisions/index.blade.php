@@ -39,6 +39,8 @@
                                 <th>#</th>
                                 <th>{{trans('student::local.ar_division_name')}}</th>
                                 <th>{{trans('student::local.en_division_name')}}</th>
+                                <th>{{trans('student::local.total_students')}}</th>
+                                <th>{{trans('student::local.school_name')}}</th>
                                 <th>{{trans('student::local.sort')}}</th>
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
@@ -81,6 +83,8 @@
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'ar_division_name',    name: 'ar_division_name'},
               {data: 'en_division_name',    name: 'en_division_name'},
+              {data: 'total_students',      name: 'total_students'},
+              {data: 'school_name',         name: 'school_name'},
               {data: 'sort',                name: 'sort'}, 
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],

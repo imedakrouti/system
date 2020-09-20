@@ -49,6 +49,26 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.school_name') }}</label>
+                        <div class="col-md-9">
+                          <input type="text" class="form-control " value="{{old('school_name')}}" placeholder="{{ trans('student::local.school_name') }}"
+                            name="school_name" required>                            
+                        </div>
+                      </div>
+                    </div>                    
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.total_students') }}</label>
+                        <div class="col-md-9">
+                          <input type="number" min="0" class="form-control " value="{{old('total_students')}}" 
+                          placeholder="{{ trans('student::local.total_students') }}"
+                            name="total_students" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>
+                        </div>
+                      </div>
+                    </div>                       
+                    <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
                           <div class="col-md-9">
@@ -57,7 +77,7 @@
                               <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
-                    </div>                    
+                    </div>                                        
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
