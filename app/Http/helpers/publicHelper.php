@@ -156,7 +156,7 @@ if (!function_exists('getStudentAgeByYear')) {
 
 if (!function_exists('schoolName')) {
 	function schoolName()
-	{
+	{		
 		return session('lang') == 'ar'?settingHelper()->ar_school_name:settingHelper()->en_school_name;
 	}
 }
@@ -165,5 +165,22 @@ if (!function_exists('logo')) {
 	function logo()
 	{
 		return public_path('storage/logo/'.settingHelper()->logo);   
+	}
+}
+
+if (!function_exists('preamble')) {
+	function preamble()
+	{	
+		$data = [];
+		if (session('lang') == 'ar') {
+			$data['school_name'] 				= settingHelper()->ar_school_name;
+			$data['education_administration'] 	= settingHelper()->ar_education_administration;
+			$data['governorate'] 				= settingHelper()->ar_governorate;
+		}else{
+			$data['school_name'] 				= settingHelper()->en_school_name;
+			$data['education_administration'] 	= settingHelper()->en_education_administration;
+			$data['governorate'] 				= settingHelper()->en_governorate;
+		}	
+		return $data;
 	}
 }
