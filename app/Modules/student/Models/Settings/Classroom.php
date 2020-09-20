@@ -14,6 +14,7 @@ class Classroom extends Model
         'grade_id',   
         'year_id',   
         'sort',   
+        'total_students',
         'admin_id'
     ];
 

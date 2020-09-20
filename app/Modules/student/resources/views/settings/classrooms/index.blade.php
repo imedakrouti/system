@@ -43,6 +43,7 @@
                                 <th>{{trans('student::local.grade')}}</th>
                                 <th>{{trans('student::local.division')}}</th>
                                 <th>{{trans('student::local.year')}}</th>
+                                <th>{{trans('student::local.total_students')}}</th>
                                 <th>{{trans('student::local.sort')}}</th>
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
@@ -87,6 +88,7 @@
               {data: 'grade_id',                name: 'grade_id'},              
               {data: 'division_id',             name: 'division_id'},              
               {data: 'year_id',                 name: 'year_id'},              
+              {data: 'total_students',          name: 'total_students'},                      
               {data: 'sort',                    name: 'sort'},              
               {data: 'action', 	                name: 'action', orderable: false, searchable: false},
           ],
@@ -148,6 +150,7 @@
               {data: 'grade_id',                name: 'grade_id'},              
               {data: 'division_id',             name: 'division_id'},              
               {data: 'year_id',                 name: 'year_id'},              
+              {data: 'total_students',          name: 'total_students'},        
               {data: 'sort',                    name: 'sort'},              
               {data: 'action', 	                name: 'action', orderable: false, searchable: false},
           ],

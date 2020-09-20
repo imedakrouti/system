@@ -53,7 +53,8 @@ class ClassroomController extends Controller
             'en_name_classroom',
             'division_id',   
             'grade_id',   
-            'year_id',   
+            'year_id', 
+            'total_students',              
             'sort', 
         ];
     }

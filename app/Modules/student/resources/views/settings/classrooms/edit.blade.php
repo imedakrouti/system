@@ -92,6 +92,17 @@
                         </div>
                     </div> 
                     <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.total_students') }}</label>
+                        <div class="col-md-9">
+                          <input type="number" min="0" class="form-control " value="{{old('total_students',$classroom->total_students)}}" 
+                          placeholder="{{ trans('student::local.total_students') }}"
+                            name="total_students" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>
+                        </div>
+                      </div>
+                    </div>                     
+                    <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
                           <div class="col-md-9">
