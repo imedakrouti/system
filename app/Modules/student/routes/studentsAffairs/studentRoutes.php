@@ -9,6 +9,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('/statements/restore','StudentStatementsController@restoreMigration')->name('statements.restore');   
     Route::get('/statements/statistics-report','StudentStatementsController@statisticsReport')->name('statistics.report');   
     Route::get('/statements/add-to-statement','StudentStatementsController@insertStatement')->name('statements.insert');   
+    Route::get('/statements/print-statement','StudentStatementsController@printStatementReport')->name('statements.printStatement');   
     
     // set-migration
     Route::get('/set-migrations','SetMigrationController@index')->name('setMigration.index');   

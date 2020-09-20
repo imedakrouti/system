@@ -340,7 +340,7 @@ class StudentController extends Controller
     {
         $student_id = $this->studentCode();
         
-        return getYearAcademic().request('division_id').$student_id;
+        return getYearAcademic().request('grade_id').request('division_id').$student_id;
         
     }
     private function studentCode()

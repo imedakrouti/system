@@ -45,7 +45,10 @@
                 }
         .red{color: red}
         .blue{color: blue}
-        
+        @page {
+            header: page-header;
+            footer: page-footer;
+        }
   
              
     </style>

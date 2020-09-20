@@ -61,8 +61,8 @@ buttons: [
                 {
                     "text": "{{trans('student::local.print_statistics')}}",
                     "className": "btn btn-primary buttons-print btn-primary mr-1",
-                    action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('statistics.report')}}";
+                    action : function ( e, dt, node, config ) {                        
+                        $('#filterForm').submit();
                     }
                 },  
                 // delete btn

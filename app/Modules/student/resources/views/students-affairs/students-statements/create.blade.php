@@ -28,9 +28,9 @@
                 <div class="form-body">
                   <h4 class="form-section"> {{ $title }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
                     @include('layouts.backEnd.includes._msg')
-                    @if(session('error'))
-                      <h3 class="red"> {{session('error')}}</h3>
-                    @endif 
+                    
+                    @include('layouts.backEnd.includes._error-msg')
+                    
                     <div class="row">
                       <div class="col-md-3">
                         <select name="from_division_id" class="form-control" id="division_id" required>

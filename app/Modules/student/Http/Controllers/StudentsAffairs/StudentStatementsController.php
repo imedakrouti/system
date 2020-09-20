@@ -330,17 +330,17 @@ class StudentStatementsController extends Controller
     }
 
     public function statisticsReport()
-    {
-        // Foundation 1
-        // muslims
-        // boys
-        $grades = Grade::sort()->get();
+    {        
+        if (empty(request('year_id')) || empty(request('division_id'))) {
+            return back()->with('error',trans('student::local.ensure_year_division'));
+        }
 
+        $grades = Grade::sort()->get();
 
         foreach ($grades as $grade) {
             $where = [
-                ['year_id',12],
-                ['division_id',1],
+                ['year_id',request('year_id')],
+                ['division_id',request('division_id')],
                 ['grade_id',$grade->id],
             ];            
             // male
@@ -374,8 +374,7 @@ class StudentStatementsController extends Controller
             ->where($where)->count();  
 
         }
-        
-        
+                
         $data = [
             'male_muslims'       => $male_muslim,
             'male_non_muslims'   => $male_non_muslim,
@@ -416,6 +415,35 @@ class StudentStatementsController extends Controller
         }else{
             return response(['status'=>false,'msg'=>trans('student::local.year_close_add')]);
         }
+    }
+
+    public function printStatementReport()
+    {
+        $config = [
+            'orientation'          => 'L',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 60,
+            'margin_bottom'        => 60,
+        ];
+
+        $statements = StudentStatement::with('student','grade','division','regStatus')        
+        ->get();      
+        
+
+        $data = [
+            'title'             => 'Statement Report',       
+            'statements'        => $statements,
+            'logo'              => logo(),
+            'schoolName'        => schoolName(),   
+           
+            ];
+            
+        $pdf = PDF::loadView('student::students-affairs.students-statements.statement-report', 
+        $data,[],$config);        
+		return $pdf->stream('Statement');
     }
  
 }

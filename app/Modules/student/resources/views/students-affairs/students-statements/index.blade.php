@@ -27,6 +27,8 @@
             <h4 class="card-title">{{$title}} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
             @include('student::students-affairs.students-statements._filter')
+
+            @include('layouts.backEnd.includes._error-msg')
         </div>
       <div class="card-content collapse show">
         <div class="card-body">
@@ -104,6 +106,7 @@
 <script>
 function filter()
 {
+  event.preventDefault();
   $('#dynamic-table').DataTable().destroy();
   var grade_id 		  = $('#filter_grade_id').val();
   var division_id   = $('#filter_division_id').val();
