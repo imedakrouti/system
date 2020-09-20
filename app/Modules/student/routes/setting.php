@@ -91,4 +91,10 @@
      * Schools
      */
     Route::resource('/schools','SchoolController')->except('show','destroy');
-    Route::post('schools/destroy','SchoolController@destroy')->name('schools.destroy');      
+    Route::post('schools/destroy','SchoolController@destroy')->name('schools.destroy');     
+    
+    /**
+     * Stages
+     */
+    Route::resource('/stages','StageController')->except('show','destroy');
+    Route::post('stages/destroy','StageController@destroy')->name('stages.destroy');       

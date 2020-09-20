@@ -46,11 +46,11 @@ class GradeRequest extends FormRequest
             'from_age_month.required'       => trans('student::local.from_age_month_required'),
             'to_age_year.required'          => trans('student::local.to_age_year_required'),
             'to_age_month.required'         => trans('student::local.to_age_month_required'),
-            'sort.required'                 => trans('student::local.sort_required'),
             'from_age_year.numeric'         => trans('student::local.from_age_year_numeric'),
             'from_age_month.numeric'        => trans('student::local.from_age_month_numeric'),
             'to_age_year.numeric'           => trans('student::local.to_age_year_numeric'),
             'to_age_month.numeric'          => trans('student::local.to_age_month_numeric'),
+            'sort.required'                 => trans('student::local.sort_required'),
             'sort.numeric'                  => trans('student::local.sort_numeric'),
 
         ];

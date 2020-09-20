@@ -121,6 +121,7 @@
             <ul class="menu-content">
                 <li class="{{request()->segment(3)=='years'?'active':''}}"><a class="menu-item" href="{{route('years.index')}}" data-i18n="nav.dash.ecommerce"><i class="la la-angle-left"></i> {{ trans('admin.academic_years') }}</a></li>           
                 <li class="{{request()->segment(3)=='divisions'?'active':''}}"><a class="menu-item" href="{{route('divisions.index')}}" data-i18n="nav.dash.ecommerce"><i class="la la-angle-left"></i> {{ trans('admin.divisions') }}</a></li>           
+                <li class="{{request()->segment(3)=='stages'?'active':''}}"><a class="menu-item" href="{{route('stages.index')}}" data-i18n="nav.dash.ecommerce"><i class="la la-angle-left"></i> {{ trans('admin.stages') }}</a></li>           
                 <li class="{{request()->segment(3)=='grades'?'active':''}}"><a class="menu-item" href="{{route('grades.index')}}" data-i18n="nav.dash.ecommerce"><i class="la la-angle-left"></i> {{ trans('admin.grades') }}</a></li>           
                 <li class="{{request()->segment(3)=='admission-documents'?'active':''}}"><a class="menu-item" href="{{route('admission-documents.index')}}" data-i18n="nav.dash.ecommerce"><i class="la la-angle-left"></i> {{ trans('admin.admission_documents') }}</a></li>           
                 <li class="{{request()->segment(3)=='documents-grades'?'active':''}}"><a class="menu-item" href="{{route('documents-grades.index')}}" data-i18n="nav.dash.ecommerce"><i class="la la-angle-left"></i> {{ trans('admin.grade_documents') }}</a></li>           

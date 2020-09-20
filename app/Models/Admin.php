@@ -190,4 +190,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Students\SetMigration','admin_id');
     }
+    public function stages()
+    {
+        return $this->hasMany('Student\Models\Settings\Stage','admin_id');
+    }    
 }

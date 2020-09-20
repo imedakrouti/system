@@ -79,7 +79,6 @@ class YearController extends Controller
      */
     public function store(YearRequest $request)
     {      
-
         $request->user()->years()->create($request->only($this->attributes()));  
         $this->setCurrentYear();    
            
