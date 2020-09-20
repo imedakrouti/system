@@ -55,6 +55,42 @@
                       </div>
                     </div>
                     <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" >{{ trans('admin.ar_education_administration') }}</label>
+                        <div class="col-md-9">
+                          <input type="text"  class="form-control" placeholder="{{ trans('admin.ar_education_administration') }}"
+                            name="ar_education_administration" value="{{settingHelper()->ar_education_administration}}">
+                        </div>
+                      </div>
+                    </div>  
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" >{{ trans('admin.en_education_administration') }}</label>
+                        <div class="col-md-9">
+                          <input type="text"  class="form-control" placeholder="{{ trans('admin.en_education_administration') }}"
+                            name="en_education_administration" value="{{settingHelper()->en_education_administration}}">
+                        </div>
+                      </div>
+                    </div>    
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" >{{ trans('admin.ar_governorate') }}</label>
+                        <div class="col-md-9">
+                          <input type="text"  class="form-control" placeholder="{{ trans('admin.ar_governorate') }}"
+                            name="ar_governorate" value="{{settingHelper()->ar_governorate}}">
+                        </div>
+                      </div>
+                    </div>  
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control" >{{ trans('admin.en_governorate') }}</label>
+                        <div class="col-md-9">
+                          <input type="text"  class="form-control" placeholder="{{ trans('admin.en_governorate') }}"
+                            name="en_governorate" value="{{settingHelper()->en_governorate}}">
+                        </div>
+                      </div>
+                    </div>                                                        
+                    <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('admin.address') }}</label>
                           <div class="col-md-9">

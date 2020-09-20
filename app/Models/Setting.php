@@ -22,6 +22,8 @@ class Setting extends Model
         'fb',
         'yt',
         'status',
+        'ar_education_administration',
+        'en_education_administration',
         'msg_maintenance'
     ];
 
