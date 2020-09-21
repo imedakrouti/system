@@ -1,12 +1,12 @@
 @include('layouts.backEnd.layout-report.header')
 <htmlpageheader name="page-header">
-    <div class="left-header" style="margin-top: -25px">
+    <div class="left-header" style="margin-top: -20px">
         <img src="{{$logo}}" alt="" class="logo">
     </div>
     <div class="right-header">
-        {{ trans('student::local.goverment') }} <br>
-        {{ trans('student::local.management') }} <br>
-        {{$schoolName}}     
+        {{$governorate}} <br>
+        {{$education_administration}} <br>  
+        {{$school_name}}     
     </div>
     <div class="clear"></div>
     <hr>
@@ -16,16 +16,16 @@
 <table>
     <thead>
         <tr>
-            <th rowspan="2">{{ trans('student::local.serial') }}</th>
-            <th rowspan="2">{{ trans('student::local.student_name') }}</th>
-            <th rowspan="2">{{ trans('student::local.gender') }}</th>
-            <th rowspan="2">{{ trans('student::local.religion') }}</th>
-            <th rowspan="2">{{ trans('student::local.register_status_id') }}</th>
-            <th rowspan="2">{{ trans('student::local.dob') }}</th>
-            <th colspan="3">{{ trans('student::local.dob_in_october') }}</th>
-            <th rowspan="2">{{ trans('student::local.student_id_number') }}</th>
-            <th rowspan="2">{{ trans('student::local.father_mobile') }}</th>
-            <th rowspan="2">{{ trans('student::local.the_address') }}</th>
+            <th width="20" rowspan="2">{{ trans('student::local.serial') }}</th>
+            <th width="200" rowspan="2">{{ trans('student::local.student_name') }}</th>
+            <th width="50" rowspan="2">{{ trans('student::local.type') }}</th>
+            <th width="50" rowspan="2">{{ trans('student::local.religion') }}</th>
+            <th width="70" rowspan="2">{{ trans('student::local.register_status_id') }}</th>
+            <th width="80" rowspan="2">{{ trans('student::local.dob') }}</th>
+            <th width="60" colspan="3">{{ trans('student::local.dob_in_october') }}</th>
+            <th width="120" rowspan="2">{{ trans('student::local.student_id_number') }}</th>
+            <th width="70" rowspan="2">{{ trans('student::local.father_mobile') }}</th>
+            <th width="200" rowspan="2">{{ trans('student::local.the_address') }}</th>
         </tr>
         <tr>            
             <th>{{ trans('student::local.dd') }}</th>
@@ -38,7 +38,19 @@
         @foreach ($statements as $statement)
             <tr>
                 <td>{{$i}}</td>
-                <td>{{$statement->student->ar_student_name}}</td>
+                <td>
+                    @if (session('lang') == 'ar')
+                        {{$statement->student->ar_student_name}}
+                        {{$statement->student->father->ar_st_name}}
+                        {{$statement->student->father->ar_nd_name}}
+                        {{$statement->student->father->ar_rd_name}}
+                    @else
+                        {{$statement->student->en_student_name}}
+                        {{$statement->student->father->en_st_name}}
+                        {{$statement->student->father->en_nd_name}}
+                        {{$statement->student->father->en_rd_name}}
+                    @endif
+                </td>
                 <td>{{$statement->student->gender}}</td>
                 <td>{{$statement->student->religion}}</td>
                 <td>{{$statement->regStatus->ar_name_status}}</td>

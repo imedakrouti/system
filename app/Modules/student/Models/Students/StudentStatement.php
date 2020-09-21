@@ -25,7 +25,8 @@ class StudentStatement extends Model
     }
     public function student()
     {
-        return $this->belongsTo('Student\Models\Students\Student','student_id'); 
+        return $this->belongsTo('Student\Models\Students\Student','student_id')
+        ->orderBy('gender','desc')->orderBy('ar_student_name','asc');
     }
     public function regStatus()
     {

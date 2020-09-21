@@ -85,7 +85,12 @@ class StudentStatementsController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = StudentStatement::with('student','grade','division','regStatus')->limit(100)->orderBy('id','desc');
+            $data = StudentStatement::with('student','grade','division','regStatus')
+            ->limit(100)            
+            ->join('students','students_statements.student_id','=','students.id')
+            ->orderBy('gender','asc')
+            ->orderBy('ar_student_name','asc')
+            ->get();
             return $this->dataTable($data);
         }
         $regStatus = RegistrationStatus::sort()->shown()->get();
@@ -99,15 +104,18 @@ class StudentStatementsController extends Controller
     public function filter()
     {
         if (request()->ajax()) {
-            $status = empty(request('status_id')) ? ['registration_status_id','<>', ''] :['registration_status_id', request('status_id')]   ;
+            $status = empty(request('status_id')) ? ['students_statements.registration_status_id','<>', ''] :['registration_status_id', request('status_id')]   ;
             $whereData = [
-                ['division_id', request('division_id')],
-                ['grade_id', request('grade_id')],
-                ['year_id', request('year_id')]   ,             
+                ['students_statements.division_id', request('division_id')],
+                ['students_statements.grade_id', request('grade_id')],
+                ['students_statements.year_id', request('year_id')]   ,             
                 $status             
             ];
             $data = StudentStatement::with('student','grade','division','regStatus')
             ->where($whereData)
+            ->join('students','students_statements.student_id','=','students.id')
+            ->orderBy('gender','asc')
+            ->orderBy('ar_student_name','asc')                        
             ->get();     
                         
             return $this->dataTable($data);
@@ -368,8 +376,7 @@ class StudentStatementsController extends Controller
             $female_non_muslim[] = StudentStatement::with('student','grade')
             ->whereHas('student',function($q) use ($grade){
                 $q->where('gender','female');
-                $q->where('religion','non muslim');
-                $q->where('grade_id',$grade->id);
+                $q->where('religion','non muslim');        
             })
             ->where($where)->count();  
 
@@ -418,7 +425,11 @@ class StudentStatementsController extends Controller
     }
 
     public function printStatementReport()
-    {
+    {     
+        if (empty(request('year_id')) || empty(request('division_id')) || empty(request('grade_id'))) {
+            return back()->with('error',trans('student::local.ensure_year_division_grade'));
+        }
+                 
         $config = [
             'orientation'          => 'L',
             'margin_header'        => 5,
@@ -428,18 +439,30 @@ class StudentStatementsController extends Controller
             'margin_top'           => 60,
             'margin_bottom'        => 60,
         ];
+        // get school name
+        $division = Division::findOrFail(request('division_id'));
+        $school_name = session('lang') == 'ar' ? $division->ar_school_name : $division->en_school_name;
 
-        $statements = StudentStatement::with('student','grade','division','regStatus')        
-        ->get();      
-        
-
+        $statements = StudentStatement::with('grade','division','regStatus')  
+        ->where([
+            ['students_statements.division_id',request('division_id')],
+            ['students_statements.grade_id',request('grade_id')],
+            ['students_statements.year_id',request('year_id')],
+        ]) 
+        ->join('students','students_statements.student_id','=','students.id')
+        ->orderBy('gender','asc')
+        ->orderBy('ar_student_name','asc')
+        ->get();     
+        // dd( $statements); 
+        // $statements->dd();
         $data = [
-            'title'             => 'Statement Report',       
-            'statements'        => $statements,
-            'logo'              => logo(),
-            'schoolName'        => schoolName(),   
-           
-            ];
+                    'title'                     => 'Statement Report',       
+                    'statements'                => $statements,
+                    'logo'                      => logo(),
+                    'school_name'               => $school_name,               
+                    'education_administration'  => preamble()['education_administration'],               
+                    'governorate'               => preamble()['governorate'],                          
+                ];
             
         $pdf = PDF::loadView('student::students-affairs.students-statements.statement-report', 
         $data,[],$config);        

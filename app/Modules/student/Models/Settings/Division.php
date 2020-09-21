@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Division extends Model
 {
-    protected $fillable = ['ar_division_name','en_division_name','sort','admin_id','total_students','school_name'];
+    protected $fillable = ['ar_division_name','en_division_name',
+    'sort','admin_id','total_students','ar_school_name','en_school_name'];
 
     public function admin()
     {

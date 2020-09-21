@@ -54,7 +54,8 @@ class DivisionController extends Controller
             'ar_division_name',
             'en_division_name',
             'total_students',
-            'school_name',
+            'ar_school_name',
+            'en_school_name',
             'sort',
         ];
     }
