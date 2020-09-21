@@ -1,4 +1,4 @@
-<form action="{{route('statistics.report')}}" method="get" id="filterForm">
+<form action="#" method="get" id="filterForm" >
     <div class="row mt-1">
         <div class="col-md-2">
             <select name="year_id" class="form-control" id="filter_year_id">
@@ -35,7 +35,14 @@
                 @endforeach
             </select>
         </div>    
-        <button onclick="filter()" formaction="#" class="btn btn-primary btn-sm"><i class="la la-search"></i></button>
-        <button type="submit" formaction="{{route('statements.printStatement')}}" class="btn btn-warning btn-sm ml-1">{{trans('student::local.print_statement') }}</button>        
+        <button onclick="filter()" formaction="#" class="btn btn-primary btn-sm"><i class="la la-search"></i></button>        
+        <div class="btn-group ml-1">
+            <button type="button" class="btn btn-primary btn-min-width dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="true">{{ trans('student::local.reports') }}</button>
+            <div class="dropdown-menu">
+              <a onclick="printStatement()" class="dropdown-item" href="#">{{trans('student::local.print_statement') }}</a>              
+              <a onclick="statistics()" class="dropdown-item" href="#">{{trans('student::local.print_statistics') }}</a>                            
+            </div>
+          </div>
     </div>
 </form>

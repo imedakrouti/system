@@ -132,7 +132,17 @@ function filter()
       @include('layouts.backEnd.includes.datatables._datatableLang')
   });
   @include('layouts.backEnd.includes.datatables._multiSelect')
-}    
+}   
+function printStatement()
+{
+  $('#filterForm').attr('action',"{{route('statements.printStatement')}}");
+  $('#filterForm').submit();
+} 
+function statistics()
+{
+  $('#filterForm').attr('action',"{{route('statistics.report')}}");
+  $('#filterForm').submit();
+} 
 </script>    
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

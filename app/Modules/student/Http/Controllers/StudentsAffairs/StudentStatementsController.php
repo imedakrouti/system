@@ -362,7 +362,7 @@ class StudentStatementsController extends Controller
             $male_non_muslim[] = StudentStatement::with('student','grade')
             ->whereHas('student',function($q) use ($grade){
                 $q->where('gender','male');
-                $q->where('religion','non muslim');               
+                $q->where('religion','non_muslim');               
             })
             ->where($where)->count();   
             // female
@@ -376,7 +376,7 @@ class StudentStatementsController extends Controller
             $female_non_muslim[] = StudentStatement::with('student','grade')
             ->whereHas('student',function($q) use ($grade){
                 $q->where('gender','female');
-                $q->where('religion','non muslim');        
+                $q->where('religion','non_muslim');        
             })
             ->where($where)->count();  
 
@@ -436,8 +436,8 @@ class StudentStatementsController extends Controller
             'margin_footer'        => 50,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 60,
-            'margin_bottom'        => 60,
+            'margin_top'           => 65,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
         ];
         // get school name
         $division = Division::findOrFail(request('division_id'));
@@ -453,15 +453,52 @@ class StudentStatementsController extends Controller
         ->orderBy('gender','asc')
         ->orderBy('ar_student_name','asc')
         ->get();     
-        // dd( $statements); 
-        // $statements->dd();
+
+        $where = [
+            ['year_id',request('year_id')],
+            ['division_id',request('division_id')],
+            ['grade_id',request('grade_id')],
+        ];            
+        // male
+        $male_muslim[] = StudentStatement::with('student','grade')
+        ->whereHas('student',function($q){
+            $q->where('gender','male');
+            $q->where('religion','muslim');               
+        })
+        ->where($where)->count();  
+
+        $male_non_muslim[] = StudentStatement::with('student','grade')
+        ->whereHas('student',function($q){
+            $q->where('gender','male');
+            $q->where('religion','non_muslim');               
+        })
+        ->where($where)->count();   
+        // female
+        $female_muslim[] = StudentStatement::with('student','grade')
+        ->whereHas('student',function($q){
+            $q->where('gender','female');
+            $q->where('religion','muslim');               
+        })
+        ->where($where)->count();  
+        
+        $female_non_muslim[] = StudentStatement::with('student','grade')
+        ->whereHas('student',function($q){
+            $q->where('gender','female');
+            $q->where('religion','non_muslim');        
+        })
+        ->where($where)->count();  
+        // dd( $female_muslim[0]);
         $data = [
                     'title'                     => 'Statement Report',       
                     'statements'                => $statements,
                     'logo'                      => logo(),
                     'school_name'               => $school_name,               
                     'education_administration'  => preamble()['education_administration'],               
-                    'governorate'               => preamble()['governorate'],                          
+                    'governorate'               => preamble()['governorate'],  
+                    'male_muslims'              => $male_muslim,
+                    'male_non_muslims'          => $male_non_muslim,
+                    'female_muslims'            => $female_muslim,
+                    'female_non_muslims'        => $female_non_muslim,                                            
                 ];
             
         $pdf = PDF::loadView('student::students-affairs.students-statements.statement-report', 

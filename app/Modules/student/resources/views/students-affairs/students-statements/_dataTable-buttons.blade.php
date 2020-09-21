@@ -56,17 +56,7 @@ buttons: [
 				              $('#restoreMigration').modal('show');
                     }
                 },                
-                
-                // print_statistics 
-                {
-                    "text": "{{trans('student::local.print_statistics')}}",
-                    "className": "btn btn-primary buttons-print btn-primary mr-1",
-                    action : function ( e, dt, node, config ) {                        
-                        $('#filterForm').submit();
-                    }
-                },  
-                // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])                 
+                 
                 // set_migration
                 {
                     "text": "{{trans('student::local.set_migration')}}",
@@ -75,6 +65,8 @@ buttons: [
                         window.location.href = "{{route('setMigration.index')}}";
                         }
                 },                
+                // delete btn
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])                 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ]

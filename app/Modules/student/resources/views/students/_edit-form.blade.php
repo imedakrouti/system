@@ -527,8 +527,6 @@
                 <i class="ft-plus"></i> {{ trans('student::local.add_address') }}
               </button>    
             </div>
-          </div>
-       
-
+          </div>       
     </div>         
   </div>  
