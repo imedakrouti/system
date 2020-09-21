@@ -26,7 +26,7 @@
         <div class="card-header">
           <h4 class="card-title">{{$title}}</h4>
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-          @include('student::settings.classrooms._filter')
+          @include('student::settings.stage-grades._filter')
         </div>
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
@@ -37,14 +37,9 @@
                         <thead class="bg-info white">
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
-                                <th>#</th>
-                                <th>{{trans('student::local.ar_name_classroom')}}</th>                                
-                                <th>{{trans('student::local.en_name_classroom')}}</th>
+                                <th>#</th>                                
+                                <th>{{trans('student::local.stage')}}</th>
                                 <th>{{trans('student::local.grade')}}</th>
-                                <th>{{trans('student::local.division')}}</th>
-                                <th>{{trans('student::local.year')}}</th>
-                                <th>{{trans('student::local.total_students')}}</th>
-                                <th>{{trans('student::local.sort')}}</th>
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -67,20 +62,26 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('student::local.new_classroom')}}",
+                    "text": "{{trans('student::local.add_grade_stage')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('classrooms.create')}}";
+                        window.location.href = "{{route('stages-grades.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'classrooms.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'stages-grades.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('classrooms.index') }}",
-          @include('student::settings.classrooms._columns'),
+          ajax: "{{ route('stages-grades.index') }}",
+          columns: [
+              {data: 'check',                   name: 'check', orderable: false, searchable: false},
+              {data: 'DT_RowIndex',             name: 'DT_RowIndex', orderable: false, searchable: false},
+              {data: 'stage',                   name: 'stage'},
+              {data: 'grade',                   name: 'grade'},              
+              {data: 'action', 	                name: 'action', orderable: false, searchable: false},
+          ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
@@ -101,9 +102,7 @@
     function filter()
     {
       $('#dynamic-table').DataTable().destroy();
-      var grade_id 		= $('#grade_id').val();
-      var division_id = $('#division_id').val();
-      var year_id 		= $('#year_id').val();
+      var stage_id 		= $('#stage_id').val();      
       var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
@@ -122,16 +121,20 @@
             ],
             ajax:{
                 type:'POST',
-                url:'{{route("classrooms.filter")}}',
+                url:'{{route("stages-grades.filter")}}',
                 data: {
                     _method     : 'PUT',
-                    grade_id    : grade_id,
-                    division_id : division_id,
-                    year_id     : year_id,
+                    stage_id    : stage_id,                    
                     _token      : '{{ csrf_token() }}'
                 }
               },
-          @include('student::settings.classrooms._columns'),
+          columns: [
+            {data: 'check',                   name: 'check', orderable: false, searchable: false},
+              {data: 'DT_RowIndex',             name: 'DT_RowIndex', orderable: false, searchable: false},
+              {data: 'stage',                   name: 'stage'},
+              {data: 'grade',                   name: 'grade'},            
+              {data: 'action', 	                name: 'action', orderable: false, searchable: false},
+          ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')

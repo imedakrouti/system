@@ -193,5 +193,9 @@ class Admin extends Authenticatable
     public function stages()
     {
         return $this->hasMany('Student\Models\Settings\Stage','admin_id');
-    }    
+    } 
+    public function stageGrades()
+    {
+        return $this->hasMany('Student\Models\Settings\StageGrade','admin_id');
+    }     
 }

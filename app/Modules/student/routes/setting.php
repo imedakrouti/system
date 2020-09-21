@@ -97,4 +97,11 @@
      * Stages
      */
     Route::resource('/stages','StageController')->except('show','destroy');
-    Route::post('stages/destroy','StageController@destroy')->name('stages.destroy');       
+    Route::post('stages/destroy','StageController@destroy')->name('stages.destroy');    
+    
+     /**
+     * Stages-grades
+     */
+    Route::resource('/stages-grades','StageGradeController')->except('show','destroy');
+    Route::post('stages-grades/destroy','StageGradeController@destroy')->name('stages-grades.destroy');  
+    Route::put('stages-grades/q/filter','StageGradeController@filter')->name('stages-grades.filter');        
