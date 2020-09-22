@@ -85,7 +85,14 @@ class StageGradeController extends Controller
         compact('stages','grades','title'));
     }
   
-
+    private function attributes()
+    {
+        return [
+            'stage_id',
+            'grade_id',
+            'end_stage',
+        ];
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -94,12 +101,7 @@ class StageGradeController extends Controller
      */
     public function store(Request $request)
     {
-        foreach ($request->grade_id as $id) {
-            $request->user()->stageGrades()->create([
-                'stage_id' => $request->stage_id,
-                'grade_id' => $id,
-            ]);                     
-        }           
+        $request->user()->stageGrades()->create($request->only($this->attributes()));                                
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('stages-grades.index');            
     }
@@ -127,13 +129,7 @@ class StageGradeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    private function attributes()
-    {
-        return [
-            'stage_id',
-            'grade_id',
-        ];
-    }
+
     public function update(Request $request, $id)
     {
         $stageGrade = StageGrade::findOrFail($id);

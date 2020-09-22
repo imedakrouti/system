@@ -46,7 +46,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.grade') }}</label>
                           <div class="col-md-9">
-                            <select name="grade_id[]" class="form-control select2" required multiple>
+                            <select name="grade_id" class="form-control" required>
                                 @foreach ($grades as $grade)
                                     <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
                                         {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
@@ -55,7 +55,20 @@
                             <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
-                    </div>                                                                              
+                    </div>   
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.end_stage') }}</label>
+                        <div class="col-md-9">
+                          <select name="end_stage" class="form-control" required>
+                              <option value="no">{{ trans('student::local.no') }}</option>
+                              <option value="yes">{{ trans('student::local.yes') }}</option>
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>
+                        </div>
+                      </div>
+                    </div>                        
+
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

@@ -13,6 +13,8 @@ use Student\Models\Settings\Year;
 use Student\Models\Students\SetMigration;
 use Student\Models\Students\Student;
 use PDF;
+use Student\Models\Settings\Stage;
+use Student\Models\Settings\StageGrade;
 
 class StudentStatementsController extends Controller
 {
@@ -344,6 +346,7 @@ class StudentStatementsController extends Controller
         }
 
         $grades = Grade::sort()->get();
+        $stageGrade = StageGrade::with('grade')->get();
 
         foreach ($grades as $grade) {
             $where = [
@@ -379,21 +382,106 @@ class StudentStatementsController extends Controller
                 $q->where('religion','non_muslim');        
             })
             ->where($where)->count();  
-
         }
-                
+
+        /**
+         * stages
+         * grades
+         * stages => grades
+         * total boys muslim grades
+         */
+
+       $stages = Stage::sort()->get();
+       foreach ($stages as $stage) {
+           $allGrades = StageGrade::where('stage_id',$stage->id)->get();
+           $gradesWanted = [];
+           foreach ($allGrades as $grade) {
+                $gradesWanted[] = $grade->grade_id;
+           }
+            // muslims
+            $total_male_muslim[$stage->id] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q){
+                $q->where('gender','male');
+                $q->where('religion','muslim');               
+            })
+            ->where([
+                    ['year_id',request('year_id')],
+                    ['division_id',request('division_id')],           
+                ])   
+            ->whereIn('grade_id',$gradesWanted)         
+            ->count();
+
+            $total_female_muslim[$stage->id] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q){
+                $q->where('gender','female');
+                $q->where('religion','muslim');               
+            })
+            ->where([
+                    ['year_id',request('year_id')],
+                    ['division_id',request('division_id')],           
+                ])   
+            ->whereIn('grade_id',$gradesWanted)         
+            ->count();  
+            
+            // non muslims
+
+            $total_male_non_muslim[$stage->id] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q){
+                $q->where('gender','male');
+                $q->where('religion','non_muslim');               
+            })
+            ->where([
+                    ['year_id',request('year_id')],
+                    ['division_id',request('division_id')],           
+                ])   
+            ->whereIn('grade_id',$gradesWanted)         
+            ->count();
+
+            $total_female_non_muslim[$stage->id] = StudentStatement::with('student','grade')
+            ->whereHas('student',function($q){
+                $q->where('gender','female');
+                $q->where('religion','non_muslim');               
+            })
+            ->where([
+                    ['year_id',request('year_id')],
+                    ['division_id',request('division_id')],           
+                ])   
+            ->whereIn('grade_id',$gradesWanted)         
+            ->count();             
+        
+    }
+    
+       
+
+
+
         $data = [
-            'male_muslims'       => $male_muslim,
-            'male_non_muslims'   => $male_non_muslim,
-            'female_muslims'     => $female_muslim,
-            'female_non_muslims' => $female_non_muslim,
-            'grades'            => $grades,
-            'title'             => 'Statistics Report',       
-            'logo'              => logo(),
-            'schoolName'        => schoolName(),   
-           
-        	];
-		$pdf = PDF::loadView('student::students-affairs.students-statements.statistics-report', $data);
+            'male_muslims'                  => $male_muslim,
+            'male_non_muslims'              => $male_non_muslim,
+            'female_muslims'                => $female_muslim,
+            'female_non_muslims'            => $female_non_muslim,
+            'grades'                        => $grades,
+            'stageGrade'                    => $stageGrade,
+            'total_male_muslim'             => $total_male_muslim,            
+            'total_female_muslim'           => $total_female_muslim,            
+            'total_male_non_muslim'         => $total_male_non_muslim,            
+            'total_female_non_muslim'       => $total_female_non_muslim,          
+            'title'                         => 'Statistics Report',       
+            'logo'                          => logo(),
+            'school_name'                   => getSchoolName(request('division_id')),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+            ];
+        $config = [            
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ];  
+
+		$pdf = PDF::loadView('student::students-affairs.students-statements.statistics-report', $data,[],$config);
 		return $pdf->stream('Statistics');
     }
 
@@ -429,20 +517,7 @@ class StudentStatementsController extends Controller
         if (empty(request('year_id')) || empty(request('division_id')) || empty(request('grade_id'))) {
             return back()->with('error',trans('student::local.ensure_year_division_grade'));
         }
-                 
-        $config = [
-            'orientation'          => 'L',
-            'margin_header'        => 5,
-            'margin_footer'        => 50,
-            'margin_left'          => 10,
-            'margin_right'         => 10,
-            'margin_top'           => 65,
-            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
-        ];
-        // get school name
-        $division = Division::findOrFail(request('division_id'));
-        $school_name = session('lang') == 'ar' ? $division->ar_school_name : $division->en_school_name;
-
+                     
         $statements = StudentStatement::with('grade','division','regStatus')  
         ->where([
             ['students_statements.division_id',request('division_id')],
@@ -487,12 +562,12 @@ class StudentStatementsController extends Controller
             $q->where('religion','non_muslim');        
         })
         ->where($where)->count();  
-        // dd( $female_muslim[0]);
+        
         $data = [
                     'title'                     => 'Statement Report',       
                     'statements'                => $statements,
                     'logo'                      => logo(),
-                    'school_name'               => $school_name,               
+                    'school_name'               => getSchoolName(request('division_id')),               
                     'education_administration'  => preamble()['education_administration'],               
                     'governorate'               => preamble()['governorate'],  
                     'male_muslims'              => $male_muslim,
@@ -500,7 +575,16 @@ class StudentStatementsController extends Controller
                     'female_muslims'            => $female_muslim,
                     'female_non_muslims'        => $female_non_muslim,                                            
                 ];
-            
+        $config = [
+                    'orientation'          => 'L',
+                    'margin_header'        => 5,
+                    'margin_footer'        => 50,
+                    'margin_left'          => 10,
+                    'margin_right'         => 10,
+                    'margin_top'           => 65,
+                    'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+                ];  
+
         $pdf = PDF::loadView('student::students-affairs.students-statements.statement-report', 
         $data,[],$config);        
 		return $pdf->stream('Statement');

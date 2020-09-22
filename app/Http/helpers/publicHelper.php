@@ -184,3 +184,15 @@ if (!function_exists('preamble')) {
 		return $data;
 	}
 }
+/**
+ * get school name by division
+ */
+if (!function_exists('getSchoolName')) {
+	function getSchoolName($division_id)
+	{		
+		// get school name
+        $division = Student\Models\Settings\Division::findOrFail($division_id);
+        return session('lang') == 'ar' ? $division->ar_school_name : $division->en_school_name;
+		
+	}
+}

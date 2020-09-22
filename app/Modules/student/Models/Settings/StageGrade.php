@@ -8,7 +8,7 @@ class StageGrade extends Model
 {
     protected $table = 'stage_grades';
 
-    protected $fillable = ['stage_id','grade_id','admin_id'];
+    protected $fillable = ['stage_id','grade_id','admin_id','end_stage'];
 
     public function admin()
     {
@@ -21,5 +21,9 @@ class StageGrade extends Model
     public function stage()
     {
         return $this->belongsTo('Student\Models\Settings\Stage','stage_id');
-    }      
+    } 
+    public function getEndStageAttribute()
+    {
+        return $this->attributes['end_stage'] == 'yes' ? trans('student::local.yes') : trans('student::local.no') ; 
+    }     
 }

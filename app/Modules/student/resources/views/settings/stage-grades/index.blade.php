@@ -40,6 +40,7 @@
                                 <th>#</th>                                
                                 <th>{{trans('student::local.stage')}}</th>
                                 <th>{{trans('student::local.grade')}}</th>
+                                <th>{{trans('student::local.end_stage')}}</th>
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -79,7 +80,8 @@
               {data: 'check',                   name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',             name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'stage',                   name: 'stage'},
-              {data: 'grade',                   name: 'grade'},              
+              {data: 'grade',                   name: 'grade'},  
+              {data: 'end_stage',               name: 'end_stage'},                        
               {data: 'action', 	                name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
@@ -129,10 +131,11 @@
                 }
               },
           columns: [
-            {data: 'check',                   name: 'check', orderable: false, searchable: false},
+              {data: 'check',                   name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',             name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'stage',                   name: 'stage'},
               {data: 'grade',                   name: 'grade'},            
+              {data: 'end_stage',               name: 'end_stage'},            
               {data: 'action', 	                name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')

@@ -57,7 +57,18 @@
                           </div>
                         </div>
                     </div>      
-                    
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-md-3 label-control">{{ trans('student::local.end_stage') }}</label>
+                        <div class="col-md-9">
+                          <select name="end_stage" class="form-control" required>
+                              <option {{old('end_stage',$stageGrade->end_stage) == trans('student::local.no') ? 'selected' : ''}} value="no">{{ trans('student::local.no') }}</option>
+                              <option {{old('end_stage',$stageGrade->end_stage) == trans('student::local.yes') ? 'selected' : ''}} value="yes">{{ trans('student::local.yes') }}</option>
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>
+                        </div>
+                      </div>
+                    </div>  
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

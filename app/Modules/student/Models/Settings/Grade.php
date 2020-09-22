@@ -9,6 +9,7 @@ class Grade extends Model
 {
     protected $fillable = 
     [
+        'id',
         'ar_grade_name',
         'en_grade_name',
         'ar_grade_parent',

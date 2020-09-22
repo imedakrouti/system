@@ -15,6 +15,7 @@ class CreateTableStageGrades extends Migration
     {
         Schema::create('stage_grades', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->enum('end_stage',['yes','no'])->default('no');
             $table->unsignedBigInteger('stage_id');
             $table->foreign('stage_id')->references('id')->on('stages')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('grade_id');
