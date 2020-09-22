@@ -384,13 +384,6 @@ class StudentStatementsController extends Controller
             ->where($where)->count();  
         }
 
-        /**
-         * stages
-         * grades
-         * stages => grades
-         * total boys muslim grades
-         */
-
        $stages = Stage::sort()->get();
        foreach ($stages as $stage) {
            $allGrades = StageGrade::where('stage_id',$stage->id)->get();
@@ -450,10 +443,6 @@ class StudentStatementsController extends Controller
             ->count();             
         
     }
-    
-       
-
-
 
         $data = [
             'male_muslims'                  => $male_muslim,
