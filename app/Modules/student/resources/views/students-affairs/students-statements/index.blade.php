@@ -62,8 +62,9 @@
     </div>
   </div>
 </div>
-@endsection
 @include('student::students-affairs.students-statements._restore_migration')
+@include('student::students-affairs.students-statements._instructions')
+@endsection
 @section('script')
 <script>
     $(function () {

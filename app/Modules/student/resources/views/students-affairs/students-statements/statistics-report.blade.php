@@ -12,7 +12,7 @@
     <hr>
     <h4 class="center">{{ trans('student::local.statistics') }}</h4>
 </htmlpageheader>
-
+<h4>{{ trans('student::local.total_students') }} : {{$total_students}}</h4>
 <table>
     <thead>
         <tr>
@@ -49,9 +49,9 @@
                 @foreach ($stageGrade as $stage)
                     
                     @if ($stage->grade_id == $grade->id && $stage->end_stage ==  trans('student::local.yes') )
-                        <tr>
-                            <td class="red"><strong>{{ trans('student::local.totalStudents') }}</strong></td>
-                            <td class="red">
+                        <tr style="background-color: rgb(155, 155, 155);color:rgb(251, 249, 249)">
+                            <td><strong>{{ trans('student::local.total_statge') }}</strong></td>
+                            <td>
                                 <strong> 
                                     @foreach ($total_male_muslim as $key =>$value)
                                         @if ($stage->stage_id == $key) 
@@ -60,7 +60,7 @@
                                     @endforeach                                                         
                                 </strong>
                             </td>
-                            <td class="red">
+                            <td>
                                 <strong>
                                     @foreach ($total_female_muslim as $key =>$value)
                                         @if ($stage->stage_id == $key) 
@@ -69,12 +69,12 @@
                                     @endforeach  
                                 </strong>
                             </td>
-                            <td class="red">                                        
+                            <td>                                        
                                 <strong>
                                     {{$total_male_muslim[$stage->stage_id ] + $total_female_muslim[$stage->stage_id ]}}
                                 </strong>
                             </td>
-                            <td class="red">
+                            <td>
                                 <strong> 
                                     @foreach ($total_male_non_muslim as $key =>$value)
                                         @if ($stage->stage_id == $key) 
@@ -83,7 +83,7 @@
                                     @endforeach                                                         
                                 </strong>                                
                             </td>
-                            <td class="red">
+                            <td>
                                 <strong>
                                     @foreach ($total_female_non_muslim as $key =>$value)
                                         @if ($stage->stage_id == $key) 
@@ -92,12 +92,12 @@
                                     @endforeach  
                                 </strong>                                
                             </td>
-                            <td class="red">
+                            <td>
                                 <strong>
                                     {{$total_male_non_muslim[$stage->stage_id ] + $total_female_non_muslim[$stage->stage_id ]}}
                                 </strong>                                
                             </td>
-                            <td class="red">
+                            <td>
                                 <strong>
                                     {{$total_male_muslim[$stage->stage_id ] + $total_female_muslim[$stage->stage_id ]+
                                     $total_male_non_muslim[$stage->stage_id ] + $total_female_non_muslim[$stage->stage_id ]}}
@@ -109,18 +109,19 @@
                 {{$i++}}                                  
         @endforeach    
         <tr>
-            <td class="blue"><strong>{{ trans('student::local.totalStudents') }}</strong></td>     
-            <td class="blue"><strong>{{ array_sum($male_muslims) }}</strong></td>     
-            <td class="blue"><strong>{{ array_sum($female_muslims) }}</strong></td>     
-            <td class="blue"><strong>{{ array_sum($male_muslims) + array_sum($female_muslims) }}</strong></td>     
-            <td class="blue"><strong>{{ array_sum($male_non_muslims) }}</strong></td>     
-            <td class="blue"><strong>{{ array_sum($female_non_muslims) }}</strong></td>     
-            <td class="blue"><strong>{{ array_sum($male_non_muslims) + array_sum($female_non_muslims) }}</strong></td>     
-            <td class="blue"><strong>
-                {{ array_sum($male_muslims) + array_sum($female_muslims)+ 
-                 array_sum($male_non_muslims) + array_sum($female_non_muslims) }}
-            </strong></td>     
-   
+            <td class="red"><strong>{{ trans('student::local.totalStudents') }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($male_muslims) }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($female_muslims) }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($male_muslims) + array_sum($female_muslims) }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($male_non_muslims) }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($female_non_muslims) }}</strong></td>     
+            <td class="red"><strong>{{ array_sum($male_non_muslims) + array_sum($female_non_muslims) }}</strong></td>     
+            <td class="red">
+                <strong>
+                    {{ array_sum($male_muslims) + array_sum($female_muslims)+ 
+                    array_sum($male_non_muslims) + array_sum($female_non_muslims) }}
+                </strong>
+            </td>        
         </tr>                           
     </tbody>
 </table>

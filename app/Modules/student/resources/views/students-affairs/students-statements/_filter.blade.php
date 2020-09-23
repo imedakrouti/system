@@ -43,6 +43,6 @@
               <a onclick="printStatement()" class="dropdown-item" href="#">{{trans('student::local.print_statement') }}</a>              
               <a onclick="statistics()" class="dropdown-item" href="#">{{trans('student::local.print_statistics') }}</a>                            
             </div>
-          </div>
+        </div>
     </div>
 </form>

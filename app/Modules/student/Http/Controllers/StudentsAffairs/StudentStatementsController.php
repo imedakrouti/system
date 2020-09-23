@@ -62,7 +62,7 @@ class StudentStatementsController extends Controller
     }
 
     public function addToStatement()
-    {   
+    {          
         if (checkYearStatus(currentYear())) {
             return back()->with('error',trans('student::local.year_close_add'));                        
         }  
@@ -77,8 +77,17 @@ class StudentStatementsController extends Controller
         if ($this->shownRegStatus() != trans('student::local.show_regg')) {
             return back()->with('error',trans('student::local.invalid_reg_status'));            
         }   
-                                    
-        request()->user()->statements()->create($this->attributes());        
+
+        $data = $this->checkTotalStudents(request('division_id'),currentYear());
+       
+        if ($data['total_students']-1 >= $data['current_total_students']) {
+            request()->user()->statements()->create($this->attributes());               
+        }                     
+        else{            
+            toast(trans('student::local.total_students_stop'),'error');  
+            return back(); 
+        }
+
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('students.show',request('student_id'));
         
@@ -92,6 +101,7 @@ class StudentStatementsController extends Controller
             ->join('students','students_statements.student_id','=','students.id')
             ->orderBy('gender','asc')
             ->orderBy('ar_student_name','asc')
+            ->select('students_statements.*')
             ->get();
             return $this->dataTable($data);
         }
@@ -117,7 +127,8 @@ class StudentStatementsController extends Controller
             ->where($whereData)
             ->join('students','students_statements.student_id','=','students.id')
             ->orderBy('gender','asc')
-            ->orderBy('ar_student_name','asc')                        
+            ->orderBy('ar_student_name','asc')    
+            ->select('students_statements.*')                    
             ->get();     
                         
             return $this->dataTable($data);
@@ -183,12 +194,14 @@ class StudentStatementsController extends Controller
 
     public function destroy()
     {
+        
         $result = '';
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    $year = StudentStatement::findOrFail($id);
+                    $year = StudentStatement::findOrFail($id);                     
+                   
                     if (!checkYearStatus($year->year_id)) {
                         StudentStatement::destroy($id);                        
                     }else{
@@ -207,7 +220,7 @@ class StudentStatementsController extends Controller
     
     public function storeToStatement()
     {
-        if (request()->ajax()) {
+        if (request()->ajax()) {            
             foreach (request('id') as $studentId) {
                 $student = Student::findOrFail($studentId);
                 $this->dob = getStudentAge($student->dob); // get dob of student
@@ -217,52 +230,78 @@ class StudentStatementsController extends Controller
         return response(['status'=>true]);
     }
 
-    public function store()
+    private function checkTotalStudents($divisionId, $yearId,$gradeId=null)
     {
+        $data['total_students'] =(int) Division::findOrFail($divisionId)->total_students;
+      
+        $data['current_total_students'] = StudentStatement::where([
+            ['division_id', $divisionId], ['year_id', $yearId]
+        ])->count();
+
+        $data['current_student_grade'] = StudentStatement::where([
+            ['division_id', $divisionId], ['year_id', $yearId],['grade_id',$gradeId]
+        ])->count();
+        return $data;
+    }
+
+    public function store()
+    {       
         /**
          *  make sure current year is open and next year is close
          */
-        if (!checkYearStatus(request('from_year_id'))) {
-            return back()->withInput()->with('error',trans('student::local.close_year_first'));
+        if (!checkYearStatus(request('from_year_id'))) {                        
+            toast(trans('student::local.close_year_first'),'error');  
+            return back()->withInput();                       
         }
 
-        if (checkYearStatus(request('to_year_id'))) {
-            return back()->withInput()->with('error',trans('student::local.open_year_first'));
+        if (checkYearStatus(request('to_year_id'))) {            
+            toast(trans('student::local.open_year_first'),'error');  
+            return back()->withInput(); 
         }
         /**
          * loop all grades
          */
-        $grades = Grade::sort()->get();
+
+        $data = $this->checkTotalStudents(request('from_division_id'),request('to_year_id'));
         
-        foreach ($grades as $grade) {
-            // get all students in current year
-            $whereData = [
-                ['year_id'     , request('from_year_id')],
-                ['division_id' , request('from_division_id')],
-                ['grade_id'    , $grade->id ]
-            ];
-            $currentStatement = StudentStatement::where($whereData)->get();
+        if ($data['total_students'] >= $data['current_total_students']) {
+            $grades = Grade::sort()->get();
+            
+            foreach ($grades as $grade) {
+                // get all students in current year
+                $whereData = [
+                    ['year_id'     , request('from_year_id')],
+                    ['division_id' , request('from_division_id')],
+                    ['grade_id'    , $grade->id ]
+                ];
+                $currentStatement = StudentStatement::where($whereData)->get();
+        
+                foreach ($currentStatement as $statement) {     
+                    
+                    $toGradeId = SetMigration::where('from_grade_id',$grade->id)->first();
+                    // update grade and reg_status in students table
+                    Student::where('id',$statement->student_id)
+                    ->whereIn('registration_status_id',request('from_status_id'))
+                    ->update([
+                        'grade_id'                  => $toGradeId->to_grade_id , 
+                        'registration_status_id'    => request('to_status_id')]);
+                    
+                    $student = Student::findOrFail($statement->student_id);
+        
+                    $this->dob = getStudentAgeByYear(request('to_year_id'),$student->dob); // get dob of student
+                    // insert students in statements
+                    $this->insertInToStatement($statement->student_id);                     
+                }            
+            }
     
-            foreach ($currentStatement as $statement) {     
-                
-                $toGradeId = SetMigration::where('from_grade_id',$grade->id)->first();
-                // update grade and reg_status in students table
-                Student::where('id',$statement->student_id)
-                ->whereIn('registration_status_id',request('from_status_id'))
-                ->update([
-                    'grade_id'                  => $toGradeId->to_grade_id , 
-                    'registration_status_id'    => request('to_status_id')]);
-                
-                $student = Student::findOrFail($statement->student_id);
-    
-                $this->dob = getStudentAgeByYear(request('to_year_id'),$student->dob); // get dob of student
-                // insert students in statements
-                $this->insertInToStatement($statement->student_id);            
-            }            
+            toast(trans('msg.stored_successfully'),'success');            
+            return redirect()->route('statements.index');        
+        }
+        else{            
+            toast(trans('student::local.total_students_stop'),'error');  
+            return back(); 
         }
 
-        toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('statements.index');        
     }
 
     private function insertInToStatement($studentId)
@@ -293,6 +332,7 @@ class StudentStatementsController extends Controller
     public function restoreMigration()
     {
         if (request()->ajax()) {
+          
             $invalid = '';
             
             /**
@@ -307,6 +347,7 @@ class StudentStatementsController extends Controller
             else{                
                 DB::transaction(function ()  {
                     $students = StudentStatement::where('year_id',request('to_year_id'))->get();
+                    
                     foreach ($students as $student) {
                         $whereData = [
                             ['year_id',currentYear()],
@@ -314,20 +355,21 @@ class StudentStatementsController extends Controller
                         ];
                         
                         $currentStatement = StudentStatement::where($whereData)->first();
-                        Student::where('id',$student->student_id)
-                        ->update([
-                            'grade_id'                  => $currentStatement->grade_id,
-                            'registration_status_id'    => $currentStatement->registration_status_id,
-                        ]);
+                     
+                        if (!empty($currentStatement)) {
+                            Student::where('id',$student->student_id)
+                            ->update([
+                                'grade_id'                  => $currentStatement->grade_id,
+                                'registration_status_id'    => $currentStatement->registration_status_id,
+                            ]);                          
+                        }
         
-                        $students = StudentStatement::where('year_id',request('to_year_id'))->get();
-                        
                         $where = [
                             ['year_id',request('to_year_id')],
                             ['student_id',$student->student_id]
                         ];
                         StudentStatement::where($where)->delete();
-                    }                
+                    }                                                        
                 });
             }
 
@@ -341,10 +383,19 @@ class StudentStatementsController extends Controller
 
     public function statisticsReport()
     {        
-        if (empty(request('year_id')) || empty(request('division_id'))) {
-            return back()->with('error',trans('student::local.ensure_year_division'));
+        if (empty(request('year_id')) || empty(request('division_id'))) {            
+            toast(trans('student::local.ensure_year_division'),'error');  
+            return back();
         }
 
+        $data = $this->checkTotalStudents(request('division_id'),request('year_id'));
+        
+        if ($data['current_total_students'] <= 0) {            
+            toast(trans('student::local.no_students_found'),'error');  
+            return back();                       
+        }
+
+        $total_students = Division::findOrFail(request('division_id'))->total_students;
         $grades = Grade::sort()->get();
         $stageGrade = StageGrade::with('grade')->get();
 
@@ -442,7 +493,7 @@ class StudentStatementsController extends Controller
             ->whereIn('grade_id',$gradesWanted)         
             ->count();             
         
-    }
+        }
 
         $data = [
             'male_muslims'                  => $male_muslim,
@@ -455,12 +506,14 @@ class StudentStatementsController extends Controller
             'total_female_muslim'           => $total_female_muslim,            
             'total_male_non_muslim'         => $total_male_non_muslim,            
             'total_female_non_muslim'       => $total_female_non_muslim,          
+            'total_students'                => $total_students,          
             'title'                         => 'Statistics Report',       
             'logo'                          => logo(),
             'school_name'                   => getSchoolName(request('division_id')),               
             'education_administration'      => preamble()['education_administration'],               
             'governorate'                   => preamble()['governorate'],               
             ];
+
         $config = [            
             'margin_header'        => 5,
             'margin_footer'        => 50,
@@ -476,6 +529,10 @@ class StudentStatementsController extends Controller
 
     public function insertStatement()
     {
+       /**
+        * Add all new students to statement
+        */
+        
         $result = '';
         if (request()->ajax()) {
             if (!checkYearStatus(currentYear())) {
@@ -485,9 +542,18 @@ class StudentStatementsController extends Controller
                 })
                 ->student()
                 ->get(); 
+                // dd($students);
                 foreach ($students as $student) {    
-                    $this->dob = getStudentAgeByYear(currentYear(),$student->dob); // get dob of student                
-                    $this->insertInToStatement($student->id);
+                    $this->dob = getStudentAgeByYear(currentYear(),$student->dob); // get dob of student      
+                    
+                    $data = $this->checkTotalStudents($student->division_id,currentYear());
+                   
+                    if ($data['total_students']-1 >= $data['current_total_students']) {
+                        $this->insertInToStatement($student->id);                        
+                    }else{     
+                        $division_name =  session('lang') == 'ar' ? $student->division->ar_division_name : $student->division->en_division_name ;
+                        $result = trans('student::local.total_students_stop') . ' [ '. $division_name .' ]';
+                    }
                 }
                 
             }else{
@@ -497,14 +563,22 @@ class StudentStatementsController extends Controller
         if (empty($result)) {
             return response(['status'=>true]);
         }else{
-            return response(['status'=>false,'msg'=>trans('student::local.year_close_add')]);
+            return response(['status'=>false,'msg'=> $result]);
         }
     }
 
     public function printStatementReport()
     {     
         if (empty(request('year_id')) || empty(request('division_id')) || empty(request('grade_id'))) {
-            return back()->with('error',trans('student::local.ensure_year_division_grade'));
+            toast(trans('student::local.ensure_year_division_grade'),'error');  
+            return back();
+        }
+
+        $data = $this->checkTotalStudents(request('division_id'),request('year_id'), request('grade_id'));
+        
+        if ($data['current_student_grade'] <= 0) {
+            toast(trans('student::local.no_students_found'),'error');  
+            return back();            
         }
                      
         $statements = StudentStatement::with('grade','division','regStatus')  
@@ -516,7 +590,10 @@ class StudentStatementsController extends Controller
         ->join('students','students_statements.student_id','=','students.id')
         ->orderBy('gender','asc')
         ->orderBy('ar_student_name','asc')
-        ->get();     
+        ->select('students_statements.*')
+        ->get();  
+        
+       
 
         $where = [
             ['year_id',request('year_id')],

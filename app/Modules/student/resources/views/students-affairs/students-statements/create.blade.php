@@ -23,7 +23,7 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body">
-            <form class="form form-horizontal" method="POST" action="{{route('statements.store')}}" id="formData">
+            <form class="form form-horizontal" method="POST" action="#" id="formData">
                 @csrf
                 <div class="form-body">
                   <h4 class="form-section"> {{ $title }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
@@ -119,8 +119,9 @@
                 cancelButtonText: "{{trans('msg.no')}}",
                 closeOnConfirm: false,
             },
-            function(){
-                $("#formData").submit();
+            function(){                
+                $('#formData').attr('action',"{{route('statements.store')}}");
+                $('#formData').submit();
         });
         
     });

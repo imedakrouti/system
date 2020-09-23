@@ -105,7 +105,11 @@ class Student extends Model
     }
     public function getReligionAttribute()
     {
-        return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim') : trans('student::local.non_muslim');
+        if ($this->attributes['gender'] == 'male') {
+            return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim') : trans('student::local.non_muslim');            
+        }else{
+            return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim_m') : trans('student::local.non_muslim_m');            
+        }
     }   
     public function scopeStudent($q)
     {
