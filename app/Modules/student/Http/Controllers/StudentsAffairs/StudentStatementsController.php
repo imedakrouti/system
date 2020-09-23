@@ -436,6 +436,7 @@ class StudentStatementsController extends Controller
         }
 
        $stages = Stage::sort()->get();
+
        foreach ($stages as $stage) {
            $allGrades = StageGrade::where('stage_id',$stage->id)->get();
            $gradesWanted = [];
@@ -444,54 +445,54 @@ class StudentStatementsController extends Controller
            }
             // muslims
             $total_male_muslim[$stage->id] = StudentStatement::with('student','grade')
-            ->whereHas('student',function($q){
-                $q->where('gender','male');
-                $q->where('religion','muslim');               
-            })
-            ->where([
-                    ['year_id',request('year_id')],
-                    ['division_id',request('division_id')],           
-                ])   
-            ->whereIn('grade_id',$gradesWanted)         
-            ->count();
+                ->whereHas('student',function($q){
+                    $q->where('gender','male');
+                    $q->where('religion','muslim');               
+                })
+                ->where([
+                        ['year_id',request('year_id')],
+                        ['division_id',request('division_id')],           
+                    ])   
+                ->whereIn('grade_id',$gradesWanted)         
+                ->count();
 
             $total_female_muslim[$stage->id] = StudentStatement::with('student','grade')
-            ->whereHas('student',function($q){
-                $q->where('gender','female');
-                $q->where('religion','muslim');               
-            })
-            ->where([
-                    ['year_id',request('year_id')],
-                    ['division_id',request('division_id')],           
-                ])   
-            ->whereIn('grade_id',$gradesWanted)         
-            ->count();  
+                ->whereHas('student',function($q){
+                    $q->where('gender','female');
+                    $q->where('religion','muslim');               
+                })
+                ->where([
+                        ['year_id',request('year_id')],
+                        ['division_id',request('division_id')],           
+                    ])   
+                ->whereIn('grade_id',$gradesWanted)         
+                ->count();  
             
             // non muslims
 
             $total_male_non_muslim[$stage->id] = StudentStatement::with('student','grade')
-            ->whereHas('student',function($q){
-                $q->where('gender','male');
-                $q->where('religion','non_muslim');               
-            })
-            ->where([
-                    ['year_id',request('year_id')],
-                    ['division_id',request('division_id')],           
-                ])   
-            ->whereIn('grade_id',$gradesWanted)         
-            ->count();
+                ->whereHas('student',function($q){
+                    $q->where('gender','male');
+                    $q->where('religion','non_muslim');               
+                })
+                ->where([
+                        ['year_id',request('year_id')],
+                        ['division_id',request('division_id')],           
+                    ])   
+                ->whereIn('grade_id',$gradesWanted)         
+                ->count();
 
             $total_female_non_muslim[$stage->id] = StudentStatement::with('student','grade')
-            ->whereHas('student',function($q){
-                $q->where('gender','female');
-                $q->where('religion','non_muslim');               
-            })
-            ->where([
-                    ['year_id',request('year_id')],
-                    ['division_id',request('division_id')],           
-                ])   
-            ->whereIn('grade_id',$gradesWanted)         
-            ->count();             
+                ->whereHas('student',function($q){
+                    $q->where('gender','female');
+                    $q->where('religion','non_muslim');               
+                })
+                ->where([
+                        ['year_id',request('year_id')],
+                        ['division_id',request('division_id')],           
+                    ])   
+                ->whereIn('grade_id',$gradesWanted)         
+                ->count();             
         
         }
 
@@ -509,6 +510,7 @@ class StudentStatementsController extends Controller
             'total_students'                => $total_students,          
             'title'                         => 'Statistics Report',       
             'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
             'school_name'                   => getSchoolName(request('division_id')),               
             'education_administration'      => preamble()['education_administration'],               
             'governorate'                   => preamble()['governorate'],               

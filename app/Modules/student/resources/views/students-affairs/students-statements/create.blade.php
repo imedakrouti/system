@@ -23,6 +23,7 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body">
+            
             <form class="form form-horizontal" method="POST" action="#" id="formData">
                 @csrf
                 <div class="form-body">
@@ -30,8 +31,12 @@
                     @include('layouts.backEnd.includes._msg')
                     
                     @include('layouts.backEnd.includes._error-msg')
-                    
-                    <div class="row">
+                    <div class="alert bg-info alert-icon-left alert-arrow-left alert-dismissible mb-2"
+                    role="alert">
+                      <span class="alert-icon"><i class="la la-info-circle"></i></span>                  
+                      {{ trans('student::local.all_status_needed') }}
+                    </div>
+                    <div class="row mb-1">
                       <div class="col-md-3">
                         <select name="from_division_id" class="form-control" id="division_id" required>
                             <option value="">{{ trans('student::local.divisions') }}</option>

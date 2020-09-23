@@ -108,9 +108,14 @@ if (!function_exists('getYearAcademic')) {
 	}
 }
 if (!function_exists('fullAcademicYear')) {
-	function fullAcademicYear()
+	function fullAcademicYear($yearId = null)
 	{
-		$year =  \Student\Models\Settings\Year::where('status','current')->first();	
+		$year = '';
+		if (empty($yearId)) {
+			$year =  \Student\Models\Settings\Year::where('status','current')->first();				
+		}else{
+			$year =  \Student\Models\Settings\Year::where('id',$yearId)->first();				
+		}
 		
 		if ($year != null) {
 			$date = \DateTime::createFromFormat("Y-m-d",$year->start_from);

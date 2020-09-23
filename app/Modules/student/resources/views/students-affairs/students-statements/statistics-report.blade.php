@@ -10,7 +10,7 @@
     </div>
     <div class="clear"></div>
     <hr>
-    <h4 class="center">{{ trans('student::local.statistics') }}</h4>
+    <h4 class="center">{{ trans('student::local.statistics') }} - {{ trans('student::local.year') }} {{$year_name}}</h4>
 </htmlpageheader>
 <h4>{{ trans('student::local.total_students') }} : {{$total_students}}</h4>
 <table>
@@ -125,6 +125,12 @@
         </tr>                           
     </tbody>
 </table>
+{{ trans('student::local.available_students') }} : 
+<strong>
+    {{$total_students - (array_sum($male_muslims) + array_sum($female_muslims)+ 
+        array_sum($male_non_muslims) + array_sum($female_non_muslims)) }} 
+</strong>
+{{ trans('student::local.student') }}
 <div class="signature">
     <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('admin.students_affairs') }}</strong></h3>
 </div>

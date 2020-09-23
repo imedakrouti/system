@@ -44,5 +44,8 @@
               <a onclick="statistics()" class="dropdown-item" href="#">{{trans('student::local.print_statistics') }}</a>                            
             </div>
         </div>
+        <button type="button" class="btn btn-info btn-min-width ml-1" data-toggle="modal" data-target="#large">
+          {{ trans('student::local.instructions') }}
+        </button>        
     </div>
 </form>

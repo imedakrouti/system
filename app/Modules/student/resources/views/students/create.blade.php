@@ -113,6 +113,7 @@
       </div>
     </div>
 </div>
+
 @endsection
 @section('script')
 <script src="{{asset('public/cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>

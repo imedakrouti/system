@@ -60,7 +60,7 @@ buttons: [
                 // set_migration
                 {
                     "text": "{{trans('student::local.set_migration')}}",
-                    "className": "btn btn-light mr-1",
+                    "className": "btn btn-warning mr-1",
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('setMigration.index')}}";
                         }
