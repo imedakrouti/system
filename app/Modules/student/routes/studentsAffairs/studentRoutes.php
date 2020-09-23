@@ -1,6 +1,7 @@
 <?php
 
 Route::group(['namespace'=>'StudentsAffairs'],function(){
+    // student statements
     Route::post('student/add-statement','StudentStatementsController@addToStatement')->name('statement.addStudent');
     Route::resource('statements','StudentStatementsController')->except('show','edit','destroy');
     Route::put('statements/filter/students','StudentStatementsController@filter')->name('statements.filter');
@@ -15,5 +16,13 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::get('/set-migrations','SetMigrationController@index')->name('setMigration.index');   
     Route::post('/set-migrations/store','SetMigrationController@storeSetMigration')->name('setMigration.store');   
     Route::post('/set-migrations/del/destroy','SetMigrationController@destroy')->name('setMigration.destroy');   
+
+    // Commissioner
+    Route::resource('/commissioners','CommissionerController')->except('destroy');
+    Route::post('commissioners/destroy','CommissionerController@destroy')->name('commissioners.destroy');   
+
     
+    Route::post('commissioners/store-students','CommissionerController@storeStudents')->name('commissioners-students.store');  
+    Route::post('commissioners/destroy-students','CommissionerController@destroyStudents')->name('commissioners-students.destroy');  
+    Route::get('commissioners/print-students/{id}','CommissionerController@printStudents')->name('commissioners-students.print');  
 });

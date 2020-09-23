@@ -6,6 +6,7 @@
 @include('layouts.backEnd.includes.sidebars._admission')
 @endsection
 @section('content')
+
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
       <h3 class="content-header-title">{{$title}}</h3>
@@ -37,10 +38,12 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('student::local.school_name')}}</th>
-                                <th>{{trans('student::local.school_government')}}</th>
-                                <th>{{trans('student::local.school_address')}}</th>
-                                <th>{{trans('student::local.school_type')}}</th>
+                                <th>{{trans('student::local.commissioner_name')}}</th>
+                                <th>{{trans('student::local.id_number_card')}}</th>
+                                <th>{{trans('student::local.mobile_number')}}</th>
+                                <th>{{trans('student::local.relation')}}</th>
+                                <th>{{trans('student::local.print_commissioner_report')}}</th>
+                                <th>{{trans('student::local.attachements')}}</th>
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -63,26 +66,28 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('student::local.new_school')}}",
+                    "text": "{{trans('student::local.new_commissioner')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('schools.create')}}";
+                        window.location.href = "{{route('commissioners.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'schools.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'commissioners.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('schools.index') }}",
+          ajax: "{{ route('commissioners.index') }}",
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'school_name',         name: 'school_name'},
-              {data: 'school_government',   name: 'school_government'},
-              {data: 'school_address',      name: 'school_address'}, 
-              {data: 'school_type',         name: 'school_type'}, 
+              {data: 'commissioner_name',   name: 'commissioner_name'},
+              {data: 'id_number',           name: 'id_number'},
+              {data: 'mobile',              name: 'mobile'}, 
+              {data: 'relation',            name: 'relation'}, 
+              {data: 'print',               name: 'print'}, 
+              {data: 'file_name',           name: 'file_name'}, 
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')

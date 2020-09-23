@@ -99,8 +99,8 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.archive') }}</span>
                     </a>
                 </li> 
-                <li class=" nav-item {{request()->segment(2)=='student-reports'?'active':''}}">
-                    <a href="{{route('student-reports.index')}}"><i class="la la-car">
+                <li class=" nav-item {{request()->segment(2)=='commissioners'?'active':''}}">
+                    <a href="{{route('commissioners.index')}}"><i class="la la-car">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.commissioners') }}</span>
                     </a>
                 </li> 

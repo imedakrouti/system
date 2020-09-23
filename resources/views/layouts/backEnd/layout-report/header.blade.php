@@ -49,8 +49,8 @@
             header: page-header;
             footer: page-footer;
         }
-        .right{float: right;direction: ltr}
-        .left{float: left;direction: rtl}
+        .right{float: right;direction: rtl}
+        .left{float: left;direction: ltr}
   
              
     </style>

@@ -197,5 +197,13 @@ class Admin extends Authenticatable
     public function stageGrades()
     {
         return $this->hasMany('Student\Models\Settings\StageGrade','admin_id');
+    } 
+    public function commissioners()
+    {
+        return $this->hasMany('Student\Models\Students\Commissioner','admin_id');
+    }     
+    public function studentsCommissioners()
+    {
+        return $this->hasMany('Student\Models\Students\StudentCommissioner','admin_id');
     }     
 }
