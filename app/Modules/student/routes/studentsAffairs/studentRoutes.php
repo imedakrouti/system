@@ -20,6 +20,8 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     // Commissioner
     Route::resource('/commissioners','CommissionerController')->except('destroy');
     Route::post('commissioners/destroy','CommissionerController@destroy')->name('commissioners.destroy');   
+    Route::get('commissioners/student/{id}','CommissionerController@student')->name('commissioners.student');   
+    Route::get('commissioners/student/report/{id}','CommissionerController@studentReport')->name('student-report.print');  
 
     
     Route::post('commissioners/store-students','CommissionerController@storeStudents')->name('commissioners-students.store');  

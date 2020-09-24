@@ -120,7 +120,7 @@ class CommissionerController extends Controller
     public function show(Commissioner $commissioner)
     {
         if (request()->ajax()) {
-            $data = StudentCommissioner::with('students')->get();
+            $data = StudentCommissioner::with('students')->where('commissioner_id',$commissioner->id)->get();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('check', function($data){
@@ -249,6 +249,50 @@ class CommissionerController extends Controller
         ];  
     
 		$pdf = PDF::loadView('student::students-affairs.commissioners.report', $data,[],$config);
+		return $pdf->stream('commissioner');
+    }
+
+    public function student($id)
+    {
+        $student = Student::findOrFail($id);
+        $commissioners = Commissioner::with('students')
+        ->whereHas('students',function($q) use ($id){
+            $q->where('students.id',$id);
+        })
+        ->get();        
+        $title = trans('student::local.commissioner_profiles');
+        return view('student::students-affairs.commissioners.student',
+        compact('title','commissioners','student'));
+    }
+
+    public function studentReport($id)
+    {
+        $student = Student::findOrFail($id);
+        $commissioners = Commissioner::with('students')
+        ->whereHas('students',function($q) use ($id){
+            $q->where('students.id',$id);
+        })
+        ->get();       
+        $data = [        
+            'commissioners'                 => $commissioners,       
+            'student'                       => $student,       
+            'title'                         => 'commissioner',       
+            'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
+            'school_name'                   => schoolName(),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+            ];
+        $config = [            
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,
+            'margin_bottom'        => 0,
+        ];  
+    
+		$pdf = PDF::loadView('student::students-affairs.commissioners.student-report', $data,[],$config);
 		return $pdf->stream('commissioner');
     }
 }

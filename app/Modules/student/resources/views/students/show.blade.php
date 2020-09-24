@@ -45,18 +45,18 @@
                         <button type="button" class="btn btn-info btn-min-width dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false"> {{ trans('student::local.more') }}</button>
                         <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.archive') }}</a>
-                        <a href="{{route('student.report',$student->id)}}" class="dropdown-item" href="#">{{ trans('student::local.student_reports') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.notes') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.payments') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.books') }}</a>                      
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.uniform') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.absence') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.parent_requests') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.permissions') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.authorizations') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.buses') }}</a>
-                        <a href="#" class="dropdown-item" href="#">{{ trans('student::local.health_status') }}</a>                      
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.archive') }}</a>
+                        <a href="{{route('student.report',$student->id)}}" class="dropdown-item" >{{ trans('student::local.student_reports') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.notes') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.payments') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.books') }}</a>                      
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.uniform') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.absence') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.parent_requests') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.permissions') }}</a>
+                        <a href="{{route('commissioners.student',$student->id)}}" class="dropdown-item" >{{ trans('student::local.authorizations') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.buses') }}</a>
+                        <a href="#" class="dropdown-item" >{{ trans('student::local.health_status') }}</a>                      
                         </div>
                     </div>                                 
                 @endif
