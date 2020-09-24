@@ -27,6 +27,7 @@
         <div class="card-header">
           <h4 class="card-title">{{$title}} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+          @include('student::students._filter')
         </div>
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
@@ -76,24 +77,47 @@
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
           ajax: "{{ route('students.index') }}",
-          columns: [
-              {data: 'check',               name: 'check', orderable: false, searchable: false},
-              {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'studentImage',        name: 'studentImage'},
-              {data: 'application_date',    name: 'application_date'},
-              {data: 'studentName',         name: 'studentName'},
-              {data: 'student_number',      name: 'student_number'},
-              {data: 'student_type',        name: 'student_type'},
-              {data: 'registration_status', name: 'registration_status'},
-              {data: 'religion',            name: 'religion'},              
-              {data: 'grade',               name: 'grade'},
-              {data: 'division',            name: 'division'},              
-              {data: 'moreBtn',             name: 'moreBtn', orderable: false, searchable: false},                            
-          ],
+          @include('student::students._dataTable-columns'),
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });
+
+    function filter()
+{
+  event.preventDefault();
+  $('#dynamic-table').DataTable().destroy();
+  var grade_id 		  = $('#filter_grade_id').val();
+  var division_id   = $('#filter_division_id').val();
+  var status_id 		= $('#filter_status_id').val();
+  var myTable = $('#dynamic-table').DataTable({
+    @include('layouts.backEnd.includes.datatables._datatableConfig')            
+    buttons: [
+                // new
+                @include('student::students-affairs.students-statements._storeToStatement')
+                // delete btn
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
+
+                // default btns
+                @include('layouts.backEnd.includes.datatables._datatableBtn')
+            ],
+    ajax:{
+        type:'POST',
+        url:'{{route("students.filter")}}',
+        data: {
+            _method     : 'PUT',
+            grade_id    : grade_id,
+            division_id : division_id,            
+            status_id   : status_id,
+            _token      : '{{ csrf_token() }}'
+        }
+      },
+      // columns
+      @include('student::students._dataTable-columns'),
+      @include('layouts.backEnd.includes.datatables._datatableLang')
+  });
+  @include('layouts.backEnd.includes.datatables._multiSelect')
+}      
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

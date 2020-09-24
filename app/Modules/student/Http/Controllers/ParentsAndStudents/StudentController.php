@@ -21,6 +21,7 @@ use DB;
 use PDF;
 use Illuminate\Support\Facades\Storage;
 use Student\Models\Settings\Design;
+use Student\Models\Settings\Year;
 use Student\Models\Students\Address;
 use Student\Models\Students\StudentStatement;
 
@@ -39,50 +40,17 @@ class StudentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Student::with('nationalities','regStatus','division','father','grade')->get();
-            return datatables($data)
-                    ->addIndexColumn()
-                    ->addColumn('studentName',function($data){
-                        return $this->getFullStudentName($data);                                         
-                    })
-                    ->addColumn('moreBtn',function($data){
-                        return $this->moreBtn($data);                                         
-                    })
-                    ->addColumn('studentImage',function($data){
-                        return $this->studentImage($data);                        
-                    })
-                    ->addColumn('registration_status',function($data){
-                        return session('lang') == 'ar' ? $data->regStatus->ar_name_status:
-                        $data->regStatus->en_name_status;
-                    })
-                    ->addColumn('religion',function($data){
-                        return $this->getReligion($data);     
-                    })
-                    ->addColumn('student_type',function($data){
-                        return $data->student_type == trans('student::local.applicant') ? '<span class="red">'.$data->student_type.'</span>':$data->student_type;     
-                    })
-                    ->addColumn('grade',function($data){
-                        return session('lang') == 'ar' ? $data->grade->ar_grade_name:
-                        $data->grade->en_grade_name;
-                    })
-                    ->addColumn('division',function($data){
-                        return session('lang') == 'ar' ? $data->division->ar_division_name:
-                        $data->division->en_division_name;
-                    })
-                    ->addColumn('check', function($data){
-                           $btnCheck = '<label class="pos-rel">
-                                        <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
-                                        <span class="lbl"></span>
-                                    </label>';
-                            return $btnCheck;
-                    })
-                    ->rawColumns(['check','studentName','registration_status','religion','grade','student_type',
-                    'division','studentImage','moreBtn'])
-                    ->make(true);
+            $data = Student::with('nationalities','regStatus','division','father','grade')
+            ->orderBy('ar_student_name','asc')
+            ->get();
+            return $this->dataTable($data);
         }
-
+        $regStatus = RegistrationStatus::sort()->get();
+        $grades = Grade::sort()->get();
+        $divisions = Division::sort()->get();
+        $title = trans('student::local.students');
         return view('student::students.index',
-        ['title'=>trans('student::local.students')]);  
+        compact('regStatus','grades','divisions','title'));  
     }
     private function studentImage($data)
     {
@@ -760,5 +728,64 @@ class StudentController extends Controller
         		];
 		$pdf = PDF::loadView('student::students.student-card', $data);
 		return $pdf->stream($student->student_number);
+    }
+    public function filter()
+    {        
+        if (request()->ajax()) {
+            $status = empty(request('status_id')) ? ['students.registration_status_id','<>', ''] :['registration_status_id', request('status_id')]   ;
+            $whereData = [
+                ['students.division_id', request('division_id')],
+                ['students.grade_id', request('grade_id')],                
+                $status             
+            ];
+            $data = Student::with('nationalities','regStatus','division','father','grade')            
+            ->where($whereData)         
+            ->orderBy('ar_student_name','asc')                
+            ->get();     
+                        
+            return $this->dataTable($data);
+        }
+    }
+    private function dataTable($data)
+    {
+        return datatables($data)
+            ->addIndexColumn()
+            ->addColumn('studentName',function($data){
+                return $this->getFullStudentName($data);                                         
+            })
+            ->addColumn('moreBtn',function($data){
+                return $this->moreBtn($data);                                         
+            })
+            ->addColumn('studentImage',function($data){
+                return $this->studentImage($data);                        
+            })
+            ->addColumn('registration_status',function($data){
+                return session('lang') == 'ar' ? $data->regStatus->ar_name_status:
+                $data->regStatus->en_name_status;
+            })
+            ->addColumn('religion',function($data){
+                return $this->getReligion($data);     
+            })
+            ->addColumn('student_type',function($data){
+                return $data->student_type == trans('student::local.applicant') ? '<span class="red">'.$data->student_type.'</span>':$data->student_type;     
+            })
+            ->addColumn('grade',function($data){
+                return session('lang') == 'ar' ? $data->grade->ar_grade_name:
+                $data->grade->en_grade_name;
+            })
+            ->addColumn('division',function($data){
+                return session('lang') == 'ar' ? $data->division->ar_division_name:
+                $data->division->en_division_name;
+            })
+            ->addColumn('check', function($data){
+                $btnCheck = '<label class="pos-rel">
+                                <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                                <span class="lbl"></span>
+                            </label>';
+                    return $btnCheck;
+            })
+            ->rawColumns(['check','studentName','registration_status','religion','grade','student_type',
+            'division','studentImage','moreBtn'])
+            ->make(true);
     }
 }
