@@ -98,7 +98,9 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
     {{-- {{dd(session('lang'))}} --}}
   <div class="app-content content">
     <div class="content-wrapper">
+
         @yield('content')
+        
     </div>
   </div>
   <!-- ////////////////////////////////////////////////////////////////////////////-->

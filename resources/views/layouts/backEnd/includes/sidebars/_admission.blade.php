@@ -53,7 +53,7 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.interviews_dates') }}</span>
                     </a>
                 </li>  
-                <li class=" nav-item {{request()->segment(2)=='meetsings'?'active':''}}">
+                <li class=" nav-item {{request()->segment(2)=='assessment-result'?'active':''}}">
                     <a href="{{route('assessment-result.index')}}"><i class="la la-check">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.assessment_results') }}</span>
                     </a>
@@ -83,8 +83,8 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_statements') }}</span>
                     </a>
                 </li>                      
-                <li class=" nav-item {{request()->segment(2)=='meetings'?'active':''}}">
-                    <a href="{{route('meetings.index')}}"><i class="la la-arrows-v">
+                <li class=" nav-item {{request()->segment(2)=='distribution-students'?'active':''}}">
+                    <a href="{{route('distribution.index')}}"><i class="la la-arrows-v">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.distribution_students') }}</span>
                     </a>
                 </li>  
@@ -124,6 +124,7 @@
                 <li class="{{request()->segment(3)=='stages'?'active':''}}"><a class="menu-item" href="{{route('stages.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.stages') }}</a></li>           
                 <li class="{{request()->segment(3)=='grades'?'active':''}}"><a class="menu-item" href="{{route('grades.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.grades') }}</a></li>           
                 <li class="{{request()->segment(3)=='stages-grades'?'active':''}}"><a class="menu-item" href="{{route('stages-grades.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.stages_grades') }}</a></li>           
+                <li class="{{request()->segment(3)=='classrooms'?'active':''}}"><a class="menu-item" href="{{route('classrooms.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.classrooms') }}</a></li>           
                 <li class="{{request()->segment(3)=='admission-documents'?'active':''}}"><a class="menu-item" href="{{route('admission-documents.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.admission_documents') }}</a></li>           
                 <li class="{{request()->segment(3)=='documents-grades'?'active':''}}"><a class="menu-item" href="{{route('documents-grades.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.grade_documents') }}</a></li>           
                 <li class="{{request()->segment(3)=='steps'?'active':''}}"><a class="menu-item" href="{{route('steps.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.admission_steps') }}</a></li>           
@@ -132,7 +133,6 @@
                 <li class="{{request()->segment(3)=='nationalities'?'active':''}}"><a class="menu-item" href="{{route('nationalities.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.nationalities') }}</a></li>           
                 <li class="{{request()->segment(3)=='interviews'?'active':''}}"><a class="menu-item" href="{{route('interviews.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.interviews') }}</a></li>           
                 <li class="{{request()->segment(3)=='languages'?'active':''}}"><a class="menu-item" href="{{route('languages.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.languages') }}</a></li>           
-                <li class="{{request()->segment(3)=='classrooms'?'active':''}}"><a class="menu-item" href="{{route('classrooms.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.classrooms') }}</a></li>           
                 <li class="{{request()->segment(3)=='id-designs'?'active':''}}"><a class="menu-item" href="{{route('id-designs.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.id_designs') }}</a></li>           
                 <li class="{{request()->segment(3)=='schools'?'active':''}}"><a class="menu-item" href="{{route('schools.index')}}" ><i class="la la-angle-left"></i> {{ trans('admin.schools_names') }}</a></li>           
             </ul>

@@ -205,5 +205,9 @@ class Admin extends Authenticatable
     public function studentsCommissioners()
     {
         return $this->hasMany('Student\Models\Students\StudentCommissioner','admin_id');
-    }     
+    }   
+    public function rooms()
+    {
+        return $this->hasMany('Student\Models\Students\Room','admin_id');
+    }  
 }

@@ -27,4 +27,14 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('commissioners/store-students','CommissionerController@storeStudents')->name('commissioners-students.store');  
     Route::post('commissioners/destroy-students','CommissionerController@destroyStudents')->name('commissioners-students.destroy');  
     Route::get('commissioners/print-students/{id}','CommissionerController@printStudents')->name('commissioners-students.print');  
+
+    // Distribution
+    Route::get('distribution-students','DistributionController@index')->name('distribution.index');
+    Route::put('distribution-students/get-grade-statistics','DistributionController@getGradeStatistics')->name('distribution.getGradeStatistics');
+    Route::put('distribution-students/grade','DistributionController@allStudentsGrade')->name('distribution.allStudentsGrade');
+    Route::post('distribution-students/join','DistributionController@joinToClassroom')->name('distribution.joinToClassroom');
+    Route::post('distribution-students/remove','DistributionController@removeFromClassroom')->name('distribution.removeFromClassroom');
+    Route::put('distribution-students/get-class-statistics','DistributionController@getClassStatistics')->name('distribution.getClassStatistics');
+
+
 });

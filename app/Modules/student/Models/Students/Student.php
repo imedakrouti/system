@@ -115,6 +115,10 @@ class Student extends Model
     {
         return $q->where('student_type','student');
     }
+    public function languages()
+    {
+        return $this->belongsTo('Student\Models\Settings\Language','second_lang_id');
+    }
     
 
 }

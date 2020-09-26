@@ -166,4 +166,22 @@ class ClassroomController extends Controller
                     ->rawColumns(['action','check'])
                     ->make(true);
     }
+    public function getClassrooms()
+    {
+        $output = '';
+        if (!empty(request('division_id')) && !empty(request('grade_id')) ) {
+            $where = [
+                ['division_id',request('division_id')],
+                ['grade_id',request('grade_id')],
+                ['year_id',currentYear()]
+            ];
+            $classrooms = Classroom::where($where)->get();
+                
+            foreach ($classrooms as $room) {
+                $roomName = session('lang') == 'ar' ? $room->ar_name_classroom : $room->en_name_classroom;
+                $output .= '<option value="'.$room->id.'">'.$roomName.'</option>';
+            }
+            return json_encode($output);
+        }
+    }
 }

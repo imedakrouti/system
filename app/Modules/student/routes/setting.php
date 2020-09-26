@@ -79,6 +79,7 @@
     Route::resource('/classrooms','ClassroomController')->except('show','destroy');
     Route::post('classrooms/destroy','ClassroomController@destroy')->name('classrooms.destroy');      
     Route::put('classrooms/q/filter','ClassroomController@filter')->name('classrooms.filter');    
+    Route::put('classrooms/get/classrooms','ClassroomController@getClassrooms')->name('getClassrooms');    
 
 
     /**
