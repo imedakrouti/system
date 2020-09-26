@@ -45,15 +45,17 @@ class AdmissionDashController extends Controller
     }
 
     private function gradeCountQuery()
-    {
-     
-        return DB::table('students')
+    {  $students = DB::table('students')
         ->select('grades.ar_grade_name',DB::raw('count(students.id) as applicants'))
         ->join('grades','students.grade_id','=','grades.id')
         ->groupBy('students.grade_id')
         ->orderBy('grades.sort','asc')
         ->where('student_type' , 'applicant')
         ->get();
+        if (count($students) > 0) {
+            return $students;
+        }
+        return null;
     }
 
     public function applicantsByDivision()
