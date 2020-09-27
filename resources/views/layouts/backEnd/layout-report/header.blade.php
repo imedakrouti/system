@@ -27,14 +27,14 @@
             width: 100px; float: left;
         }
         .right-header{
-            float: right;text-align: center;width: 25%;padding-top: 40px
+            float: right;text-align: center;width: 40%;padding-top: 40px;text-transform: capitalize;
         }
         .left-header{
-            float: left;width:25%;padding-top: 40px
+            float: left;width:40%;padding-top: 40px;text-transform: capitalize;
         }
         .center-header{
             float: right;
-            width: 50%;text-align: center;padding-top: 40px
+            width: 20%;text-align: center;padding-top: 40px
         }
         .clear{clear: both;}
         .mb-1{margin:1px;}

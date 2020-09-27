@@ -35,6 +35,10 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('distribution-students/join','DistributionController@joinToClassroom')->name('distribution.joinToClassroom');
     Route::post('distribution-students/remove','DistributionController@removeFromClassroom')->name('distribution.removeFromClassroom');
     Route::put('distribution-students/get-class-statistics','DistributionController@getClassStatistics')->name('distribution.getClassStatistics');
+    Route::put('distribution-students/all/grade/lang','DistributionController@getLanguagesGrade')->name('distribution.getLanguagesGrade');
+    Route::put('distribution-students/class/languages','DistributionController@getLanguagesClass')->name('distribution.getLanguagesClass');
+    Route::get('distribution-students/name-list','DistributionController@nameListReport')->name('distribution.nameList');
+
 
 
 });

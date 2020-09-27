@@ -18,6 +18,6 @@
             @endforeach
         </select>
     </div>            
-    
+    <button onclick="filter()" formaction="#" class="btn btn-primary btn-sm"><i class="la la-search"></i></button>            
 </div>
 

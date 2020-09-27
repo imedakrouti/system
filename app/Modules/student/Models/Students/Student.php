@@ -119,6 +119,10 @@ class Student extends Model
     {
         return $this->belongsTo('Student\Models\Settings\Language','second_lang_id');
     }
+    public function rooms()
+    {
+        return $this->hasMany('Student\Models\Students\Room','student_id');
+    }
     
 
 }

@@ -24,7 +24,7 @@
     <div class="col-6">
       <div class="card">
         <div class="card-header">
-            <h4 class="card-title mb-1 red">{{ trans('student::local.statistics_grade') }}</h4>
+            <h4 class="card-title mb-1 red">{{ trans('student::local.statistics_grade') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
             @include('student::students-affairs.distributions-students._filter')
             <div class="row">
@@ -44,7 +44,19 @@
                       <tbody id="all">
                           
                       </tbody>
-                  </table>                  
+                  </table> 
+                  
+                  <table class="table">
+                    <thead>
+                      <tr>
+                          <th>{{ trans('student::local.languages') }}</th>
+                          <th>{{ trans('student::local.students_count') }}</th>
+                      </tr>  
+                    </thead>
+                    <tbody id="langGrade">
+                        
+                    </tbody>
+                </table>                   
                 </div>  
               </div>          
             </div>                           
@@ -54,21 +66,15 @@
     <div class="col-6">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title mb-1 blue">{{ trans('student::local.statistics_class') }}</h4>          
+          <h4 class="card-title purple">{{ trans('student::local.statistics_class') }}</h4>          
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>          
           <div class="row">
             <div class="col-md-12">
-              <form action="" method="get">
+              <form action="{{route('distribution.nameList')}}" method="get">
                   <div class="row">
                       <div class="col-md-4 mb-1">
                         <select name="room_id" class="form-control" id="filter_room_id" disabled>
                           <option value="">{{ trans('student::local.classrooms') }}</option>                    
-                        </select>
-                      </div>  
-                      <div class="col-md-3 mb-1">
-                        <select name="room_id" class="form-control" id="lang">
-                          <option value="ar">{{ trans('admin.ar') }}</option>                    
-                          <option value="en">{{ trans('admin.en') }}</option>                    
                         </select>
                       </div>   
                       <div class="col-md-3 mb-1">
@@ -84,10 +90,22 @@
                             <th>{{ trans('student::local.girl') }}</th>
                             <th>{{ trans('student::local.muslim') }}</th>
                             <th>{{ trans('student::local.non_muslim') }}</th>
-                            <th>{{ trans('student::local.total_statge') }}</th>
+                            <th>{{ trans('student::local.total_class') }}</th>
                         </tr>
                     </thead>
-                    <tbody id="all">
+                    <tbody id="room">
+                        
+                    </tbody>
+                </table>
+            
+                <table class="table">
+                    <thead>
+                      <tr>
+                          <th>{{ trans('student::local.languages') }}</th>
+                          <th>{{ trans('student::local.students_count') }}</th>
+                      </tr>  
+                    </thead>
+                    <tbody id="langClass">
                         
                     </tbody>
                 </table>                  
@@ -185,6 +203,7 @@
     }  
     function filter()
     {
+        getRooms()
         var filter_division_id  = $('#filter_division_id').val();  
         var filter_grade_id     = $('#filter_grade_id').val();  
         var filter_room_id      = $('#filter_room_id').val(); 
@@ -210,11 +229,14 @@
             dataType: 'json',
             success: function(data){
               var tbody = `<tr>
-                  <td>`+(data.male)+`</td><td>`+(data.female)+`</td>
-                  <td>`+(data.muslim)+`</td><td>`+(data.non_muslim)+`</td>
-                  <td>`+(data.male + data.female)+`</td>
+                  <td class="blue">`+(data.male)+`</td><td class="blue">`+(data.female)+`</td>
+                  <td class="purple">`+(data.muslim)+`</td><td class="purple">`+(data.non_muslim)+`</td>
+                  <td class="red">`+(data.male + data.female)+`</td>
                 </tr>`
               $('#all').html(tbody);
+
+              getClassStatistics();
+              langGrade();
             }
           });
         }
@@ -288,6 +310,7 @@
                         success:function(data)
                         {
                             $('#dynamic-table').DataTable().ajax.reload();
+                            getClassStatistics()
                         }
                     })
                     // display success confirm message
@@ -333,6 +356,7 @@
                         success:function(data)
                         {
                             $('#dynamic-table').DataTable().ajax.reload();
+                            getClassStatistics()
                         }
                     })
                     // display success confirm message
@@ -351,28 +375,68 @@
           swal("{{trans('student::local.remove_from_class')}}", "{{trans('msg.no_records_selected')}}", "info");
         }          
     }
-    // $('#filter_room_id').on('change',function(){
-    //     $.ajax({
-    //           url:'{{route("distribution.getClassStatistics")}}',
-    //           type:"post",
-    //           data: {
-    //             _method		    : 'PUT',
-    //             division_id 	: filter_division_id,
-    //             grade_id 	    : filter_grade_id,
-    //             room_id 	    : filter_room_id,
-    //             _token		    : '{{ csrf_token() }}'
-    //             },
-    //           dataType: 'json',
-    //           success: function(data){
-    //             var tbody = `<tr>
-    //                 <td>`+(data.male)+`</td><td>`+(data.female)+`</td>
-    //                 <td>`+(data.muslim)+`</td><td>`+(data.non_muslim)+`</td>
-    //                 <td>`+(data.male + data.female)+`</td>
-    //               </tr>`
-    //             $('#all').html(tbody);
-    //           }
-    //       });
-    // })
+    $('#filter_room_id').on('change',function(){        
+      getClassStatistics();
+    })
+    function getClassStatistics()
+    {
+      var filter_room_id      = $('#filter_room_id').val(); 
+        $.ajax({
+              url:'{{route("distribution.getClassStatistics")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',                
+                room_id 	    : filter_room_id,
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){
+                var tbody = `<tr>
+                    <td class="blue">`+(data.male_room)+`</td><td class="blue">`+(data.female_room)+`</td>
+                    <td class="purple">`+(data.muslim_room)+`</td><td class="purple">`+(data.non_muslim_room)+`</td>
+                    <td class="red">`+(data.male_room + data.female_room)+`</td>
+                  </tr>`
+                $('#room').html(tbody);
+              }
+          });
+      lang();
+    }
+    function langGrade()
+    {
+      var filter_division_id   = $('#filter_division_id').val(); 
+      var filter_grade_id      = $('#filter_grade_id').val(); 
+        $.ajax({
+              url:'{{route("distribution.getLanguagesGrade")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',                
+                division_id 	: filter_division_id,
+                grade_id 	    : filter_grade_id,
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){               
+                $('#langGrade').html(data);
+              }
+          });
+    }  
+    function lang()
+    {
+      var filter_room_id      = $('#filter_room_id').val(); 
+        $.ajax({
+              url:'{{route("distribution.getLanguagesClass")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',                
+                room_id 	    : filter_room_id,
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){               
+                $('#langClass').html(data);
+              }
+          });
+    }       
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection
