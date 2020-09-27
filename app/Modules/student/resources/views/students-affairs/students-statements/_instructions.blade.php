@@ -1,8 +1,4 @@
 <div class="form-group">
-    <h5>Large Modal</h5>
-    <p>Add class <code>.modal-lg</code> with <code>.modal-dialog</code>                            to use large size of modal.</p>
-    <!-- Button trigger modal -->
-
     <!-- Modal -->
     <div class="modal fade text-left" id="large" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17"
     aria-hidden="true">

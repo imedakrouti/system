@@ -106,6 +106,11 @@
                 </li> 
                 <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
                     <a href="{{route('employee-admission')}}"><i class="la la-exchange">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.leave_requests') }}</span>
+                    </a>
+                </li>                 
+                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
+                    <a href="{{route('employee-admission')}}"><i class="la la-exchange">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.transfers') }}</span>
                     </a>
                 </li> 
@@ -113,7 +118,18 @@
                     <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_id_card') }}</span>
                     </a>
-                </li>                             
+                </li> 
+                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
+                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_permissions') }}</span>
+                    </a>
+                </li>  
+                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
+                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parents_requests') }}</span>
+                    </a>
+                </li>  
+                                                                             
             </ul>
         </li>   
         {{-- settings --}}

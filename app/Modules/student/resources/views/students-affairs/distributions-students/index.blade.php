@@ -66,18 +66,18 @@
     <div class="col-6">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title purple">{{ trans('student::local.statistics_class') }}</h4>          
+          <h4 class="card-title purple  mb-1">{{ trans('student::local.statistics_class') }}</h4>          
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>          
           <div class="row">
             <div class="col-md-12">
               <form action="{{route('distribution.nameList')}}" method="get">
                   <div class="row">
-                      <div class="col-md-4 mb-1">
+                      <div class="col-md-4">
                         <select name="room_id" class="form-control" id="filter_room_id" disabled>
                           <option value="">{{ trans('student::local.classrooms') }}</option>                    
                         </select>
                       </div>   
-                      <div class="col-md-3 mb-1">
+                      <div class="col-md-3">
                         <button type="submit" class="btn btn-primary btn-min-width ml-1">{{ trans('admin.print') }}</button>
                       </div>                                   
                   </div> 
