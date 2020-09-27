@@ -11,8 +11,5 @@
     <div class="clear"></div>
     
 </htmlpageheader>
-<h3 class="center">{{ trans('student::local.endorsement_leave_request') }}</h3>
-<p class="paragraph">{{$content}}</ style="font-size: ">
-
-
+<p>{!!$content!!}</p>
 @include('layouts.backEnd.layout-report.footer')

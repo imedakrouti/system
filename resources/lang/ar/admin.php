@@ -143,7 +143,7 @@ return
     'students_permissions'                  => 'اذونات الطلاب',
     'parents_requests'                      => 'استدعاءات ولي الامر',
     'leave_requests'                        => 'طلبات سحب الملف',
-    '' => '',
+    'save_dafault'                          => 'الوضع الافتراضي',
     '' => '',
     '' => '',
     '' => '',

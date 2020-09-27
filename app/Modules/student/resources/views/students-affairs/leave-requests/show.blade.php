@@ -91,11 +91,14 @@
                 <form class="form form-horizontal" action="{{route('leave-requests.update',$leave->id)}}" method="post">
                   @csrf
                   @method('PUT')
-                  <textarea name="endorsement" class="form-control" cols="30" rows="10" style="font-size: 17px">{{old('endorsement',$leave->endorsement)}}</textarea>                  
+                  <textarea class="form-control" name="endorsement" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('endorsement',$leave->endorsement)}}</textarea>                  
                   <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
-                      </button>      
+                      </button>    
+                      <button type="submit" class="btn btn-success">
+                        <i class="la la-save"></i> {{ trans('admin.save_dafault') }}
+                      </button>                           
                 </div>                  
                 </form>               
               </div>
@@ -123,7 +126,11 @@
                     <tr>
                       <td>grade</td>
                       <td>{{ trans('student::local.grade') }}</td>
-                    </tr>                                                          
+                    </tr>  
+                    <tr>
+                      <td>year</td>
+                      <td>{{ trans('student::local.year') }}</td>
+                    </tr>                                                                            
                   </tbody>
                 </table>
               </div>
@@ -133,4 +140,8 @@
     </div>
   </div>
 </div>
+@endsection
+@section('script')
+<script src="{{asset('public/cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('public/cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
 @endsection

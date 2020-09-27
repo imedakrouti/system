@@ -139,15 +139,24 @@ class LeaveRequestController extends Controller
         $leave = LeaveRequest::with('students')->findOrFail($id);
         $content =  $leave->endorsement;
 
-        $student_name = session('lang') == 'ar' ? $leave->students->ar_student_name: $leave->students->en_student_name ;
-        $father_name  = session('lang') == 'ar' ? $leave->students->father->ar_st_name: $leave->students->father->en_st_name ;
+        $student_name = session('lang') == 'ar' ? $leave->students->ar_student_name .' ' . $leave->students->father->ar_st_name
+        .' ' . $leave->students->father->ar_nd_name.' ' . $leave->students->father->ar_rd_name
+        : $leave->students->en_student_name .' ' . $leave->students->father->en_st_name
+        .' ' . $leave->students->father->en_nd_name.' ' . $leave->students->father->en_rd_name ;
+
+        $father_name  = session('lang') == 'ar' ? $leave->students->father->ar_st_name
+        .' ' . $leave->students->father->ar_nd_name.' ' . $leave->students->father->ar_rd_name.' ' . $leave->students->father->ar_th_name: 
+        $leave->students->father->en_st_name
+        .' ' . $leave->students->father->en_nd_name.' ' . $leave->students->father->en_rd_name.' ' . $leave->students->father->en_th_name ;
         $father_national_id  = $leave->students->father->id_number ;
         $grade  = session('lang') == 'ar' ? $leave->students->grade->ar_grade_name: $leave->students->grade->en_grade_name ;
 
+        $year = fullAcademicYear();
         $content = str_replace('student_name',$student_name ,$content);
         $content = str_replace('father_name',$father_name ,$content);
         $content = str_replace('father_national_id',$father_national_id ,$content);
         $content = str_replace('grade',$grade ,$content);
+        $content = str_replace('year',$year ,$content);
       
         $data = [         
                 'title'                         => 'Statistics Report',       

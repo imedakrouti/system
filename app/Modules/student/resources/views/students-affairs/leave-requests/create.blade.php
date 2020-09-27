@@ -34,16 +34,12 @@
                           <div class="col-md-9">
                             <select name="student_id" class="form-control select2" multiple required>
                                 @foreach ($students as $student)
-                                    <option value="{{$student->id}}">
-                                        @foreach ($students as $student)
-                                        <option {{old('student_id') == $student->id ? 'selected' :''}} value="{{$student->id}}">
-                                            @if (session('lang') == 'ar')
-                                        {{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}
-                                        @else
-                                            {{$student->en_student_name}} {{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}
-                                        @endif
-                                        </option>
-                                    @endforeach
+                                    <option {{old('student_id') == $student->id ? 'selected' :''}} value="{{$student->id}}">
+                                        @if (session('lang') == 'ar')
+                                    {{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}
+                                    @else
+                                        {{$student->en_student_name}} {{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}
+                                    @endif
                                     </option>
                                 @endforeach
                             </select>
