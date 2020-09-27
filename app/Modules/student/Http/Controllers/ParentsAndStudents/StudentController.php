@@ -230,15 +230,18 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
-        if ($this->checkAgeForGrade() == 'older' ) {
-            return back()->withInput()->with('error',trans('student::local.older_message'));            
+        if ($this->checkAgeForGrade() == 'older' ) {            
+            toast(trans('student::local.older_message'),'error');  
+            return back()->withInput();           
         }
-        if ($this->checkAgeForGrade() == 'smaller' ) {
-            return back()->withInput()->with('error',trans('student::local.smaller_message'));            
+        if ($this->checkAgeForGrade() == 'smaller' ) {            
+            toast(trans('student::local.smaller_message'),'error');  
+            return back()->withInput();             
         }
-        if ($this->checkAgeForGrade() == 'invalid' ) {
-            return back()->withInput()->with('error',trans('student::local.invalid_message'));            
-        }
+        if ($this->checkAgeForGrade() == 'invalid' ) {            
+            toast(trans('student::local.invalid_message'),'error');  
+            return back()->withInput();           
+        }        
         DB::transaction(function () use ($request) {        
             $this->uploadStudentImage($request->id);
             $student = $request->user()->students()->create($request->only($this->studentAttributes()) 

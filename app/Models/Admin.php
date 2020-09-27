@@ -210,4 +210,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Student\Models\Students\Room','admin_id');
     }  
+    public function leaveRequests()
+    {
+        return $this->hasMany('Student\Models\Students\LeaveRequest','admin_id');
+    }      
 }

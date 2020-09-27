@@ -51,7 +51,8 @@
         }
         .right{float: right;direction: rtl}
         .left{float: left;direction: ltr}
-  
+        .paragraph{text-align: justify;font-size: 18px}
+
              
     </style>
 </head>

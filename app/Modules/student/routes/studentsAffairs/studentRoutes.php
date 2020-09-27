@@ -40,5 +40,8 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::get('distribution-students/name-list','DistributionController@nameListReport')->name('distribution.nameList');
 
 
-
+    // Leave Requests
+    Route::resource('/leave-requests','LeaveRequestController')->except('destroy','edit');
+    Route::post('leave-requests/destroy','LeaveRequestController@destroy')->name('leave-requests.destroy');   
+    Route::get('leave-requests/print/{id}','LeaveRequestController@printLeaveRequest')->name('leave-requests.print');   
 });
