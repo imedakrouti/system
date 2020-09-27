@@ -489,19 +489,19 @@ class StudentController extends Controller
             $attribute      = array();
 
             if (!empty(request('student_id_type'))) {
-                $filter[] = request('student_id_type');
+                $filter[] = "'".request('student_id_type')."'";
                 $attribute[] = 'student_id_type';
             }
             if (!empty(request('gender'))) {
-                $filter[] = request('gender');
+                $filter[] = "'".request('gender')."'";
                 $attribute[] = 'gender';
             }
             if (!empty(request('student_type'))) {
-                $filter[] = request('student_type');
+                $filter[] = "'".request('student_type')."'";
                 $attribute[] = 'student_type';
             }
             if (!empty(request('reg_type'))) {
-                $filter[] = request('reg_type');
+                $filter[] = "'".request('reg_type')."'";
                 $attribute[] = 'reg_type';
             }
             if (!empty(request('registration_status_id'))) {
