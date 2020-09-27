@@ -104,12 +104,14 @@
               </tr>
             </thead>
             <tbody>
-              @foreach ($gradeCounts as $count)
-                  <tr>
-                    <td>{{$count->ar_grade_name}}</td>
-                    <td>{{$count->applicants}}</td>
-                  </tr>
-              @endforeach
+              @isset($gradeCounts)
+                @foreach ($gradeCounts as $count)
+                    <tr>
+                      <td>{{$count->ar_grade_name}}</td>
+                      <td>{{$count->applicants}}</td>
+                    </tr>
+                @endforeach                  
+              @endisset
             </tbody>
           </table>
         </div>
