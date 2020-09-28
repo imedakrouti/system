@@ -28,7 +28,15 @@
         @foreach ($students as $student)
             <tr>
                 <td>{{$n}}</td>
-                <td>{{$student->ar_student_name}}</td>
+                <td>
+                    @if (session('lang') == 'ar')
+                        {{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}}
+                        {{$student->father->ar_rd_name}}
+                    @else
+                        {{$student->en_student_name}} {{$student->father->en_st_name}} {{$student->father->en_nd_name}}
+                        {{$student->father->en_rd_name}}                        
+                    @endif
+                </td>
                 <td>{{$student->regStatus->ar_name_status}}</td>
                 <td>{{$student->religion}}</td>
                 <td>{{$student->languages->ar_name_lang}}</td>

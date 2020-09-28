@@ -213,5 +213,9 @@ class Admin extends Authenticatable
     public function leaveRequests()
     {
         return $this->hasMany('Student\Models\Students\LeaveRequest','admin_id');
-    }      
+    } 
+    public function reportContent()
+    {
+        return $this->hasMany('Student\Models\Students\ReportContent','admin_id');
+    }           
 }

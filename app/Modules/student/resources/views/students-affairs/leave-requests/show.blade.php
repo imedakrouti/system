@@ -29,8 +29,8 @@
                   <hr>
                   <div class="row">
                     <div class="col-md-6">
-                      <h4><strong>{{ trans('student::local.student_number') }} :</strong> {{$leave->students->student_number}}</h4>                
-                      <h4><strong>{{ trans('student::local.student_name') }} :</strong>
+                      <h5><strong>{{ trans('student::local.student_number') }} :</strong> {{$leave->students->student_number}}</h5>                
+                      <h5><strong>{{ trans('student::local.student_name') }} :</strong>
                         @if (session('lang') == 'ar')
                             <a href="{{route('students.show',$leave->students->id)}}">
                                 {{$leave->students->ar_student_name}}  {{$leave->students->father->ar_st_name}}
@@ -42,11 +42,11 @@
                                 {{$leave->students->father->en_nd_name}} {{$leave->students->father->en_rd_name}}                            
                             </a>
                         @endif
-                      </h4>
-                      <h4><strong>{{ trans('student::local.grade') }} :</strong> {{session('lang') == 'ar' ? 
-                      $leave->students->grade->ar_grade_name : $leave->students->grade->en_grade_name}}</h4>
-                      <h4><strong>{{ trans('student::local.division') }} : </strong>{{session('lang') == 'ar' ? 
-                        $leave->students->division->ar_division_name : $leave->students->division->en_division_name}}</h4>              
+                      </h5>
+                      <h5><strong>{{ trans('student::local.grade') }} :</strong> {{session('lang') == 'ar' ? 
+                      $leave->students->grade->ar_grade_name : $leave->students->grade->en_grade_name}}</h5>
+                      <h5><strong>{{ trans('student::local.division') }} : </strong>{{session('lang') == 'ar' ? 
+                        $leave->students->division->ar_division_name : $leave->students->division->en_division_name}}</h5>              
                     </div>
                   </div>
                 </div>
@@ -66,9 +66,11 @@
                 <div class="col-md-12">                
                   <div class="row">
                     <div class="col-md-6">
-                      <h4><strong>{{ trans('student::local.parent_type') }} :</strong> {{$leave->parent_type}}</h4>                
-                      <h4><strong>{{ trans('student::local.leave_reason') }} :</strong> {{$leave->reason}}</h4>
-                      <h4><strong>{{ trans('student::local.notes') }} :</strong> {{$leave->notes}}</h4>                                   
+                      <h5><strong>{{ trans('student::local.parent_type') }} :</strong> {{$leave->parent_type}}</h5>                
+                      <h5><strong>{{ trans('student::local.leave_reason') }} :</strong> {{$leave->reason}}</h5>
+                      <h5><strong>{{ trans('student::local.notes') }} :</strong> {{$leave->notes}}</h5>                                   
+                      <h5><strong>{{ trans('student::local.created_by') }} :</strong> {{$leave->admin->name}}</h5>                                   
+                      <h5><strong>{{ trans('student::local.created_at') }} :</strong> {{$leave->created_at}}</h5>                                                         
                     </div>
                   </div>
                 </div>
@@ -92,13 +94,15 @@
                   @csrf
                   @method('PUT')
                   <textarea class="form-control" name="endorsement" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('endorsement',$leave->endorsement)}}</textarea>                  
+                  <label class="pos-rel mt-1">
+                    <input type="checkbox" class="ace" name="default" value="true">
+                    <span class="lbl"></span> {{ trans('student::local.default_students') }}
+                </label>  
                   <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
-                      </button>    
-                      <button type="submit" class="btn btn-success">
-                        <i class="la la-save"></i> {{ trans('admin.save_dafault') }}
-                      </button>                           
+                    </button> 
+                    <a href="{{route('leave-requests.print',$leave->id)}}" class="btn btn-primary">{{ trans('student::local.print_endorsement') }}</a>                            
                 </div>                  
                 </form>               
               </div>

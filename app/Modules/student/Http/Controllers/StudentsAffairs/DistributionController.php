@@ -317,6 +317,7 @@ class DistributionController extends Controller
             })
             ->where('religion','muslim')            
             ->count();
+            
             $non_muslim = Student::with('rooms')
             ->whereHas('rooms',function($q){
                 $q->where('classroom_id',request('room_id'));                

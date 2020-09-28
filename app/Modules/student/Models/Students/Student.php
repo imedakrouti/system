@@ -123,6 +123,10 @@ class Student extends Model
     {
         return $this->hasMany('Student\Models\Students\Room','student_id');
     }
+    public function leaveRequests()
+    {
+        return $this->hasMany('Student\Models\Students\LeaveRequest','student_id');
+    }    
     
 
 }

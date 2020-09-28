@@ -109,29 +109,6 @@ class StudentController extends Controller
         }
     }
 
-    private function getReligion($data)
-    {
-        if (session('lang') == 'ar') {
-            if ($data->gender == trans('student::local.male')) {
-                if ($data->religion == trans('student::local.muslim')) {
-                    return trans('student::local.muslim');
-                }
-                else{
-                    return trans('student::local.non_muslim');
-
-                }
-            }else{
-                if ($data->religion == trans('student::local.muslim')) {
-                    return trans('student::local.muslim_m');
-                }
-                else{
-                    return trans('student::local.non_muslim_m');
-
-                }
-            }
-        }
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -770,7 +747,7 @@ class StudentController extends Controller
                 $data->regStatus->en_name_status;
             })
             ->addColumn('religion',function($data){
-                return $this->getReligion($data);     
+                return $data->religion;   
             })
             ->addColumn('student_type',function($data){
                 return $data->student_type == trans('student::local.applicant') ? '<span class="red">'.$data->student_type.'</span>':$data->student_type;     

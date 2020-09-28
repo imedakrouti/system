@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Student\Models\Students\LeaveRequest;
 use Student\Models\Students\Student;
 use PDF;
+use DB;
+use Student\Models\Students\ReportContent;
 
 class LeaveRequestController extends Controller
 {
@@ -71,7 +73,9 @@ class LeaveRequestController extends Controller
      */
     public function create()
     {
-        $students = Student::has('statements')->get();
+        $students = Student::has('statements')
+        ->whereDoesntHave('leaveRequests')
+        ->get();
         return view('student::students-affairs.leave-requests.create',
         ['title'=>trans('student::local.new_leave_request'),'students'=>$students]);
     }
@@ -93,7 +97,11 @@ class LeaveRequestController extends Controller
      */
     public function store()
     {
-        request()->user()->leaveRequests()->create(request()->only($this->attributes()));          
+        DB::transaction(function () {
+            $endorsement = ReportContent::first()->endorsement;
+            request()->user()->leaveRequests()->create(request()->only($this->attributes()) + 
+            ['endorsement' => $endorsement]);          
+        });
            
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('leave-requests.index');
@@ -109,7 +117,13 @@ class LeaveRequestController extends Controller
     {
         $leave = LeaveRequest::findOrFail($id);
 
-        $leave->update(request()->only($this->attributes()));
+        DB::transaction(function () use ($id, $leave) { 
+            if (request()->has('default')) {
+                $reportContent = ReportContent::first();
+                $reportContent->update(request()->only(['endorsement']));                
+            }                
+            $leave->update(request()->only($this->attributes()));
+        });
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('leave-requests.show',$leave->id);
     }
@@ -131,7 +145,7 @@ class LeaveRequestController extends Controller
         }
         return response(['status'=>true]);
     }
-    public function printLeaveRequest($id)
+    public function  printLeaveRequest($id)
     {
         $leave = LeaveRequest::with('students')->findOrFail($id);
         $division_id = $leave->students->division_id;
