@@ -109,8 +109,8 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.leave_requests') }}</span>
                     </a>
                 </li>                 
-                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
-                    <a href="{{route('employee-admission')}}"><i class="la la-exchange">
+                <li class=" nav-item {{request()->segment(2)=='transfers'?'active':''}}">
+                    <a href="{{route('transfers.index')}}"><i class="la la-exchange">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.transfers') }}</span>
                     </a>
                 </li> 

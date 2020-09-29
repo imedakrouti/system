@@ -27,18 +27,18 @@
             width: 100px; float: left;
         }
         .right-header{
-            float: right;text-align: center;width: 40%;padding-top: 40px;text-transform: capitalize;
+            float: right;text-align: center;width: 30%;padding-top: 30px;text-transform: capitalize;
         }
         .left-header{
-            float: left;width:40%;padding-top: 40px;text-transform: capitalize;
+            float: left;width:30%;padding-top: 40px;text-transform: capitalize;
         }
         .center-header{
             float: right;
-            width: 20%;text-align: center;padding-top: 40px
+            width: 40%;text-align: center;padding-top: 40px
         }
         .clear{clear: both;}
-        .mb-1{margin:1px;}
-        .mb-5{margin:5px;}
+        .mb-1{margin-bottom:1px;}
+        .mb-5{margin-bottom:5px;}
 
         .photo{  border:2px solid #333;
                  background-color: white;width: 120px;height: 130px
@@ -52,7 +52,7 @@
         .right{float: right;direction: rtl}
         .left{float: left;direction: ltr}
         .paragraph{text-align: justify;font-size: 18px}
-
+        .small-weight{font-weight: 100;line-height: 1}
              
     </style>
 </head>

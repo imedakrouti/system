@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Storage;
 use Student\Models\Settings\Design;
 use Student\Models\Settings\Year;
 use Student\Models\Students\Address;
+use Student\Models\Students\SetMigration;
 use Student\Models\Students\StudentStatement;
 
 class StudentController extends Controller
@@ -794,5 +795,25 @@ class StudentController extends Controller
             ->rawColumns(['check','studentName','registration_status','religion','grade','student_type',
             'division','studentImage','moreBtn'])
             ->make(true);
+    }
+    public function getGradesData()
+    {
+        $data = [];
+        if (request()->ajax()) {
+            $current_grade_id = Student::with('grade')->findOrFail(request('student_id'));
+
+            $data['current_grade_id'] = session('lang') == 'ar'?$current_grade_id->grade->ar_grade_name:
+            $current_grade_id->grade->en_grade_name;
+            
+            $next_grade_id = SetMigration::with('toGrade')->where('from_grade_id',$current_grade_id->grade_id)->first();
+            
+            $data['next_grade_id'] = $next_grade_id->toGrade->ar_grade_name;
+            
+            $data['division'] = session('lang') == 'ar'?$current_grade_id->division->ar_division_name
+            :$current_grade_id->division->en_division_name;
+            
+        }
+        return json_encode($data);
+        
     }
 }

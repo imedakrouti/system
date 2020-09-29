@@ -40,9 +40,14 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::get('distribution-students/name-list','DistributionController@nameListReport')->name('distribution.nameList');
     Route::post('distribution-students/move-to-class','DistributionController@moveToClass')->name('distribution.moveToClass');
 
-
     // Leave Requests
     Route::resource('/leave-requests','LeaveRequestController')->except('destroy','edit');
     Route::post('leave-requests/destroy','LeaveRequestController@destroy')->name('leave-requests.destroy');   
     Route::get('leave-requests/print/{id}','LeaveRequestController@printLeaveRequest')->name('leave-requests.print');   
+
+    // Transfer
+    Route::resource('/transfers','TransferController')->except('destroy','show');
+    Route::post('transfers/destroy','TransferController@destroy')->name('transfers.destroy');   
+    Route::get('transfers/print/{id}','TransferController@printTransferReport')->name('transfers.print');   
+
 });

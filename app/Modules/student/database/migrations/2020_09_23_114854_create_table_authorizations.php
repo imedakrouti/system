@@ -18,7 +18,7 @@ class CreateTableAuthorizations extends Migration
             $table->string('commissioner_name',100);
             $table->string('id_number',15)->unique();
             $table->string('mobile',12)->unique();
-            $table->string('notes');
+            $table->string('notes')->nullable();
             $table->enum('relation',['relative','driver'])->default('driver');
             $table->string('file_name')->nullable();
             $table->unsignedBigInteger('admin_id');

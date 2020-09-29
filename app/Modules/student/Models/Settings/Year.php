@@ -24,4 +24,8 @@ class Year extends Model
     {
         return $q->where('status','current');
     }
+    public function scopeOpen($q)
+    {
+        return $q->where('year_status','open');
+    }
 }

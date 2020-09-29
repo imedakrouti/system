@@ -12,6 +12,7 @@
 
     // print student id
     Route::get('students/print/id-card/{id}','StudentController@printStudentCard')->name('students.card');
+    Route::put('students/grades/data','StudentController@getGradesData')->name('students.getGradesData');
 
     
      

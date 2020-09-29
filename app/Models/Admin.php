@@ -217,5 +217,9 @@ class Admin extends Authenticatable
     public function reportContent()
     {
         return $this->hasMany('Student\Models\Students\ReportContent','admin_id');
-    }           
+    }    
+    public function transfers()
+    {
+        return $this->hasMany('Student\Models\Students\Transfer','admin_id');
+    }             
 }

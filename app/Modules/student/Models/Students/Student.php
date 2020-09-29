@@ -126,7 +126,11 @@ class Student extends Model
     public function leaveRequests()
     {
         return $this->hasMany('Student\Models\Students\LeaveRequest','student_id');
-    }    
+    } 
+    public function transfers()
+    {
+        return $this->hasMany('Student\Models\Students\Transfer','student_id');
+    }        
     
 
 }
