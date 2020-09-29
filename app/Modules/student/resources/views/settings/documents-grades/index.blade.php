@@ -68,7 +68,7 @@
     $(function () {
         var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')
-            dom: 'Bfrtip',
+            
             buttons: [
                 // new btn
                 {
@@ -102,7 +102,7 @@
       var grade_id 		= $('#grade_id').val();
       var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')
-            dom: 'Bfrtip',
+            
             buttons: [
                 // new btn
                 {

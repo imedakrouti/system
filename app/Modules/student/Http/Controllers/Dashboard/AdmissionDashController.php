@@ -47,7 +47,7 @@ class AdmissionDashController extends Controller
     private function gradeCountQuery()
     {     
         return DB::table('students')
-        ->select('grades.ar_grade_name',DB::raw('count(students.id) as applicants'))
+        ->select('students.grade_id',DB::raw('count(students.id) as applicants'))
         ->join('grades','students.grade_id','=','grades.id')
         ->groupBy('students.grade_id')
         ->orderBy('grades.sort','asc')
