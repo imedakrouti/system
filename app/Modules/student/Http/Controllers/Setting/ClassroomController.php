@@ -9,6 +9,7 @@ use Student\Http\Requests\ClassroomRequest;
 use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
 use Student\Models\Settings\Year;
+use Student\Models\Students\SetMigration;
 
 class ClassroomController extends Controller
 {
@@ -168,12 +169,13 @@ class ClassroomController extends Controller
     }
     public function getClassrooms()
     {
+        $year_id = request()->has('year_id') ? request('year_id') : currentYear();
         $output = '';
         if (!empty(request('division_id')) && !empty(request('grade_id')) ) {
             $where = [
                 ['division_id',request('division_id')],
                 ['grade_id',request('grade_id')],
-                ['year_id',currentYear()]
+                ['year_id',$year_id]
             ];
             $classrooms = Classroom::where($where)->get();
                 
@@ -184,4 +186,24 @@ class ClassroomController extends Controller
             return json_encode($output);
         }
     }
+    public function getOldClassrooms()
+    {
+        if (!empty(request('division_id')) && !empty(request('grade_id')) ) {
+        $year_id = request()->has('year_id') ? request('year_id') : currentYear();
+        $grade_old_id = SetMigration::where('to_grade_id',request('grade_id'))->first()->from_grade_id;
+        $output = '';
+            $where = [
+                ['division_id',request('division_id')],
+                ['grade_id',$grade_old_id],
+                ['year_id',$year_id]
+            ];
+            $classrooms = Classroom::where($where)->get();
+                
+            foreach ($classrooms as $room) {
+                $roomName = session('lang') == 'ar' ? $room->ar_name_classroom : $room->en_name_classroom;
+                $output .= '<option value="'.$room->id.'">'.$roomName.'</option>';
+            }
+            return json_encode($output);
+        }
+    }    
 }

@@ -38,6 +38,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::put('distribution-students/all/grade/lang','DistributionController@getLanguagesGrade')->name('distribution.getLanguagesGrade');
     Route::put('distribution-students/class/languages','DistributionController@getLanguagesClass')->name('distribution.getLanguagesClass');
     Route::get('distribution-students/name-list','DistributionController@nameListReport')->name('distribution.nameList');
+    Route::post('distribution-students/move-to-class','DistributionController@moveToClass')->name('distribution.moveToClass');
 
 
     // Leave Requests

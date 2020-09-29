@@ -10,16 +10,18 @@ use Student\Models\Students\Student;
 use Student\Models\Students\StudentStatement;
 use DB;
 use PDF;
+use Student\Models\Settings\Year;
 
 class DistributionController extends Controller
 {
     public function index()
     {
+        $years = Year::orderBy('id','desc')->get();
         $grades = Grade::sort()->get();
         $divisions = Division::sort()->get();        
         $title = trans('student::local.distributions_students');
         return view('student::students-affairs.distributions-students.index',
-        compact('title','grades','divisions'));
+        compact('title','grades','divisions','years'));
     }
     public function getGradeStatistics()
     {        
@@ -77,7 +79,7 @@ class DistributionController extends Controller
                 ->join('students','students_statements.student_id','=','students.id')
                 ->leftJoin('rooms','students.id','=','rooms.student_id')
                 ->where($where)                
-                // ->where('rooms.year_id',currentYear())
+                ->where('rooms.year_id',currentYear())
                 ->orderBy('gender','asc')
                 ->orderBy('ar_student_name','asc')
                 ->select('students_statements.*','rooms.classroom_id')
@@ -131,20 +133,13 @@ class DistributionController extends Controller
         }
     }  
     public function joinToClassroom()
-    {
-        
+    {        
         $result = '';
         if (request()->ajax()) {
             if (request()->has('student_id')) {
                 if ($this->checkClassCount()) {
                     foreach (request('student_id') as $studentId) {
-                        $this->removing($studentId);
-                        
-                        request()->user()->rooms()->firstOrCreate([
-                            'student_id'    => $studentId,
-                            'classroom_id'  => request('roomId'),
-                            'year_id'       => currentYear(),
-                        ]);                   
+                        $this->insertIntoClassroom($studentId,request('roomId'));
                     }                                       
                 }else{
                     $result = trans('student::local.invalid_students_count');
@@ -157,6 +152,20 @@ class DistributionController extends Controller
             return response(['status'=>false,'msg'=>$result]);            
         }
     }  
+    private function insertIntoClassroom($studentId,$classroom_id ,$year_id = null)
+    {        
+        $year_id = !empty($year_id) ? $year_id :currentYear();
+        
+        DB::transaction(function() use($studentId,$classroom_id,$year_id){
+            $this->removing($studentId);
+                        
+            request()->user()->rooms()->firstOrCreate([
+                'student_id'    => $studentId,
+                'classroom_id'  => $classroom_id,
+                'year_id'       => $year_id,
+            ]); 
+        });
+    }
     private function getClassroomName($data)
     {
         if (!empty($data->classroom_id)) {
@@ -353,7 +362,42 @@ class DistributionController extends Controller
             return $pdf->stream('Statement');
 
         }else{
+            toast(trans('student::local.select_classroom_first'),'error');
             return back();
+        }
+    }
+
+    public function moveToClass()
+    {
+        $result = '';
+        
+        if (request()->ajax()) {
+            if (!request()->has('to_room_id')) {                
+                $result = trans('student::local.no_to_room_selected');
+            } 
+            if (!request()->has('from_room_id')) {                
+                $result = trans('student::local.no_from_room_selected');
+            }                     
+            $current_grade_id = Classroom::findOrFail(request('to_room_id'))->grade_id;   
+
+            $students = Student::whereHas('statements',function($q) use ( $current_grade_id){
+            $q->where('year_id',currentYear());
+            $q->where('grade_id', $current_grade_id);
+            })
+            ->whereHas('rooms',function($q){
+                $q->where('classroom_id',request('from_room_id'));
+                $q->where('year_id',request('from_year_id'));
+            })->get();
+            
+            foreach ($students as $studentId) {
+                $this->insertIntoClassroom($studentId->id,request('to_room_id'));                
+            }
+
+        }        
+        if (empty($result)) {
+            return response(['status'=> true]);            
+        }else{
+            return response(['status'=> false, 'msg' => $result]);                        
         }
     }
 

@@ -80,6 +80,7 @@
     Route::post('classrooms/destroy','ClassroomController@destroy')->name('classrooms.destroy');      
     Route::put('classrooms/q/filter','ClassroomController@filter')->name('classrooms.filter');    
     Route::put('classrooms/get/classrooms','ClassroomController@getClassrooms')->name('getClassrooms');    
+    Route::put('classrooms/get/old/classrooms','ClassroomController@getOldClassrooms')->name('getOldClassrooms');    
 
 
     /**

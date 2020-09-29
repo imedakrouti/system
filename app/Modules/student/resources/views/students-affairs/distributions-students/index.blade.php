@@ -118,7 +118,10 @@
           </a>              
           <a href="#" onclick="removeFromClass()" class="btn btn-danger mb-1">
             {{ trans('student::local.remove_from_class') }}
-          </a>                
+          </a>  
+          <a href="#" onclick="moveToClass()" class="btn btn-light mb-1">
+            {{ trans('student::local.move_to_class') }}
+          </a>                         
         </div>
       </div>
     </div>    
@@ -161,6 +164,8 @@
     </div>
     
 </div>
+
+@include('student::students-affairs.distributions-students._move-to-class')
 @endsection
 @section('script')
 <script>
@@ -180,10 +185,12 @@
           if (filter_grade_id == '' || filter_division_id == '') // is empty
           {
             $('#filter_room_id').prop('disabled', true); // set disable
+            $('#to_room_id').prop('disabled', true); // set disable
           }
           else // is not empty
           {
             $('#filter_room_id').prop('disabled', false);	// set enable
+            $('#to_room_id').prop('disabled', false);	// set enable
             //using
             $.ajax({
               url:'{{route("getClassrooms")}}',
@@ -197,6 +204,7 @@
               dataType: 'json',
               success: function(data){
                 $('#filter_room_id').html(data);
+                $('#to_room_id').html(data);
               }
             });
           }
@@ -246,6 +254,18 @@
     function getStudentsGrade()
     {
       event.preventDefault();
+      if ($('#filter_division_id').val() == '') {
+        swal("{{trans('student::local.no_division_selected')}}", "", "error");
+        return;
+      }
+      if ($('#filter_grade_id').val() == '') {
+        swal("{{trans('student::local.no_grade_selected')}}", "", "error");
+        return;
+      }  
+      if ($('#filter_room_id').text() == '') {
+        swal("{{trans('student::local.no_rooms_selected')}}", "", "error");
+        return;
+      }  
       $('#dynamic-table').DataTable().destroy();
       var grade_id 		  = $('#filter_grade_id').val();
       var division_id   = $('#filter_division_id').val();      
@@ -436,7 +456,82 @@
                 $('#langClass').html(data);
               }
           });
-    }       
+    }    
+    function moveToClass()
+    {
+      // validations
+      if ($('#filter_division_id').val() == '') {
+        swal("{{trans('student::local.no_division_selected')}}", "", "error");
+        return;
+      }
+      if ($('#filter_grade_id').val() == '') {
+        swal("{{trans('student::local.no_grade_selected')}}", "", "error");
+        return;
+      }  
+      if ($('#filter_room_id').text() == '') {
+        swal("{{trans('student::local.no_rooms_selected')}}", "", "error");
+        return;
+      }  
+
+      $('#divId').html($('#filter_division_id').find(":selected").text());   
+      $('#graId').html($('#filter_grade_id').find(":selected").text());   
+      
+      $('#moveToClass').modal({backdrop: 'static', keyboard: false})
+      $('#moveToClass').modal('show');      
+    }  
+    // inserting 
+    $('#btnMoveToClass').on('click',function(){
+      event.preventDefault();
+        var form_data = $('#formMove').serialize();
+        $.ajax({
+            url:"{{route('distribution.moveToClass')}}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",
+            // display succees message
+            success:function(data)
+            {
+              if (data.status == true) {
+                getClassStatistics();
+                $('#dynamic-table').DataTable().ajax.reload();   
+                swal("{{trans('msg.success')}}", "", "success");                                             
+              }else{
+                swal("{{trans('msg.error')}}", data.msg, "error");                                             
+              }
+            }
+          })
+    })   
+    
+    $('#from_year_id').on('change', function(){
+          var filter_division_id = $('#filter_division_id').val();  
+          var filter_grade_id = $('#filter_grade_id').val();  
+          var from_year_id = $('#from_year_id').val();  
+
+          if (filter_grade_id == '' || filter_division_id == '') // is empty
+          {
+            $('#from_room_id').prop('disabled', true); // set disable            
+          }
+          else // is not empty
+          {
+            $('#from_room_id').prop('disabled', false);	// set enable            
+            //using
+            $.ajax({
+              url:'{{route("getOldClassrooms")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',
+                division_id 	: filter_division_id,
+                grade_id 	    : filter_grade_id,
+                year_id 	    : from_year_id,
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){
+                $('#from_room_id').html(data);                
+              }
+            });
+          }      
+    });      
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection
