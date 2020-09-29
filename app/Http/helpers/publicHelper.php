@@ -107,6 +107,7 @@ if (!function_exists('getYearAcademic')) {
 		return '0000';
 	}
 }
+
 if (!function_exists('fullAcademicYear')) {
 	function fullAcademicYear($yearId = null)
 	{

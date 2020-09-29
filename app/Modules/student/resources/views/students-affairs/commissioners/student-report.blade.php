@@ -10,7 +10,7 @@
     </div>
     <div class="clear"></div>
     <hr>
-    <h4 class="center">{{ trans('student::local.commissioner_deliver') }} </h4>
+    <h4 class="center">{{ trans('student::local.student_commissioner_deliver') }} </h4>
 </htmlpageheader>
 <p>
     @php

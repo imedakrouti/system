@@ -81,6 +81,7 @@ class StudentController extends Controller
                 '.$image.'
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">'.trans('student::local.add_permission').'</a>
+                <a class="dropdown-item" href="'.route('student-report.print',$data->id).'">'.trans('student::local.print_commissioner_report').'</a>
                 <a class="dropdown-item" href="#">'.trans('student::local.add_parent_request').'</a>
                 <a class="dropdown-item" href="#">'.trans('student::local.add_proof_enrollments').'</a>
                 <a class="dropdown-item" href="#">'.trans('student::local.include_statement').'</a>
@@ -399,6 +400,29 @@ class StudentController extends Controller
         if ($this->checkAgeForGrade() == 'invalid' ) {            
             toast(trans('student::local.invalid_message'),'error');  
             return back()->withInput();           
+        }
+        $student_type = $request->student_type == 'applicant' ? trans('student::local.applicant') : trans('student::local.student');
+        if (!checkYearStatus(currentYear())) {
+
+            if ($student_type != $student->student_type) {
+                toast(trans('student::local.invalid_student_type'),'error');  
+                return back()->withInput();  
+            }
+
+            if ($request->division_id != $student->division_id) {
+                toast(trans('student::local.invalid_division_id'),'error');  
+                return back()->withInput();  
+            } 
+            
+            if ($request->grade_id != $student->grade_id) {
+                toast(trans('student::local.invalid_grade_id'),'error');  
+                return back()->withInput();  
+            }  
+            
+            if ($request->registration_status_id != $student->registration_status_id) {
+                toast(trans('student::local.invalid_reg_status_id'),'error');  
+                return back()->withInput();  
+            }             
         }
 
         DB::transaction(function () use ($request,$student) { 
