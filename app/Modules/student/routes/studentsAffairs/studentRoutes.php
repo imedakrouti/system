@@ -50,4 +50,11 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('transfers/destroy','TransferController@destroy')->name('transfers.destroy');   
     Route::get('transfers/print/{id}','TransferController@printTransferReport')->name('transfers.print');   
 
+    // Daily Requests
+    Route::get('daily-requests/index','DailyRequestController@index')->name('daily-requests.index');
+    Route::get('daily-requests/create','DailyRequestController@create')->name('daily-requests.create');
+    Route::post('daily-requests/store','DailyRequestController@store')->name('daily-requests.store');
+    Route::post('daily-requests/destroy','DailyRequestController@destroy')->name('daily-requests.destroy');
+    Route::get('daily-requests/print/{id}','DailyRequestController@print')->name('daily-requests.print');
+    
 });

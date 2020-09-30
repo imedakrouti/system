@@ -11,6 +11,8 @@ class ReportContent extends Model
     protected $fillable = [
         'student_id',
         'endorsement', 
+        'daily_request', 
+        'proof_enrollment', 
         'admin_id'
     ];
     public function admin()

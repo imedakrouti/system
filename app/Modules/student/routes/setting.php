@@ -106,4 +106,11 @@
      */
     Route::resource('/stages-grades','StageGradeController')->except('show','destroy');
     Route::post('stages-grades/destroy','StageGradeController@destroy')->name('stages-grades.destroy');  
-    Route::put('stages-grades/q/filter','StageGradeController@filter')->name('stages-grades.filter');        
+    Route::put('stages-grades/q/filter','StageGradeController@filter')->name('stages-grades.filter');     
+    
+    /**
+     * Report Content
+     */
+    // Daily Request
+    Route::get('daily-request/content','ReportContentController@dailyRequest')->name('daily-request.get');  
+    Route::post('daily-request/content','ReportContentController@updateDailyRequests')->name('daily-request.update');  

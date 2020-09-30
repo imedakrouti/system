@@ -221,5 +221,9 @@ class Admin extends Authenticatable
     public function transfers()
     {
         return $this->hasMany('Student\Models\Students\Transfer','admin_id');
-    }             
+    }    
+    public function dailyRequests()
+    {
+        return $this->hasMany('Student\Models\Students\DailyRequest','admin_id');
+    }               
 }

@@ -210,7 +210,7 @@ class TransferController extends Controller
             'margin_bottom'        => 5,
         ]; 
 
-    $pdf = PDF::loadView('student::students-affairs.transfers.reports.student-transfer', $data,[],$config);
-    return $pdf->stream('Transfer Report');
+        $pdf = PDF::loadView('student::students-affairs.transfers.reports.student-transfer', $data,[],$config);
+        return $pdf->stream('Transfer Report');
     }
 }

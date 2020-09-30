@@ -78,6 +78,7 @@
         {{-- students --}}
         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#"><i class="la la-graduation-cap"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.students_affairs') }}</span></a>
             <ul class="menu-content">
+                {{-- reprots --}}
                 <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports') }}</a>
                     <ul class="menu-content">
                       <li><a class="menu-item" href="form-select2.html" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.statistics_reports') }}</a>
@@ -87,9 +88,10 @@
                       <li><a class="menu-item" href="form-selectivity.html" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.duration_reports') }}</a>
                       </li>                      
                     </ul>
-                  </li>              
-                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
-                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                </li>              
+                {{-- daily requests --}}
+                <li class=" nav-item {{request()->segment(2)=='daily-requests'?'active':''}}">
+                    <a href="{{route('daily-requests.index')}}"><i class="la la-cc-discover">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_permissions') }}</span>
                     </a>
                 </li> 
@@ -146,6 +148,17 @@
         {{-- settings --}}
         <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">
+                {{-- reprots --}}
+                <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports_forms') }}</a>
+                    <ul class="menu-content">
+                      <li class="{{request()->segment(3)=='student_leave_request'?'active':''}}"><a class="menu-item" href="{{route('daily-request.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.student_leave_request') }}</a>
+                      </li>
+                      <li class="{{request()->segment(3)=='daily-request'?'active':''}}"><a class="menu-item" href="{{route('daily-request.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.student_daily_request') }}</a>
+                      </li>
+                      <li class="{{request()->segment(3)=='proof_enrollment'?'active':''}}"><a class="menu-item" href="{{route('daily-request.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.proof_enrollment') }}</a>
+                      </li>                      
+                    </ul>
+                </li>                   
                 <li class="{{request()->segment(3)=='years'?'active':''}}"><a class="menu-item" href="{{route('years.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('admin.academic_years') }}</a></li>           
                 <li class="{{request()->segment(3)=='divisions'?'active':''}}"><a class="menu-item" href="{{route('divisions.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('admin.divisions') }}</a></li>           
                 <li class="{{request()->segment(3)=='stages'?'active':''}}"><a class="menu-item" href="{{route('stages.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('admin.stages') }}</a></li>           

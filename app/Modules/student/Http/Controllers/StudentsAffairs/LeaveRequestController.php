@@ -149,8 +149,7 @@ class LeaveRequestController extends Controller
     {
         $leave = LeaveRequest::with('students')->findOrFail($id);
         $division_id = $leave->students->division_id;
-
-        $leave = LeaveRequest::with('students')->findOrFail($id);
+                
         $content =  $leave->endorsement;
 
         $student_name = session('lang') == 'ar' ? $leave->students->ar_student_name .' ' . $leave->students->father->ar_st_name

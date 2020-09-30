@@ -13,8 +13,10 @@ class ReportContentSeeder extends Seeder
     public function run()
     {
         ReportContent::create([
-            'endorsement' => '',            
-            'admin_id'       => 1
+            'endorsement'       => '',            
+            'daily_request'     => '',            
+            'proof_enrollment'  => '',            
+            'admin_id'          => 1
         ]);
     }
 }
