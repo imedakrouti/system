@@ -82,31 +82,31 @@
                     </div>   
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.school_fees') }}</label>                         
-                              <div class="col-md-9">
-                                <select name="school_fees" class="form-control" required>                                
-                                    <option {{old('school_fees') == 'yes'?'selected':''}} value="yes">{{ trans('student::local.yes') }}</option>
-                                    <option {{old('school_fees') == 'no'?'selected':''}}  value="no">{{ trans('student::local.no') }}</option>                                
-                                </select>
-                                <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-md-3 label-control">{{ trans('student::local.school_fees') }}</label>                         
+                            <div class="col-md-9">
+                              <select name="school_fees" class="form-control" required>                                
+                                  <option {{old('school_fees') == 'payed'?'selected':''}} value="payed">{{ trans('student::local.payed') }}</option>
+                                  <option {{old('school_fees') == 'not_payed'?'selected':''}}  value="not_payed">{{ trans('student::local.not_payed') }}</option>                                
+                              </select>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                             </div>
-                        </div> 
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.school_books') }}</label>                         
-                              <div class="col-md-9">
-                                <select name="school_books" class="form-control" required>                                
-                                    <option {{old('school_fees') == 'yes'?'selected':''}}  value="yes">{{ trans('student::local.yes') }}</option>
-                                    <option {{old('school_fees') == 'no'?'selected':''}}  value="no">{{ trans('student::local.no') }}</option>                                
-                                </select>
-                                <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                          </div>
+                      </div> 
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-md-3 label-control">{{ trans('student::local.school_books') }}</label>                         
+                            <div class="col-md-9">
+                              <select name="school_books" class="form-control" required>                                
+                                  <option {{old('school_books') == 'received'?'selected':''}}  value="received">{{ trans('student::local.received') }}</option>
+                                  <option {{old('school_books') == 'not_received'?'selected':''}}  value="not_received">{{ trans('student::local.not_received') }}</option>                                
+                              </select>
+                              <span class="red">{{ trans('student::local.requried') }}</span>
                             </div>
-                        </div>                         
-                    </div> 
+                          </div>
+                      </div>                         
+                  </div> 
 
                     <div class="row">
                         <div class="col-md-6">

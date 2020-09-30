@@ -2,7 +2,7 @@
 
 namespace Student\Http\Controllers\StudentsAffairs;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TransferRequest;
+use Student\Http\Requests\TransferRequest;
 use Illuminate\Http\Request;
 use Student\Models\Settings\Grade;
 use Student\Models\Settings\School;

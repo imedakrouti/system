@@ -87,8 +87,10 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.school_fees') }}</label>                         
                               <div class="col-md-9">
                                 <select name="school_fees" class="form-control" required>                                
-                                    <option {{old('school_fees',$transfer->school_fees) == 'yes'?'selected':''}} value="yes">{{ trans('student::local.yes') }}</option>
-                                    <option {{old('school_fees',$transfer->school_fees) == 'no'?'selected':''}}  value="no">{{ trans('student::local.no') }}</option>                                
+                                    <option {{old('school_fees',$transfer->school_fees) == 'payed' || 
+                                    old('school_fees',$transfer->school_fees) == trans('student::local.payed') ?'selected':''}} value="payed">{{ trans('student::local.payed') }}</option>
+                                    <option {{old('school_fees',$transfer->school_fees) == 'not_payed' || 
+                                      old('school_fees',$transfer->school_fees) == trans('student::local.not_payed') ?'selected':''}}  value="not_payed">{{ trans('student::local.not_payed') }}</option>                                
                                 </select>
                                 <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
@@ -99,8 +101,10 @@
                               <label class="col-md-3 label-control">{{ trans('student::local.school_books') }}</label>                         
                               <div class="col-md-9">
                                 <select name="school_books" class="form-control" required>                                
-                                    <option {{old('school_books',$transfer->school_books) == 'yes'?'selected':''}}  value="yes">{{ trans('student::local.yes') }}</option>
-                                    <option {{old('school_books',$transfer->school_books) == 'no'?'selected':''}}  value="no">{{ trans('student::local.no') }}</option>                                
+                                    <option {{old('school_books',$transfer->school_books) == 'received' || 
+                                      old('school_books',$transfer->school_books) == trans('student::local.received') ?'selected':''}}  value="received">{{ trans('student::local.received') }}</option>
+                                    <option {{old('school_books',$transfer->school_books) == 'not_received' || 
+                                      old('school_books',$transfer->school_books) == trans('student::local.not_received') ?'selected':''}}  value="not_received">{{ trans('student::local.not_received') }}</option>                                
                                 </select>
                                 <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>
@@ -150,6 +154,19 @@
         </div>
       </div>
     </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-content collapse show">
+        <div class="card-body">
+            <h5><strong>{{ trans('student::local.created_by') }} :</strong> {{$transfer->admin->name}}</h5>
+            <h5><strong>{{ trans('student::local.created_at') }} :</strong> {{$transfer->created_at}}</h5>
+            <h5><strong>{{ trans('student::local.updated_at') }} :</strong> {{$transfer->updated_at}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 @section('script')

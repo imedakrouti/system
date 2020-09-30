@@ -48,5 +48,13 @@ class Transfer extends Model
     public function schools()
     {
         return $this->belongsTo('Student\Models\Settings\School','school_id');
-    }               
+    }    
+    public function getSchoolFeesAttribute()
+    {
+        return $this->attributes['school_fees'] == 'payed' ? trans('student::local.payed') : trans('student::local.not_payed');
+    }     
+    public function getSchoolBooksAttribute()
+    {
+        return $this->attributes['school_books'] == 'received' ? trans('student::local.received') : trans('student::local.not_received');
+    }            
 }

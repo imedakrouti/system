@@ -26,29 +26,29 @@
             </a>
         </li>      
         {{-- students fees --}}
-        <li class=" nav-item {{request()->segment(2)=='students'?'active':''}}">
+        {{-- <li class=" nav-item {{request()->segment(2)=='students'?'active':''}}">
             <a href="{{route('site.settings')}}"><i class="la la-money">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_fees') }}</span>
             </a>
-        </li>            
+        </li>             --}}
         {{-- bus --}}
-        <li class=" nav-item {{request()->segment(2)=='buses'?'active':''}}">
+        {{-- <li class=" nav-item {{request()->segment(2)=='buses'?'active':''}}">
             <a href="{{route('site.settings')}}"><i class="la la-bus">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.bus') }}</span>
             </a>
-        </li>  
+        </li>   --}}
         {{-- school control --}}
-        <li class=" nav-item {{request()->segment(2)=='school_controls'?'active':''}}">
+        {{-- <li class=" nav-item {{request()->segment(2)=='school_controls'?'active':''}}">
             <a href="{{route('site.settings')}}"><i class="la la-certificate">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.school_control') }}</span>
             </a>
-        </li>        
+        </li>         --}}
         {{-- hr --}}
-        <li class=" nav-item {{request()->segment(2)=='hr'?'active':''}}">
+        {{-- <li class=" nav-item {{request()->segment(2)=='hr'?'active':''}}">
             <a href="{{route('site.settings')}}"><i class="la la-folder">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.hr') }}</span>
             </a>
-        </li>             
+        </li>              --}}
       </ul>
     </div>
   </div>

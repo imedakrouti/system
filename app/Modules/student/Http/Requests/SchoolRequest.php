@@ -24,8 +24,8 @@ class SchoolRequest extends FormRequest
     public function rules()
     {
         return [
-            'school_name'              => 'required',
-            'school_government'        => 'required',
+            'school_name'              => 'required|max:50',
+            'school_government'        => 'required|max:30',
             'school_address'           => 'required',
             'school_type'              => 'required'
         ];
@@ -34,7 +34,9 @@ class SchoolRequest extends FormRequest
     {
         return [
             'school_name.required'             => trans('student::local.school_name_required'),
+            'school_name.max'             => trans('student::local.school_name_max'),
             'school_government.required'       => trans('student::local.school_government_required'),
+            'school_government.max'       => trans('student::local.school_government_max'),
             'school_address.required'          => trans('student::local.school_address_required'),
             'school_type.required'             => trans('student::local.school_type_required')
         ];

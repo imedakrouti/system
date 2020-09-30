@@ -78,6 +78,21 @@
         {{-- students --}}
         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#"><i class="la la-graduation-cap"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.students_affairs') }}</span></a>
             <ul class="menu-content">
+                <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports') }}</a>
+                    <ul class="menu-content">
+                      <li><a class="menu-item" href="form-select2.html" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.statistics_reports') }}</a>
+                      </li>
+                      <li><a class="menu-item" href="form-selectize.html" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.students_data') }}</a>
+                      </li>
+                      <li><a class="menu-item" href="form-selectivity.html" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.duration_reports') }}</a>
+                      </li>                      
+                    </ul>
+                  </li>              
+                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
+                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_permissions') }}</span>
+                    </a>
+                </li> 
                 <li class=" nav-item {{request()->segment(2)=='statements'?'active':''}}">
                     <a href="{{route('statements.index')}}"><i class="la la-database">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_statements') }}</span>
@@ -94,11 +109,11 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.absenece') }}</span>
                     </a>
                 </li>  
-                <li class=" nav-item {{request()->segment(2)=='parent-reports'?'active':''}}">
-                    <a href="{{route('parent-reports.index')}}"><i class="la la-archive">
-                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.archive') }}</span>
+                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
+                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parents_requests') }}</span>
                     </a>
-                </li> 
+                </li>  
                 <li class=" nav-item {{request()->segment(2)=='commissioners'?'active':''}}">
                     <a href="{{route('commissioners.index')}}"><i class="la la-car">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.commissioners') }}</span>
@@ -119,17 +134,13 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_id_card') }}</span>
                     </a>
                 </li> 
-                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
-                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
-                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_permissions') }}</span>
+                 
+                
+                <li class=" nav-item {{request()->segment(2)=='parent-reports'?'active':''}}">
+                    <a href="{{route('parent-reports.index')}}"><i class="la la-archive">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.archive') }}</span>
                     </a>
-                </li>  
-                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
-                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
-                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parents_requests') }}</span>
-                    </a>
-                </li>  
-                                                                             
+                </li>                                                      
             </ul>
         </li>   
         {{-- settings --}}

@@ -17,8 +17,8 @@ class CreateTableTransfers extends Migration
             $table->bigIncrements('id');
             $table->date('leaved_date');
             $table->string('leave_reason');
-            $table->enum('school_fees',['yes','no'])->default('yes');
-            $table->enum('school_books',['yes','no'])->default('yes');
+            $table->enum('school_fees',['payed','not_payed'])->default('payed');
+            $table->enum('school_books',['received','not_received'])->default('received');
             $table->unsignedBigInteger('school_id');
             $table->unsignedBigInteger('current_grade_id');
             $table->unsignedBigInteger('next_grade_id');
