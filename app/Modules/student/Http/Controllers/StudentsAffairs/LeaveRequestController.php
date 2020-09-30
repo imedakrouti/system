@@ -5,9 +5,10 @@ use App\Http\Controllers\Controller;
 
 use Student\Models\Students\LeaveRequest;
 use Student\Models\Students\Student;
+use Student\Models\Students\ReportContent;
+use Carbon;
 use PDF;
 use DB;
-use Student\Models\Students\ReportContent;
 
 class LeaveRequestController extends Controller
 {
@@ -164,12 +165,15 @@ class LeaveRequestController extends Controller
         $father_national_id  = $leave->students->father->id_number ;
         $grade  = session('lang') == 'ar' ? $leave->students->grade->ar_grade_name: $leave->students->grade->en_grade_name ;
 
-        $year = fullAcademicYear();
         $content = str_replace('student_name',$student_name ,$content);
         $content = str_replace('father_name',$father_name ,$content);
         $content = str_replace('father_national_id',$father_national_id ,$content);
         $content = str_replace('grade',$grade ,$content);
+        $year = fullAcademicYear();
         $content = str_replace('year',$year ,$content);
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
       
         $data = [         
                 'title'                         => 'Statistics Report',       

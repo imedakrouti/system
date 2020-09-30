@@ -111,6 +111,14 @@
     /**
      * Report Content
      */
+    // Student Leave Request [endorsement]
+    Route::get('leave-request/content','ReportContentController@leaveRequest')->name('leave-request.get');  
+    Route::post('leave-request/content','ReportContentController@updateLeaveRequests')->name('leave-request.update');  
+    
     // Daily Request
     Route::get('daily-request/content','ReportContentController@dailyRequest')->name('daily-request.get');  
     Route::post('daily-request/content','ReportContentController@updateDailyRequests')->name('daily-request.update');  
+
+    // Proof Enrollment
+    Route::get('proof-enrollment/content','ReportContentController@proofEnrollmentRequest')->name('proof-enrollment.get');  
+    Route::post('proof-enrollment/content','ReportContentController@updateProofEnrollmentRequests')->name('proof-enrollment.update');  

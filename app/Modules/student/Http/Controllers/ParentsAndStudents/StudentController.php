@@ -25,6 +25,9 @@ use Student\Models\Settings\Year;
 use Student\Models\Students\Address;
 use Student\Models\Students\SetMigration;
 use Student\Models\Students\StudentStatement;
+use Carbon;
+use Student\Models\Students\ReportContent;
+use DateTime;
 
 class StudentController extends Controller
 {
@@ -78,14 +81,11 @@ class StudentController extends Controller
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="'.route('students.edit',$data->id).'">'.trans('student::local.editing').'</a>
+                <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-print"></i> '.trans('student::local.editing').'</a>
                 '.$image.'
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">'.trans('student::local.add_permission').'</a>
-                <a class="dropdown-item" href="'.route('student-report.print',$data->id).'">'.trans('student::local.print_commissioner_report').'</a>
-                <a class="dropdown-item" href="#">'.trans('student::local.add_parent_request').'</a>
-                <a class="dropdown-item" href="#">'.trans('student::local.add_proof_enrollments').'</a>
-                <a class="dropdown-item" href="#">'.trans('student::local.include_statement').'</a>
+                <div class="dropdown-divider"></div>                
+                <a class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.commissioner').'</a>
+                <a class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('student::local.add_proof_enrollments').'</a>                                
             </div>
         </div>':'
         <div class="btn-group mr-1 mb-1">
@@ -815,5 +815,68 @@ class StudentController extends Controller
         }
         return json_encode($data);
         
+    }
+    public function proofEnrollment($id)
+    {
+        $student = Student::with('grade','division','father','nationalities')->findOrFail($id);                
+        $division_id = $student->division_id;
+        $content = ReportContent::first()->proof_enrollment;
+
+        $student_name = session('lang') == 'ar' ? $student->ar_student_name .' ' . $student->father->ar_st_name
+        .' ' . $student->father->ar_nd_name.' ' . $student->father->ar_rd_name
+        : $student->en_student_name .' ' . $student->father->en_st_name
+        .' ' . $student->father->en_nd_name.' ' . $student->father->en_rd_name ;
+
+        $father_name  = session('lang') == 'ar' ? $student->father->ar_st_name
+        .' ' . $student->father->ar_nd_name.' ' . $student->father->ar_rd_name.' ' . $student->father->ar_th_name: 
+        $student->father->en_st_name
+        .' ' . $student->father->en_nd_name.' ' . $student->father->en_rd_name.' ' . $student->father->en_th_name ;
+        $father_national_id  = $student->father->id_number ;
+        
+        $division  = session('lang') == 'ar' ? $student->division->ar_division_name: $student->division->en_division_name ;
+        $grade  = session('lang') == 'ar' ? $student->grade->ar_grade_name: $student->grade->en_grade_name ;
+        
+        $content = str_replace('student_name',$student_name ,$content);
+        $content = str_replace('nationality',$student->nationalities->ar_name_nat_male ,$content);
+        $content = str_replace('religion',$student->religion ,$content);
+
+        $dob =  DateTime::createFromFormat("Y-m-d",$student->dob);
+        
+        $content = str_replace('dob', $dob->format("Y/m/d") ,$content);
+        
+        $content = str_replace('division',$division ,$content);        
+        $content = str_replace('grade',$grade ,$content);
+        $content = str_replace('national_id',$student->student_id_number ,$content);
+        
+        $content = str_replace('school_name',getSchoolName($division_id) ,$content); 
+
+        $year = fullAcademicYear();
+        $content = str_replace('year',$year ,$content);
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
+        
+        
+        $data = [         
+            'title'                         => 'Daily Request Report',       
+            'content'                       => $content,       
+            'logo'                          => logo(),            
+            'school_name'                   => getSchoolName($division_id),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students.proof', $data,[],$config);
+        return $pdf->stream('Daily Request Report');
     }
 }

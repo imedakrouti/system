@@ -73,7 +73,7 @@
                     <tr>
                       <td>date</td>
                       <td>{{ trans('student::local.today_date') }}</td>
-                  </tr>                                                                                                                   
+                   </tr>                                                                                                                   
                   </tbody>
                 </table>
               </div>
