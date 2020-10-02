@@ -122,3 +122,7 @@
     // Proof Enrollment
     Route::get('proof-enrollment/content','ReportContentController@proofEnrollmentRequest')->name('proof-enrollment.get');  
     Route::post('proof-enrollment/content','ReportContentController@updateProofEnrollmentRequests')->name('proof-enrollment.update');  
+
+    // Parent Request
+    Route::get('parent-request/content','ReportContentController@parentRequest')->name('parent-request.get');  
+    Route::post('parent-request/content','ReportContentController@updateParentRequests')->name('parent-request.update');  

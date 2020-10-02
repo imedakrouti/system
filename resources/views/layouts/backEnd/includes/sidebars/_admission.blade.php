@@ -91,7 +91,7 @@
                 </li>              
                 {{-- daily requests --}}
                 <li class=" nav-item {{request()->segment(2)=='daily-requests'?'active':''}}">
-                    <a href="{{route('daily-requests.index')}}"><i class="la la-cc-discover">
+                    <a href="{{route('daily-requests.index')}}"><i class="la la-sticky-note">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_permissions') }}</span>
                     </a>
                 </li> 
@@ -111,8 +111,8 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.absenece') }}</span>
                     </a>
                 </li>  
-                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
-                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                <li class=" nav-item {{request()->segment(2)=='parent-requests'?'active':''}}">
+                    <a href="{{route('parent-requests.index')}}"><i class="la la-flag">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parents_requests') }}</span>
                     </a>
                 </li>  
@@ -156,7 +156,9 @@
                       <li class="{{request()->segment(3)=='daily-request'?'active':''}}"><a class="menu-item" href="{{route('daily-request.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.student_daily_request') }}</a>
                       </li>
                       <li class="{{request()->segment(3)=='proof-enrollment'?'active':''}}"><a class="menu-item" href="{{route('proof-enrollment.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.proof_enrollment') }}</a>
-                      </li>                      
+                      </li> 
+                      <li class="{{request()->segment(3)=='parent-request'?'active':''}}"><a class="menu-item" href="{{route('parent-request.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.parent_request') }}</a>
+                      </li>                                             
                     </ul>
                 </li>                   
                 <li class="{{request()->segment(3)=='years'?'active':''}}"><a class="menu-item" href="{{route('years.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('admin.academic_years') }}</a></li>           

@@ -49,6 +49,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::resource('/transfers','TransferController')->except('destroy','show');
     Route::post('transfers/destroy','TransferController@destroy')->name('transfers.destroy');   
     Route::get('transfers/print/{id}','TransferController@printTransferReport')->name('transfers.print');   
+    Route::get('transfers/empty-print','TransferController@emptyTransferReport')->name('empty-transfers.print');   
 
     // Daily Requests
     Route::get('daily-requests/index','DailyRequestController@index')->name('daily-requests.index');
@@ -56,5 +57,10 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('daily-requests/store','DailyRequestController@store')->name('daily-requests.store');
     Route::post('daily-requests/destroy','DailyRequestController@destroy')->name('daily-requests.destroy');
     Route::get('daily-requests/print/{id}','DailyRequestController@print')->name('daily-requests.print');
+
+    // Parent Requests
+    Route::resource('/parent-requests','ParentRequestController')->except('destroy','show');
+    Route::post('parent-requests/destroy','ParentRequestController@destroy')->name('parent-requests.destroy');       
+    Route::get('parent-requests/print/{id}','ParentRequestController@printLeaveRequest')->name('parent-requests.print');   
     
 });

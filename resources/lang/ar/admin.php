@@ -141,7 +141,7 @@ return
     'stages_grades'                         => 'تحديد صفوف المراحل',
     'add'                                   => 'اضافة',
     'students_permissions'                  => 'اذونات الطلاب',
-    'parents_requests'                      => 'استدعاءات ولي الامر',
+    'parents_requests'                      => 'استدعاء ولي الامر',
     'leave_requests'                        => 'طلبات سحب الملف',
     'save_dafault'                          => 'الوضع الافتراضي',
     '' => '',

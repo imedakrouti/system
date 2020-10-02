@@ -12,6 +12,7 @@ class ReportContent extends Model
         'student_id',
         'endorsement', 
         'daily_request', 
+        'parent_request', 
         'proof_enrollment', 
         'admin_id'
     ];

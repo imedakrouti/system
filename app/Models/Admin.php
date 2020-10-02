@@ -225,5 +225,9 @@ class Admin extends Authenticatable
     public function dailyRequests()
     {
         return $this->hasMany('Student\Models\Students\DailyRequest','admin_id');
-    }               
+    }  
+    public function parentRequests()
+    {
+        return $this->hasMany('Student\Models\Students\ParentRequest','admin_id');
+    }                 
 }

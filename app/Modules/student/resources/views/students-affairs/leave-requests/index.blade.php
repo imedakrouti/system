@@ -87,7 +87,7 @@
               {data: 'division',            name: 'division'},
               {data: 'created_at',          name: 'created_at'},               
               {data: 'show',                name: 'show'},               
-              {data: 'print',                name: 'print'},               
+              {data: 'print',               name: 'print'},               
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

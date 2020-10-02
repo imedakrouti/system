@@ -11,8 +11,7 @@ class LeaveRequest extends Model
         'student_id',
         'reason',
         'notes',
-        'parent_type',
-        'endorsement',
+        'parent_type',        
         'admin_id'
 
     ];

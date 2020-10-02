@@ -1,37 +1,33 @@
 <?php
 
+
 namespace Student\Http\Controllers\StudentsAffairs;
 use App\Http\Controllers\Controller;
 
-use Student\Models\Students\LeaveRequest;
-use Student\Models\Students\Student;
-use Student\Models\Students\ReportContent;
-use Carbon;
+use Student\Models\Students\ParentRequest;
 use PDF;
-use DB;
+use Carbon;
+use DateTime;
+use Student\Models\Students\ReportContent;
+use Student\Models\Students\Student;
 
-class LeaveRequestController extends Controller
+class ParentRequestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if (request()->ajax()) {
-            $data = LeaveRequest::with('students')->orderBy('id','desc')->get();
+            $data = ParentRequest::with('students')->orderBy('id','desc')->get();
             return datatables($data)
                     ->addIndexColumn()
-                    ->addColumn('show', function($data){
-                           $btn = '<a class="btn btn-info" href="'.route('leave-requests.show',$data->id).'">
-                           '.trans('student::local.more').'
-                       </a>';
+                    ->addColumn('action', function($data){
+                        $btn = '<a class="btn btn-warning btn-sm" href="'.route('parent-requests.edit',$data->id).'">
+                            <i class=" la la-edit"></i>
+                        </a>';
                             return $btn;
-                    }) 
+                    })                    
                     ->addColumn('print', function($data){
-                        $btn = '<a class="btn btn-primary" href="'.route('leave-requests.print',$data->id).'">
-                            '.trans('student::local.print_endorsement').'
+                        $btn = '<a class="btn btn-primary" href="'.route('parent-requests.print',$data->id).'">
+                            '.trans('student::local.print').'
                         </a>';
                             return $btn;
                     })                     
@@ -54,11 +50,11 @@ class LeaveRequestController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['student_number','check','student_name','grade','division','show','print'])
+                    ->rawColumns(['student_number','check','student_name','grade','division','print','action'])
                     ->make(true);
         }
-        return view('student::students-affairs.leave-requests.index',
-        ['title'=>trans('student::local.leave_requests')]); 
+        return view('student::students-affairs.parent-requests.index',
+        ['title'=>trans('student::local.parent_requests')]); 
     }
     private function getStudentName($data)
     {        
@@ -67,62 +63,56 @@ class LeaveRequestController extends Controller
         
         '<a href="'.route('students.show',$data->students->id).'">'. $data->students->en_student_name.' '.$data->students->father->en_st_name .' '.$data->students->father->en_nd_name .' '.$data->students->father->en_rd_name .' '.$data->students->father->en_th_name .'</a>';  
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $students = Student::has('statements')
-        ->whereDoesntHave('leaveRequests')
-        ->orderBy('ar_student_name')
+        $students = Student::has('statements')->orderBy('ar_student_name')        
         ->get();
-        return view('student::students-affairs.leave-requests.create',
-        ['title'=>trans('student::local.new_leave_request'),'students'=>$students]);
+        return view('student::students-affairs.parent-requests.create',
+        ['title'=>trans('student::local.new_parent_request'),'students'=>$students]);
     }
     private function attributes()
     {
-        return [
-            'student_id',
-            'reason',
-            'notes',
-            'parent_type',
-            'endorsement'
+        return [            
+            'date_request',
+            'time_request' ,
+            'notes'           
         ];
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store()
-    { 
-        request()->user()->leaveRequests()->create(request()->only($this->attributes()));          
+    {      
+        if (request()->has('student_id')) {
+            foreach (request('student_id') as $student_id) {
+                request()->user()->parentRequests()->create(request()->only($this->attributes())+
+                ['student_id' => $student_id]);                          
+            }
+        }  
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('leave-requests.index');
+        return redirect()->route('parent-requests.index');
     }
-
-    public function show($id)
+    public function edit($id)
     {
-        $leave = LeaveRequest::with('students')->findOrFail($id);
-        return view('student::students-affairs.leave-requests.show',
-        ['title'=>trans('student::local.new_leave_request'),'leave'=>$leave]);
+        $parentRequest = ParentRequest::findOrFail($id);
+        $students = Student::has('statements')->orderBy('ar_student_name')        
+        ->get();
+        $title = trans('student::local.edit_parent_request');
+        return view('student::students-affairs.parent-requests.edit',
+       compact('parentRequest','students','title'));
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function update($id)
+    {
+        $parentRequest = ParentRequest::findOrFail($id);
+        $parentRequest->update(request()->only($this->attributes())+
+        [ 'student_id' => request('student_id')]);   
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('parent-requests.index');
+    }
     public function destroy()
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    LeaveRequest::destroy($id);
+                    ParentRequest::destroy($id);
                 }
             }
         }
@@ -130,29 +120,36 @@ class LeaveRequestController extends Controller
     }
     public function  printLeaveRequest($id)
     {
-        $leave = LeaveRequest::with('students')->findOrFail($id);
-        $division_id = $leave->students->division_id;
+        $parentRequest = ParentRequest::with('students')->findOrFail($id);
+        $division_id = $parentRequest->students->division_id;
                         
-        $content = ReportContent::first()->endorsement;
+        $content = ReportContent::first()->parent_request;
 
-        $student_name = session('lang') == 'ar' ? $leave->students->ar_student_name .' ' . $leave->students->father->ar_st_name
-        .' ' . $leave->students->father->ar_nd_name.' ' . $leave->students->father->ar_rd_name
-        : $leave->students->en_student_name .' ' . $leave->students->father->en_st_name
-        .' ' . $leave->students->father->en_nd_name.' ' . $leave->students->father->en_rd_name ;
+        $student_name = session('lang') == 'ar' ? $parentRequest->students->ar_student_name .' ' . $parentRequest->students->father->ar_st_name
+        .' ' . $parentRequest->students->father->ar_nd_name.' ' . $parentRequest->students->father->ar_rd_name
+        : $parentRequest->students->en_student_name .' ' . $parentRequest->students->father->en_st_name
+        .' ' . $parentRequest->students->father->en_nd_name.' ' . $parentRequest->students->father->en_rd_name ;
 
-        $father_name  = session('lang') == 'ar' ? $leave->students->father->ar_st_name
-        .' ' . $leave->students->father->ar_nd_name.' ' . $leave->students->father->ar_rd_name.' ' . $leave->students->father->ar_th_name: 
-        $leave->students->father->en_st_name
-        .' ' . $leave->students->father->en_nd_name.' ' . $leave->students->father->en_rd_name.' ' . $leave->students->father->en_th_name ;
-        $father_national_id  = $leave->students->father->id_number ;
-        $grade  = session('lang') == 'ar' ? $leave->students->grade->ar_grade_name: $leave->students->grade->en_grade_name ;
+        $father_name  = session('lang') == 'ar' ? $parentRequest->students->father->ar_st_name
+        .' ' . $parentRequest->students->father->ar_nd_name.' ' . $parentRequest->students->father->ar_rd_name.' ' . $parentRequest->students->father->ar_th_name: 
+        $parentRequest->students->father->en_st_name
+        .' ' . $parentRequest->students->father->en_nd_name.' ' . $parentRequest->students->father->en_rd_name.' ' . $parentRequest->students->father->en_th_name ;
+        $father_national_id  = $parentRequest->students->father->id_number ;
+        $grade  = session('lang') == 'ar' ? $parentRequest->students->grade->ar_grade_name: $parentRequest->students->grade->en_grade_name ;
 
         $content = str_replace('student_name',$student_name ,$content);
         $content = str_replace('father_name',$father_name ,$content);
         $content = str_replace('father_national_id',$father_national_id ,$content);
         $content = str_replace('grade',$grade ,$content);
+        
         $year = fullAcademicYear();
         $content = str_replace('year',$year ,$content);
+        
+        $date_request = DateTime::createFromFormat("Y-m-d",$parentRequest->date_request);
+        $content = str_replace('date_request',$date_request->format('Y/m/d') ,$content);
+
+        $content = str_replace('notes',$parentRequest->notes ,$content);
+        $content = str_replace('time_request',$parentRequest->time_request ,$content);
 
         $date = Carbon\Carbon::today();
         $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
@@ -176,8 +173,7 @@ class LeaveRequestController extends Controller
                 'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
             ]; 
 
-		$pdf = PDF::loadView('student::students-affairs.leave-requests.report', $data,[],$config);
+		$pdf = PDF::loadView('student::students-affairs.parent-requests.reports.student-parent-request', $data,[],$config);
 		return $pdf->stream('Leave Request Report');
     }
-
 }

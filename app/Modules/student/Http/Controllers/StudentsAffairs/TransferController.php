@@ -213,4 +213,27 @@ class TransferController extends Controller
         $pdf = PDF::loadView('student::students-affairs.transfers.reports.student-transfer', $data,[],$config);
         return $pdf->stream('Transfer Report');
     }
+    public function emptyTransferReport()
+    {        
+        $data = [  
+            
+            'title'                         => 'Transfer Report',                   
+            'logo'                          => logo(),                        
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 35,
+            'margin_bottom'        => 5,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.transfers.reports.empty-student-transfer', $data,[],$config);
+        return $pdf->stream('Transfer Report');        
+    }
 }

@@ -40,11 +40,11 @@
                                 <th>{{trans('student::local.student_number')}}</th>
                                 <th>{{trans('student::local.student_name')}}</th>
                                 <th>{{trans('student::local.grade')}}</th>
-                                <th>{{trans('student::local.year')}}</th>
-                                <th>{{trans('student::local.leaved_date')}}</th>
-                                <th>{{trans('student::local.school_name')}}</th>
-                                <th>{{trans('student::local.print')}}</th>
-                                <th>{{trans('student::local.edit')}}</th>
+                                <th>{{trans('student::local.division')}}</th>
+                                <th>{{trans('student::local.date_request')}}</th>                                                                
+                                <th>{{trans('student::local.time_request')}}</th>                                                                
+                                <th>{{trans('student::local.print')}}</th>   
+                                <th>{{trans('student::local.edit')}}</th>                             
                             </tr>
                         </thead>
                         <tbody>
@@ -66,38 +66,30 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('student::local.new_transfer')}}",
+                    "text": "{{trans('student::local.new_parent_request')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('transfers.create')}}";
+                        window.location.href = "{{route('parent-requests.create')}}";
                         }
                 },
-                // empty report
-                {
-                    "text": "{{trans('student::local.empty_transfer_reprot')}}",
-                    "className": "btn btn-primary buttons-print btn-primary mr-1",
-                    action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('empty-transfers.print')}}";
-                        }
-                },                
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'transfers.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'parent-requests.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('transfers.index') }}",
+          ajax: "{{ route('parent-requests.index') }}",
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'student_number',      name: 'student_number'},              
-              {data: 'student_name',        name: 'student_name'},              
-              {data: 'grade',               name: 'grade'},              
-              {data: 'year',                name: 'year'},              
-              {data: 'leaved_date',         name: 'leaved_date'},              
-              {data: 'school_name',         name: 'school_name'},              
-              {data: 'print',               name: 'print'},              
-              {data: 'action', 	            name: 'action', orderable: false, searchable: false},
+              {data: 'student_number',      name: 'student_number'},
+              {data: 'student_name',        name: 'student_name'},
+              {data: 'grade',               name: 'grade'}, 
+              {data: 'division',            name: 'division'},
+              {data: 'date_request',        name: 'date_request'},                             
+              {data: 'time_request',        name: 'time_request'},                             
+              {data: 'print',               name: 'print'},               
+              {data: 'action',         name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
