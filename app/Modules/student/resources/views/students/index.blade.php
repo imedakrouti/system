@@ -27,7 +27,7 @@
         <div class="card-header">
           <h4 class="card-title">{{$title}} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-          @include('student::students._filter')
+          @include('student::students.includes._filter')
         </div>
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
@@ -69,7 +69,7 @@
         @include('layouts.backEnd.includes.datatables._datatableConfig')        
             buttons: [
                 // new
-                @include('student::students-affairs.students-statements._storeToStatement')
+                @include('student::students-affairs.students-statements.includes._storeToStatement')
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
 
@@ -77,7 +77,7 @@
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
           ajax: "{{ route('students.index') }}",
-          @include('student::students._dataTable-columns'),
+          @include('student::students.includes._dataTable-columns'),
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
@@ -94,7 +94,7 @@
     @include('layouts.backEnd.includes.datatables._datatableConfig')            
     buttons: [
                 // new
-                @include('student::students-affairs.students-statements._storeToStatement')
+                @include('student::students-affairs.students-statements.includes._storeToStatement')
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
 
@@ -113,7 +113,7 @@
         }
       },
       // columns
-      @include('student::students._dataTable-columns'),
+      @include('student::students.includes._dataTable-columns'),
       @include('layouts.backEnd.includes.datatables._datatableLang')
   });
   @include('layouts.backEnd.includes.datatables._multiSelect')

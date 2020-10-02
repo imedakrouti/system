@@ -21,7 +21,7 @@
       </div>
     </div>
 </div>
-@include('student::students-affairs.students-statements._set')
+@include('student::students-affairs.students-statements.includes._set')
 <div class="row">
     <div class="col-12">
       <div class="card">

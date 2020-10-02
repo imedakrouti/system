@@ -45,7 +45,7 @@
           
           <div class="table-responsive">
             <table class="table">
-              <thead>
+              <thead class="bg-info white">
                 <tr>
                     <th>{{trans('student::local.report_title')}}</th>                    
                     <th>{{trans('student::local.created_by')}}</th>                                                                

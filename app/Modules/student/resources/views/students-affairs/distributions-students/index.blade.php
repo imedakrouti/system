@@ -26,7 +26,7 @@
         <div class="card-header">
             <h4 class="card-title mb-1 red">{{ trans('student::local.statistics_grade') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-            @include('student::students-affairs.distributions-students._filter')
+            @include('student::students-affairs.distributions-students.includes._filter')
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive mt-1">
@@ -165,7 +165,7 @@
     
 </div>
 
-@include('student::students-affairs.distributions-students._move-to-class')
+@include('student::students-affairs.distributions-students.includes._move-to-class')
 @endsection
 @section('script')
 <script>

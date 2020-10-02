@@ -29,7 +29,7 @@
                 @method('put')
                 <div class="form-body">                    
                     @include('layouts.backEnd.includes._msg')
-                    @include('student::students._edit-form')                    
+                    @include('student::students.includes._edit-form')                    
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

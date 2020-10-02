@@ -876,7 +876,7 @@ class StudentController extends Controller
             'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
         ]; 
 
-        $pdf = PDF::loadView('student::students.proof', $data,[],$config);
+        $pdf = PDF::loadView('student::students.reports.proof', $data,[],$config);
         return $pdf->stream('Daily Request Report');
     }
 }

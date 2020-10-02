@@ -26,7 +26,7 @@
         <div class="card-header">
             <h4 class="card-title">{{$title}} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-            @include('student::students-affairs.students-statements._filter')
+            @include('student::students-affairs.students-statements.includes._filter')
 
             @include('layouts.backEnd.includes._error-msg')
         </div>
@@ -62,8 +62,8 @@
     </div>
   </div>
 </div>
-@include('student::students-affairs.students-statements._restore_migration')
-@include('student::students-affairs.students-statements._instructions')
+@include('student::students-affairs.students-statements.includes._restore_migration')
+@include('student::students-affairs.students-statements.includes._instructions')
 @endsection
 @section('script')
 <script>
@@ -71,10 +71,10 @@
         var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')            
         // buttons
-        @include('student::students-affairs.students-statements._dataTable-buttons'),
+        @include('student::students-affairs.students-statements.includes._dataTable-buttons'),
         ajax: "{{ route('statements.index') }}",
         // columns
-        @include('student::students-affairs.students-statements._dataTAble-columns'),
+        @include('student::students-affairs.students-statements.includes._dataTable-columns'),
         @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
@@ -115,7 +115,7 @@ function filter()
   var status_id 		= $('#filter_status_id').val();
   var myTable = $('#dynamic-table').DataTable({
     @include('layouts.backEnd.includes.datatables._datatableConfig')            
-    @include('student::students-affairs.students-statements._dataTable-buttons'),
+    @include('student::students-affairs.students-statements.includes._dataTable-buttons'),
     ajax:{
         type:'POST',
         url:'{{route("statements.filter")}}',
@@ -129,7 +129,7 @@ function filter()
         }
       },
       // columns
-      @include('student::students-affairs.students-statements._dataTAble-columns'),
+      @include('student::students-affairs.students-statements.includes._dataTable-columns'),
       @include('layouts.backEnd.includes.datatables._datatableLang')
   });
   @include('layouts.backEnd.includes.datatables._multiSelect')

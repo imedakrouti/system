@@ -176,4 +176,16 @@ class ParentRequestController extends Controller
 		$pdf = PDF::loadView('student::students-affairs.parent-requests.reports.student-parent-request', $data,[],$config);
 		return $pdf->stream('Leave Request Report');
     }
+    public function student($id)
+    {
+        $student = Student::findOrFail($id);
+        $parentRequests = ParentRequest::with('students')
+        ->whereHas('students',function($q) use ($id){
+            $q->where('students.id',$id);
+        })
+        ->get();        
+        $title = trans('student::local.parent_request_student');
+        return view('student::students-affairs.parent-requests.student-profile.student',
+        compact('title','parentRequests','student'));
+    } 
 }

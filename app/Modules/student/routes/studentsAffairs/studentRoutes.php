@@ -44,6 +44,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::resource('/leave-requests','LeaveRequestController')->except('destroy','edit');
     Route::post('leave-requests/destroy','LeaveRequestController@destroy')->name('leave-requests.destroy');   
     Route::get('leave-requests/print/{id}','LeaveRequestController@printLeaveRequest')->name('leave-requests.print');   
+    
 
     // Transfer
     Route::resource('/transfers','TransferController')->except('destroy','show');
@@ -57,10 +58,11 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('daily-requests/store','DailyRequestController@store')->name('daily-requests.store');
     Route::post('daily-requests/destroy','DailyRequestController@destroy')->name('daily-requests.destroy');
     Route::get('daily-requests/print/{id}','DailyRequestController@print')->name('daily-requests.print');
-
+    Route::get('daily-requests/student/{id}','DailyRequestController@student')->name('daily-requests.student');   
     // Parent Requests
     Route::resource('/parent-requests','ParentRequestController')->except('destroy','show');
     Route::post('parent-requests/destroy','ParentRequestController@destroy')->name('parent-requests.destroy');       
     Route::get('parent-requests/print/{id}','ParentRequestController@printLeaveRequest')->name('parent-requests.print');   
+    Route::get('parent-requests/student/{id}','ParentRequestController@student')->name('parent-requests.student');   
     
 });

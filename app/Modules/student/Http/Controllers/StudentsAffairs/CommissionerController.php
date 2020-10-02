@@ -248,7 +248,7 @@ class CommissionerController extends Controller
             'margin_bottom'        => 0,
         ];  
     
-		$pdf = PDF::loadView('student::students-affairs.commissioners.report', $data,[],$config);
+		$pdf = PDF::loadView('student::students-affairs.commissioners.reports.report', $data,[],$config);
 		return $pdf->stream('commissioner');
     }
 
@@ -261,7 +261,7 @@ class CommissionerController extends Controller
         })
         ->get();        
         $title = trans('student::local.commissioner_profiles');
-        return view('student::students-affairs.commissioners.student',
+        return view('student::students-affairs.commissioners.student-profile.student',
         compact('title','commissioners','student'));
     }
 
@@ -292,7 +292,7 @@ class CommissionerController extends Controller
             'margin_bottom'        => 0,
         ];  
     
-		$pdf = PDF::loadView('student::students-affairs.commissioners.student-report', $data,[],$config);
+		$pdf = PDF::loadView('student::students-affairs.commissioners.reports.student-report', $data,[],$config);
 		return $pdf->stream('commissioner');
     }
 }

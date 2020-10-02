@@ -53,7 +53,7 @@
       </div>
     </div>
 </div>
-@include('student::students-affairs.commissioners._student-commissioner')
+@include('student::students-affairs.commissioners.includes._student-commissioner')
 <div class="row">
     <div class="col-12">
       <div class="card">

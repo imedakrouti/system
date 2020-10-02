@@ -176,8 +176,9 @@ class LeaveRequestController extends Controller
                 'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
             ]; 
 
-		$pdf = PDF::loadView('student::students-affairs.leave-requests.report', $data,[],$config);
+		$pdf = PDF::loadView('student::students-affairs.leave-requests.reports.report', $data,[],$config);
 		return $pdf->stream('Leave Request Report');
     }
+   
 
 }

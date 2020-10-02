@@ -524,7 +524,7 @@ class StudentStatementsController extends Controller
             'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
         ];  
 
-		$pdf = PDF::loadView('student::students-affairs.students-statements.statistics-report', $data,[],$config);
+		$pdf = PDF::loadView('student::students-affairs.students-statements.reports.statistics-report', $data,[],$config);
 		return $pdf->stream('Statistics');
     }
 
@@ -652,7 +652,7 @@ class StudentStatementsController extends Controller
                     'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
                 ];  
 
-        $pdf = PDF::loadView('student::students-affairs.students-statements.statement-report', 
+        $pdf = PDF::loadView('student::students-affairs.students-statements.reports.statement-report', 
         $data,[],$config);        
 		return $pdf->stream('Statement');
     }

@@ -148,4 +148,16 @@ class DailyRequestController extends Controller
         $pdf = PDF::loadView('student::students-affairs.daily-requests.reports.student-leave-request', $data,[],$config);
         return $pdf->stream('Daily Request Report');
     }
+    public function student($id)
+    {
+        $student = Student::findOrFail($id);
+        $dailyRequests = DailyRequest::with('students')
+        ->whereHas('students',function($q) use ($id){
+            $q->where('students.id',$id);
+        })
+        ->get();        
+        $title = trans('student::local.daily_request_student');
+        return view('student::students-affairs.daily-requests.student-profile.student',
+        compact('title','dailyRequests','student'));
+    }      
 }
