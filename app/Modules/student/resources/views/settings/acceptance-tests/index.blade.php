@@ -64,7 +64,7 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('student::local.new_step')}}",
+                    "text": "{{trans('student::local.new_admission_test')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('acceptance-tests.create')}}";

@@ -148,8 +148,13 @@ class LeaveRequestController extends Controller
         $grade  = session('lang') == 'ar' ? $leave->students->grade->ar_grade_name: $leave->students->grade->en_grade_name ;
 
         $content = str_replace('student_name',$student_name ,$content);
+        
         $content = str_replace('father_name',$father_name ,$content);
         $content = str_replace('father_national_id',$father_national_id ,$content);
+
+        $content = str_replace('mother_name',$leave->students->mother->full_name ,$content);
+        $content = str_replace('mother_national_id',$leave->students->mother->id_number_m ,$content);
+
         $content = str_replace('grade',$grade ,$content);
         $year = fullAcademicYear();
         $content = str_replace('year',$year ,$content);

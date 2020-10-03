@@ -59,6 +59,14 @@
                       <td>{{ trans('student::local.father_id_number') }}</td>
                     </tr>  
                     <tr>
+                      <td>mother_name</td>
+                      <td>{{ trans('student::local.mother_name') }}</td>
+                    </tr>  
+                    <tr>
+                      <td>mother_national_id</td>
+                      <td>{{ trans('student::local.id_number_m') }}</td>
+                    </tr>  
+                    <tr>                      
                       <td>grade</td>
                       <td>{{ trans('student::local.grade') }}</td>
                     </tr>    

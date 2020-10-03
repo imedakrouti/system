@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.parent_type') }}</label>                         
+                          <label class="col-md-3 label-control">{{ trans('student::local.date_request') }}</label>                         
                           <div class="col-md-9">
                             <input type="date" class="form-control" required name="date_request" value="{{old('date_request',$parentRequest->date_request)}}">
                             <span class="red">{{ trans('student::local.requried') }}</span>
@@ -59,7 +59,7 @@
                     </div>                     
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.parent_reason') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('student::local.time_request') }}</label>
                           <div class="col-md-9">                         
                             <input type="time" class="form-control" required name="time_request" value="{{old('time_request',$parentRequest->time_request)}}">
                               <span class="red">{{ trans('student::local.requried') }}</span>
