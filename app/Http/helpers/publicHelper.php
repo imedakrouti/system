@@ -170,7 +170,7 @@ if (!function_exists('schoolName')) {
 if (!function_exists('logo')) {
 	function logo()
 	{
-		return public_path('storage/logo/'.settingHelper()->logo);   
+		return public_path('images/website/'.settingHelper()->logo);   
 	}
 }
 
