@@ -83,7 +83,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column">
                 <div class="card-header border-0">
                   <div class="card-title text-center">
                     <div class="p-1">
-                      <img width="150" height="120" src="{{asset('images/website/'.settingHelper()->logo)}}" alt="branding logo">
+                      <img width="150" height="150" src="{{asset('images/website/'.settingHelper()->logo)}}" alt="branding logo">
                     </div>
                   </div>
                   <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
