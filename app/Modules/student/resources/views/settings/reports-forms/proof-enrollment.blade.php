@@ -97,6 +97,6 @@
 </div>
 @endsection
 @section('script')
-<script src="{{asset('public/cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('public/cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
+<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
 @endsection

@@ -30,27 +30,20 @@ class SettingController extends Controller
         $data = request()->except('_token','_method');
 
         if (request()->hasFile('logo'))
-        {
-            // remove old image           
-            Storage::delete('public/logo/'.settingHelper()->logo);
-            $imagePath = request()->file('logo')->store('public/logo');
-            $imagePath = explode('/',$imagePath);
-            $imagePath = $imagePath[2];                        
-            $data['logo'] = $imagePath;
+        {            
+            $image_path = public_path()."/images/website/".settingHelper()->logo;                 
+            $data['logo'] =uploadFileOrImage($image_path,request('logo'),'images/website');
         }
         if (request()->hasFile('icon'))
         {
-            // remove old image           
-            Storage::delete('public/icon/'.settingHelper()->icon);
-            $imagePath = request()->file('icon')->store('public/icon');
-            $imagePath = explode('/',$imagePath);
-            $imagePath = $imagePath[2];                        
-            $data['icon'] = $imagePath;
+            $image_path = public_path()."/images/website/".settingHelper()->icon;                 
+            $data['icon'] =uploadFileOrImage($image_path,request('icon'),'images/website');
         }
-        unset($data["/admin/setting"]);
+        // unset($data["/admin/setting"]);
         // update settings
         Setting::orderBy('id','desc')->update($data);
         alert()->success('', trans('msg.setting_updated'));
         return redirect(aurl('settings'));
     }
+
 }

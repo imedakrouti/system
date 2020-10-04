@@ -33,7 +33,7 @@
                         <div class="col-xl-4 col-md-6 col-sm-12">
                             <div class="card">
                             <div class="card-content">
-                                <a href="{{$design->link}}"><img class="card-img-top img-fluid" src="{{asset('storage/id-designs/'.$design->design_name)}}"
+                                <a href="{{$design->link}}"><img class="card-img-top img-fluid" src="{{asset('images/id-designs/'.$design->design_name)}}"
                                 alt="Card image cap"></a>
                                 <div class="card-body">                                
                                 <p>                                    

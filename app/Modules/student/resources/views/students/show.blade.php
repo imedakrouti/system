@@ -78,11 +78,11 @@
                 <div class="col-md-12">      
                     @empty($student->student_image)
                     <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
-                    src="{{asset('storage/student_image/stu.jpg')}}" />
+                    src="{{asset('images/studentsImages/stu.jpg')}}" />
                     @else
 
                     <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
-                    src="{{asset('storage/student_image/'.$student->student_image)}}" />
+                    src="{{asset('images/studentsImages/'.$student->student_image)}}" />
                     @endempty          
                 </div>                
               </div>

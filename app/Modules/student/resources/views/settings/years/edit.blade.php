@@ -3,10 +3,10 @@
 @include('layouts.backEnd.includes.sidebars._admission')
 @endsection
 @section('styles')
-<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/vendors/css/forms/toggle/bootstrap-switch.min.css')}}">
-<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/vendors/css/forms/toggle/switchery.min.css')}}">
-<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/css-rtl/plugins/forms/switch.css')}}">
-<link rel="stylesheet" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-switch.css')}}">
+<link rel="stylesheet" href="{{asset('cpanel/app-assets/vendors/css/forms/toggle/bootstrap-switch.min.css')}}">
+<link rel="stylesheet" href="{{asset('cpanel/app-assets/vendors/css/forms/toggle/switchery.min.css')}}">
+<link rel="stylesheet" href="{{asset('cpanel/app-assets/css-rtl/plugins/forms/switch.css')}}">
+<link rel="stylesheet" href="{{asset('cpanel/app-assets/css-rtl/core/colors/palette-switch.css')}}">
 @endsection
 @section('content')
 <div class="content-header row">
@@ -111,9 +111,9 @@
 </div>
 @endsection
 @section('script')
-<script src="{{asset('public/cpanel/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js')}}"></script>
-<script src="{{asset('public/cpanel/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js')}}"></script>
-<script src="{{asset('public/cpanel/app-assets/vendors/js/forms/toggle/switchery.min.js')}}"></script>
-<script src="{{asset('public/cpanel/app-assets/js/scripts/forms/switch.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/vendors/js/forms/toggle/switchery.min.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/js/scripts/forms/switch.js')}}"></script>
     
 @endsection

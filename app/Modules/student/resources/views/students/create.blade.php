@@ -116,8 +116,8 @@
 
 @endsection
 @section('script')
-<script src="{{asset('public/cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
-<script src="{{asset('public/cpanel/app-assets/js/scripts/forms/form-repeater.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/js/scripts/forms/form-repeater.js')}}"></script>
 
 <script>
   $('#dob').on('change',function(){        

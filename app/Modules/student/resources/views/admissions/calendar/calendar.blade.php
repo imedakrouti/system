@@ -1,7 +1,7 @@
 @extends('layouts.backEnd.cpanel')
 @section('styles')
 
-<link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/calendars/fullcalendar.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/calendars/fullcalendar.min.css')}}">
 @endsection
 @section('sidebar')
 @include('layouts.backEnd.includes.sidebars._admission')
@@ -25,8 +25,8 @@
 @endsection
 
 @section('script')
-<script src="{{asset('public/cpanel/app-assets/vendors/js/extensions/moment.min.js')}}"></script>
-<script src="{{asset('public/cpanel/app-assets/vendors/js/extensions/fullcalendar.min.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/vendors/js/extensions/moment.min.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/vendors/js/extensions/fullcalendar.min.js')}}"></script>
 <script>
 
     $(document).ready(function(){

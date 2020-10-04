@@ -198,7 +198,39 @@ if (!function_exists('getSchoolName')) {
 	{		
 		// get school name
         $division = Student\Models\Settings\Division::findOrFail($division_id);
-        return session('lang') == 'ar' ? $division->ar_school_name : $division->en_school_name;
-		
+        return session('lang') == 'ar' ? $division->ar_school_name : $division->en_school_name;		
+	}
+}
+
+/**
+ * uploading
+ * 
+ * $image_path : current file to remove
+ * $image_name : request('file_name') like request('logo')
+ * $store_at : destination directory to store
+ */
+if (!function_exists('uploadFileOrImage')) {
+	function uploadFileOrImage($image_path,$image_name, $store_at)
+	{		
+		// remove old image  
+		if(\File::exists($image_path)) {
+			\File::delete($image_path);                
+		}  
+		// upload image
+		$file_extension = $image_name->getClientOriginalExtension();
+		$file_name = time().'.'.$file_extension;
+		$path = $store_at;
+		$image_name->move($path,$file_name); 
+		return $file_name;  
+	}
+}
+
+if (!function_exists('removeFileOrImage')) {
+	function removeFileOrImage($image_path)
+	{		
+		// remove old image  
+		if(\File::exists($image_path)) {
+			\File::delete($image_path);                
+		}   
 	}
 }

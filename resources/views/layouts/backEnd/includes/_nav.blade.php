@@ -5,7 +5,7 @@
           <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
           <li class="nav-item ">
             <a class="navbar-brand" href="{{route('main.dashboard')}}">
-              <img class="brand-logo" alt="logo" src="{{asset('storage/logo/'.settingHelper()->logo)}}">
+              <img class="brand-logo" alt="logo" src="{{asset('images/website/'.settingHelper()->logo)}}">
             <h4 class="brand-text">{{session('lang') == 'ar' || session('lang') == trans('admin.ar') ?settingHelper()->ar_school_name:settingHelper()->en_school_name}}</h4>
             </a>
           </li>
@@ -41,7 +41,7 @@
                         <span class="user-name text-bold-700">{{authInfo()->name}}</span>
                     </span>
                     <span class="avatar avatar-online">
-                        <img src="{{asset('storage/imageProfile/'.authInfo()->image_profile)}}" alt="avatar">
+                        <img src="{{asset('images/imagesProfile/'.authInfo()->image_profile)}}" alt="avatar">
                     </span>
 
                 </a>

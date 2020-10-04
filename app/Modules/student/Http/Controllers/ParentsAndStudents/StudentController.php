@@ -3,7 +3,6 @@
 namespace Student\Http\Controllers\ParentsAndStudents;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
-use Student\Http\Controllers\Setting\AdmissionStepsController;
 use Student\Http\Requests\StudentRequest;
 use Student\Models\Guardians\Guardian;
 use Student\Models\Parents\Father;
@@ -19,10 +18,7 @@ use Student\Models\Settings\Step;
 use Student\Models\Students\Student;
 use DB;
 use PDF;
-use Illuminate\Support\Facades\Storage;
 use Student\Models\Settings\Design;
-use Student\Models\Settings\Year;
-use Student\Models\Students\Address;
 use Student\Models\Students\SetMigration;
 use Student\Models\Students\StudentStatement;
 use Carbon;
@@ -61,17 +57,17 @@ class StudentController extends Controller
         return !empty($data->student_image)?
             '<a href="'.route('students.show',$data->id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                src="'.asset('storage/student_image/'.$data->student_image).'" />
+                src="'.asset('images/studentsImages/'.$data->student_image).'" />
             </a>':
             '<a href="'.route('students.show',$data->id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                src="'.asset('storage/student_image/stu.jpg').'" />
+                src="'.asset('images/studentsImages/stu.jpg').'" />
             </a>';
     }
 
     private function moreBtn($data)
     {
-        $image = !empty($data->student_image) ? '<a class="dropdown-item" href="'.route('students.card',$data->id).'">'.trans('student::local.print_id_card').'</a>' :
+        $image = !empty($data->student_image) ? '<a class="dropdown-item" href="'.route('students.card',$data->id).'"><i class="la la-print"></i>  '.trans('student::local.print_id_card').'</a>' :
         '';
         return $data->student_type == trans('student::local.student')?'
         <div class="btn-group mr-1 mb-1">
@@ -81,7 +77,7 @@ class StudentController extends Controller
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-print"></i> '.trans('student::local.editing').'</a>
+                <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-edit"></i> '.trans('student::local.editing').'</a>
                 '.$image.'
                 <div class="dropdown-divider"></div>                
                 <a class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.commissioner').'</a>
@@ -239,18 +235,13 @@ class StudentController extends Controller
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('father.show',$request->father_id);
     }
-    private function uploadStudentImage($studentId)
+    private function uploadStudentImage($student_id)
     {
         if (request()->hasFile('student_image'))
         {
-            $imageName = Student::findOrFail($studentId)->student_image;
-            Storage::delete('public/student_image/'.$imageName);                                             
-            
-            $imagePath = request()->file('student_image')->store('public/student_image');
-            $imagePath = explode('/',$imagePath);
-            $imagePath = $imagePath[2];     
-                       
-            $this->student_image = empty($imagePath)?'':$imagePath;
+            $student = Student::findOrFail($student_id);
+            $image_path = public_path()."/images/studentsImages/".$student->student_image;                                                    
+            $this->student_image = uploadFileOrImage($image_path,request('student_image'),'images/studentsImages'); 
         } 
     }
     private function studentAdmissionSteps($student_id)
@@ -462,6 +453,9 @@ class StudentController extends Controller
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
+                    $student = Student::findOrFail($id);
+                    $file_path = public_path()."/images/studentsImages/".$student->student_image;                                                             
+                    removeFileOrImage($file_path); // remove file from directory
                     Student::destroy($id);
                 }
             }
@@ -716,7 +710,7 @@ class StudentController extends Controller
             'logo'              => logo(),
             'schoolName'        => schoolName(),          
             'student'           => $student,
-            'studentPathImage'  =>public_path('storage/student_image/'.$student->student_image),
+            'studentPathImage'  => public_path('images/id-designs/'.$student->student_image),
         		];
 
         $pdf = PDF::loadView('student::students.pdf-application', $data);
@@ -732,9 +726,9 @@ class StudentController extends Controller
         $data = [
             'schoolName'        => settingHelper()->ar_school_name,
             'path'              => public_path('storage/icon/Fpp0u5uXWs3o4vk9wn2hLJhMol3704IoVPXGT0CZ.png'),
-            'design'            => public_path('storage/id-designs/'.$design),
+            'design'            => public_path('images/id-designs/'.$design),
             'student'          => $student,
-            'studentPathImage'  =>public_path('storage/student_image/'),
+            'studentPathImage'  =>public_path('images/studentsImages/'),
         		];
 		$pdf = PDF::loadView('student::students.student-card', $data);
 		return $pdf->stream($student->student_number);

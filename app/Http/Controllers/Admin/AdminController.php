@@ -131,31 +131,25 @@ class AdminController extends Controller
     {
         $data = $this->validate(request(),$this->roleProfile(),$this->msgProfile());
 
-        $data = request()->except('_token','_method','/admin/user_profile');
+        $data = request()->except('_token','_method','/admin/user-profile');
 
-        $this->uploadImage();
-        $data['image_profile'] = $this->file_name;
+        if (request()->hasFile('image_profile'))
+        {
+            $image_path = public_path()."/images/imagesProfile/".authInfo()->image_profile;                 
+            $data['image_profile'] =uploadFileOrImage($image_path,request('image_profile'),'images/imagesProfile');
+        }
 
         Admin::where('id',authInfo()->id)->update($data);
 
         session()->forget('lang');
-        session()->put('lang',authInfo()->lang);
+        if (authInfo()->lang == trans('admin.ar')) {
+            session()->put('lang','ar');                    
+        }else{
+            session()->put('lang','en');                    
+        }
         toast(trans('msg.updated_successfully'),'success');
 
         
         return back();
-    }
-    private function uploadImage()
-    {
-        if (request()->hasFile('image_profile'))
-        {
-            $file_extension = request('image_profile')->getClientOriginalExtension();
-            $file_name = time().'.'.$file_extension;
-            $path = 'images/imageProfile';
-            request('image_profile')->move($path,$file_name);
-             $this->file_name = $file_name;
-        }else{
-            $this->file_name =  '';
-        }
-    }    
+    } 
 }

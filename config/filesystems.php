@@ -56,7 +56,7 @@ return [
         ],
         'imageProfile' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/images/imageProfile'),
+            'root' => storage_path('app/public/images/imagesProfile'),
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
         ],
@@ -65,7 +65,25 @@ return [
             'root' => storage_path('app/public/images/website'),
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
-        ],   
+        ],  
+        'attachments' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/attachments'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ], 
+        'id-designs' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/id-designs'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],           
+        'studentsImages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/studentsImages'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],                  
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

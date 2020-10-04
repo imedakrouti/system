@@ -1,8 +1,6 @@
 <?php
 namespace Student\Http\Controllers\StudentsAffairs;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Support\Facades\Storage;
 use Student\Http\Requests\CommissionerRequest;
 use Student\Models\Students\Commissioner;
 use Student\Models\Students\Student;
@@ -40,7 +38,7 @@ class CommissionerController extends Controller
                         return '<a href="'.route('commissioners.show',$data->id).'">'.$data->commissioner_name.'</a>';
                     })
                     ->addColumn('file_name',function($data){
-                        $file =  '<a target="blank" class="btn btn-success btn-sm" href="'.asset('storage/attachments/'.$data->file_name).'">
+                        $file =  '<a target="blank" class="btn btn-success btn-sm" href="'.asset('images/attachments/'.$data->file_name).'">
                                     <i class=" la la-download"></i>
                                 </a>';
                         return empty($data->file_name) ? '' : $file;                                
@@ -86,8 +84,12 @@ class CommissionerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(CommissionerRequest $request)
-    {
-        $this->uploadFileName($request->id);  
+    {        
+        if (request()->hasFile('file_name')) {            
+            $this->file_name = uploadFileOrImage(null,request('file_name'),'images/attachments'); 
+        }else{
+            $this->file_name = '';
+        }
 
         $request->user()->commissioners()->create($request->only($this->attributes())+
         [ 'file_name' => $this->file_name]);        
@@ -95,22 +97,6 @@ class CommissionerController extends Controller
         return redirect()->route('commissioners.index');
     }
 
-    private function uploadFileName($commissionerId)
-    {        
-        if (request()->hasFile('file_name'))
-        {
-            if (!empty($commissionerId)) {
-                $imageName = Commissioner::findOrFail($commissionerId)->file_name;
-                Storage::delete('public/attachments/'.$imageName);                                                             
-            }
-            
-            $imagePath = request()->file('file_name')->store('public/attachments');
-            $imagePath = explode('/',$imagePath);
-            $imagePath = $imagePath[2];     
-                       
-            $this->file_name = empty($imagePath)?'':$imagePath;
-        } 
-    }
     /**
      * Display the specified resource.
      *
@@ -178,11 +164,16 @@ class CommissionerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(CommissionerRequest $request, Commissioner $commissioner)
-    {
-        $this->uploadFileName($request->id);  
-
-        $commissioner->update($request->only($this->attributes())+
-        [ 'file_name' => $this->file_name]);   
+    {        
+        if (request()->hasFile('file_name')) {   
+            $file_path = public_path()."/images/attachments/".$commissioner->file_name;                                                             
+            $this->file_name = uploadFileOrImage( $file_path,request('file_name'),'images/attachments'); 
+            $commissioner->update($request->only($this->attributes())+
+            [ 'file_name' => $this->file_name]);   
+        }else{
+            $commissioner->update($request->only($this->attributes()));   
+        }
+        
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('commissioners.index');
     }
@@ -199,6 +190,9 @@ class CommissionerController extends Controller
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
+                    $commissioner = Commissioner::findOrFail($id);
+                    $file_path = public_path()."/images/attachments/".$commissioner->file_name;                                                             
+                    removeFileOrImage($file_path); // remove file from directory
                     Commissioner::destroy($id);
                 }
             }

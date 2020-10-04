@@ -57,14 +57,19 @@ class DesignController extends Controller
      */
     public function store(DesignRequest $request)
     {
+        $image_path = public_path()."/images/id-designs/".settingHelper()->design_name;                 
+        $design_name = uploadFileOrImage($image_path,request('design_name'),'images/id-designs');
+
         $request->user()->designs()->create($request->only($this->attributes())
-            + ['design_name'=>  $this->uploadDesign()]); 
+            + ['design_name'=>  $design_name]); 
                
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('id-designs.index');
     }
     private function uploadDesign($design = null)
     {
+
+        
         $fileName = '';           
         $designImage = !empty($design) ? $design : '';    
        
@@ -130,10 +135,10 @@ class DesignController extends Controller
      */
     public function destroy($id)
     {
-        $design = Design::findOrFail($id);        
+        $design = Design::findOrFail($id);                    
         
-        Storage::delete('public/id-designs/'.$design->design_name);    
-  
+        $file_path = public_path()."/images/id-designs/".$design->design_name;                                                             
+        removeFileOrImage($file_path); // remove file from directory
         $design->delete();
         toast(trans('msg.delete_successfully'),'success');
         return redirect()->route('id-designs.index');       

@@ -8,7 +8,7 @@
   <meta name="keywords" content="admin template, modern admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
   <meta name="author" content="PIXINVENT">
   <title>{{$title}}</title>
-  <link rel="apple-touch-icon" href="{{asset('public/cpanel/app-assets/images/ico/apple-icon-120.png')}}">
+  <link rel="apple-touch-icon" href="{{asset('cpanel/app-assets/images/ico/apple-icon-120.png')}}">
   <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/website/'.settingHelper()->icon)}}">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
   rel="stylesheet">
@@ -18,47 +18,47 @@
   @yield('styles')
 
   @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/vendors.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css-rtl/vendors.css')}}">
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/app.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/custom-rtl.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css-rtl/app.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css-rtl/custom-rtl.css')}}">
   @else
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/vendors.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/vendors.css')}}">
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/app.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/custom-rtl.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/app.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/custom-rtl.css')}}">
   @endif
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/forms/selects/select2.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/forms/selects/select2.min.css')}}">
 
   <!-- END MODERN CSS-->
   <!-- BEGIN Page Level CSS-->
 
   @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-gradient.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css-rtl/core/colors/palette-callout.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css-rtl/core/colors/palette-gradient.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css-rtl/core/colors/palette-callout.css')}}">
   @else
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/colors/palette-gradient.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/css/core/colors/palette-callout.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/core/colors/palette-gradient.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/core/colors/palette-callout.css')}}">
   @endif
 
 
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/vendors/css/cryptocoins/cryptocoins.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/fonts/line-awesome/css/line-awesome.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/cryptocoins/cryptocoins.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/fonts/line-awesome/css/line-awesome.min.css')}}">
   {{-- sweet alert style --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
 
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/app-assets/fonts/simple-line-icons/style.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/fonts/simple-line-icons/style.min.css')}}">
   @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/assets/css/style-rtl.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/assets/css/style-rtl.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
   @else
-  <link rel="stylesheet" type="text/css" href="{{asset('public/cpanel/assets/css/style.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/assets/css/style.css')}}">
   @endif
   <!-- END Custom CSS-->
   @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
@@ -80,7 +80,7 @@
           width: 100%;
           height: 100%;
           z-index: 9999;
-          background: url("{{url('public/cpanel/app-assets/loader-64x/4.gif')}}") center no-repeat #fff;        }
+          background: url("{{url('cpanel/app-assets/loader-64x/4.gif')}}") center no-repeat #fff;        }
           .message{
           position: absolute;width: 100%;height: 50px;background-color: #11c011;color: white;line-height: 50px;
           z-index: 1200;text-align: center;opacity: 1;top: -50px ;
@@ -108,19 +108,19 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   @include('sweetalert::alert')
 
   <!-- BEGIN VENDOR JS-->
-  <script src="{{asset('public/cpanel/app-assets/vendors/js/vendors.min.js')}}" type="text/javascript"></script>
-  <script src="{{asset('public/cpanel/app-assets/vendors/js/forms/select/select2.full.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/vendors/js/vendors.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/vendors/js/forms/select/select2.full.min.js')}}" type="text/javascript"></script>
   
   @yield('script')
   <!-- BEGIN VENDOR JS-->
   <!-- BEGIN PAGE VENDOR JS-->
-  <script src="{{asset('public/cpanel/app-assets/vendors/js/charts/chart.min.js')}}" type="text/javascript"></script>
-  <script src="{{asset('public/cpanel/app-assets/vendors/js/charts/echarts/echarts.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/vendors/js/charts/chart.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/vendors/js/charts/echarts/echarts.js')}}" type="text/javascript"></script>
   <!-- END PAGE VENDOR JS-->
   <!-- BEGIN MODERN JS-->
-  <script src="{{asset('public/cpanel/app-assets/js/core/app-menu.js')}}" type="text/javascript"></script>
-  <script src="{{asset('public/cpanel/app-assets/js/core/app.js')}}" type="text/javascript"></script>
-  <script src="{{asset('public/cpanel/app-assets/js/scripts/customizer.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/js/core/app-menu.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/js/core/app.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/js/scripts/customizer.js')}}" type="text/javascript"></script>
   <!-- END MODERN JS-->
   <!-- BEGIN PAGE LEVEL JS-->
   
@@ -128,7 +128,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
   {{-- message alerts --}}
-  <script src="{{asset('public/cpanel/app-assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
+  <script src="{{asset('cpanel/app-assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
 <script>$(".se-pre-con").fadeOut("slow");</script>
 
 </body>
