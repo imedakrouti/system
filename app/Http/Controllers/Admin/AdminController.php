@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    private $file;
     /**
      * Display a listing of the resource.
      *
@@ -130,20 +131,10 @@ class AdminController extends Controller
     {
         $data = $this->validate(request(),$this->roleProfile(),$this->msgProfile());
 
-        $data = request()->except('_token','_method','/admin/admin/profile');
+        $data = request()->except('_token','_method','/admin/user_profile');
 
-        if (request()->hasFile('image_profile'))
-        {
-            // remove old image
-            
-            Storage::delete('public/imageProfile/'.authInfo()->image_profile);                             
-            
-            $imagePath = request()->file('image_profile')->store('public/imageProfile');
-            $imagePath = explode('/',$imagePath);
-            $imagePath = $imagePath[2];
-                        
-            $data['image_profile'] = $imagePath;
-        }
+        $this->uploadImage();
+        $data['image_profile'] = $this->file_name;
 
         Admin::where('id',authInfo()->id)->update($data);
 
@@ -154,4 +145,17 @@ class AdminController extends Controller
         
         return back();
     }
+    private function uploadImage()
+    {
+        if (request()->hasFile('image_profile'))
+        {
+            $file_extension = request('image_profile')->getClientOriginalExtension();
+            $file_name = time().'.'.$file_extension;
+            $path = 'images/imageProfile';
+            request('image_profile')->move($path,$file_name);
+             $this->file_name = $file_name;
+        }else{
+            $this->file_name =  '';
+        }
+    }    
 }

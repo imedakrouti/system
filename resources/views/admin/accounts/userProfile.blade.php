@@ -40,16 +40,16 @@
                           <label class="col-md-3 label-control" >{{ trans('admin.imageProfile') }}</label>
                           <div class="col-md-9">
                             <img class="editable img-responsive" alt="Alex's Avatar" id="avatar2"                             
-                            src="{{ asset('storage/imageProfile/'.authInfo()->image_profile) }}" />
+                            src="{{ asset('public/images/imageProfile/'.authInfo()->image_profile) }}" />
                             <input  type="file" name="image_profile"/>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput1">{{ trans('admin.account_name') }}</label>
+                          <label class="col-md-3 label-control">{{ trans('admin.account_name') }}</label>
                           <div class="col-md-9">
-                            <input type="text" id="userinput1" class="form-control border-primary" value="{{authInfo()->name}}" placeholder="{{ trans('admin.account_name') }}"
+                            <input type="text" class="form-control" value="{{authInfo()->name}}" placeholder="{{ trans('admin.account_name') }}"
                               name="name" readonly>
                           </div>
                         </div>
@@ -59,7 +59,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.username') }}</label>
                           <div class="col-md-9">
-                            <input type="text"  class="form-control border-primary" value="{{authInfo()->username}}" placeholder="{{ trans('admin.username') }}"
+                            <input type="text"  class="form-control" value="{{authInfo()->username}}" placeholder="{{ trans('admin.username') }}"
                             name="username" readonly>
                           </div>
                         </div>
@@ -68,7 +68,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.email') }}</label>
                           <div class="col-md-9">
-                            <input type="email"  class="form-control border-primary" value="{{authInfo()->email}}" placeholder="{{ trans('admin.email') }}"
+                            <input type="email"  class="form-control" value="{{authInfo()->email}}" placeholder="{{ trans('admin.email') }}"
                             name="email" readonly>
                           </div>
                         </div>
