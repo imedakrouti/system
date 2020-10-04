@@ -102,7 +102,7 @@
                 <form action="" method="POST" id="formData">
                   @csrf
                   <table class="table">
-                    <thead>                        
+                    <thead class="bg-info white">                        
                       <th class="">{{ trans('student::local.subject_name') }}</th>
                       <th class="center">{{ trans('student::local.evaluation') }}</th>
                       <th class="center">{{ trans('student::local.teacher_name') }}</th>
@@ -180,18 +180,6 @@
                 success:function(data)
                 {
                   location.reload();
-                },
-                // display validations error in page
-                error:function(data_error,exception){
-                  if (exception == 'error'){
-                    $('.classModal').show();
-                    $.each(data_error.responseJSON.errors,function(index,value){
-                      $('.classModal ul').append("<li>"+ value +"</li>");
-                    })
-                  }
-                  else{
-                    $('.classModal').hide();
-                  }
                 }
               })
           // end swal

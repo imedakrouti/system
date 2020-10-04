@@ -107,7 +107,13 @@
               @isset($gradeCounts)
                 @foreach ($gradeCounts as $count)
                     <tr>
-                      <td>{{$count->ar_grade_name}}</td>
+                      <td>
+                        @if (session('lang') == 'ar')
+                          {{$count->ar_grade_name}}
+                        @else
+                          {{$count->en_grade_name}}
+                        @endif
+                      </td>
                       <td>{{$count->applicants}}</td>
                     </tr>
                 @endforeach                  

@@ -4,13 +4,14 @@ namespace Student\Http\Controllers\Admissions;
 use App\Http\Controllers\Controller;
 
 use App\Employee;
-use App\Http\Requests\AssessmentRequest;
+
 use Student\Models\Admissions\Assessment;
 use Illuminate\Http\Request;
 use Student\Models\Settings\AcceptanceTest;
 use Student\Models\Students\Student;
 use DB;
 use PDF;
+use Student\Http\Requests\AssessmentRequest;
 use Student\Models\Admissions\Test;
 
 class AssessmentController extends Controller
@@ -169,16 +170,7 @@ class AssessmentController extends Controller
         compact('title','assessment','tests','employees'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Assessment  $assessment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Assessment $assessment)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

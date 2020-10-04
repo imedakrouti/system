@@ -63,6 +63,8 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::resource('/parent-requests','ParentRequestController')->except('destroy','show');
     Route::post('parent-requests/destroy','ParentRequestController@destroy')->name('parent-requests.destroy');       
     Route::get('parent-requests/print/{id}','ParentRequestController@printLeaveRequest')->name('parent-requests.print');   
-    Route::get('parent-requests/student/{id}','ParentRequestController@student')->name('parent-requests.student');   
+    Route::get('parent-requests/student/{id}','ParentRequestController@student')->name('parent-requests.student');  
+    
+  
     
 });

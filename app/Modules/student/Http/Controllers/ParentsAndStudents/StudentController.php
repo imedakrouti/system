@@ -324,12 +324,14 @@ class StudentController extends Controller
             }            
         }        
     }
+    
     /**
      * Display the specified resource.
      *
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
+
     public function show(Student $student)
     {        
         $title = trans('student::local.show_student_data');
@@ -405,25 +407,25 @@ class StudentController extends Controller
         $student_type = $request->student_type == 'applicant' ? trans('student::local.applicant') : trans('student::local.student');
         if (!checkYearStatus(currentYear())) {
 
-            if ($student_type != $student->student_type) {
-                toast(trans('student::local.invalid_student_type'),'error');  
-                return back()->withInput();  
-            }
+            // if ($student_type != $student->student_type) {
+            //     toast(trans('student::local.invalid_student_type'),'error');  
+            //     return back()->withInput();  
+            // }
 
-            if ($request->division_id != $student->division_id) {
-                toast(trans('student::local.invalid_division_id'),'error');  
-                return back()->withInput();  
-            } 
+            // if ($request->division_id != $student->division_id) {
+            //     toast(trans('student::local.invalid_division_id'),'error');  
+            //     return back()->withInput();  
+            // } 
             
-            if ($request->grade_id != $student->grade_id) {
-                toast(trans('student::local.invalid_grade_id'),'error');  
-                return back()->withInput();  
-            }  
+            // if ($request->grade_id != $student->grade_id) {
+            //     toast(trans('student::local.invalid_grade_id'),'error');  
+            //     return back()->withInput();  
+            // }  
             
-            if ($request->registration_status_id != $student->registration_status_id) {
-                toast(trans('student::local.invalid_reg_status_id'),'error');  
-                return back()->withInput();  
-            }             
+            // if ($request->registration_status_id != $student->registration_status_id) {
+            //     toast(trans('student::local.invalid_reg_status_id'),'error');  
+            //     return back()->withInput();  
+            // }             
         }
 
         DB::transaction(function () use ($request,$student) { 

@@ -26,4 +26,28 @@
     Route::get('/contacts/index/{id}','ContactController@index')->name('contacts.index');
     Route::get('/contacts/create/{id}','ContactController@create')->name('contacts.create');
     Route::post('/contacts/destroy','ContactController@destroy')->name('contacts.destroy');
+
+    // Notes
+    /**
+     * Fathers Notes
+     */
+    
+    Route::get('/father-notes/index/{id}','FatherNoteController@index')->name('father-notes.index');
+    Route::get('/father-notes/create/{id}','FatherNoteController@create')->name('father-notes.create');
+    Route::get('/father-notes/edit/{id}','FatherNoteController@edit')->name('father-notes.edit');
+    Route::post('/father-notes/store','FatherNoteController@store')->name('father-notes.store');
+    Route::post('/father-notes/update/{id}','FatherNoteController@update')->name('father-notes.update');
+    Route::post('/father-notes/destroy','FatherNoteController@destroy')->name('father-notes.destroy');
+
+    
+    /**
+     * Student Notes
+     */
+     
+    Route::get('/student-notes/index/{id}','StudentNoteController@index')->name('student-notes.index');
+    Route::get('/student-notes/create/{id}','StudentNoteController@create')->name('student-notes.create');
+    Route::get('/student-notes/edit/{id}','StudentNoteController@edit')->name('student-notes.edit');
+    Route::post('/student-notes/store','StudentNoteController@store')->name('student-notes.store');
+    Route::post('/student-notes/update/{id}','StudentNoteController@update')->name('student-notes.update');
+    Route::post('/student-notes/destroy','StudentNoteController@destroy')->name('student-notes.destroy');     
 });

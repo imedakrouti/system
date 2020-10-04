@@ -39,7 +39,7 @@
                 <a href="{{route('contacts.index',$id)}}" class="mb-1 btn btn-light white"><i class="la la-phone"></i> {{ trans('student::local.father_contacts') }}</a>
                 <a href="{{route('father.meetings',$id)}}" class="mb-1 btn btn-primary white"><i class="la la-users"></i> {{ trans('student::local.meetings') }}</a>
                 <a href="{{route('father.report',$id)}}" class="mb-1 btn btn-info white"><i class="la la-file"></i> {{ trans('student::local.pr_reports') }}</a>
-                <a href="{{route('fathers.edit',$id)}}" class="mb-1 btn btn-dark white"><i class="la la-reorder"></i> {{ trans('student::local.notes') }}</a>
+                <a href="{{route('father-notes.index',$id)}}" class="mb-1 btn btn-dark white"><i class="la la-reorder"></i> {{ trans('student::local.notes') }}</a>
             </div>
           </div>
         </div>
