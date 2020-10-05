@@ -25,6 +25,14 @@
         </div>        
   
         <button onclick="filter()" formaction="#" class="btn btn-primary btn-sm"><i class="la la-search"></i></button>        
-        <button formaction="{{route('cards.all-students')}}" class="btn btn-purple btn-sm ml-1">{{trans('student::local.all_students') }}</button>                     
+        <button formaction="{{route('cards.all-students')}}" class="btn btn-purple btn-sm ml-1">{{trans('student::local.all_students') }}</button>                             
+        <div class="btn-group ml-1">
+            <button type="button" class="btn btn-primary btn-min-width dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="true">{{ trans('student::local.students_no_photo') }}</button>
+            <div class="dropdown-menu">
+                <a onclick="noPhotoGrade()" class="dropdown-item" href="#">{{trans('student::local.with_grade') }}</a>                            
+                <a onclick="noPhotoClass()" class="dropdown-item" href="#">{{trans('student::local.with_class') }}</a>              
+            </div>
+        </div>
     </div>
 </form>

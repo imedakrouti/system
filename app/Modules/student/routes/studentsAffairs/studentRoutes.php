@@ -71,5 +71,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::put('/student-cards','CardController@getStudentCards')->name('get-student-cards');
     Route::get('/student-cards/all-students','CardController@allStudents')->name('cards.all-students');
     Route::get('/student-cards/selected-students','CardController@selectedStudents')->name('cards.selected-students');
+    Route::get('/student-cards/class/no-photos','CardController@studentsNotPhotosClass')->name('cards.no-photos-class');
+    Route::get('/student-cards/grade/no-photos','CardController@studentsNotPhotosGrade')->name('cards.no-photos-grade');
     
 });

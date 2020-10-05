@@ -3,6 +3,7 @@
 namespace Student\Models\Students;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Student extends Model
 {
@@ -130,7 +131,7 @@ class Student extends Model
     public function transfers()
     {
         return $this->hasMany('Student\Models\Students\Transfer','student_id');
-    }        
-    
+    }  
+
 
 }

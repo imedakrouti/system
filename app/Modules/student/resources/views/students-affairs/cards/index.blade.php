@@ -177,6 +177,16 @@
       @include('layouts.backEnd.includes.datatables._multiSelect')      
     }
 
+    function noPhotoClass()
+    {
+      $('#filterForm').attr('action',"{{route('cards.no-photos-class')}}");
+      $('#filterForm').submit();
+    } 
+    function noPhotoGrade()
+    {
+      $('#filterForm').attr('action',"{{route('cards.no-photos-grade')}}");
+      $('#filterForm').submit();
+    } 
       
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
