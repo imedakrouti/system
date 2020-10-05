@@ -10,27 +10,39 @@
             font-family: 'XBRiyaz';
             
         }
+        .red{color: red}
         .center{text-align: center}
-        .design{   
+        .position{
             margin-right: 190px;         
-            margin-bottom: 20px;            
+            margin-bottom: 20px;         
+        }
+        .design{                  
             background-image: url({{$design}});
-            background-size: cover;
-            width: 370px;height:180px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            /* width: 370px;height:250px; */
+            
         }
         .school-name{
-            width: 100%;height: 40px; line-height: 2;color: #fff;padding-right: 10px;
-            /* font-weight: bold; */
+            color: #fff;
+            padding-right: 20px;
+            padding-top: 8px;            
         }
-        .data{
-            width: 100%;height: 140px
-        }
+
         .student-data{
-            float:right;width: 200px;height: 140px;font-size: 9px;
-            padding: 0 10px;padding-top:40px;
+            float:right;
+            width: 200px;            
+            font-size: 9px;
+            padding-right: 20px;
+            padding-top:-40px;
         }
         .student-image{
-            float: left;width: 80px;height: 140px;margin-left: 10px;padding-top: 40px;
+            float: left;
+            width: 80px;
+            /* height: 100px; */
+            margin-left: 220px;
+            padding-top: 0px;
             line-height: .5;          
         }
 
@@ -47,10 +59,10 @@
 </head>
 <body>
     <div class="design">
-        <div class="school-name">
-            <h3>{{$schoolName}}</h3>
+        <div class="school-name position">
+            <h3 class="school-size">{{$schoolName}}</h3>
         </div>
-        <div class="data">
+        <div class="data position">
             <div class="student-data">                
                 @if (session('lang') == 'ar')
                     <h3 class="center">{{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}}<br>          
@@ -59,10 +71,12 @@
                     {{$student->en_student_name}} {{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} <br>         
                     {{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}}           
                 @endif                
-                <h4 style="font-weight: 100">{{ trans('student::local.division') }} : {{$student->division->ar_division_name}} <br>
-                    {{ trans('student::local.grade') }} : {{$student->grade->ar_grade_name}} <br>                            
-                    {{ trans('student::local.father_mobile') }} : {{$student->father->mobile1}} <br>                  
-                    {{ trans('student::local.mother_mobile') }} : {{$student->mother->mobile1_m}} 
+                <h4 style="font-weight: 100">
+                    {{ trans('student::local.student_number') }} : <strong><span class="red">{{$student->student_number}}</span></strong> <br>                    
+                    {{ trans('student::local.grade') }} : {{$grade}} -  {{$division}}<br>                            
+                    {{ trans('student::local.class_room') }} : {{$class_room}}<br>                            
+                    {{ trans('student::local.father_mobile') }} : {{$student->father->mobile1}} - {{$student->father->mobile2}} <br>                  
+                    {{ trans('student::local.mother_mobile') }} : {{$student->mother->mobile1_m}} - {{$student->mother->mobile2_m}} 
                 </h4>                 
             </div>
             <div class="student-image">

@@ -59,12 +59,17 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('daily-requests/destroy','DailyRequestController@destroy')->name('daily-requests.destroy');
     Route::get('daily-requests/print/{id}','DailyRequestController@print')->name('daily-requests.print');
     Route::get('daily-requests/student/{id}','DailyRequestController@student')->name('daily-requests.student');   
+    
     // Parent Requests
     Route::resource('/parent-requests','ParentRequestController')->except('destroy','show');
     Route::post('parent-requests/destroy','ParentRequestController@destroy')->name('parent-requests.destroy');       
     Route::get('parent-requests/print/{id}','ParentRequestController@printLeaveRequest')->name('parent-requests.print');   
     Route::get('parent-requests/student/{id}','ParentRequestController@student')->name('parent-requests.student');  
     
-  
+    //  Card
+    Route::get('/student-cards','CardController@classroom')->name('student-cards.classroom');
+    Route::put('/student-cards','CardController@getStudentCards')->name('get-student-cards');
+    Route::get('/student-cards/all-students','CardController@allStudents')->name('cards.all-students');
+    Route::get('/student-cards/selected-students','CardController@selectedStudents')->name('cards.selected-students');
     
 });

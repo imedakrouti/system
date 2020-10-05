@@ -24,6 +24,7 @@ use Student\Models\Students\StudentStatement;
 use Carbon;
 use Student\Models\Students\ReportContent;
 use DateTime;
+use Student\Models\Students\Room;
 
 class StudentController extends Controller
 {
@@ -718,19 +719,34 @@ class StudentController extends Controller
     }
     public function printStudentCard($student_id)
     {
-        $student = Student::with('father','division','grade','mother')
-        ->where('student_image','<>','null')
-        ->first();
+        $student = Student::with('father','division','grade','mother')        
+        ->findOrFail($student_id);
+        $class_room = Room::with('classrooms')->where('student_id',$student_id)->where('year_id',currentYear())->first();
+        $class_room = session('lang') == 'ar' ? $class_room->classrooms->ar_name_classroom : $class_room->classrooms->en_name_classroom;
         $design  = Design::where('division_id',$student->division_id)->where('grade_id',$student->grade_id)
-        ->orderBy('id','desc')->first()->design_name;
+        ->orderBy('id','desc')->first();
+        
+        if (empty($design)) {
+            toast(trans('student::local.no_design_found'),'error');  
+            return back()->withInput();           
+        }
+
+        $schoolName  = session('lang') == 'ar' ? $student->division->ar_school_name: $student->division->en_school_name ;
+        $division  = session('lang') == 'ar' ? $student->division->ar_division_name: $student->division->en_division_name ;
+        $grade  = session('lang') == 'ar' ? $student->grade->ar_grade_name: $student->grade->en_grade_name ;
+
+        
         $data = [
-            'schoolName'        => settingHelper()->ar_school_name,
-            'path'              => public_path('storage/icon/Fpp0u5uXWs3o4vk9wn2hLJhMol3704IoVPXGT0CZ.png'),
-            'design'            => public_path('images/id-designs/'.$design),
-            'student'          => $student,
-            'studentPathImage'  =>public_path('images/studentsImages/'),
+            'schoolName'        => $schoolName,
+            'path'              => logo(),
+            'design'            => public_path('images/id-designs/'.$design->design_name),
+            'student'           => $student,
+            'division'          => $division,
+            'grade'             => $grade,
+            'class_room'        => $class_room,
+            'studentPathImage'  => public_path('images/studentsImages/'),
         		];
-		$pdf = PDF::loadView('student::students.student-card', $data);
+		$pdf = PDF::loadView('student::students.reports.student-card', $data);
 		return $pdf->stream($student->student_number);
     }
     public function filter()

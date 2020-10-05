@@ -131,8 +131,8 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.transfers') }}</span>
                     </a>
                 </li> 
-                <li class=" nav-item {{request()->segment(2)=='employee-admission'?'active':''}}">
-                    <a href="{{route('employee-admission')}}"><i class="la la-cc-discover">
+                <li class=" nav-item {{request()->segment(2)=='student-cards'?'active':''}}">
+                    <a href="{{route('student-cards.classroom')}}"><i class="la la-cc-discover">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_id_card') }}</span>
                     </a>
                 </li> 
