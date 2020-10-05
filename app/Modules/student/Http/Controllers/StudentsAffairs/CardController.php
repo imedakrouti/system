@@ -226,6 +226,9 @@ class CardController extends Controller
         ->whereNull('student_image')
         ->join('rooms','rooms.student_id','=','students.id')
         ->join('classrooms','rooms.classroom_id','=','classrooms.id')
+        ->orderBy('classrooms.sort','asc')
+        ->orderBy('students.gender','asc')
+        ->orderBy('students.ar_student_name','asc')
         ->get();
         
         $division = Division::findOrFail(request('division_id'));
