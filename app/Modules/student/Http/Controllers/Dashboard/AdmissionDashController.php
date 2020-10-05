@@ -77,9 +77,9 @@ class AdmissionDashController extends Controller
     private function filterByDivision()
     {
         return DB::table('students')
-        ->select('grades.ar_grade_name',DB::raw('count(students.id) as applicants'))
+        ->select('grades.ar_grade_name','grades.ar_grade_name','grades.en_grade_name','grades.sort',DB::raw('count(students.id) as applicants'))
         ->join('grades','students.grade_id','=','grades.id')
-        ->groupBy('students.grade_id')
+        ->groupBy('students.grade_id','grades.ar_grade_name','grades.en_grade_name','grades.sort')
         ->orderBy('grades.sort','asc')
         ->where([
             'student_type' => request('student_type'),
