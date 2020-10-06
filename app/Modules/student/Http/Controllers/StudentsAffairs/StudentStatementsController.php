@@ -115,7 +115,8 @@ class StudentStatementsController extends Controller
     public function filter()
     {
         if (request()->ajax()) {
-            $status = empty(request('status_id')) ? ['students_statements.registration_status_id','<>', ''] :['registration_status_id', request('status_id')]   ;
+            $status = empty(request('status_id')) ? ['students_statements.registration_status_id','<>', ''] :
+            ['registration_status_id', request('status_id')]   ;
             $whereData = [
                 ['students_statements.division_id', request('division_id')],
                 ['students_statements.grade_id', request('grade_id')],
@@ -136,10 +137,12 @@ class StudentStatementsController extends Controller
     private function fullStudentName($data)
     {   
         if (session('lang') == 'ar') {
-          return   '<a href="'.route('students.show',$data->student->id).'">'.$data->student->ar_student_name . ' ' . $data->student->father->ar_st_name
+          return   '<a href="'.route('students.show',$data->student->id).'">'.$data->student->ar_student_name 
+          . ' ' . $data->student->father->ar_st_name
           . ' ' . $data->student->father->ar_nd_name. ' ' . $data->student->father->ar_rd_name.'</a>';
         }else{
-            return   '<a href="'.route('students.show',$data->student->id).'">'.$data->student->en_student_name . ' ' . $data->student->father->en_st_name
+            return   '<a href="'.route('students.show',$data->student->id).'">'.$data->student->en_student_name 
+            . ' ' . $data->student->father->en_st_name
             . ' ' . $data->student->father->en_nd_name. ' ' . $data->student->father->en_rd_name.'</a>';
         }
     }
@@ -188,7 +191,6 @@ class StudentStatementsController extends Controller
         $title = trans('student::local.data_migration');
         return view('student::students-affairs.students-statements.create',
         compact('title','grades','years','divisions','regStatus'));    
-
     }
 
     public function destroy()
@@ -304,7 +306,7 @@ class StudentStatementsController extends Controller
     }
 
     private function insertInToStatement($studentId)
-    {
+    {        
         $student = Student::findOrFail($studentId);        
         if ($this->shownRegStatus($student->registration_status_id) == trans('student::local.show_regg')) {
             
@@ -532,15 +534,17 @@ class StudentStatementsController extends Controller
     {
        /**
         * Add all new students to statement
-        */
-        
+        */        
         $result = '';
         if (request()->ajax()) {
             if (!checkYearStatus(currentYear())) {
-                $students = Student::with('statements','regStatus')->whereDoesntHave('statements')
+                $students = Student::with('statements','regStatus')
                 ->whereHas('regStatus',function($q){
                     $q->where('shown','show');
                 })
+                ->whereDoesntHave('statements',function($q){
+                    $q->where('year_id',currentYear());
+                })                
                 ->student()
                 ->get(); 
                 // dd($students);

@@ -47,8 +47,10 @@
                               <div class="col-md-9">                    
                                   <select name="id_type_m" class="form-control">
                                       <option value="">{{ trans('student::local.select') }}</option>
-                                      <option {{old('id_type_m',$mother->id_type_m) == trans('student::local.national_id') ?'selected':''}} value="national_id">{{ trans('student::local.national_id') }}</option>
-                                      <option {{old('id_type_m',$mother->id_type_m) == trans('student::local.passport') ?'selected':''}} value="passport">{{ trans('student::local.passport') }}</option>                                
+                                      <option {{old('id_type_m',$mother->id_type_m) == trans('student::local.national_id') ||
+                                      old('id_type_m',$mother->id_type_m) == 'national_id' ?'selected':''}} value="national_id">{{ trans('student::local.national_id') }}</option>
+                                      <option {{old('id_type_m',$mother->id_type_m) == trans('student::local.passport') ||
+                                      old('id_type_m',$mother->id_type_m) == 'passport' ?'selected':''}} value="passport">{{ trans('student::local.passport') }}</option>                                
                                   </select>
                                   <span class="red">{{ trans('student::local.requried') }}</span>
                               </div>

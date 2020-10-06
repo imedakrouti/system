@@ -26,6 +26,14 @@
                     <option value="{{$status->id}}">{{session('lang') == 'ar' ? $status->ar_name_status : $status->en_name_status}}</option>                                    
                 @endforeach
             </select>
+        </div>  
+        <div class="col-md-2">
+            <select name="student_type" class="form-control" id="filter_student_type">
+                <option value="">{{ trans('student::local.student_type') }}</option>
+                <option value="applicant">{{ trans('student::local.applicant') }}</option>
+                <option value="student">{{ trans('student::local.student') }}</option>
+
+            </select>
         </div>    
         <button onclick="filter()" formaction="#" class="btn btn-primary btn-sm"><i class="la la-search"></i></button>              
     </div>

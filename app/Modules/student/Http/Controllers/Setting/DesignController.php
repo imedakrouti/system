@@ -117,8 +117,10 @@ class DesignController extends Controller
     {         
         $design = Design::findOrFail($id);
         if (request()->has('design_name')) {
+            $image_path = public_path()."/images/id-designs/".settingHelper()->design_name;                 
+            $design_name = uploadFileOrImage($image_path,request('design_name'),'images/id-designs');
             $design->update($request->only($this->attributes())
-            + ['design_name'=>  $this->uploadDesign($design)]);            
+            + ['design_name'=>  $design_name]);            
         }else{
             $design->update($request->only($this->attributes()));
         }

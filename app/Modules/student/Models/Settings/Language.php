@@ -23,6 +23,10 @@ class Language extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function scopeStudy($query)
+    {
+        return $query->where('lang_type','study')->orWhere('lang_type','speak_study');
+    }
     public function getLangTypeAttribute()
     {
         switch ($this->attributes['lang_type']) {

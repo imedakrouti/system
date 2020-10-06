@@ -76,6 +76,12 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     
 
      // Absence
-     Route::resource('/absences','AbsenceController')->except('destroy','show');     
+     Route::resource('/absences','AbsenceController')->except('destroy','show','edit','update');     
      Route::post('absences/destroy','AbsenceController@destroy')->name('absences.destroy');   
+     Route::put('absences/filter','AbsenceController@filter')->name('absences.filter');  
+     
+    //  Reports
+    Route::get('/reports/statistics','ReportController@statistics')->name('reports.statistics');
+    Route::get('/reports/statistics/second-lang-report','ReportController@secondLangReportStatistics')->name('statistics.second-lang');
+
 });

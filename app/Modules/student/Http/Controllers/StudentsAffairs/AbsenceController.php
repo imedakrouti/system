@@ -28,51 +28,50 @@ class AbsenceController extends Controller
             ->orderBy('absences.id','desc')
             ->get();
             
-            return datatables($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('absences.edit',$data->id).'">
-                           <i class=" la la-edit"></i>
-                       </a>';
-                            return $btn;
-                    })
-                    ->addColumn('student_number',function($data){
-                        return $data->students->student_number;
-                    })
-                    ->addColumn('student_name',function($data){
-                        return $this->getFullStudentName($data);
-                    })
-                    ->addColumn('student_image',function($data){
-                        return $this->studentImage($data);
-                    })
-                    ->addColumn('grade',function($data){
-                        return session('lang') == 'ar' ? $data->students->grade->ar_grade_name . ' - ' .
-                        $data->students->division->ar_division_name . '<br> <span class="purple ">'.$data->ar_name_classroom.'</span>':
-                        $data->students->grade->en_grade_name . ' - ' .$data->students->division->en_division_name 
-                        . '<br> <span class="purple ">'.$data->en_name_classroom.'</span>';
-                    })
-                    ->addColumn('created_by',function($data){
-                        return $data->admin->name;
-                    })
-                    ->addColumn('created_at',function($data){
-                        return $data->created_at->diffForHumans();
-                    })                                                                                                 
-                    ->addColumn('check', function($data){
-                           $btnCheck = '<label class="pos-rel">
-                                        <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
-                                        <span class="lbl"></span>
-                                    </label>';
-                            return $btnCheck;
-                    })
-                    ->rawColumns(['action','check','student_number','student_image','student_name',
-                    'grade','division','created_by','created_at'])
-                    ->make(true);
+            return $this->dataTable($data);            
         }
         $divisions = Division::sort()->get();
         $grades = Grade::sort()->get();
         $title = trans('student::local.absence');
         return view('student::students-affairs.absence.index',
         compact('divisions','grades','title'));  
+    }
+
+    private function dataTable($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()   
+        ->addColumn('student_number',function($data){
+            return $data->students->student_number;
+        })
+        ->addColumn('student_name',function($data){
+            return $this->getFullStudentName($data);
+        })
+        ->addColumn('student_image',function($data){
+            return $this->studentImage($data);
+        })
+        ->addColumn('grade',function($data){
+            return session('lang') == 'ar' ? $data->students->grade->ar_grade_name . ' - ' .
+            $data->students->division->ar_division_name . '<br> <span class="purple ">'.$data->ar_name_classroom.'</span>':
+            $data->students->grade->en_grade_name . ' - ' .$data->students->division->en_division_name 
+            . '<br> <span class="purple ">'.$data->en_name_classroom.'</span>';
+        })
+        ->addColumn('created_by',function($data){
+            return $data->admin->name;
+        })
+        ->addColumn('created_at',function($data){
+            return $data->created_at->diffForHumans();
+        })                                                                                                 
+        ->addColumn('check', function($data){
+               $btnCheck = '<label class="pos-rel">
+                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                            <span class="lbl"></span>
+                        </label>';
+                return $btnCheck;
+        })
+        ->rawColumns(['check','student_number','student_image','student_name',
+        'grade','division','created_by','created_at'])
+        ->make(true);
     }
 
     /**
@@ -83,7 +82,7 @@ class AbsenceController extends Controller
     public function create()
     {
         if (!request()->has(['division_id','grade_id','filter_classroom_id'])) {
-            toast(trans('student::local.no_parameters_selected.'),'success');
+            toast(trans('student::local.no_parameters_selected'),'success');
             return back()->withInput();
         }
         $division = Division::findOrFail(request('division_id'));
@@ -163,40 +162,6 @@ class AbsenceController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Absence  $absence
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Absence $absence)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Absence  $absence
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Absence $absence)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Absence  $absence
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Absence $absence)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Absence  $absence
@@ -213,5 +178,21 @@ class AbsenceController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function filter()
+    {        
+        if (request()->ajax()) {            
+           $classroom = request()->has('classroom_id') ? request('classroom_id') : null;
+           
+            $data = Absence::with('students','admin')
+            ->join('students','absences.student_id','=','students.id')
+            ->join('rooms','rooms.student_id','=','students.id')
+            ->join('classrooms','rooms.classroom_id','=','classrooms.id')
+            ->select('absences.*','classrooms.ar_name_classroom','en_name_classroom')
+            ->where('classrooms.id',$classroom)
+            ->orderBy('absences.id','desc')
+            ->get();                
+            return $this->dataTable($data);                            
+        }
     }
 }

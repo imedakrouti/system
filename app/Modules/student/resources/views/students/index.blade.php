@@ -21,6 +21,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -84,40 +85,42 @@
     });
 
     function filter()
-{
-  event.preventDefault();
-  $('#dynamic-table').DataTable().destroy();
-  var grade_id 		  = $('#filter_grade_id').val();
-  var division_id   = $('#filter_division_id').val();
-  var status_id 		= $('#filter_status_id').val();
-  var myTable = $('#dynamic-table').DataTable({
-    @include('layouts.backEnd.includes.datatables._datatableConfig')            
-    buttons: [
-                // new
-                @include('student::students-affairs.students-statements.includes._storeToStatement')
-                // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
+    {
+      event.preventDefault();
+      $('#dynamic-table').DataTable().destroy();
+      var grade_id 		  = $('#filter_grade_id').val();
+      var division_id   = $('#filter_division_id').val();
+      var status_id 		= $('#filter_status_id').val();
+      var student_type 	= $('#filter_student_type').val();
+      var myTable = $('#dynamic-table').DataTable({
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
+        buttons: [
+                    // new
+                    @include('student::students-affairs.students-statements.includes._storeToStatement')
+                    // delete btn
+                    @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'students.destroy'])
 
-                // default btns
-                @include('layouts.backEnd.includes.datatables._datatableBtn')
-            ],
-    ajax:{
-        type:'POST',
-        url:'{{route("students.filter")}}',
-        data: {
-            _method     : 'PUT',
-            grade_id    : grade_id,
-            division_id : division_id,            
-            status_id   : status_id,
-            _token      : '{{ csrf_token() }}'
-        }
-      },
-      // columns
-      @include('student::students.includes._dataTable-columns'),
-      @include('layouts.backEnd.includes.datatables._datatableLang')
-  });
-  @include('layouts.backEnd.includes.datatables._multiSelect')
-}      
+                    // default btns
+                    @include('layouts.backEnd.includes.datatables._datatableBtn')
+                ],
+        ajax:{
+            type:'POST',
+            url:'{{route("students.filter")}}',
+            data: {
+                _method       : 'PUT',
+                grade_id      : grade_id,
+                division_id   : division_id,            
+                status_id     : status_id,
+                student_type  : student_type,
+                _token        : '{{ csrf_token() }}'
+            }
+          },
+          // columns
+          @include('student::students.includes._dataTable-columns'),
+          @include('layouts.backEnd.includes.datatables._datatableLang')
+      });
+      @include('layouts.backEnd.includes.datatables._multiSelect')
+    }      
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

@@ -81,11 +81,11 @@
                 {{-- reprots --}}
                 <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports') }}</a>
                     <ul class="menu-content">
-                      <li><a class="menu-item" href="form-select2.html" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.statistics_reports') }}</a>
+                      <li class="{{request()->segment(3)=='statistics'?'active':''}}"><a class="menu-item" href="{{route('reports.statistics')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.statistics_reports') }}</a>
                       </li>
-                      <li><a class="menu-item" href="form-selectize.html" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.students_data') }}</a>
+                      <li><a class="menu-item" href="{{route('daily-requests.index')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.students_data') }}</a>
                       </li>
-                      <li><a class="menu-item" href="form-selectivity.html" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.duration_reports') }}</a>
+                      <li><a class="menu-item" href="{{route('daily-requests.index')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.duration_reports') }}</a>
                       </li>                      
                     </ul>
                 </li>              

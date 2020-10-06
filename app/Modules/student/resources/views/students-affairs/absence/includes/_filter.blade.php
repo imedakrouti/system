@@ -25,8 +25,9 @@
                         <option value="">{{ trans('student::local.classrooms') }}</option>                    
                       </select>
                 </div>    
-                                      
-                <button type="submit" class="btn btn-success"> {{ trans('student::local.add_absence') }}</button>        
+                <button onclick="filter()"  class="btn btn-primary mr-1"> {{ trans('student::local.search') }}</button>        
+                <button type="submit" class="btn btn-success"> {{ trans('student::local.add_absence') }}</button>                           
+                
           
             </div>
         </form>

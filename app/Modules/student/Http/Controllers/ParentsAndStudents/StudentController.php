@@ -397,27 +397,28 @@ class StudentController extends Controller
             return back()->withInput();           
         }
         $student_type = $request->student_type == 'applicant' ? trans('student::local.applicant') : trans('student::local.student');
-        if (!checkYearStatus(currentYear())) {
 
-            // if ($student_type != $student->student_type) {
-            //     toast(trans('student::local.invalid_student_type'),'error');  
-            //     return back()->withInput();  
-            // }
+        if (!checkYearStatus(currentYear()) && $this->checkStudentStatement($student)) {
 
-            // if ($request->division_id != $student->division_id) {
-            //     toast(trans('student::local.invalid_division_id'),'error');  
-            //     return back()->withInput();  
-            // } 
+            if ($student_type != $student->student_type) {
+                toast(trans('student::local.invalid_student_type'),'error');  
+                return back()->withInput();  
+            }
+
+            if ($request->division_id != $student->division_id) {
+                toast(trans('student::local.invalid_division_id'),'error');  
+                return back()->withInput();  
+            } 
             
-            // if ($request->grade_id != $student->grade_id) {
-            //     toast(trans('student::local.invalid_grade_id'),'error');  
-            //     return back()->withInput();  
-            // }  
+            if ($request->grade_id != $student->grade_id) {
+                toast(trans('student::local.invalid_grade_id'),'error');  
+                return back()->withInput();  
+            }  
             
-            // if ($request->registration_status_id != $student->registration_status_id) {
-            //     toast(trans('student::local.invalid_reg_status_id'),'error');  
-            //     return back()->withInput();  
-            // }             
+            if ($request->registration_status_id != $student->registration_status_id) {
+                toast(trans('student::local.invalid_reg_status_id'),'error');  
+                return back()->withInput();  
+            }             
         }
 
         DB::transaction(function () use ($request,$student) { 
@@ -440,6 +441,17 @@ class StudentController extends Controller
         
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('students.show',$student->id);
+    }
+
+    private function checkStudentStatement($student)
+    {
+        $result = StudentStatement::where('student_id',$student->id)
+        ->where('year_id',currentYear())->first();
+
+        if (empty($result)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -753,10 +765,12 @@ class StudentController extends Controller
     {        
         if (request()->ajax()) {
             $status = empty(request('status_id')) ? ['students.registration_status_id','<>', ''] :['registration_status_id', request('status_id')]   ;
+            $student_type = empty(request('student_type')) ? ['students.student_type','<>', ''] :['student_type', request('student_type')]   ;
             $whereData = [
                 ['students.division_id', request('division_id')],
                 ['students.grade_id', request('grade_id')],                
-                $status             
+                $status,           
+                $student_type,           
             ];
             $data = Student::with('nationalities','regStatus','division','father','grade')            
             ->where($whereData)         

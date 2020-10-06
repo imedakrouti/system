@@ -89,6 +89,48 @@
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });
 
+    function filter()
+    {
+      event.preventDefault();
+      $('#dynamic-table').DataTable().destroy();
+      var classroom_id 	= $('#filter_classroom_id').val();
+      
+      var myTable = $('#dynamic-table').DataTable({
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
+        buttons: [
+            // delete btn
+            @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'absences.destroy'])
+
+            // default btns
+            @include('layouts.backEnd.includes.datatables._datatableBtn')
+        ],
+        ajax:{
+            type:'POST',
+            url:'{{route("absences.filter")}}',
+            data: {
+                _method       : 'PUT',
+                classroom_id  : classroom_id,                
+                _token        : '{{ csrf_token() }}'
+            }
+          },
+          // columns
+          columns: [
+              {data: 'check',               name: 'check', orderable: false, searchable: false},
+              {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
+              {data: 'student_image',       name: 'student_image'},
+              {data: 'student_number',      name: 'student_number'},
+              {data: 'student_name',        name: 'student_name'},               
+              {data: 'grade',               name: 'grade'},               
+              {data: 'notes',               name: 'notes'},               
+              {data: 'status',              name: 'status'},               
+              {data: 'created_by',          name: 'created_by'},               
+              {data: 'created_at',          name: 'created_at'},               
+          ],
+          @include('layouts.backEnd.includes.datatables._datatableLang')
+      });
+      @include('layouts.backEnd.includes.datatables._multiSelect')
+    }  
+
     $('#filter_division_id').on('change', function(){
       getRooms();
     });  
