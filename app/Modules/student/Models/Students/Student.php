@@ -132,6 +132,10 @@ class Student extends Model
     {
         return $this->hasMany('Student\Models\Students\Transfer','student_id');
     }  
+    public function absence()
+    {
+        return $this->hasMany('Student\Models\Students\Absence','student_id');
+    }  
 
 
 }

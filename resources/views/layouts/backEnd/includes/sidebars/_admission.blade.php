@@ -106,8 +106,8 @@
                     </a>
                 </li>  
             
-                <li class=" nav-item {{request()->segment(2)=='meetsings'?'active':''}}">
-                    <a href="{{route('assessment-result.index')}}"><i class="la la-bed">
+                <li class=" nav-item {{request()->segment(2)=='absences'?'active':''}}">
+                    <a href="{{route('absences.index')}}"><i class="la la-bed">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.absenece') }}</span>
                     </a>
                 </li>  

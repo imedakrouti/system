@@ -74,4 +74,8 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::get('/student-cards/class/no-photos','CardController@studentsNotPhotosClass')->name('cards.no-photos-class');
     Route::get('/student-cards/grade/no-photos','CardController@studentsNotPhotosGrade')->name('cards.no-photos-grade');
     
+
+     // Absence
+     Route::resource('/absences','AbsenceController')->except('destroy','show');     
+     Route::post('absences/destroy','AbsenceController@destroy')->name('absences.destroy');   
 });

@@ -62,7 +62,7 @@ class StudentController extends Controller
             </a>':
             '<a href="'.route('students.show',$data->id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                src="'.asset('images/studentsImages/stu.jpg').'" />
+                src="'.asset('images/studentsImages/37.jpeg').'" />
             </a>';
     }
 

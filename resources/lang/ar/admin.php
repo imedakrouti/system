@@ -127,7 +127,7 @@ return
     'print'                                 => 'طباعه',
     'students_statements'                   => 'سجل الطلاب',
     'distribution_students'                 => 'توزيع الطلاب',
-    'absenece'                              => 'تسجيل الغياب',
+    'absenece'                              => 'الغياب',
     'archive'                               => 'الارشيف',
     'commissioners'                         => 'المفوضين',
     'transfers'                             => 'التحويلات',
