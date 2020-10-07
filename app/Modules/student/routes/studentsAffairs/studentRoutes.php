@@ -83,5 +83,6 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     //  Reports
     Route::get('/reports/statistics','ReportController@statistics')->name('reports.statistics');
     Route::get('/reports/statistics/second-lang-report','ReportController@secondLangReportStatistics')->name('statistics.second-lang');
+    Route::get('/reports/statistics/regestrations-status-report','ReportController@regStatusReportStatistics')->name('statistics.reg-status');
 
 });

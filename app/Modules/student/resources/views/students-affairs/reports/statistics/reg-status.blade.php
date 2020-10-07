@@ -10,19 +10,19 @@
     </div>
     <div class="clear"></div>
     <hr>
-    <h4 class="center">{{ trans('student::local.statistics_second_lang') }} - {{ trans('student::local.year') }} {{$year_name}}</h4>
+    <h4 class="center">{{ trans('student::local.statistics_reg_status') }}</h4>
 </htmlpageheader>
 
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' :'ltr'}}">
     <thead>
         <tr>
             <th>{{ trans('student::local.grades') }}</th>
-            @foreach ($languages as $lang)
+            @foreach ($regStatus as $reg)
                 <th>
                     @if (session('lang') == 'ar')
-                        {{$lang->ar_name_lang}}
+                        {{$reg->ar_name_status}}
                     @else
-                        {{$lang->en_name_lang}}
+                        {{$reg->en_name_status}}        
                     @endif
                 </th>
             @endforeach            
@@ -47,9 +47,9 @@
         @endforeach
         <tr>
             <td class="red"><strong>{{ trans('student::local.totalStudents') }}</strong></td>
-            @foreach ($languages as $lang)  
+            @foreach ($regStatus as $reg)  
                 @foreach ($counting as $count)
-                    @if ($lang->id == $count['lang'])
+                    @if ($reg->id == $count['regStatus'])
                         <td class="red"><strong>{{$count['count']}}</strong></td>                        
                     @endif
                 @endforeach                  

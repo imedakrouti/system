@@ -25,31 +25,21 @@
           <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
-                    <form action="#" method="get" id="filterForm" >
+                    <form action="#" method="get" id="filterForm" target="_blank">
                           <div class="row mt-1">
                               <div class="col-md-2">
-                                  <select name="year_id" class="form-control" id="filter_year_id">
-                                      <option value="">{{ trans('student::local.year') }}</option>
+                                  <select name="year_id" class="form-control select2" id="filter_year_id">                                      
                                       @foreach ($years as $year)
                                           <option {{currentYear() == $year->id ? 'selected' : ''}} value="{{$year->id}}">{{$year->name}}</option>                                    
                                       @endforeach
                                   </select>
                               </div>        
                               <div class="col-md-2">
-                                  <select name="division_id" class="form-control" id="filter_division_id">
-                                      <option value="">{{ trans('student::local.divisions') }}</option>
+                                  <select name="division_id[]" class="form-control select2" multiple id="filter_division_id">
+                                      {{-- <option value="">{{ trans('student::local.divisions') }}</option> --}}
                                       @foreach ($divisions as $division)
-                                          <option value="{{$division->id}}">
+                                          <option {{session('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
                                               {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
-                                      @endforeach
-                                  </select>
-                              </div>
-                              <div class="col-md-2">
-                                  <select name="grade_id" class="form-control" id="filter_grade_id">
-                                      <option value="">{{ trans('student::local.grades') }}</option>
-                                      @foreach ($grades as $grade)
-                                          <option value="{{$grade->id}}">
-                                              {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
                                       @endforeach
                                   </select>
                               </div>                             
@@ -70,13 +60,14 @@
           <div class="card-body">             
               <div class="row">
                 <div class="col-md-4">
+                    <h4>{{ trans('student::local.statistics_note') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
                     <div class="card-content collapse show">
-                        <div class="card-body">            
-                          <ul class="list-group">
-                            <li class="list-group-item"><a onclick="statistics()" class="dropdown-item" href="#">{{trans('student::local.statistics_all_students') }}</a></li>  
-                            <li class="list-group-item"><a onclick="secondLangStatistics()" class="dropdown-item" href="#">{{trans('student::local.statistics_second_lang') }}</a></li>  
-                            <li class="list-group-item"><a onclick="statistics()" class="dropdown-item" href="#">{{trans('student::local.statistics_reg_status') }}</a></li>  
-                          </ul>
+                        <div class="card-body">
+                          <div class="list-group">
+                            <button type="button" onclick="statistics()" class="list-group-item list-group-item-action">{{trans('student::local.statistics_all_students') }}</button>
+                            <button type="button" onclick="secondLangStatistics()" class="list-group-item list-group-item-action">{{trans('student::local.statistics_second_lang') }}</button>
+                            <button type="button" onclick="regStatusStatistics()" class="list-group-item list-group-item-action">{{trans('student::local.statistics_reg_status') }}</button>        
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -86,6 +77,7 @@
       </div>
     </div>
 </div>
+
 @endsection
 @section('script')
     <script>
@@ -99,6 +91,12 @@
         {
             $('#filterForm').attr('action',"{{route('statistics.second-lang')}}");
             $('#filterForm').submit();
-        }               
+        } 
+
+        function regStatusStatistics()
+        {
+            $('#filterForm').attr('action',"{{route('statistics.reg-status')}}");
+            $('#filterForm').submit();
+        }                        
     </script>
 @endsection
