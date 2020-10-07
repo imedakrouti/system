@@ -83,6 +83,13 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     //  Reports
     Route::get('/reports/statistics','ReportController@statistics')->name('reports.statistics');
     Route::get('/reports/statistics/second-lang-report','ReportController@secondLangReportStatistics')->name('statistics.second-lang');
-    Route::get('/reports/statistics/regestrations-status-report','ReportController@regStatusReportStatistics')->name('statistics.reg-status');
+    Route::get('/reports/statistics/register-status-report','ReportController@regStatusReportStatistics')->name('statistics.reg-status');
+    Route::get('/reports/statistics/religion-report','ReportController@religionReportStatistics')->name('statistics.religion');
+
+
+    Route::get('/reports/student-data','ReportController@studentData')->name('reports.student-data');
+    Route::get('/reports/students-contact-data','ReportController@studentsContactData')->name('students-contact-data');
+    Route::get('/reports/students-second-lang','ReportController@studentsSecondLangData')->name('students-second-lang');
+    Route::get('/reports/students-religion','ReportController@studentsReligionData')->name('students-religion');
 
 });

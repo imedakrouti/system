@@ -517,7 +517,14 @@ class StudentStatementsController extends Controller
         }
 
         
-        $school_name = count(request('division_id')) == 1 ? getSchoolName($divisions[0]) : '';
+        $school_name = '';
+        if (count(request('division_id')) == 1) {
+           $school_name = getSchoolName($divisions[0]);
+        }else{
+            for ($i=0; $i < count(request('division_id')) ; $i++) { 
+                $school_name .= Division::findOrFail($divisions[$i])->ar_division_name . ' / ';
+            }
+        }   
 
         $data = [
             'male_muslims'                  => $male_muslim,

@@ -25,6 +25,7 @@
           <div class="card-body">
               <div class="row">
                 <div class="col-md-12">
+                  <h4>{{ trans('student::local.statistics_note') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
                     <form action="#" method="get" id="filterForm" target="_blank">
                           <div class="row mt-1">
                               <div class="col-md-2">
@@ -35,8 +36,7 @@
                                   </select>
                               </div>        
                               <div class="col-md-2">
-                                  <select name="division_id[]" class="form-control select2" multiple id="filter_division_id">
-                                      {{-- <option value="">{{ trans('student::local.divisions') }}</option> --}}
+                                  <select name="division_id[]" class="form-control select2" multiple id="filter_division_id">                                      
                                       @foreach ($divisions as $division)
                                           <option {{session('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
                                               {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
@@ -59,14 +59,14 @@
         <div class="card-content collapse show">
           <div class="card-body">             
               <div class="row">
-                <div class="col-md-4">
-                    <h4>{{ trans('student::local.statistics_note') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
+                <div class="col-md-4">                    
                     <div class="card-content collapse show">
                         <div class="card-body">
                           <div class="list-group">
                             <button type="button" onclick="statistics()" class="list-group-item list-group-item-action">{{trans('student::local.statistics_all_students') }}</button>
                             <button type="button" onclick="secondLangStatistics()" class="list-group-item list-group-item-action">{{trans('student::local.statistics_second_lang') }}</button>
                             <button type="button" onclick="regStatusStatistics()" class="list-group-item list-group-item-action">{{trans('student::local.statistics_reg_status') }}</button>        
+                            <button type="button" onclick="religionStatistics()" class="list-group-item list-group-item-action">{{trans('student::local.statistics_religion') }}</button>        
                           </div>
                         </div>
                     </div>
@@ -97,6 +97,12 @@
         {
             $('#filterForm').attr('action',"{{route('statistics.reg-status')}}");
             $('#filterForm').submit();
-        }                        
+        }  
+
+        function religionStatistics()
+        {
+            $('#filterForm').attr('action',"{{route('statistics.religion')}}");
+            $('#filterForm').submit();
+        }                                
     </script>
 @endsection

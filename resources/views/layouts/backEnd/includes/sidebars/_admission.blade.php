@@ -83,7 +83,7 @@
                     <ul class="menu-content">
                       <li class="{{request()->segment(3)=='statistics'?'active':''}}"><a class="menu-item" href="{{route('reports.statistics')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.statistics_reports') }}</a>
                       </li>
-                      <li><a class="menu-item" href="{{route('daily-requests.index')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.students_data') }}</a>
+                      <li class="{{request()->segment(3)=='student-data'?'active':''}}"><a class="menu-item" href="{{route('reports.student-data')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.students_data') }}</a>
                       </li>
                       <li><a class="menu-item" href="{{route('daily-requests.index')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.duration_reports') }}</a>
                       </li>                      
