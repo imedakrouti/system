@@ -56,7 +56,8 @@
     <div class="col-12">
       <div class="card">
         <div class="card-content collapse show">
-          <div class="card-body">             
+          <div class="card-body">    
+            <h4 class="purple">{{ trans('student::local.reports') }}</h4>                    
               <div class="row">
                 <div class="col-md-4">                    
                     <div class="card-content collapse show">

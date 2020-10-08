@@ -162,14 +162,13 @@ class ParentReportController extends Controller
         return response(['status'=>true]);
     }
     public function parentReportPdf($id)
-    {              
-        $fileBladePath = 'student::admissions.parents-reports.pdf-report';   
+    {                      
 
         $fatherId = AdmissionReport::findOrFail($id)->father_id;
 
-        $data['reports'] = AdmissionReport::with('admin','fathers')->findOrFail($id);
+        $reports = AdmissionReport::with('admin','fathers')->findOrFail($id);
 
-        $data['mothers'] = Mother::with('fathers','students')
+        $mothers = Mother::with('fathers','students')
         ->whereHas('fathers',function($q) use ($fatherId){
             $q->where('father_id',$fatherId);
         })
@@ -177,14 +176,29 @@ class ParentReportController extends Controller
             $q->where('father_id',$fatherId);
         })
         ->get();
-        $data['title'] = 'Parent Report';        
-        $filename = 'parent-report.pdf';
 
-        $data['schoolName'] = schoolName();    
-        $data['logo'] = logo(); 
 
-        $pdf = PDF::loadView('student::admissions.parents-reports.pdf-report', $data);
-		return $pdf->stream( $filename);
+        $data = [        
+            'reports'                       => $reports,                   
+            'mothers'                       => $mothers,                   
+            'title'                         => 'Parent Report',       
+            'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
+            'school_name'                   => '',               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+            ];
+        $config = [            
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,
+            'margin_bottom'        => 0,
+        ];  
+
+        $pdf = PDF::loadView('student::admissions.parents-reports.pdf-report', $data,[],$config);
+		return $pdf->stream('Parent Report');
     }
     public function fatherReport($fatherId)
     {

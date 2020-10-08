@@ -25,6 +25,8 @@ class AbsenceController extends Controller
             ->join('rooms','rooms.student_id','=','students.id')
             ->join('classrooms','rooms.classroom_id','=','classrooms.id')
             ->select('absences.*','classrooms.ar_name_classroom','en_name_classroom')
+            ->where('rooms.year_id',currentYear())
+            ->where('absence_date',Carbon\Carbon::today())
             ->orderBy('absences.id','desc')
             ->get();
             

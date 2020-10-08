@@ -1,19 +1,22 @@
 @include('layouts.backEnd.layout-report.header')
-<div class="right-header">
-    {{$schoolName}} <br>
-    {{ trans('student::local.admission_department') }}
-</div>
+<htmlpageheader name="page-header">
+    <div class="left-header" style="margin-top: -20px">
+        <img src="{{$logo}}" alt="" class="logo">
+    </div>
+    <div class="right-header">
+        {{$governorate}} <br>
+        {{$education_administration}} <br>  
+        {{$school_name}}     
+    </div>
+    <div class="clear"></div>
+    <hr>
+    <h4 class="center">{{ trans('student::local.emp_open_admission_report') }} </h4>
+</htmlpageheader> 
 
-<div class="left-header">
-    <img src="{{$logo}}" alt="" class="logo">
-</div>
-<div class="clear"></div>
-<h4 class="center">{{ trans('student::local.emp_open_admission_report') }}</h4>
-<div class="clear"></div>
 <h5>{{ trans('student::local.employee_name') }} : {{$employeeName}} <br>
 {{ trans('student::local.period') }}
 {{ trans('student::local.from') }} : {{$fromDate}} {{ trans('student::local.to') }} : {{$toDate}} <br>
-{{ trans('student::local.fils_count') }} : {{$count}}</h5>
+{{ trans('student::local.admission_count') }} : {{$count}}</h5>
 <table>
     <thead>
         <tr>

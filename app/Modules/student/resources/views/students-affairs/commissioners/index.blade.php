@@ -72,6 +72,14 @@
                         window.location.href = "{{route('commissioners.create')}}";
                         }
                 },
+                // print all
+                {
+                    "text": "{{trans('student::local.print_all_commissioners')}}",
+                    "className": "btn btn-purple buttons-print btn-purple mr-1",
+                    action : function ( e, dt, node, config ) {
+                        window.location.href = "{{route('commissioners.print-all')}}";
+                        }
+                },                
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'commissioners.destroy'])
 

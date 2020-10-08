@@ -86,14 +86,14 @@ class EmployeeAdmissionController extends Controller
     }
     public function report()
     {
-        $data['employeeName'] = Admin::findOrFail(request('adminId'))->name;
+        $employeeName = Admin::findOrFail(request('adminId'))->name;
         
-        $data['students'] = Student::with('father','mother','division','grade')
+        $students = Student::with('father','mother','division','grade')
             ->where('employee_id',request('adminId'))
             ->whereBetween('application_date',[request('fromDate'),request('toDate')])
             ->orderBy('application_date','asc')
             ->get();            
-        $data['count'] = Student::with('father','mother','division','grade')
+        $count = Student::with('father','mother','division','grade')
             ->where('employee_id',request('adminId'))
             ->whereBetween('application_date',[request('fromDate'),request('toDate')])
             ->orderBy('application_date','asc')
@@ -102,13 +102,33 @@ class EmployeeAdmissionController extends Controller
         $data['title'] = 'Employee Open Admission';    
         $data['schoolName'] = session('lang') == 'ar'?settingHelper()->ar_school_name:settingHelper()->en_school_name;    
         $data['logo'] = public_path('storage/logo/'.settingHelper()->logo);    
-        $data['fromDate'] = request('fromDate');
-        $data['toDate'] = request('toDate');
+        $fromDate = request('fromDate');
+        $toDate = request('toDate');
 
-        // dd(public_path('storage/icon/'.settingHelper()->icon));
+        $data = [        
+            'employeeName'                  => $employeeName,                   
+            'count'                         => $count,                   
+            'students'                      => $students,                   
+            'fromDate'                      => $fromDate,                   
+            'toDate'                        => $toDate,                   
+            'title'                         => 'Student Report',       
+            'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
+            'school_name'                   => schoolName(),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+            ];
+        $config = [            
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,
+            'margin_bottom'        => 0,
+        ]; 
         $filename = 'admissions.pdf';
 
-        $pdf = PDF::loadView('student::admissions.employee-admission.report', $data);
+        $pdf = PDF::loadView('student::admissions.employee-admission.report', $data,[],$config);
         return $pdf->stream( $filename);
     }
 }

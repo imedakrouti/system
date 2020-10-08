@@ -1,4 +1,4 @@
-<form action="{{route('cards.selected-students')}}" method="get" id="filterForm" >
+<form action="{{route('cards.selected-students')}}" method="get" id="filterForm" target="_blank">
     <div class="row mt-1">       
         <div class="col-md-2">
             <select name="division_id" class="form-control" id="filter_division_id">

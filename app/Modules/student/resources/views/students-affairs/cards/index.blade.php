@@ -72,7 +72,7 @@
 
 @endsection
 @section('script')
-<script>
+<script>    
 
     $('#filter_division_id').on('change', function(){
       getRooms();

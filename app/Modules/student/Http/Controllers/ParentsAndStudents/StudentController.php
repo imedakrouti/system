@@ -24,6 +24,7 @@ use Student\Models\Students\StudentStatement;
 use Carbon;
 use Student\Models\Students\ReportContent;
 use DateTime;
+use Student\Models\Settings\Classroom;
 use Student\Models\Students\Room;
 
 class StudentController extends Controller
@@ -68,8 +69,6 @@ class StudentController extends Controller
 
     private function moreBtn($data)
     {
-        $image = !empty($data->student_image) ? '<a class="dropdown-item" href="'.route('students.card',$data->id).'"><i class="la la-print"></i>  '.trans('student::local.print_id_card').'</a>' :
-        '';
         return $data->student_type == trans('student::local.student')?'
         <div class="btn-group mr-1 mb-1">
             <button type="button" class="btn btn-primary"> '.trans('student::local.more').'</button>
@@ -78,8 +77,7 @@ class StudentController extends Controller
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-edit"></i> '.trans('student::local.editing').'</a>
-                '.$image.'
+                <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-edit"></i> '.trans('student::local.editing').'</a>               
                 <div class="dropdown-divider"></div>                
                 <a class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.commissioner').'</a>
                 <a class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('student::local.add_proof_enrollments').'</a>                                
@@ -341,10 +339,24 @@ class StudentController extends Controller
         $mothers = Mother::whereHas('fathers',function($q) use ($father_id){
             $q->where('father_id',$father_id);
         })->get();
-                
+        
+        $classroom = $student->student_type == trans('student::local.student') ?$this->getStudentClassroom($student->id):
+        trans('student::local.applicant');
+        
         return view('student::students.show',
         compact('student','title','nationalities','speakingLangs','studyLangs','regStatus',
-        'divisions','grades','schools','guardians','mothers','admins','statements'));
+        'divisions','grades','schools','guardians','mothers','admins','statements','classroom'));
+    }
+    private function getStudentClassroom($student_id)
+    {
+        $classroom_id = Room::where('student_id',$student_id)
+        ->where('year_id',currentYear())
+        ->first();        
+        if (empty($classroom_id)) {
+            return trans('student::local.no_class_registered');
+        }
+        $classroom = Classroom::findOrFail($classroom_id->classroom_id);
+        return session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom;        
     }
     /**
      * Show the form for editing the specified resource.
@@ -729,38 +741,7 @@ class StudentController extends Controller
         $pdf = PDF::loadView('student::students.pdf-application', $data);
 		return $pdf->stream( $filename);
     }
-    public function printStudentCard($student_id)
-    {
-        $student = Student::with('father','division','grade','mother')        
-        ->findOrFail($student_id);
-        $class_room = Room::with('classrooms')->where('student_id',$student_id)->where('year_id',currentYear())->first();
-        $class_room = session('lang') == 'ar' ? $class_room->classrooms->ar_name_classroom : $class_room->classrooms->en_name_classroom;
-        $design  = Design::where('division_id',$student->division_id)->where('grade_id',$student->grade_id)
-        ->orderBy('id','desc')->first();
-        
-        if (empty($design)) {
-            toast(trans('student::local.no_design_found'),'error');  
-            return back()->withInput();           
-        }
 
-        $schoolName  = session('lang') == 'ar' ? $student->division->ar_school_name: $student->division->en_school_name ;
-        $division  = session('lang') == 'ar' ? $student->division->ar_division_name: $student->division->en_division_name ;
-        $grade  = session('lang') == 'ar' ? $student->grade->ar_grade_name: $student->grade->en_grade_name ;
-
-        
-        $data = [
-            'schoolName'        => $schoolName,
-            'path'              => logo(),
-            'design'            => public_path('images/id-designs/'.$design->design_name),
-            'student'           => $student,
-            'division'          => $division,
-            'grade'             => $grade,
-            'class_room'        => $class_room,
-            'studentPathImage'  => public_path('images/studentsImages/'),
-        		];
-		$pdf = PDF::loadView('student::students.reports.student-card', $data);
-		return $pdf->stream($student->student_number);
-    }
     public function filter()
     {        
         if (request()->ajax()) {

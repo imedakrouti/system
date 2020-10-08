@@ -1,7 +1,18 @@
 @include('layouts.backEnd.layout-report.header')
-@include('student::_includes._header-admission')
+<htmlpageheader name="page-header">
+    <div class="left-header" style="margin-top: -20px">
+        <img src="{{$logo}}" alt="" class="logo">
+    </div>
+    <div class="right-header">
+        {{$governorate}} <br>
+        {{$education_administration}} <br>  
+        {{$school_name}}     
+    </div>
+    <div class="clear"></div>
+    <hr>
+    <h4 class="center">{{ trans('student::local.assessment_results') }} </h4>
+</htmlpageheader>
 
-<h4 class="center">{{ trans('student::local.assessment_results') }}</h4>
 <div class="mb-5">
     <table style="width: 100%">
         <thead>
@@ -72,5 +83,8 @@
         </tr>                                                
       @endforeach                      
     </tbody>
-  </table>
+</table>
+<htmlpagefooter name="page-footer">
+    <p> {PAGENO}</p>
+ </htmlpagefooter>
 @include('layouts.backEnd.layout-report.footer')

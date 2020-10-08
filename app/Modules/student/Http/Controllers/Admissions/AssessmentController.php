@@ -231,14 +231,34 @@ class AssessmentController extends Controller
     }
     public function printReport($id)
     {
-        $data['schoolName'] = schoolName();    
-        $data['logo'] = logo(); 
-        $data['tests'] =  AcceptanceTest::sort()->get();
-        $data['assessment'] =  Assessment::with('students','tests')->findOrFail($id); 
-        $data['title'] = 'Assessment Result';        
-        $filename = 'result.pdf';
+        $tests =  AcceptanceTest::sort()->get();
+        $assessment =  Assessment::with('students','tests')->findOrFail($id); 
+      
+        $data = [        
+            'tests'                         => $tests,                   
+            'assessment'                    => $assessment,                   
+            'title'                         => 'Assessment Result',       
+            'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
+            'school_name'                   => $this->schoolName($assessment->student_id),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+            ];
+        $config = [            
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,
+            'margin_bottom'        => 0,
+        ];          
 
-        $pdf = PDF::loadView('student::admissions.assessment-results.pdf-report', $data);
-		return $pdf->stream( $filename);
+        $pdf = PDF::loadView('student::admissions.assessment-results.pdf-report', $data,[],$config);
+		return $pdf->stream('result.pdf');
+    }
+    private function schoolName($student_id)
+    {        
+        $division_id = Student::findOrFail($student_id)->division_id;
+        return getSchoolName($division_id);
     }
 }

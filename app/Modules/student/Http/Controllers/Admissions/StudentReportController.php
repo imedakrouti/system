@@ -163,29 +163,41 @@ class StudentReportController extends Controller
         return response(['status'=>true]);
     }
     public function studentReportPdf($id)
-    {              
-        $fileBladePath = 'student::admissions.students-reports.pdf-report';   
-
+    {                      
         $studentId = AdmissionReport::findOrFail($id)->student_id;
-        $fatherId = Student::findOrFail($studentId)->father_id;
+        $student = Student::findOrFail($studentId);
 
-        $data['report'] = AdmissionReport::with('admin','fathers','students')->findOrFail($id);
+        $report = AdmissionReport::with('admin','fathers','students')->findOrFail($id);
 
-        $data['mothers'] = Mother::with('fathers','students')
-        ->whereHas('fathers',function($q) use ($fatherId){
-            $q->where('father_id',$fatherId);
+        $mothers = Mother::with('fathers','students')
+        ->whereHas('fathers',function($q) use ($student){
+            $q->where('father_id',$student->father_id);
         })
-        ->whereHas('students',function($q) use ($fatherId){
-            $q->where('father_id',$fatherId);
+        ->whereHas('students',function($q) use ($student){
+            $q->where('father_id',$student->father_id);
         })
         ->get();
-        $data['title'] = 'Student Report';        
-        $filename = 'student-report.pdf';
-        $data['schoolName'] = schoolName();    
-        $data['logo'] = logo(); 
 
-        $pdf = PDF::loadView('student::admissions.students-reports.pdf-report', $data);
-		return $pdf->stream( $filename);
+        $data = [        
+            'report'                        => $report,                   
+            'mothers'                       => $mothers,                   
+            'title'                         => 'Student Report',       
+            'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
+            'school_name'                   => getSchoolName($student->division_id),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+            ];
+        $config = [            
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,
+            'margin_bottom'        => 0,
+        ];  
+        $pdf = PDF::loadView('student::admissions.students-reports.pdf-report', $data,[],$config);
+		return $pdf->stream('Student Report');
     }
     public function studentReport($studentId)
     {        

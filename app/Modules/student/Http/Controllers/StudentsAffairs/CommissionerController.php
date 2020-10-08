@@ -289,4 +289,28 @@ class CommissionerController extends Controller
 		$pdf = PDF::loadView('student::students-affairs.commissioners.reports.student-report', $data,[],$config);
 		return $pdf->stream('commissioner');
     }
+    public function printAll()
+    {
+        $commissioners = Commissioner::where('relation','driver')->get();    
+        $data = [        
+            'commissioners'                 => $commissioners,                   
+            'title'                         => 'commissioner',       
+            'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
+            'school_name'                   => schoolName(),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+            ];
+        $config = [            
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,
+            'margin_bottom'        => 0,
+        ];  
+    
+		$pdf = PDF::loadView('student::students-affairs.commissioners.reports.all-commissioners', $data,[],$config);
+		return $pdf->stream('commissioner');
+    }
 }
