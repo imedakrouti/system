@@ -1,7 +1,7 @@
 <form action="{{route('cards.selected-students')}}" method="get" id="filterForm" target="_blank">
     <div class="row mt-1">       
         <div class="col-md-2">
-            <select name="division_id" class="form-control" id="filter_division_id">
+            <select name="division_id" class="form-control select2" id="filter_division_id">
                 <option value="">{{ trans('student::local.divisions') }}</option>
                 @foreach ($divisions as $division)
                     <option value="{{$division->id}}">
@@ -10,7 +10,7 @@
             </select>
         </div>
         <div class="col-md-2">
-            <select name="grade_id" class="form-control" id="filter_grade_id">
+            <select name="grade_id" class="form-control select2" id="filter_grade_id">
                 <option value="">{{ trans('student::local.grades') }}</option>
                 @foreach ($grades as $grade)
                     <option value="{{$grade->id}}">
@@ -19,7 +19,7 @@
             </select>
         </div>
         <div class="col-md-2">
-            <select name="filter_classroom_id" class="form-control" id="filter_classroom_id" disabled>
+            <select name="filter_classroom_id" class="form-control select2" id="filter_classroom_id" disabled>
                 <option value="">{{ trans('student::local.classrooms') }}</option>                    
               </select>
         </div>        
@@ -33,6 +33,19 @@
                 <a onclick="noPhotoGrade()" class="dropdown-item" href="#">{{trans('student::local.with_grade') }}</a>                            
                 <a onclick="noPhotoClass()" class="dropdown-item" href="#">{{trans('student::local.with_class') }}</a>              
             </div>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-4">
+            <select name="student_id" class="form-control select2" id="filter_student_id">
+                <option value="">{{ trans('student::local.select_student') }}</option>
+                @foreach ($students as $student)
+                    <option value="{{$student->id}}">
+                        {{session('lang') =='ar' ? '['.$student->student_number.'] '. $student->ar_student_name 
+                        . ' ' .$student->father->ar_nd_name. ' ' .$student->father->ar_rd_name:
+                        $student->en_student_name}}</option>                                    
+                @endforeach
+            </select>
         </div>
     </div>
 </form>

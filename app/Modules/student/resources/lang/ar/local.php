@@ -853,7 +853,7 @@ return [
     'print_all_commissioners'       => 'طباعة الشركات/السائقين',
     'commissioners_data'            => 'بيانات تفويض الشركات / السائقين',
     'admission_count'               => 'عدد التقديمات',
-    '' => '',
+    'select_student'                => 'اختار الطالب',
     '' => '',
     '' => '',
     '' => '',

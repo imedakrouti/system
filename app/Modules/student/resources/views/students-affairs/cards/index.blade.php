@@ -20,6 +20,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -55,6 +56,8 @@
                                   <th>{{trans('student::local.student_name')}}</th>
                                   <th>{{trans('student::local.gender')}}</th>
                                   <th>{{trans('student::local.religion')}}</th>                                                                    
+                                  <th>{{trans('student::local.grade')}}</th>                                                                    
+                                  <th>{{trans('student::local.division')}}</th>                                                                    
                               </tr>
                           </thead>
                           <tbody>
@@ -118,6 +121,7 @@
       var grade_id 		 = $('#filter_grade_id').val();
       var division_id    = $('#filter_division_id').val();      
       var classroom_id   = $('#filter_classroom_id').val();      
+      var student_id   = $('#filter_student_id').val();      
       
       var myTable = $('#dynamic-table').DataTable({
         "info":     true,
@@ -155,11 +159,12 @@
             type:'POST',
             url:'{{route("get-student-cards")}}',
             data: {
-                _method     : 'PUT',
-                grade_id    : grade_id,
-                division_id : division_id,              
-                classroom_id : classroom_id,              
-                _token      : '{{ csrf_token() }}'
+                _method       : 'PUT',
+                grade_id      : grade_id,
+                division_id   : division_id,              
+                classroom_id  : classroom_id,              
+                student_id    : student_id,              
+                _token        : '{{ csrf_token() }}'
             }
           },
           // columns
@@ -171,6 +176,8 @@
               {data: 'student_name',        name: 'student_name'},              
               {data: 'gender',              name: 'gender'},              
               {data: 'religion',            name: 'religion'},                                           
+              {data: 'grade',               name: 'grade'},                                           
+              {data: 'division',            name: 'division'},                                           
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

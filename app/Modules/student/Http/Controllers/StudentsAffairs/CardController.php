@@ -16,23 +16,33 @@ class CardController extends Controller
     {      
         $grades = Grade::sort()->get();
         $divisions = Division::sort()->get();
+        $students = Student::with('father')->where('student_image','!=','')->get();
         $title = trans('student::local.students_id_card');
         return view('student::students-affairs.cards.index',
-        compact('title','grades','divisions'));
+        compact('title','grades','divisions','students'));
     }
     public function getStudentCards()
-    {        
+    {              
         if (request()->ajax()) {
-            $data = Student::with('father','rooms')
-            ->whereHas('rooms',function($q){
-                $q->where('year_id',currentYear());
-                $q->where('classroom_id',request('classroom_id'));
-            })
-            ->where('division_id',request('division_id'))
-            ->where('grade_id',request('grade_id'))
-            ->where('student_image','!=','')
-            ->orderBy('ar_student_name')
-            ->get();
+            $data = '';
+            if (empty(request('student_id'))) {
+                $data = Student::with('father','rooms')
+                ->whereHas('rooms',function($q){
+                    $q->where('year_id',currentYear());
+                    $q->where('classroom_id',request('classroom_id'));
+                })            
+                ->where('student_image','!=','')
+                ->orderBy('ar_student_name')
+                ->get();                
+            }else{
+                $data = Student::with('father','rooms')
+                ->whereHas('rooms',function($q){
+                    $q->where('year_id',currentYear());                    
+                })            
+                ->where('id',request('student_id'))
+                ->orderBy('ar_student_name')
+                ->get(); 
+            }
                 
             return datatables($data)
                     ->addIndexColumn()
@@ -50,7 +60,15 @@ class CardController extends Controller
                     }) 
                     ->addColumn('religion',function($data){
                         return $data->religion;
-                    })                                                                                                                                                                                    
+                    })  
+                    ->addColumn('grade',function($data){
+                        return session('lang') == 'ar' ? $data->grade->ar_grade_name:
+                        $data->grade->en_grade_name;
+                    })
+                    ->addColumn('division',function($data){
+                        return session('lang') == 'ar' ? $data->division->ar_division_name:
+                        $data->division->en_division_name;
+                    })                                                                                                                                                                                  
                     ->addColumn('check', function($data){
                         $btnCheck = '<label class="pos-rel">
                                         <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -58,7 +76,7 @@ class CardController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['check','student_name','student_number','gender','religion','studentImage'])
+                    ->rawColumns(['check','student_name','student_number','gender','religion','studentImage','grade','division'])
                     ->make(true);
     
             }  
@@ -137,37 +155,73 @@ class CardController extends Controller
     }
 
     public function selectedStudents()
-    {            
-        $design  = Design::where('division_id',request('division_id'))
-        ->where('grade_id',request('grade_id'))
-        ->orderBy('id','desc')->first();
-        
+    {     
+        $schoolName = '';
+        $classroom = '';
+        $design = '';        
+
+        if (!empty(request('division_id')) && !empty(request('grade_id'))) {
+            $design  = Design::where('division_id',request('division_id'))
+            ->where('grade_id',request('grade_id'))
+            ->orderBy('id','desc')->first();  
+
+            $division = Division::findOrFail(request('division_id'));
+            $schoolName  = session('lang') == 'ar' ? $division->ar_school_name: $division->en_school_name ;
+
+            $class_room = Room::with('classrooms')->where('classroom_id',request('filter_classroom_id'))->where('year_id',currentYear())->first();
+            $classroom = session('lang') == 'ar' ? $class_room->classrooms->ar_name_classroom : $class_room->classrooms->en_name_classroom;
+                    
+        }
+        // search by student name
+        elseif (!empty(request('student_id'))) {
+            $student = Student::findOrFail(request('student_id'));
+
+            $design  = Design::where('division_id',$student->division_id)
+            ->where('grade_id',$student->grade_id)
+            ->first();  
+
+            $division = Division::findOrFail($student->division_id);
+            $schoolName  = session('lang') == 'ar' ? $division->ar_school_name: $division->en_school_name ;
+
+            $class_room = Room::with('classrooms')->where('student_id',$student->id)->where('year_id',currentYear())->first();
+            $classroom = session('lang') == 'ar' ? $class_room->classrooms->ar_name_classroom : $class_room->classrooms->en_name_classroom;
+        }else{
+            toast(trans('student::local.no_parameters_selected'),'error');  
+            return back()->withInput();   
+        }
+                
         if (empty($design)) {
             toast(trans('student::local.no_design_found'),'error');  
             return back()->withInput();           
         }
-
-        $students = Student::with('father','division','grade','mother','rooms')
-        ->whereHas('rooms',function($q){
-            $q->where('year_id',currentYear());
-            $q->where('classroom_id',request('filter_classroom_id'));
-        })
-        ->whereIn('id',request('id'))
-        ->where('division_id',request('division_id'))
-        ->where('grade_id',request('grade_id'))
-        ->where('student_image','!=','')
-        ->orderBy('ar_student_name')
-        ->get();
+        
+        $students = '';
+        if (empty(request('student_id'))) {
+            $students = Student::with('father','division','grade','mother','rooms')
+            ->whereHas('rooms',function($q){
+                $q->where('year_id',currentYear());
+                $q->where('classroom_id',request('filter_classroom_id'));
+            })
+            ->whereIn('id',request('id'))        
+            ->where('student_image','!=','')
+            ->orderBy('ar_student_name')
+            ->get();            
+        }else{
+            $students = Student::with('father','division','grade','mother','rooms')
+            ->whereHas('rooms',function($q){
+                $q->where('year_id',currentYear());                
+            })            
+            ->where('id',request('student_id'))
+            ->whereIn('id',request('id'))        
+            ->orderBy('ar_student_name')
+            ->get(); 
+        }
+        
         
         if (empty($students)) {
             toast(trans('student::local.no_students_found'),'error');  
             return back()->withInput();           
         }
-        $division = Division::findOrFail(request('division_id'));
-        $schoolName  = session('lang') == 'ar' ? $division->ar_school_name: $division->en_school_name ;
-
-        $class_room = Room::with('classrooms')->where('classroom_id',request('filter_classroom_id'))->where('year_id',currentYear())->first();
-        $classroom = session('lang') == 'ar' ? $class_room->classrooms->ar_name_classroom : $class_room->classrooms->en_name_classroom;
 
         $data = [          
             'path'              => logo(),
