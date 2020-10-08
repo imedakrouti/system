@@ -81,15 +81,29 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
      Route::put('absences/filter','AbsenceController@filter')->name('absences.filter');  
      
     //  Reports
+    /**
+     * statistics
+     */
     Route::get('/reports/statistics','ReportController@statistics')->name('reports.statistics');
     Route::get('/reports/statistics/second-lang-report','ReportController@secondLangReportStatistics')->name('statistics.second-lang');
     Route::get('/reports/statistics/register-status-report','ReportController@regStatusReportStatistics')->name('statistics.reg-status');
     Route::get('/reports/statistics/religion-report','ReportController@religionReportStatistics')->name('statistics.religion');
 
-
+    /**
+     * student-data
+     */
     Route::get('/reports/student-data','ReportController@studentData')->name('reports.student-data');
     Route::get('/reports/students-contact-data','ReportController@studentsContactData')->name('students-contact-data');
     Route::get('/reports/students-second-lang','ReportController@studentsSecondLangData')->name('students-second-lang');
     Route::get('/reports/students-religion','ReportController@studentsReligionData')->name('students-religion');
+
+    /**
+     * period
+     */
+    Route::get('/reports/period','ReportController@period')->name('reports.period');
+    Route::get('/reports/period-permissions','ReportController@permissions')->name('reports.permissions');
+    Route::get('/reports/period-parent-requests','ReportController@parentRequests')->name('reports.parent-requests');
+    Route::get('/reports/period-leave-requests','ReportController@leaveRequests')->name('reports.leave-requests');
+    Route::get('/reports/period-transfers','ReportController@transfers')->name('reports.transfers');
 
 });

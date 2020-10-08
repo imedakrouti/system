@@ -31,7 +31,7 @@ class LeaveRequestController extends Controller
                     }) 
                     ->addColumn('print', function($data){
                         $btn = '<a class="btn btn-primary" href="'.route('leave-requests.print',$data->id).'">
-                            '.trans('student::local.print_endorsement').'
+                            '.trans('student::local.print').'
                         </a>';
                             return $btn;
                     })                     

@@ -292,80 +292,78 @@ class DistributionController extends Controller
     }
 
     public function nameListReport()
-    {
-       
-        if (request()->has('room_id')) {
-            $room = Classroom::findOrFail(request('room_id'));            
-        
-            $classroom =  session('lang') =='ar'?$room->ar_name_classroom:$room->en_name_classroom;
-            $students = Student::with('rooms','languages','regStatus','nationalities')
-            ->whereHas('rooms',function($q){
-                $q->where('classroom_id',request('room_id'));
-            })
-            ->orderBy('gender','asc')
-            ->orderBy('ar_student_name','asc')
-            ->get();
-            
-            // statistics
-
-            $male = Student::with('rooms')
-            ->whereHas('rooms',function($q){
-                $q->where('classroom_id',request('room_id'));                
-            })
-            ->where('gender','male')            
-            ->count();
-            $female = Student::with('rooms')
-            ->whereHas('rooms',function($q){
-                $q->where('classroom_id',request('room_id'));                
-            })
-            ->where('gender','female')            
-            ->count(); 
-
-            $muslim = Student::with('rooms')
-            ->whereHas('rooms',function($q){
-                $q->where('classroom_id',request('room_id'));                
-            })
-            ->where('religion','muslim')            
-            ->count();
-            
-            $non_muslim = Student::with('rooms')
-            ->whereHas('rooms',function($q){
-                $q->where('classroom_id',request('room_id'));                
-            })
-            ->where('religion','non_muslim')            
-            ->count();             
-            
-            $data = [
-                'title'                     => 'Name List Report',                       
-                'classroom'                 => $classroom,                       
-                'students'                  => $students,                       
-                'logo'                      => logo(),
-                'school_name'               => getSchoolName($room->division_id),               
-                'education_administration'  => preamble()['education_administration'],               
-                'governorate'               => preamble()['governorate'], 
-                'male'                      => $male,
-                'female'                    => $female,
-                'muslim'                    => $muslim,
-                'non_muslim'                => $non_muslim,                                    
-            ];
-            $config = [
-                'orientation'          => 'P',
-                'margin_header'        => 5,
-                'margin_footer'        => 50,
-                'margin_left'          => 10,
-                'margin_right'         => 10,
-                'margin_top'           => 50,
-                'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
-            ];  
-            $reportPath = 'student::students-affairs.distributions-students.name-list';
-            $pdf = PDF::loadView($reportPath,$data,[],$config);        
-    
-            return $pdf->stream('Statement');
-
-        }else{
+    {       
+        if (!request()->has('room_id')) {
             toast(trans('student::local.select_classroom_first'),'error');
             return back();
         }
+
+        $room = Classroom::findOrFail(request('room_id'));            
+    
+        $classroom =  session('lang') =='ar'?$room->ar_name_classroom:$room->en_name_classroom;
+        $students = Student::with('rooms','languages','regStatus','nationalities')
+        ->whereHas('rooms',function($q){
+            $q->where('classroom_id',request('room_id'));
+        })
+        ->orderBy('gender','asc')
+        ->orderBy('ar_student_name','asc')
+        ->get();
+        
+        // statistics
+
+        $male = Student::with('rooms')
+        ->whereHas('rooms',function($q){
+            $q->where('classroom_id',request('room_id'));                
+        })
+        ->where('gender','male')            
+        ->count();
+        $female = Student::with('rooms')
+        ->whereHas('rooms',function($q){
+            $q->where('classroom_id',request('room_id'));                
+        })
+        ->where('gender','female')            
+        ->count(); 
+
+        $muslim = Student::with('rooms')
+        ->whereHas('rooms',function($q){
+            $q->where('classroom_id',request('room_id'));                
+        })
+        ->where('religion','muslim')            
+        ->count();
+        
+        $non_muslim = Student::with('rooms')
+        ->whereHas('rooms',function($q){
+            $q->where('classroom_id',request('room_id'));                
+        })
+        ->where('religion','non_muslim')            
+        ->count();             
+        
+        $data = [
+            'title'                     => $classroom,                       
+            'classroom'                 => $classroom,                       
+            'students'                  => $students,                       
+            'logo'                      => logo(),
+            'school_name'               => getSchoolName($room->division_id),               
+            'education_administration'  => preamble()['education_administration'],               
+            'governorate'               => preamble()['governorate'], 
+            'male'                      => $male,
+            'female'                    => $female,
+            'muslim'                    => $muslim,
+            'non_muslim'                => $non_muslim,                                    
+        ];
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ];  
+        $reportPath = 'student::students-affairs.distributions-students.name-list';
+        $pdf = PDF::loadView($reportPath,$data,[],$config);        
+
+        return $pdf->stream($classroom);
     }
 
     public function moveToClass()

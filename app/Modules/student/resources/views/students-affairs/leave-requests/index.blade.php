@@ -43,7 +43,7 @@
                                 <th>{{trans('student::local.division')}}</th>
                                 <th>{{trans('student::local.created_at')}}</th>                                
                                 <th>{{trans('student::local.view')}}</th>                                
-                                <th>{{trans('student::local.print_endorsement')}}</th>                                
+                                <th>{{trans('student::local.print')}}</th>                                
                             </tr>
                         </thead>
                         <tbody>

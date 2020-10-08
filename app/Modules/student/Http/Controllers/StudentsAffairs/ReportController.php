@@ -8,7 +8,11 @@ use PDF;
 use Student\Models\Settings\Classroom;
 use Student\Models\Settings\Language;
 use Student\Models\Settings\RegistrationStatus;
+use Student\Models\Students\DailyRequest;
+use Student\Models\Students\LeaveRequest;
+use Student\Models\Students\ParentRequest;
 use Student\Models\Students\Student;
+use Student\Models\Students\Transfer;
 
 class ReportController extends Controller
 {
@@ -73,7 +77,7 @@ class ReportController extends Controller
         $school_name = $this->schoolName();      
 
         $data = [         
-            'title'                         => 'Statistics Report',       
+            'title'                         => 'Second Language Report',       
             'counting'                      => $counting,                   
             'languages'                     => $languages,                   
             'languagesCount'                => $languagesCount,                   
@@ -96,7 +100,7 @@ class ReportController extends Controller
         ];  
 
 		$pdf = PDF::loadView('student::students-affairs.reports.statistics.second-lang', $data,[],$config);
-		return $pdf->stream('Statistics');
+		return $pdf->stream('Second Language Report');
     }
 
     public function regStatusReportStatistics()
@@ -145,7 +149,7 @@ class ReportController extends Controller
         $school_name = $this->schoolName();
             
         $data = [         
-            'title'                         => 'Statistics Report',       
+            'title'                         => 'Registration Status Report',       
             'counting'                      => $counting,                   
             'regStatus'                     => $regStatus,                   
             'regStatusCount'                => $regStatusCount,                   
@@ -168,7 +172,7 @@ class ReportController extends Controller
         ];  
 
 		$pdf = PDF::loadView('student::students-affairs.reports.statistics.reg-status', $data,[],$config);
-		return $pdf->stream('Statistics');
+		return $pdf->stream('Registration Status Report');
     }  
     
     public function religionReportStatistics()
@@ -225,7 +229,7 @@ class ReportController extends Controller
         $school_name = $this->schoolName();
             
         $data = [         
-            'title'                         => 'Statistics Report',       
+            'title'                         => 'Religion Report',       
             'counting'                      => $counting,                   
             'religions'                     => $religions,                   
             'religionCount'                 => $religionCount,                   
@@ -248,20 +252,28 @@ class ReportController extends Controller
         ];  
 
 		$pdf = PDF::loadView('student::students-affairs.reports.statistics.religion', $data,[],$config);
-		return $pdf->stream('Statistics');
+		return $pdf->stream('Religion Report');
     }
 
     private function schoolName()
-    {
+    {        
         $divisions = request('division_id');
         $school_name = '';
-        if (count(request('division_id')) == 1) {
-            $school_name = getSchoolName($divisions[0]);
-         }else{
-             for ($i=0; $i < count(request('division_id')) ; $i++) { 
-                 $school_name .= Division::findOrFail($divisions[$i])->ar_division_name . ' / ';
-             }
-         }  
+        if (empty( $divisions)) {
+            $divisions = Division::sort()->get();
+            foreach ($divisions as $division) {
+                $school_name .= session('lang') == 'ar' ?$division->ar_division_name . ' / ':$division->en_division_name . ' / ';
+            }
+        }else{
+            if (count(request('division_id')) == 1) {
+                $school_name = getSchoolName($divisions[0]);
+             }else{
+                 for ($i=0; $i < count(request('division_id')) ; $i++) { 
+                     $school_name .= session('lang') == 'ar' ?Division::findOrFail($divisions[$i])->ar_division_name . ' / '
+                     :Division::findOrFail($divisions[$i])->en_division_name . ' / ';
+                 }
+             }  
+        }
 
          return $school_name;
     }
@@ -272,7 +284,7 @@ class ReportController extends Controller
         $languages = Language::study()->sort()->get();
         $years = Year::get();
         $divisions = Division::sort()->get();
-        $title = trans('student::local.students_data');
+        $title = trans('student::local.student_data_reports');
         return view('student::students-affairs.reports.students-data',
         compact('title','grades','years','divisions','languages'));
     }
@@ -297,7 +309,7 @@ class ReportController extends Controller
         $school_name = $this->schoolName();
 
         $data = [         
-            'title'                         => 'Student contact data',       
+            'title'                         => 'Contacts data - ' . $classroom ,       
             'students'                      => $students,       
             'classroom'                     => $classroom,       
             'logo'                          => logo(),            
@@ -317,7 +329,7 @@ class ReportController extends Controller
         ]; 
 
         $pdf = PDF::loadView('student::students-affairs.reports.students-data.student-contact-data', $data,[],$config);
-        return $pdf->stream('Student contact data');
+        return $pdf->stream('Contacts data - ' . $classroom);
     }
 
     public function studentsSecondLangData()
@@ -349,7 +361,7 @@ class ReportController extends Controller
         $school_name = $this->schoolName();
 
         $data = [         
-            'title'                         => 'Student contact data',       
+            'title'                         => $classroom . ' - ' . $language,       
             'students'                      => $students,       
             'classroom'                     => $classroom,       
             'language'                      => $language,       
@@ -370,7 +382,7 @@ class ReportController extends Controller
         ]; 
 
         $pdf = PDF::loadView('student::students-affairs.reports.students-data.student-second-lang', $data,[],$config);
-        return $pdf->stream('Student contact data');
+        return $pdf->stream($classroom . ' - ' . $language);
     }
 
     public function studentsReligionData()
@@ -410,7 +422,7 @@ class ReportController extends Controller
         $school_name = $this->schoolName();
 
         $data = [         
-            'title'                         => 'Student contact data',       
+            'title'                         => $classroom . ' - ' . $religion,       
             'students'                      => $students,       
             'classroom'                     => $classroom,       
             'religion'                      => $religion,       
@@ -431,8 +443,217 @@ class ReportController extends Controller
         ]; 
 
         $pdf = PDF::loadView('student::students-affairs.reports.students-data.student-religion', $data,[],$config);
-        return $pdf->stream('Student contact data');
-    }    
+        return $pdf->stream($classroom . ' - ' . $religion);
+    }  
+    
+    public function period()
+    {
+        $grades = Grade::sort()->get();        
+        $divisions = Division::sort()->get();
+        $title = trans('student::local.period_reports');
+        return view('student::students-affairs.reports.period',
+        compact('title','grades','divisions'));
+    }   
+    
+    public function permissions()
+    {           
+        if (empty(request('from_date')) || empty(request('to_date'))) {
+            toast(trans('student::local.no_period_selected'),'error');  
+            return back();
+        }
+        $all_divisions = Division::select('id')->get()->toArray();        
+        $division = request()->has('division_id')? request('division_id'):$all_divisions;
+
+        $daily_requests = DailyRequest::with('students')
+        ->whereDate('daily_requests.created_at','>=',request('from_date'))
+        ->whereDate('daily_requests.created_at','<=',request('to_date'))
+        ->whereHas('students',function($q) use ($division){
+            $q->whereIn('division_id',$division);
+        })        
+        ->join('rooms','rooms.student_id','=','daily_requests.student_id')
+        ->join('classrooms','rooms.classroom_id','=','classrooms.id')  
+        ->select('daily_requests.*','classrooms.ar_name_classroom','en_name_classroom')        
+        ->orderBy('daily_requests.id','asc')
+        ->orderBy('classrooms.sort','asc')
+        ->get();
+        
+
+        $school_name = $this->schoolName();
+
+        $data = [         
+            'title'                         => 'Daily Requests',       
+            'daily_requests'                => $daily_requests,            
+            'from_date'                     => request('from_date'),            
+            'to_date'                       => request('to_date'),            
+            'logo'                          => logo(),            
+            'school_name'                   => $school_name,               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.reports.period.daily-permissions', $data,[],$config);
+        return $pdf->stream('Daily Requests');        
+    }
+
+    public function parentRequests()
+    {
+        if (empty(request('from_date')) || empty(request('to_date'))) {
+            toast(trans('student::local.no_period_selected'),'error');  
+            return back();
+        }
+        $all_divisions = Division::select('id')->get()->toArray();        
+        $division = request()->has('division_id')? request('division_id'):$all_divisions;
+
+        $parent_requests = ParentRequest::with('students')
+        ->whereDate('parent_requests.date_request','>=',request('from_date'))
+        ->whereDate('parent_requests.date_request','<=',request('to_date'))
+        ->whereHas('students',function($q) use ($division){
+            $q->whereIn('division_id',$division);
+        })        
+        ->join('rooms','rooms.student_id','=','parent_requests.student_id')
+        ->join('classrooms','rooms.classroom_id','=','classrooms.id')  
+        ->select('parent_requests.*','classrooms.ar_name_classroom','en_name_classroom')        
+        ->orderBy('parent_requests.id','asc')
+        ->orderBy('classrooms.sort','asc')
+        ->get();
+        
+
+        $school_name = $this->schoolName();
+
+        $data = [         
+            'title'                         => 'Parent Requests',       
+            'parent_requests'                => $parent_requests,            
+            'from_date'                     => request('from_date'),            
+            'to_date'                       => request('to_date'),            
+            'logo'                          => logo(),            
+            'school_name'                   => $school_name,               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.reports.period.parent-request', $data,[],$config);
+        return $pdf->stream('Parent Requests');  
+    }
+
+    public function leaveRequests()
+    {
+        if (empty(request('from_date')) || empty(request('to_date'))) {
+            toast(trans('student::local.no_period_selected'),'error');  
+            return back();
+        }
+        $all_divisions = Division::select('id')->get()->toArray();        
+        $division = request()->has('division_id')? request('division_id'):$all_divisions;
+
+        $leave_requests = LeaveRequest::with('students')
+        ->whereDate('leave_requests.created_at','>=',request('from_date'))
+        ->whereDate('leave_requests.created_at','<=',request('to_date'))
+        ->whereHas('students',function($q) use ($division){
+            $q->whereIn('division_id',$division);
+        })        
+        ->join('rooms','rooms.student_id','=','leave_requests.student_id')
+        ->join('classrooms','rooms.classroom_id','=','classrooms.id')  
+        ->select('leave_requests.*','classrooms.ar_name_classroom','en_name_classroom')        
+        ->orderBy('leave_requests.id','asc')
+        ->orderBy('classrooms.sort','asc')
+        ->get();
+        
+
+        $school_name = $this->schoolName();
+
+        $data = [         
+            'title'                         => 'Leave Requests',       
+            'leave_requests'                => $leave_requests,            
+            'from_date'                     => request('from_date'),            
+            'to_date'                       => request('to_date'),            
+            'logo'                          => logo(),            
+            'school_name'                   => $school_name,               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.reports.period.leave-request', $data,[],$config);
+        return $pdf->stream('Leave Requests'); 
+    }
+
+    public function transfers()
+    {
+        if (empty(request('from_date')) || empty(request('to_date'))) {
+            toast(trans('student::local.no_period_selected'),'error');  
+            return back();
+        }
+        $all_divisions = Division::select('id')->get()->toArray();        
+        $division = request()->has('division_id')? request('division_id'):$all_divisions;
+
+        $transfers = Transfer::with('students','schools')
+        ->whereDate('transfers.created_at','>=',request('from_date'))
+        ->whereDate('transfers.created_at','<=',request('to_date'))
+        ->whereHas('students',function($q) use ($division){
+            $q->whereIn('division_id',$division);
+        })        
+        ->join('rooms','rooms.student_id','=','transfers.student_id')
+        ->join('classrooms','rooms.classroom_id','=','classrooms.id')  
+        ->select('transfers.*','classrooms.ar_name_classroom','en_name_classroom')        
+        ->orderBy('transfers.id','asc')
+        ->orderBy('classrooms.sort','asc')
+        ->get();
+        
+
+        $school_name = $this->schoolName();
+
+        $data = [         
+            'title'                         => 'Transfers',       
+            'transfers'                     => $transfers,            
+            'from_date'                     => request('from_date'),            
+            'to_date'                       => request('to_date'),            
+            'logo'                          => logo(),            
+            'school_name'                   => $school_name,               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.reports.period.transfers', $data,[],$config);
+        return $pdf->stream('Transfers'); 
+    }
     
     
 }
