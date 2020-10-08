@@ -41,44 +41,51 @@
       </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-content collapse show">
-          <div class="card-body">            
-            <div class="form-body">
-                  <div class="row">
-                      <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table" >
-                                <thead class="bg-info white">
-                                    <tr>                                        
-                                        <th>{{trans('student::local.parent')}}</th>
-                                        <th>{{trans('student::local.leave_time')}}</th>
-                                        <th>{{trans('student::local.created_by')}}</th>
-                                        <th>{{trans('student::local.created_at')}}</th>
-                                        <th>{{trans('student::local.print')}}</th>                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($dailyRequests as $dailyRequest)
-                                        <tr>
-                                            <td>{{$dailyRequest->recipient_name}}</td>
-                                            <td>{{$dailyRequest->leave_time}}</td>
-                                            <td>{{$dailyRequest->admin->name}}</td>
-                                            <td>{{$dailyRequest->created_at}}</td>
-                                            <td><a href="{{route('daily-requests.print',$dailyRequest->id)}}" class="btn btn-primary">{{ trans('student::local.print') }}</a></td>
+@if (count($dailyRequests) != 0)
+    <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-content collapse show">
+              <div class="card-body">            
+                <div class="form-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table" >
+                                    <thead class="bg-info white">
+                                        <tr>                                        
+                                            <th>{{trans('student::local.parent')}}</th>
+                                            <th>{{trans('student::local.leave_time')}}</th>
+                                            <th>{{trans('student::local.created_by')}}</th>
+                                            <th>{{trans('student::local.created_at')}}</th>
+                                            <th>{{trans('student::local.print')}}</th>                                        
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>                  
-                </div>              
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($dailyRequests as $dailyRequest)
+                                            <tr>
+                                                <td>{{$dailyRequest->recipient_name}}</td>
+                                                <td>{{$dailyRequest->leave_time}}</td>
+                                                <td>{{$dailyRequest->admin->name}}</td>
+                                                <td>{{$dailyRequest->created_at}}</td>
+                                                <td><a href="{{route('daily-requests.print',$dailyRequest->id)}}" class="btn btn-primary">{{ trans('student::local.print') }}</a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>                  
+                    </div>              
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
-      </div>
-    </div>
-</div>
+        </div>
+    </div>    
+@else
+<div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+  <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+  {{ trans('student::local.no_daily_requests') }}
+</div>  
+@endif
 @endsection

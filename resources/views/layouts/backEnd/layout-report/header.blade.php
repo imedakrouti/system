@@ -53,6 +53,7 @@
         .left{float: left;direction: ltr}
         .paragraph{text-align: justify;font-size: 18px}
         .small-weight{font-weight: 100;line-height: 1}
+        
              
     </style>
 </head>

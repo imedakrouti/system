@@ -41,42 +41,49 @@
       </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-content collapse show">
-          <div class="card-body">            
-            <div class="form-body">
-                  <div class="row">
-                      <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table" >
-                                <thead class="bg-info white">
-                                    <tr>                                        
-                                        <th>{{trans('student::local.date_request')}}</th>
-                                        <th>{{trans('student::local.time_request')}}</th>
-                                        <th>{{trans('student::local.notes')}}</th>
-                                        <th>{{trans('student::local.print')}}</th>                                        
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($parentRequests as $parentRequest)
-                                        <tr>
-                                            <td>{{$parentRequest->date_request}}</td>
-                                            <td>{{$parentRequest->time_request}}</td>
-                                            <td>{{$parentRequest->notes}}</td>
-                                            <td><a href="{{route('parent-requests.print',$parentRequest->id)}}" class="btn btn-primary">{{ trans('student::local.print') }}</a></td>
+@if (count($parentRequests) != 0)
+    <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-content collapse show">
+              <div class="card-body">            
+                <div class="form-body">
+                      <div class="row">
+                          <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table" >
+                                    <thead class="bg-info white">
+                                        <tr>                                        
+                                            <th>{{trans('student::local.date_request')}}</th>
+                                            <th>{{trans('student::local.time_request')}}</th>
+                                            <th>{{trans('student::local.notes')}}</th>
+                                            <th>{{trans('student::local.print')}}</th>                                        
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>                  
-                </div>              
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($parentRequests as $parentRequest)
+                                            <tr>
+                                                <td>{{$parentRequest->date_request}}</td>
+                                                <td>{{$parentRequest->time_request}}</td>
+                                                <td>{{$parentRequest->notes}}</td>
+                                                <td><a href="{{route('parent-requests.print',$parentRequest->id)}}" class="btn btn-primary">{{ trans('student::local.print') }}</a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>                  
+                    </div>              
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
-      </div>
-    </div>
-</div>
+        </div>
+    </div>    
+@else
+<div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+  <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+  {{ trans('student::local.no_parent_request') }}
+</div>  
+@endif
 @endsection

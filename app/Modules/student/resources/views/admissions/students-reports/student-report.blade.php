@@ -37,47 +37,54 @@
       </div>
     </div>
 </div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-content collapse show">
-        <div class="card-body">
-          
-          <div class="table-responsive">
-            <table class="table">
-              <thead class="bg-info white">
-                <tr>
-                    <th>{{trans('student::local.report_title')}}</th>                    
-                    <th>{{trans('student::local.created_by')}}</th>                                                                
-                    <th>{{trans('student::local.created_at')}}</th>
-                    <th>{{trans('student::local.updated_at')}}</th>                 
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($reports as $report)
+@if (count($reports) != 0)
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-content collapse show">
+          <div class="card-body">
+            
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="bg-info white">
                   <tr>
-                    <td>
-                        <a href="{{route('student-reports.show',$report->id)}}">{{$report->report_title}}</a>
-                    </td>
-                    <td>
-                        {{$report->admin->name}}
-                    </td>
-                    <td>
-                        {{$report->created_at}}
-                    </td>  
-                    <td>
-                        {{$report->updated_at}}
-                    </td>                  
-                    
+                      <th>{{trans('student::local.report_title')}}</th>                    
+                      <th>{{trans('student::local.created_by')}}</th>                                                                
+                      <th>{{trans('student::local.created_at')}}</th>
+                      <th>{{trans('student::local.updated_at')}}</th>                 
                   </tr>
-                @endforeach                  
-              </tbody>
-            </table>  
-          </div>         
+                </thead>
+                <tbody>
+                  @foreach ($reports as $report)
+                    <tr>
+                      <td>
+                          <a href="{{route('student-reports.show',$report->id)}}">{{$report->report_title}}</a>
+                      </td>
+                      <td>
+                          {{$report->admin->name}}
+                      </td>
+                      <td>
+                          {{$report->created_at}}
+                      </td>  
+                      <td>
+                          {{$report->updated_at}}
+                      </td>                  
+                      
+                    </tr>
+                  @endforeach                  
+                </tbody>
+              </table>  
+            </div>         
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-</div>
+  </div>    
+@else
+<div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+  <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+  {{ trans('student::local.no_student_reports') }}
+</div>  
+@endif
 @endsection

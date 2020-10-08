@@ -116,6 +116,10 @@ class Student extends Model
     {
         return $q->where('student_type','student');
     }
+    public function native()
+    {
+        return $this->belongsTo('Student\Models\Settings\Language','native_lang_id');
+    }
     public function languages()
     {
         return $this->belongsTo('Student\Models\Settings\Language','second_lang_id');

@@ -78,19 +78,21 @@ class StudentController extends Controller
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-edit"></i> '.trans('student::local.editing').'</a>               
-                <div class="dropdown-divider"></div>                
-                <a class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.commissioner').'</a>
-                <a class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('student::local.add_proof_enrollments').'</a>                                
+                <div class="dropdown-divider"></div>  
+                <a target="_blank" class="dropdown-item" href="'.route('students.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.print').'</a>                                             
+                <a target="_blank" class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.commissioner').'</a>
+                <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('student::local.add_proof_enrollments').'</a>                                
             </div>
         </div>':'
         <div class="btn-group mr-1 mb-1">
-            <button type="button" class="btn btn-secondary"><i class="la la-user"></i> '.trans('student::local.more').'</button>
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+            <button type="button" class="btn btn-warning">'.trans('student::local.more').'</button>
+            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="'.route('students.edit',$data->id).'">'.trans('student::local.editing').'</a>                
+                <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-edit"></i> '.trans('student::local.editing').'</a>                
+                <a target="_blank" class="dropdown-item" href="'.route('students.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.print').'</a>                                             
             </div>
         </div>';
     }
@@ -725,21 +727,20 @@ class StudentController extends Controller
         }
     }
     public function printApplicationReport($student_id)
-    {
-        $filename                   = 'student-report.pdf';
-        $student                    = Student::with('nationalities','regStatus','division','grade','father','mother')
+    {        
+        $student  = Student::with('nationalities','regStatus','division','grade','father','mother')
         ->findOrFail($student_id);
            
         $data = [
-            'title'             => 'Student Report',       
-            'logo'              => logo(),
-            'schoolName'        => schoolName(),          
+            'title'             => $student->student_number,       
             'student'           => $student,
-            'studentPathImage'  => public_path('images/id-designs/'.$student->student_image),
-        		];
+            'logo'              => logo(),
+            'schoolName'        => getSchoolName($student->division_id),          
+            'studentPathImage'  => public_path('images/studentsImages/'),
+        ];
 
-        $pdf = PDF::loadView('student::students.pdf-application', $data);
-		return $pdf->stream( $filename);
+        $pdf = PDF::loadView('student::students.reports.pdf-application', $data);
+		return $pdf->stream($student->student_number);
     }
 
     public function filter()
