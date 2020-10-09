@@ -39,7 +39,7 @@ class FatherRequest extends FormRequest
             'nationality_id'        => 'required',
             'home_phone'            => 'max:11',
             'mobile1'               => 'required|max:11|unique:fathers,mobile1,'.$id,
-            'mobile2'               => 'max:11|unique:fathers,mobile2,'.$id,
+            'mobile2'               => 'max:11',
             'job'                   => 'required|max:75',
             'qualification'         => 'required|max:75',
             'block_no'              => 'required',
@@ -50,7 +50,7 @@ class FatherRequest extends FormRequest
             'marital_status'        => 'required',
             'facebook'              => 'max:50',
             'whatsapp_number'       => 'max:11',
-            'email'                 => 'max:75|unique:fathers,email,'.$id,
+            'email'                 => 'max:75',
         ];
     }
     public function messages()
@@ -82,8 +82,7 @@ class FatherRequest extends FormRequest
             'mobile1.required'                  => trans('student::local.mobile1_required'),
             'mobile1.unique'                    => trans('student::local.mobile1_unique'),
             'mobile1.max'                       => trans('student::local.mobile1_max'),
-            'mobile2.max'                       => trans('student::local.mobile2_max'),
-            'mobile2.unique'                    => trans('student::local.mobile2_unique'),
+            'mobile2.max'                       => trans('student::local.mobile2_max'),            
             'job.required'                      => trans('student::local.job_required'),
             'job.max'                           => trans('student::local.job_max'),
             'qualification.required'            => trans('student::local.qualification_required'),
@@ -99,8 +98,7 @@ class FatherRequest extends FormRequest
             'marital_status.required'           => trans('student::local.marital_status_required'),
             'facebook.max'                      => trans('student::local.facebook_max'),
             'whatsapp_number.max'               => trans('student::local.whatsapp_number_max'),
-            'email.max'                         => trans('student::local.email_max'),
-            'email.unique'                      => trans('student::local.email_unique')
+            'email.max'                         => trans('student::local.email_max'),            
         ];
     }
 }

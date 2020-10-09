@@ -31,14 +31,14 @@ class MotherRequest extends FormRequest
             'religion_m'            => 'required',
             'nationality_id_m'      => 'required',
             'mobile1_m'             => 'required|max:11|unique:mothers,mobile1_m,'.$id,
-            'mobile2_m'             => 'max:11|unique:mothers,mobile2_m,'.$id,
+            'mobile2_m'             => 'max:11',
             'job_m'                 => 'required|max:75',
             'qualification_m'       => 'required|max:75',
             'block_no_m'            => 'required',
             'street_name_m'         => 'required|max:50',
             'state_m'               => 'required|max:30',
             'government_m'          => 'required|max:30',
-            'email_m'               => 'max:75|unique:mothers,email_m,'.$id,      
+            'email_m'               => 'max:75',      
             'facebook_m'            => 'max:50',
             'whatsapp_number_m'     => 'max:11',
         ];
@@ -57,8 +57,7 @@ class MotherRequest extends FormRequest
             'mobile1_m.required'                  => trans('student::local.mobile1_m_required'),
             'mobile1_m.max'                       => trans('student::local.mobile1_m_max'),
             'mobile1_m.unique'                    => trans('student::local.mobile1_m_unique'),
-            'mobile2_m.max'                       => trans('student::local.mobile2_m_max'),
-            'mobile2_m.unique'                    => trans('student::local.mobile2_m_unique'),
+            'mobile2_m.max'                       => trans('student::local.mobile2_m_max'),            
             'job_m.required'                      => trans('student::local.job_m_required'),
             'job_m.max'                           => trans('student::local.job_m_max'),
             'qualification_m.required'            => trans('student::local.qualification_m_required'),
@@ -72,8 +71,7 @@ class MotherRequest extends FormRequest
             'government_m.max'                    => trans('student::local.government_m_max'),            
             'facebook_m.max'                      => trans('student::local.facebook_m_max'),
             'whatsapp_number_m.max'               => trans('student::local.whatsapp_number_m_max'),
-            'email_m.max'                         => trans('student::local.email_m_max'),
-            'email_m.unique'                      => trans('student::local.email_m_uniqid')
+            'email_m.max'                         => trans('student::local.email_m_max'),            
         ];
     }
 }
