@@ -51,6 +51,10 @@
                       <td>{{ trans('student::local.student_name') }}</td>
                     </tr>
                     <tr>
+                      <td>parent_name</td>
+                      <td>{{ trans('student::local.parent_name') }}</td>
+                    </tr>                    
+                    <tr>
                       <td>father_name</td>
                       <td>{{ trans('student::local.father_name') }}</td>
                     </tr>  

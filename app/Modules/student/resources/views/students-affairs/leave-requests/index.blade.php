@@ -43,7 +43,8 @@
                                 <th>{{trans('student::local.division')}}</th>
                                 <th>{{trans('student::local.created_at')}}</th>                                
                                 <th>{{trans('student::local.view')}}</th>                                
-                                <th>{{trans('student::local.print')}}</th>                                
+                                <th>{{trans('student::local.print')}}</th> 
+                                <th>{{trans('student::local.edit')}}</th>                               
                             </tr>
                         </thead>
                         <tbody>
@@ -87,7 +88,8 @@
               {data: 'division',            name: 'division'},
               {data: 'created_at',          name: 'created_at'},               
               {data: 'show',                name: 'show'},               
-              {data: 'print',               name: 'print'},               
+              {data: 'print',               name: 'print'},    
+              {data: 'action', 	            name: 'action', orderable: false, searchable: false},           
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

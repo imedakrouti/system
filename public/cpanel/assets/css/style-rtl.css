@@ -79,3 +79,6 @@ select.form-control:not([size]):not([multiple]) {
     color: green;
     font-weight: bold;
 }
+.select2 {
+    width:100%!important;
+    }

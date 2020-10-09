@@ -18,6 +18,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -73,6 +74,12 @@
                       <h5><strong>{{ trans('student::local.created_at') }} :</strong> {{$leave->created_at}}</h5>                                                         
                     </div>
                   </div>
+                  <div class="row mt-1">
+                    <div class="col-md-6">
+                      <a class="btn btn-warning" href="{{route('leave-requests.edit',$leave->id)}}">{{ trans('student::local.edit') }}</a>                                       
+                      <a class="btn btn-primary" href="{{route('leave-requests.print',$leave->id)}}">{{ trans('student::local.print') }}</a>                                       
+                    </div>
+                  </div>                  
                 </div>
               </div>
           </div>

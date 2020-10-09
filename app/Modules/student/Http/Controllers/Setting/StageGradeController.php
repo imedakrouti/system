@@ -27,7 +27,7 @@ class StageGradeController extends Controller
         }
         $stages = Stage::sort()->get();        
         return view('student::settings.stage-grades.index',
-        ['title'=>trans('student::local.stages'),'stages' => $stages]);  
+        ['title'=>trans('student::local.stages_grades'),'stages' => $stages]);  
     }
 
     public function filter()

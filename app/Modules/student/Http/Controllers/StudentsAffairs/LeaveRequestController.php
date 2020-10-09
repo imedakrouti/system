@@ -23,14 +23,20 @@ class LeaveRequestController extends Controller
             $data = LeaveRequest::with('students')->orderBy('id','desc')->get();
             return datatables($data)
                     ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a class="btn btn-warning btn-sm" href="'.route('leave-requests.edit',$data->id).'">
+                            <i class=" la la-edit"></i>
+                        </a>';
+                            return $btn;
+                    })                    
                     ->addColumn('show', function($data){
-                           $btn = '<a class="btn btn-info" href="'.route('leave-requests.show',$data->id).'">
+                        $btn = '<a class="btn btn-info btn-sm" href="'.route('leave-requests.show',$data->id).'">
                            '.trans('student::local.more').'
                        </a>';
                             return $btn;
                     }) 
                     ->addColumn('print', function($data){
-                        $btn = '<a class="btn btn-primary" href="'.route('leave-requests.print',$data->id).'">
+                        $btn = '<a target="_blank" class="btn btn-primary btn-sm"  href="'.route('leave-requests.print',$data->id).'">
                             '.trans('student::local.print').'
                         </a>';
                             return $btn;
@@ -54,7 +60,7 @@ class LeaveRequestController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['student_number','check','student_name','grade','division','show','print'])
+                    ->rawColumns(['student_number','check','student_name','grade','division','show','print','action'])
                     ->make(true);
         }
         return view('student::students-affairs.leave-requests.index',
@@ -87,8 +93,7 @@ class LeaveRequestController extends Controller
             'student_id',
             'reason',
             'notes',
-            'parent_type',
-            'endorsement'
+            'parent_type'            
         ];
     }
     /**
@@ -98,7 +103,7 @@ class LeaveRequestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store()
-    { 
+    {         
         request()->user()->leaveRequests()->create(request()->only($this->attributes()));          
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('leave-requests.index');
@@ -148,7 +153,10 @@ class LeaveRequestController extends Controller
         $grade  = session('lang') == 'ar' ? $leave->students->grade->ar_grade_name: $leave->students->grade->en_grade_name ;
 
         $content = str_replace('student_name',$student_name ,$content);
-        
+        $parent_name = $leave->parent_type == 'father' ? $father_name : $leave->students->mother->full_name;
+
+        $content = str_replace('parent_name',$parent_name ,$content);
+
         $content = str_replace('father_name',$father_name ,$content);
         $content = str_replace('father_national_id',$father_national_id ,$content);
 
@@ -183,6 +191,23 @@ class LeaveRequestController extends Controller
 
 		$pdf = PDF::loadView('student::students-affairs.leave-requests.reports.report', $data,[],$config);
 		return $pdf->stream('Leave Request Report');
+    }
+    public function edit($id)
+    {
+        $students = Student::has('statements')        
+        ->orderBy('ar_student_name')
+        ->get();
+        $leave = LeaveRequest::findOrFail($id);
+        return view('student::students-affairs.leave-requests.edit',
+        ['title'=>trans('student::local.edit_leave_request'),'leave'=>$leave,'students'=>$students]);
+    }
+    public function update($id)
+    {        
+        $leave = LeaveRequest::findOrFail($id);
+        $leave->update(request()->only($this->attributes())+
+        [ 'student_id' => request('student_id')]);   
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('leave-requests.index');
     }
    
 

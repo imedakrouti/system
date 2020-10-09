@@ -64,7 +64,15 @@ buttons: [
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('setMigration.index')}}";
                         }
-                },                
+                },   
+                // instructions
+                {
+                    "text": "{{trans('student::local.instructions')}}",
+                    "className": "btn btn-purple mr-1",
+                    action : function ( e, dt, node, config ) {
+                       $('#large').modal('show');
+                        }
+                },                              
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'statements.destroy'])                 
                 // default btns

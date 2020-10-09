@@ -9,6 +9,7 @@ use Student\Models\Parents\Father;
 use Student\Models\Students\Student;
 use Carbon;
 use DB;
+use Student\Models\Parents\Mother;
 use Student\Models\Settings\Division;
 
 
@@ -22,14 +23,25 @@ class AdmissionDashController extends Controller
         ->where('student_type','applicant')
         ->count();
 
-        $data['students'] = Student::whereHas('regStatus',function($q){
-            $q->where('shown','show');
+        $data['students'] = Student::with('statements')->whereHas('statements',function($q){
+            $q->where('year_id',currentYear());
         })
-        ->where('student_type','student')
         ->count();
         
-        $data['parents'] = Father::count();
-        $data['guardians'] = Guardian::count();
+        $fathers = Father::join('students','fathers.id','=','students.father_id')
+        ->join('students_statements','students.id','=','students_statements.student_id')
+        ->where('students_statements.year_id',currentYear())->count();
+
+        $mothers = Mother::join('students','mothers.id','=','students.mother_id')
+        ->join('students_statements','students.id','=','students_statements.student_id')
+        ->where('students_statements.year_id',currentYear())->count();
+
+        $data['parents'] = $fathers + $mothers;
+
+        $guardians = Guardian::join('students','guardians.id','=','students.guardian_id')
+        ->join('students_statements','students.id','=','students_statements.student_id')
+        ->where('students_statements.year_id',currentYear())->count();
+        $data['guardians'] = $guardians;
         
         $gradeCounts = $this->gradeCountQuery();
         $title = trans('admin.students_affairs');

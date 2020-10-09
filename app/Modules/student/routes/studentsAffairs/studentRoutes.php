@@ -42,7 +42,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::post('distribution-students/move-to-class','DistributionController@moveToClass')->name('distribution.moveToClass');
 
     // Leave Requests
-    Route::resource('/leave-requests','LeaveRequestController')->except('destroy','edit');
+    Route::resource('/leave-requests','LeaveRequestController')->except('destroy');
     Route::post('leave-requests/destroy','LeaveRequestController@destroy')->name('leave-requests.destroy');   
     Route::get('leave-requests/print/{id}','LeaveRequestController@printLeaveRequest')->name('leave-requests.print');   
     

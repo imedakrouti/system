@@ -124,10 +124,26 @@
 <hr>
 {{-- documents required --}}
 <h4>{{ trans('student::local.student_documents') }}</h4>
-
+@php
+          $reg_type = '';
+        switch ($student->reg_type) {
+            case 'مستجد':
+                $reg_type = 'new';
+                break;
+            case 'محول':
+                $reg_type = 'transfer';
+                break; 
+            case 'عائد':
+                $reg_type = 'return';
+                break;                                           
+            default:
+                $reg_type = 'arrival';                
+                break;
+        }
+@endphp
 <ol>
     @foreach ($required_documents as $doc)
-        @if (str_contains($doc->registration_type, $student->reg_type))
+        @if (str_contains($doc->registration_type, $reg_type))
             <li><input type="checkbox">
                 {{ session('lang') == 'ar'?$doc->ar_document_name:$doc->en_document_name}} 
                 @if (!empty($doc->notes))

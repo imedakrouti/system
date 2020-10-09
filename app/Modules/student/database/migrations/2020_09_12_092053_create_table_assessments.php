@@ -15,7 +15,7 @@ class CreateTableAssessments extends Migration
     {
         Schema::create('assessments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->enum('acceptance',['accepted','rejected'])->default('accepted');
             $table->enum('assessment_type',['assessment','re-assessment'])->default('assessment');
             $table->unsignedBigInteger('student_id');

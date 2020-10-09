@@ -22,9 +22,10 @@
         <div class="card-content">
           <div class="card-body">
             <div class="media d-flex">
-              <div class="media-body text-white text-left">
+              <div class="media-body text-white text-left" >
                 <h3 class="text-white">{{$data['applicants']}}</h3>
-                <span>{{ trans('student::local.all_applicants') }}</span>
+                <span><strong>{{ trans('student::local.all_applicants') }}</strong></span> 
+                <br><span>{{ trans('student::local.applicants_get_assessment') }}</span>
               </div>
               <div class="align-self-center">
                 <i class="la la-child text-white font-large-2 float-right"></i>
@@ -41,7 +42,8 @@
             <div class="media d-flex">
               <div class="media-body text-white text-left">
                 <h3 class="text-white">{{$data['students']}}</h3>
-                <span>{{ trans('student::local.all_students') }}</span>
+                <span><strong>{{ trans('student::local.all_students') }}</strong></span>
+                <br><span>{{ trans('student::local.students_in_current_statement') }}</span>
               </div>
               <div class="align-self-center">
                 <i class="la la-graduation-cap text-white font-large-2 float-right"></i>
@@ -58,7 +60,8 @@
             <div class="media d-flex">
               <div class="media-body text-white text-left">
                 <h3 class="text-white">{{$data['parents']}}</h3>
-                <span>{{ trans('student::local.parents') }}</span>
+                <span><strong>{{ trans('student::local.parents') }}</strong></span>
+                <br><span>{{ trans('student::local.only_fathers_count') }}</span>
               </div>
               <div class="align-self-center">
                 <i class="la la-users text-white font-large-2 float-right"></i>
@@ -75,7 +78,8 @@
             <div class="media d-flex">
               <div class="media-body text-white text-left">
                 <h3 class="text-white">{{$data['guardians']}}</h3>
-                <span>{{ trans('student::local.guardians') }}</span>
+                <span><strong>{{ trans('student::local.guardians') }}</strong></span>
+                <br><span>{{ trans('student::local.guardians_info') }}</span>
               </div>
               <div class="align-self-center">
                 <i class="la la-male text-white font-large-2 float-right"></i>

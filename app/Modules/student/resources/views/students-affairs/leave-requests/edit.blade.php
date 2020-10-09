@@ -23,8 +23,9 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body">
-            <form class="form form-horizontal" method="POST" action="{{route('leave-requests.store')}}">
+            <form class="form form-horizontal" method="POST" action="{{route('leave-requests.update',$leave->id)}}">
                 @csrf
+                @method('PUT')
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
@@ -34,7 +35,7 @@
                           <div class="col-md-9">
                             <select name="student_id" class="form-control select2" required>
                                 @foreach ($students as $student)
-                                    <option {{old('student_id') == $student->id ? 'selected' :''}} value="{{$student->id}}">
+                                    <option {{old('student_id',$leave->student_id) == $student->id ? 'selected' :''}} value="{{$student->id}}">
                                         @if (session('lang') == 'ar')
                                         [{{$student->student_number}}] {{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}
                                     @else
@@ -52,8 +53,10 @@
                           <label class="col-md-3 label-control">{{ trans('student::local.parent_type') }}</label>                         
                           <div class="col-md-9">
                             <select name="parent_type" class="form-control" required>
-                                <option value="father">{{ trans('student::local.father') }}</option>
-                                <option value="mother">{{ trans('student::local.mother') }}</option>                                
+                                <option {{old('parent_type',$leave->parent_type) == 'father' || old('parent_type',$leave->parent_type) == trans('student::local.father') ?
+                            'selected' : ''}} value="father">{{ trans('student::local.father') }}</option>
+                                <option {{old('parent_type',$leave->parent_type) == 'mother' || old('parent_type',$leave->parent_type) == trans('student::local.mother') ?
+                                'selected' : ''}} value="mother">{{ trans('student::local.mother') }}</option>                                
                             </select>
                             <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
@@ -63,7 +66,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.leave_reason') }}</label>
                           <div class="col-md-9">                         
-                              <textarea name="reason" class="form-control" required cols="30" rows="5">{{old('reason')}}</textarea>
+                              <textarea name="reason" class="form-control" required cols="30" rows="5">{{old('reason',$leave->reason)}}</textarea>
                               <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
@@ -72,11 +75,11 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
                           <div class="col-md-9">                         
-                              <textarea name="notes" class="form-control" required cols="30" rows="5">{{old('notes')}}</textarea>
+                              <textarea name="notes" class="form-control" required cols="30" rows="5">{{old('notes',$leave->id)}}</textarea>
                               <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
-                    </div>                                                        
+                    </div>               
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
@@ -92,4 +95,18 @@
       </div>
     </div>
 </div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-content collapse show">
+        <div class="card-body">
+            <h5><strong>{{ trans('student::local.created_by') }} :</strong> {{$leave->admin->name}}</h5>
+            <h5><strong>{{ trans('student::local.created_at') }} :</strong> {{$leave->created_at}}</h5>
+            <h5><strong>{{ trans('student::local.updated_at') }} :</strong> {{$leave->updated_at}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
+
