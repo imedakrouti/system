@@ -21,6 +21,7 @@ class AdmissionDashController extends Controller
             $q->where('acceptance','accepted');
         })
         ->where('student_type','applicant')
+        ->where('year_id',currentYear())
         ->count();
 
         $data['students'] = Student::with('statements')->whereHas('statements',function($q){

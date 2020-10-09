@@ -17,16 +17,25 @@
         <li class=" nav-item {{request()->segment(2)=='parents'?'active':''}}">
             <a href="{{route('parents.index')}}"><i class="la la-users">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.parents') }}</span>
+                <span class="badge badge badge-pill badge-danger float-right">
+                    {{ Student\Models\Parents\Father::count() + Student\Models\Parents\Mother::count()}}
+                </span>
             </a>
         </li>  
         <li class=" nav-item {{request()->segment(2)=='students'?'active':''}}">
             <a href="{{route('students.index')}}"><i class="la la-graduation-cap">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students') }}</span>
+                <span class="badge badge badge-pill badge-success float-right">
+                    {{Student\Models\Students\Student::count()}}
+                </span>
             </a>
         </li>  
         <li class=" nav-item {{request()->segment(2)=='guardians'?'active':''}}">
             <a href="{{route('guardians.index')}}"><i class="la la-male">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.guardians') }}</span>
+                <span class="badge badge badge-pill badge-info float-right">
+                    {{Student\Models\Guardians\Guardian::count()}}
+                </span>
             </a>
         </li>  
         <li class=" nav-item {{request()->segment(2)=='advanced-search'?'active':''}}">
@@ -136,8 +145,7 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_id_card') }}</span>
                     </a>
                 </li> 
-                 
-                
+                                 
                 <li class=" nav-item {{request()->segment(2)=='archives'?'active':''}}">
                     <a href="{{route('archives.index')}}"><i class="la la-archive">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.archive') }}</span>
