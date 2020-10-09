@@ -50,13 +50,13 @@
                             <a href="{{route('parent-requests.student',$student->id)}}" class="dropdown-item" >{{ trans('student::local.parent_requests') }}</a>
                             <a href="{{route('student.report',$student->id)}}" class="dropdown-item" >{{ trans('student::local.student_reports') }}</a>
                             <a href="{{route('student-notes.index',$student->id)}}" class="dropdown-item" >{{ trans('student::local.notes') }}</a>
+                            <a href="{{route('archives.student-files',$student->id)}}" class="dropdown-item" >{{ trans('student::local.archive') }}</a>
                             {{-- <a href="#" class="dropdown-item" >{{ trans('student::local.payments') }}</a>
                             <a href="#" class="dropdown-item" >{{ trans('student::local.books') }}</a>                      
                             <a href="#" class="dropdown-item" >{{ trans('student::local.uniform') }}</a>
                             <a href="#" class="dropdown-item" >{{ trans('student::local.absence') }}</a>
                             <a href="#" class="dropdown-item" >{{ trans('student::local.buses') }}</a>
-                            <a href="#" class="dropdown-item" >{{ trans('student::local.health_status') }}</a>                      
-                            <a href="#" class="dropdown-item" >{{ trans('student::local.archive') }}</a> --}}
+                            <a href="#" class="dropdown-item" >{{ trans('student::local.health_status') }}</a>                       --}}
                         </div>
                     </div>                                 
                 @endif

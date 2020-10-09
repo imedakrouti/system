@@ -43,6 +43,7 @@ class StudentRequest extends FormRequest
             'division_id'           => 'required',
             'application_date'      => 'required',
             'registration_status_id'=> 'required',
+            'student_image'         => 'mimes:jpeg,png,jpg|max:1024',            
         ];
     }
     public function messages()
@@ -68,6 +69,8 @@ class StudentRequest extends FormRequest
             'division_id.required'              => trans('student::local.stu_division_id_required'),
             'application_date.required'         => trans('student::local.stu_application_date_required'),
             'registration_status_id.required'   => trans('student::local.stu_reg_status_id_required'),
+            'student_image.mimes'               => trans('student::local.student_image_mimes'),
+            'student_image.max'                 => trans('student::local.student_image_max'),
             
         ];
     }

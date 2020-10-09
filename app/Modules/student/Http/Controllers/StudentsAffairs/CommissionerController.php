@@ -29,8 +29,8 @@ class CommissionerController extends Controller
                             return $btn;
                     })
                     ->addColumn('print', function($data){
-                        $btn = '<a class="btn btn-info btn-sm" href="'.route('commissioners-students.print',$data->id).'">
-                        <i class=" la la-print"></i> '.trans('student::local.print_commissioner_report').'
+                        $btn = '<a class="btn btn-info btn-sm" target="_blank" href="'.route('commissioners-students.print',$data->id).'">
+                        '.trans('student::local.print_commissioner_report').'
                         </a>';
                             return $btn;
                     })                    

@@ -25,7 +25,8 @@ class CommissionerRequest extends FormRequest
     {
         $id = request()->segment(3);
         return [
-            'commissioner_name'     => 'required|max:100',            
+            'commissioner_name'     => 'required|max:100',     
+            'file_name'             => 'mimes:pdf,jpeg,png,jpg|max:5000',                   
             'id_number'             => 'required|max:15|unique:commissioners,id_number,'.$id,            
             'mobile'                => 'required|max:11|unique:commissioners,mobile,'.$id            
         ];
@@ -40,7 +41,9 @@ class CommissionerRequest extends FormRequest
            'id_number.max'                      => trans('student::local.id_number_max'),
            'mobile.required'                    => trans('student::local.mobile_required'),
            'mobile.max'                         => trans('student::local.mobile_max'),
-           'mobile.unique'                      => trans('student::local.mobile_unique'),
+           'mobile.unique'                      => trans('student::local.mobile_unique'),           
+           'file_name.max'                      => trans('student::local.file_name_max'),
+           'file_name.mimes'                    => trans('student::local.file_name_mimes'),
         ];
     }    
 }

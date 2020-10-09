@@ -138,8 +138,8 @@
                 </li> 
                  
                 
-                <li class=" nav-item {{request()->segment(2)=='parent-reports'?'active':''}}">
-                    <a href="{{route('parent-reports.index')}}"><i class="la la-archive">
+                <li class=" nav-item {{request()->segment(2)=='archives'?'active':''}}">
+                    <a href="{{route('archives.index')}}"><i class="la la-archive">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.archive') }}</span>
                     </a>
                 </li>                                                      

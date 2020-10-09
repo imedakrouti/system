@@ -107,4 +107,10 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::get('/reports/period-leave-requests','ReportController@leaveRequests')->name('reports.leave-requests');
     Route::get('/reports/period-transfers','ReportController@transfers')->name('reports.transfers');
 
+    /**
+     * Archive
+     */
+    Route::resource('/archives','ArchiveController')->except('destroy','show');
+    Route::post('archives/destroy','ArchiveController@destroy')->name('archives.destroy');   
+    Route::get('archives/student-files/{id}','ArchiveController@studentFiles')->name('archives.student-files');   
 });

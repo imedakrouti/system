@@ -88,7 +88,7 @@
                             <input  type="file" name="file_name"/>
                           </div>
                         </div>
-                      </div>                                                                          
+                    </div>                                                                          
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

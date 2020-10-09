@@ -237,5 +237,9 @@ class Admin extends Authenticatable
     public function absences()
     {
         return $this->hasMany('Student\Models\Students\Absence','admin_id');
-    }                     
+    }  
+    public function archives()
+    {
+        return $this->hasMany('Student\Models\Students\Archive','admin_id');
+    }                    
 }
