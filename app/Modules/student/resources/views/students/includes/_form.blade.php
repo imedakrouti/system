@@ -281,7 +281,7 @@
                             <option value="">{{ trans('student::local.select') }}</option>
                             <option {{old('reg_type') == 'return' ?'selected':''}} value="return">{{ trans('student::local.return') }}</option>
                             <option {{old('reg_type') == 'arrival' ?'selected':''}} value="arrival">{{ trans('student::local.arrival') }}</option>                                
-                            <option {{old('reg_type') == 'noob' ?'selected':''}} value="noob">{{ trans('student::local.noob') }}</option>                                
+                            <option {{old('reg_type') == 'new' ?'selected':''}} value="new">{{ trans('student::local.new') }}</option>                                
                             <option {{old('reg_type') == 'transfer' ?'selected':''}} value="transfer">{{ trans('student::local.transfer') }}</option>                                
                         </select>
                         <span class="red">{{ trans('student::local.requried') }}</span>

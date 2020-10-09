@@ -97,4 +97,20 @@ class Father extends Model
     {
         return $this->hasMany('Student\Models\Students\Student','father_id')->orderBy('dob','asc');
     }
+    public function setEnStNameAttribute($value)
+    {
+        return $this->attributes['en_st_name'] = ucfirst($value);
+    }
+    public function setEnNdNameAttribute($value)
+    {
+        return $this->attributes['en_nd_name'] = ucfirst($value);
+    }
+    public function setEnRdNameAttribute($value)
+    {
+        return $this->attributes['en_rd_name'] = ucfirst($value);
+    }
+    public function setEnThNameAttribute($value)
+    {
+        return $this->attributes['en_th_name'] = ucfirst($value);
+    }
 }

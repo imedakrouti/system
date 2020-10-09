@@ -25,6 +25,7 @@ use Carbon;
 use Student\Models\Students\ReportContent;
 use DateTime;
 use Student\Models\Settings\Classroom;
+use Student\Models\Settings\DocumentGrade;
 use Student\Models\Students\Room;
 
 class StudentController extends Controller
@@ -730,10 +731,18 @@ class StudentController extends Controller
     {        
         $student  = Student::with('nationalities','regStatus','division','grade','father','mother')
         ->findOrFail($student_id);
+
+        $required_documents = AdmissionDoc::with('docsGrade')
+        ->whereHas('docsGrade',function($q) use ($student){
+            $q->where('grade_id',$student->grade_id);
+        })->get();  
+
+        // dd(preg_match('/transfer/i', $student->reg_type) );
            
         $data = [
             'title'             => $student->student_number,       
             'student'           => $student,
+            'required_documents'=> $required_documents,
             'logo'              => logo(),
             'schoolName'        => getSchoolName($student->division_id),          
             'studentPathImage'  => public_path('images/studentsImages/'),

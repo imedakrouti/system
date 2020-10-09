@@ -161,24 +161,25 @@ class DocGradesController extends Controller
         $output = "";
 
         
-        $admissionDocuments = AdmissionDoc::with('docsGrade')->whereHas('docsGrade',function($q) use ($student){
+        $admissionDocuments = AdmissionDoc::with('docsGrade')
+        ->whereHas('docsGrade',function($q) use ($student){
             $q->where('grade_id',$student->grade_id);
         })->get();        
         foreach ($admissionDocuments as $document) {
-            
-            $document_id = DB::table('student_doc_delivers')->select('admission_document_id')
-            ->where('student_id',$id)->where('admission_document_id',$document->id)->first();
-            
-            $documentValue = !empty($document_id->admission_document_id)?
-            $document_id->admission_document_id:0;
-            // dd($document_id);
-            $checked = $document->id == $documentValue ?"checked":"";
-            $documentName = session('lang')== 'ar'?$document->ar_document_name:
-            $document->en_document_name;
-            $output .= '<h5><li><label class="pos-rel">
-                        <input type="checkbox" class="ace" name="admission_document_id[]" '.$checked.' value="'.$document->id.'" />
-                        <span class="lbl"></span> '.$documentName.'
-                    </label></li></h5>';                    
+            if (str_contains($document->registration_type, $student->reg_type)) {
+                $document_id = DB::table('student_doc_delivers')->select('admission_document_id')
+                ->where('student_id',$id)->where('admission_document_id',$document->id)->first();
+                
+                $documentValue = !empty($document_id->admission_document_id)?
+                $document_id->admission_document_id:0;
+                // dd($document_id);
+                $checked = $document->id == $documentValue ?"checked":"";
+                $documentName = session('lang')== 'ar'?$document->ar_document_name:$document->en_document_name;
+                $output .= '<h5><li><label class="pos-rel">
+                            <input type="checkbox" class="ace" name="admission_document_id[]" '.$checked.' value="'.$document->id.'" />
+                            <span class="lbl"></span> '.$documentName.'
+                        </label></li></h5>';                                    
+            }
         };                        
         return json_encode($output);
     }

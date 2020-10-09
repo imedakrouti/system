@@ -31,7 +31,7 @@ class CreateTableStudents extends Migration
             $table->unsignedBigInteger('second_lang_id');
             $table->enum('term',['all','first','second'])->default('all');
             $table->date('dob');
-            $table->enum('reg_type',['return','arrival','noob','transfer'])->default('noob');            
+            $table->enum('reg_type',['return','arrival','new','transfer'])->default('new');            
             $table->unsignedBigInteger('grade_id');
             $table->unsignedBigInteger('division_id');
             $table->string('student_image',75)->nullable();

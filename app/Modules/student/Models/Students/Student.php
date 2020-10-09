@@ -140,6 +140,27 @@ class Student extends Model
     {
         return $this->hasMany('Student\Models\Students\Absence','student_id');
     }  
+    public function getRegTypeAttribute()
+    {
+        switch ($this->attributes['reg_type']) {
+            case 'new':
+                return trans('student::local.new');
+                break;
+            case 'transfer':
+                return trans('student::local.transfer');
+                break;
+            case 'arrival':
+                return trans('student::local.arrival');
+                break;                                    
+            default:
+                return trans('student::local.return');                
+                break;
+        }
+    }
+    public function setEnStudentNameAttribute($value)
+    {
+        return $this->attributes['en_student_name'] = ucfirst($value);
+    }
 
 
 }

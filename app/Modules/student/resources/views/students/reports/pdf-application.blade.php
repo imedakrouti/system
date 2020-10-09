@@ -42,6 +42,8 @@
             {{$student->gender}} <br>
         <strong>{{ trans('student::local.religion') }}:</strong>
             {{$student->religion}} <br>
+        <strong>{{ trans('student::local.reg_type') }}:</strong>
+            {{$student->reg_type}} <br>
     </div>
     {{-- ************************************************************************** --}}
     <div class="right" style="width: 50%">
@@ -119,7 +121,22 @@
 <strong>{{ trans('student::local.educational_mandate') }}: </strong>{{$student->father->educational_mandate}} <br>
 <strong>{{ trans('student::local.marital_status') }}: </strong>{{$student->father->marital_status}} <br>
 <strong>{{ trans('student::local.recognition') }}: </strong>{{$student->father->recognition}} <br>
+<hr>
+{{-- documents required --}}
+<h4>{{ trans('student::local.student_documents') }}</h4>
 
+<ol>
+    @foreach ($required_documents as $doc)
+        @if (str_contains($doc->registration_type, $student->reg_type))
+            <li><input type="checkbox">
+                {{ session('lang') == 'ar'?$doc->ar_document_name:$doc->en_document_name}} 
+                @if (!empty($doc->notes))
+                    [{{$doc->notes}}]                    
+                @endif
+            </li>                             
+        @endif            
+    @endforeach
+</ol>
 <div class="signature">
     <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('student::local.father_sign') }}</strong></h3>
 </div>

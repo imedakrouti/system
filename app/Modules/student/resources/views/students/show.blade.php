@@ -360,10 +360,14 @@
                                         <div class="col-md-9">                    
                                             <select name="reg_type" class="form-control"  disabled>
                                                 <option value="">{{ trans('student::local.select') }}</option>
-                                                <option {{old('reg_type',$student->reg_type) == 'return' ?'selected':''}} value="return">{{ trans('student::local.return') }}</option>
-                                                <option {{old('reg_type',$student->reg_type) == 'arrival' ?'selected':''}} value="arrival">{{ trans('student::local.arrival') }}</option>                                
-                                                <option {{old('reg_type',$student->reg_type) == 'noob' ?'selected':''}} value="noob">{{ trans('student::local.noob') }}</option>                                
-                                                <option {{old('reg_type',$student->reg_type) == 'transfer' ?'selected':''}} value="transfer">{{ trans('student::local.transfer') }}</option>                                
+                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.return') ||
+                                                old('reg_type',$student->reg_type) == 'return' ?'selected':''}} value="return">{{ trans('student::local.return') }}</option>
+                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.arrival') ||
+                                                old('reg_type',$student->reg_type) == 'arrival' ?'selected':''}} value="arrival">{{ trans('student::local.arrival') }}</option>                                
+                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.new') || 
+                                                old('reg_type',$student->reg_type) == 'new' ?'selected':''}} value="new">{{ trans('student::local.new') }}</option>                                
+                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.transfer') ||
+                                                old('reg_type',$student->reg_type) == 'transfer' ?'selected':''}} value="transfer">{{ trans('student::local.transfer') }}</option>                                
                                             </select>
                                             
                                         </div>
