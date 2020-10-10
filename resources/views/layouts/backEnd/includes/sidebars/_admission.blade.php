@@ -25,7 +25,7 @@
         <li class=" nav-item {{request()->segment(2)=='students'?'active':''}}">
             <a href="{{route('students.index')}}"><i class="la la-graduation-cap">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students') }}</span>
-                <span class="badge badge badge-pill badge-success float-right">
+                <span class="badge badge badge-pill badge-warning float-right">
                     {{Student\Models\Students\Student::count()}}
                 </span>
             </a>
