@@ -259,8 +259,7 @@
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="form-group">
-                <label>{{ trans('student::local.register_status_id') }}</label>
-                <div class="col-md-9">
+                    <label>{{ trans('student::local.register_status_id') }}</label>
                     <select name="registration_status_id" class="form-control " required>
                         <option value="">{{ trans('student::local.select') }}</option>
                         @foreach ($regStatus as $status)
@@ -269,8 +268,7 @@
                             </option>
                         @endforeach
                     </select>
-                    <span class="red">{{ trans('student::local.requried') }}</span>
-                </div>
+                    <span class="red">{{ trans('student::local.requried') }}</span>                
                 </div>
             </div>
         </div>            

@@ -118,14 +118,13 @@ class StudentStatementsController extends Controller
     public function filter()
     {
         if (request()->ajax()) {
-            $status = empty(request('status_id')) ? ['students_statements.registration_status_id','<>', ''] :
-            ['registration_status_id', request('status_id')]   ;
-            $whereData = [
-                ['students_statements.division_id', request('division_id')],
-                ['students_statements.grade_id', request('grade_id')],
-                ['students_statements.year_id', request('year_id')]   ,             
-                $status             
-            ];
+            $status = empty(request('status_id')) ? ['students_statements.registration_status_id','<>', ''] : ['registration_status_id', request('status_id')];
+            $division_id = empty(request('division_id')) ? ['students_statements.division_id','<>', ''] : ['students_statements.division_id', request('division_id')];
+            $grade_id = empty(request('grade_id')) ? ['students_statements.grade_id','<>', ''] : ['students_statements.grade_id', request('grade_id')];
+            $year_id = empty(request('year_id')) ? ['students_statements.year_id','<>', ''] : ['students_statements.year_id', request('year_id')];
+            
+            $whereData = [$status,$division_id,$grade_id,$year_id];
+
             $data = StudentStatement::with('student','grade','division','regStatus')
             ->where($whereData)
             ->join('students','students_statements.student_id','=','students.id')

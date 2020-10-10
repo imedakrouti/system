@@ -759,12 +759,11 @@ class StudentController extends Controller
         if (request()->ajax()) {
             $status = empty(request('status_id')) ? ['students.registration_status_id','<>', ''] :['registration_status_id', request('status_id')]   ;
             $student_type = empty(request('student_type')) ? ['students.student_type','<>', ''] :['student_type', request('student_type')]   ;
-            $whereData = [
-                ['students.division_id', request('division_id')],
-                ['students.grade_id', request('grade_id')],                
-                $status,           
-                $student_type,           
-            ];
+            $division_id = empty(request('division_id')) ? ['students.division_id','<>', ''] :['division_id', request('division_id')]   ;
+            $grade_id = empty(request('grade_id')) ? ['students.grade_id','<>', ''] :['grade_id', request('grade_id')]   ;
+            
+            $whereData = [$division_id, $grade_id, $status, $student_type];
+            
             $data = Student::with('nationalities','regStatus','division','father','grade')            
             ->where($whereData)         
             ->orderBy('ar_student_name','asc')                

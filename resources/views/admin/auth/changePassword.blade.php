@@ -41,7 +41,7 @@
                       <div class="form-group row">
                         <label class="col-md-3 label-control" for="userinput1">{{ trans('admin.password') }}</label>
                         <div class="col-md-9">
-                          <input type="password" id="userinput1" class="form-control border-primary" placeholder="{{ trans('admin.password') }}"
+                          <input type="password" class="form-control" required placeholder="{{ trans('admin.password') }}"
                             name="password" ">
                         </div>
                       </div>
@@ -50,7 +50,7 @@
                       <div class="form-group row">
                         <label class="col-md-3 label-control" for="userinput2">{{ trans('admin.confirm_password') }}</label>
                         <div class="col-md-9">
-                          <input type="password" id="userinput2" class="form-control border-primary" placeholder="{{ trans('admin.confirm_password') }}"
+                          <input type="password" class="form-control" required placeholder="{{ trans('admin.confirm_password') }}"
                           name="cPassword" >
                         </div>
                       </div>

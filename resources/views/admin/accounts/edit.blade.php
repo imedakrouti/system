@@ -41,7 +41,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" for="userinput1">{{ trans('admin.account_name') }}</label>
                           <div class="col-md-9">
-                            <input type="text" id="userinput1" class="form-control" value="{{old('name',$admins->name)}}" placeholder="{{ trans('admin.account_name') }}"
+                            <input type="text" required class="form-control" value="{{old('name',$admins->name)}}" placeholder="{{ trans('admin.account_name') }}"
                               name="name" >
                           </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.username') }}</label>
                           <div class="col-md-9">
-                            <input type="text"  class="form-control" value="{{old('username',$admins->username)}}" placeholder="{{ trans('admin.username') }}"
+                            <input type="text" required class="form-control" value="{{old('username',$admins->username)}}" placeholder="{{ trans('admin.username') }}"
                             name="username" >
                           </div>
                         </div>
@@ -60,7 +60,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.email') }}</label>
                           <div class="col-md-9">
-                            <input type="email"  class="form-control" value="{{old('email',$admins->email)}}" placeholder="{{ trans('admin.email') }}"
+                            <input type="email" required class="form-control" value="{{old('email',$admins->email)}}" placeholder="{{ trans('admin.email') }}"
                             name="email" >
                           </div>
                         </div>
@@ -69,7 +69,7 @@
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.prefer_lang') }}</label>
                           <div class="col-md-9">
-                            <select name="lang" class="form-control">
+                            <select name="lang" required class="form-control">
                                 <option>{{ trans('admin.select') }}</option>
                                 <option {{ (old('lang',$admins->lang) == trans('admin.en'))?'selected':''}} value="en">{{ trans('admin.en') }}</option>
                                 <option {{ (old('lang',$admins->lang) == trans('admin.ar'))?'selected':''}} value="ar">{{ trans('admin.ar') }}</option>
@@ -81,7 +81,7 @@
                           <div class="form-group row">
                             <label class="col-md-3 label-control" >{{ trans('admin.account_status') }}</label>
                             <div class="col-md-9">
-                              <select name="status" class="form-control">
+                              <select name="status" required class="form-control">
                                   <option value="">{{ trans('admin.select') }}</option>
                                   <option {{old('status',$admins->status) == trans('admin.active')?'selected':''}} value="enable">{{ trans('admin.active') }}</option>
                                   <option {{old('status',$admins->status) == trans('admin.inactive')?'selected':''}} value="disable">{{ trans('admin.inactive') }}</option>
