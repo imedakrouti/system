@@ -3627,6 +3627,7 @@ return array(
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'SessionUpdateTimestampHandlerInterface' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
     'SettingTableSeeder' => $baseDir . '/database/seeds/SettingTableSeeder.php',
+    'Staff\\Providers\\StaffServiceProvider' => $baseDir . '/app/Modules/staff/Providers/StaffServiceProvider.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'Student\\Http\\Controllers\\Admissions\\AssessmentController' => $baseDir . '/app/Modules/student/Http/Controllers/Admissions/AssessmentController.php',
     'Student\\Http\\Controllers\\Admissions\\CalendarController' => $baseDir . '/app/Modules/student/Http/Controllers/Admissions/CalendarController.php',

@@ -95,6 +95,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Student\\' => 8,
+            'Staff\\' => 6,
         ),
         'R' => 
         array (
@@ -319,6 +320,10 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Student\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Modules/student',
+        ),
+        'Staff\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Modules/staff',
         ),
         'RealRashid\\SweetAlert\\' => 
         array (
@@ -4109,6 +4114,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
         'SettingTableSeeder' => __DIR__ . '/../..' . '/database/seeds/SettingTableSeeder.php',
+        'Staff\\Providers\\StaffServiceProvider' => __DIR__ . '/../..' . '/app/Modules/staff/Providers/StaffServiceProvider.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Student\\Http\\Controllers\\Admissions\\AssessmentController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/Admissions/AssessmentController.php',
         'Student\\Http\\Controllers\\Admissions\\CalendarController' => __DIR__ . '/../..' . '/app/Modules/student/Http/Controllers/Admissions/CalendarController.php',

@@ -169,6 +169,7 @@ return [
          * Modules Service Provide
          */        
         Student\Providers\StudentServiceProvider::class,
+        Staff\Providers\StaffServiceProvider::class,
         /*
          * Application Service Providers...
          */
