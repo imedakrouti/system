@@ -96,14 +96,7 @@
         var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
-                    // new btn
-                    {
-                        "text": "{{trans('student::local.join_student')}}",
-                        "className": "btn btn-success buttons-print btn-success mr-1",
-                        action : function ( e, dt, node, config ) {
-                                $('#large').modal('show');
-                            }
-                    },
+  
                     // new btn
                     {
                         "text": "{{trans('student::local.print_commissioner_report')}}",
@@ -144,6 +137,7 @@
             {
                 $('#dynamic-table').DataTable().ajax.reload();
                 $('#large').modal('hide');
+                swal("{{trans('student::local.add_student_commissioner')}}", "{{trans('msg.stored_successfully')}}", "success");
             }
         })        
     }) 

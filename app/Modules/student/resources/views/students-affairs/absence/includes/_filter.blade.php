@@ -26,9 +26,8 @@
                       </select>
                 </div>    
                 <button onclick="filter()"  class="btn btn-primary mr-1"> {{ trans('student::local.search') }}</button>        
-                <button type="submit" class="btn btn-success"> {{ trans('student::local.add_absence') }}</button>                           
-                
-          
+                <button type="submit" class="btn btn-success mr-1"> {{ trans('student::local.add_absence') }}</button>                                                     
+                <button type="button" onclick="monthlyStatement()" class="btn btn-purple"> {{ trans('student::local.absence_statement') }}</button>                                                     
             </div>
         </form>
     </div>

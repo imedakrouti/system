@@ -80,6 +80,8 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
      Route::resource('/absences','AbsenceController')->except('destroy','show','edit','update');     
      Route::post('absences/destroy','AbsenceController@destroy')->name('absences.destroy');   
      Route::put('absences/filter','AbsenceController@filter')->name('absences.filter');  
+     Route::get('absences/print-month-statement','AbsenceController@monthStatementReport')->name('absences.print-month-statement');  
+     Route::get('absences/student/{id}','AbsenceController@student')->name('absences.student');  
      
     //  Reports
     /**

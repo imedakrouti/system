@@ -58,6 +58,7 @@
       </div>
     </div>
 </div>
+@include('student::students-affairs.absence.includes._monthly-statement')
 @endsection
 @section('script')
 <script>
@@ -136,19 +137,25 @@
     });  
     $('#filter_grade_id').on('change', function(){
       getRooms();
-    });      
+    }); 
+    $('#monthly_division_id').on('change', function(){
+      getRoomsMonthly();
+    });  
+    $('#monthly_grade_id').on('change', function(){
+      getRoomsMonthly();
+    });            
     function getRooms()
     {
-          var filter_division_id = $('#filter_division_id').val();  
-          var filter_grade_id = $('#filter_grade_id').val();  
+          var filter_division_id = $('#filter_division_id').val();            
+          var filter_grade_id = $('#filter_grade_id').val();            
 
-          if (filter_grade_id == '' || filter_division_id == '') // is empty
+          if (filter_division_id == '' || filter_grade_id == '') // is empty
           {
-            $('#filter_classroom_id').prop('disabled', true); // set disable            
+            $('#filter_classroom_id').prop('disabled', true); // set disable                        
           }
           else // is not empty
           {
-            $('#filter_classroom_id').prop('disabled', false);	// set enable            
+            $('#filter_classroom_id').prop('disabled', false);	// set enable                        
             //using
             $.ajax({
               url:'{{route("getClassrooms")}}',
@@ -161,11 +168,50 @@
                 },
               dataType: 'json',
               success: function(data){
-                $('#filter_classroom_id').html(data);                
+                $('#filter_classroom_id').html(data);                                
               }
             });
           }
-    }        
+    }  
+    function getRoomsMonthly()
+    {          
+          var monthly_division_id = $('#monthly_division_id').val();            
+          var monthly_grade_id = $('#monthly_grade_id').val();  
+
+          if (monthly_division_id == '' || monthly_grade_id == '') // is empty
+          {            
+            $('#monthly_classroom_id').prop('disabled', true); // set disable            
+          }
+          else // is not empty
+          {            
+            $('#monthly_classroom_id').prop('disabled', false);	// set enable            
+            //using
+            $.ajax({
+              url:'{{route("getClassrooms")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',
+                division_id 	: monthly_division_id,
+                grade_id 	    : monthly_grade_id,
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){                
+                $('#monthly_classroom_id').html(data);                
+              }
+            });
+          }
+    }      
+    function monthlyStatement()
+    {
+      $('#monthly_statement').modal({backdrop: 'static', keyboard: false})
+      $('#monthly_statement').modal('show');
+    } 
+    function getMonthStatement()
+    {
+      $('#formMonthStatement').attr('action',"{{route('absences.print-month-statement')}}");
+      $('#formMonthStatement').submit();
+    }          
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

@@ -8,7 +8,10 @@ use Student\Models\Settings\Grade;
 use Student\Models\Students\Absence;
 use Student\Models\Students\Student;
 use Carbon;
+use DateTime;
 use Student\Models\Settings\Classroom;
+use Student\Models\Students\Room;
+use PDF;
 
 class AbsenceController extends Controller
 {
@@ -197,5 +200,104 @@ class AbsenceController extends Controller
             ->get();                
             return $this->dataTable($data);                            
         }
+    }
+
+    public function monthStatementReport()
+    {        
+        if (!$this->getTotalDaysPeriod()) {
+            toast(trans('student::local.invalid_period'),'error');  
+            return back()->withInput();   
+        }
+
+        $room = Classroom::findOrFail(request('classroom_id'));                    
+        $classroom =  session('lang') =='ar'?$room->ar_name_classroom:$room->en_name_classroom;
+
+        $all_students = Room::where('classroom_id',request('classroom_id'))->select('student_id')->get();
+        $absences = Absence::with('students')->whereIn('student_id',$all_students)
+        ->whereBetween('absence_date',[request('from_date'),request('to_date')])->get();
+
+        $students = Student::with('rooms')
+        ->whereHas('rooms',function($q){
+            $q->where('classroom_id',request('classroom_id'));
+        })                
+        ->get();
+        
+        $data = [         
+            'title'                         => trans('student::local.absence_statement'),                        
+            'classroom'                     => $classroom,       
+            'absences'                      => $absences,       
+            'students'                      => $students,       
+            'days'                          => $this->days(),                   
+            'from_date'                     => request('from_date'),       
+            'to_date'                       => request('to_date'),       
+            'logo'                          => logo(),
+            'year_name'                     => fullAcademicYear(request('year_id')),
+            'school_name'                   => getSchoolName(request('division_id')),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [      
+            'orientation'          => 'L',      
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 72,
+            'margin_bottom'        => 10,
+        ];  
+
+		$pdf = PDF::loadView('student::students-affairs.absence.reports.month-statement', $data,[],$config);
+		return $pdf->stream(trans('student::local.absence_statement'));        
+    }
+
+    private function getTotalDaysPeriod()
+    {
+        $from_date   = request('from_date');
+        $to_date     = request('to_date');
+        $datetime1 = new DateTime($from_date);
+        $datetime2 = new DateTime($to_date);
+        $interval = $datetime1->diff($datetime2);
+        $days = $interval->format('%a');//now do whatever you like with $days
+        if ($days <= 30) {
+            return true;
+        }
+        return false;
+    }
+
+    private function days()
+    {
+        $start = DateTime::createFromFormat("Y-m-d",request('from_date'))->format("d") + 0;  //25        
+        $last_day = date("t", strtotime(request('from_date')));
+        $end_d = DateTime::createFromFormat("Y-m-d",request('to_date'))->format("d") + 0; //13
+     
+        $days = []; 
+
+        if ($start >= $end_d) {
+            for ($i=$start; $i <= $last_day; $i++) { 
+                $days [] = $i;
+            }
+            for ($i=1; $i <= $end_d; $i++) { 
+                $days [] = $i;
+            }
+        }else{
+            for ($i=$start; $i <= $end_d; $i++) { 
+                $days [] = $i;
+            }
+        }
+        return $days;
+    }
+
+    public function student($student_id)
+    {
+        $student = Student::findOrFail($student_id);
+        $absences = Absence::with('students')
+        ->whereHas('students',function($q) use ($student_id){
+            $q->where('students.id',$student_id);
+        })
+        ->get();        
+        $title = trans('student::local.absence_profiles');
+        return view('student::students-affairs.absence.student-profile.student',
+        compact('title','absences','student'));
     }
 }
