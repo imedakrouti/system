@@ -206,7 +206,8 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StudentRequest $request)
-    {
+    {        
+        // dd(request()->all());
         if ($this->checkAgeForGrade() == 'older' ) {            
             toast(trans('student::local.older_message'),'error');  
             return back()->withInput();           
@@ -230,7 +231,9 @@ class StudentController extends Controller
             
             $this->studentAdmissionSteps($student->id);
             
-            $this->studentDeliverDocuments($student->id);                    
+            $this->studentDeliverDocuments($student->id);     
+            
+            $this->studentMedicalQuery($student->id);
             
             $this->studentAddresses($student->id);
         });      
@@ -276,6 +279,7 @@ class StudentController extends Controller
     }
     private function studentMedicalQuery($student_id)
     {
+        
         request()->user()->medicals()->create(request()->only($this->medicalAttributes())
         + ['student_id'=>$student_id]);        
     }
@@ -447,9 +451,7 @@ class StudentController extends Controller
             
             $this->studentAdmissionSteps($student->id);
             
-            $this->studentDeliverDocuments($student->id);
-            
-            $this->studentMedicalQuery($student->id);
+            $this->studentDeliverDocuments($student->id);                   
             
             $this->studentAddresses($student->id);
         });   

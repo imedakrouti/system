@@ -37,43 +37,37 @@
     <div role="tabpanel" class="tab-pane active" id="active1" aria-labelledby="active-tab1"
         aria-expanded="true">
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.application_date') }}</label>
-                <div class="col-md-9">
-                    <input type="date" class="form-control " value="{{old('application_date')}}" placeholder="{{ trans('student::local.application_date') }}"
+            <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                    <label>{{ trans('student::local.application_date') }}</label>
+                    <input type="date" class="form-control" value="{{old('application_date')}}" 
+                    placeholder="{{ trans('student::local.application_date') }}"
                     name="application_date" required>
                     <span class="red">{{ trans('student::local.requried') }}</span>
                 </div>
-                </div>
-            </div>
+            </div>              
         </div>
-        <div class="row">
-            <input type="hidden" name="father_id" value="{{$father->id}}">
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.ar_student_name') }}</label>
-                <div class="col-md-9">
+        <div class="row"> 
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <input type="hidden" name="father_id" value="{{$father->id}}">
+                    <label>{{ trans('student::local.ar_student_name') }}</label>
                     <input type="text" class="form-control " value="{{old('ar_student_name')}}" placeholder="{{ trans('student::local.ar_student_name') }}"
                     name="ar_student_name" required>
                     <span class="red">{{ trans('student::local.requried') }}</span>
                 </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.en_student_name') }}</label>
-                <div class="col-md-9">
+            </div> 
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.en_student_name') }}</label>
                     <input type="text" class="form-control " value="{{old('en_student_name')}}" placeholder="{{ trans('student::local.en_student_name') }}"
                     name="en_student_name" required>
                     <span class="red">{{ trans('student::local.requried') }}</span>
                 </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.mother_name') }}</label>
-                <div class="col-md-9">
+            </div>              
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.mother_name') }}</label>
                     <select name="mother_id" class="form-control " required>                
                         @foreach ($mothers as $mother)
                             <option {{old('mother_id') == $mother->id ?'selected' : ''}} value="{{$mother->id}}">{{$mother->full_name}}</option>
@@ -81,100 +75,86 @@
                     </select>
                     <span class="red">{{ trans('student::local.requried') }}</span>
                 </div>
-                </div>
-            </div>            
+            </div>                                     
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.id_type') }}</label>
-                <div class="col-md-9">                    
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.id_type') }}</label>
                     <select name="student_id_type" class="form-control" required>
                         <option value="">{{ trans('student::local.select') }}</option>
                         <option {{old('student_id_type') == 'national_id' ?'selected':''}} value="national_id">{{ trans('student::local.national_id') }}</option>
                         <option {{old('student_id_type') == 'passport' ?'selected':''}} value="passport">{{ trans('student::local.passport') }}</option>                                
                     </select>
-                    <span class="red">{{ trans('student::local.requried') }}</span>
-                </div>
+                    <span class="red">{{ trans('student::local.requried') }}</span>               
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.id_number') }}</label>
-                <div class="col-md-9">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.id_number') }}</label>
                     <input type="text" class="form-control " value="{{old('student_id_number')}}" placeholder="{{ trans('student::local.id_number') }}"
                     name="student_id_number" required>
-                    <span class="red">{{ trans('student::local.requried') }}</span>
-                </div>
+                    <span class="red">{{ trans('student::local.requried') }}</span>            
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.nationality_id') }}</label>
-                <div class="col-md-9">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.nationality_id') }}</label>
                     <select name="nationality_id" class="form-control " required>
                         <option value="">{{ trans('student::local.select') }}</option>
                         @foreach ($nationalities as $nationality)
                             <option {{old('nationality_id') == $nationality->id ?'selected' : ''}} value="{{$nationality->id}}">{{$nationality->ar_name_nat_male}}</option>
                         @endforeach
                     </select>
-                    <span class="red">{{ trans('student::local.requried') }}</span>
-                </div>
+                    <span class="red">{{ trans('student::local.requried') }}</span>              
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.religion') }}</label>
-                <div class="col-md-9">                    
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.religion') }}</label>
                     <select name="religion" class="form-control" required>
                         <option value="">{{ trans('student::local.select') }}</option>
                         <option {{old('religion') == 'muslim' ?'selected':''}} value="muslim">{{ trans('student::local.muslim') }}</option>
                         <option {{old('religion') == 'non_muslim' ?'selected':''}} value="non_muslim">{{ trans('student::local.non_muslim') }}</option>                                
                     </select>
-                    <span class="red">{{ trans('student::local.requried') }}</span>
-                </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.native_lang_id') }}</label>
-                    <div class="col-md-9">
-                        <select name="native_lang_id" class="form-control " required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            @foreach ($speakingLangs as $lang)
-                                <option {{old('native_lang_id') == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
-                                    {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+                    <span class="red">{{ trans('student::local.requried') }}</span>          
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.second_lang_id') }}</label>
-                    <div class="col-md-9">
-                        <select name="second_lang_id" class="form-control " required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            @foreach ($studyLangs as $lang)
-                                <option {{old('second_lang_id') == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
-                                    {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.native_lang_id') }}</label>
+                    <select name="native_lang_id" class="form-control " required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        @foreach ($speakingLangs as $lang)
+                            <option {{old('native_lang_id') == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
+                                {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>                   
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.second_lang_id') }}</label>
+                    <select name="second_lang_id" class="form-control " required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        @foreach ($studyLangs as $lang)
+                            <option {{old('second_lang_id') == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
+                                {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>              
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.dob') }}</label>
-                <div class="col-md-9">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.dob') }}</label>
                     <input type="date" class="form-control" id="dob" value="{{old('dob')}}" placeholder="{{ trans('student::local.dob') }}"
                     name="dob" required>
                     <span class="red">{{ trans('student::local.requried') }}</span>
@@ -183,174 +163,148 @@
                     <input type="text" class="age-display" value="0" id="mm" readonly>
                     <span>{{ trans('student::local.mm') }}</span>
                     <input type="text" class="age-display" value="0" id="yy" readonly>
-                    <span>{{ trans('student::local.yy') }}</span>
-                </div>
+                    <span>{{ trans('student::local.yy') }}</span>        
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.place_birth') }}</label>
-                <div class="col-md-9">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.place_birth') }}</label>
                     <input type="text" class="form-control " value="{{old('place_birth')}}" placeholder="{{ trans('student::local.place_birth') }}"
-                    name="place_birth">                    
-                </div>
+                    name="place_birth">                                   
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.gender') }}</label>
-                    <div class="col-md-9">                    
-                        <select name="gender" class="form-control" required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            <option {{old('gender') == 'male' ?'selected':''}} value="male">{{ trans('student::local.male') }}</option>
-                            <option {{old('gender') == 'female' ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                  <label class="col-md-3 label-control" >{{ trans('student::local.son_employee') }}</label>
-                  <div class="col-md-9">                    
-                    <select name="son_employee" class="form-control">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.gender') }}</label>
+                    <select name="gender" class="form-control" required>
                         <option value="">{{ trans('student::local.select') }}</option>
+                        <option {{old('gender') == 'male' ?'selected':''}} value="male">{{ trans('student::local.male') }}</option>
+                        <option {{old('gender') == 'female' ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
                     </select>
-                  </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                  <label class="col-md-3 label-control" >{{ trans('student::local.guardian_id') }}</label>
-                  <div class="col-md-9">                    
-                    <select name="guardian_id" class="form-control">
-                        <option value="">{{ trans('student::local.select') }}</option>
-                        @foreach ($guardians as $guardian)
-                            <option {{old('guardian_id') == $guardian->id ?'selected' : ''}} value="{{$guardian->id}}">
-                                {{$guardian->guardian_full_name}}
-                            </option>
-                        @endforeach
-                    </select>                    
-                  </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.return_country') }}</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control " value="{{old('return_country')}}" placeholder="{{ trans('student::local.return_country') }}"
-                    name="return_country">                    
-                </div>
+                    <span class="red">{{ trans('student::local.requried') }}</span>                    
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                  <label class="col-md-3 label-control" >{{ trans('student::local.student_image') }}</label>
-                  <div class="col-md-9">                    
-                    <input  type="file" name="student_image"/>
-                  </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label >{{ trans('student::local.son_employee') }}</label>
+                  <select name="son_employee" class="form-control">
+                      <option value="">{{ trans('student::local.select') }}</option>
+                  </select>              
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label >{{ trans('student::local.guardian_id') }}</label>
+                  <select name="guardian_id" class="form-control">
+                      <option value="">{{ trans('student::local.select') }}</option>
+                      @foreach ($guardians as $guardian)
+                          <option {{old('guardian_id') == $guardian->id ?'selected' : ''}} value="{{$guardian->id}}">
+                              {{$guardian->guardian_full_name}}
+                          </option>
+                      @endforeach
+                  </select>                                  
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.return_country') }}</label>
+                    <input type="text" class="form-control " value="{{old('return_country')}}" placeholder="{{ trans('student::local.return_country') }}"
+                    name="return_country">                                 
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label >{{ trans('student::local.student_image') }}</label>
+                  <input  type="file" name="student_image"/>                
                 </div>
               </div>
         </div>        
     </div>
     <div class="tab-pane" id="active2" role="tabpanel" aria-labelledby="link-tab1" aria-expanded="false">
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.student_type') }}</label>
-                    <div class="col-md-9">                    
-                        <select name="student_type" class="form-control" required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            <option {{old('student_type') == 'applicant' ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
-                            <option {{old('student_type') == 'student' ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.student_type') }}</label>
+                    <select name="student_type" class="form-control" required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        <option {{old('student_type') == 'applicant' ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
+                        <option {{old('student_type') == 'student' ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>             
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.reg_type') }}</label>
-                    <div class="col-md-9">                    
-                        <select name="reg_type" class="form-control" required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            <option {{old('reg_type') == 'return' ?'selected':''}} value="return">{{ trans('student::local.return') }}</option>
-                            <option {{old('reg_type') == 'arrival' ?'selected':''}} value="arrival">{{ trans('student::local.arrival') }}</option>                                
-                            <option {{old('reg_type') == 'new' ?'selected':''}} value="new">{{ trans('student::local.new') }}</option>                                
-                            <option {{old('reg_type') == 'transfer' ?'selected':''}} value="transfer">{{ trans('student::local.transfer') }}</option>                                
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.reg_type') }}</label>
+                    <select name="reg_type" class="form-control" required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        <option {{old('reg_type') == 'return' ?'selected':''}} value="return">{{ trans('student::local.return') }}</option>
+                        <option {{old('reg_type') == 'arrival' ?'selected':''}} value="arrival">{{ trans('student::local.arrival') }}</option>                                
+                        <option {{old('reg_type') == 'new' ?'selected':''}} value="new">{{ trans('student::local.new') }}</option>                                
+                        <option {{old('reg_type') == 'transfer' ?'selected':''}} value="transfer">{{ trans('student::local.transfer') }}</option>                                
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>    
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.register_status_id') }}</label>
-                    <div class="col-md-9">
-                        <select name="registration_status_id" class="form-control " required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            @foreach ($regStatus as $status)
-                                <option {{old('registration_status_id') == $status->id ?'selected' : ''}} value="{{$status->id}}">
-                                    {{session('lang') == 'ar' ?$status->ar_name_status:$status->en_name_status}}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.register_status_id') }}</label>
+                    <select name="registration_status_id" class="form-control " required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        @foreach ($regStatus as $status)
+                            <option {{old('registration_status_id') == $status->id ?'selected' : ''}} value="{{$status->id}}">
+                                {{session('lang') == 'ar' ?$status->ar_name_status:$status->en_name_status}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>                  
                 </div>
             </div>
-        </div>            
-    
+        </div>                
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.division_id') }}</label>
-                    <div class="col-md-9">
-                        <select name="division_id" class="form-control " required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            @foreach ($divisions as $division)
-                                <option {{old('division_id') == $division->id ?'selected' : ''}} value="{{$division->id}}">
-                                    {{session('lang') == 'ar' ?$division->ar_division_name:$division->en_division_name}}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.division_id') }}</label>
+                    <select name="division_id" class="form-control " required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        @foreach ($divisions as $division)
+                            <option {{old('division_id') == $division->id ?'selected' : ''}} value="{{$division->id}}">
+                                {{session('lang') == 'ar' ?$division->ar_division_name:$division->en_division_name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>            
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.grade_id') }}</label>
-                    <div class="col-md-9">
-                        <select name="grade_id" class="form-control " required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            @foreach ($grades as $grade)
-                                <option {{old('grade_id') == $grade->id ?'selected' : ''}} value="{{$grade->id}}">
-                                    {{session('lang') == 'ar' ?$grade->ar_grade_name:$grade->en_grade_name}}
-                                </option>
-                            @endforeach
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.grade_id') }}</label>
+                    <select name="grade_id" class="form-control " required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        @foreach ($grades as $grade)
+                            <option {{old('grade_id') == $grade->id ?'selected' : ''}} value="{{$grade->id}}">
+                                {{session('lang') == 'ar' ?$grade->ar_grade_name:$grade->en_grade_name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>                
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.term') }}</label>
-                    <div class="col-md-9">                    
-                        <select name="term" class="form-control" required>
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            <option {{old('term') == 'all' ?'selected':''}} value="all">{{ trans('student::local.all_term') }}</option>
-                            <option {{old('term') == 'first' ?'selected':''}} value="first">{{ trans('student::local.first_term') }}</option>                                
-                            <option {{old('term') == 'second' ?'selected':''}} value="second">{{ trans('student::local.second_term') }}</option>                                
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>
-                    </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                    <label>{{ trans('student::local.term') }}</label>
+                    <select name="term" class="form-control" required>
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        <option {{old('term') == 'all' ?'selected':''}} value="all">{{ trans('student::local.all_term') }}</option>
+                        <option {{old('term') == 'first' ?'selected':''}} value="first">{{ trans('student::local.first_term') }}</option>                                
+                        <option {{old('term') == 'second' ?'selected':''}} value="second">{{ trans('student::local.second_term') }}</option>                                
+                    </select>
+                    <span class="red">{{ trans('student::local.requried') }}</span>                   
                 </div>
             </div>
         </div>
@@ -374,22 +328,20 @@
     <div class="tab-pane" id="active4" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
         aria-expanded="false">
         <div class="row">
-            <div class="col-md-4">
-                <div class="form-group row">
-                  <label class="col-md-4 label-control" >{{ trans('student::local.emp_open_app') }}</label>
-                  <div class="col-md-8">                    
-                    <select name="employee_id" class="form-control">
-                        <option value="">{{ trans('student::local.select') }}</option>
-                        @foreach ($admins as $admin)
-                        <option {{old('employee_id') == $admin->id ?'select':''}} value="{{$admin->id}}">{{$admin->name}}</option>
-                        @endforeach
-                    </select>
-                  </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="form-group">
+                  <label>{{ trans('student::local.emp_open_app') }}</label>
+                  <select name="employee_id" class="form-control">
+                      <option value="">{{ trans('student::local.select') }}</option>
+                      @foreach ($admins as $admin)
+                      <option {{old('employee_id') == $admin->id ?'select':''}} value="{{$admin->id}}">{{$admin->name}}</option>
+                      @endforeach
+                  </select> 
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-lg-4 col-md-12">
                 <ul style="list-style: none">
                     @foreach ($steps as $step)
                         <h5>
@@ -400,8 +352,7 @@
                                 </label>                                                            
                             </li>
                         </h5>
-                    @endforeach 
-                 
+                    @endforeach                  
                 </ul>
             </div>
         </div>
@@ -412,29 +363,25 @@
         <strong>{{ trans('student::local.last_school_info') }}</strong>
       </div>
         <div class="row mt-2">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-md-3 label-control">{{ trans('student::local.school_id') }}</label>
-                    <div class="col-md-9">
-                        <select name="school_id" class="form-control">
-                            <option value="">{{ trans('student::local.select') }}</option>
-                            @foreach ($schools as $school)
-                                <option {{old('school_id') == $school->id ?'selected' : ''}} value="{{$school->id}}">
-                                    {{$school->school_name}}
-                                </option>
-                            @endforeach
-                        </select>                    
-                    </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                    <label>{{ trans('student::local.school_id') }}</label>
+                    <select name="school_id" class="form-control">
+                        <option value="">{{ trans('student::local.select') }}</option>
+                        @foreach ($schools as $school)
+                            <option {{old('school_id') == $school->id ?'selected' : ''}} value="{{$school->id}}">
+                                {{$school->school_name}}
+                            </option>
+                        @endforeach
+                    </select>                                     
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.transfer_reason') }}</label>
-                <div class="col-md-9">                                    
-                    <textarea name="transfer_reason" class="form-control" cols="30" rows="5">{{old('transfer_reason')}}</textarea>
-                </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="form-group">
+                    <label>{{ trans('student::local.transfer_reason') }}</label>
+                    <textarea name="transfer_reason" class="form-control" cols="30" rows="5">{{old('transfer_reason')}}</textarea>           
                 </div>
             </div>
         </div>
@@ -442,10 +389,9 @@
     <div class="tab-pane" id="active6" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
         aria-expanded="false">        
         <div class="row">
-            <div class="col-md-3">
-                <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.blood_type') }}</label>
-                <div class="col-md-9">                    
+            <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                    <label>{{ trans('student::local.blood_type') }}</label>
                     <select name="blood_type" class="form-control">                        
                         <option {{old('blood_type') == 'unknown' ?'selected':''}} value="unknown">{{ trans('student::local.unknown') }}</option>
                         <option {{old('blood_type') == '-O' ?'selected':''}} value="-O">-O</option>                                
@@ -456,65 +402,154 @@
                         <option {{old('blood_type') == '+B' ?'selected':''}} value="+B">+B</option>                                
                         <option {{old('blood_type') == '-AB' ?'selected':''}} value="-AB">-AB</option>                                
                         <option {{old('blood_type') == '+AB' ?'selected':''}} value="+AB">+AB</option>                                
-                    </select>                    
-                </div>
+                    </select>                            
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h6><input class="mb-1" type="checkbox" value="yes" name="food_sensitivity"> {{ trans('student::local.food_sensitivity') }}</h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="medicine_sensitivity"> {{ trans('student::local.medicine_sensitivity') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="other_sensitivity"> {{ trans('student::local.other_sensitivity') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="have_medicine"> {{ trans('student::local.have_medicine') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="vision_problem"> {{ trans('student::local.vision_problem') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="use_glasses"> {{ trans('student::local.use_glasses') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="hearing_problems"> {{ trans('student::local.hearing_problems') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="speaking_problems"> {{ trans('student::local.speaking_problems') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="chest_pain"> {{ trans('student::local.chest_pain') }}
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('food_sensitivity')  == 'yes'?'checked':''}} name="food_sensitivity" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.food_sensitivity') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('medicine_sensitivity')  == 'yes'?'checked':''}} name="medicine_sensitivity" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.medicine_sensitivity') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('other_sensitivity')  == 'yes'?'checked':''}} name="other_sensitivity" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.other_sensitivity') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('have_medicine')  == 'yes'?'checked':''}} name="have_medicine" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.have_medicine') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('vision_problem')  == 'yes'?'checked':''}} name="vision_problem" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.vision_problem') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('use_glasses')  == 'yes'?'checked':''}} name="use_glasses" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.use_glasses') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('hearing_problems')  == 'yes'?'checked':''}} name="hearing_problems" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.hearing_problems') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('speaking_problems')  == 'yes'?'checked':''}} name="speaking_problems" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.speaking_problems') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('chest_pain')  == 'yes'?'checked':''}} name="chest_pain" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.chest_pain') }}
+                    </label>      
+                </h5>                                 
             </div>
             <div class="col-md-6">
-                <h6><input class="mb-1" type="checkbox" value="yes" name="breath_problem"> {{ trans('student::local.breath_problem') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="asthma"> {{ trans('student::local.asthma') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="have_asthma_medicine"> {{ trans('student::local.have_asthma_medicine') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="heart_problem"> {{ trans('student::local.heart_problem') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="hypertension"> {{ trans('student::local.hypertension') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="diabetic"> {{ trans('student::local.diabetic') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="anemia"> {{ trans('student::local.anemia') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="cracking_blood"> {{ trans('student::local.cracking_blood') }} </h6>
-                <h6><input class="mb-1" type="checkbox" value="yes" name="coagulation"> {{ trans('student::local.coagulation') }} </h6>
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('breath_problem')  == 'yes'?'checked':''}} name="breath_problem" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.breath_problem') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('asthma')  == 'yes'?'checked':''}} name="asthma" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.asthma') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('have_asthma_medicine')  == 'yes'?'checked':''}} name="have_asthma_medicine" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.have_asthma_medicine') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('heart_problem')  == 'yes'?'checked':''}} name="heart_problem" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.heart_problem') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('hypertension')  == 'yes'?'checked':''}} name="hypertension" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.hypertension') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('diabetic')  == 'yes'?'checked':''}} name="diabetic" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.diabetic') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('anemia')  == 'yes'?'checked':''}} name="anemia" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.anemia') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('cracking_blood')  == 'yes'?'checked':''}} name="cracking_blood" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.cracking_blood') }}
+                    </label>      
+                </h5> 
+                <h5>
+                    <label class="pos-rel">
+                        <input type="checkbox" class="ace" {{old('coagulation')  == 'yes'?'checked':''}} name="coagulation" value="yes">
+                        <span class="lbl"></span> {{ trans('student::local.coagulation') }}
+                    </label>      
+                </h5>                 
             </div>
         </div>
     </div>    
     <div class="tab-pane" id="active7" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
         aria-expanded="false">
-        <div class="col-md-6">
-            <div class="form-group row">
-            <label class="col-md-3 label-control">{{ trans('student::local.submitted_name') }}</label>
-            <div class="col-md-9">
-                <input type="text" class="form-control " value="{{old('submitted_name')}}" placeholder="{{ trans('student::local.submitted_name') }}"
-                name="submitted_name">                
-            </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group row">
-            <label class="col-md-3 label-control">{{ trans('student::local.submitted_id_number') }}</label>
-            <div class="col-md-9">
-                <input type="number" min="0" class="form-control " value="{{old('submitted_id_number')}}" placeholder="{{ trans('student::local.submitted_id_number') }}"
-                name="submitted_id_number">                
-            </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                    <label>{{ trans('student::local.submitted_name') }}</label>
+                    <input type="text" class="form-control " value="{{old('submitted_name')}}" placeholder="{{ trans('student::local.submitted_name') }}"
+                    name="submitted_name">                       
+                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group row">
-            <label class="col-md-3 label-control">{{ trans('student::local.submitted_mobile') }}</label>
-            <div class="col-md-9">
-                <input type="number" min="0" class="form-control " value="{{old('submitted_mobile')}}" placeholder="{{ trans('student::local.submitted_mobile') }}"
-                name="submitted_mobile">                
-            </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                    <label>{{ trans('student::local.submitted_id_number') }}</label>
+                    <input type="number" min="0" class="form-control " value="{{old('submitted_id_number')}}" placeholder="{{ trans('student::local.submitted_id_number') }}"
+                    name="submitted_id_number">                          
+                </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                    <label>{{ trans('student::local.submitted_mobile') }}</label>
+                    <input type="number" min="0" class="form-control " value="{{old('submitted_mobile')}}" placeholder="{{ trans('student::local.submitted_mobile') }}"
+                    name="submitted_mobile">                       
+                </div>
+            </div>
+        </div>                
     </div> 
     <div class="tab-pane" id="active8" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
         aria-expanded="false">        

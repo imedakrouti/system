@@ -70,7 +70,7 @@
     </div>
 </div>
 <div class="row" >
-    <div class="col-md-2 col-xs-12">
+    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
       <div class="card" style="min-height: 300px">
         <div class="card-content collapse show">
           <div class="card-body">
@@ -98,7 +98,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-10 col-xs-12">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
       <div class="card" style="min-height: 500px">
         <div class="card-content collapse show">
           <div class="card-body">
@@ -138,133 +138,115 @@
                     <div class="tab-content px-1 pt-1">
                         <div role="tabpanel" class="tab-pane active" id="active1" aria-labelledby="active-tab1"
                             aria-expanded="true">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.application_date') }}</label>
+                                        <input type="date" class="form-control " value="{{old('application_date',$student->application_date)}}" placeholder="{{ trans('student::local.application_date') }}"
+                                        name="application_date"  disabled>                                                                                
+                                    </div>
+                                </div>
+                            </div>                              
                             <div class="row">            
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.ar_student_name') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.ar_student_name') }}</label>
                                         <input type="text" class="form-control " value="{{old('ar_student_name',$student->ar_student_name)}}" placeholder="{{ trans('student::local.ar_student_name') }}"
-                                        name="ar_student_name" disabled>
-                                        
-                                    </div>
+                                        name="ar_student_name" disabled>                                                                            
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.en_student_name') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.en_student_name') }}</label>
                                         <input type="text" class="form-control " value="{{old('en_student_name',$student->en_student_name)}}" placeholder="{{ trans('student::local.en_student_name') }}"
-                                        name="en_student_name" disabled>
-                                        
-                                    </div>
+                                        name="en_student_name" disabled>                                                                            
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.mother_name') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.mother_name') }}</label>
                                         <select name="mother_id" class="form-control " disabled>                
                                             @foreach ($mothers as $mother)
                                                 <option {{old('mother_id',$student->mother_id) == $mother->id ?'selected' : ''}} value="{{$mother->id}}">{{$mother->full_name}}</option>
                                             @endforeach
-                                        </select>                                        
-                                    </div>
+                                        </select>                                                                            
                                     </div>
                                 </div>  
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.id_type') }}</label>
-                                    <div class="col-md-9">                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.id_type') }}</label>
                                         <select name="student_id_type" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             <option {{old('student_id_type',$student->student_id_type)  == 'national_id' ?'selected':''}} value="national_id">{{ trans('student::local.national_id') }}</option>
                                             <option {{old('student_id_type',$student->student_id_type)  == 'passport' ?'selected':''}} value="passport">{{ trans('student::local.passport') }}</option>                                
                                         </select>
-                                        
-                                    </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.id_number') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.id_number') }}</label>
                                         <input type="text" class="form-control " value="{{old('student_id_number',$student->student_id_number)}}" placeholder="{{ trans('student::local.id_number') }}"
-                                        name="student_id_number" disabled>
-                                        
-                                    </div>
+                                        name="student_id_number" disabled>                                                                            
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.nationality_id') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.nationality_id') }}</label>
                                         <select name="nationality_id" class="form-control " disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($nationalities as $nationality)
                                                 <option {{old('nationality_id',$student->nationality_id) == $nationality->id ?'selected' : ''}} value="{{$nationality->id}}">{{$nationality->ar_name_nat_male}}</option>
                                             @endforeach
-                                        </select>
-                                        
-                                    </div>
+                                        </select>                                    
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.religion') }}</label>
-                                    <div class="col-md-9">                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.religion') }}</label>
                                         <select name="religion" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             <option {{old('religion',$student->religion) == trans('student::local.muslim') || old('religion',$student->religion) == 'muslim' ||
                                             old('religion',$student->religion) == trans('student::local.muslim_m') ?'selected':''}} value="muslim">{{ trans('student::local.muslim') }}</option>
                                             <option {{old('religion',$student->religion) == trans('student::local.non_muslim') || old('religion',$student->religion) == 'non_muslim' ||
                                             old('religion',$student->religion) == trans('student::local.non_muslim_m') ?'selected':''}} value="non_muslim">{{ trans('student::local.non_muslim') }}</option>                                
-                                        </select>
-                                        
-                                    </div>
+                                        </select>                                    
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control">{{ trans('student::local.native_lang_id') }}</label>
-                                        <div class="col-md-9">
-                                            <select name="native_lang_id" class="form-control "  disabled>
-                                                <option value="">{{ trans('student::local.select') }}</option>
-                                                @foreach ($speakingLangs as $lang)
-                                                    <option {{old('native_lang_id',$student->native_lang_id) == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
-                                                        {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            
-                                        </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.native_lang_id') }}</label>
+                                        <select name="native_lang_id" class="form-control "  disabled>
+                                            <option value="">{{ trans('student::local.select') }}</option>
+                                            @foreach ($speakingLangs as $lang)
+                                                <option {{old('native_lang_id',$student->native_lang_id) == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
+                                                    {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
+                                                </option>
+                                            @endforeach
+                                        </select>                                        
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control">{{ trans('student::local.second_lang_id') }}</label>
-                                        <div class="col-md-9">
-                                            <select name="second_lang_id" class="form-control "  disabled>
-                                                <option value="">{{ trans('student::local.select') }}</option>
-                                                @foreach ($studyLangs as $lang)
-                                                    <option {{old('second_lang_id',$student->second_lang_id) == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
-                                                        {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            
-                                        </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.second_lang_id') }}</label>
+                                        <select name="second_lang_id" class="form-control "  disabled>
+                                            <option value="">{{ trans('student::local.select') }}</option>
+                                            @foreach ($studyLangs as $lang)
+                                                <option {{old('second_lang_id',$student->second_lang_id) == $lang->id ?'selected' : ''}} value="{{$lang->id}}">
+                                                    {{session('lang') == 'ar' ?$lang->ar_name_lang:$lang->en_name_lang}}
+                                                </option>
+                                            @endforeach
+                                        </select>                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.dob') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.dob') }}</label>
                                         <input type="date" class="form-control" id="dob" value="{{old('dob',$student->dob)}}" placeholder="{{ trans('student::local.dob') }}"
                                         name="dob"  disabled>
                                         <input type="text" class="age-display" value="0" id="dd" disabled>
@@ -272,51 +254,42 @@
                                         <input type="text" class="age-display" value="0" id="mm" disabled>
                                         <span>{{ trans('student::local.mm') }}</span>
                                         <input type="text" class="age-display" value="0" id="yy" disabled>
-                                        <span>{{ trans('student::local.yy') }}</span>
-                                    </div>
+                                        <span>{{ trans('student::local.yy') }}</span>                                    
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.place_birth') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.place_birth') }}</label>
                                         <input type="text" class="form-control " value="{{old('place_birth',$student->place_birth)}}" placeholder="{{ trans('student::local.place_birth') }}"
-                                        name="place_birth" disabled>                    
-                                    </div>
+                                        name="place_birth" disabled>                                                        
                                     </div>
                                 </div>
                     
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.gender') }}</label>
-                                    <div class="col-md-9">                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.gender') }}</label>
                                         <select name="gender" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             <option {{old('gender',$student->gender) == trans('student::local.male') ||
                                             old('gender',$student->gender) == 'male' ?'selected':''}} value="male">{{ trans('student::local.male') }}</option>
                                             <option {{old('gender',$student->gender) == trans('student::local.female') ||
-                                             old('gender',$student->gender) == 'female' ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
-                                        </select>
-                                        
-                                    </div>
+                                            old('gender',$student->gender) == 'female' ?'selected':''}} value="female">{{ trans('student::local.female') }}</option>                                
+                                        </select>                                    
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                      <label class="col-md-3 label-control" >{{ trans('student::local.son_employee') }}</label>
-                                      <div class="col-md-9">                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label >{{ trans('student::local.son_employee') }}</label>
                                         <select name="son_employee" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
-                                        </select>
-                                      </div>
+                                        </select>                                      
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                      <label class="col-md-3 label-control" >{{ trans('student::local.guardian_id') }}</label>
-                                      <div class="col-md-9">                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label >{{ trans('student::local.guardian_id') }}</label>
                                         <select name="guardian_id" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($guardians as $guardian)
@@ -324,59 +297,49 @@
                                                     {{$guardian->guardian_full_name}}
                                                 </option>
                                             @endforeach
-                                        </select>
-                                      </div>
+                                        </select>                                      
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.return_country') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.return_country') }}</label>
                                         <input type="text" class="form-control " value="{{old('return_country',$student->return_country)}}" placeholder="{{ trans('student::local.return_country') }}"
-                                        name="return_country" disabled>                    
-                                    </div>
+                                        name="return_country" disabled>                                                        
                                     </div>
                                 </div>
                             </div>        
                         </div>
                         <div class="tab-pane" id="active2" role="tabpanel" aria-labelledby="link-tab1" aria-expanded="false">
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control">{{ trans('student::local.student_type') }}</label>
-                                        <div class="col-md-9">                    
-                                            <select name="student_type" class="form-control"  disabled>
-                                                <option value="">{{ trans('student::local.select') }}</option>
-                                                <option {{old('student_type',$student->student_type) == trans('student::local.applicant') ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
-                                                <option {{old('student_type',$student->student_type) == trans('student::local.student') ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
-                                            </select>
-                                            
-                                        </div>
-                                        </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control">{{ trans('student::local.reg_type') }}</label>
-                                        <div class="col-md-9">                    
-                                            <select name="reg_type" class="form-control"  disabled>
-                                                <option value="">{{ trans('student::local.select') }}</option>
-                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.return') ||
-                                                old('reg_type',$student->reg_type) == 'return' ?'selected':''}} value="return">{{ trans('student::local.return') }}</option>
-                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.arrival') ||
-                                                old('reg_type',$student->reg_type) == 'arrival' ?'selected':''}} value="arrival">{{ trans('student::local.arrival') }}</option>                                
-                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.new') || 
-                                                old('reg_type',$student->reg_type) == 'new' ?'selected':''}} value="new">{{ trans('student::local.new') }}</option>                                
-                                                <option {{old('reg_type',$student->reg_type) == trans('student::local.transfer') ||
-                                                old('reg_type',$student->reg_type) == 'transfer' ?'selected':''}} value="transfer">{{ trans('student::local.transfer') }}</option>                                
-                                            </select>
-                                            
-                                        </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.student_type') }}</label>
+                                        <select name="student_type" class="form-control"  disabled>
+                                            <option value="">{{ trans('student::local.select') }}</option>
+                                            <option {{old('student_type',$student->student_type) == trans('student::local.applicant') ?'selected':''}} value="applicant">{{ trans('student::local.applicant') }}</option>
+                                            <option {{old('student_type',$student->student_type) == trans('student::local.student') ?'selected':''}} value="student">{{ trans('student::local.student') }}</option>                                                                        
+                                        </select>                                        
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.register_status_id') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.reg_type') }}</label>
+                                        <select name="reg_type" class="form-control"  disabled>
+                                            <option value="">{{ trans('student::local.select') }}</option>
+                                            <option {{old('reg_type',$student->reg_type) == trans('student::local.return') ||
+                                            old('reg_type',$student->reg_type) == 'return' ?'selected':''}} value="return">{{ trans('student::local.return') }}</option>
+                                            <option {{old('reg_type',$student->reg_type) == trans('student::local.arrival') ||
+                                            old('reg_type',$student->reg_type) == 'arrival' ?'selected':''}} value="arrival">{{ trans('student::local.arrival') }}</option>                                
+                                            <option {{old('reg_type',$student->reg_type) == trans('student::local.new') || 
+                                            old('reg_type',$student->reg_type) == 'new' ?'selected':''}} value="new">{{ trans('student::local.new') }}</option>                                
+                                            <option {{old('reg_type',$student->reg_type) == trans('student::local.transfer') ||
+                                            old('reg_type',$student->reg_type) == 'transfer' ?'selected':''}} value="transfer">{{ trans('student::local.transfer') }}</option>                                
+                                        </select>                                        
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.register_status_id') }}</label>
                                         <select name="registration_status_id" class="form-control "  disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($regStatus as $status)
@@ -384,18 +347,15 @@
                                                     {{session('lang') == 'ar' ?$status->ar_name_status:$status->en_name_status}}
                                                 </option>
                                             @endforeach
-                                        </select>
-                                        
-                                    </div>
+                                        </select>                                    
                                     </div>
                                 </div>
                             </div>            
                         
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.division_id') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.division_id') }}</label>
                                         <select name="division_id" class="form-control "  disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($divisions as $division)
@@ -403,15 +363,12 @@
                                                     {{session('lang') == 'ar' ?$division->ar_division_name:$division->en_division_name}}
                                                 </option>
                                             @endforeach
-                                        </select>
-                                        
-                                    </div>
+                                        </select>                                    
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.grade_id') }}</label>
-                                    <div class="col-md-9">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.grade_id') }}</label>
                                         <select name="grade_id" class="form-control "  disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($grades as $grade)
@@ -419,23 +376,18 @@
                                                     {{session('lang') == 'ar' ?$grade->ar_grade_name:$grade->en_grade_name}}
                                                 </option>
                                             @endforeach
-                                        </select>
-                                        
-                                    </div>
+                                        </select>                                    
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                    <label class="col-md-3 label-control">{{ trans('student::local.term') }}</label>
-                                    <div class="col-md-9">                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.term') }}</label>
                                         <select name="term" class="form-control"  disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             <option {{old('term',$student->term) == 'all' ?'selected':''}} value="all">{{ trans('student::local.all_term') }}</option>
                                             <option {{old('term',$student->term) == 'first' ?'selected':''}} value="first">{{ trans('student::local.first_term') }}</option>                                
                                             <option {{old('term',$student->term) == 'second' ?'selected':''}} value="second">{{ trans('student::local.second_term') }}</option>                                
-                                        </select>
-                                        
-                                    </div>
+                                        </select>                                    
                                     </div>
                                 </div>
                             </div>
@@ -448,32 +400,22 @@
                         </div> 
                         <div class="tab-pane" id="active4" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
                             aria-expanded="false">
+  
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                        <label class="col-md-4 label-control">{{ trans('student::local.application_date') }}</label>
-                                        <div class="col-md-8">
-                                            <input type="date" class="form-control " value="{{old('application_date',$student->application_date)}}" placeholder="{{ trans('student::local.application_date') }}"
-                                            name="application_date"  disabled>                                        
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                      <label class="col-md-4 label-control" >{{ trans('student::local.emp_open_app') }}</label>
-                                      <div class="col-md-8">                    
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.emp_open_app') }}</label>
                                         <select name="employee_id" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($admins as $admin)
                                             <option  {{old('employee_id',$student->employee_id) == $admin->id ?'selected':''}} value="{{$admin->id}}">{{$admin->name}}</option>
                                             @endforeach
-                                        </select>
-                                      </div>
+                                        </select>                                      
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-lg-4 col-md-6">
                                     <ul style="list-style: none" id="stepId" disabled>
                                      
                                     </ul>
@@ -486,10 +428,9 @@
                             <strong>{{ trans('student::local.last_school_info') }}</strong>
                           </div>
                             <div class="row mt-2">
-                                <div class="col-md-12">
-                                    <div class="form-group row">
-                                    <label class="col-md-2 label-control">{{ trans('student::local.school_id') }}</label>
-                                    <div class="col-md-10">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.school_id') }}</label>
                                         <select name="school_id" class="form-control" disabled>
                                             <option value="">{{ trans('student::local.select') }}</option>
                                             @foreach ($schools as $school)
@@ -497,49 +438,40 @@
                                                     {{$school->school_name}}
                                                 </option>
                                             @endforeach
-                                        </select>                    
-                                    </div>
+                                        </select>                                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group row">
-                                    <label class="col-md-2 label-control">{{ trans('student::local.transfer_reason') }}</label>
-                                    <div class="col-md-10">                                    
-                                        <textarea name="transfer_reason" class="form-control" cols="30" disabled rows="5">{{old('transfer_reason',$student->transfer_reason)}}</textarea>
-                                    </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ trans('student::local.transfer_reason') }}</label>
+                                        <textarea name="transfer_reason" class="form-control" cols="30" disabled rows="5">{{old('transfer_reason',$student->transfer_reason)}}</textarea>                                    
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="active7" role="tabpanel" aria-labelledby="dropdownOpt2-tab1"
                             aria-expanded="false">
-                            <div class="col-md-8">
-                                <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.submitted_name') }}</label>
-                                <div class="col-md-9">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="form-group">
+                                    <label>{{ trans('student::local.submitted_name') }}</label>
                                     <input type="text" class="form-control " value="{{old('submitted_name',$student->submitted_name)}}" placeholder="{{ trans('student::local.submitted_name') }}"
-                                    name="submitted_name" disabled>                
-                                </div>
+                                    name="submitted_name" disabled>                                                
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.submitted_id_number') }}</label>
-                                <div class="col-md-9">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="form-group">
+                                    <label>{{ trans('student::local.submitted_id_number') }}</label>
                                     <input type="number" min="0" class="form-control " value="{{old('submitted_id_number',$student->submitted_id_number)}}" placeholder="{{ trans('student::local.submitted_id_number') }}"
-                                    name="submitted_id_number" disabled>                
-                                </div>
+                                    name="submitted_id_number" disabled>                                                
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.submitted_mobile') }}</label>
-                                <div class="col-md-9">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="form-group">
+                                    <label>{{ trans('student::local.submitted_mobile') }}</label>
                                     <input type="number" min="0" class="form-control " value="{{old('submitted_mobile',$student->submitted_mobile)}}" placeholder="{{ trans('student::local.submitted_mobile') }}"
-                                    name="submitted_mobile" disabled>                
-                                </div>
+                                    name="submitted_mobile" disabled>                                                
                                 </div>
                             </div>
                         </div> 
@@ -566,18 +498,15 @@
                                     @endif                                
                                         
                                 </div>                             
-                              </div>
-                    
+                              </div>                    
                         </div>         
-                      </div> 
+                    </div> 
                 </div>
               </div>
           </div>
         </div>
       </div>
     </div>  
-
-  
     
 </div>
 
