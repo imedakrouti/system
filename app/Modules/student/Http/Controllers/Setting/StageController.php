@@ -54,7 +54,8 @@ class StageController extends Controller
         return [
             'ar_stage_name',
             'en_stage_name',
-            'sort'           
+            'sort' ,
+            'signature'          
         ];
     }    
 

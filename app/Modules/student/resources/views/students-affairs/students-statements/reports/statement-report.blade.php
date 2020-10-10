@@ -125,7 +125,8 @@
 
 <htmlpagefooter name="page-footer">
     <div class="signature">
-        <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('admin.students_affairs') }}</strong></h3>
+        {{-- <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('admin.students_affairs') }}</strong></h3> --}}
+        {!!$signature!!}
     </div>	
 </htmlpagefooter>
 @include('layouts.backEnd.layout-report.footer')

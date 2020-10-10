@@ -10,7 +10,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('dashboard.admission')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('stages.index')}}">{{ trans('student::local.stages_names') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('stages.index')}}">{{ trans('student::local.stages') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>
@@ -60,7 +60,15 @@
                               <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
-                    </div>                                                     
+                    </div>   
+                    <div class="col-md-12">
+                      <label class="col-md-3 label-control">{{ trans('student::local.signature_statement') }}</label>
+                      <div class="form-group row">
+                        <div class="col-md-12">
+                          <textarea class="form-control" name="signature" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('signature')}}</textarea>                          
+                        </div>
+                      </div>
+                  </div>                                                                         
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
@@ -76,4 +84,8 @@
       </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
 @endsection

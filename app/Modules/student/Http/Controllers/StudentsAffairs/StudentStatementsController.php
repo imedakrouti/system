@@ -668,11 +668,16 @@ class StudentStatementsController extends Controller
         })
         ->where($where)
         ->whereIn('division_id',request('division_id'))
-        ->count();                  
+        ->count();  
+        
+        $stage_grade = StageGrade::where('grade_id',request('grade_id'))->first();
+        $signature = Stage::findOrFail($stage_grade->stage_id)->signature;
+                
 
         $data = [
                     'title'                     => 'Statement Report',       
                     'statements'                => $statements,
+                    'signature'                 => $signature,
                     'logo'                      => logo(),
                     'school_name'               => getSchoolName($divisions[0]),               
                     'education_administration'  => preamble()['education_administration'],               
