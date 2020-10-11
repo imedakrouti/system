@@ -31,8 +31,8 @@
                     <a href="{{route('students.show',$assessment->students->id)}}">{{$assessment->students->en_student_name}} 
                       {{$assessment->students->father->en_st_name}} {{$assessment->students->father->en_nd_name}} {{$assessment->students->father->en_rd_name}}</a> 
                     @endif
-                </h3>
-                <h5><strong>{{ trans('student::local.grade') }}</strong> : {{session('lang') == 'ar' ?$assessment->students->grade->ar_grade_name:$assessment->student->grade->en_grade_name}}</h5>
+                </h3>                
+                <h5><strong>{{ trans('student::local.grade') }}</strong> : {{session('lang') == 'ar' ?$assessment->students->grade->ar_grade_name:$assessment->students->grade->en_grade_name}}</h5>                
                 <h5><strong>{{ trans('student::local.division') }}</strong> : {{session('lang') == 'ar' ?$assessment->students->division->ar_division_name:$assessment->students->division->en_division_name}}</h5>
                 <h5><strong>{{ trans('student::local.application_date') }}</strong> : {{$assessment->students->application_date}}</h5>
             </div>

@@ -164,7 +164,7 @@ class AssessmentController extends Controller
     {
         $employees = Employee::all();
         $tests = AcceptanceTest::sort()->get();
-        $assessment = Assessment::with('students','tests')->findOrFail($id);                
+        $assessment = Assessment::with('students','tests')->findOrFail($id);          
         $title = trans('student::local.show_tests');        
         return view('student::admissions.assessment-results.show',
         compact('title','assessment','tests','employees'));
