@@ -143,7 +143,7 @@ return
     'add'                                   => 'Add',
     'students_permissions'                  => 'Student Permissions',
     'parents_requests'                      => 'Parents Request',
-    'leave_requests'                        => 'Early Leave Request',
+    'leave_requests'                        => 'Withdrawal Requests',
     'save_dafault'                          => 'Default',
     'administrative_departments'            => 'Modules',
     '' => '',

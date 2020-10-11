@@ -179,7 +179,7 @@
                             <div class="form-group row">
                               <label class="col-md-3 label-control">{{ trans('student::local.email') }}</label>
                               <div class="col-md-9">
-                                <input type="number" min="0" class="form-control " value="{{old('email')}}" placeholder="{{ trans('student::local.email') }}"
+                                <input type="email" min="0" class="form-control " value="{{old('email')}}" placeholder="{{ trans('student::local.email') }}"
                                   name="email_m">
                               </div>
                             </div>
