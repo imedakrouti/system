@@ -37,7 +37,7 @@
             <tr>
                 <th style="width: 200px">{{ trans('student::local.grade') }}</th>
                 <td class="right">
-                    {{session('lang') == 'ar' ?$assessment->students->grade->ar_grade_name:$assessment->student->grade->en_grade_name}}
+                    {{session('lang') == 'ar' ?$assessment->students->grade->ar_grade_name:$assessment->students->grade->en_grade_name}}
                 </td>
             </tr>
             <tr>

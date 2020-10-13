@@ -145,7 +145,7 @@ return
     'leave_requests'                        => 'طلبات سحب الملف',
     'save_dafault'                          => 'الوضع الافتراضي',
     'administrative_departments'            => 'الاقسام الادارية',
-    '' => '',
+    'mobile_notification'                   => 'اشعارات الجوال',
     '' => '',
     '' => '',
     '' => '',

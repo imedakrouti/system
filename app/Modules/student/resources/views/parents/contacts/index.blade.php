@@ -72,8 +72,7 @@
 <script>
     $(function () {
         var myTable = $('#dynamic-table').DataTable({
-        @include('layouts.backEnd.includes.datatables._datatableConfig')
-            dom: 'Bfrtip',
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
                 // new btn
                 {

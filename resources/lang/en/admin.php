@@ -146,7 +146,7 @@ return
     'leave_requests'                        => 'Withdrawal Requests',
     'save_dafault'                          => 'Default',
     'administrative_departments'            => 'Modules',
-    '' => '',
+    'mobile_notification'                   => 'Mobile Notifications',
     '' => '',
     '' => '',
     '' => '',
