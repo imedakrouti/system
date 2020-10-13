@@ -29,10 +29,10 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.ar_stage_name') }}</label>
-                          <div class="col-md-9">
+                          <label class="col-lg-2 col-md-6 label-control">{{ trans('student::local.ar_stage_name') }}</label>
+                          <div class="col-lg-4 col-md-6">
                             <input type="text" class="form-control " value="{{old('ar_stage_name',$stage->ar_stage_name)}}" 
                             placeholder="{{ trans('student::local.ar_stage_name') }}"
                               name="ar_stage_name" required>
@@ -40,10 +40,10 @@
                           </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.en_stage_name') }}</label>
-                          <div class="col-md-9">
+                          <label class="col-lg-2 col-md-6 label-control">{{ trans('student::local.en_stage_name') }}</label>
+                          <div class="col-lg-4 col-md-6">
                             <input type="text" class="form-control " value="{{old('en_stage_name',$stage->en_stage_name)}}" 
                             placeholder="{{ trans('student::local.en_stage_name') }}"
                               name="en_stage_name" required>
@@ -51,10 +51,10 @@
                           </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
-                          <div class="col-md-9">
+                          <label class="col-lg-2 col-md-6 label-control">{{ trans('student::local.sort') }}</label>
+                          <div class="col-lg-4 col-md-6">
                             <input type="number" min="0" class="form-control " value="{{old('sort',$stage->sort)}}" 
                             placeholder="{{ trans('student::local.sort') }}"
                               name="sort" required>
@@ -63,7 +63,7 @@
                         </div>
                     </div>   
                     <div class="col-md-12">
-                        <label class="col-md-3 label-control">{{ trans('student::local.signature_statement') }}</label>
+                        <label class="col-lg-6 col-md-12 label-control">{{ trans('student::local.signature_statement') }}</label>
                         <div class="form-group row">
                           <div class="col-md-12">
                             <textarea class="form-control" name="signature" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('signature',$stage->signature)}}</textarea>                          

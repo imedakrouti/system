@@ -42,15 +42,18 @@ table.dataTable tbody tr.selected a, table.dataTable tbody th.selected a, table.
 table.dataTable tbody tr.selected a:hover, table.dataTable tbody th.selected a:hover, table.dataTable tbody td.selected a:hover {
     color: #df3f3f;
 }
-select.form-control:not([size]):not([multiple]) {  
-    margin-top: 10px;
-}
+/* select.form-control:not([size]):not([multiple]) {  
+   
+} */
 @media(min-width: 600px){
     div.dataTables_wrapper div.dataTables_filter {
         text-align: right;
         /* float: left; */
-        margin-top: -65px;
+        margin-top: -55px;
     }
+}
+div.dataTables_wrapper div.dataTables_length label {
+    margin-top: 5px;
 }
 
 .fc-day-grid-event .fc-content {  

@@ -29,94 +29,80 @@
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.division') }}</label>
-                              <div class="col-md-9">
-                                <select name="division_id" class="form-control" required>
-                                    @foreach ($divisions as $division)
-                                        <option {{old('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
-                                            {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
-                                    @endforeach
-                                </select>
-                                <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.division') }}</label>
+                              <select name="division_id" class="form-control" required>
+                                  @foreach ($divisions as $division)
+                                      <option {{old('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
+                                          {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
+                                  @endforeach
+                              </select>
+                              <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>    
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.grade') }}</label>
-                              <div class="col-md-9">
-                                <select name="grade_id" class="form-control" required>
-                                    @foreach ($grades as $grade)
-                                        <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
-                                            {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
-                                    @endforeach
-                                </select>
-                                <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.grade') }}</label>
+                              <select name="grade_id" class="form-control" required>
+                                  @foreach ($grades as $grade)
+                                      <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
+                                          {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
+                                  @endforeach
+                              </select>
+                              <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div> 
                     </div>                    
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.ar_name_classroom') }}</label>
-                              <div class="col-md-9">
-                                <input type="text" class="form-control " value="{{old('ar_name_classroom')}}" placeholder="{{ trans('student::local.ar_name_classroom') }}"
-                                  name="ar_name_classroom" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.ar_name_classroom') }}</label>
+                              <input type="text" class="form-control " value="{{old('ar_name_classroom')}}" placeholder="{{ trans('student::local.ar_name_classroom') }}"
+                                name="ar_name_classroom" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.en_name_classroom') }}</label>
-                              <div class="col-md-9">
-                                <input type="text" class="form-control " value="{{old('en_name_classroom')}}" placeholder="{{ trans('student::local.en_name_classroom') }}"
-                                  name="en_name_classroom" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.en_name_classroom') }}</label>
+                              <input type="text" class="form-control " value="{{old('en_name_classroom')}}" placeholder="{{ trans('student::local.en_name_classroom') }}"
+                                name="en_name_classroom" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.year') }}</label>
-                              <div class="col-md-9">
-                                <select name="year_id" class="form-control" required>
-                                    @foreach ($years as $year)
-                                        <option {{old('year_id') == $year->id ? 'selected' : ''}} value="{{$year->id}}">
-                                            {{$year->name}}</option>                                    
-                                    @endforeach
-                                </select>
-                                <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.year') }}</label>
+                              <select name="year_id" class="form-control" required>
+                                  @foreach ($years as $year)
+                                      <option {{old('year_id') == $year->id ? 'selected' : ''}} value="{{$year->id}}">
+                                          {{$year->name}}</option>                                    
+                                  @endforeach
+                              </select>
+                              <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-md-3 label-control">{{ trans('student::local.total_students') }}</label>
-                            <div class="col-md-9">
-                              <input type="number" min="0" class="form-control " value="{{old('total_students')}}" 
-                              placeholder="{{ trans('student::local.total_students') }}"
-                                name="total_students" required>
-                                <span class="red">{{ trans('student::local.requried') }}</span>
-                            </div>
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label>{{ trans('student::local.total_students') }}</label>
+                            <input type="number" min="0" class="form-control " value="{{old('total_students')}}" 
+                            placeholder="{{ trans('student::local.total_students') }}"
+                              name="total_students" required>
+                              <span class="red">{{ trans('student::local.requried') }}</span>                            
                           </div>
                         </div>  
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
-                              <div class="col-md-9">
-                                <input type="number" min="0" class="form-control " value="{{old('sort')}}" placeholder="{{ trans('student::local.sort') }}"
-                                  name="sort" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.sort') }}</label>
+                              <input type="number" min="0" class="form-control " value="{{old('sort')}}" placeholder="{{ trans('student::local.sort') }}"
+                                name="sort" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>  
                     </div>                    

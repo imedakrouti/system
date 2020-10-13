@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="content-header row">
-    <div class="content-header-left col-md-6 col-12 mb-2">
+    <div class="content-header-left col-md-12 col-12 mb-2">
       <h3 class="content-header-title">{{$title}}</h3>
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
@@ -32,39 +32,39 @@
                     @if(session('error'))
                         <h4 class="red"> {{session('error')}}</h4>
                     @endif                      
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.academic_year_name') }}</label>
-                          <div class="col-md-9">
+                          <label class="col-lg-3 col-md-6 label-control">{{ trans('student::local.academic_year_name') }}</label>
+                          <div class="col-lg-4 col-md-6">
                             <input type="text" class="form-control " value="{{old('name')}}" placeholder="{{ trans('student::local.academic_year_name') }}"
                               name="name" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.start_from') }}</label>
-                          <div class="col-md-9">
+                          <label class="col-lg-3 col-md-6 label-control">{{ trans('student::local.start_from') }}</label>
+                          <div class="col-lg-4 col-md-6">
                             <input type="date" class="form-control " value="{{old('start_from')}}" placeholder="{{ trans('student::local.start_from') }}"
                               name="start_from" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.end_from') }}</label>
-                          <div class="col-md-9">
+                          <label class="col-lg-3 col-md-6 label-control">{{ trans('student::local.end_from') }}</label>
+                          <div class="col-lg-4 col-md-6">
                             <input type="date" class="form-control " value="{{old('end_from')}}" placeholder="{{ trans('student::local.end_from') }}"
                               name="end_from" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
                           </div>
                         </div>
                     </div>  
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.default_year') }}</label>
+                          <label class="col-lg-3 col-md-6 label-control">{{ trans('student::local.default_year') }}</label>
                           <div class="col-md-4">
                             <select name="status" class="form-control">                              
                                 <option {{old('status') == trans('student::local.not_current') ? 'selected' : ''}} value="not current">{{ trans('student::local.not_current') }}</option>
@@ -73,9 +73,9 @@
                           </div>                     
                         </div>
                     </div>    
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <div class="form-group row">
-                        <label class="col-md-3 label-control">{{ trans('student::local.year_status') }}</label>
+                        <label class="col-lg-3 col-md-6 label-control">{{ trans('student::local.year_status') }}</label>
                         <div class="col-md-4">
                           <select name="year_status" class="form-control">                              
                               <option {{old('year_status') == trans('student::local.close') ? 'selected' : ''}} value="close">{{ trans('student::local.no') }}</option>

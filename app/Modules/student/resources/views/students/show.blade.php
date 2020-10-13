@@ -249,12 +249,14 @@
                                         <label>{{ trans('student::local.dob') }}</label>
                                         <input type="date" class="form-control" id="dob" value="{{old('dob',$student->dob)}}" placeholder="{{ trans('student::local.dob') }}"
                                         name="dob"  disabled>
-                                        <input type="text" class="age-display" value="0" id="dd" disabled>
-                                        <span>{{ trans('student::local.dd') }}</span>
+                                        <input type="text" class="age-display" value="0" 
+                                        id="{{ session('lang') == 'ar' ? 'dd' : 'yy' }}" disabled>
+                                        <span>{{ session('lang') == 'ar' ? trans('student::local.dd') : trans('student::local.yy') }}</span>
                                         <input type="text" class="age-display" value="0" id="mm" disabled>
                                         <span>{{ trans('student::local.mm') }}</span>
-                                        <input type="text" class="age-display" value="0" id="yy" disabled>
-                                        <span>{{ trans('student::local.yy') }}</span>                                    
+                                        <input type="text" class="age-display" value="0" 
+                                        id="{{ session('lang') == 'ar' ? 'yy' : 'dd' }}" disabled>
+                                        <span>{{ session('lang') == 'ar' ? trans('student::local.yy') : trans('student::local.dd') }}</span>                                    
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-6">

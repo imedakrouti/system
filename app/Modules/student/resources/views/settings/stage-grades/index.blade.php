@@ -33,7 +33,7 @@
               <div class="table-responsive">
                   <form action="" id='formData' method="post">
                     @csrf
-                    <table id="dynamic-table" class="table data-table" >
+                    <table id="dynamic-table" class="table data-table">
                         <thead class="bg-info white">
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>

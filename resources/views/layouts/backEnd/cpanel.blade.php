@@ -28,7 +28,7 @@
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/app.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/custom-rtl.css')}}">
+  {{-- <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/custom.css')}}"> --}}
   @endif
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/forms/selects/select2.min.css')}}">
 

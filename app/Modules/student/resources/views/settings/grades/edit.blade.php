@@ -30,100 +30,93 @@
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.ar_grade_name') }}</label>
-                              <div class="col-md-9">
-                                <input type="text" class="form-control " value="{{old('ar_grade_name',$grade->ar_grade_name)}}" placeholder="{{ trans('student::local.ar_grade_name') }}"
-                                  name="ar_grade_name" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.ar_grade_name') }}</label>
+                              <input type="text" class="form-control " value="{{old('ar_grade_name',$grade->ar_grade_name)}}" 
+                              placeholder="{{ trans('student::local.ar_grade_name') }}"
+                                name="ar_grade_name" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.en_grade_name') }}</label>
-                              <div class="col-md-9">
-                                <input type="text" class="form-control " value="{{old('en_grade_name',$grade->en_grade_name)}}" placeholder="{{ trans('student::local.en_grade_name') }}"
-                                  name="en_grade_name" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.en_grade_name') }}</label>
+                              <input type="text" class="form-control " value="{{old('en_grade_name',$grade->en_grade_name)}}" 
+                              placeholder="{{ trans('student::local.en_grade_name') }}"
+                                name="en_grade_name" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.ar_grade_parent') }}</label>
-                              <div class="col-md-9">
-                                <input type="text" class="form-control " value="{{old('ar_grade_parent',$grade->ar_grade_parent)}}" placeholder="{{ trans('student::local.ar_grade_parent') }}"
-                                  name="ar_grade_parent" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.ar_grade_parent') }}</label>
+                              <input type="text" class="form-control " value="{{old('ar_grade_parent',$grade->ar_grade_parent)}}" 
+                              placeholder="{{ trans('student::local.ar_grade_parent') }}"
+                                name="ar_grade_parent" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.en_grade_parent') }}</label>
-                              <div class="col-md-9">
-                                <input type="text" class="form-control " value="{{old('en_grade_parent',$grade->en_grade_parent)}}" placeholder="{{ trans('student::local.en_grade_parent') }}"
-                                  name="en_grade_parent" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.en_grade_parent') }}</label>
+                              <input type="text" class="form-control " value="{{old('en_grade_parent',$grade->en_grade_parent)}}" 
+                              placeholder="{{ trans('student::local.en_grade_parent') }}"
+                                name="en_grade_parent" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div>
                     </div> 
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group row">
+                      <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
                               <label class="col-md-6 label-control">{{ trans('student::local.from_age_year') }}</label>
-                              <div class="col-md-6">
-                                <input type="number" min="0" class="form-control " value="{{old('from_age_year',$grade->from_age_year)}}" placeholder="{{ trans('student::local.from_age_year') }}"
-                                  name="from_age_year" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                              <input type="number" min="0" class="form-control " value="{{old('from_age_year',$grade->from_age_year)}}" 
+                              placeholder="{{ trans('student::local.from_age_year') }}"
+                                name="from_age_year" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div> 
-                        <div class="col-md-3">
-                            <div class="form-group row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
                               <label class="col-md-6 label-control">{{ trans('student::local.from_age_month') }}</label>
-                              <div class="col-md-6">
-                                <input type="number" min="0" class="form-control " value="{{old('from_age_month',$grade->from_age_month)}}" placeholder="{{ trans('student::local.from_age_month') }}"
-                                  name="from_age_month" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
+                              <input type="number" min="0" class="form-control " value="{{old('from_age_month',$grade->from_age_month)}}" 
+                              placeholder="{{ trans('student::local.from_age_month') }}"
+                                name="from_age_month" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>
+                              <div class="col-lg-4 col-md-6">
                               </div>
                             </div>
                         </div> 
-                        <div class="col-md-3">
-                            <div class="form-group row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
                               <label class="col-md-6 label-control">{{ trans('student::local.to_age_year') }}</label>
-                              <div class="col-md-6">
-                                <input type="number" min="0" class="form-control " value="{{old('to_age_year',$grade->to_age_year)}}" placeholder="{{ trans('student::local.to_age_year') }}"
-                                  name="to_age_year" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                              <input type="number" min="0" class="form-control " value="{{old('to_age_year',$grade->to_age_year)}}" 
+                              placeholder="{{ trans('student::local.to_age_year') }}"
+                                name="to_age_year" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div> 
-                        <div class="col-md-3">
-                            <div class="form-group row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="form-group">
                               <label class="col-md-6 label-control">{{ trans('student::local.to_age_month') }}</label>
-                              <div class="col-md-6">
-                                <input type="number" min="0" class="form-control " value="{{old('to_age_month',$grade->to_age_month)}}" placeholder="{{ trans('student::local.to_age_month') }}"
-                                  name="to_age_month" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                              <input type="number" min="0" class="form-control " value="{{old('to_age_month',$grade->to_age_month)}}" 
+                              placeholder="{{ trans('student::local.to_age_month') }}"
+                                name="to_age_month" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div> 
                     </div>                   
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
-                              <div class="col-md-9">
-                                <input type="number" min="0" class="form-control " value="{{old('sort',$grade->sort)}}" placeholder="{{ trans('student::local.sort') }}"
-                                  name="sort" required>
-                                  <span class="red">{{ trans('student::local.requried') }}</span>
-                              </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('student::local.sort') }}</label>
+                              <input type="number" min="0" class="form-control " value="{{old('sort',$grade->sort)}}" 
+                              placeholder="{{ trans('student::local.sort') }}"
+                                name="sort" required>
+                                <span class="red">{{ trans('student::local.requried') }}</span>                              
                             </div>
                         </div> 
                     </div>   

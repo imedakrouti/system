@@ -30,7 +30,7 @@
                             @if (session('lang')=='ar')
                             <a href="{{route('students.show',$student->id)}}">{{$student->ar_student_name}}</a> <a href="{{route('father.show',$student->father->id)}}">{{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}</a>
                             @else
-                            <a href="{{route('students.show',$student->id)}}">{{$student->ar_student_name}}</a> <a href="{{route('student->father.show',$student->father->id)}}">{{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}</a>
+                            <a href="{{route('students.show',$student->id)}}">{{$student->ar_student_name}}</a> <a href="{{route('students.show',$student->father->id)}}">{{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}</a>
                             @endif                   
                           </h2>
                     </div>                  
