@@ -15,10 +15,10 @@ class School extends Model
     public function getSchoolTypeAttribute()
     {
         switch ($this->attributes['school_type']) {
-            case 'speak':
+            case 'private':
                 return trans('student::local.private');
                 break;
-            case 'study':
+            case 'lang':
                 return trans('student::local.lang');
                 break;
             default:
