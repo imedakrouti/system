@@ -27,7 +27,7 @@
       <div class="card-content collapse show">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-lg-3 col-md-6">
                     <div class="form-group row">
                         <div class="col-md-12">                    
                             <label class="label-control" >{{ trans('student::local.emp_open_app') }}</label>
@@ -39,7 +39,7 @@
                       </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-lg-3 col-md-6">
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="label-control">{{ trans('student::local.from') }}</label>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-lg-3 col-md-6">
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="label-control">{{ trans('student::local.to') }}</label>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                   </div>   
-                  <div class="col-md-2">
+                  <div class="col-lg-3 col-md-6">
                     <button type="button" style="margin-top: 30px;" onclick="find()"class="btn btn-info  btn-md">
                         {{ trans('student::local.search') }}
                     </button>

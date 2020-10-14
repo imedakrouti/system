@@ -43,4 +43,13 @@
       </div>
     </div>
 </div>
+
+<script type="text/javascript">
+  $(":button").click(function(){
+  alert("The paragraph was clicked.");
+});
+</script>
+
+
 @endsection
+
