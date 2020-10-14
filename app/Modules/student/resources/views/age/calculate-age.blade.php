@@ -22,22 +22,19 @@
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
-          <div class="col-md-6">
-            <div class="form-group row">            
+          <div class="col-lg-6 col-md-12">
+            <div class="form-group">            
                <h3 class="blue">{{ trans('student::local.dob_in_st_october_for_year') }} {{fullAcademicYear()}}</h3>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="form-group row">
-                <label class="col-md-3 label-control">{{ trans('student::local.student_dob') }}</label>
-                <div class="col-md-9">
-                  <input type="date" class="form-control" name="dob" id="dob">
-                </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+                <label>{{ trans('student::local.student_dob') }}</label>
+                <input type="date" class="form-control" name="dob" id="dob">
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-lg-6 col-md-12">
             <div class="form-group row">
-                <div class="col-md-3"></div>
                 <div class="col-md-2">
                   <input type="text" class="form-control center" value="0" id="dd" readonly>
                   <span>{{ trans('student::local.dd') }}</span>
@@ -52,7 +49,6 @@
                 </div>                                
             </div>
           </div>
-              
         </div>
       </div>
     </div>
