@@ -28,7 +28,7 @@
                 @include('layouts.backEnd.includes._msg')
                 <div class="col-md-12">
                     <div class="form-group row">                          
-                        <div class="col-md-4">   
+                        <div class="col-lg-4 col-md-12">   
                           <h4>{{ trans('student::local.father_name') }}</h4>                       
                             <h3>                                
                                 @if (session('lang') == 'ar')
@@ -38,7 +38,7 @@
                                 @endif                                                                    
                             </h3>                                                       
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-12">
                           <h4>{{ trans('student::local.mother_name') }}</h4>                       
                             @foreach ($mothers as $mother)
                                 @if ($mother->id == $report->students->mother_id)
@@ -46,7 +46,7 @@
                                 @endif
                             @endforeach
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-12">
                           <h4>{{ trans('student::local.siblings') }}</h4>                            
                             @foreach ($mothers as $mother)
                                 @foreach ($mother->students as $student)
