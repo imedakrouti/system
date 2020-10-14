@@ -71,29 +71,30 @@
 </div>
 <div class="row" >
     <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-      <div class="card" style="min-height: 300px">
+      <div class="card" style="min-height: 230px">
         <div class="card-content collapse show">
           <div class="card-body">
               <div class="row">
-                <div class="col-md-12">      
+                <div class="col-lg-12 col-md-5">      
                     @empty($student->student_image)
-                    <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
+                    <img style="width : 100%" class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
                     src="{{asset('images/studentsImages/stu.jpg')}}" />
                     @else
 
                     <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
                     src="{{asset('images/studentsImages/'.$student->student_image)}}" />
                     @endempty          
+                </div>
+                <div class="col-lg-12 col-md-6 mt-lg-1">
+                    <h3 class="red "><strong>{{$student->student_number}}</strong></h3>
+                    <h3 class="purple "><strong>{{$classroom}}</strong></h3>
+                    <h6><strong>{{ trans('student::local.created_by') }} : {{$student->admin->name}}</strong></h6>
+                    <h6><strong>{{ trans('student::local.created_at') }} : </strong></h6>{{$student->created_at}}
+                    <h6><strong>{{ trans('student::local.updated_at') }} : </strong></h6>{{$student->updated_at}}
                 </div>                
               </div>
-              <hr>
-              <div class="col-md-12">
-                <h3 class="red center"><strong>{{$student->student_number}}</strong></h3>
-                <h3 class="purple center"><strong>{{$classroom}}</strong></h3>
-                <h6><strong>{{ trans('student::local.created_by') }} : {{$student->admin->name}}</strong></h6>
-                <h6><strong>{{ trans('student::local.created_at') }} : </strong></h6>{{$student->created_at}}
-                <h6><strong>{{ trans('student::local.updated_at') }} : </strong></h6>{{$student->updated_at}}
-              </div>
+              
+               
           </div>
         </div>
       </div>
@@ -513,10 +514,10 @@
 </div>
 
 <div class="row" >
-    <div class="col-md-2 col-xs-12">
+    {{-- <div class="col-lg-2">
       <div style="min-height: 300px"></div>
-    </div>
-    <div class="col-md-10 col-xs-12">
+    </div> --}}
+    <div class="col-lg-12 col-md-12 col-xs-12">
       <div class="card" style="min-height: 200px">
         <div class="card-content collapse show">
           <div class="card-body">
