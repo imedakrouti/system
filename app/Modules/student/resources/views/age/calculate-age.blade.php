@@ -36,16 +36,18 @@
           <div class="col-lg-6 col-md-12">
             <div class="form-group row">
                 <div class="col-md-2">
-                  <input type="text" class="form-control center" value="0" id="dd" readonly>
-                  <span>{{ trans('student::local.dd') }}</span>
+                  <input type="text" class="form-control center" value="0"
+                  id="{{session('lang') == 'ar'?'dd':'yy'}}" readonly>
+                  <span>{{ session('lang') =='ar' ? trans('student::local.dd') : trans('student::local.yy') }}</span>
                 </div>
                 <div class="col-md-2">
                   <input type="text" class="form-control center" value="0" id="mm" readonly>
                   <span>{{ trans('student::local.mm') }}</span>
                 </div>
                 <div class="col-md-2">
-                  <input type="text" class="form-control center" value="0" id="yy" readonly>
-                  <span>{{ trans('student::local.yy') }}</span>
+                  <input type="text" class="form-control center" value="0" 
+                  id="{{session('lang') == 'ar'?'yy':'dd'}}" readonly>
+                  <span>{{ session('lang') =='ar' ? trans('student::local.yy') : trans('student::local.dd') }}</span>
                 </div>                                
             </div>
           </div>
