@@ -508,7 +508,7 @@ return [
     'mm'                            => 'Month',
     'yy'                            => 'Year',
     'student_age'                   => 'Student age',
-    'dob_in_st_october_for_year'    => 'Student age on the first of October for the academic year ',
+    'dob_in_st_october_for_year'    => 'Student age on 1 st October - academic year ',
     'student_dob'                   => 'Student birth date',
     'emp_open_app'                  => 'Who opened the file',
     'all_students'                  => 'Students',
