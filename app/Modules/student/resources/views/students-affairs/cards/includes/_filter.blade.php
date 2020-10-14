@@ -43,7 +43,9 @@
                     <option value="{{$student->id}}">
                         {{session('lang') =='ar' ? '['.$student->student_number.'] '. $student->ar_student_name 
                         . ' ' .$student->father->ar_nd_name. ' ' .$student->father->ar_rd_name:
-                        $student->en_student_name}}</option>                                    
+                        '['.$student->student_number.'] '. $student->en_student_name 
+                        . ' ' .$student->father->en_nd_name. ' ' .$student->father->en_rd_name
+                       }}</option>                                    
                 @endforeach
             </select>
         </div>

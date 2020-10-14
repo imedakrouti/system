@@ -159,7 +159,7 @@ class CardController extends Controller
 		$pdf = PDF::loadView('student::students-affairs.cards.reports.all-students', $data);
 		return $pdf->stream($classroom);
     }
-
+    
     public function selectedStudents()
     {     
         $schoolName = '';

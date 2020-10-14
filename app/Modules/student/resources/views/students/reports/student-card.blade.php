@@ -62,7 +62,7 @@
         <div class="school-name position">
             <h3 class="school-size">{{$schoolName}}</h3>
         </div>
-        <div class="data position">
+        <div class="data position">zz
             <div class="student-data">                
                 @if (session('lang') == 'ar')
                     <h3 class="center">{{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}}<br>          
