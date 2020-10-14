@@ -99,7 +99,7 @@ class CardController extends Controller
           return   '<a href="'.route('students.show',$data->id).'">'.$data->ar_student_name . ' ' . $data->father->ar_st_name
           . ' ' . $data->father->ar_nd_name. ' ' . $data->father->ar_rd_name.'</a>';
         }else{
-            return   '<a href="'.route('students.show',$data->id).'">'.$data->student->en_student_name . ' ' . $data->father->en_st_name
+            return   '<a href="'.route('students.show',$data->id).'">'.$data->en_student_name . ' ' . $data->father->en_st_name
             . ' ' . $data->father->en_nd_name. ' ' . $data->father->en_rd_name.'</a>';
         }
     } 

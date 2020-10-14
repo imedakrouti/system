@@ -128,7 +128,7 @@ return [
     'year'                          => 'Academic Year',
     'new_classroom'                 => 'New classroom',
     'edit_classroom'                => 'Edit classroom',
-    'id_designs'                    => 'Carnet designs',
+    'id_designs'                    => 'Cards designs',
     'design_name_required'          => 'A design must be specified',    
     'design_type_image'             => 'The design must be of the image type',
     'design_type_size'              => 'It must be ensured that the image size does not exceed 1 MB',

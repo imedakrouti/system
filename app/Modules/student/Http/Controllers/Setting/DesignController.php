@@ -22,7 +22,7 @@ class DesignController extends Controller
         $grades = Grade::sort()->get();        
         $divisions = Division::sort()->get();
         $title = trans('student::local.id_designs');
-        $designs = Design::with('grade','division')->orderBy('id','desc')->paginate(6);
+        $designs = Design::with('grade','division')->orderBy('id','desc')->paginate(6);        
         
         return view('student::settings.id-designs.index',
         compact('grades','divisions','title','designs'));
