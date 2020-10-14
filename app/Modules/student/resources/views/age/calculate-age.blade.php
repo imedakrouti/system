@@ -22,7 +22,7 @@
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
-          <div class="col-lg-6 col-md-12">
+          <div class="col-lg-8 col-md-12">
             <div class="form-group">            
                <h3 class="blue">{{ trans('student::local.dob_in_st_october_for_year') }} {{fullAcademicYear()}}</h3>
             </div>
