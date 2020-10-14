@@ -84,7 +84,7 @@ class TransferController extends Controller
         $grades = Grade::sort()->get();
         $years = Year::open()->orderBy('id','desc')->where('status','<>','current')->get();
         $schools = School::orderBy('id','desc')->get();
-        $students = Student::with('father')->whereHas('leaveRequests')->whereDoesntHave('transfers')
+        $students = Student::with('father')->whereDoesntHave('transfers')
         ->orderBy('ar_student_name')->get();
         $title = trans('student::local.new_transfer');
 

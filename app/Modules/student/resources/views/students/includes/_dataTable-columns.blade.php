@@ -6,9 +6,7 @@ columns: [
     {data: 'studentName',         name: 'studentName'},
     {data: 'student_number',      name: 'student_number'},
     {data: 'student_type',        name: 'student_type'},
-    {data: 'registration_status', name: 'registration_status'},
-    {data: 'religion',            name: 'religion'},              
-    {data: 'grade',               name: 'grade'},
-    {data: 'division',            name: 'division'},              
+    {data: 'registration_status', name: 'registration_status'},    
+    {data: 'grade',               name: 'grade'},    
     {data: 'moreBtn',             name: 'moreBtn', orderable: false, searchable: false},                            
 ]

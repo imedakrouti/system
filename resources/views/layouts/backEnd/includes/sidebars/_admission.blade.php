@@ -130,16 +130,17 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.commissioners') }}</span>
                     </a>
                 </li> 
+                <li class=" nav-item {{request()->segment(2)=='transfers'?'active':''}}">
+                    <a href="{{route('transfers.index')}}"><i class="la la-exchange">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.transfers') }}</span>
+                    </a>
+                </li>                 
                 <li class=" nav-item {{request()->segment(2)=='leave-requests'?'active':''}}">
                     <a href="{{route('leave-requests.index')}}"><i class="la la-exchange">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.leave_requests') }}</span>
                     </a>
                 </li>                 
-                <li class=" nav-item {{request()->segment(2)=='transfers'?'active':''}}">
-                    <a href="{{route('transfers.index')}}"><i class="la la-exchange">
-                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.transfers') }}</span>
-                    </a>
-                </li> 
+
                 <li class=" nav-item {{request()->segment(2)=='student-cards'?'active':''}}">
                     <a href="{{route('student-cards.classroom')}}"><i class="la la-cc-discover">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.students_id_card') }}</span>

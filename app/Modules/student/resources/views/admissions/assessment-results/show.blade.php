@@ -35,6 +35,7 @@
                 <h5><strong>{{ trans('student::local.grade') }}</strong> : {{session('lang') == 'ar' ?$assessment->students->grade->ar_grade_name:$assessment->students->grade->en_grade_name}}</h5>                
                 <h5><strong>{{ trans('student::local.division') }}</strong> : {{session('lang') == 'ar' ?$assessment->students->division->ar_division_name:$assessment->students->division->en_division_name}}</h5>
                 <h5><strong>{{ trans('student::local.application_date') }}</strong> : {{$assessment->students->application_date}}</h5>
+                <h5><strong>{{ trans('student::local.student_type') }}</strong> : {{$assessment->students->student_type}}</h5>
             </div>
         </div>
       </div>
@@ -72,10 +73,12 @@
                   <label"><strong>{{ trans('student::local.notes') }}</strong></label>
                   <textarea name="notes" class="form-control" cols="30" rows="5">{{$assessment->notes}}</textarea>                                             
                 </div>
-            </div>                             
-              <button type="submit" class="btn btn-success">
-                <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
-              </button>                                    
+            </div>      
+            @if ($assessment->students->student_type == trans('student::local.applicant'))
+                <button type="submit" class="btn btn-success">
+                  <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
+                </button>                                                    
+            @endif                       
             </form>                 
           </div>
       </div>
@@ -86,11 +89,13 @@
   <div class="col-12">
   <div class="card">
       <div class="card-content collapse show">
-          <div class="card-body">                                
+          <div class="card-body">   
+          @if ($assessment->students->student_type == trans('student::local.applicant'))
               <a href="#" class="btn btn-success mb-1" data-toggle="modal" data-target="#addTest">
                 {{ trans('student::local.add_test_result') }}
               </a>
-              <a href="#" id="btnDelete" class="btn btn-danger mb-1">{{ trans('admin.delete') }}</a>
+              <a href="#" id="btnDelete" class="btn btn-danger mb-1">{{ trans('admin.delete') }}</a>                                      
+          @endif                     
               <a target="_blank" href="{{route('print-testReport.pdf',$assessment->id)}}" id="btnDelete" class="btn btn-info mb-1">{{ trans('admin.print') }}</a>
               <div class="table-responsive">
                 <form action="" method="POST" id="formData">

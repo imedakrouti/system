@@ -78,7 +78,7 @@
                 <div class="col-lg-12 col-md-5">      
                     @empty($student->student_image)
                     <img style="width : 100%" class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
-                    src="{{asset('images/studentsImages/stu.jpg')}}" />
+                    src="{{asset('images/studentsImages/37.jpeg')}}" />
                     @else
 
                     <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 

@@ -789,20 +789,13 @@ class StudentController extends Controller
                 return session('lang') == 'ar' ? $data->regStatus->ar_name_status:
                 $data->regStatus->en_name_status;
             })
-            ->addColumn('religion',function($data){
-                return $data->religion;   
-            })
             ->addColumn('student_type',function($data){
                 return $data->student_type == trans('student::local.applicant') ? '<span class="red">'.$data->student_type.'</span>':$data->student_type;     
             })
             ->addColumn('grade',function($data){
-                return session('lang') == 'ar' ? $data->grade->ar_grade_name:
-                $data->grade->en_grade_name;
-            })
-            ->addColumn('division',function($data){
-                return session('lang') == 'ar' ? $data->division->ar_division_name:
-                $data->division->en_division_name;
-            })
+                return session('lang') == 'ar' ? $data->grade->ar_grade_name . '<br><span class="purple">' .$data->division->ar_division_name.'</span>':
+                $data->grade->en_grade_name . '<br><span class="purple">' .$data->division->en_division_name .'</span>';
+            })      
             ->addColumn('check', function($data){
                 $btnCheck = '<label class="pos-rel">
                                 <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -810,8 +803,8 @@ class StudentController extends Controller
                             </label>';
                     return $btnCheck;
             })
-            ->rawColumns(['check','studentName','registration_status','religion','grade','student_type',
-            'division','studentImage','moreBtn'])
+            ->rawColumns(['check','studentName','registration_status','grade','student_type',
+            'studentImage','moreBtn'])
             ->make(true);
     }
     public function getGradesData()

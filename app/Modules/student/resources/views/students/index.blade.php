@@ -45,10 +45,8 @@
                                 <th>{{trans('student::local.student_name')}}</th>
                                 <th>{{trans('student::local.student_number')}}</th>
                                 <th>{{trans('student::local.student_type')}}</th>
-                                <th>{{trans('student::local.registration_status')}}</th>
-                                <th>{{trans('student::local.religion')}}</th>
-                                <th>{{trans('student::local.grade')}}</th>
-                                <th>{{trans('student::local.division')}}</th>                                
+                                <th>{{trans('student::local.registration_status')}}</th>                                
+                                <th>{{trans('student::local.grade')}}</th>                                
                                 <th>{{trans('student::local.more')}}</th>                                                                
                             </tr>
                         </thead>
