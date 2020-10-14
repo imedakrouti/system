@@ -27,7 +27,7 @@
           <h4 class="card-title">{{$title}}</h4>
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
           <div class="row mt-1">
-            <div class="col-md-3">
+            <div class="col-lg-3 col-md-4">
               <select name="grade_id" class="form-control" id="grade_id">
                 @foreach ($grades as $grade)
                     <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">

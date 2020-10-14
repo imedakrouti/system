@@ -1,10 +1,8 @@
 <form action="{{route('id-designs.filter')}}" method="get" id="formSearch">
     @csrf
     <div class="row mb-1 mt-1">
-        <div class="col-md-1">
-            <a href="{{route('id-designs.create')}}" class="btn btn-success buttons-print btn-success ">{{ trans('student::local.new_id_design') }}</a>
-        </div>
-        <div class="col-md-2">
+
+        <div class="col-lg-2 col-md-4">
             <select name="division_id" class="form-control">
                 @foreach ($divisions as $division)
                     <option {{request('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
@@ -12,7 +10,7 @@
                 @endforeach
             </select>
         </div>    
-        <div class="col-md-2">
+        <div class="col-lg-2 col-md-4">
             <select name="grade_id" class="form-control" >
                 @foreach ($grades as $grade)
                     <option {{request('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
@@ -20,6 +18,13 @@
                 @endforeach
             </select>
         </div>
-        <button id="filter" type="submit" class="btn btn-primary btn-sm"><i class="la la-search"></i></button>
+        <div class="col-lg-2 col-md-4">
+            <button id="filter" type="submit" class="btn btn-primary btn-sm"><i class="la la-search"></i></button>            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-4">            
+            <a href="{{route('id-designs.create')}}" class="btn btn-success buttons-print btn-success ">{{ trans('student::local.new_id_design') }}</a>
+        </div>
     </div>
   </form>

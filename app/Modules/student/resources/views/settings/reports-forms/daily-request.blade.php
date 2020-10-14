@@ -26,7 +26,47 @@
           <h3 class="red"><strong>{{$title}}</strong></h3>
           <hr>
           <div class="row">
-              <div class="col-md-8"> 
+            <div class="col-lg-4 col-md-12"> 
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>{{ trans('student::local.item') }}</th>
+                    <th>{{ trans('student::local.description') }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>student_name</td>
+                    <td>{{ trans('student::local.student_name') }}</td>
+                  </tr>
+                  <tr>
+                    <td>father_name</td>
+                    <td>{{ trans('student::local.father_name') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>father_national_id</td>
+                    <td>{{ trans('student::local.father_id_number') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>grade</td>
+                    <td>{{ trans('student::local.grade') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>leave_time</td>
+                    <td>{{ trans('student::local.leave_time') }}</td>
+                  </tr>   
+                  <tr>
+                      <td>recipient_name</td>
+                      <td>{{ trans('student::local.recipient_name') }}</td>
+                  </tr>   
+                  <tr>
+                    <td>date</td>
+                    <td>{{ trans('student::local.today_date') }}</td>
+                 </tr>                                                                                                                   
+                </tbody>
+              </table>
+            </div>            
+            <div class="col-lg-8 col-md-12"> 
                 <form class="form form-horizontal" action="{{route('daily-request.update')}}" method="post">
                     @csrf                    
                     <textarea class="form-control" name="daily_request" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('daily_request',$content->daily_request)}}</textarea>                          
@@ -37,46 +77,7 @@
                     </div>                  
                 </form>               
               </div>
-              <div class="col-md-4">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>{{ trans('student::local.item') }}</th>
-                      <th>{{ trans('student::local.description') }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>student_name</td>
-                      <td>{{ trans('student::local.student_name') }}</td>
-                    </tr>
-                    <tr>
-                      <td>father_name</td>
-                      <td>{{ trans('student::local.father_name') }}</td>
-                    </tr>  
-                    <tr>
-                      <td>father_national_id</td>
-                      <td>{{ trans('student::local.father_id_number') }}</td>
-                    </tr>  
-                    <tr>
-                      <td>grade</td>
-                      <td>{{ trans('student::local.grade') }}</td>
-                    </tr>  
-                    <tr>
-                      <td>leave_time</td>
-                      <td>{{ trans('student::local.leave_time') }}</td>
-                    </tr>   
-                    <tr>
-                        <td>recipient_name</td>
-                        <td>{{ trans('student::local.recipient_name') }}</td>
-                    </tr>   
-                    <tr>
-                      <td>date</td>
-                      <td>{{ trans('student::local.today_date') }}</td>
-                   </tr>                                                                                                                   
-                  </tbody>
-                </table>
-              </div>
+          
             </div>
         </div>
       </div>

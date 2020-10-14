@@ -92,7 +92,7 @@
 </div>
 
 <div class="row">
-  <div id="recent-sales" class="col-12 col-md-4">
+  <div id="recent-sales" class="col-12 col-lg-4 col-md-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title"><a href="{{route('applicants-counts.divisions')}}">{{ trans('student::local.statistic') }}</a></h4>
@@ -128,7 +128,7 @@
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-8">
+  <div class="col-12 col-lg-8 col-md-12">
     <div class="card">
       <div class="card-header">
         <h4 class="card-title"><a href="{{route('applicants.today')}}">{{ trans('student::local.today_applicants') }}</a></h4>

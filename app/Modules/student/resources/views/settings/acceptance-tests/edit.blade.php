@@ -29,48 +29,40 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.ar_test_name') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('ar_test_name',$acceptanceTest->ar_test_name)}}" placeholder="{{ trans('student::local.ar_test_name') }}"
-                              name="ar_test_name" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-8">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.ar_test_name') }}</label>
+                          <input type="text" class="form-control " value="{{old('ar_test_name',$acceptanceTest->ar_test_name)}}" placeholder="{{ trans('student::local.ar_test_name') }}"
+                            name="ar_test_name" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.en_test_name') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('en_test_name',$acceptanceTest->en_test_name)}}" placeholder="{{ trans('student::local.en_test_name') }}"
-                              name="en_test_name" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-8">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.en_test_name') }}</label>
+                          <input type="text" class="form-control " value="{{old('en_test_name',$acceptanceTest->en_test_name)}}" placeholder="{{ trans('student::local.en_test_name') }}"
+                            name="en_test_name" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.grade') }}</label>
-                          <div class="col-md-9">
-                            <select name="grade_id" class="form-control" required>
-                                @foreach ($grades as $grade)
-                                    <option {{old('grade_id',$grade->id) == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
-                                        {{session('lang') == 'ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-8">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.grade') }}</label>
+                          <select name="grade_id" class="form-control" required>
+                              @foreach ($grades as $grade)
+                                  <option {{old('grade_id',$grade->id) == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
+                                      {{session('lang') == 'ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
+                              @endforeach
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>    
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
-                          <div class="col-md-9">
-                            <input type="number" min="0" class="form-control " value="{{old('sort',$acceptanceTest->sort)}}" placeholder="{{ trans('student::local.sort') }}"
-                              name="sort" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-8">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.sort') }}</label>
+                          <input type="number" min="0" class="form-control " value="{{old('sort',$acceptanceTest->sort)}}" placeholder="{{ trans('student::local.sort') }}"
+                            name="sort" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>                        
                 </div>

@@ -59,7 +59,7 @@
                           <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div> 
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                           <label>{{ trans('student::local.notes') }}</label>
                           <textarea name="notes" class="form-control" cols="30" rows="5">{{old('notes',$admissionDoc->notes)}}</textarea>                          

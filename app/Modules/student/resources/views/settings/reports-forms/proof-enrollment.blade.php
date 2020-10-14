@@ -26,18 +26,8 @@
           <h3 class="red"><strong>{{$title}}</strong></h3>
           <hr>
           <div class="row">
-              <div class="col-md-8"> 
-                <form class="form form-horizontal" action="{{route('proof-enrollment.update')}}" method="post">
-                    @csrf                    
-                    <textarea class="form-control" name="proof_enrollment" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('proof_enrollment',$content->proof_enrollment)}}</textarea>                          
-                    <div class="form-actions left">
-                        <button type="submit" class="btn btn-success">
-                            <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
-                        </button>                     
-                    </div>                  
-                </form>               
-              </div>
-              <div class="col-md-4">
+
+              <div class="col-lg-4 col-md-12"> 
                 <table class="table">
                   <thead>
                     <tr>
@@ -89,6 +79,17 @@
                   </tbody>
                 </table>
               </div>
+              <div class="col-lg-8 col-md-12"> 
+                <form class="form form-horizontal" action="{{route('proof-enrollment.update')}}" method="post">
+                    @csrf                    
+                    <textarea class="form-control" name="proof_enrollment" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('proof_enrollment',$content->proof_enrollment)}}</textarea>                          
+                    <div class="form-actions left">
+                        <button type="submit" class="btn btn-success">
+                            <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
+                        </button>                     
+                    </div>                  
+                </form>               
+              </div>              
             </div>
         </div>
       </div>

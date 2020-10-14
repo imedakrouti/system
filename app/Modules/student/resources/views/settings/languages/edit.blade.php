@@ -29,47 +29,39 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.ar_name_lang') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('ar_name_lang',$language->ar_name_lang)}}" placeholder="{{ trans('student::local.ar_name_lang') }}"
-                              name="ar_name_lang" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.ar_name_lang') }}</label>
+                          <input type="text" class="form-control " value="{{old('ar_name_lang',$language->ar_name_lang)}}" placeholder="{{ trans('student::local.ar_name_lang') }}"
+                            name="ar_name_lang" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.en_name_lang') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('en_name_lang',$language->en_name_lang)}}" placeholder="{{ trans('student::local.en_name_lang') }}"
-                              name="en_name_lang" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.en_name_lang') }}</label>
+                          <input type="text" class="form-control " value="{{old('en_name_lang',$language->en_name_lang)}}" placeholder="{{ trans('student::local.en_name_lang') }}"
+                            name="en_name_lang" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>  
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.lang_type') }}</label>                         
-                          <div class="col-md-9">
-                            <select name="lang_type" class="form-control" required>
-                                <option {{old('lang_type',$language->lang_type) == trans('student::local.speak')?'selected':''}} value="speak">{{ trans('student::local.speak') }}</option>
-                                <option {{old('lang_type',$language->lang_type) == trans('student::local.study')?'selected':''}} value="study">{{ trans('student::local.study') }}</option>                                
-                                <option {{old('lang_type',$language->lang_type) == trans('student::local.speak_study') ?'selected':''}} value="speak_study">{{ trans('student::local.speak_study') }}</option>                                
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.lang_type') }}</label>                         
+                          <select name="lang_type" class="form-control" required>
+                              <option {{old('lang_type',$language->lang_type) == trans('student::local.speak')?'selected':''}} value="speak">{{ trans('student::local.speak') }}</option>
+                              <option {{old('lang_type',$language->lang_type) == trans('student::local.study')?'selected':''}} value="study">{{ trans('student::local.study') }}</option>                                
+                              <option {{old('lang_type',$language->lang_type) == trans('student::local.speak_study') ?'selected':''}} value="speak_study">{{ trans('student::local.speak_study') }}</option>                                
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>                                      
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
-                          <div class="col-md-9">
-                            <input type="number" min="0" class="form-control " value="{{old('sort',$language->sort)}}" placeholder="{{ trans('student::local.sort') }}"
-                              name="sort" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.sort') }}</label>
+                          <input type="number" min="0" class="form-control " value="{{old('sort',$language->sort)}}" placeholder="{{ trans('student::local.sort') }}"
+                            name="sort" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div> 
                 </div>

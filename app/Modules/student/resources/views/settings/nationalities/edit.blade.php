@@ -29,44 +29,36 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-md-3 label-control">{{ trans('student::local.ar_name_nat_male') }}</label>
-                        <div class="col-md-9">
-                          <input type="text" class="form-control " value="{{old('ar_name_nat_male',$nationality->ar_name_nat_male)}}" placeholder="{{ trans('student::local.ar_name_nat_male') }}"
-                            name="ar_name_nat_male" required>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                        </div>
+                    <div class="col-lg-4 col-md-6">
+                      <div class="form-group">
+                        <label>{{ trans('student::local.ar_name_nat_male') }}</label>
+                        <input type="text" class="form-control " value="{{old('ar_name_nat_male',$nationality->ar_name_nat_male)}}" placeholder="{{ trans('student::local.ar_name_nat_male') }}"
+                          name="ar_name_nat_male" required>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                        
                       </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-3 label-control">{{ trans('student::local.ar_name_nat_female') }}</label>
-                      <div class="col-md-9">
-                        <input type="text" class="form-control " value="{{old('ar_name_nat_female',$nationality->ar_name_nat_female)}}" placeholder="{{ trans('student::local.ar_name_nat_female') }}"
-                          name="ar_name_nat_female" required>
-                          <span class="red">{{ trans('student::local.requried') }}</span>
-                      </div>
+                  <div class="col-lg-4 col-md-6">
+                    <div class="form-group">
+                      <label>{{ trans('student::local.ar_name_nat_female') }}</label>
+                      <input type="text" class="form-control " value="{{old('ar_name_nat_female',$nationality->ar_name_nat_female)}}" placeholder="{{ trans('student::local.ar_name_nat_female') }}"
+                        name="ar_name_nat_female" required>
+                        <span class="red">{{ trans('student::local.requried') }}</span>                      
                     </div>
                  </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.en_name_nationality') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('en_name_nationality',$nationality->en_name_nationality)}}" placeholder="{{ trans('student::local.en_name_nationality') }}"
-                              name="en_name_nationality" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.en_name_nationality') }}</label>
+                          <input type="text" class="form-control " value="{{old('en_name_nationality',$nationality->en_name_nationality)}}" placeholder="{{ trans('student::local.en_name_nationality') }}"
+                            name="en_name_nationality" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>                                      
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.sort') }}</label>
-                          <div class="col-md-9">
-                            <input type="number" min="0" class="form-control " value="{{old('sort',$nationality->sort)}}" placeholder="{{ trans('student::local.sort') }}"
-                              name="sort" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.sort') }}</label>
+                          <input type="number" min="0" class="form-control " value="{{old('sort',$nationality->sort)}}" placeholder="{{ trans('student::local.sort') }}"
+                            name="sort" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
                 </div>

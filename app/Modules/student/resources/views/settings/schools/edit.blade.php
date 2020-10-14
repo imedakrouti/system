@@ -29,47 +29,39 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.school_name') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('school_name',$school->school_name)}}" placeholder="{{ trans('student::local.school_name') }}"
-                              name="school_name" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.school_name') }}</label>
+                          <input type="text" class="form-control " value="{{old('school_name',$school->school_name)}}" placeholder="{{ trans('student::local.school_name') }}"
+                            name="school_name" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.school_address') }}</label>
-                          <div class="col-md-9">                         
-                              <textarea name="school_address" class="form-control" required cols="30" rows="5">{{old('school_address',$school->school_address)}}</textarea>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.school_address') }}</label>
+                          <textarea name="school_address" class="form-control" required cols="30" rows="5">{{old('school_address',$school->school_address)}}</textarea>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>  
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.school_type') }}</label>                         
-                          <div class="col-md-9">
-                            <select name="school_type" class="form-control" required>
-                                <option value="">{{ trans('student::local.select') }}</option>
-                                <option {{old('school_type',$school->school_type) == trans('student::local.private')?'selected':''}} value="private">{{ trans('student::local.private') }}</option>
-                                <option {{old('school_type',$school->school_type) == trans('student::local.lang')?'selected':''}} value="lang">{{ trans('student::local.lang') }}</option>
-                                <option {{old('school_type',$school->school_type) == trans('student::local.international')?'selected':''}} value="international">{{ trans('student::local.international') }}</option>                                
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.school_type') }}</label>                         
+                          <select name="school_type" class="form-control" required>
+                              <option value="">{{ trans('student::local.select') }}</option>
+                              <option {{old('school_type',$school->school_type) == trans('student::local.private')?'selected':''}} value="private">{{ trans('student::local.private') }}</option>
+                              <option {{old('school_type',$school->school_type) == trans('student::local.lang')?'selected':''}} value="lang">{{ trans('student::local.lang') }}</option>
+                              <option {{old('school_type',$school->school_type) == trans('student::local.international')?'selected':''}} value="international">{{ trans('student::local.international') }}</option>                                
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div> 
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.school_government') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('school_government',$school->school_government)}}" placeholder="{{ trans('student::local.school_government') }}"
-                              name="school_government" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.school_government') }}</label>
+                          <input type="text" class="form-control " value="{{old('school_government',$school->school_government)}}" placeholder="{{ trans('student::local.school_government') }}"
+                            name="school_government" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>   
                 </div>

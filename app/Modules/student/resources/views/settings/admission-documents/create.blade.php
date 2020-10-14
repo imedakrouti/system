@@ -34,9 +34,7 @@
                           <input type="text" class="form-control " value="{{old('ar_document_name')}}" 
                           placeholder="{{ trans('student::local.ar_document_name') }}"
                             name="ar_document_name" required>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          <div class="col-md-9">
-                          </div>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                    
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
@@ -61,7 +59,7 @@
                           <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div> 
-                    <div class="col-lg-4 col-md-12">
+                    <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                           <label>{{ trans('student::local.notes') }}</label>
                           <textarea name="notes" class="form-control" cols="30" rows="5">{{old('notes')}}</textarea>                          
