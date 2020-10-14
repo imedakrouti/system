@@ -872,7 +872,7 @@ return [
     'absence_date'                  => 'Date of absence',
     'add_student_commissioner'      => 'Add students to delegates',
     'signature_statement'           => 'Student record signatures apply to the educational stage',
-    '' => '',
+    'default'                       => 'Default',
     '' => '',
     '' => '',
     '' => '',

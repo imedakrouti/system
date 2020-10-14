@@ -32,6 +32,8 @@ class CardController extends Controller
                     $q->where('classroom_id',request('classroom_id'));
                 })            
                 ->where('student_image','!=','')
+                ->where('division_id',request('division_id'))
+                ->where('grade_id',request('grade_id'))
                 ->orderBy('ar_student_name')
                 ->get();                
             }else{
@@ -39,7 +41,7 @@ class CardController extends Controller
                 ->whereHas('rooms',function($q){
                     $q->where('year_id',currentYear());                    
                 })            
-                ->where('id',request('student_id'))
+                ->where('id',request('student_id'))                
                 ->orderBy('ar_student_name')
                 ->get(); 
             }
@@ -110,14 +112,18 @@ class CardController extends Controller
             toast(trans('student::local.no_parameters_selected'),'error');  
             return back()->withInput();           
         }
+        $design = '';
         
         $design  = Design::where('division_id',request('division_id'))
         ->where('grade_id',request('grade_id'))
         ->orderBy('id','desc')->first();
         
         if (empty($design)) {
-            toast(trans('student::local.no_design_found'),'error');  
-            return back()->withInput();           
+            $design = Design::where('default','yes')->first();
+            if (empty($design)) {
+                toast(trans('student::local.no_design_found'),'error');  
+                return back()->withInput();                           
+            }
         }
 
         $students = Student::with('father','division','grade','mother','rooms')
@@ -188,11 +194,14 @@ class CardController extends Controller
         }else{
             toast(trans('student::local.no_parameters_selected'),'error');  
             return back()->withInput();   
-        }
-                
-        if (empty($design)) {
-            toast(trans('student::local.no_design_found'),'error');  
-            return back()->withInput();           
+        }                
+
+        if (empty($design)) {            
+            $design = Design::where('default','yes')->first();
+            if (empty($design)) {
+                toast(trans('student::local.no_design_found'),'error');  
+                return back()->withInput();                           
+            }
         }
         
         $students = '';

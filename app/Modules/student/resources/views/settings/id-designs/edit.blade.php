@@ -54,6 +54,15 @@
                         </div>
                     </div>    
                     <div class="col-lg-4 col-md-6">
+                      <div class="form-group">
+                        <label>{{ trans('student::local.default') }}</label>
+                        <select name="default" class="form-control" required>                         
+                            <option {{old('default',$design->default) == 'yes' ? 'selected' : ''}} value="yes">{{ trans('student::local.yes') }}</option>
+                            <option {{old('default',$design->default) == 'no' ? 'selected' : ''}} value="no">{{ trans('student::local.no') }}</option>
+                        </select>                        
+                      </div>
+                    </div>                     
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label >{{ trans('student::local.design_name') }}</label> 
                           <input  type="file" name="design_name" class="form-control">                                                      

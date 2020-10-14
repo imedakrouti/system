@@ -47,6 +47,7 @@ class DesignController extends Controller
         return [                                    
             'division_id',   
             'grade_id',  
+            'default',  
         ];
     }
     /**
