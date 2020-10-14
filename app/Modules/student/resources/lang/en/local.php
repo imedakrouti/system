@@ -102,7 +102,7 @@ return [
     'ar_name_nat_male'              => 'Nationality name in Arabic [masculine]',
     'ar_name_nat_female'            => 'Nationality name in Arabic [feminine]',
     'en_name_nationality'           => 'Nationality name in English',
-    'new_interview'                 => 'Add a personal interview',
+    'new_interview'                 => 'Add interview',
     'edit_interview'                => 'Edit a personal interview',
     'ar_name_interview'             => 'Interview name in Arabic',
     'en_name_interview'             => 'Interview name in English',

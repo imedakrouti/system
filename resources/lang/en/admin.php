@@ -147,7 +147,7 @@ return
     'save_dafault'                          => 'Default',
     'administrative_departments'            => 'Modules',
     'mobile_notification'                   => 'Mobile Notifications',
-    '' => '',
+    'signature'                             => 'Signature',
     '' => '',
     '' => '',
 ];

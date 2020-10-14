@@ -29,41 +29,34 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.father_name') }}</label>
-                          <div class="col-md-9">
-                            <select name="father_id" class="form-control select2" required>
-                                @foreach ($fathers as $father)
-                                    <option {{old('father_id',$meeting->father_id) == $father->id ? 'selected' :''}} value="{{$father->id}}">{{$father->ar_st_name}}</option>
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-md-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.father_name') }}</label>
+                          <select name="father_id" class="form-control select2" required>
+                              @foreach ($fathers as $father)
+                                  <option {{old('father_id',$meeting->father_id) == $father->id ? 'selected' :''}} value="{{$father->id}}">{{$father->ar_st_name}}</option>
+                              @endforeach
+                          </select>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
-                          <div class="col-md-9">                            
-                              <input type="datetime-local" name="start" value="{{old('start',$meeting->start)}}" class="form-control" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-md-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.notes') }}</label>
+                          <input type="datetime-local" name="start" value="{{old('start',$meeting->start)}}" class="form-control" required>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
-                          <div class="col-md-9">                            
-                              <input type="datetime-local" name="end" value="{{old('end',$meeting->end)}}" class="form-control" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-md-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.notes') }}</label>
+                          <input type="datetime-local" name="end" value="{{old('end',$meeting->end)}}" class="form-control" required>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                      <label class="col-md-3 label-control">{{ trans('student::local.meeting_status') }}</label>
-                      <div class="col-md-9">                    
+                    <div class="col-md-4 col-md-6">
+                      <div class="form-group">
+                          <label>{{ trans('student::local.meeting_status') }}</label>
                           <select name="meeting_status" class="form-control" required>
                               <option value="">{{ trans('student::local.select') }}</option>
                               <option {{old('meeting_status',$meeting->meeting_status) == trans('student::local.meeting_pending') ||
@@ -77,15 +70,13 @@
                               ?'selected':''}} value="done">{{ trans('student::local.meeting_done') }}</option>                                                                                            
                           </select>
                           <span class="red">{{ trans('student::local.requried') }}</span>
-                      </div>
+                      
                       </div>
                   </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
-                          <div class="col-md-9">                            
-                              <textarea name="notes" class="form-control" cols="30" rows="5">{{old('notes',$meeting->notes)}}</textarea>
-                          </div>
+                    <div class="col-md-12 col-md-12">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.notes') }}</label>
+                          <textarea name="notes" class="form-control" cols="30" rows="5">{{old('notes',$meeting->notes)}}</textarea>                          
                         </div>
                     </div>                                               
                 </div>

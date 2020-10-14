@@ -197,7 +197,7 @@ class ParentReportController extends Controller
             'margin_bottom'        => 0,
         ];  
 
-        $pdf = PDF::loadView('student::admissions.parents-reports.pdf-report', $data,[],$config);
+        $pdf = PDF::loadView('student::admissions.parents-reports.reports.pdf-report', $data,[],$config);
 		return $pdf->stream('Parent Report');
     }
     public function fatherReport($fatherId)
@@ -208,7 +208,7 @@ class ParentReportController extends Controller
             $q->where('father_id',$fatherId);
         })->get();
 
-        return view('student::admissions.parents-reports.father-report',
+        return view('student::admissions.parents-reports.reports.father-report',
         compact('father','title','reports'));
     }
 }

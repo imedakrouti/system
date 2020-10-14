@@ -28,62 +28,52 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.father_name') }}</label>
-                          <div class="col-md-9">
-                            <select name="father_id[]" class="form-control select2" required multiple>
-                                @foreach ($fathers as $father)
-                                    <option {{old('father_id') == $father->id ? 'selected' :''}} value="{{$father->id}}">
-                                    @if (session('lang') == 'ar')
-                                      {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
-                                    @else
-                                      {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
-                                    @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-md-3 label-control">{{ trans('student::local.type_interview') }}</label>
-                        <div class="col-md-9">
-                          <select name="interview_id" class="form-control" required>
-                              @foreach ($interviews as $interview)
-                                  <option {{old('interview_id') == $interview->id ? 'selected' :''}} value="{{$interview->id}}">{{$interview->ar_name_interview}}</option>
+                    <div class="col-md-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.father_name') }}</label>
+                          <select name="father_id[]" class="form-control select2" required multiple>
+                              @foreach ($fathers as $father)
+                                  <option {{old('father_id') == $father->id ? 'selected' :''}} value="{{$father->id}}">
+                                  @if (session('lang') == 'ar')
+                                    {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
+                                  @else
+                                    {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
+                                  @endif
+                                  </option>
                               @endforeach
                           </select>
-                          <span class="red">{{ trans('student::local.requried') }}</span>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
+                    </div>
+                    <div class="col-md-4 col-md-6">
+                      <div class="form-group">
+                        <label>{{ trans('student::local.type_interview') }}</label> <br>
+                        <select name="interview_id" class="form-control" required>
+                            @foreach ($interviews as $interview)
+                                <option {{old('interview_id') == $interview->id ? 'selected' :''}} value="{{$interview->id}}">{{$interview->ar_name_interview}}</option>
+                            @endforeach
+                        </select> <br>
+                        <span class="red">{{ trans('student::local.requried') }}</span>                        
                       </div>
                   </div>                    
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.start') }}</label>
-                          <div class="col-md-9">                            
-                              <input type="datetime-local" name="start" value="{{old('start')}}" class="form-control" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-md-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.start') }}</label>
+                          <input type="datetime-local" name="start" value="{{old('start')}}" class="form-control" required>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.end') }}</label>
-                          <div class="col-md-9">                            
-                              <input type="datetime-local" name="end" value="{{old('end')}}" class="form-control" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-md-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.end') }}</label>
+                          <input type="datetime-local" name="end" value="{{old('end')}}" class="form-control" required>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
-                          <div class="col-md-9">                            
-                              <textarea name="notes" class="form-control" cols="30" rows="5">{{old('notes')}}</textarea>
-                          </div>
+                    <div class="col-md-12 col-md-12">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.notes') }}</label>
+                          <textarea name="notes" class="form-control" cols="30" rows="5">{{old('notes')}}</textarea>                          
                         </div>
                     </div>
                    

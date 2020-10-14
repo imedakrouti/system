@@ -53,7 +53,6 @@
 
 <div class="signature">
     <br>
-
         <h4 class="center"><strong>{{ trans('student::local.father_sign') }}</strong>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -63,8 +62,6 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <strong>{{ trans('admin.students_affairs') }}</strong></h4>
-
-
 </div>	
 <htmlpagefooter name="page-footer">
    <p> {PAGENO}</p>

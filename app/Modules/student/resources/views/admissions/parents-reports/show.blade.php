@@ -28,7 +28,7 @@
                 @include('layouts.backEnd.includes._msg')
                 <div class="col-md-12">
                     <div class="form-group row">                          
-                        <div class="col-md-4">   
+                        <div class="col-lg-4 col-md-12">   
                           <h4>{{ trans('student::local.father_name') }}</h4>                       
                             <h3>
                                 <a href="{{route('father.show',$report->fathers->id)}}">
@@ -40,13 +40,13 @@
                                 </a>
                             </h3>                                                       
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-12">
                           <h4>{{ trans('student::local.mother_name') }}</h4>                       
                           @foreach ($mothers as $mother)
                               <h3><a href="{{route('mother.show',$mother->id)}}">{{$mother->full_name}}</a></h3>
                           @endforeach
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-12">
                           <h4>{{ trans('student::local.sons') }}</h4>  
                           
                           @foreach ($mothers as $mother)

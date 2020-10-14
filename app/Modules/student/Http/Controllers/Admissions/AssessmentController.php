@@ -249,11 +249,11 @@ class AssessmentController extends Controller
             'margin_footer'        => 10,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 65,
+            'margin_top'           => session('lang') == 'ar' ?65 :70,
             'margin_bottom'        => 0,
         ];          
 
-        $pdf = PDF::loadView('student::admissions.assessment-results.pdf-report', $data,[],$config);
+        $pdf = PDF::loadView('student::admissions.assessment-results.reports.pdf-report', $data,[],$config);
 		return $pdf->stream('result.pdf');
     }
     private function schoolName($student_id)

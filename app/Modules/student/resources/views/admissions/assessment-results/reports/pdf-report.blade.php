@@ -14,7 +14,7 @@
 </htmlpageheader>
 
 <div class="mb-5">
-    <table style="width: 100%">
+    <table style="width: 100%" class=" {{session('lang') =='ar' ? 'right-table' : 'left-table'}}">
         <thead>
             <tr>
                 <th style="width: 200px">{{ trans('student::local.assessmentDate') }}</th>
@@ -65,8 +65,8 @@
         </thead>
     </table>
 </div>
-{{ trans('student::local.assessment_results') }}
-<table>
+<hr>
+<table style="width: 100%" class=" {{session('lang') =='ar' ? 'right-table' : 'left-table'}}">
     <thead>                        
         <tr>
             <th class="center">{{ trans('student::local.subject_name') }}</th>
@@ -84,6 +84,22 @@
       @endforeach                      
     </tbody>
 </table>
+<div class="signature">
+    <br>
+        <h4>     
+           {!!session('lang') == 'ar' ? ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : ''!!}
+            
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <strong>{{ trans('admin.signature') }}</strong></h4>
+</div>	
 <htmlpagefooter name="page-footer">
     <p> {PAGENO}</p>
  </htmlpagefooter>

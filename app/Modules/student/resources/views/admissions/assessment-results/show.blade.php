@@ -49,34 +49,28 @@
               @csrf
               @method('PUT')
               <h5 class="mb-1"><strong> {{ trans('student::local.assessmentDate') }}</strong> :{{$assessment->created_at}}</h5>
-              <div class="col-md-9">
-                <div class="form-group row">
-                  <label class="col-md-1 label-control"><strong>{{ trans('student::local.assessment_type') }}</strong></label>
-                  <div class="col-md-4">
-                    <select name="assessment_type" class="form-control" required>
-                      <option {{old('assessment_type' ,$assessment->assessment_type) == trans('student::local.assessment') ? 'selected' : ''}} value="assessment">{{ trans('student::local.assessment') }}</option>
-                      <option {{old('assessment_type' ,$assessment->assessment_type) == trans('student::local.re_assessment') ? 'selected' : ''}} value="re-assessment">{{ trans('student::local.re_assessment') }}</option>
-                    </select>
-                  </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label"><strong>{{ trans('student::local.assessment_type') }}</strong></label>
+                  <select name="assessment_type" class="form-control" required>
+                    <option {{old('assessment_type' ,$assessment->assessment_type) == trans('student::local.assessment') ? 'selected' : ''}} value="assessment">{{ trans('student::local.assessment') }}</option>
+                    <option {{old('assessment_type' ,$assessment->assessment_type) == trans('student::local.re_assessment') ? 'selected' : ''}} value="re-assessment">{{ trans('student::local.re_assessment') }}</option>
+                  </select>                  
                 </div>
               </div> 
-              <div class="col-md-9">
-                <div class="form-group row">
-                  <label class="col-md-1 label-control"><strong>{{ trans('student::local.acceptance') }}</strong></label>
-                  <div class="col-md-4">
-                    <select name="acceptance" class="form-control" required>
-                      <option {{old('acceptance' ,$assessment->acceptance) == trans('student::local.accepted') ? 'selected' : ''}} value="accepted">{{ trans('student::local.accepted') }}</option>
-                      <option {{old('acceptance' ,$assessment->acceptance) == trans('student::local.rejected') ? 'selected' : ''}} value="rejected">{{ trans('student::local.rejected') }}</option>
-                    </select>                    
-                  </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                  <label"><strong>{{ trans('student::local.acceptance') }}</strong></label>
+                  <select name="acceptance" class="form-control" required>
+                    <option {{old('acceptance' ,$assessment->acceptance) == trans('student::local.accepted') ? 'selected' : ''}} value="accepted">{{ trans('student::local.accepted') }}</option>
+                    <option {{old('acceptance' ,$assessment->acceptance) == trans('student::local.rejected') ? 'selected' : ''}} value="rejected">{{ trans('student::local.rejected') }}</option>
+                  </select>                                      
                 </div>
               </div>   
-              <div class="col-md-9">
-                <div class="form-group row">
-                  <label class="col-md-1 label-control">{{ trans('student::local.notes') }}</label>
-                  <div class="col-md-8">
-                    <textarea name="notes" class="form-control" cols="30" rows="5">{{$assessment->notes}}</textarea>                           
-                  </div>
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                  <label"><strong>{{ trans('student::local.notes') }}</strong></label>
+                  <textarea name="notes" class="form-control" cols="30" rows="5">{{$assessment->notes}}</textarea>                                             
                 </div>
             </div>                             
               <button type="submit" class="btn btn-success">
@@ -97,7 +91,7 @@
                 {{ trans('student::local.add_test_result') }}
               </a>
               <a href="#" id="btnDelete" class="btn btn-danger mb-1">{{ trans('admin.delete') }}</a>
-              <a href="{{route('print-testReport.pdf',$assessment->id)}}" id="btnDelete" class="btn btn-info mb-1">{{ trans('admin.print') }}</a>
+              <a target="_blank" href="{{route('print-testReport.pdf',$assessment->id)}}" id="btnDelete" class="btn btn-info mb-1">{{ trans('admin.print') }}</a>
               <div class="table-responsive">
                 <form action="" method="POST" id="formData">
                   @csrf

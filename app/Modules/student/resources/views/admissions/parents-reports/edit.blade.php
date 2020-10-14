@@ -29,41 +29,35 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.father_name') }}</label>
-                          <div class="col-md-9">
-                            <select name="father_id" class="form-control select2" required>
-                                @foreach ($fathers as $father)
-                                    <option {{old('father_id',$report->father_id) == $father->id ? 'selected' :''}} value="{{$father->id}}">
-                                    @if (session('lang') == 'ar')
-                                      {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
-                                    @else
-                                      {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
-                                    @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                          <label">{{ trans('student::local.father_name') }}</label>
+                          <select name="father_id" class="form-control select2" required>
+                              @foreach ($fathers as $father)
+                                  <option {{old('father_id',$report->father_id) == $father->id ? 'selected' :''}} value="{{$father->id}}">
+                                  @if (session('lang') == 'ar')
+                                    {{$father->ar_st_name}} {{$father->ar_nd_name}} {{$father->ar_rd_name}} {{$father->ar_th_name}}
+                                  @else
+                                    {{$father->en_st_name}} {{$father->en_nd_name}} {{$father->en_rd_name}} {{$father->en_th_name}}
+                                  @endif
+                                  </option>
+                              @endforeach
+                          </select> <br>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>   
-                    <div class="col-md-6">
-                        <div class="form-group row">    
-                          <label class="col-md-3 label-control">{{ trans('student::local.report_title') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control" name="report_title" value="{{old('report_title',$report->report_title)}}" placeholder="{{ trans('student::local.report_title') }}" required>                          
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-4 col-md-8">
+                        <div class="form-group">    
+                          <label">{{ trans('student::local.report_title') }}</label>
+                          <input type="text" class="form-control" name="report_title" value="{{old('report_title',$report->report_title)}}" placeholder="{{ trans('student::local.report_title') }}" required>                          
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>  
                     <div class="col-md-12">
-                        <div class="form-group row">                          
-                          <div class="col-md-12">
-                            <textarea name="report" class="form-control" placeholder="{{ trans('student::local.report') }}" required
-                            cols="30" rows="20">{{old('report',$report->report)}}</textarea>
-                            <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                        <div class="form-group">                          
+                          <textarea name="report" class="form-control" placeholder="{{ trans('student::local.report') }}" required
+                          cols="30" rows="20">{{old('report',$report->report)}}</textarea>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>   
                 </div>

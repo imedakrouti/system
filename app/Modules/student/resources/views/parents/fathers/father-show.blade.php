@@ -47,7 +47,7 @@
     </div>
 </div>
 <div class="row">
-  <div class="col-md-4 col-xs-12">
+  <div class="col-lg-4 col-md-12">
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
@@ -76,7 +76,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-5 col-xs-12">
+  <div class="col-lg-4 col-md-12">
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">
@@ -104,7 +104,7 @@
       </div>
     </div>
   </div>  
-  <div class="col-md-3 col-xs-12">
+  <div class="col-lg-4 col-md-12">
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body">

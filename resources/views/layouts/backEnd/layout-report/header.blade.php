@@ -49,11 +49,16 @@
             header: page-header;
             footer: page-footer;
         }
-        .right{float: right;direction: rtl}
-        .left{float: left;direction: ltr}
+        .right{float: right}
+        .left{float: left}
         .paragraph{text-align: justify;font-size: 18px}
         .small-weight{font-weight: 100;line-height: 1}
-        
+        .right-table{
+            direction: rtl;            
+        }
+        .left-table{
+            direction: ltr;            
+        }
              
     </style>
 </head>
