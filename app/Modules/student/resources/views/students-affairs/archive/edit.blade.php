@@ -29,22 +29,23 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.document_name') }}</label>
-                          <div class="col-md-9">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.document_name') }}</label> <br>
+                          
                             <input type="text" class="form-control " value="{{old('document_name',$archive->document_name)}}" 
                             placeholder="{{ trans('student::local.document_name') }}"
                               name="document_name" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.student_name') }}</label>
-                          <div class="col-md-9">
-                            <select name="student_id" id="student_id" class="form-control select2" required>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.student_name') }}</label> <br>
+                          
+                            <select style="width: 100%" name="student_id" id="student_id" class="form-control select2" required>
                                 <option value="">{{ trans('student::local.select') }}</option>
                                 @foreach ($students as $student)
                                     <option {{old('student_id',$archive->student_id) == $student->id ? 'selected' :''}} value="{{$student->id}}">
@@ -55,17 +56,17 @@
                                     @endif
                                     </option>
                                 @endforeach
-                            </select>
+                            </select> <br>
                             <span class="red">{{ trans('student::local.requried') }}</span>                            
-                          </div>
+                          
                         </div>
                     </div>                     
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control" >{{ trans('student::local.attachements') }}</label>
-                          <div class="col-md-9">                    
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label >{{ trans('student::local.attachements') }}</label> <br>
+                                              
                             <input  type="file" name="file_name"/>
-                          </div>
+                          
                         </div>
                     </div>    
                 </div>
@@ -77,6 +78,7 @@
                     <i class="ft-x"></i> {{ trans('admin.cancel') }}
                   </button>
                 </div>
+                    </div>
               </form>
           </div>
         </div>
