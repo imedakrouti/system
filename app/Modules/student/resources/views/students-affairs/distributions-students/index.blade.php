@@ -7,7 +7,7 @@
 @endsection
 @section('content')
 <div class="content-header row">
-    <div class="content-header-left col-md-6 col-12 mb-2">
+    <div class="content-header-left col-md-12 col-12 mb-2">
       <h3 class="content-header-title">{{$title}}</h3>
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-lg-6 col-md-12">
       <div class="card">
         <div class="card-header">
             <h4 class="card-title mb-1 red">{{ trans('student::local.statistics_grade') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-lg-6 col-md-12">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title purple  mb-1">{{ trans('student::local.statistics_class') }}</h4>          
