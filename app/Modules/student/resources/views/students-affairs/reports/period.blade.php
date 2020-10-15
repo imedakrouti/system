@@ -28,20 +28,23 @@
                   <h4>{{ trans('student::local.statistics_note') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
                     <form action="#" method="get" id="filterForm" target="_blank">
                           <div class="row mt-1">      
-                                <div class="col-md-2">
-                                    <select name="division_id[]" class="form-control select2" multiple id="filter_division_id">                                      
-                                        @foreach ($divisions as $division)
-                                            <option {{session('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
-                                                {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
-                                        @endforeach
-                                    </select>
-                                </div>  
-                                <div class="col-md-2">
-                                    <input type="date" name="from_date" class="form-control">
-                                </div> 
-                                <div class="col-md-2">
-                                    <input type="date" name="to_date" class="form-control">
-                                </div>                                                                                        
+                            <div class="col-lg-4 col-md-6 mb-1">
+                                <select name="division_id[]" class="form-control select2" multiple id="filter_division_id">                                      
+                                  @foreach ($divisions as $division)
+                                    <option {{session('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
+                                    {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
+                                  @endforeach
+                              </select>
+                              <br>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-2 col-md-4">
+                              <input type="date" name="from_date" class="form-control">
+                            </div> 
+                            <div class="col-lg-2 col-md-4">
+                              <input type="date" name="to_date" class="form-control">
+                            </div>
                           </div>
                     </form>
                 </div>
@@ -52,31 +55,30 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
       <div class="card">
         <div class="card-content collapse show">
-          <div class="card-body">    
-            <h4 class="purple">{{ trans('student::local.reports') }}</h4>                    
-              <div class="row">
-                <div class="col-md-4">                    
-                    <div class="card-content collapse show">
-                        <div class="card-body">
-                          <div class="list-group">
-                            <button type="button" onclick="permissions()" class="list-group-item list-group-item-action">{{trans('student::local.daily_requests') }}</button>
-                            <button type="button" onclick="parentRequests()" class="list-group-item list-group-item-action">{{trans('student::local.parent_request') }}</button>
-                            <button type="button" onclick="leaveRequests()" class="list-group-item list-group-item-action">{{trans('student::local.leave_requests') }}</button>        
-                            <button type="button" onclick="transfers()" class="list-group-item list-group-item-action">{{trans('student::local.transfers') }}</button>        
-                          </div>
-                        </div>
-                    </div>
+          <h4 class="purple card-header ml-2">{{ trans('student::local.reports') }}</h4>                    
+           <div class="card-body">
+              <div class="list-group">
+                <div class="row col-lg-10">
+                  <div class="col-lg-3 col-md-6 mb-1">
+                  <button type="button" onclick="permissions()" class="list-group-item list-group-item-action">{{trans('student::local.daily_requests') }}</button>
                 </div>
+                <div class="col-lg-3 col-md-6 mb-1">
+                  <button type="button" onclick="parentRequests()" class="list-group-item list-group-item-action">{{trans('student::local.parent_request') }}</button>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-1">
+                  <button type="button" onclick="leaveRequests()" class="list-group-item list-group-item-action">{{trans('student::local.leave_requests') }}</button> 
+                </div>       
+                <div class="col-lg-3 col-md-6 mb-1">
+                  <button type="button" onclick="transfers()" class="list-group-item list-group-item-action">{{trans('student::local.transfers') }}</button>   
+                </div>  
+                </div>  
               </div>
-          </div>
+            </div>
         </div>
       </div>
-    </div>
-</div>
+
 
 @endsection
 @section('script')
