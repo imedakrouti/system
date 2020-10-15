@@ -29,40 +29,42 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-lg-4 col-md-6">
+                    
+                      <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label">{{ trans('student::local.stage') }}</label>
+                            <select name="stage_id" class="form-control" required>
+                                @foreach ($stages as $stage)
+                                    <option {{old('stage_id',$stageGrade->stage_id) == $stage->id ? 'selected' : ''}} value="{{$stage->id}}">
+                                        {{session('lang') =='ar' ?$stage->ar_stage_name:$stage->en_stage_name}}</option>                                    
+                                @endforeach
+                            </select>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
+                          </div>
+                      </div>    
+                      <div class="col-lg-4 col-md-6">
+                          <div class="form-group">
+                            <label">{{ trans('student::local.grade') }}</label>
+                            <select name="grade_id" class="form-control" required>
+                                @foreach ($grades as $grade)
+                                    <option {{old('grade_id',$stageGrade->grade_id) == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
+                                        {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
+                                @endforeach
+                            </select>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
+                          </div>
+                      </div>      
+                      <div class="col-lg-4 col-md-6">
                         <div class="form-group">
-                          <label">{{ trans('student::local.stage') }}</label>
-                          <select name="stage_id" class="form-control" required>
-                              @foreach ($stages as $stage)
-                                  <option {{old('stage_id',$stageGrade->stage_id) == $stage->id ? 'selected' : ''}} value="{{$stage->id}}">
-                                      {{session('lang') =='ar' ?$stage->ar_stage_name:$stage->en_stage_name}}</option>                                    
-                              @endforeach
+                          <label">{{ trans('student::local.end_stage') }}</label>
+                          <select name="end_stage" class="form-control" required>
+                              <option {{old('end_stage',$stageGrade->end_stage) == trans('student::local.no') ? 'selected' : ''}} value="no">{{ trans('student::local.no') }}</option>
+                              <option {{old('end_stage',$stageGrade->end_stage) == trans('student::local.yes') ? 'selected' : ''}} value="yes">{{ trans('student::local.yes') }}</option>
                           </select>
-                          <span class="red">{{ trans('student::local.requried') }}</span>                          
+                          <span class="red">{{ trans('student::local.requried') }}</span>                        
                         </div>
-                    </div>    
-                    <div class="col-lg-4 col-md-6">
-                        <div class="form-group">
-                          <label">{{ trans('student::local.grade') }}</label>
-                          <select name="grade_id" class="form-control" required>
-                              @foreach ($grades as $grade)
-                                  <option {{old('grade_id',$stageGrade->grade_id) == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
-                                      {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
-                              @endforeach
-                          </select>
-                          <span class="red">{{ trans('student::local.requried') }}</span>                          
-                        </div>
-                    </div>      
-                    <div class="col-lg-4 col-md-6">
-                      <div class="form-group">
-                        <label">{{ trans('student::local.end_stage') }}</label>
-                        <select name="end_stage" class="form-control" required>
-                            <option {{old('end_stage',$stageGrade->end_stage) == trans('student::local.no') ? 'selected' : ''}} value="no">{{ trans('student::local.no') }}</option>
-                            <option {{old('end_stage',$stageGrade->end_stage) == trans('student::local.yes') ? 'selected' : ''}} value="yes">{{ trans('student::local.yes') }}</option>
-                        </select>
-                        <span class="red">{{ trans('student::local.requried') }}</span>                        
-                      </div>
-                    </div>  
+                      </div>  
+                    
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
