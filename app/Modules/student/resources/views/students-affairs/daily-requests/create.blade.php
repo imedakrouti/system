@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="content-header row">
-    <div class="content-header-left col-md-6 col-12 mb-2">
+    <div class="content-header-left col-md-12 col-12 mb-2">
       <h3 class="content-header-title">{{$title}}</h3>
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
@@ -28,10 +28,9 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6 col-xs-12">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.student_name') }}</label>
-                          <div class="col-md-9">
+                    <div class="col-md-12 col-lg-4">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.student_name') }}</label> <br>
                             <select name="student_id[]" class="form-control select2" required multiple>
                                 <option value="">{{ trans('student::local.select') }}</option>
                                 @foreach ($students as $student)
@@ -43,17 +42,14 @@
                                     @endif
                                     </option>
                                 @endforeach
-                            </select>
+                            </select> <br>
                             <span class="red">{{ trans('student::local.requried') }}</span>                                
-                          </div>
                         </div>
                     </div> 
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.leave_time') }}</label>
-                          <div class="col-md-9">
+                    <div class="col-md-8 col-lg-4">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.leave_time') }}</label> <br>
                             <input type="time"  class="form-control" name="leave_time" value="{{old('leave_time')}}">
-                          </div>
                         </div>
                     </div>
                     @php
@@ -64,10 +60,10 @@
                         }
                     @endphp
 
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.guardian') }}</label>
-                          <div class="col-md-9">
+                    <div class="col-md-8 col-lg-4">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.guardian') }}</label> <br>
+                          
                             <select name="recipient_name" class="form-control">
                                 <option value="">{{ trans('student::local.select') }}</option>
                                 <option value="{{$father_name}}">{{ trans('student::local.father') }} | {{$father_name}}</option>
@@ -75,8 +71,8 @@
                                 @foreach ($commissioners as $commissioner)
                                     <option value="{{$commissioner->commissioner_name}}">{{ trans('student::local.commissioner_person') }} | {{$commissioner->commissioner_name}}</option>
                                 @endforeach
-                            </select>
-                          </div>
+                            </select> <br>
+                          
                         </div>
                     </div>                    
                 </div>
