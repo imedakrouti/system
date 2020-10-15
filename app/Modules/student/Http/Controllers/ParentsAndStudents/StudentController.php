@@ -94,6 +94,7 @@ class StudentController extends Controller
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="'.route('students.edit',$data->id).'"><i class="la la-edit"></i> '.trans('student::local.editing').'</a>                
                 <a target="_blank" class="dropdown-item" href="'.route('students.print',$data->id).'"><i class="la la-print"></i> '.trans('student::local.print').'</a>                                             
+                <a target="_blank" class="dropdown-item" href="'.route('students.statement-request',$data->id).'"><i class="la la-print"></i> '.trans('student::local.print_statement_request').'</a>                                             
             </div>
         </div>';
     }
@@ -869,7 +870,7 @@ class StudentController extends Controller
         
         
         $data = [         
-            'title'                         => 'Daily Request Report',       
+            'title'                         => trans('student::local.proof_enrollment'),       
             'content'                       => $content,       
             'logo'                          => logo(),            
             'school_name'                   => getSchoolName($division_id),               
@@ -888,6 +889,70 @@ class StudentController extends Controller
         ]; 
 
         $pdf = PDF::loadView('student::students.reports.proof', $data,[],$config);
-        return $pdf->stream('Daily Request Report');
+        return $pdf->stream(trans('student::local.proof_enrollment'));
+    }
+
+    public function statementRequest($id)
+    {
+        $student = Student::with('grade','division','father','nationalities')->findOrFail($id);                
+        $division_id = $student->division_id;
+        $content = ReportContent::first()->statement_request;
+
+        $student_name = session('lang') == 'ar' ? $student->ar_student_name .' ' . $student->father->ar_st_name
+        .' ' . $student->father->ar_nd_name.' ' . $student->father->ar_rd_name
+        : $student->en_student_name .' ' . $student->father->en_st_name
+        .' ' . $student->father->en_nd_name.' ' . $student->father->en_rd_name ;
+
+        $father_name  = session('lang') == 'ar' ? $student->father->ar_st_name
+        .' ' . $student->father->ar_nd_name.' ' . $student->father->ar_rd_name.' ' . $student->father->ar_th_name: 
+        $student->father->en_st_name
+        .' ' . $student->father->en_nd_name.' ' . $student->father->en_rd_name.' ' . $student->father->en_th_name ;
+        $father_national_id  = $student->father->id_number ;
+        
+        $division  = session('lang') == 'ar' ? $student->division->ar_division_name: $student->division->en_division_name ;
+        $grade  = session('lang') == 'ar' ? $student->grade->ar_grade_name: $student->grade->en_grade_name ;
+        
+        $content = str_replace('student_name',$student_name ,$content);
+        $content = str_replace('nationality',$student->nationalities->ar_name_nat_male ,$content);
+        $content = str_replace('religion',$student->religion ,$content);
+
+        $dob =  DateTime::createFromFormat("Y-m-d",$student->dob);
+        
+        $content = str_replace('dob', $dob->format("Y/m/d") ,$content);
+        
+        $content = str_replace('division',$division ,$content);        
+        $content = str_replace('grade',$grade ,$content);
+        $content = str_replace('national_id',$student->student_id_number ,$content);
+        
+        $content = str_replace('school_name',getSchoolName($division_id) ,$content); 
+
+        $year = fullAcademicYear();
+        $content = str_replace('year',$year ,$content);
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
+        
+        
+        $data = [         
+            'title'                         => trans('student::local.statement_request'),       
+            'content'                       => $content,       
+            'logo'                          => logo(),            
+            'school_name'                   => getSchoolName($division_id),               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students.reports.statement-request', $data,[],$config);
+        return $pdf->stream( trans('student::local.statement_request'));
     }
 }

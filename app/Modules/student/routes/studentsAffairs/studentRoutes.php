@@ -99,6 +99,7 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::get('/reports/students-contact-data','ReportController@studentsContactData')->name('students-contact-data');
     Route::get('/reports/students-second-lang','ReportController@studentsSecondLangData')->name('students-second-lang');
     Route::get('/reports/students-religion','ReportController@studentsReligionData')->name('students-religion');
+    Route::get('/reports/incomplete-documents','ReportController@incompleteDocument')->name('students-incomplete-documents');
 
     /**
      * period

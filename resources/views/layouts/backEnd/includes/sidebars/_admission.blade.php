@@ -160,8 +160,10 @@
                 {{-- reprots --}}
                 <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports_forms') }}</a>
                     <ul class="menu-content">
-                      <li class="{{request()->segment(3)=='leave-request'?'active':''}}"><a class="menu-item" href="{{route('leave-request.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.student_leave_request') }}</a>
+                      <li class="{{request()->segment(3)=='statement-request'?'active':''}}"><a class="menu-item" href="{{route('statement-request.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.statement_request') }}</a>
                       </li>
+                      <li class="{{request()->segment(3)=='leave-request'?'active':''}}"><a class="menu-item" href="{{route('leave-request.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('student::local.student_leave_request') }}</a>
+                      </li>                      
                       <li class="{{request()->segment(3)=='daily-request'?'active':''}}"><a class="menu-item" href="{{route('daily-request.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('student::local.student_daily_request') }}</a>
                       </li>
                       <li class="{{request()->segment(3)=='proof-enrollment'?'active':''}}"><a class="menu-item" href="{{route('proof-enrollment.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('student::local.proof_enrollment') }}</a>

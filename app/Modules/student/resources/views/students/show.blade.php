@@ -86,8 +86,8 @@
                     @endempty          
                 </div>
                 <div class="col-lg-12 col-md-6 mt-lg-1">
-                    <h3 class="red "><strong>{{$student->student_number}}</strong></h3>
-                    <h3 class="purple "><strong>{{$classroom}}</strong></h3>
+                    <h3 class="red center"><strong>{{$student->student_number}}</strong></h3>
+                    <h3 class="purple center"><strong>{{$classroom}}</strong></h3>
                     <h6><strong>{{ trans('student::local.created_by') }} : {{$student->admin->name}}</strong></h6>
                     <h6><strong>{{ trans('student::local.created_at') }} : </strong></h6>{{$student->created_at}}
                     <h6><strong>{{ trans('student::local.updated_at') }} : </strong></h6>{{$student->updated_at}}

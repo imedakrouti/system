@@ -126,3 +126,7 @@
     // Parent Request
     Route::get('parent-request/content','ReportContentController@parentRequest')->name('parent-request.get');  
     Route::post('parent-request/content','ReportContentController@updateParentRequests')->name('parent-request.update');  
+
+    // Statement Request
+    Route::get('statement-request/content','ReportContentController@statementRequest')->name('statement-request.get');  
+    Route::post('statement-request/content','ReportContentController@updateStatementRequests')->name('statement-request.update'); 

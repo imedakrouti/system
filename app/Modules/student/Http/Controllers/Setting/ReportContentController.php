@@ -65,4 +65,19 @@ class ReportContentController extends Controller
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('parent-request.get');  
     }
+
+    public function statementRequest()
+    {
+        $title = trans('student::local.statement_request_form');
+        $content = ReportContent::first();
+        return view('student::settings.reports-forms.statement-request',
+        compact('title','content'));
+    }    
+    public function updateStatementRequests()
+    {
+        $reportContent = ReportContent::first();
+        $reportContent->update(request()->only(['statement_request'])); 
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('statement-request.get');  
+    }    
 }

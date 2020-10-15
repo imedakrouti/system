@@ -14,6 +14,7 @@
 
     // proof_enrollment
     Route::get('students/report/proof_enrollment/{id}','StudentController@proofEnrollment')->name('students.proof-enrollment');
+    Route::get('students/report/statement-request/{id}','StudentController@statementRequest')->name('students.statement-request');
 
 
     

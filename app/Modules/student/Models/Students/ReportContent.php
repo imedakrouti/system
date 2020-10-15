@@ -14,6 +14,7 @@ class ReportContent extends Model
         'daily_request', 
         'parent_request', 
         'proof_enrollment', 
+        'statement_request', 
         'admin_id'
     ];
     public function admin()

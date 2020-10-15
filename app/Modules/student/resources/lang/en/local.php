@@ -873,8 +873,10 @@ return [
     'add_student_commissioner'      => 'Add students to delegates',
     'signature_statement'           => 'Student record signatures apply to the educational stage',
     'default'                       => 'Default',
-    '' => '',
-    '' => '',
+    'statement_request'             => 'Statement Request',
+    'statement_request_form'        => 'Statement request form',
+    'print_statement_request'       => 'Statement Request',
+    'incomplete_document'           => 'Incomplete documents',
     '' => '',
     '' => '',
 ];

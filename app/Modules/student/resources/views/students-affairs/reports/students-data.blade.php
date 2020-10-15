@@ -69,7 +69,8 @@
                                   <option value="muslim">{{ trans('student::local.muslim') }}</option>                    
                                   <option value="non_muslim">{{ trans('student::local.non_muslim') }}</option>                    
                                 </select>
-                              </div>                                                                                        
+                              </div>    
+                                                                                                                  
                           </div>
                     </form>
                 </div>
@@ -106,7 +107,7 @@
                           <div class="list-group">
                             <button type="button" onclick="SecondlangData()" class="list-group-item list-group-item-action">{{trans('student::local.name_list_second_lang') }}</button>
                             <button type="button" onclick="religionData()" class="list-group-item list-group-item-action">{{trans('student::local.name_list_religion') }}</button>
-                            {{-- <button type="button" class="list-group-item list-group-item-action">{{trans('student::local.students_usernames') }}</button>         --}}
+                            <button type="button" onclick="incompleteDocuments()" class="list-group-item list-group-item-action">{{trans('student::local.incomplete_document') }}</button>        
                           </div>
                         </div>
                     </div>
@@ -149,7 +150,13 @@
         {
             $('#filterForm').attr('action',"{{route('students-religion')}}");
             $('#filterForm').submit();
-        }   
+        } 
+
+        function incompleteDocuments()
+        {
+            $('#filterForm').attr('action',"{{route('students-incomplete-documents')}}");
+            $('#filterForm').submit();
+        }            
 
     $('#filter_division_id').on('change', function(){
       getRooms();

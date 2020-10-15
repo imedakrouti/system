@@ -4,7 +4,9 @@ use App\Http\Controllers\Controller;
 use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
 use Student\Models\Settings\Year;
+use DB;
 use PDF;
+use Student\Models\Settings\AdmissionDoc;
 use Student\Models\Settings\Classroom;
 use Student\Models\Settings\Language;
 use Student\Models\Settings\RegistrationStatus;
@@ -654,6 +656,99 @@ class ReportController extends Controller
         $pdf = PDF::loadView('student::students-affairs.reports.period.transfers', $data,[],$config);
         return $pdf->stream('Transfers'); 
     }
+
+    public function incompleteDocument()
+    {
+        
+        if (empty(request('division_id')) || empty(request('year_id'))) {
+            toast(trans('student::local.stu_division_id_required'),'error');  
+            return back();
+        }
+
+        $division = Division::findOrFail(request('division_id'))->first();   
+             
+        $division_name = session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name;
+
+        // required documents for grade
+        $admissionDocuments = AdmissionDoc::with('docsGrade')
+        ->whereHas('docsGrade',function($q) {
+            $q->where('grade_id',request('grade_id'));
+        })->get();  
+
+        $students = Student::student()->with('father')
+        ->where('division_id',request('division_id'))
+        ->orderBy('ar_student_name')
+        ->get();
+        $output = [];
+
+        $documentNames = [];
+        foreach ($students as $student) {
+            $reg_type = '';
+
+            switch ($student->reg_type) {
+                case 'مستجد':
+                    $reg_type = 'new';
+                    break;
+                case 'محول':
+                    $reg_type = 'transfer';
+                    break; 
+                case 'عائد':
+                    $reg_type = 'return';
+                    break;                                           
+                default:
+                    $reg_type = 'arrival';                
+                    break;
+            }
+            
+            foreach ($admissionDocuments as $document) {
+                if (str_contains($document->registration_type,$reg_type)) {
+                    $document_id = DB::table('student_doc_delivers')->select('admission_document_id','student_id')
+                    ->where('student_id',$student->id)->where('admission_document_id',$document->id)->first();
+                                        
+                    $documentValue = !empty($document_id->admission_document_id)?$document_id->admission_document_id:0;
+                    $document_student_id = !empty($document_id->student_id)?$document_id->student_id:0;
+                    
+                    $documentName = session('lang')== 'ar'?$document->ar_document_name:$document->en_document_name;
+
+                    if ($document->id != $documentValue) {
+                        $documentNames [] = $documentName;
+                    }                                               
+                }
+            }; 
+            $output []= [
+                'student_id'        => $student->id,
+                'documentNames'     => $documentNames
+            ];  
+            $documentNames =[];
+            
+        }                
+
+        $school_name = $this->schoolName();
+
+        $data = [         
+            'title'                         => trans('student::local.incomplete_document'),       
+            'students'                      => $students,       
+            'division_name'                 => $division_name,             
+            'output'                        => $output,             
+            'logo'                          => logo(),            
+            'school_name'                   => $school_name,               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.reports.students-data.incomplete-documents', $data,[],$config);
+        return $pdf->stream(trans('student::local.incomplete_document'));
+    } 
     
     
 }

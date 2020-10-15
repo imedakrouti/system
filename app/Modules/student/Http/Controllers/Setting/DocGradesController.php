@@ -159,26 +159,27 @@ class DocGradesController extends Controller
         $id = request()->get('id');      
         $student = Student::findOrFail($id);
         $output = "";
-    $reg_type = '';
-    switch ($student->reg_type) {
-        case 'مستجد':
-            $reg_type = 'new';
-            break;
-        case 'محول':
-            $reg_type = 'transfer';
-            break; 
-        case 'عائد':
-            $reg_type = 'return';
-            break;                                           
-        default:
-            $reg_type = 'arrival';                
-            break;
-    }
+        $reg_type = '';
+        switch ($student->reg_type) {
+            case 'مستجد':
+                $reg_type = 'new';
+                break;
+            case 'محول':
+                $reg_type = 'transfer';
+                break; 
+            case 'عائد':
+                $reg_type = 'return';
+                break;                                           
+            default:
+                $reg_type = 'arrival';                
+                break;
+        }
         
         $admissionDocuments = AdmissionDoc::with('docsGrade')
         ->whereHas('docsGrade',function($q) use ($student){
             $q->where('grade_id',$student->grade_id);
-        })->get();        
+        })->get();  
+
         foreach ($admissionDocuments as $document) {
             if (str_contains($document->registration_type,$reg_type)) {
                 $document_id = DB::table('student_doc_delivers')->select('admission_document_id')
@@ -195,7 +196,7 @@ class DocGradesController extends Controller
                         </label></li></h5>';                                    
             }
         };         
-        // dd( $student->reg_type);      
+        
         return json_encode($output);
     }
 }
