@@ -29,7 +29,8 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-lg-4 col-md-6">
+                    <div class="row">
+                      <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label">{{ trans('student::local.stage') }}</label>
                           <select name="stage_id" class="form-control" required>
@@ -41,7 +42,7 @@
                           <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>    
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label">{{ trans('student::local.grade') }}</label>
                           <select name="grade_id" class="form-control" required>
@@ -53,7 +54,7 @@
                           <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>      
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                       <div class="form-group">
                         <label">{{ trans('student::local.end_stage') }}</label>
                         <select name="end_stage" class="form-control" required>
@@ -62,6 +63,7 @@
                         </select>
                         <span class="red">{{ trans('student::local.requried') }}</span>                        
                       </div>
+                    </div>  
                     </div>  
                 </div>
                 <div class="form-actions left">
