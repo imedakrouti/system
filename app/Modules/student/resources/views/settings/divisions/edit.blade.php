@@ -30,17 +30,26 @@
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
                     <div class="row">
-                      <div class="col-lg-4 col-md-6">
+                      <div class="col-lg-6 col-md-6">
                           <div class="form-group">
                             <label>{{ trans('student::local.ar_division_name') }}</label> <br>
                             
                               <input type="text" class="form-control " value="{{old('ar_division_name',$division->ar_division_name)}}" placeholder="{{ trans('student::local.ar_division_name') }}"
                                 name="ar_division_name" required>
-                                <span class="red">{{ trans('student::local.requried') }}</span>
-                            
+                                <span class="red">{{ trans('student::local.requried') }}</span>                            
                           </div>
                       </div>
-                      <div class="col-lg-4 col-md-6">
+                      <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.ar_school_name') }}</label> <br>
+                          
+                            <input type="text" class="form-control " value="{{old('ar_school_name',$division->ar_school_name)}}" 
+                            placeholder="{{ trans('student::local.ar_school_name') }}"
+                              name="ar_school_name" required>   
+                              <span class="red">{{ trans('student::local.requried') }}</span>                                                                                 
+                        </div>
+                      </div> 
+                      <div class="col-lg-6 col-md-6">
                           <div class="form-group">
                             <label>{{ trans('student::local.en_division_name') }}</label> <br>
                             
@@ -52,18 +61,8 @@
                       </div>
                     
                     
-                      <div class="col-lg-4 col-md-6">
-                        <div class="form-group">
-                          <label>{{ trans('student::local.ar_school_name') }}</label> <br>
-                          
-                            <input type="text" class="form-control " value="{{old('ar_school_name',$division->ar_school_name)}}" 
-                            placeholder="{{ trans('student::local.ar_school_name') }}"
-                              name="ar_school_name" required>   
-                              <span class="red">{{ trans('student::local.requried') }}</span>                                                       
-                          
-                        </div>
-                      </div>  
-                      <div class="col-lg-4 col-md-6">
+ 
+                      <div class="col-lg-6 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.en_school_name') }}</label> <br>
                           
@@ -76,7 +75,7 @@
                       </div>                   
                     
                     
-                      <div class="col-lg-4 col-md-6">
+                      <div class="col-lg-6 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.total_students') }}</label> <br>
                           
@@ -87,7 +86,7 @@
                           
                         </div>
                       </div>                     
-                      <div class="col-lg-4 col-md-6">
+                      <div class="col-lg-6 col-md-6">
                           <div class="form-group">
                             <label>{{ trans('student::local.sort') }}</label> <br>
                             
