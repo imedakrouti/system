@@ -16,8 +16,9 @@
 </div>
 <div class="clear"></div>
 <hr>
-<div style="margin-top: -10px">
-    <div class="right" style="width: 50%">
+<div style="margin-top: -10px;">
+    <div class="{{session('lang') =='ar' ? 'right' : 'left;'}}" 
+    style="width: 50%;{{session('lang') =='ar' ? 'direction:rtl' : 'direction:ltr;float:left'}}">
         <strong>{{ trans('student::local.application_date') }}:</strong>
             {{DateTime::createFromFormat("Y-m-d",$student->application_date)->format("Y/m/d")}} <br>       
         <strong>{{ trans('student::local.student_name') }} : </strong>
@@ -46,7 +47,8 @@
             {{$student->reg_type}} <br>
     </div>
     {{-- ************************************************************************** --}}
-    <div class="right" style="width: 50%">
+    <div class="{{session('lang') =='ar' ? 'right' : 'left;'}}" 
+    style="width: 50%;{{session('lang') =='ar' ? 'direction:rtl' : 'direction:ltr;float:left'}}">
         <strong>{{ trans('student::local.year') }}:</strong>
             {{fullAcademicYear($student->year_id)}} <br>
        
@@ -71,8 +73,9 @@
     </div>
 </div>
 <hr>
-<div class="style="margin-top: -10px"">
-    <div class="right" style="width: 50%">
+<div style="margin-top: -10px;">
+    <div class="{{session('lang') =='ar' ? 'right' : 'left;'}}" 
+    style="width: 50%;{{session('lang') =='ar' ? 'direction:rtl' : 'direction:ltr;float:left'}}">
         <strong>{{ trans('student::local.father_name') }} : </strong>
             @if (session('lang') == 'ar')
                 {{$student->father->ar_st_name}} 
@@ -100,7 +103,8 @@
             {{$student->nationalities->en_name_nationality}} <br>                                   
         @endif                                                    
     </div>
-    <div class="right" style="width: 50%">
+        <div class="{{session('lang') =='ar' ? 'right' : 'left;'}}" 
+    style="width: 50%;{{session('lang') =='ar' ? 'direction:rtl' : 'direction:ltr;float:left'}}">
         <strong>{{ trans('student::local.father_id_number') }}:</strong>
             {{$student->father->id_number}} <br>  
         <strong>{{ trans('student::local.id_number_m') }}:</strong>
@@ -114,47 +118,60 @@
     </div>
 </div>
 <hr>
-<strong>{{ trans('student::local.the_address') }}: </strong>
-{{$student->father->block_no}} {{$student->father->street_name}} 
-{{$student->father->state}} {{$student->father->government}} <br>
+<div style="{{session('lang') =='ar' ? 'direction:rtl' : 'direction:ltr;float:left'}}">
+    <strong>{{ trans('student::local.the_address') }}: </strong>
+    {{$student->father->block_no}} {{$student->father->street_name}} 
+    {{$student->father->state}} {{$student->father->government}}
+</div>
 <hr>
-<strong>{{ trans('student::local.educational_mandate') }}: </strong>{{$student->father->educational_mandate}} <br>
-<strong>{{ trans('student::local.marital_status') }}: </strong>{{$student->father->marital_status}} <br>
-<strong>{{ trans('student::local.recognition') }}: </strong>{{$student->father->recognition}} <br>
+<div style="{{session('lang') =='ar' ? 'direction:rtl' : 'direction:ltr;float:left'}}">
+    <strong>{{ trans('student::local.educational_mandate') }}: </strong>{{$student->father->educational_mandate}} <br>
+    <strong>{{ trans('student::local.marital_status') }}: </strong>{{$student->father->marital_status}} <br>
+    <strong>{{ trans('student::local.recognition') }}: </strong>{{$student->father->recognition}} <br>
+</div>
 <hr>
 {{-- documents required --}}
-<h4>{{ trans('student::local.student_documents') }}</h4>
-@php
-          $reg_type = '';
-        switch ($student->reg_type) {
-            case 'مستجد':
-                $reg_type = 'new';
-                break;
-            case 'محول':
-                $reg_type = 'transfer';
-                break; 
-            case 'عائد':
-                $reg_type = 'return';
-                break;                                           
-            default:
-                $reg_type = 'arrival';                
-                break;
-        }
-@endphp
-<ol>
-    @foreach ($required_documents as $doc)
-        @if (str_contains($doc->registration_type, $reg_type))
-            <li><input type="checkbox">
-                {{ session('lang') == 'ar'?$doc->ar_document_name:$doc->en_document_name}} 
-                @if (!empty($doc->notes))
-                    [{{$doc->notes}}]                    
-                @endif
-            </li>                             
-        @endif            
-    @endforeach
-</ol>
+<div style="{{session('lang') =='ar' ? 'direction:rtl' : 'direction:ltr;float:left'}}">
+    <h4>{{ trans('student::local.student_documents') }}</h4>
+    @php
+              $reg_type = '';
+            switch ($student->reg_type) {
+                case 'مستجد':
+                    $reg_type = 'new';
+                    break;
+                case 'محول':
+                    $reg_type = 'transfer';
+                    break; 
+                case 'عائد':
+                    $reg_type = 'return';
+                    break;                                           
+                default:
+                    $reg_type = 'arrival';                
+                    break;
+            }
+    @endphp
+    <ol>
+        @foreach ($required_documents as $doc)
+            @if (str_contains($doc->registration_type, $reg_type))
+                <li><input type="checkbox">
+                    {{ session('lang') == 'ar'?$doc->ar_document_name:$doc->en_document_name}} 
+                    @if (!empty($doc->notes))
+                        [{{$doc->notes}}]                    
+                    @endif
+                </li>                             
+            @endif            
+        @endforeach
+    </ol>
+</div>
 <div class="signature">
-    <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('student::local.father_sign') }}</strong></h3>
+    <h3 style="text-align: left; margin-left:120px;">
+        <strong>
+            {{ trans('student::local.parent') }}	
+            &nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; 	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;
+            &nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;
+            {{ trans('student::local.signature') }}
+        </strong>
+    </h3>
 </div>
 
 @include('layouts.backEnd.layout-report.footer')
