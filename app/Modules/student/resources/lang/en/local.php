@@ -139,7 +139,7 @@ return [
     'front'                         => 'Front design',
     'back'                          => 'Back design',
     'design_type'                   => 'Design type',
-    'editing'                       => 'Editing',
+    'editing'                       => 'Edit',
     'design_delete_ask'             => 'Are you sure to delete the design?',
     'no_results'                    => 'No results were found',
     'current'                       => 'Yes',
@@ -877,6 +877,9 @@ return [
     'statement_request_form'        => 'Statement request form',
     'print_statement_request'       => 'Statement Request',
     'incomplete_document'           => 'Incomplete documents',
+    'name_list_sibling'             => 'Siblings',
+    'name_list_twins'               => 'Twins',
+    'siblings_tips'                 => 'All students\' names are according to the current statement for the academic year[:year] ..Make sure that all students are added to the student statement',
     '' => '',
     '' => '',
 ];

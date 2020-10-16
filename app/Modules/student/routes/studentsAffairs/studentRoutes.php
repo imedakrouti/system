@@ -100,6 +100,8 @@ Route::group(['namespace'=>'StudentsAffairs'],function(){
     Route::get('/reports/students-second-lang','ReportController@studentsSecondLangData')->name('students-second-lang');
     Route::get('/reports/students-religion','ReportController@studentsReligionData')->name('students-religion');
     Route::get('/reports/incomplete-documents','ReportController@incompleteDocument')->name('students-incomplete-documents');
+    Route::get('/reports/siblings','ReportController@siblings')->name('students-siblings');
+    Route::get('/reports/twins','ReportController@twins')->name('students-twins');
 
     /**
      * period

@@ -18,6 +18,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -35,6 +36,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
   <div class="col-6">
     <div class="card">
@@ -110,7 +112,8 @@
                   <th>{{ trans('student::local.father_name') }}</th>
                   <th>{{ trans('student::local.registration_status') }}</th>
                   <th>{{ trans('student::local.grade') }}</th>
-                  <th>{{ trans('student::local.division') }}</th>                  
+                  <th>{{ trans('student::local.division') }}</th>   
+                  <th></th>               
                 </tr>
               </thead>
               <tbody>
@@ -145,7 +148,15 @@
                             {{-- division --}}
                             <td>
                               {{session('lang') == 'ar'?$student->division->ar_division_name:$student->division->en_division_name }}
-                            </td>                         
+                            </td>
+                            <td>
+                              @if ($student->twins=='true' )
+                                  <a href="{{route('students.show',$student->id)}}">
+                                      <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                                      src="{{asset('images/website/twins.png')}}" />
+                                  </a>
+                              @endif                      
+                            </td>
                         </tr>
                       @endif
                     @endforeach

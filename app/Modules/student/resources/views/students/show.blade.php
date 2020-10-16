@@ -18,6 +18,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -69,6 +70,7 @@
       </div>
     </div>
 </div>
+
 <div class="row" >
     <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
       <div class="card" style="min-height: 230px">
@@ -80,21 +82,26 @@
                     <img style="width : 100%" class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
                     src="{{asset('images/studentsImages/37.jpeg')}}" />
                     @else
-
                     <img class="editable img-responsive student-image-profile" alt="Alex's Avatar" id="avatar2" 
                     src="{{asset('images/studentsImages/'.$student->student_image)}}" />
                     @endempty          
                 </div>
                 <div class="col-lg-12 col-md-6 mt-lg-1">
-                    <h3 class="red center"><strong>{{$student->student_number}}</strong></h3>
+                    <h3 class="red center">
+                        @if ($student->twins=='true' )
+                            <a href="{{route('students.show',$student->id)}}">
+                                <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                                src="{{asset('images/website/twins.png')}}" />
+                            </a>
+                        @endif  
+                        <strong>{{$student->student_number}}</strong></h3>
                     <h3 class="purple center"><strong>{{$classroom}}</strong></h3>
                     <h6><strong>{{ trans('student::local.created_by') }} : {{$student->admin->name}}</strong></h6>
                     <h6><strong>{{ trans('student::local.created_at') }} : </strong></h6>{{$student->created_at}}
                     <h6><strong>{{ trans('student::local.updated_at') }} : </strong></h6>{{$student->updated_at}}
+                    
                 </div>                
-              </div>
-              
-               
+              </div>                             
           </div>
         </div>
       </div>
@@ -140,7 +147,7 @@
                         <div role="tabpanel" class="tab-pane active" id="active1" aria-labelledby="active-tab1"
                             aria-expanded="true">
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.application_date') }}</label>
                                         <input type="date" class="form-control " value="{{old('application_date',$student->application_date)}}" placeholder="{{ trans('student::local.application_date') }}"
@@ -149,21 +156,21 @@
                                 </div>
                             </div>                              
                             <div class="row">            
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.ar_student_name') }}</label>
                                         <input type="text" class="form-control " value="{{old('ar_student_name',$student->ar_student_name)}}" placeholder="{{ trans('student::local.ar_student_name') }}"
                                         name="ar_student_name" disabled>                                                                            
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.en_student_name') }}</label>
                                         <input type="text" class="form-control " value="{{old('en_student_name',$student->en_student_name)}}" placeholder="{{ trans('student::local.en_student_name') }}"
                                         name="en_student_name" disabled>                                                                            
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.mother_name') }}</label>
                                         <select name="mother_id" class="form-control " disabled>                
@@ -175,7 +182,7 @@
                                 </div>  
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.id_type') }}</label>
                                         <select name="student_id_type" class="form-control" disabled>
@@ -185,14 +192,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.id_number') }}</label>
                                         <input type="text" class="form-control " value="{{old('student_id_number',$student->student_id_number)}}" placeholder="{{ trans('student::local.id_number') }}"
                                         name="student_id_number" disabled>                                                                            
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.nationality_id') }}</label>
                                         <select name="nationality_id" class="form-control " disabled>
@@ -205,7 +212,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.religion') }}</label>
                                         <select name="religion" class="form-control" disabled>
@@ -217,7 +224,7 @@
                                         </select>                                    
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.native_lang_id') }}</label>
                                         <select name="native_lang_id" class="form-control "  disabled>
@@ -230,7 +237,7 @@
                                         </select>                                        
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.second_lang_id') }}</label>
                                         <select name="second_lang_id" class="form-control "  disabled>
@@ -245,7 +252,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.dob') }}</label>
                                         <input type="date" class="form-control" id="dob" value="{{old('dob',$student->dob)}}" placeholder="{{ trans('student::local.dob') }}"
@@ -260,7 +267,7 @@
                                         <span>{{ session('lang') == 'ar' ? trans('student::local.yy') : trans('student::local.dd') }}</span>                                    
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.place_birth') }}</label>
                                         <input type="text" class="form-control " value="{{old('place_birth',$student->place_birth)}}" placeholder="{{ trans('student::local.place_birth') }}"
@@ -268,7 +275,7 @@
                                     </div>
                                 </div>
                     
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.gender') }}</label>
                                         <select name="gender" class="form-control" disabled>
@@ -282,7 +289,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label >{{ trans('student::local.son_employee') }}</label>
                                         <select name="son_employee" class="form-control" disabled>
@@ -290,7 +297,7 @@
                                         </select>                                      
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label >{{ trans('student::local.guardian_id') }}</label>
                                         <select name="guardian_id" class="form-control" disabled>
@@ -303,7 +310,7 @@
                                         </select>                                      
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.return_country') }}</label>
                                         <input type="text" class="form-control " value="{{old('return_country',$student->return_country)}}" placeholder="{{ trans('student::local.return_country') }}"
@@ -314,7 +321,7 @@
                         </div>
                         <div class="tab-pane" id="active2" role="tabpanel" aria-labelledby="link-tab1" aria-expanded="false">
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.student_type') }}</label>
                                         <select name="student_type" class="form-control"  disabled>
@@ -324,7 +331,7 @@
                                         </select>                                        
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.reg_type') }}</label>
                                         <select name="reg_type" class="form-control"  disabled>
@@ -340,7 +347,7 @@
                                         </select>                                        
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.register_status_id') }}</label>
                                         <select name="registration_status_id" class="form-control "  disabled>
@@ -356,7 +363,7 @@
                             </div>            
                         
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.division_id') }}</label>
                                         <select name="division_id" class="form-control "  disabled>
@@ -369,7 +376,7 @@
                                         </select>                                    
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.grade_id') }}</label>
                                         <select name="grade_id" class="form-control "  disabled>
@@ -382,7 +389,7 @@
                                         </select>                                    
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.term') }}</label>
                                         <select name="term" class="form-control"  disabled>
@@ -405,7 +412,7 @@
                             aria-expanded="false">
   
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.emp_open_app') }}</label>
                                         <select name="employee_id" class="form-control" disabled>
@@ -418,7 +425,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-12">
                                     <ul style="list-style: none" id="stepId" disabled>
                                      
                                     </ul>
@@ -446,7 +453,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-lg-6 col-md-12">
                                     <div class="form-group">
                                         <label>{{ trans('student::local.transfer_reason') }}</label>
                                         <textarea name="transfer_reason" class="form-control" cols="30" disabled rows="5">{{old('transfer_reason',$student->transfer_reason)}}</textarea>                                    
@@ -509,20 +516,84 @@
           </div>
         </div>
       </div>
+    </div>      
+</div>
+
+<div class="row" > 
+    <div class="col-lg-12 col-md-12 col-xs-12">
+      <div class="card" style="min-height: 200px">
+        <div class="card-content collapse show">
+          <div class="card-body">
+            <div class="row mb-1">
+                <div class="col-lg-6 col-md-12">
+                    <h3 class="red">{{ trans('student::local.siblings') }}</h3>                    
+                </div>
+              </div>              
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>{{ trans('student::local.student_image') }}</th>
+                      <th>{{ trans('student::local.student_number') }}</th>
+                      <th>{{ trans('student::local.student_name') }}</th>
+                      <th>{{ trans('student::local.student_type') }}</th>
+                      <th>{{ trans('student::local.dob') }}</th>
+                      <th>{{ trans('student::local.grade') }}</th>                      
+                      <th>{{ trans('student::local.division') }}</th>                      
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($siblings as $sibling)
+                        @if ( $sibling->id != $student->id)
+                            <tr>
+                                <td width="25">
+                                    @empty($sibling->student_image)
+                                        <a href="{{route('students.show',$sibling->id)}}">
+                                            <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                                            src="{{asset('images/studentsImages/37.jpeg')}}" />
+                                        </a>
+                                    @else
+                                        <a href="{{route('students.show',$sibling->id)}}">
+                                            <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                                            src="{{asset('images/studentsImages/'.$sibling->student_image)}}" />
+                                        </a>
+                                    @endempty   
+                                </td>
+                                <td width="25">{{$sibling->student_number}}</td>
+                                <td><a href="{{route('students.show',$sibling->id)}}">{{session('lang') == 'ar' ?$sibling->ar_student_name:$sibling->en_student_name}}</a></td>
+                                <td>{{$sibling->student_type}}</td>
+                                <td>{{$sibling->dob}}</td>
+                                <td>{{session('lang') == 'ar' ?$sibling->grade->ar_grade_name:$sibling->grade->en_grade_name}}</td>
+                                <td>{{session('lang') == 'ar' ?$sibling->division->ar_division_name:$sibling->division->en_division_name}}</td>
+                                <td>
+                                    @if ($sibling->twins=='true' )
+                                        <a href="{{route('students.show',$sibling->id)}}">
+                                            <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                                            src="{{asset('images/website/twins.png')}}" />
+                                        </a>
+                                    @endif                      
+                                </td>
+                            </tr>                            
+                        @endif
+                    @endforeach
+                  </tbody>
+                </table>  
+              </div> 
+          </div>
+        </div>
+      </div>
     </div>  
     
 </div>
 
-<div class="row" >
-    {{-- <div class="col-lg-2">
-      <div style="min-height: 300px"></div>
-    </div> --}}
+<div class="row" > 
     <div class="col-lg-12 col-md-12 col-xs-12">
       <div class="card" style="min-height: 200px">
         <div class="card-content collapse show">
           <div class="card-body">
               <div class="row mb-1">
-                <div class="col-md-6">
+                <div class="col-lg-6 col-md-12">
                     <h3 class="red">{{ trans('student::local.include_statement') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h3>                    
                 </div>
                 @if ($student->student_type == trans('student::local.student')) 
@@ -570,9 +641,10 @@
           </div>
         </div>
       </div>
-    </div>  
-    
+    </div>      
 </div>
+
+
 @endsection
 @section('script')
 

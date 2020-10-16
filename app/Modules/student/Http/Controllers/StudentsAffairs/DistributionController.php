@@ -78,13 +78,11 @@ class DistributionController extends Controller
                 $data = StudentStatement::with('student')                        
                 ->join('students','students_statements.student_id','=','students.id')
                 ->leftJoin('rooms','students.id','=','rooms.student_id')
-                ->where($where)                
-                // ->where('rooms.year_id',currentYear())
+                ->where($where)                                
                 ->orderBy('gender','asc')
                 ->orderBy('ar_student_name','asc')
                 ->select('students_statements.*','rooms.classroom_id')
-                ->get();
-                // dd($data);
+                ->get();                
                 
                 return $this->dataTable($data);
             }

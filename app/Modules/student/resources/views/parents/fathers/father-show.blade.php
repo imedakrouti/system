@@ -136,17 +136,33 @@
             <table class="table">
               <thead>
                 <tr>
+                  <th>{{ trans('student::local.student_image') }}</th>
                   <th>{{ trans('student::local.student_number') }}</th>
                   <th>{{ trans('student::local.student_name') }}</th>
                   <th>{{ trans('student::local.registration_status') }}</th>
                   <th>{{ trans('student::local.grade') }}</th>
                   <th>{{ trans('student::local.division') }}</th>
-                  <th>{{ trans('student::local.mother_name') }}</th>                  
+                  <th>{{ trans('student::local.mother_name') }}</th>  
+                  <th>{{ trans('student::local.dob') }}</th>  
+                  <th></th>                
                 </tr>
               </thead>
               <tbody>
                 @foreach ($father->students as $student)
                   <tr>
+                    <td width="25">
+                      @empty($student->student_image)
+                          <a href="{{route('students.show',$student->id)}}">
+                              <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                              src="{{asset('images/studentsImages/37.jpeg')}}" />
+                          </a>
+                      @else
+                          <a href="{{route('students.show',$student->id)}}">
+                              <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                              src="{{asset('images/studentsImages/'.$student->student_image)}}" />
+                          </a>
+                      @endempty   
+                    </td>                    
                     <td>
                       {{$student->student_number}}
                     </td>
@@ -164,6 +180,15 @@
                     </td>
                     <td>
                       <a href="{{route('mother.show',$student->mother_id)}}">{{$student->mother->full_name}}</a>
+                    </td>
+                    <td>{{$student->dob}}</td>
+                    <td>
+                      @if ($student->twins=='true' )
+                          <a href="{{route('students.show',$student->id)}}">
+                              <img width="50" class="editable img-responsive sibling-image" alt="Alex's Avatar" id="avatar2" 
+                              src="{{asset('images/website/twins.png')}}" />
+                          </a>
+                      @endif                      
                     </td>
                   </tr>
                 @endforeach                  

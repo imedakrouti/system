@@ -14,6 +14,7 @@ use Student\Models\Students\DailyRequest;
 use Student\Models\Students\LeaveRequest;
 use Student\Models\Students\ParentRequest;
 use Student\Models\Students\Student;
+use Student\Models\Students\StudentStatement;
 use Student\Models\Students\Transfer;
 
 class ReportController extends Controller
@@ -658,12 +659,12 @@ class ReportController extends Controller
     }
 
     public function incompleteDocument()
-    {
-        
+    {        
         if (empty(request('division_id')) || empty(request('year_id'))) {
             toast(trans('student::local.stu_division_id_required'),'error');  
             return back();
         }
+
 
         $division = Division::findOrFail(request('division_id'))->first();   
              
@@ -676,7 +677,9 @@ class ReportController extends Controller
         })->get();  
 
         $students = Student::student()->with('father')
-        ->where('division_id',request('division_id'))
+        ->whereIn('division_id',request('division_id'))
+        ->orderBy('division_id')
+        ->orderBy('grade_id')
         ->orderBy('ar_student_name')
         ->get();
         $output = [];
@@ -749,6 +752,108 @@ class ReportController extends Controller
         $pdf = PDF::loadView('student::students-affairs.reports.students-data.incomplete-documents', $data,[],$config);
         return $pdf->stream(trans('student::local.incomplete_document'));
     } 
+
+    public function siblings()
+    {        
+        if (empty(request('division_id')) || empty(request('year_id'))) {
+            toast(trans('student::local.stu_division_id_required'),'error');  
+            return back();
+        }
+
+        $division = Division::findOrFail(request('division_id'))->first();                
+        $division_name = session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name;     
+
+        $students = StudentStatement::with('student')                        
+        ->join('students','students_statements.student_id','=','students.id')
+        ->leftJoin('rooms','students.id','=','rooms.student_id')
+        ->whereIn('students_statements.division_id',request('division_id'))   
+        ->where('students_statements.year_id',currentYear())                             
+        ->whereHas('student',function($q){
+            $q->where('siblings','true');
+        })
+        ->orderBy('students.father_id','asc')
+        ->orderBy('gender','asc')
+        ->select('students_statements.*','rooms.classroom_id')
+        ->get();    
+
+        $school_name = $this->schoolName();
+
+        $data = [         
+            'title'                         => trans('student::local.name_list_sibling'),       
+            'students'                      => $students,       
+            'division_name'                 => $division_name,                         
+            'logo'                          => logo(),            
+            'school_name'                   => $school_name,               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.reports.students-data.siblings', $data,[],$config);
+        return $pdf->stream(trans('student::local.name_list_sibling'));
+
+    }
+
+    public function twins()
+    {        
+        if (empty(request('division_id')) || empty(request('year_id'))) {
+            toast(trans('student::local.stu_division_id_required'),'error');  
+            return back();
+        }
+
+        $division = Division::findOrFail(request('division_id'))->first();                
+        $division_name = session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name;     
+
+        $students = StudentStatement::with('student')                        
+        ->join('students','students_statements.student_id','=','students.id')
+        ->leftJoin('rooms','students.id','=','rooms.student_id')
+        ->whereIn('students_statements.division_id',request('division_id'))   
+        ->where('students_statements.year_id',currentYear())                             
+        ->whereHas('student',function($q){
+            $q->where('twins','true');
+        })
+        ->orderBy('students.father_id','asc')
+        ->orderBy('gender','asc')
+        ->select('students_statements.*','rooms.classroom_id')
+        ->get();    
+
+        $school_name = $this->schoolName();
+
+        $data = [         
+            'title'                         => trans('student::local.name_list_twins'),       
+            'students'                      => $students,       
+            
+            'logo'                          => logo(),            
+            'school_name'                   => $school_name,               
+            'education_administration'      => preamble()['education_administration'],               
+            'governorate'                   => preamble()['governorate'],               
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 50,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('student::students-affairs.reports.students-data.twins', $data,[],$config);
+        return $pdf->stream(trans('student::local.name_list_twins'));
+
+    }    
+
+     
     
     
 }

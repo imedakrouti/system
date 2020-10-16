@@ -42,6 +42,8 @@ class Student extends Model
         'registration_status_id',
         'year_id',
         'admin_id',
+        'siblings',
+        'twins',
     
     ];
     public function admin()
@@ -58,7 +60,7 @@ class Student extends Model
     }
     public function division()
     {
-        return $this->belongsTo('Student\Models\Settings\Division','division_id');
+        return $this->belongsTo('Student\Models\Settings\Division','division_id')->orderBy('sort','asc');
     }
     public function father()
     {
@@ -70,7 +72,7 @@ class Student extends Model
     }
     public function grade()
     {
-        return $this->belongsTo('Student\Models\Settings\Grade','grade_id');
+        return $this->belongsTo('Student\Models\Settings\Grade','grade_id')->orderBy('sort','asc');
     }
     public function medical()
     {

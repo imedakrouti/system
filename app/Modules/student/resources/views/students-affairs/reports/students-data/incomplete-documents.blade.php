@@ -20,6 +20,8 @@
             <th>#</th>
             <th>{{ trans('student::local.student_number') }}</th>
             <th>{{ trans('student::local.student_name') }}</th>
+            <th>{{ trans('student::local.grade') }}</th>
+            <th>{{ trans('student::local.division') }}</th>
             <th>{{ trans('student::local.incomplete_document') }}</th>
         </tr>
     </thead>
@@ -38,6 +40,20 @@
                         {{$student->father->en_rd_name}}                        
                     @endif
                 </td>
+                <td>
+                    @if (session('lang') == 'ar')
+                        {{ $student->grade->ar_grade_name}}
+                    @else
+                        {{ $student->grade->en_grade_name}}
+                    @endif
+                </td>
+                <td>
+                    @if (session('lang') == 'ar')
+                        {{ $student->division->ar_division_name}}
+                    @else
+                        {{ $student->division->en_division_name}}
+                    @endif
+                </td> 
                 <td>                          
                     @foreach ($output as $item)
                         @if ($item['student_id'] ==  $student->id)                                        

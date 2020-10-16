@@ -173,6 +173,8 @@ class StudentController extends Controller
             'return_country',
             'registration_status_id',
             'code',
+            'siblings',
+            'twins',
         ];
     }
     private function medicalAttributes()
@@ -207,8 +209,7 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StudentRequest $request)
-    {        
-        // dd(request()->all());
+    {               
         if ($this->checkAgeForGrade() == 'older' ) {            
             toast(trans('student::local.older_message'),'error');  
             return back()->withInput();           
@@ -237,6 +238,8 @@ class StudentController extends Controller
             $this->studentMedicalQuery($student->id);
             
             $this->studentAddresses($student->id);
+
+            $this->updateTwinsAndSiblings($student->father_id,$student->dob,$student->id);
         });      
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('father.show',$request->father_id);
@@ -347,13 +350,15 @@ class StudentController extends Controller
         $mothers = Mother::whereHas('fathers',function($q) use ($father_id){
             $q->where('father_id',$father_id);
         })->get();
+
+        $siblings = Student::with('division','grade')->where('father_id',$student->father_id)->orderBy('dob')->get();
         
         $classroom = $student->student_type == trans('student::local.student') ?$this->getStudentClassroom($student->id):
         trans('student::local.applicant');
         
         return view('student::students.show',
         compact('student','title','nationalities','speakingLangs','studyLangs','regStatus',
-        'divisions','grades','schools','guardians','mothers','admins','statements','classroom'));
+        'divisions','grades','schools','guardians','mothers','admins','statements','classroom','siblings'));
     }
     private function getStudentClassroom($student_id)
     {
@@ -441,6 +446,11 @@ class StudentController extends Controller
             }             
         }
 
+        if ($student_type != $student->student_type || $request->division_id != $student->division_id
+        || $request->grade_id != $student->grade_id) {
+            Room::where('student_id',$student->id)->where('year_id',currentYear()) ->delete();
+        }
+
         DB::transaction(function () use ($request,$student) { 
             if (request()->has('student_image')) {
                 $this->uploadStudentImage($student->id);        
@@ -455,6 +465,8 @@ class StudentController extends Controller
             $this->studentDeliverDocuments($student->id);                   
             
             $this->studentAddresses($student->id);
+
+            $this->updateTwinsAndSiblings($student->father_id,$student->dob,$student->id);
         });   
         
         toast(trans('msg.updated_successfully'),'success');
@@ -954,5 +966,22 @@ class StudentController extends Controller
 
         $pdf = PDF::loadView('student::students.reports.statement-request', $data,[],$config);
         return $pdf->stream( trans('student::local.statement_request'));
+    }
+
+    private function updateTwinsAndSiblings($father_id, $dob, $student_id)
+    {    
+        $father_id = request()->has('father_id') ? request('father_id') : $father_id;
+        $dob = request()->has('dob') ? request('dob') : $dob;
+        $students = Student::where('father_id',$father_id)->get();
+        
+        if (count($students) > 0) {
+            foreach ($students as $student) {
+                Student::where('id',$student->id)->update(['siblings'=>'true']);
+                if ($dob == $student->dob && $student->id != $student_id ) {
+                    $where = [$student->id, $student_id];                        
+                    Student::whereIn('id',$where)->update(['twins'=>'true']);
+                }
+            }            
+        }
     }
 }
