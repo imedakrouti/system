@@ -45,13 +45,17 @@ table.dataTable tbody tr.selected a:hover, table.dataTable tbody th.selected a:h
 /* select.form-control:not([size]):not([multiple]) {  
    
 } */
+@media only screen and (min-width: 1000px){
+    .div-image{min-height: 615px;}
+}
 @media(min-width: 600px){
     div.dataTables_wrapper div.dataTables_filter {
         text-align: right;
         /* float: left; */
         margin-top: -55px;
-    }
+    }    
 }
+
 div.dataTables_wrapper div.dataTables_length label {
     margin-top: 5px;
 }

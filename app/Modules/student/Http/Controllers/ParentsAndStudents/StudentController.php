@@ -57,12 +57,13 @@ class StudentController extends Controller
     }
     private function studentImage($data)
     {
+        $student_id = isset($data->id) ? $data->id : $data->student_id;        
         return !empty($data->student_image)?
-            '<a href="'.route('students.show',$data->id).'">
+            '<a href="'.route('students.show',$student_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
                 src="'.asset('images/studentsImages/'.$data->student_image).'" />
             </a>':
-            '<a href="'.route('students.show',$data->id).'">
+            '<a href="'.route('students.show',$student_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
                 src="'.asset('images/studentsImages/37.jpeg').'" />
             </a>';
@@ -657,7 +658,10 @@ class StudentController extends Controller
             ->addColumn('student_name',function($data){
                 $studentName = session('lang') == 'ar' ? $data->ar_student_name:$data->en_student_name;
                 return '<a href="'.route('students.show',$data->student_id).'">'.$studentName.'</a>';
-            })                
+            })    
+            ->addColumn('student_image',function($data){
+                return $this->studentImage($data);                        
+            })            
             ->addColumn('father_name',function($data){
                 return $this->getFatherName($data);
             })
@@ -683,7 +687,7 @@ class StudentController extends Controller
                 return session('lang') == 'ar' ? $data->ar_division_name: $data->en_division_name;
             })                
             ->rawColumns(['check','father_name','studentImage','registration_status','religion','student_type',
-            'grade','division','student_name','reg_type','student_id_type'])
+            'grade','division','student_name','reg_type','student_id_type','student_image'])
             ->make(true);
     }
     private function getFatherName($data)

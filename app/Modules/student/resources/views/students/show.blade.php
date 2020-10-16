@@ -71,9 +71,9 @@
     </div>
 </div>
 
-<div class="row" >
+<div class="row">
     <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-      <div class="card" style="min-height: 230px">
+      <div class="card div-image">
         <div class="card-content collapse show">
           <div class="card-body">
               <div class="row">
@@ -107,7 +107,7 @@
       </div>
     </div>
     <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-      <div class="card" style="min-height: 500px">
+      <div class="card" style="min-height: 615px">
         <div class="card-content collapse show">
           <div class="card-body">
               <div class="row">

@@ -114,6 +114,7 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
+                                <th>{{trans('student::local.student_image')}}</th>                                
                                 <th>{{trans('student::local.student_number')}}</th>                                
                                 <th>{{trans('student::local.student_name')}}</th>
                                 <th>{{trans('student::local.father_name')}}</th>
@@ -173,7 +174,7 @@
             ],
             columnDefs: [
                     
-                    { visible: false, targets: [ 5,9,10,12,13,14,15,16,18,20,21,22,23,24 ] },
+                    { visible: false, targets: [ 5,9,10,13,14,15,16,17,18,20,21,22,23,24 ] },
                     { orderable: false, targets: [0 ] }
                 ],
             ajax:{
@@ -365,6 +366,7 @@
             columns: [
                 {data: 'check',                 name: 'check', orderable: false, searchable: false},
                 {data: 'DT_RowIndex',           name: 'DT_RowIndex', orderable: false, searchable: false},
+                {data: 'student_image',         name: 'student_image'}, 
                 {data: 'student_number',        name: 'student_number'}, 
                 {data: 'student_name',          name: 'student_name'},
                 {data: 'father_name',           name: 'father_name'},
