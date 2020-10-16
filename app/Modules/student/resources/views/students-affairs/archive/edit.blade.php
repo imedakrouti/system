@@ -29,43 +29,37 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.document_name') }}</label>
-                          <div class="col-md-9">
-                            <input type="text" class="form-control " value="{{old('document_name',$archive->document_name)}}" 
-                            placeholder="{{ trans('student::local.document_name') }}"
-                              name="document_name" required>
-                              <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.document_name') }}</label>
+                          <input type="text" class="form-control " value="{{old('document_name',$archive->document_name)}}" 
+                          placeholder="{{ trans('student::local.document_name') }}"
+                            name="document_name" required>
+                            <span class="red">{{ trans('student::local.requried') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.student_name') }}</label>
-                          <div class="col-md-9">
-                            <select name="student_id" id="student_id" class="form-control select2" required>
-                                <option value="">{{ trans('student::local.select') }}</option>
-                                @foreach ($students as $student)
-                                    <option {{old('student_id',$archive->student_id) == $student->id ? 'selected' :''}} value="{{$student->id}}">
-                                    @if (session('lang') == 'ar')
-                                    [{{$student->student_number}}] {{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}
-                                    @else
-                                    [{{$student->student_number}}] {{$student->en_student_name}} {{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}
-                                    @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('student::local.requried') }}</span>                            
-                          </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.student_name') }}</label> <br>
+                          <select name="student_id" id="student_id" class="form-control select2" required>
+                              <option value="">{{ trans('student::local.select') }}</option>
+                              @foreach ($students as $student)
+                                  <option {{old('student_id',$archive->student_id) == $student->id ? 'selected' :''}} value="{{$student->id}}">
+                                  @if (session('lang') == 'ar')
+                                  [{{$student->student_number}}] {{$student->ar_student_name}} {{$student->father->ar_st_name}} {{$student->father->ar_nd_name}} {{$student->father->ar_rd_name}} {{$student->father->ar_th_name}}
+                                  @else
+                                  [{{$student->student_number}}] {{$student->en_student_name}} {{$student->father->en_st_name}} {{$student->father->en_nd_name}} {{$student->father->en_rd_name}} {{$student->father->en_th_name}}
+                                  @endif
+                                  </option>
+                              @endforeach
+                          </select> <br>
+                          <span class="red">{{ trans('student::local.requried') }}</span>                                                      
                         </div>
                     </div>                     
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control" >{{ trans('student::local.attachements') }}</label>
-                          <div class="col-md-9">                    
-                            <input  type="file" name="file_name"/>
-                          </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form-group">
+                          <label >{{ trans('student::local.attachements') }}</label>
+                          <input  type="file" class="form-control" name="file_name"/>                          
                         </div>
                     </div>    
                 </div>
