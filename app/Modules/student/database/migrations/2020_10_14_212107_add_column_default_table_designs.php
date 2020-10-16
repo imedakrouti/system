@@ -14,7 +14,7 @@ class AddColumnDefaultTableDesigns extends Migration
     public function up()
     {
         Schema::table('designs', function (Blueprint $table) {
-            $table->enum('default',['yes','no'])->default('no');
+            $table->enum('default_design',['yes','no'])->default('no');
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnDefaultTableDesigns extends Migration
     public function down()
     {
         Schema::table('designs', function (Blueprint $table) {
-            $table->dropColumn('default');
+            $table->dropColumn('default_design');
         });
     }
 }

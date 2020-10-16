@@ -119,7 +119,7 @@ class CardController extends Controller
         ->orderBy('id','desc')->first();
         
         if (empty($design)) {
-            $design = Design::where('default','yes')->first();
+            $design = Design::where('default_design','yes')->first();
             if (empty($design)) {
                 toast(trans('student::local.no_design_found'),'error');  
                 return back()->withInput();                           
@@ -197,7 +197,7 @@ class CardController extends Controller
         }                
 
         if (empty($design)) {            
-            $design = Design::where('default','yes')->first();
+            $design = Design::where('default_design','yes')->first();
             if (empty($design)) {
                 toast(trans('student::local.no_design_found'),'error');  
                 return back()->withInput();                           

@@ -11,7 +11,7 @@ class Design extends Model
         'design_name',        
         'division_id',   
         'grade_id',   
-        'default',   
+        'default_design',   
         'admin_id'
     ];
 
