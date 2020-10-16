@@ -767,6 +767,29 @@ class StudentController extends Controller
 		return $pdf->stream($student->student_number);
     }
 
+    private function getReligion($data)
+    {
+        if (session('lang') == 'ar') {
+            if ($data->gender == trans('student::local.male')) {
+                if ($data->religion == trans('student::local.muslim')) {
+                    return trans('student::local.muslim');
+                }
+                else{
+                    return trans('student::local.non_muslim');
+
+                }
+            }else{
+                if ($data->religion == trans('student::local.muslim')) {
+                    return trans('student::local.muslim_m');
+                }
+                else{
+                    return trans('student::local.non_muslim_m');
+
+                }
+            }
+        }
+    }
+
     public function filter()
     {        
         if (request()->ajax()) {

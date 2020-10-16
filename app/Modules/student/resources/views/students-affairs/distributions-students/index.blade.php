@@ -21,8 +21,8 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
-      <div class="card">
+    <div class="col-lg-6 col-md-12 mb-1" style="min-height: 300px;">
+      <div class="card" style="height:100%">
         <div class="card-header">
             <h4 class="card-title mb-1 red">{{ trans('student::local.statistics_grade') }} | <span class="blue">{{ trans('student::local.current_year') }} {{fullAcademicYear()}}</span></h4>
             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
@@ -63,8 +63,8 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
-      <div class="card">
+    <div class="col-lg-6 col-md-12 mb-1" style="min-height: 300px;">
+      <div class="card" style="height:100%">
         <div class="card-header">
           <h4 class="card-title purple  mb-1">{{ trans('student::local.statistics_class') }}</h4>          
           <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>          
@@ -128,7 +128,7 @@
 </div>
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">{{ trans('student::local.statistics_grade') }}</h4>
@@ -144,13 +144,15 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
+                                <th>{{trans('student::local.student_image')}}</th>
                                 <th>{{trans('student::local.student_number')}}</th>
                                 <th>{{trans('student::local.student_name')}}</th>
                                 <th>{{trans('student::local.gender')}}</th>
                                 <th>{{trans('student::local.religion')}}</th>
                                 <th>{{trans('student::local.second_lang_id')}}</th>
                                 <th>{{trans('student::local.student_age')}}</th>
-                                <th>{{trans('student::local.classroom')}}</th>                                
+                                <th>{{trans('student::local.classroom')}}</th>          
+                                <th>d</th>                      
                             </tr>
                         </thead>
                         <tbody>
@@ -290,6 +292,7 @@
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', searchable: false},
+              {data: 'student_image',       name: 'student_image'},                
               {data: 'student_number',      name: 'student_number'},                
               {data: 'student_name',        name: 'student_name'},              
               {data: 'gender',              name: 'gender'},              
@@ -297,6 +300,7 @@
               {data: 'second_lang_id',      name: 'second_lang_id'}, 
               {data: 'yy',                  name: 'yy'}, 
               {data: 'classroom_id',        name: 'classroom_id'}, 
+              {data: 'twins',               name: 'twins'}, 
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

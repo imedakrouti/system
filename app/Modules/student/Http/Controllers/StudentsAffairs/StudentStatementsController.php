@@ -56,8 +56,7 @@ class StudentStatementsController extends Controller
             'dd'                        => $this->dob['dd'],
             'mm'                        => $this->dob['mm'],
             'yy'                        => $this->dob['yy'],
-        ];
-        
+        ];        
     }
 
     public function addToStatement()
@@ -156,6 +155,9 @@ class StudentStatementsController extends Controller
                 ->addColumn('student_name',function($data){
                     return $this->fullStudentName($data);
                 })
+                ->addColumn('student_image',function($data){
+                    return $this->studentImage($data);                        
+                })                
                 ->addColumn('regStatus',function($data){
                     return session('lang') == 'ar' ?$data->regStatus->ar_name_status:$data->regStatus->en_name_status;
                 })        
@@ -181,7 +183,7 @@ class StudentStatementsController extends Controller
                                 </label>';
                         return $btnCheck;
                 })
-                ->rawColumns(['check','student_name','regStatus','student_id_number','dob','grade','year','student_number'])
+                ->rawColumns(['check','student_image','student_name','regStatus','student_id_number','dob','grade','year','student_number'])
                 ->make(true);
     }
     public function create()
@@ -193,6 +195,18 @@ class StudentStatementsController extends Controller
         $title = trans('student::local.data_migration');
         return view('student::students-affairs.students-statements.create',
         compact('title','grades','years','divisions','regStatus'));    
+    }
+    private function studentImage($data)
+    {
+        return !empty($data->student->student_image)?
+            '<a href="'.route('students.show',$data->id).'">
+                <img class=" editable img-responsive sibling-image" alt="" id="avatar2" 
+                src="'.asset('images/studentsImages/'.$data->student->student_image).'" />
+            </a>':
+            '<a href="'.route('students.show',$data->id).'">
+                <img class=" editable img-responsive sibling-image" alt="" id="avatar2" 
+                src="'.asset('images/studentsImages/37.jpeg').'" />
+            </a>';
     }
 
     public function destroy()

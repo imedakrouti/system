@@ -40,6 +40,7 @@
                           <tr>
                             <th><input type="checkbox" class="ace" /></th>
                             <th>#</th>
+                            <th>{{ trans('student::local.student_image') }}</th>          
                             <th>{{ trans('student::local.student_number') }}</th>          
                             <th>{{ trans('student::local.student_name') }}</th>          
                             <th>{{ trans('student::local.student_id_number') }}</th>

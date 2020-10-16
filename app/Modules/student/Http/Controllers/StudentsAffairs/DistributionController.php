@@ -96,6 +96,12 @@ class DistributionController extends Controller
                 ->addColumn('student_name',function($data){
                     return $this->fullStudentName($data);
                 })
+                ->addColumn('twins',function($data){
+                    return $this->twins($data);                        
+                })   
+                ->addColumn('student_image',function($data){
+                    return $this->studentImage($data);                        
+                })                   
                 ->addColumn('student_number',function($data){
                     return $data->student->student_number;
                 })        
@@ -118,7 +124,7 @@ class DistributionController extends Controller
                                 </label>';
                         return $btnCheck;
                 })
-                ->rawColumns(['check','student_name','student_number','gender','religion','second_lang_id','classroom_id'])
+                ->rawColumns(['check','twins','student_image','student_name','student_number','gender','religion','second_lang_id','classroom_id'])
                 ->make(true);
     }  
     private function fullStudentName($data)
@@ -131,6 +137,27 @@ class DistributionController extends Controller
             . ' ' . $data->student->father->en_nd_name. ' ' . $data->student->father->en_rd_name.'</a>';
         }
     }  
+    private function studentImage($data)
+    {
+        return !empty($data->student->student_image)?
+            '<a href="'.route('students.show',$data->id).'">
+                <img class=" editable img-responsive sibling-image" alt="" id="avatar2" 
+                src="'.asset('images/studentsImages/'.$data->student->student_image).'" />
+            </a>':
+            '<a href="'.route('students.show',$data->id).'">
+                <img class=" editable img-responsive sibling-image" alt="" id="avatar2" 
+                src="'.asset('images/studentsImages/37.jpeg').'" />
+            </a>';
+    }
+    private function twins($data)
+    {
+        return $data->student->twins == "true"?
+            '<a href="'.route('students.show',$data->student->id).'">
+                <img class=" editable img-responsive sibling-image" alt="" id="avatar2" 
+                src="'.asset('images/website/twins.png').'" />
+            </a>':
+            '';
+    }
     public function joinToClassroom()
     {        
         $result = '';
