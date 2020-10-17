@@ -29,11 +29,12 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.student_name') }}</label>
-                          <div class="col-md-9">
-                            <select name="student_id" class="form-control select2" required>
+                    <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.student_name') }}</label>
+                          
+                            <select style="width: 100%" name="student_id" class="form-control select2" required>
                                 @foreach ($students as $student)
                                     <option {{old('student_id',$parentRequest->student_id) == $student->id ? 'selected' :''}} value="{{$student->id}}">
                                         @if (session('lang') == 'ar')
@@ -45,35 +46,36 @@
                                 @endforeach
                             </select>
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.date_request') }}</label>                         
-                          <div class="col-md-9">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.date_request') }}</label>                         
+                          
                             <input type="date" class="form-control" required name="date_request" value="{{old('date_request',$parentRequest->date_request)}}">
                             <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div>                     
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.time_request') }}</label>
-                          <div class="col-md-9">                         
+                    <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.time_request') }}</label>
+                                                   
                             <input type="time" class="form-control" required name="time_request" value="{{old('time_request',$parentRequest->time_request)}}">
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div>  
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
-                          <div class="col-md-9">                         
+                    <div class="col-lg-8 col-md-12">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.notes') }}</label>
+                                                   
                               <textarea name="notes" class="form-control" required cols="30" rows="5">{{old('notes',$parentRequest->notes)}}</textarea>
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
+                    </div>  
                     </div>              
                 </div>
                 <div class="form-actions left">

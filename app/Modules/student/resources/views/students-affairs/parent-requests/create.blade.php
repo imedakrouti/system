@@ -28,7 +28,8 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-lg-6 col-md-8">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.student_name') }}</label> <br>
                             <select name="student_id[]" class="form-control select2" style="width: 100%" multiple required>
@@ -45,27 +46,28 @@
                               <span class="red">{{ trans('student::local.requried') }}</span>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-8">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.date_request') }}</label> <br>
                             <input type="date" class="form-control" required name="date_request" value="{{old('date_request')}}">
                             <span class="red">{{ trans('student::local.requried') }}</span>
                         </div>
                     </div>                     
-                    <div class="col-lg-6 col-md-8">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.time_request') }}</label> <br>                    
                             <input type="time" class="form-control" required name="time_request" value="{{old('time_request')}}">
                               <span class="red">{{ trans('student::local.requried') }}</span>
                         </div>
                     </div>  
-                    <div class="col-lg-6 col-md-8">
+                    <div class="col-lg-8 col-md-12">
                         <div class="form-group">
                           <label>{{ trans('student::local.notes') }}</label> <br>                 
                               <textarea name="notes" class="form-control" required cols="30" rows="5">{{old('notes')}}</textarea>
                               <span class="red">{{ trans('student::local.requried') }}</span>
                         </div>
-                    </div>                                                        
+                    </div>   
+                    </div>                                                       
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
