@@ -28,10 +28,11 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-12 col-lg-4">
+                    <div class="row">
+                      <div class="col-md-12 col-lg-4">
                         <div class="form-group">
                           <label>{{ trans('student::local.student_name') }}</label> <br>
-                            <select name="student_id[]" class="form-control select2" required multiple>
+                            <select style="width: 100%" name="student_id[]" class="form-control select2" required multiple>
                                 <option value="">{{ trans('student::local.select') }}</option>
                                 @foreach ($students as $student)
                                     <option {{old('student_id') == $student->id ? 'selected' :''}} value="{{$student->id}}">
@@ -46,7 +47,7 @@
                             <span class="red">{{ trans('student::local.requried') }}</span>                                
                         </div>
                     </div> 
-                    <div class="col-md-8 col-lg-4">
+                    <div class="col-md-6 col-lg-2">
                         <div class="form-group">
                           <label>{{ trans('student::local.leave_time') }}</label> <br>
                             <input type="time"  class="form-control" name="leave_time" value="{{old('leave_time')}}">
@@ -60,11 +61,11 @@
                         }
                     @endphp
 
-                    <div class="col-md-8 col-lg-4">
+                    <div class="col-md-6 col-lg-2">
                         <div class="form-group">
                           <label>{{ trans('student::local.guardian') }}</label> <br>
                           
-                            <select name="recipient_name" class="form-control">
+                            <select style="width: 100%" name="recipient_name" class="form-control">
                                 <option value="">{{ trans('student::local.select') }}</option>
                                 <option value="{{$father_name}}">{{ trans('student::local.father') }} | {{$father_name}}</option>
                                 <option value="{{$student->mother->full_name}}">{{ trans('student::local.mother') }} | {{$student->mother->full_name}}</option>
@@ -74,6 +75,7 @@
                             </select> <br>
                           
                         </div>
+                    </div>  
                     </div>                    
                 </div>
                 <div class="form-actions left">
