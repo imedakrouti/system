@@ -32,11 +32,11 @@ class SectorRequest extends FormRequest
     public function messages()
     {
         return [
-            'ar_sector.required'         => trans('student::local.ar_sector_required'),
-            'ar_sector.max'              => trans('student::local.ar_sector_max'),
-            'en_sector.required'         => trans('student::local.en_sector_required'),
-            'en_sector.max'              => trans('student::local.en_sector_max'),
-            'sort.required'              => trans('student::local.sort_required')
+            'ar_sector.required'         => trans('staff::local.ar_sector_required'),
+            'ar_sector.max'              => trans('staff::local.ar_sector_max'),
+            'en_sector.required'         => trans('staff::local.en_sector_required'),
+            'en_sector.max'              => trans('staff::local.en_sector_max'),
+            'sort.required'              => trans('staff::local.sort_required')
         ];
     }
 }

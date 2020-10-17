@@ -12,4 +12,8 @@ class Sector extends Model
     {
         $this->belongsTo(App\Models\Admin::class);
     }
+    public function scopeSort($query)
+    {
+        return $query->orderBy('sort','asc');
+    }
 }
