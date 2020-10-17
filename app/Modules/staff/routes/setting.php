@@ -14,3 +14,7 @@ Route::post('sections/destroy','SectionController@destroy')->name('sections.dest
 // Positions
 Route::resource('positions','PositionController')->except('show','destroy');
 Route::post('positions/destroy','PositionController@destroy')->name('positions.destroy');
+
+// Documents
+Route::resource('documents','DocumentController')->except('show','destroy');
+Route::post('documents/destroy','DocumentController@destroy')->name('documents.destroy');
