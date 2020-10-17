@@ -21,4 +21,8 @@ class Department extends Model
     {
         return $this->attributes['en_department'] = ucfirst($value);
     }
+    public function scopeSort($query)
+    {
+        return $query->orderBy('sort','asc');
+    }
 }
