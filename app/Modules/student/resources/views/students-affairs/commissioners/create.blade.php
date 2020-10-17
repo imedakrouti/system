@@ -29,7 +29,7 @@
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
                     <div class="row">
-                      <div class="col-lg-6 col-md-6">
+                      <div class="col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.commissioner_name') }}</label> <br>
                           
@@ -40,7 +40,7 @@
                           
                         </div>
                     </div> 
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.id_number_card') }}</label> <br>
                           
@@ -51,7 +51,7 @@
                           
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.mobile_number') }}</label> <br>
                           
@@ -62,7 +62,7 @@
                           
                         </div>
                     </div>  
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.relation') }}</label> <br>
                                                    
@@ -74,7 +74,7 @@
                           
                         </div>
                     </div> 
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.notes') }}</label> <br>
                                                    
@@ -82,7 +82,7 @@
                           
                         </div>
                     </div>                     
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.attachements') }}</label> <br>
                                               

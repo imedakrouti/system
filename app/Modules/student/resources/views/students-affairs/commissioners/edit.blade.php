@@ -29,67 +29,69 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.commissioner_name') }}</label>
-                          <div class="col-md-9">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.commissioner_name') }}</label> <br>
+                          
                             <input type="text" class="form-control " value="{{old('commissioner_name',$commissioner->commissioner_name)}}" 
                             placeholder="{{ trans('student::local.commissioner_name') }}"
                               name="commissioner_name" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div> 
                     <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.id_number_card') }}</label>
-                          <div class="col-md-9">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.id_number_card') }}</label> <br>
+                          
                             <input type="text" class="form-control " value="{{old('id_number',$commissioner->id_number)}}" 
                             placeholder="{{ trans('student::local.id_number') }}"
                               name="id_number" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.mobile_number') }}</label>
-                          <div class="col-md-9">
+                        <div class="form-group">
+                          <label>{{ trans('student::local.mobile_number') }}</label> <br>
+                          
                             <input type="number" min="0" class="form-control " value="{{old('mobile',$commissioner->mobile)}}" 
                             placeholder="{{ trans('student::local.mobile') }}"
                               name="mobile" required>
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div>  
                     <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.relation') }}</label>
-                          <div class="col-md-9">                         
+                        <div class="form-group">
+                          <label>{{ trans('student::local.relation') }}</label> <br>
+                                                   
                               <select name="relation" class="form-control">
                                   <option {{old('relation',$commissioner->relation) == 'relative' ? 'selected' : ''}} value="relative">{{ trans('student::local.relative') }}</option>
                                   <option {{old('relation',$commissioner->relation) == 'driver' ? 'selected' : ''}} value="driver">{{ trans('student::local.driver') }}</option>
                               </select>
                               <span class="red">{{ trans('student::local.requried') }}</span>
-                          </div>
+                          
                         </div>
                     </div> 
                     <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control">{{ trans('student::local.notes') }}</label>
-                          <div class="col-md-9">                         
+                        <div class="form-group">
+                          <label>{{ trans('student::local.notes') }}</label> <br>
+                                                   
                               <textarea name="notes" class="form-control" required cols="30" rows="5">{{old('notes',$commissioner->notes)}}</textarea>                              
-                          </div>
+                          
                         </div>
                     </div>                     
                     <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-md-3 label-control" >{{ trans('student::local.attachements') }}</label>
-                          <div class="col-md-9">                    
+                        <div class="form-group">
+                          <label >{{ trans('student::local.attachements') }}</label> <br>
+                                              
                             <input  type="file" name="file_name"/>
-                          </div>
+                          
                         </div>
-                      </div>      
+                      </div>  
+                    </div>      
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
