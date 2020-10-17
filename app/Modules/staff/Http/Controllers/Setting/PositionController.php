@@ -2,11 +2,10 @@
 
 namespace Staff\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
+use Staff\Http\Requests\PositionRequest;
+use Staff\Models\Settings\Position;
 
-use Staff\Http\Requests\SectorRequest;
-use Staff\Models\Settings\Sector;
-
-class SectorController extends Controller
+class positionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +15,11 @@ class SectorController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Sector::sort()->get();
+            $data = Position::sort()->get();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('sectors.edit',$data->id).'">
+                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('positions.edit',$data->id).'">
                            <i class=" la la-edit"></i>
                        </a>';
                             return $btn;
@@ -35,8 +34,8 @@ class SectorController extends Controller
                     ->rawColumns(['action','check'])
                     ->make(true);
         }
-        return view('staff::settings.sectors.index',
-        ['title'=>trans('staff::local.sectors')]);   
+        return view('staff::settings.positions.index',
+        ['title'=>trans('staff::local.positions')]);   
     }
 
     /**
@@ -46,12 +45,12 @@ class SectorController extends Controller
      */
     public function create()
     {
-        return view('staff::settings.sectors.create',
-        ['title'=>trans('staff::local.new_sector')]);
+        return view('staff::settings.positions.create',
+        ['title'=>trans('staff::local.new_position')]);
     }
     private function attributes()
     {
-        return ['ar_sector','en_sector','sort','admin_id'];
+        return ['ar_position','en_position','sort','admin_id'];
     }
 
     /**
@@ -60,52 +59,52 @@ class SectorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SectorRequest $request)
+    public function store(PositionRequest $request)
     {
-        $request->user()->sectors()->create($request->only($this->attributes()));        
+        $request->user()->positions()->create($request->only($this->attributes()));        
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('sectors.index');
+        return redirect()->route('positions.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Sector  $sector
+     * @param  \App\position  $position
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sector $sector)
+    public function edit(Position $position)
     {
-        return view('staff::settings.sectors.edit',
-        ['title'=>trans('staff::local.edit_sector'),'sector'=>$sector]);
+        return view('staff::settings.positions.edit',
+        ['title'=>trans('staff::local.edit_position'),'position'=>$position]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sector  $sector
+     * @param  \App\Position $position
      * @return \Illuminate\Http\Response
      */
-    public function update(SectorRequest $request, Sector $sector)
+    public function update(PositionRequest $request, position $position)
     {
-        $sector->update($request->only($this->attributes()));
+        $position->update($request->only($this->attributes()));
         toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('sectors.index');
+        return redirect()->route('positions.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Sector  $sector
+     * @param  \App\Position $position
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sector $sector)
+    public function destroy(Position $position)
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    Sector::destroy($id);
+                    Position::destroy($id);
                 }
             }
         }

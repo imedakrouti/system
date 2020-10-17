@@ -10,3 +10,7 @@ Route::post('departments/destroy','DepartmentController@destroy')->name('departm
 // Sections
 Route::resource('sections','SectionController')->except('show','destroy');
 Route::post('sections/destroy','SectionController@destroy')->name('sections.destroy');
+
+// Positions
+Route::resource('positions','PositionController')->except('show','destroy');
+Route::post('positions/destroy','PositionController@destroy')->name('positions.destroy');

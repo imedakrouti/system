@@ -16,7 +16,7 @@ class DepartmentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Department::with('sector')->get();
+            $data = Department::with('sector')->sort()->get();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){

@@ -15,7 +15,7 @@ class SectionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Section::latest();
+            $data = Section::sort()->get();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
