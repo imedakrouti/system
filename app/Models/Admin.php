@@ -265,5 +265,13 @@ class Admin extends Authenticatable
     public function skills()
     {
         return $this->hasMany('Staff\Models\Settings\Skill','admin_id');
-    }                 
+    }  
+    public function holidays()
+    {
+        return $this->hasMany('Staff\Models\Settings\Holiday','admin_id');
+    }   
+    public function holidayDays()
+    {
+        return $this->hasMany('Staff\Models\Settings\HolidayDay','admin_id');
+    }                    
 }

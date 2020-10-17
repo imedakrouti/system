@@ -22,3 +22,14 @@ Route::post('documents/destroy','DocumentController@destroy')->name('documents.d
 // Skills
 Route::resource('skills','SkillController')->except('show','destroy');
 Route::post('skills/destroy','SkillController@destroy')->name('skills.destroy');
+
+// Holidays
+Route::resource('holidays','HolidayController')->except('show','destroy');
+Route::post('holidays/destroy','HolidayController@destroy')->name('holidays.destroy');
+
+Route::resource('holidays/holidays-days','HolidayDayController')->except('show','destroy','index','create','edit','update');
+Route::get('holidays/holidays-days/index/{id}','HolidayDayController@index')->name('holidays-days.index');
+Route::get('holidays/holidays-days/create/{id}','HolidayDayController@create')->name('holidays-days.create');
+Route::get('holidays/holidays-days','HolidayDayController@getAllDays')->name('holidays-days.allDays');
+Route::post('holidays/holidays-days/destroy','HolidayDayController@destroy')->name('holidays-days.destroy');
+
