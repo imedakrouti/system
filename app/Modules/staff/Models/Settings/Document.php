@@ -16,4 +16,8 @@ class Document extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function setEnDocumentAttribute($value)
+    {
+        return $this->attributes['en_document'] = ucfirst($value);
+    }
 }

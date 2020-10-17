@@ -16,4 +16,8 @@ class Position extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function setEnPositionAttribute($value)
+    {
+        return $this->attributes['en_position'] = ucfirst($value);
+    }
 }

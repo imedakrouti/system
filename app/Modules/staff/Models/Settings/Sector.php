@@ -16,4 +16,8 @@ class Sector extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function setEnSectorAttribute($value)
+    {
+        return $this->attributes['en_sector'] = ucfirst($value);
+    }
 }

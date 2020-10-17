@@ -17,4 +17,8 @@ class Department extends Model
     {
         return $this->belongsTo(Sector::class);        
     }
+    public function setEnDepartmentAttribute($value)
+    {
+        return $this->attributes['en_department'] = ucfirst($value);
+    }
 }

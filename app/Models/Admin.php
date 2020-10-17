@@ -261,5 +261,9 @@ class Admin extends Authenticatable
     public function documents()
     {
         return $this->hasMany('Staff\Models\Settings\Document','admin_id');
-    }                   
+    }   
+    public function skills()
+    {
+        return $this->hasMany('Staff\Models\Settings\Skill','admin_id');
+    }                 
 }

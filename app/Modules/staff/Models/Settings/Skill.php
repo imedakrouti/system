@@ -4,9 +4,9 @@ namespace Staff\Models\Settings;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Section extends Model
+class Skill extends Model
 {
-    protected $fillable = ['ar_section','en_section','sort','admin_id'];
+    protected $fillable = ['ar_skill','en_skill','sort','admin_id'];
     
     public function admins()
     {
@@ -16,8 +16,8 @@ class Section extends Model
     {
         return $query->orderBy('sort','asc');
     }
-    public function setEnSectionAttribute($value)
+    public function setEnSkillAttribute($value)
     {
-        return $this->attributes['en_section'] = ucfirst($value);
+        return $this->attributes['en_skill'] = ucfirst($value);
     }
 }
