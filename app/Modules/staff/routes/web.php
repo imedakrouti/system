@@ -10,7 +10,7 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
         Route::group(['namespace'=>'Setting','prefix'=>'settings'],function(){            
             require 'setting.php';
         });
-        
+        require 'dashboard.php';
            
   
     });
