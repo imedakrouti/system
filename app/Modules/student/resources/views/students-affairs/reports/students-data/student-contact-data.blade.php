@@ -13,7 +13,7 @@
 </htmlpageheader>
 
 <h4 class="center">{{ trans('student::local.student_contacts_data') }} [{{$classroom}}]</h4>
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th>#</th>

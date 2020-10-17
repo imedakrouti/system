@@ -41,7 +41,7 @@
                         <h6><strong>{{ trans('student::local.notes') }}</strong></h6>
                         <p>{{$commissioner->commissioner_name}}</p>
                         @if (!empty($commissioner->file_name))
-                            <a target="blank" class="btn btn-success btn-sm" href="{{asset('storage/attachments/'.$commissioner->file_name)}}">
+                            <a target="blank" class="btn btn-success btn-sm" href="{{asset('images/attachments/'.$commissioner->file_name)}}">
                                <i class="la la-download"></i> {{ trans('student::local.attachements') }}
                             </a>
                         @endif

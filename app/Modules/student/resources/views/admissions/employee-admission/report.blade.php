@@ -13,11 +13,11 @@
     <h4 class="center">{{ trans('student::local.emp_open_admission_report') }} </h4>
 </htmlpageheader> 
 
-<h5>{{ trans('student::local.employee_name') }} : {{$employeeName}} <br>
+<h5 style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{ trans('student::local.employee_name') }} : {{$employeeName}} <br>
 {{ trans('student::local.period') }}
 {{ trans('student::local.from') }} : {{$fromDate}} {{ trans('student::local.to') }} : {{$toDate}} <br>
 {{ trans('student::local.admission_count') }} : {{$count}}</h5>
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th>{{ trans('student::local.application_date') }}</th>
@@ -62,7 +62,7 @@
     </tbody>
 </table>
 <hr>
-<p class="report-details">{{ trans('admin.print_date') }} : {{now()}} <br>
+<p class="report-details"  style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{ trans('admin.print_date') }} : {{now()}} <br>
 {{ trans('admin.username') }} : {{authInfo()->username}}</p>
 
 @include('layouts.backEnd.layout-report.footer')

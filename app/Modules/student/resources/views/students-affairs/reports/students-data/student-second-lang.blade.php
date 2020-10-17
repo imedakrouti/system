@@ -13,7 +13,7 @@
 </htmlpageheader>
 
 <h4 class="center">{{ trans('student::local.name_list') }} [{{$classroom}}]</h4>
-<h5>{{ trans('student::local.second_lang_id') }} : {{$language}}</h5>
+<h5 style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{ trans('student::local.second_lang_id') }} : {{$language}}</h5>
 <table style="direction: {{session('lang') == 'ar' ? 'rtl' :'ltr'}}">
     <thead>
         <tr>

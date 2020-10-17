@@ -62,15 +62,15 @@
           <div class="card-body"> 
             <h4 class="purple ml-1">{{ trans('student::local.reports') }}</h4>                       
               <div class="row">
-                <div class="col-md-12">                    
+                <div class="col-lg-4 col-md-12">                    
                     <div class="card-content collapse show">
                         <div class="card-body">
                           <div class="list-group">
                             <div class="row">
-                              <button type="button" onclick="statistics()" class="col-lg-4 mr-2 mt-1 list-group-item list-group-item-action">{{trans('student::local.statistics_all_students') }}</button>
-                            <button type="button" onclick="secondLangStatistics()" class="col-lg-4 mr-2 mt-1 list-group-item list-group-item-action">{{trans('student::local.statistics_second_lang') }}</button>
-                            <button type="button" onclick="regStatusStatistics()" class="col-lg-4 mr-2 mt-1 list-group-item list-group-item-action">{{trans('student::local.statistics_reg_status') }}</button>        
-                            <button type="button" onclick="religionStatistics()" class="col-lg-4 mr-2 mt-1 list-group-item list-group-item-action">{{trans('student::local.statistics_religion') }}</button> 
+                              <button type="button" onclick="statistics()" class="list-group-item list-group-item-action">1- {{trans('student::local.statistics_all_students') }}</button>
+                              <button type="button" onclick="secondLangStatistics()" class="list-group-item list-group-item-action">2- {{trans('student::local.statistics_second_lang') }}</button>
+                              <button type="button" onclick="regStatusStatistics()" class="list-group-item list-group-item-action">3- {{trans('student::local.statistics_reg_status') }}</button>        
+                              <button type="button" onclick="religionStatistics()" class="list-group-item list-group-item-action">4- {{trans('student::local.statistics_religion') }}</button> 
                             </div>       
                           </div>
                         </div>

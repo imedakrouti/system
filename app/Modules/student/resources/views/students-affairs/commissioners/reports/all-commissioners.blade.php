@@ -12,7 +12,7 @@
     <hr>
     <h4 class="center">{{ trans('student::local.commissioners_data') }} </h4>
 </htmlpageheader>
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th>#</th>

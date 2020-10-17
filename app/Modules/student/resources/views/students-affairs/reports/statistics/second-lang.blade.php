@@ -13,7 +13,7 @@
     <h4 class="center">{{ trans('student::local.statistics_second_lang') }} - {{ trans('student::local.year') }} {{$year_name}}</h4>
 </htmlpageheader>
 
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th>{{ trans('student::local.grades') }}</th>

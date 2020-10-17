@@ -17,7 +17,7 @@
     </h4>
 </htmlpageheader>
 
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th width="20" rowspan="2">{{ trans('student::local.serial') }}</th>
@@ -87,7 +87,7 @@
     </tbody>
 </table>
 <br>
-<table style="margin-right: 75%;">
+<table style="margin-right: 75%;direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th colspan="3">{{ trans('student::local.boy') }}</th>

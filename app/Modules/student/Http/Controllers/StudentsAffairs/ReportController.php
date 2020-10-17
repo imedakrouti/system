@@ -98,7 +98,7 @@ class ReportController extends Controller
             'margin_footer'        => 50,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 65,
+            'margin_top'           => session('lang') == 'ar' ? 65 : 75,
             'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
         ];  
 
@@ -170,7 +170,7 @@ class ReportController extends Controller
             'margin_footer'        => 50,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 65,
+            'margin_top'           => session('lang') == 'ar' ? 65 : 75,
             'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
         ];  
 
@@ -250,7 +250,7 @@ class ReportController extends Controller
             'margin_footer'        => 50,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 65,
+            'margin_top'           => session('lang') == 'ar' ? 65 : 75,
             'margin_bottom'        => session('lang') == 'ar' ? 52 : 55,
         ];  
 

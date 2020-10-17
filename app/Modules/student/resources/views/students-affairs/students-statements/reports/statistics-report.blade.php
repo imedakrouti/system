@@ -12,8 +12,9 @@
     <hr>
     <h4 class="center">{{ trans('student::local.statistics') }} - {{ trans('student::local.year') }} {{$year_name}}</h4>
 </htmlpageheader>
-<h4>{{ trans('student::local.total_students') }} : {{$total_students}}</h4>
-<table>
+<h4 style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{ trans('student::local.total_students') }} : {{$total_students}}</h4>
+
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th rowspan="2">{{ trans('student::local.grade') }}</th>
@@ -125,12 +126,14 @@
         </tr>                           
     </tbody>
 </table>
-{{ trans('student::local.available_students') }} : 
-<strong>
-    {{$total_students - (array_sum($male_muslims) + array_sum($female_muslims)+ 
-        array_sum($male_non_muslims) + array_sum($female_non_muslims)) }} 
-</strong>
-{{ trans('student::local.student') }}
+<div style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">
+    {{ trans('student::local.available_students') }} : 
+    <strong>
+        {{$total_students - (array_sum($male_muslims) + array_sum($female_muslims)+ 
+            array_sum($male_non_muslims) + array_sum($female_non_muslims)) }} 
+    </strong>
+    {{ trans('student::local.student') }}
+</div>
 <div class="signature">
     <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('admin.students_affairs') }}</strong></h3>
 </div>

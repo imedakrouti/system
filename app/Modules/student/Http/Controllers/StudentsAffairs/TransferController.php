@@ -34,7 +34,7 @@ class TransferController extends Controller
                             return $btn;
                     })
                     ->addColumn('print', function($data){
-                        $btn = '<a class="btn btn-primary" href="'.route('transfers.print',$data->id).'">
+                        $btn = '<a class="btn btn-primary btn-sm" target="_blank" href="'.route('transfers.print',$data->id).'">
                             '.trans('student::local.print').'
                         </a>';
                             return $btn;
@@ -202,11 +202,11 @@ class TransferController extends Controller
 
         $config = [
             'orientation'          => 'P',
-            'margin_header'        => 5,
+            'margin_header'        => 2,
             'margin_footer'        => 50,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 35,
+            'margin_top'           => 32,
             'margin_bottom'        => 5,
         ]; 
 
@@ -225,11 +225,11 @@ class TransferController extends Controller
 
         $config = [
             'orientation'          => 'P',
-            'margin_header'        => 5,
+            'margin_header'        => 2,
             'margin_footer'        => 50,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 35,
+            'margin_top'           => 32,
             'margin_bottom'        => 5,
         ]; 
 

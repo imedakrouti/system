@@ -12,10 +12,10 @@
     <hr>
     <h4 class="center">{{ trans('student::local.commissioner_deliver') }} </h4>
 </htmlpageheader>
-<p>
+<p style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">
     {{ trans('student::local.deliver_allow') }}
 </p>
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th colspan="2" class="right">{{ trans('student::local.deliver_data') }}</th>
@@ -37,8 +37,9 @@
         </tr>
     </thead>
 </table>
-<h4>{{ trans('student::local.students_names') }}</h4>
-<table>
+<h4 style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{ trans('student::local.students_names') }}</h4>
+
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th>{{ trans('student::local.student_number') }}</th>

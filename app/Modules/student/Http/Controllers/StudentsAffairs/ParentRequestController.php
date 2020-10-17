@@ -26,7 +26,7 @@ class ParentRequestController extends Controller
                             return $btn;
                     })                    
                     ->addColumn('print', function($data){
-                        $btn = '<a class="btn btn-primary" href="'.route('parent-requests.print',$data->id).'">
+                        $btn = '<a class="btn btn-primary btn-sm" target="_blank" href="'.route('parent-requests.print',$data->id).'">
                             '.trans('student::local.print').'
                         </a>';
                             return $btn;

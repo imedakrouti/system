@@ -12,7 +12,7 @@
     <hr>
     <h4 class="center">{{ trans('student::local.student_commissioner_deliver') }} </h4>
 </htmlpageheader>
-<p>
+<p style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">
     @php
         $student_name = '';
         if (session('lang') == 'ar') {
@@ -30,7 +30,7 @@
         'idNumber'      => $student->father->id_number
     ]) }}
 </p>
-<table>
+<table style="direction: {{session('lang') == 'ar' ? 'rtl' : 'ltr'}}">
     <thead>
         <tr>
             <th>{{ trans('student::local.commissioner_name') }}</th>

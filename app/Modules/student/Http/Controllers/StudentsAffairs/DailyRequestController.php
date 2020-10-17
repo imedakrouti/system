@@ -21,7 +21,7 @@ class DailyRequestController extends Controller
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('print', function($data){
-                        $btn = '<a class="btn btn-primary" href="'.route('daily-requests.print',$data->id).'">
+                        $btn = '<a class="btn btn-primary btn-sm" target="_blank" href="'.route('daily-requests.print',$data->id).'">
                             '.trans('student::local.print').'
                         </a>';
                             return $btn;

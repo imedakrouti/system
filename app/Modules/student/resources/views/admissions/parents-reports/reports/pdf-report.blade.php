@@ -13,17 +13,17 @@
     <h4 class="center">{{ trans('student::local.parent_reports') }} </h4>
 </htmlpageheader>  
 
-    <h4>{{ trans('student::local.report_title') }} : {{$reports->report_title}}</h4>
+    <h4 style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{ trans('student::local.report_title') }} : {{$reports->report_title}}</h4>
 
-    <h4>{{ trans('student::local.parent_name') }} :      
+    <h4 style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{ trans('student::local.parent_name') }} :      
         @if (session('lang') == 'ar')
             {{$reports->fathers['ar_st_name']}} {{$reports->fathers['ar_nd_name']}} {{$reports->fathers['ar_rd_name']}} {{$reports->fathers['ar_th_name']}}
         @else
             {{$reports->fathers['en_st_name']}} {{$reports->fathers['en_nd_name']}} {{$reports->fathers['en_rd_name']}} {{$reports->fathers['en_th_name']}}
         @endif   
     </h4> 
-    <h4><u>{{ trans('student::local.sons') }}</u></h4>
-    <ol>
+    <h4 style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}"><u>{{ trans('student::local.sons') }}</u></h4>
+    <ol style="{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">
         @foreach ($mothers as $mother)
             @foreach ($mother->students as $student)
             <li>{{$student->ar_student_name}} [ {{$mother->full_name}} ]</li>
@@ -32,7 +32,7 @@
     </ol>
 
     <hr>
-    <p style="text-align: justify">{{$reports->report}}</p>
+    <p style="text-align: justify;{{session('lang') == 'ar' ?'direction: rtl;':'direction: ltr;'}}">{{$reports->report}}</p>
 <htmlpagefooter name="page-footer">
     <p> {PAGENO}</p>
     </htmlpagefooter>
