@@ -241,5 +241,9 @@ class Admin extends Authenticatable
     public function archives()
     {
         return $this->hasMany('Student\Models\Students\Archive','admin_id');
-    }                    
+    }  
+    public function sectors()
+    {
+        return $this->hasMany('Staff\Models\Settings\Sector','admin_id');
+    }                     
 }
