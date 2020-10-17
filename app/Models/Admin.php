@@ -249,5 +249,9 @@ class Admin extends Authenticatable
     public function departments()
     {
         return $this->hasMany('Staff\Models\Settings\Department','admin_id');
-    }                          
+    } 
+    public function sections()
+    {
+        return $this->hasMany('Staff\Models\Settings\Section','admin_id');
+    }                            
 }
