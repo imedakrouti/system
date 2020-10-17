@@ -273,5 +273,9 @@ class Admin extends Authenticatable
     public function holidayDays()
     {
         return $this->hasMany('Staff\Models\Settings\HolidayDay','admin_id');
-    }                    
+    }     
+    public function leaveTypes()
+    {
+        return $this->hasMany('Staff\Models\Settings\LeaveType','admin_id');
+    }               
 }

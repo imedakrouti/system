@@ -30,6 +30,9 @@ Route::post('holidays/destroy','HolidayController@destroy')->name('holidays.dest
 Route::resource('holidays/holidays-days','HolidayDayController')->except('show','destroy','index','create','edit','update');
 Route::get('holidays/holidays-days/index/{id}','HolidayDayController@index')->name('holidays-days.index');
 Route::get('holidays/holidays-days/create/{id}','HolidayDayController@create')->name('holidays-days.create');
-Route::get('holidays/holidays-days','HolidayDayController@getAllDays')->name('holidays-days.allDays');
+Route::put('holidays/holidays-days/get-days','HolidayDayController@getAllDays')->name('holidays-days.allDays');
 Route::post('holidays/holidays-days/destroy','HolidayDayController@destroy')->name('holidays-days.destroy');
 
+// LeaveType
+Route::resource('leave-types','LeaveTypeController')->except('show','destroy');
+Route::post('leave-types/destroy','LeaveTypeController@destroy')->name('leave-types.destroy');

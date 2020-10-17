@@ -22,8 +22,8 @@ class HolidayDayController extends Controller
         compact('title','holiday'));
     }
     public function getAllDays()
-    {
-        $data = HolidayDay::orderBy('date_holiday','desc')->get();
+    {        
+        $data = HolidayDay::orderBy('date_holiday','asc')->where('holiday_id',request('holiday_id'))->get();
         return datatables($data)
                 ->addIndexColumn()  
                 ->addColumn('check', function($data){
