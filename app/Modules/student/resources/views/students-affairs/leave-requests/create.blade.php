@@ -29,11 +29,11 @@
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
                     <div class="row">
-                      <div class="col-lg-6 col-md-8">
+                      <div class="col-md-6">
                         <div class="form-group">
                           <label>{{ trans('student::local.student_name') }}</label> <br>
                           
-                            <select name="student_id" class="form-control select2" style="width: 100%" required>
+                            <select style="width: 100%" name="student_id" class="form-control select2" style="width: 100%" required>
                                 @foreach ($students as $student)
                                     <option {{old('student_id') == $student->id ? 'selected' :''}} value="{{$student->id}}">
                                         @if (session('lang') == 'ar')
@@ -48,11 +48,11 @@
                           
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-8">
+                    <div class="col-md-6 ">
                         <div class="form-group">
                           <label>{{ trans('student::local.parent_type') }}</label> <br>                         
                           
-                            <select name="parent_type" class="form-control" style="width: 100%" required>
+                            <select style="width: 100%" name="parent_type" class="form-control" style="width: 100%" required>
                                 <option value="father">{{ trans('student::local.father') }}</option>
                                 <option value="mother">{{ trans('student::local.mother') }}</option>                                
                             </select> <br>
@@ -60,7 +60,7 @@
                           
                         </div>
                     </div>                     
-                    <div class="col-lg-6 col-md-8">
+                    <div class="col-lg-6 col-md-12 ">
                         <div class="form-group">
                           <label>{{ trans('student::local.leave_reason') }}</label> <br>
                                                    
@@ -69,7 +69,7 @@
                           
                         </div>
                     </div>  
-                    <div class="col-lg-6 col-md-8">
+                    <div class="col-lg-6 col-md-12 ">
                         <div class="form-group">
                           <label>{{ trans('student::local.notes') }}</label> <br>
                                                    
