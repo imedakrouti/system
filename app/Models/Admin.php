@@ -285,5 +285,9 @@ class Admin extends Authenticatable
     public function externalCodes()
     {
         return $this->hasMany('Staff\Models\Settings\ExternalCode','admin_id');
-    }              
+    }       
+    public function salaryComponents()
+    {
+        return $this->hasMany('Staff\Models\Settings\SalaryComponent','admin_id');
+    }          
 }

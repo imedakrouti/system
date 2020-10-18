@@ -58,3 +58,6 @@ Route::post('employee-vacation/report-form','ReportController@updateHrVacation')
 Route::resource('external-codes','ExternalCodeController')->except('show','destroy');
 Route::post('external-codes/destroy','ExternalCodeController@destroy')->name('external-codes.destroy');
 
+// Salary Components
+Route::resource('salary-components','SalaryComponentController')->except('show','destroy');
+Route::post('salary-components/destroy','SalaryComponentController@destroy')->name('salary-components.destroy');

@@ -38,9 +38,14 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('staff::local.ar_skill')}}</th>
-                                <th>{{trans('staff::local.en_skill')}}</th>
+                                <th>{{trans('staff::local.ar_item')}}</th>
+                                <th>{{trans('staff::local.en_item')}}</th>
+                                <th>{{trans('staff::local.formula')}}</th>                                
+                                <th>{{trans('staff::local.description')}}</th>                                
                                 <th>{{trans('staff::local.sort')}}</th>                                
+                                <th>{{trans('staff::local.type')}}</th>                                
+                                <th>{{trans('staff::local.registration')}}</th>                                
+                                <th>{{trans('staff::local.calculate')}}</th>                                
                                 <th>{{trans('staff::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -63,25 +68,30 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('staff::local.new_skill')}}",
+                    "text": "{{trans('staff::local.new_salary_component')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('skills.create')}}";
+                        window.location.href = "{{route('salary-components.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'skills.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'salary-components.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('skills.index') }}",
+          ajax: "{{ route('salary-components.index') }}",
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'ar_skill',            name: 'ar_skill'},
-              {data: 'en_skill',            name: 'en_skill'},
+              {data: 'ar_item',             name: 'ar_item'},
+              {data: 'en_item',             name: 'en_item'},
+              {data: 'formula',             name: 'formula'},               
+              {data: 'description',         name: 'description'},               
               {data: 'sort',                name: 'sort'},               
+              {data: 'type',                name: 'type'},               
+              {data: 'registration',        name: 'registration'},               
+              {data: 'calculate',           name: 'calculate'},               
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
