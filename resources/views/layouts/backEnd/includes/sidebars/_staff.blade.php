@@ -217,8 +217,8 @@
                 <li class="{{request()->segment(3)=='machines'?'active':''}}"><a class="menu-item" href="{{route('machines.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.machines') }}</a></li>           
                 <li class="{{request()->segment(3)=='external-codes'?'active':''}}"><a class="menu-item" href="{{route('external-codes.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.external_codes') }}</a></li>           
                 <li class="{{request()->segment(3)=='salary-components'?'active':''}}"><a class="menu-item" href="{{route('salary-components.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.salary_components') }}</a></li>           
-                {{--<li class="{{request()->segment(3)=='steps'?'active':''}}"><a class="menu-item" href="{{route('steps.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.timetables') }}</a></li>           
-                <li class="{{request()->segment(3)=='interviews'?'active':''}}"><a class="menu-item" href="{{route('interviews.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.payrolls_statement') }}</a></li>                            --}}
+                <li class="{{request()->segment(3)=='timetables'?'active':''}}"><a class="menu-item" href="{{route('timetables.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.timetables') }}</a></li>           
+                {{--<li class="{{request()->segment(3)=='interviews'?'active':''}}"><a class="menu-item" href="{{route('interviews.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.payrolls_statement') }}</a></li>                            --}}
             </ul>
         </li>                                                      
       </ul>

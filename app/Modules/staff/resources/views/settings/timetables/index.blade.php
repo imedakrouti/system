@@ -38,12 +38,8 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('staff::local.ar_item')}}</th>
-                                <th>{{trans('staff::local.en_item')}}</th>                                    
-                                <th>{{trans('staff::local.type')}}</th>                                
-                                <th>{{trans('staff::local.registration')}}</th>                                
-                                <th>{{trans('staff::local.calculate')}}</th>                                
-                                <th>{{trans('staff::local.sort')}}</th>                                
+                                <th>{{trans('staff::local.ar_timetable')}}</th>
+                                <th>{{trans('staff::local.en_timetable')}}</th>                                
                                 <th>{{trans('staff::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -66,28 +62,24 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('staff::local.new_salary_component')}}",
+                    "text": "{{trans('staff::local.new_timetable')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('salary-components.create')}}";
+                        window.location.href = "{{route('timetables.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'salary-components.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'timetables.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('salary-components.index') }}",
+          ajax: "{{ route('timetables.index') }}",
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'ar_item',             name: 'ar_item'},
-              {data: 'en_item',             name: 'en_item'},                  
-              {data: 'type',                name: 'type'},               
-              {data: 'registration',        name: 'registration'},               
-              {data: 'calculate',           name: 'calculate'},               
-              {data: 'sort',                name: 'sort'},               
+              {data: 'ar_timetable',        name: 'ar_timetable'},
+              {data: 'en_timetable',        name: 'en_timetable'},              
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')

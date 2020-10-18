@@ -289,5 +289,9 @@ class Admin extends Authenticatable
     public function salaryComponents()
     {
         return $this->hasMany('Staff\Models\Settings\SalaryComponent','admin_id');
-    }          
+    }  
+    public function timetables()
+    {
+        return $this->hasMany('Staff\Models\Settings\Timetable','admin_id');
+    }           
 }
