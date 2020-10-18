@@ -33,6 +33,10 @@ Route::get('holidays/holidays-days/create/{id}','HolidayDayController@create')->
 Route::put('holidays/holidays-days/get-days','HolidayDayController@getAllDays')->name('holidays-days.allDays');
 Route::post('holidays/holidays-days/destroy','HolidayDayController@destroy')->name('holidays-days.destroy');
 
-// LeaveType
+// LeaveTypes
 Route::resource('leave-types','LeaveTypeController')->except('show','destroy');
 Route::post('leave-types/destroy','LeaveTypeController@destroy')->name('leave-types.destroy');
+
+// Machines
+Route::resource('machines','MachineController')->except('show','destroy');
+Route::post('machines/destroy','MachineController@destroy')->name('machines.destroy');

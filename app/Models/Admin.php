@@ -277,5 +277,9 @@ class Admin extends Authenticatable
     public function leaveTypes()
     {
         return $this->hasMany('Staff\Models\Settings\LeaveType','admin_id');
-    }               
+    }   
+    public function machines()
+    {
+        return $this->hasMany('Staff\Models\Settings\Machine','admin_id');
+    }              
 }

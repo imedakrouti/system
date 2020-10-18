@@ -25,8 +25,8 @@ class CreateTableLeaveTypes extends Migration
             $table->integer('from_day')->default(1);
             $table->integer('to_day')->default(31);
             $table->enum('period',['this month','next month'])->default('this month');
-            $table->unsignedBigInteger('admin_id');
             $table->integer('sort');
+            $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
