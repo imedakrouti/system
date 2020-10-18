@@ -194,18 +194,18 @@
         {{-- settings --}}
         <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">                
-                {{-- <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports_forms') }}</a>
+                <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports_forms') }}</a>
                     <ul class="menu-content">
-                      <li class="{{request()->segment(3)=='statement-request'?'active':''}}"><a class="menu-item" href="{{route('statement-request.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.hr_letter_form') }}</a>
+                      <li class="{{request()->segment(3)=='hr-letter'?'active':''}}"><a class="menu-item" href="{{route('hr-letter.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.hr_letter_form') }}</a>
                       </li>
-                      <li class="{{request()->segment(3)=='leave-request'?'active':''}}"><a class="menu-item" href="{{route('leave-request.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.employee_leave_form') }}</a>
+                      <li class="{{request()->segment(3)=='employee-leave'?'active':''}}"><a class="menu-item" href="{{route('employee-leave.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.employee_leave_form') }}</a>
                       </li>                      
-                      <li class="{{request()->segment(3)=='daily-request'?'active':''}}"><a class="menu-item" href="{{route('daily-request.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('staff::local.employee_experience_form') }}</a>
+                      <li class="{{request()->segment(3)=='employee-experience'?'active':''}}"><a class="menu-item" href="{{route('employee-experience.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('staff::local.employee_experience_form') }}</a>
                       </li>
-                      <li class="{{request()->segment(3)=='proof-enrollment'?'active':''}}"><a class="menu-item" href="{{route('proof-enrollment.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_vacation_form') }}</a>
+                      <li class="{{request()->segment(3)=='employee-vacation'?'active':''}}"><a class="menu-item" href="{{route('employee-vacation.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_vacation_form') }}</a>
                       </li>                       
                     </ul>
-                </li>                    --}}
+                </li>                    
                 <li class="{{request()->segment(3)=='sectors'?'active':''}}"><a class="menu-item" href="{{route('sectors.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.sectors') }}</a></li>           
                 <li class="{{request()->segment(3)=='departments'?'active':''}}"><a class="menu-item" href="{{route('departments.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.departments') }}</a></li>           
                 <li class="{{request()->segment(3)=='sections'?'active':''}}"><a class="menu-item" href="{{route('sections.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.sections') }}</a></li>           

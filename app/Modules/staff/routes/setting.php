@@ -40,3 +40,17 @@ Route::post('leave-types/destroy','LeaveTypeController@destroy')->name('leave-ty
 // Machines
 Route::resource('machines','MachineController')->except('show','destroy');
 Route::post('machines/destroy','MachineController@destroy')->name('machines.destroy');
+
+// Reports
+Route::get('hr-letter/report-form','ReportController@hrLetter')->name('hr-letter.get');  
+Route::post('hr-letter/report-form','ReportController@updateHrLetter')->name('hr-letter.update'); 
+
+Route::get('employee-leave/report-form','ReportController@hrLeave')->name('employee-leave.get');  
+Route::post('employee-leave/report-form','ReportController@updateLeave')->name('employee-leave.update');  
+
+Route::get('employee-experience/report-form','ReportController@hrExperience')->name('employee-experience.get');  
+Route::post('employee-experience/report-form','ReportController@updateHrExperience')->name('employee-experience.update');  
+
+Route::get('employee-vacation/report-form','ReportController@hrVacation')->name('employee-vacation.get');  
+Route::post('employee-vacation/report-form','ReportController@updateHrVacation')->name('employee-vacation.update');  
+

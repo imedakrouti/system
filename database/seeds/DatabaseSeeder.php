@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminTableSeeder::class);
         $this->call(SettingTableSeeder::class);
         $this->call(ReportContentSeeder::class);
+        $this->call(HrReportSeeder::class);
     }
 }

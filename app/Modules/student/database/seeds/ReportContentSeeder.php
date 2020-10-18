@@ -18,5 +18,6 @@ class ReportContentSeeder extends Seeder
             'proof_enrollment'  => '',            
             'admin_id'          => 1
         ]);
+
     }
 }
