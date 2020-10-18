@@ -281,5 +281,9 @@ class Admin extends Authenticatable
     public function machines()
     {
         return $this->hasMany('Staff\Models\Settings\Machine','admin_id');
+    }  
+    public function externalCodes()
+    {
+        return $this->hasMany('Staff\Models\Settings\ExternalCode','admin_id');
     }              
 }
