@@ -11,6 +11,7 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
             require 'setting.php';
         });
         require 'dashboard.php';
+        require 'employee.php';
            
   
     });

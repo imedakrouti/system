@@ -13,7 +13,7 @@ class CreateViewFullStudentData extends Migration
     public function up()
     {
         DB::statement("
-            CREATE VIEW full_student_data 
+            CREATE OR REPLACE VIEW full_student_data 
             AS 
             select students.id as student_id,students.student_type,students.ar_student_name,students.en_student_name,students.student_id_number,
             students.student_id_type,students.student_number,
@@ -58,6 +58,6 @@ class CreateViewFullStudentData extends Migration
      */
     public function down()
     {        
-        DB::statement('DROP VIEW full_student_data');
+        // DB::statement('DROP VIEW IF EXISTS full_student_data');
     }
 }

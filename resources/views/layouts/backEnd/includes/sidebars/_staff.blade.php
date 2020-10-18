@@ -14,31 +14,31 @@
             </a>
         </li>      
         {{-- employees --}}
-        {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
+        <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-users"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.employees') }}</span></a>
             <ul class="menu-content">                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-database">
+                <li class=" nav-item {{request()->segment(2)=='employees'?'active':''}}">
+                    <a href="{{route('employees.index')}}"><i class="la la-database">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_data') }}</span>
                     </a>
                 </li>
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-search">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.advanced_search') }}</span>
                     </a>
-                </li>                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+                </li>                 --}}
+                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-archive">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attachments') }}</span>
                     </a>
-                </li>
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+                </li> --}}
+                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-trash">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_trash') }}</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
-        </li>    --}}
+        </li>   
      
         {{-- attendance --}}
         {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">

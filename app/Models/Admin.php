@@ -293,5 +293,9 @@ class Admin extends Authenticatable
     public function timetables()
     {
         return $this->hasMany('Staff\Models\Settings\Timetable','admin_id');
-    }           
+    }   
+    public function employee()
+    {
+        return $this->hasMany('Staff\Models\Employees\Employee','admin_id');
+    }          
 }
