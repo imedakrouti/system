@@ -120,4 +120,24 @@ class DepartmentController extends Controller
         }
         return response(['status'=>true]);
     }
+    public function getDepartmentsBySectorId ()
+    {
+        $output = "";
+        $departments = "";
+        if (request()->has('sector_id'))
+        {
+            $departments = Department::where('sector_id',request('sector_id'))->get();       
+        }
+
+        foreach ($departments as $department) {
+            $selected = '';
+            if (request()->has('id'))
+            {
+                $selected = $department->id == request('id')?"selected":"";
+            }
+               $department_name = session('lang')=='ar'?$department->ar_department:$department->en_department;
+            $output .= ' <option '.$selected.' value="'.$department->id.'">'.$department_name.'</option>';
+        };
+        return json_encode($output);
+    }
 }

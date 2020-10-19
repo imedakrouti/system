@@ -15,7 +15,7 @@ class AddColumnEmployeeTestsTable extends Migration
     {
         Schema::table('tests', function (Blueprint $table) {
             $table->unsignedBigInteger('employee_id');
-            $table->foreign('employee_id')->references('id')->on('employees');
+            // $table->foreign('employee_id')->references('id')->on('employees');
         });
     }
 

@@ -6,7 +6,7 @@ Route::post('sectors/destroy','SectorController@destroy')->name('sectors.destroy
 // Departments
 Route::resource('departments','DepartmentController')->except('show','destroy');
 Route::post('departments/destroy','DepartmentController@destroy')->name('departments.destroy');
-
+Route::put('departments/get/all','DepartmentController@getDepartmentsBySectorId')->name('getDepartmentsBySectorId');    
 // Sections
 Route::resource('sections','SectionController')->except('show','destroy');
 Route::post('sections/destroy','SectionController@destroy')->name('sections.destroy');
@@ -18,14 +18,15 @@ Route::post('positions/destroy','PositionController@destroy')->name('positions.d
 // Documents
 Route::resource('documents','DocumentController')->except('show','destroy');
 Route::post('documents/destroy','DocumentController@destroy')->name('documents.destroy');
-
+Route::put('documents/get/selected','DocumentController@getDocumentsSelected')->name('getDocumentsSelected');    
 // Skills
 Route::resource('skills','SkillController')->except('show','destroy');
 Route::post('skills/destroy','SkillController@destroy')->name('skills.destroy');
-
+Route::put('skills/get/selected','SkillController@getSkillsSelected')->name('getSkillsSelected');    
 // Holidays
 Route::resource('holidays','HolidayController')->except('show','destroy');
 Route::post('holidays/destroy','HolidayController@destroy')->name('holidays.destroy');
+Route::put('holidays/get/selected','HolidayController@getHolidaysSelected')->name('getHolidaysSelected');    
 
 Route::resource('holidays/holidays-days','HolidayDayController')->except('show','destroy','index','create','edit','update');
 Route::get('holidays/holidays-days/index/{id}','HolidayDayController@index')->name('holidays-days.index');

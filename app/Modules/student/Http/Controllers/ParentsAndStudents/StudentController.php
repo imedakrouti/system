@@ -225,7 +225,7 @@ class StudentController extends Controller
         }        
         DB::transaction(function () use ($request) {        
             $this->uploadStudentImage($request->id);
-            $student = $request->user()->students()->create($request->only($this->studentAttributes()) 
+            $student = $request->user()->students()->firstOrCreate($request->only($this->studentAttributes()) 
             + [
                 'student_image' => $this->student_image,
                 'student_number'=> $this->studentNumber(),

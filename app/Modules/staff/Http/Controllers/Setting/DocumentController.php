@@ -4,7 +4,7 @@ namespace Staff\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use Staff\Http\Requests\DocumentRequest;
 use Staff\Models\Settings\Document;
-
+use DB;
 class DocumentController extends Controller
 {
     /**
@@ -109,5 +109,28 @@ class DocumentController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function getDocumentsSelected()
+    {        
+        $employee_id = request()->get('employee_id');        
+        $output = "";
+        
+        $documents = Document::sort()->get();
+        foreach ($documents as $document) {
+            
+            $document_id = DB::table('employee_documents')->select('document_id')
+            ->where('employee_id',$employee_id)->where('document_id',$document->id)->first();
+            
+            $documentValue = !empty($document_id->document_id)?$document_id->document_id:0;
+            
+            $checked = $document->id == $documentValue ?"checked":"";
+            $documentName = session('lang')== 'ar'?$document->ar_document:$document->en_document;
+            $output .= '<h5><li><label class="pos-rel">
+                        <input type="checkbox" class="ace" name="document_id[]" '.$checked.' value="'.$document->id.'" />
+                        <span class="lbl"></span> '.$documentName.'
+                    </label></li></h5>';
+        };
+        
+        return json_encode($output);
     }
 }

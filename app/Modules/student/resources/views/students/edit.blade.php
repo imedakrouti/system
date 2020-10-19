@@ -97,11 +97,11 @@
             $.ajax({
               type:'POST',
               url:'{{route("getStepsSelected")}}',
-          data: {
-              _method : 'PUT',
-              id      : id,
-              _token  : '{{ csrf_token() }}'
-            },
+              data: {
+                  _method : 'PUT',
+                  id      : id,
+                  _token  : '{{ csrf_token() }}'
+                },
               dataType:'json',
               success:function(data){
                 $('#stepId').html(data);

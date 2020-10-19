@@ -174,10 +174,10 @@ class Admin extends Authenticatable
     {
         return $q->where('status','enable');
     }
-    public function employees()
-    {
-        return $this->hasMany('Student\Models\Students\Student','employee_id');
-    }
+    // public function employees()
+    // {
+    //     return $this->hasMany('Student\Models\Students\Student','employee_id');
+    // }
     public function assessments()
     {
         return $this->hasMany('Student\Models\Admissions\Assessment','admin_id');
@@ -294,7 +294,7 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Settings\Timetable','admin_id');
     }   
-    public function employee()
+    public function employees()
     {
         return $this->hasMany('Staff\Models\Employees\Employee','admin_id');
     }          

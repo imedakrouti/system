@@ -89,4 +89,12 @@ div.dataTables_wrapper div.dataTables_length label {
 .sibling-image{
     width: 40px;height: 40px;border-radius: 25%;border:1px solid #d1d2d5;
 }
-    
+.nav-vertical .nav-left.nav-tabs li.nav-item a.nav-link {
+    min-width: 10.5rem;    
+}
+.nav-vertical .nav-left.nav-tabs.nav-border-left li.nav-item a.nav-link {
+    color: #168dee;
+}
+.nav-vertical .nav-left.nav-tabs.nav-border-left li.nav-item a.nav-link.active {
+    border-right: 3px solid #168dee; 
+}

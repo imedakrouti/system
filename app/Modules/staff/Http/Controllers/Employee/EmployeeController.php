@@ -6,6 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Staff\Http\Requests\EmployeeRequest;
 use Staff\Models\Employees\Employee;
+use Staff\Models\Settings\Document;
+use Staff\Models\Settings\Holiday;
+use Staff\Models\Settings\Position;
+use Staff\Models\Settings\Section;
+use Staff\Models\Settings\Sector;
+use Staff\Models\Settings\Skill;
+use Staff\Models\Settings\Timetable;
+use DB;
+use Staff\Models\Settings\Department;
 
 class EmployeeController extends Controller
 {
@@ -17,7 +26,7 @@ class EmployeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Employee::sort()->get();
+            $data = Employee::orderBy('attendance_id','asc')->get();
             return datatables($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
@@ -47,8 +56,16 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        $title = trans('staff::local.new_employee');
+        $sectors = Sector::sort()->get();
+        $sections = Section::sort()->get();
+        $positions = Position::sort()->get();
+        $documents = Document::sort()->get();
+        $skills = Skill::sort()->get();
+        $holidays = Holiday::sort()->get();
+        $timetables = Timetable::all();
         return view('staff::employees.create',
-        ['title'=>trans('staff::local.new_employee')]);
+        compact('title','sectors','sections','positions','timetables','documents','skills','holidays'));
     }
     private function attributes()
     {
@@ -100,8 +117,7 @@ class EmployeeController extends Controller
             'bank_account',
             'leave_balance',
             'bus_value',
-            'vacation_allocated',
-            'holiday_id',
+            'vacation_allocated',            
             'sector_id',
             'department_id',
             'section_id',
@@ -120,11 +136,57 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeRequest $request)
     {
-        $request->user()->employees()->create($request->only($this->attributes()));        
+        // dd(request()->all());
+        DB::transaction(function() use ($request){
+            $employee = [];
+            $employee = $request->user()->employees()->firstOrCreate($request->only($this->attributes()));        
+            $this->employeeDocuments($employee->id);
+            $this->employeeHolidays($employee->id);
+            $this->employeeSkills($employee->id);
+        });
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('employees.index');
     }
 
+    private function employeeDocuments($employee_id)
+    {
+        DB::table('employee_documents')->where('employee_id',$employee_id)->delete();
+        if (request()->has('document_id'))
+        {
+            foreach (request('document_id') as  $id) {
+                DB::table('employee_documents')->insert([
+                    'employee_id'          => $employee_id,
+                    'document_id'          => $id                    
+                ]);
+            }
+        }
+    }
+    private function employeeHolidays($employee_id)
+    {
+        DB::table('employee_holidays')->where('employee_id',$employee_id)->delete();
+        if (request()->has('holiday_id'))
+        {
+            foreach (request('holiday_id') as  $id) {
+                DB::table('employee_holidays')->insert([
+                    'employee_id'         => $employee_id,
+                    'holiday_id'          => $id                    
+                ]);
+            }
+        }
+    }
+    private function employeeSkills($employee_id)
+    {
+        DB::table('employee_skills')->where('employee_id',$employee_id)->delete();
+        if (request()->has('skill_id'))
+        {
+            foreach (request('skill_id') as  $id) {
+                DB::table('employee_skills')->insert([
+                    'employee_id'       => $employee_id,
+                    'skill_id'          => $id                    
+                ]);
+            }
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -144,8 +206,15 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
+        $title = trans('staff::local.edit_employee');
+        $sectors = Sector::sort()->get();
+        $departments = Department::sort()->get();
+        $sections = Section::sort()->get();
+        $positions = Position::sort()->get();        
+        $timetables = Timetable::all();
+
         return view('staff::employees.edit',
-        ['title'=>trans('staff::local.edit_employee'),'employee'=>$employee]);
+       compact('employee','title','sectors','sections','positions','timetables','departments'));
     }
 
     /**
@@ -156,8 +225,14 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Employee $employee)
-    {
-        $employee->update($request->only($this->attributes()));
+    {     
+        DB::transaction(function() use ($request,$employee){
+          
+            $employee->update($request->only($this->attributes()));       
+            $this->employeeDocuments($employee->id);
+            $this->employeeHolidays($employee->id);
+            $this->employeeSkills($employee->id);
+        });
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('employees.index');
     }

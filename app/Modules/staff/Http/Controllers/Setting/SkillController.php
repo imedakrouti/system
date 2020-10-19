@@ -4,7 +4,7 @@ namespace Staff\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use Staff\Http\Requests\SkillRequest;
 use Staff\Models\Settings\Skill;
-
+use DB;
 class SkillController extends Controller
 {
     /**
@@ -109,5 +109,28 @@ class SkillController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function getSkillsSelected()
+    {        
+        $employee_id = request()->get('employee_id');        
+        $output = "";
+        
+        $skills = Skill::sort()->get();
+        foreach ($skills as $skill) {
+            
+            $skill_id = DB::table('employee_skills')->select('skill_id')
+            ->where('employee_id',$employee_id)->where('skill_id',$skill->id)->first();
+            
+            $skillValue = !empty($skill_id->skill_id)?$skill_id->skill_id:0;
+            
+            $checked = $skill->id == $skillValue ?"checked":"";
+            $skillName = session('lang')== 'ar'?$skill->ar_skill:$skill->en_skill;
+            $output .= '<h5><li><label class="pos-rel">
+                        <input type="checkbox" class="ace" name="skill_id[]" '.$checked.' value="'.$skill->id.'" />
+                        <span class="lbl"></span> '.$skillName.'
+                    </label></li></h5>';
+        };
+        
+        return json_encode($output);
     }
 }

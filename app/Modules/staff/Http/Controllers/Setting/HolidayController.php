@@ -3,8 +3,9 @@
 namespace Staff\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use Staff\Http\Requests\HolidayRequest;
+use Staff\Models\Settings\Document;
 use Staff\Models\Settings\Holiday;
-
+use DB;
 class HolidayController extends Controller
 {
     /**
@@ -114,5 +115,28 @@ class HolidayController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function getHolidaysSelected()
+    {        
+        $employee_id = request()->get('employee_id');        
+        $output = "";
+        
+        $holidays = Holiday::sort()->get();
+        foreach ($holidays as $holiday) {
+            
+            $holiday_id = DB::table('employee_holidays')->select('holiday_id')
+            ->where('employee_id',$employee_id)->where('holiday_id',$holiday->id)->first();
+            
+            $holidayValue = !empty($holiday_id->holiday_id)?$holiday_id->holiday_id:0;
+            
+            $checked = $holiday->id == $holidayValue ?"checked":"";
+            $holidayName = session('lang')== 'ar'?$holiday->ar_holiday:$holiday->en_holiday;
+            $output .= '<h5><li><label class="pos-rel">
+                        <input type="checkbox" class="ace" name="holiday_id[]" '.$checked.' value="'.$holiday->id.'" />
+                        <span class="lbl"></span> '.$holidayName.'
+                    </label></li></h5>';
+        };
+        
+        return json_encode($output);
     }
 }

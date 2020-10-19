@@ -58,15 +58,14 @@ class Employee extends Model
         'bank_account',
         'leave_balance',
         'bus_value',
-        'vacation_allocated',
-        'holiday_id',
+        'vacation_allocated',        
         'sector_id',
         'department_id',
         'section_id',
         'position_id',
         'timetable_id',
-        'admin_id',
         'direct_manager_id',            
+        'admin_id',
     ];
 
     public function admins()
