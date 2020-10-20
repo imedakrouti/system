@@ -212,6 +212,14 @@
                     </div>
                 </div>
             </div>  
+            <div class="row" style="margin-left: 0;">
+              <div class="col-lg-4 col-md-4">
+                  <div class="form-group">
+                    <label >{{ trans('staff::local.employee_image') }}</label>
+                    <input  type="file" name="employee_image"/>                
+                  </div>
+                </div>
+            </div>  
 
         </div>
         {{-- personal data --}}
@@ -228,8 +236,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.gender') }}</label>
-                      <select name="gender" class="form-control">
-                        <option value="">{{ trans('staff::local.select') }}</option>    
+                      <select name="gender" class="form-control">                        
                         <option {{old('gender') =='male' ? 'selected':'' }} value="male">{{ trans('staff::local.male') }}</option>    
                         <option {{old('gender') =='female' ? 'selected':'' }} value="female">{{ trans('staff::local.female') }}</option>    
                       </select>                                          
@@ -641,8 +648,8 @@
                   <label>{{ trans('staff::local.leaved') }}</label>
                   <select name="leaved" class="form-control">
                     <option value="">{{ trans('staff::local.select') }}</option>    
-                    <option {{old('leaved') =='Yes' ? 'selected':'' }} value="Yes">{{ trans('staff::local.yes') }}</option>                                            
                     <option {{old('leaved') =='No' ? 'selected':'' }} value="No">{{ trans('staff::local.no') }}</option>                                                
+                    <option {{old('leaved') =='Yes' ? 'selected':'' }} value="Yes">{{ trans('staff::local.yes') }}</option>                                            
                   </select>                                          
                 </div>
             </div>

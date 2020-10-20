@@ -83,7 +83,13 @@ return [
             'root' => storage_path('app/public/images/studentsImages'),
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
-        ],                  
+        ],     
+        'employeesImages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/employeesImages'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ],               
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

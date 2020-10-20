@@ -18,6 +18,7 @@ use Staff\Models\Settings\Department;
 
 class EmployeeController extends Controller
 {
+    private $employee_image;
     /**
      * Display a listing of the resource.
      *
@@ -26,27 +27,17 @@ class EmployeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Employee::orderBy('attendance_id','asc')->get();
-            return datatables($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('employees.edit',$data->id).'">
-                           <i class=" la la-edit"></i>
-                       </a>';
-                            return $btn;
-                    })
-                    ->addColumn('check', function($data){
-                           $btnCheck = '<label class="pos-rel">
-                                        <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
-                                        <span class="lbl"></span>
-                                    </label>';
-                            return $btnCheck;
-                    })
-                    ->rawColumns(['action','check'])
-                    ->make(true);
+            $data = Employee::with('sector','section','department','position')->orderBy('attendance_id','asc')->get();
+            return $this->dataTable($data);
         }
+        $sectors = Sector::sort()->get();
+        $sections = Section::sort()->get();
+        $positions = Position::sort()->get();
+        $documents = Document::sort()->get();
+        $title = trans('staff::local.employees');
+
         return view('staff::employees.index',
-        ['title'=>trans('staff::local.employees')]);   
+       compact('sectors','sections','positions','documents','title'));   
     }
 
     /**
@@ -135,11 +126,12 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(EmployeeRequest $request)
-    {
-        // dd(request()->all());
+    {                
         DB::transaction(function() use ($request){
+            $this->uploadEmployeeImage($request->id);
             $employee = [];
-            $employee = $request->user()->employees()->firstOrCreate($request->only($this->attributes()));        
+            $employee = $request->user()->employees()->firstOrCreate($request->only($this->attributes())+
+            ['employee_image' => $this->employee_image]);        
             $this->employeeDocuments($employee->id);
             $this->employeeHolidays($employee->id);
             $this->employeeSkills($employee->id);
@@ -224,11 +216,17 @@ class EmployeeController extends Controller
      * @param  \App\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(EmployeeRequest $request, Employee $employee)
     {     
         DB::transaction(function() use ($request,$employee){
-          
-            $employee->update($request->only($this->attributes()));       
+            if (request()->has('employee_image')) {
+                $this->uploadEmployeeImage($employee->id);                    
+                $employee->update($request->only($this->attributes())
+                + ['employee_image' => $this->employee_image]);                
+            } else{
+                $employee->update($request->only($this->attributes()));
+            }
+            
             $this->employeeDocuments($employee->id);
             $this->employeeHolidays($employee->id);
             $this->employeeSkills($employee->id);
@@ -255,4 +253,134 @@ class EmployeeController extends Controller
         }
         return response(['status'=>true]);
     }
+    private function getFullEmployeeName($data)
+    {
+        $employee_name = '';
+        if (session('lang') == 'ar') {
+            $employee_name = '<a href="'.route('employees.show',$data->id).'">' .$data->ar_st_name . ' ' . $data->ar_nd_name.
+            ' ' . $data->ar_rd_name.' ' . $data->ar_th_name.'</a>';
+        }else{
+            $employee_name = '<a href="'.route('employees.show',$data->id).'">' .$data->en_st_name . ' ' . $data->en_nd_name.
+            ' ' . $data->th_rd_name.' ' . $data->th_th_name.'</a>';
+        }
+        return $employee_name;
+    }
+    private function workingData($data)
+    {
+        $sector = '';
+        if (!empty($data->sector->ar_sector)) {
+            $sector = session('lang') == 'ar' ?  '<span class="blue">'.$data->sector->ar_sector . '</span>': '<span class="blue">'.$data->sector->en_sector . '</span>';            
+        }
+        $department = '';
+        if (!empty($data->department->ar_department)) {
+            $department = session('lang') == 'ar' ?  '<span class="purple">'.$data->department->ar_department . '</span>': '<span class="blue">'.$data->department->en_department . '</span>';            
+        }
+        $section = '';
+        if (!empty($data->section->ar_section)) {
+            $section = session('lang') == 'ar' ?  '<span class="red">'.$data->section->ar_section . '</span>': '<span class="blue">'.$data->section->en_section . '</span>';            
+        }
+        return $sector . ' '. $department . '<br>' .  $section ;
+    }
+    private function reports($data)
+    {
+        return '<div class="btn-group mr-1 mb-1">
+                <button type="button" class="btn btn-primary"> '.trans('student::local.reports').'</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">                    
+                    <a target="_blank" class="dropdown-item" href="'.route('students.print',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.hr_letter_form').'</a>                                             
+                    <a target="_blank" class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_leave_form').'</a>
+                    <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_experience_form').'</a>                                
+                    <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_vacation_form').'</a>                                
+                    <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_loan_form').'</a>                                
+                </div>
+            </div>';
+    }
+    private function dataTable($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('action', function($data){
+               $btn = '<a class="btn btn-warning btn-sm" href="'.route('employees.edit',$data->id).'">
+               <i class=" la la-edit"></i>
+           </a>';
+                return $btn;
+        })
+        ->addColumn('employee_name',function($data){
+            return $this->getFullEmployeeName($data);
+        })
+        ->addColumn('employee_image',function($data){
+            return $this->employeeImage($data);
+        })
+        ->addColumn('mobile',function($data){
+            return $data->mobile1 .'<br>'.$data->mobile2;
+        })
+        ->addColumn('working_data',function($data){
+            return $this->workingData($data);
+        })
+        ->addColumn('reports',function($data){
+            return $this->reports($data);
+        })
+        ->addColumn('position',function($data){
+            return !empty($data->position->ar_position)?
+            (session('lang') == 'ar'?$data->position->ar_position:$data->position->en_position):'';
+        })
+        ->addColumn('check', function($data){
+               $btnCheck = '<label class="pos-rel">
+                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                            <span class="lbl"></span>
+                        </label>';
+                return $btnCheck;
+        })
+        ->rawColumns(['action','check','employee_name','mobile','working_data','position','reports','employee_image'])
+        ->make(true);
+    }
+    public function filter()
+    {
+        if (request()->ajax()) {
+            
+            $sector_id = empty(request('sector_id')) ? ['employees.sector_id','<>', ''] :['sector_id', request('sector_id')]   ;
+            $department_id = empty(request('department_id')) ? ['employees.department_id','<>', ''] :['department_id', request('department_id')]   ;
+            $section_id = empty(request('section_id')) ? ['employees.section_id','<>', ''] :['section_id', request('section_id')]   ;
+            $position_id = empty(request('position_id')) ? ['employees.position_id','<>', ''] :['position_id', request('position_id')]   ;
+            $leaved = empty(request('leaved')) ? ['employees.leaved','<>', ''] :['leaved', request('leaved')]   ;
+            
+            $whereData = [$sector_id, $department_id, $section_id, $position_id,$leaved];
+                    
+            $data = Employee::with('sector','section','department','position')
+            ->where($whereData)         
+            ->orderBy('attendance_id','asc')
+            ->get();
+            return $this->dataTable($data);
+        }
+    }
+
+    private function uploadEmployeeImage($employee_id)
+    {
+        if (request()->hasFile('employee_image'))
+        {
+            $employee = Employee::findOrFail($employee_id);
+            $image_path = public_path()."/images/employeesImages/".$employee->employee_image;                                                    
+            $this->employee_image = uploadFileOrImage($image_path,request('employee_image'),'images/employeesImages'); 
+        } 
+    }
+
+    private function employeeImage($data)
+    {
+        $employee_id = isset($data->id) ? $data->id : $data->employee_id;   
+        $image_path = $data->gender == 'male' ? 'images/website/male.png' : 'images/website/female.png';     
+        return !empty($data->employee_image)?
+            '<a href="'.route('employees.show',$employee_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset('images/employeesImages/'.$data->employee_image).'" />
+            </a>':
+            '<a href="'.route('employees.show',$employee_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset($image_path).'" />
+            </a>';
+    }
+
 }
+// src="'.asset('images/website/'.$data->gender == "male"? "male.png":"female.png").'" />

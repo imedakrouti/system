@@ -23,7 +23,7 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body">
-            <form class="form form-horizontal" method="POST" action="{{route('employees.store')}}">
+            <form class="form form-horizontal" method="POST" action="{{route('employees.store')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>

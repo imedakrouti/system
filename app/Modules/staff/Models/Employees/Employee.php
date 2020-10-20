@@ -66,6 +66,7 @@ class Employee extends Model
         'timetable_id',
         'direct_manager_id',            
         'admin_id',
+        'employee_image'
     ];
 
     public function admins()

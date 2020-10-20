@@ -21,6 +21,9 @@
     </div>
 </div>
 
+@include('staff::employees.includes._filter')
+
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -38,8 +41,13 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('staff::local.ar_st_name')}}</th>
+                                <th>{{trans('staff::local.employee_image')}}</th>
                                 <th>{{trans('staff::local.attendance_id')}}</th>                                
+                                <th>{{trans('staff::local.employee_name')}}</th>
+                                <th>{{trans('staff::local.mobile')}}</th>
+                                <th>{{trans('staff::local.working_data')}}</th>
+                                <th>{{trans('staff::local.position')}}</th>
+                                <th>{{trans('staff::local.reports')}}</th>
                                 <th>{{trans('staff::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -78,14 +86,76 @@
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'ar_st_name',          name: 'ar_st_name'},
+              {data: 'employee_image',      name: 'employee_image'},              
               {data: 'attendance_id',       name: 'attendance_id'},              
+              {data: 'employee_name',       name: 'employee_name'},
+              {data: 'mobile',              name: 'mobile'},
+              {data: 'working_data',        name: 'working_data'},
+              {data: 'position',            name: 'position'},
+              {data: 'reports',             name: 'reports'},
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });
+
+    function filter()
+    {
+      event.preventDefault();
+      $('#dynamic-table').DataTable().destroy();
+      var sector_id 		  = $('#filter_sector_id').val();
+      var department_id   = $('#filter_department_id').val();
+      var section_id 		  = $('#filter_section_id').val();
+      var position_id     = $('#filter_position_id').val();
+      var leaved 	        = $('#filter_leaved').val();
+      var myTable = $('#dynamic-table').DataTable({
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
+        buttons: [
+                // new btn
+                {
+                    "text": "{{trans('staff::local.new_employee')}}",
+                    "className": "btn btn-success buttons-print btn-success mr-1",
+                    action : function ( e, dt, node, config ) {
+                        window.location.href = "{{route('employees.create')}}";
+                        }
+                },
+                // delete btn
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'employees.destroy'])
+
+                // default btns
+                @include('layouts.backEnd.includes.datatables._datatableBtn')
+            ],
+        ajax:{
+            type:'POST',
+            url:'{{route("employees.filter")}}',
+            data: {
+                _method       : 'PUT',
+                sector_id     : sector_id,
+                section_id    : section_id,
+                department_id : department_id,                            
+                position_id   : position_id,
+                leaved        : leaved,
+                _token        : '{{ csrf_token() }}'
+            }
+          },
+          // columns
+          columns: [
+              {data: 'check',               name: 'check', orderable: false, searchable: false},
+              {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
+              {data: 'employee_image',      name: 'employee_image'},              
+              {data: 'attendance_id',       name: 'attendance_id'},              
+              {data: 'employee_name',       name: 'employee_name'},
+              {data: 'mobile',              name: 'mobile'},
+              {data: 'working_data',        name: 'working_data'},
+              {data: 'position',            name: 'position'},
+              {data: 'reports',             name: 'reports'},
+              {data: 'action', 	            name: 'action', orderable: false, searchable: false},
+          ],
+          @include('layouts.backEnd.includes.datatables._datatableLang')
+      });
+      @include('layouts.backEnd.includes.datatables._multiSelect')
+    }        
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

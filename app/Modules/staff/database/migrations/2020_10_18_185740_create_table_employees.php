@@ -15,7 +15,7 @@ class CreateTableEmployees extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('attendance_id');
+            $table->integer('attendance_id')->unique();
             $table->string('ar_st_name',25);
             $table->string('ar_nd_name',25);
             $table->string('ar_rd_name',25);
@@ -62,16 +62,14 @@ class CreateTableEmployees extends Migration
             $table->string('bank_account')->nullable();                                    
             $table->integer('leave_balance')->nullable();
             $table->integer('bus_value')->nullable();
-            $table->integer('vacation_allocated')->nullable();
-            $table->unsignedBigInteger('holiday_id')->nullable();
+            $table->integer('vacation_allocated')->nullable();            
             $table->unsignedBigInteger('sector_id')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('section_id')->nullable();
             $table->unsignedBigInteger('position_id')->nullable();
             $table->unsignedBigInteger('timetable_id')->nullable();
             $table->unsignedBigInteger('admin_id');
-            $table->unsignedBigInteger('direct_manager_id')->nullable();
-            $table->foreign('holiday_id')->references('id')->on('holidays')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('direct_manager_id')->nullable();            
             $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade')->onUpdate('cascade');

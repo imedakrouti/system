@@ -23,7 +23,7 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body">
-            <form class="form form-horizontal" method="POST" action="{{route('employees.update',$employee->id)}}">
+            <form class="form form-horizontal" method="POST" action="{{route('employees.update',$employee->id)}}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-body">

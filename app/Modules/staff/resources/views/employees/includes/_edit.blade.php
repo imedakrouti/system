@@ -211,8 +211,16 @@
                         name="vacation_allocated">                                            
                     </div>
                 </div>
+            </div>
+              
+            <div class="row" style="margin-left: 0;">
+              <div class="col-lg-4 col-md-4">
+                  <div class="form-group">
+                    <label >{{ trans('staff::local.employee_image') }}</label>
+                    <input  type="file" name="employee_image"/>                
+                  </div>
+                </div>
             </div>  
-
         </div>
         {{-- personal data --}}
         <div class="tab-pane" id="tabVerticalLeft12" aria-labelledby="baseVerticalLeft1-tab2">
@@ -228,8 +236,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.gender') }}</label>
-                      <select name="gender" class="form-control">
-                        
+                      <select name="gender" class="form-control">                        
                         <option {{old('gender',$employee->gender) =='male' ? 'selected':'' }} value="male">{{ trans('staff::local.male') }}</option>    
                         <option {{old('gender',$employee->gender) =='female' ? 'selected':'' }} value="female">{{ trans('staff::local.female') }}</option>    
                       </select>                                          
@@ -639,10 +646,10 @@
                 <div class="form-group">
                   <label>{{ trans('staff::local.leaved') }}</label>
                   <select name="leaved" class="form-control">                    
-                    <option {{old('leaved',$employee->leaved) =='Yes' ||
-                    old('leaved',$employee->leaved) == trans('staff::local.yes') ? 'selected':'' }} value="Yes">{{ trans('staff::local.yes') }}</option>                                            
                     <option {{old('leaved',$employee->leaved) =='No' ||
                     old('leaved',$employee->leaved) == trans('staff::local.no') ? 'selected':'' }} value="No">{{ trans('staff::local.no') }}</option>                                                
+                    <option {{old('leaved',$employee->leaved) =='Yes' ||
+                    old('leaved',$employee->leaved) == trans('staff::local.yes') ? 'selected':'' }} value="Yes">{{ trans('staff::local.yes') }}</option>                                            
                   </select>                                          
                 </div>
             </div>
