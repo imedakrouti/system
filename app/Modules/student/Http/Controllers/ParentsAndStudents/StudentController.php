@@ -57,7 +57,8 @@ class StudentController extends Controller
     }
     private function studentImage($data)
     {
-        $student_id = isset($data->id) ? $data->id : $data->student_id;        
+        $student_id = isset($data->id) ? $data->id : $data->student_id; 
+        $path_image = $data->gender == trans('student::local.male') ? 'images/studentsImages/37.jpeg' : 'images/studentsImages/39.png';       
         return !empty($data->student_image)?
             '<a href="'.route('students.show',$student_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
@@ -65,7 +66,7 @@ class StudentController extends Controller
             </a>':
             '<a href="'.route('students.show',$student_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                src="'.asset('images/studentsImages/37.jpeg').'" />
+                src="'.asset($path_image).'" />
             </a>';
     }
 
