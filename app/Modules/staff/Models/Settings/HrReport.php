@@ -12,6 +12,7 @@ class HrReport extends Model
         'employee_leave',
         'employee_experience',
         'employee_vacation',
+        'employee_loan',
         'admin_id',        
     ];
     

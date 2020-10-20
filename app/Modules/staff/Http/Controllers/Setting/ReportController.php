@@ -65,4 +65,19 @@ class ReportController extends Controller
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('employee-vacation.get');  
     }
+
+    public function hrLoan()
+    {
+        $title = trans('staff::local.employee_loan_form');
+        $content = HrReport::first();
+        return view('staff::settings.reports-forms.employee-loan',
+        compact('title','content'));
+    }
+    public function updateHrLoan()
+    {
+        $report = HrReport::first();
+        $report->update(request()->only(['employee_loan'])); 
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('employee-loan.get');  
+    }
 }

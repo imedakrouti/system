@@ -203,7 +203,9 @@
                       <li class="{{request()->segment(3)=='employee-experience'?'active':''}}"><a class="menu-item" href="{{route('employee-experience.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('staff::local.employee_experience_form') }}</a>
                       </li>
                       <li class="{{request()->segment(3)=='employee-vacation'?'active':''}}"><a class="menu-item" href="{{route('employee-vacation.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_vacation_form') }}</a>
-                      </li>                       
+                      </li>      
+                      <li class="{{request()->segment(3)=='employee-loan'?'active':''}}"><a class="menu-item" href="{{route('employee-loan.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_loan_form') }}</a>
+                      </li>                  
                     </ul>
                 </li>                    
                 <li class="{{request()->segment(3)=='sectors'?'active':''}}"><a class="menu-item" href="{{route('sectors.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.sectors') }}</a></li>           

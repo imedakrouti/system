@@ -55,6 +55,9 @@ Route::post('employee-experience/report-form','ReportController@updateHrExperien
 Route::get('employee-vacation/report-form','ReportController@hrVacation')->name('employee-vacation.get');  
 Route::post('employee-vacation/report-form','ReportController@updateHrVacation')->name('employee-vacation.update');  
 
+Route::get('employee-loan/report-form','ReportController@hrLoan')->name('employee-loan.get');  
+Route::post('employee-loan/report-form','ReportController@updateHrLoan')->name('employee-loan.update');  
+
 // External code
 Route::resource('external-codes','ExternalCodeController')->except('show','destroy');
 Route::post('external-codes/destroy','ExternalCodeController@destroy')->name('external-codes.destroy');
