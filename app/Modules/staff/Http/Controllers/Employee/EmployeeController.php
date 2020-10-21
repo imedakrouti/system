@@ -412,7 +412,7 @@ class EmployeeController extends Controller
         $footer = HrReport::first()->footer;
         $content = HrReport::first()->hr_letter;
         
-        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        $employee = Employee::where('id',$id)->with('sector','department','section','position')->first();
         
         $employee_name = strip_tags($this->getFullEmployeeName($employee));
         $employee_national_id = $employee->national_id;
@@ -422,7 +422,7 @@ class EmployeeController extends Controller
         $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
         
         
-        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $hiring_date = !empty($employee->hiring_date) ? \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d"):'';
         $salary = $employee->salary;
         
         $content = str_replace('employee_name',$employee_name ,$content);        
@@ -466,7 +466,7 @@ class EmployeeController extends Controller
         $footer = HrReport::first()->footer;
         $content = HrReport::first()->employee_vacation;
         
-        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        $employee = Employee::where('id',$id)->with('sector','department','section','position')->first();
         
         $employee_name = strip_tags($this->getFullEmployeeName($employee));
         $employee_national_id = $employee->national_id;
@@ -514,15 +514,15 @@ class EmployeeController extends Controller
         $footer = HrReport::first()->footer;
         $content = HrReport::first()->employee_leave;
         
-        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
-        
+        $employee = Employee::where('id',$id)->with('sector','department','section','position')->first();
+    
         $employee_name = strip_tags($this->getFullEmployeeName($employee));
         $employee_national_id = $employee->national_id;
         $sector = !empty($employee->sector->ar_sector) ? (session('lang') == 'ar' ? $employee->sector->ar_sector : $employee->sector->en_sector):'';
         $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
         $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
         $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
-        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $hiring_date = !empty($employee->hiring_date) ? \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d"):'';
         $leave_date = !empty($employee->leave_date)? (\Carbon\Carbon::createFromFormat('Y-m-d', $employee->leave_date)->format("Y/m/d")):'';
         
         $content = str_replace('employee_name',$employee_name ,$content);        
@@ -565,7 +565,7 @@ class EmployeeController extends Controller
         $footer = HrReport::first()->footer;
         $content = HrReport::first()->employee_experience;
         
-        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        $employee = Employee::where('id',$id)->with('sector','department','section','position')->first();
         
         $employee_name = strip_tags($this->getFullEmployeeName($employee));
         $employee_national_id = $employee->national_id;
@@ -573,7 +573,7 @@ class EmployeeController extends Controller
         $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
         $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
         $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
-        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $hiring_date = !empty($employee->hiring_date) ? \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d"):'';
         $leave_date = !empty($employee->leave_date)? (\Carbon\Carbon::createFromFormat('Y-m-d', $employee->leave_date)->format("Y/m/d")):'';
         
         $content = str_replace('employee_name',$employee_name ,$content);        
@@ -616,7 +616,7 @@ class EmployeeController extends Controller
         $footer = HrReport::first()->footer;
         $content = HrReport::first()->employee_loan;
         
-        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        $employee = Employee::where('id',$id)->with('sector','department','section','position')->first();
         
         $employee_name = strip_tags($this->getFullEmployeeName($employee));
         $employee_national_id = $employee->national_id;
@@ -624,7 +624,7 @@ class EmployeeController extends Controller
         $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
         $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
         $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
-        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $hiring_date = !empty($employee->hiring_date) ? \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d"):'';
         $leave_date = !empty($employee->leave_date)? (\Carbon\Carbon::createFromFormat('Y-m-d', $employee->leave_date)->format("Y/m/d")):'';
         
         $content = str_replace('employee_name',$employee_name ,$content);        
