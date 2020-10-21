@@ -44,9 +44,17 @@
                     <td>{{ trans('staff::local.employee_national_id') }}</td>
                   </tr>
                   <tr>
-                    <td>school_name</td>
-                    <td>{{ trans('staff::local.school_name') }}</td>
+                    <td>loan</td>
+                    <td>{{ trans('staff::local.total_loan') }}</td>
                   </tr>  
+                  <tr>
+                    <td>amount</td>
+                    <td>{{ trans('staff::local.loan_amount') }}</td>
+                  </tr>
+                  <tr>
+                    <td>months</td>
+                    <td>{{ trans('staff::local.months_loan') }}</td>
+                  </tr>    
                   <tr>
                     <td>sector</td>
                     <td>{{ trans('staff::local.sector') }}</td>

@@ -43,10 +43,7 @@
                     <td>employee_national_id</td>
                     <td>{{ trans('staff::local.employee_national_id') }}</td>
                   </tr>
-                  <tr>
-                    <td>school_name</td>
-                    <td>{{ trans('staff::local.school_name') }}</td>
-                  </tr>  
+                  
                   <tr>
                     <td>sector</td>
                     <td>{{ trans('staff::local.sector') }}</td>
@@ -67,6 +64,10 @@
                     <td>salary</td>
                     <td>{{ trans('staff::local.salary') }}</td>
                   </tr>   
+                  <tr>
+                    <td>salary_text</td>
+                    <td>{{ trans('staff::local.salary_text') }}</td>
+                  </tr> 
                   <tr>
                     <td>hiring_date</td>
                     <td>{{ trans('staff::local.hiring_date') }}</td>

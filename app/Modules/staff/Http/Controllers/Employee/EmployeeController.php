@@ -293,10 +293,10 @@ class EmployeeController extends Controller
                 </button>
                 <div class="dropdown-menu">                    
                     <a target="_blank" class="dropdown-item" href="'.route('employee.hr-letter',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.hr_letter_form').'</a>                                             
-                    <a target="_blank" class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_leave_form').'</a>
-                    <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_experience_form').'</a>                                
-                    <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_vacation_form').'</a>                                
-                    <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_loan_form').'</a>                                
+                    <a target="_blank" class="dropdown-item" href="'.route('employee.leave',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_leave_form').'</a>
+                    <a target="_blank" class="dropdown-item" href="'.route('employee.experience',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_experience_form').'</a>                                
+                    <a target="_blank" class="dropdown-item" href="'.route('employee.vacation',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_vacation_form').'</a>                                
+                    <a target="_blank" class="dropdown-item" href="'.route('employee.loan',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_loan_form').'</a>                                
                 </div>
             </div>';
     }
@@ -413,12 +413,20 @@ class EmployeeController extends Controller
         
         $employee_name = strip_tags($this->getFullEmployeeName($employee));
         $employee_national_id = $employee->national_id;
-        $position = session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position;
+        $sector = !empty($employee->sector->ar_sector) ? (session('lang') == 'ar' ? $employee->sector->ar_sector : $employee->sector->en_sector):'';
+        $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
+        $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
+        $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
+        
+        
         $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
         $salary = $employee->salary;
         
         $content = str_replace('employee_name',$employee_name ,$content);        
         $content = str_replace('employee_national_id',$employee_national_id ,$content);        
+        $content = str_replace('sector',$sector ,$content);        
+        $content = str_replace('department',$department ,$content);        
+        $content = str_replace('section',$section ,$content);        
         $content = str_replace('position',$position ,$content);        
         $content = str_replace('hiring_date', $hiring_date , $content); 
         $content = str_replace('salary_text', Tafqeet::inArabic($salary,'egp') , $content);        
@@ -448,5 +456,207 @@ class EmployeeController extends Controller
         $pdf = PDF::loadView('staff::employees.reports.hr-letter', $data,[],$config);
         return $pdf->stream(trans('staff::local.hr_letter_form'));
     }
+
+    public function vacationReport($id)
+    {
+        $header = HrReport::first()->header;
+        $footer = HrReport::first()->footer;
+        $content = HrReport::first()->employee_vacation;
+        
+        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        
+        $employee_name = strip_tags($this->getFullEmployeeName($employee));
+        $employee_national_id = $employee->national_id;
+        $sector = !empty($employee->sector->ar_sector) ? (session('lang') == 'ar' ? $employee->sector->ar_sector : $employee->sector->en_sector):'';
+        $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
+        $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
+        $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
+                
+        
+        $content = str_replace('employee_name',$employee_name ,$content);        
+        $content = str_replace('employee_national_id',$employee_national_id ,$content);        
+        $content = str_replace('sector',$sector ,$content);        
+        $content = str_replace('department',$department ,$content);        
+        $content = str_replace('section',$section ,$content);        
+        $content = str_replace('position',$position ,$content);                
+        
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
+        $data = [         
+            'title'                         => trans('staff::local.employee_vacation_form'),       
+            'content'                       => $content,       
+            'logo'                          => logo(),            
+            'header'                        => $header,               
+            'footer'                        => $footer            
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => 10,
+        ]; 
+
+        $pdf = PDF::loadView('staff::employees.reports.hr-letter', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employee_vacation_form'));
+    }
+
+    public function leaveReport($id)
+    {
+        $header = HrReport::first()->header;
+        $footer = HrReport::first()->footer;
+        $content = HrReport::first()->employee_leave;
+        
+        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        
+        $employee_name = strip_tags($this->getFullEmployeeName($employee));
+        $employee_national_id = $employee->national_id;
+        $sector = !empty($employee->sector->ar_sector) ? (session('lang') == 'ar' ? $employee->sector->ar_sector : $employee->sector->en_sector):'';
+        $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
+        $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
+        $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
+        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $leave_date = !empty($employee->leave_date)? (\Carbon\Carbon::createFromFormat('Y-m-d', $employee->leave_date)->format("Y/m/d")):'';
+        
+        $content = str_replace('employee_name',$employee_name ,$content);        
+        $content = str_replace('employee_national_id',$employee_national_id ,$content);        
+        $content = str_replace('sector',$sector ,$content);        
+        $content = str_replace('department',$department ,$content);        
+        $content = str_replace('section',$section ,$content);        
+        $content = str_replace('position',$position ,$content);                
+        $content = str_replace('hiring_date',$hiring_date ,$content);                
+        $content = str_replace('leave_date',$leave_date ,$content);                
+        
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
+        $data = [         
+            'title'                         => trans('staff::local.employee_leave_form'),       
+            'content'                       => $content,       
+            'logo'                          => logo(),            
+            'header'                        => $header,               
+            'footer'                        => $footer            
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => 10,
+        ]; 
+
+        $pdf = PDF::loadView('staff::employees.reports.leave-report', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employee_leave_form'));
+    }
+
+    public function experienceReport($id)
+    {
+        $header = HrReport::first()->header;
+        $footer = HrReport::first()->footer;
+        $content = HrReport::first()->employee_experience;
+        
+        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        
+        $employee_name = strip_tags($this->getFullEmployeeName($employee));
+        $employee_national_id = $employee->national_id;
+        $sector = !empty($employee->sector->ar_sector) ? (session('lang') == 'ar' ? $employee->sector->ar_sector : $employee->sector->en_sector):'';
+        $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
+        $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
+        $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
+        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $leave_date = !empty($employee->leave_date)? (\Carbon\Carbon::createFromFormat('Y-m-d', $employee->leave_date)->format("Y/m/d")):'';
+        
+        $content = str_replace('employee_name',$employee_name ,$content);        
+        $content = str_replace('employee_national_id',$employee_national_id ,$content);        
+        $content = str_replace('sector',$sector ,$content);        
+        $content = str_replace('department',$department ,$content);        
+        $content = str_replace('section',$section ,$content);        
+        $content = str_replace('position',$position ,$content);                
+        $content = str_replace('hiring_date',$hiring_date ,$content);                
+        $content = str_replace('leave_date',$leave_date ,$content);                
+        
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
+        $data = [         
+            'title'                         => trans('staff::local.employee_experience_form'),       
+            'content'                       => $content,       
+            'logo'                          => logo(),            
+            'header'                        => $header,               
+            'footer'                        => $footer            
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => 10,
+        ]; 
+
+        $pdf = PDF::loadView('staff::employees.reports.experience-report', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employee_experience_form'));
+    }
+
+    public function loanReport($id)
+    {
+        $header = HrReport::first()->header;
+        $footer = HrReport::first()->footer;
+        $content = HrReport::first()->employee_loan;
+        
+        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        
+        $employee_name = strip_tags($this->getFullEmployeeName($employee));
+        $employee_national_id = $employee->national_id;
+        $sector = !empty($employee->sector->ar_sector) ? (session('lang') == 'ar' ? $employee->sector->ar_sector : $employee->sector->en_sector):'';
+        $department = !empty($employee->department->ar_department) ? (session('lang') == 'ar' ? $employee->department->ar_department : $employee->department->en_department):'';
+        $section = !empty($employee->section->ar_section) ? (session('lang') == 'ar' ? $employee->section->ar_section : $employee->section->en_section):'';
+        $position = !empty($employee->position->ar_position) ? (session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position):'';
+        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $leave_date = !empty($employee->leave_date)? (\Carbon\Carbon::createFromFormat('Y-m-d', $employee->leave_date)->format("Y/m/d")):'';
+        
+        $content = str_replace('employee_name',$employee_name ,$content);        
+        $content = str_replace('employee_national_id',$employee_national_id ,$content);        
+        $content = str_replace('sector',$sector ,$content);        
+        $content = str_replace('department',$department ,$content);        
+        $content = str_replace('section',$section ,$content);        
+        $content = str_replace('position',$position ,$content);                
+        $content = str_replace('hiring_date',$hiring_date ,$content);                
+        $content = str_replace('leave_date',$leave_date ,$content);                
+        
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
+        $data = [         
+            'title'                         => trans('staff::local.employee_loan_form'),       
+            'content'                       => $content,       
+            'logo'                          => logo(),            
+            'header'                        => $header,               
+            'footer'                        => $footer            
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => 10,
+        ]; 
+
+        $pdf = PDF::loadView('staff::employees.reports.loan-report', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employee_loan_form'));
+    }
+
 
 }

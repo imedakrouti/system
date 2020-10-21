@@ -44,8 +44,28 @@
                     <td>{{ trans('staff::local.employee_national_id') }}</td>
                   </tr>
                   <tr>
-                    <td>school_name</td>
-                    <td>{{ trans('staff::local.school_name') }}</td>
+                    <td>vacation_type</td>
+                    <td>{{ trans('staff::local.vacation_type') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>start_vacation_date</td>
+                    <td>{{ trans('staff::local.start_vacation_date') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>end_vacation_date</td>
+                    <td>{{ trans('staff::local.end_vacation_date') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>start_work_date</td>
+                    <td>{{ trans('staff::local.start_work_date') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>days</td>
+                    <td>{{ trans('staff::local.days_vacation_count') }}</td>
+                  </tr>  
+                  <tr>
+                    <td>substitute_employee</td>
+                    <td>{{ trans('staff::local.substitute_employee') }}</td>
                   </tr>  
                   <tr>
                     <td>sector</td>
@@ -62,15 +82,7 @@
                   <tr>
                     <td>position</td>
                     <td>{{ trans('staff::local.position') }}</td>
-                  </tr>   
-                  <tr>
-                    <td>salary</td>
-                    <td>{{ trans('staff::local.salary') }}</td>
-                  </tr>   
-                  <tr>
-                    <td>hiring_date</td>
-                    <td>{{ trans('staff::local.hiring_date') }}</td>
-                  </tr>                    
+                  </tr>                                      
                   <tr>
                     <td>date</td>
                     <td>{{ trans('staff::local.today_date') }}</td>
