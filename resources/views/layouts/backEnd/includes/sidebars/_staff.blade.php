@@ -196,16 +196,13 @@
             <ul class="menu-content">                
                 <li><a class="menu-item" href="#" data-i18n="nav.form_elements.form_select.main"><i class="la la-folder"></i>{{ trans('student::local.reports_forms') }}</a>
                     <ul class="menu-content">
-                      <li class="{{request()->segment(3)=='hr-letter'?'active':''}}"><a class="menu-item" href="{{route('hr-letter.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.hr_letter_form') }}</a>
-                      </li>
-                      <li class="{{request()->segment(3)=='employee-leave'?'active':''}}"><a class="menu-item" href="{{route('employee-leave.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.employee_leave_form') }}</a>
-                      </li>                      
-                      <li class="{{request()->segment(3)=='employee-experience'?'active':''}}"><a class="menu-item" href="{{route('employee-experience.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('staff::local.employee_experience_form') }}</a>
-                      </li>
-                      <li class="{{request()->segment(3)=='employee-vacation'?'active':''}}"><a class="menu-item" href="{{route('employee-vacation.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_vacation_form') }}</a>
-                      </li>      
-                      <li class="{{request()->segment(3)=='employee-loan'?'active':''}}"><a class="menu-item" href="{{route('employee-loan.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_loan_form') }}</a>
-                      </li>                  
+                      <li class="{{request()->segment(3)=='header'?'active':''}}"><a class="menu-item" href="{{route('header.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.header_form') }}</a></li>
+                      <li class="{{request()->segment(3)=='footer'?'active':''}}"><a class="menu-item" href="{{route('footer.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.footer_form') }}</a></li>
+                      <li class="{{request()->segment(3)=='hr-letter'?'active':''}}"><a class="menu-item" href="{{route('hr-letter.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.hr_letter_form') }}</a></li>                    
+                      <li class="{{request()->segment(3)=='employee-leave'?'active':''}}"><a class="menu-item" href="{{route('employee-leave.get')}}" data-i18n="nav.form_elements.form_select.form_select2"><i class="la la-file-text"></i>{{ trans('staff::local.employee_leave_form') }}</a></li>                      
+                      <li class="{{request()->segment(3)=='employee-experience'?'active':''}}"><a class="menu-item" href="{{route('employee-experience.get')}}" data-i18n="nav.form_elements.form_select.form_selectize"><i class="la la-file-text"></i>{{ trans('staff::local.employee_experience_form') }}</a></li>                      
+                      <li class="{{request()->segment(3)=='employee-vacation'?'active':''}}"><a class="menu-item" href="{{route('employee-vacation.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_vacation_form') }}</a></li>                      
+                      <li class="{{request()->segment(3)=='employee-loan'?'active':''}}"><a class="menu-item" href="{{route('employee-loan.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_loan_form') }}</a></li>                      
                     </ul>
                 </li>                    
                 <li class="{{request()->segment(3)=='sectors'?'active':''}}"><a class="menu-item" href="{{route('sectors.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.sectors') }}</a></li>           

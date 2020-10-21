@@ -6,6 +6,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::post('employees/destroy','EmployeeController@destroy')->name('employees.destroy');
     Route::put('/employees/all/filter','EmployeeController@filter')->name('employees.filter');       
     Route::post('/employees/update-structure','EmployeeController@updateStructure')->name('employees.update-structure');       
+    Route::get('/employees/hr-letter-report/{id}','EmployeeController@hrLetterReport')->name('employee.hr-letter');       
 
 
 

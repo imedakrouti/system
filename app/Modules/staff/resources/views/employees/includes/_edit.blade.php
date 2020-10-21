@@ -391,7 +391,7 @@
                     <select name="position_id" class="form-control select2">
                       <option value="">{{ trans('staff::local.select') }}</option>    
                         @foreach ($positions as $position)
-                            <option {{old('section_id',$employee->section_id) == $position->id ?'selected' : ''}} value="{{$position->id}}">
+                            <option {{old('position_id',$employee->position_id) == $position->id ?'selected' : ''}} value="{{$position->id}}">
                             {{session('lang') == 'ar' ? $position->ar_position:$position->en_position}}</option>
                         @endforeach
                     </select>                                          

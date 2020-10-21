@@ -58,6 +58,11 @@ Route::post('employee-vacation/report-form','ReportController@updateHrVacation')
 Route::get('employee-loan/report-form','ReportController@hrLoan')->name('employee-loan.get');  
 Route::post('employee-loan/report-form','ReportController@updateHrLoan')->name('employee-loan.update');  
 
+Route::get('header/report-form','ReportController@header')->name('header.get');  
+Route::post('header/report-form','ReportController@updateHeader')->name('header.update');  
+
+Route::get('footer/report-form','ReportController@footer')->name('footer.get');  
+Route::post('footer/report-form','ReportController@updateFooter')->name('footer.update');  
 // External code
 Route::resource('external-codes','ExternalCodeController')->except('show','destroy');
 Route::post('external-codes/destroy','ExternalCodeController@destroy')->name('external-codes.destroy');

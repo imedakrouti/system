@@ -2,8 +2,6 @@
 
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
 use Staff\Http\Requests\EmployeeRequest;
 use Staff\Models\Employees\Employee;
 use Staff\Models\Settings\Document;
@@ -13,8 +11,11 @@ use Staff\Models\Settings\Section;
 use Staff\Models\Settings\Sector;
 use Staff\Models\Settings\Skill;
 use Staff\Models\Settings\Timetable;
-use DB;
 use Staff\Models\Settings\Department;
+use Staff\Models\Settings\HrReport;
+use DB;
+use PDF;
+use Carbon;
 
 class EmployeeController extends Controller
 {
@@ -290,7 +291,7 @@ class EmployeeController extends Controller
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu">                    
-                    <a target="_blank" class="dropdown-item" href="'.route('students.print',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.hr_letter_form').'</a>                                             
+                    <a target="_blank" class="dropdown-item" href="'.route('employee.hr-letter',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.hr_letter_form').'</a>                                             
                     <a target="_blank" class="dropdown-item" href="'.route('student-report.print',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_leave_form').'</a>
                     <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_experience_form').'</a>                                
                     <a target="_blank" class="dropdown-item" href="'.route('students.proof-enrollment',$data->id).'"><i class="la la-print"></i> '.trans('staff::local.employee_vacation_form').'</a>                                
@@ -399,6 +400,50 @@ class EmployeeController extends Controller
             }                        
         }
         return response(['status'=>true]);
+    }
+
+    public function hrLetterReport($id)
+    {
+        $header = HrReport::first()->header;
+        $footer = HrReport::first()->footer;
+        $content = HrReport::first()->hr_letter;
+        
+        $employee = Employee::findOrFail($id)->with('sector','department','section','position')->first();
+        
+        $employee_name = strip_tags($this->getFullEmployeeName($employee));
+        $employee_national_id = $employee->national_id;
+        $position = session('lang') == 'ar' ? $employee->position->ar_position : $employee->position->en_position;
+        $hiring_date = \Carbon\Carbon::createFromFormat('Y-m-d', $employee->hiring_date)->format("Y/m/d");
+        $salary = $employee->salary;
+        
+        $content = str_replace('employee_name',$employee_name ,$content);        
+        $content = str_replace('employee_national_id',$employee_national_id ,$content);        
+        $content = str_replace('position',$position ,$content);        
+        $content = str_replace('hiring_date', $hiring_date , $content);        
+        $content = str_replace('salary', $salary , $content);        
+
+        $date = Carbon\Carbon::today();
+        $content = str_replace('date', date_format($date,"Y/m/d"),$content);        
+        $data = [         
+            'title'                         => trans('staff::local.hr_letter_form'),       
+            'content'                       => $content,       
+            'logo'                          => logo(),            
+            'header'                        => $header,               
+            'footer'                        => $footer            
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 10,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => 10,
+        ]; 
+
+        $pdf = PDF::loadView('staff::employees.reports.hr-letter', $data,[],$config);
+        return $pdf->stream(trans('staff::local.hr_letter_form'));
     }
 
 }

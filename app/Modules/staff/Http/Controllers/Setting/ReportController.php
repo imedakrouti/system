@@ -80,4 +80,34 @@ class ReportController extends Controller
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('employee-loan.get');  
     }
+
+    public function header()
+    {
+        $title = trans('staff::local.header_form');
+        $content = HrReport::first();
+        return view('staff::settings.reports-forms.header',
+        compact('title','content'));
+    }
+    public function updateHeader()
+    {
+        $report = HrReport::first();
+        $report->update(request()->only(['header'])); 
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('header.get');  
+    }
+
+    public function footer()
+    {
+        $title = trans('staff::local.footer_form');
+        $content = HrReport::first();
+        return view('staff::settings.reports-forms.footer',
+        compact('title','content'));
+    }
+    public function updateFooter()
+    {
+        $report = HrReport::first();
+        $report->update(request()->only(['footer'])); 
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('footer.get');  
+    }
 }

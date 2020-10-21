@@ -29,6 +29,9 @@
         .right-header{
             float: right;text-align: center;width: 30%;padding-top: 30px;text-transform: capitalize;
         }
+        .header-report{
+            float: right;width: 30%;padding-top: 30px;line-height: 1
+        }
         .left-header{
             float: left;width:30%;padding-top: 40px;text-transform: capitalize;
         }
