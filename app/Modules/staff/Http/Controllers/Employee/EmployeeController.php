@@ -29,7 +29,10 @@ class EmployeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Employee::with('sector','section','department','position')->orderBy('attendance_id','asc')->get();
+            $data = Employee::with('sector','section','department','position')
+            ->orderBy('attendance_id','asc')
+            ->where('leaved','No')
+            ->get();
             return $this->dataTable($data);
         }
         $sectors = Sector::sort()->get();
@@ -658,5 +661,26 @@ class EmployeeController extends Controller
         return $pdf->stream(trans('staff::local.employee_loan_form'));
     }
 
-
+    public function leaved()
+    {
+        if (request()->ajax()) {
+            $data = Employee::with('sector','section','department','position')
+            ->orderBy('attendance_id','asc')
+            ->where('leaved','Yes')
+            ->get();
+            return $this->dataTable($data);
+        }
+        $title = trans('staff::local.leaved');        
+        return view('staff::employees.leaved',
+        compact('title')); 
+    }
+    public function backToWork()
+    {
+        if (request()->ajax()) {
+            foreach (request('id') as $employee_id) {
+                Employee::where('id',$employee_id)->update(['leaved'=>'No','leave_date' => null]);
+            }
+        }
+        return response(['status'=>true]);
+    }
 }

@@ -22,11 +22,16 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_data') }}</span>
                     </a>
                 </li>
-                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+                <li class=" nav-item {{request()->segment(2)=='leaved'?'active':''}}">
+                    <a href="{{route('employees.leaved')}}"><i class="la la-external-link">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_leaved') }}</span>
+                    </a>
+                </li>                
+             {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-search">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.advanced_search') }}</span>
                     </a>
-                </li>                 --}}
+                </li>                 --}}                
                 {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-archive">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attachments') }}</span>

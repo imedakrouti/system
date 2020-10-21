@@ -11,6 +11,8 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('/employees/vacation-report/{id}','EmployeeController@vacationReport')->name('employee.vacation');       
     Route::get('/employees/loan-report/{id}','EmployeeController@loanReport')->name('employee.loan');       
     Route::get('/employees/experience-report/{id}','EmployeeController@experienceReport')->name('employee.experience');       
+    Route::get('/leaved/employees/all','EmployeeController@leaved')->name('employees.leaved');       
+    Route::post('/leaved/employees/all','EmployeeController@backToWork')->name('employees.backToWork');       
 
 
 
