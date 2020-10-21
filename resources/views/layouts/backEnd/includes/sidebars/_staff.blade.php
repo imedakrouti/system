@@ -37,11 +37,11 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attachments') }}</span>
                     </a>
                 </li> --}}
-                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-trash">
+                <li class=" nav-item {{request()->segment(2)=='trash'?'active':''}}">
+                    <a href="{{route('employees.trash')}}"><i class="la la-trash">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_trash') }}</span>
                     </a>
-                </li> --}}
+                </li>
             </ul>
         </li>   
      

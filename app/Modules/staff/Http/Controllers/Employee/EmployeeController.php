@@ -683,4 +683,29 @@ class EmployeeController extends Controller
         }
         return response(['status'=>true]);
     }
+
+    public function trash()
+    {
+        if (request()->ajax()) {
+            $data = Employee::with('sector','section','department','position')
+            ->orderBy('attendance_id','asc')            
+            ->onlyTrashed()->get();
+            return $this->dataTable($data);
+        }
+        $title = trans('staff::local.employees_trash');        
+        return view('staff::employees.trash',
+        compact('title')); 
+    }
+    public function restore()
+    {
+        if (request()->ajax()) {
+            if (request()->has('id'))
+            {
+                foreach (request('id') as $id) {
+                    Employee::where('id',$id)->restore();
+                }
+            }
+        }
+        return response(['status'=>true]);
+    }
 }
