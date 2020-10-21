@@ -1,6 +1,6 @@
 @extends('layouts.backEnd.cpanel')
 @section('sidebar')
-@include('layouts.backEnd.includes.sidebars._admission')
+@include('layouts.backEnd.includes.sidebars._staff')
 @endsection
 @section('styles')
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">

@@ -22,7 +22,7 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_data') }}</span>
                     </a>
                 </li>
-                <li class=" nav-item {{request()->segment(3)=='advanced-search'?'active':''}}">
+                <li class=" nav-item {{request()->segment(2)=='advanced-search'?'active':''}}">
                     <a href="{{route('employees.advanced-search')}}"><i class="la la-search">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.advanced_search') }}</span>
                     </a>

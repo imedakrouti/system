@@ -18,7 +18,7 @@ Route::group(['namespace'=>'Employee'],function(){
 
 
     //  advanced search
-    Route::get('employees/advanced-search/filter','EmployeeController@advancedSearchPage')->name('employees.advanced-search');
+    Route::get('advanced-search/employees/filter','EmployeeController@advancedSearchPage')->name('employees.advanced-search');
     Route::put('employees/advanced-search/ajax','EmployeeController@search')->name('employees.advancedSearch');
 
 
