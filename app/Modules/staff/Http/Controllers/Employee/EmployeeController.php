@@ -341,14 +341,15 @@ class EmployeeController extends Controller
     {
         if (request()->ajax()) {
             
-            $sector_id = empty(request('sector_id')) ? ['employees.sector_id','<>', ''] :['sector_id', request('sector_id')]   ;
-            $department_id = empty(request('department_id')) ? ['employees.department_id','<>', ''] :['department_id', request('department_id')]   ;
-            $section_id = empty(request('section_id')) ? ['employees.section_id','<>', ''] :['section_id', request('section_id')]   ;
-            $position_id = empty(request('position_id')) ? ['employees.position_id','<>', ''] :['position_id', request('position_id')]   ;
-            $leaved = empty(request('leaved')) ? ['employees.leaved','<>', ''] :['leaved', request('leaved')]   ;
+            $sector_id = empty(request('sector_id')) ? ['employees.sector_id', NULL] :['sector_id', request('sector_id')]   ;
+            $department_id = empty(request('department_id')) ? ['employees.department_id', NULL] :['department_id', request('department_id')]   ;
+            $section_id = empty(request('section_id')) ? ['employees.section_id', NULL] :['section_id', request('section_id')]   ;
+            $position_id = empty(request('position_id')) ? ['employees.position_id', NULL] :['position_id', request('position_id')]   ;
+            $leaved = empty(request('leaved')) ? ['employees.leaved', NULL] :['leaved', request('leaved')]   ;
             
-            $whereData = [$sector_id, $department_id, $section_id, $position_id,$leaved];
+            $whereData = [$sector_id, $department_id, $section_id, $position_id,['leaved', request('leaved')] ];
                     
+            
             $data = Employee::with('sector','section','department','position')
             ->where($whereData)         
             ->orderBy('attendance_id','asc')
@@ -383,4 +384,3 @@ class EmployeeController extends Controller
     }
 
 }
-// src="'.asset('images/website/'.$data->gender == "male"? "male.png":"female.png").'" />

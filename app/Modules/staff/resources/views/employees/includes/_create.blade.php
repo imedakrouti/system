@@ -646,8 +646,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="form-group">
                   <label>{{ trans('staff::local.leaved') }}</label>
-                  <select name="leaved" class="form-control">
-                    <option value="">{{ trans('staff::local.select') }}</option>    
+                  <select name="leaved" class="form-control">                    
                     <option {{old('leaved') =='No' ? 'selected':'' }} value="No">{{ trans('staff::local.no') }}</option>                                                
                     <option {{old('leaved') =='Yes' ? 'selected':'' }} value="Yes">{{ trans('staff::local.yes') }}</option>                                            
                   </select>                                          

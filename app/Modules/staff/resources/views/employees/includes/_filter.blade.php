@@ -41,10 +41,9 @@
                         </select>
                     </div>
                     <div class="col-lg-2 col-md-6">
-                        <select name="leaved" class="form-control" id="filter_leaved">
-                            <option value="">{{ trans('staff::local.leaved') }}</option>
-                            <option value="no">{{ trans('staff::local.no') }}</option>
-                            <option value="yes">{{ trans('staff::local.yes') }}</option>
+                        <select name="leaved" class="form-control" id="filter_leaved">                            
+                            <option value="No">{{ trans('staff::local.leaved') }} : {{ trans('staff::local.no') }}</option>
+                            <option value="Yes">{{ trans('staff::local.leaved') }} : {{ trans('staff::local.yes') }}</option>
             
                         </select>
                     </div> 
