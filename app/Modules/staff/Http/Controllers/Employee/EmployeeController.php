@@ -708,4 +708,189 @@ class EmployeeController extends Controller
         }
         return response(['status'=>true]);
     }
+
+    public function advancedSearchPage()
+    {     
+        $sectors = Sector::sort()->get();
+        $sections = Section::sort()->get();
+        $positions = Position::sort()->get();
+        $documents = Document::sort()->get();
+        $skills = Skill::sort()->get();
+        $holidays = Holiday::sort()->get();
+        $timetables = Timetable::all();
+        
+        
+        $title = trans('staff::local.advanced_search');
+        return view('staff::employees.advanced-search',
+        compact('sectors','title','sections','positions',
+        'documents','skills','holidays','timetables'));
+    }
+    private function returnDataQuery()
+    {
+        return ' SELECT * FROM full_employee_data WHERE ar_st_name <> "" ';
+    }
+    public function search()
+    {            
+        // filer
+            $filter         = array();
+            $attribute      = array();
+
+            if (!empty(request('sector_id'))) {
+                $filter[] = "'".request('sector_id')."'";
+                $attribute[] = 'sector_id';
+            }
+            if (!empty(request('department_id'))) {
+                $filter[] = "'".request('department_id')."'";
+                $attribute[] = 'department_id';
+            }
+            if (!empty(request('section_id'))) {
+                $filter[] = "'".request('section_id')."'";
+                $attribute[] = 'section_id';
+            }
+            if (!empty(request('position_id'))) {
+                $filter[] = "'".request('position_id')."'";
+                $attribute[] = 'position_id';
+            }
+            if (!empty(request('timetable_id'))) {
+                $filter[] = request('timetable_id');
+                $attribute[] = 'timetable_id';
+            }
+            if (!empty(request('leaved'))) {
+                $filter[] = "'" .request('leaved') ."'";
+                $attribute[] = 'leaved';
+            }
+            if (!empty(request('has_contract'))) {
+                $filter[] = "'" .request('has_contract') ."'";
+                $attribute[] = 'has_contract';
+            }
+            if (!empty(request('contract_type'))) {
+                $filter[] = "'" .request('contract_type') ."'";
+                $attribute[] = 'contract_type';
+            }
+            if (!empty(request('salary_mode'))) {
+                $filter[] = "'" .request('salary_mode') ."'";
+                $attribute[] = 'salary_mode';
+            }
+            if (!empty(request('salary_suspend'))) {
+                $filter[] = "'" .request('salary_suspend') ."'";
+                $attribute[] = 'salary_suspend';
+            }
+            if (!empty(request('social_insurance'))) {
+                $filter[] = "'" .request('social_insurance') ."'";
+                $attribute[] = 'social_insurance';
+            }
+            if (!empty(request('medical_insurance'))) {
+                $filter[] = "'" .request('medical_insurance') ."'";
+                $attribute[] = 'medical_insurance';
+            }
+        // end filter
+            
+        // set = or Null
+            $filterCounter = count($filter);
+            $orderBy = ' order by full_employee_data.attendance_id asc';
+            $factor = array();
+
+            if (isset($filter[0])) {$factor[0] = $filter[0] == 'Null'? $attribute[0].' is ' . $filter[0]: $attribute[0].' = ' . $filter[0];}
+            if (isset($filter[1])) {$factor[1] = $filter[1] == 'Null'? $attribute[1].' is ' . $filter[1]: $attribute[1].' = ' . $filter[1];}
+            if (isset($filter[2])) {$factor[2] = $filter[2] == 'Null'? $attribute[2].' is ' . $filter[2]: $attribute[2].' = ' . $filter[2];}
+            if (isset($filter[3])) {$factor[3] = $filter[3] == 'Null'? $attribute[3].' is ' . $filter[3]: $attribute[3].' = ' . $filter[3];}
+            if (isset($filter[4])) {$factor[4] = $filter[4] == 'Null'? $attribute[4].' is ' . $filter[4]: $attribute[4].' = ' . $filter[4];}
+            if (isset($filter[5])) {$factor[5] = $filter[5] == 'Null'? $attribute[5].' is ' . $filter[5]: $attribute[5].' = ' . $filter[5];}
+            if (isset($filter[6])) {$factor[6] = $filter[6] == 'Null'? $attribute[6].' is ' . $filter[6]: $attribute[6].' = ' . $filter[6];}
+            if (isset($filter[7])) {$factor[7] = $filter[7] == 'Null'? $attribute[7].' is ' . $filter[7]: $attribute[7].' = ' . $filter[7];}
+            if (isset($filter[8])) {$factor[8] = $filter[8] == 'Null'? $attribute[8].' is ' . $filter[8]: $attribute[8].' = ' . $filter[8];}
+            if (isset($filter[9])) {$factor[9] = $filter[9] == 'Null'? $attribute[9].' is ' . $filter[9]: $attribute[9].' = ' . $filter[9];}
+            if (isset($filter[10])) {$factor[10] = $filter[10] == 'Null'? $attribute[10].' is ' . $filter[10]: $attribute[10].' = ' . $filter[10];}
+            if (isset($filter[11])) {$factor[11] = $filter[11] == 'Null'? $attribute[11].' is ' . $filter[11]: $attribute[11].' = ' . $filter[11];}
+            
+            $where = '';
+            $sqlWhere = '';
+            $searchWord = empty( request('inputSearch'))? 'null':request('inputSearch');
+            
+            $searchWord = str_replace('\'', '"', $searchWord);
+            for ($i=0; $i < $filterCounter ; $i++) {
+                $where .=  ' and '. $factor[$i];
+            }
+            // field search
+            if (request()->has('field')) {
+                $filedSearch = request('field');
+                
+                $filedSearchCount = count(request('field'));
+                $logicFactor = $filedSearchCount == 1 ? '' : ' or ';
+                
+                $sqlWhere .= ' and (';
+                // set like or =
+                $sql_like = '';
+                for ($i=0; $i < $filedSearchCount ; $i++) {
+                    if ($filedSearch[$i] == 'attendance_id') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
+                        $sql_like = " = " . $searchWord ;
+                    }
+                    elseif ($filedSearch[$i] == 'national_id') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
+                        $sql_like = " = " . $searchWord ;
+                    }
+                    elseif ($filedSearch[$i] == 'social_insurance_num') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
+                        $sql_like = " = " . $searchWord ;
+                    }  
+                    elseif ($filedSearch[$i] == 'medical_insurance_num') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
+                        $sql_like = " = " . $searchWord ;
+                    }   
+                    elseif ($filedSearch[$i] == 'bank_account') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
+                        $sql_like = " = " . $searchWord ;
+                    }                                                                     
+                    else{
+                        $sql_like = " like '%" . $searchWord . "%'";
+                    }
+                    $sqlWhere .= $logicFactor . '' . $filedSearch[$i] . $sql_like;
+                }
+                $sqlWhere .= ')';
+            }
+            $sql = $where . $sqlWhere . $orderBy;
+            $sql = str_replace('( or', '(', $sql);
+            $data = DB::select($this->returnDataQuery() . $sql) ;
+            
+            
+        // end set = or Null
+
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('action', function($data){
+               $btn = '<a class="btn btn-warning btn-sm" href="'.route('employees.edit',$data->id).'">
+               <i class=" la la-edit"></i>
+           </a>';
+                return $btn;
+        })
+        ->addColumn('employee_name',function($data){
+            return $this->getFullEmployeeName($data);
+        })
+        ->addColumn('employee_image',function($data){
+            return $this->employeeImage($data);
+        })
+        ->addColumn('mobile',function($data){
+            return $data->mobile1 .'<br>'.$data->mobile2;
+        })
+        ->addColumn('working_data',function($data){
+            return $this->workingData($data);
+        })
+        ->addColumn('reports',function($data){
+            return $this->reports($data);
+        })
+        ->addColumn('position',function($data){
+            return !empty($data->position->ar_position)?
+            (session('lang') == 'ar'?$data->position->ar_position:$data->position->en_position):'';
+        })
+        ->addColumn('check', function($data){
+               $btnCheck = '<label class="pos-rel">
+                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                            <span class="lbl"></span>
+                        </label>';
+                return $btnCheck;
+        })
+        ->rawColumns(['action','check','employee_name','mobile','working_data','position','reports','employee_image'])
+        ->make(true);
+    }
 }

@@ -880,6 +880,6 @@ return [
     'name_list_sibling'             => 'Siblings',
     'name_list_twins'               => 'Twins',
     'siblings_tips'                 => 'All students\' names are according to the current statement for the academic year[:year] ..Make sure that all students are added to the student statement',
-    '' => '',
+    'close_model'                   => 'Close',
     '' => '',
 ];

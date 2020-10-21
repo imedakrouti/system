@@ -622,15 +622,19 @@ class StudentController extends Controller
                 $sql_like = '';
                 for ($i=0; $i < $filedSearchCount ; $i++) {
                     if ($filedSearch[$i] == 'student_number') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
                         $sql_like = " = " . $searchWord ;
                     }
                     elseif ($filedSearch[$i] == 'student_id_number') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
                         $sql_like = " = " . $searchWord ;
                     }
                     elseif ($filedSearch[$i] == 'id_number') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
                         $sql_like = " = " . $searchWord ;
                     }  
                     elseif ($filedSearch[$i] == 'id_number_m') {
+                        $searchWord = is_numeric($searchWord) ?$searchWord:0;
                         $sql_like = " = " . $searchWord ;
                     }                                                 
                     else{

@@ -28,11 +28,11 @@
             {{-- input search --}}
             <div class="col-md-12">
                 <div class="form-group row">                
-                    <div class="col-md-10">
+                    <div class="col-lg-10 col-md-12">
                         <input type="text" class="form-control" id="searchboxId" placeholder="{{ trans('student::local.search') }}"
                         name="input_search">                    
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-12">
                         <!-- search -->
                         <button type="button" onclick="find()" class="btn btn-info  btn-md">{{ trans('student::local.search') }}</button>  
                         <!-- field search -->
@@ -44,8 +44,8 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group row">
-                    <label class="col-md-1 label-control">{{ trans('student::local.find_in') }}</label>
-                    <div class="col-md-4">
+                    <label class="col-lg-1 col-md-2 label-control">{{ trans('student::local.find_in') }}</label>
+                    <div class="col-lg-4 col-md-10">
                         <select name="searchField" id="searchField" class="form-control select2" multiple>                
                             <option selected value="student_number">{{ trans('student::local.student_number') }}</option>
                             <option selected value="ar_student_name">{{ trans('student::local.ar_student_name') }}</option>

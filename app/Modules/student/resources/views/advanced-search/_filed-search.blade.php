@@ -19,8 +19,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.id_type') }}</label>
-                                <div class="col-md-9">                    
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.id_type') }}</label>
+                                <div class="col-lg-9 col-md-12">                    
                                     <select id="student_id_type" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         <option value="national_id">{{ trans('student::local.national_id') }}</option>
@@ -29,8 +29,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.gender') }}</label>
-                                <div class="col-md-9">                    
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.gender') }}</label>
+                                <div class="col-lg-9 col-md-12">                    
                                     <select id="gender" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         <option value="male">{{ trans('student::local.male') }}</option>
@@ -39,8 +39,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.student_type') }}</label>
-                                <div class="col-md-9">                    
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.student_type') }}</label>
+                                <div class="col-lg-9 col-md-12">                    
                                     <select id="student_type" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         <option value="applicant">{{ trans('student::local.applicant') }}</option>
@@ -49,8 +49,8 @@
                                 </div>
                             </div>  
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.reg_type') }}</label>
-                                <div class="col-md-9">                    
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.reg_type') }}</label>
+                                <div class="col-lg-9 col-md-12">                    
                                     <select id="reg_type" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         <option value="return">{{ trans('student::local.return') }}</option>
@@ -61,8 +61,8 @@
                                 </div>
                             </div>  
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.register_status_id') }}</label>
-                                <div class="col-md-9">
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.register_status_id') }}</label>
+                                <div class="col-lg-9 col-md-12">
                                     <select id="registration_status_id" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         @foreach ($regStatus as $status)
@@ -74,8 +74,8 @@
                                 </div>
                             </div>    
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.educational_mandate') }}</label>
-                                <div class="col-md-9">                    
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.educational_mandate') }}</label>
+                                <div class="col-lg-9 col-md-12">                    
                                     <select id="educational_mandate" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         <option value="father">{{ trans('student::local.father') }}</option>
@@ -86,8 +86,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.division_id') }}</label>
-                                <div class="col-md-9">
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.division_id') }}</label>
+                                <div class="col-lg-9 col-md-12">
                                     <select id="division_id" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         @foreach ($divisions as $division)
@@ -99,8 +99,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.grade_id') }}</label>
-                                <div class="col-md-9">
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.grade_id') }}</label>
+                                <div class="col-lg-9 col-md-12">
                                     <select id="grade_id" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         @foreach ($grades as $grade)
@@ -112,8 +112,8 @@
                                 </div>
                             </div>  
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.term') }}</label>
-                                <div class="col-md-9">                    
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.term') }}</label>
+                                <div class="col-lg-9 col-md-12">                    
                                     <select id="term" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         <option value="all">{{ trans('student::local.all_term') }}</option>
@@ -123,8 +123,8 @@
                                 </div>
                             </div>   
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.school_id') }}</label>
-                                <div class="col-md-9">
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.school_id') }}</label>
+                                <div class="col-lg-9 col-md-12">
                                     <select id="school_id" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         @foreach ($schools as $school)
@@ -136,8 +136,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.second_lang_id') }}</label>
-                                <div class="col-md-9">
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.second_lang_id') }}</label>
+                                <div class="col-lg-9 col-md-12">
                                     <select id="second_lang_id" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         @foreach ($studyLangs as $lang)
@@ -149,8 +149,8 @@
                                 </div>
                             </div> 
                             <div class="form-group row">
-                                <label class="col-md-3 label-control">{{ trans('student::local.recognition') }}</label>
-                                <div class="col-md-9">                    
+                                <label class="col-lg-3 col-md-12 label-control">{{ trans('student::local.recognition') }}</label>
+                                <div class="col-lg-9 col-md-12">                    
                                     <select id="recognition" class="form-control">
                                         <option value="">{{ trans('student::local.select') }}</option>
                                         <option value="facebook">{{ trans('student::local.fb') }}</option>
@@ -167,7 +167,7 @@
               </div>
             </div>
             <div class="modal-footer dark">
-              <button type="button" class="btn grey btn-secondary" data-dismiss="modal">{{ trans('student::local.close') }}</button>              
+              <button type="button" class="btn grey btn-secondary" data-dismiss="modal">{{ trans('student::local.close_model') }}</button>              
             </div>
           </div>
         </div>
