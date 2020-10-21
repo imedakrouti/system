@@ -27,14 +27,11 @@
 <div class="row">
     <div class="col-12">
       <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">{{$title}}</h4>
-          <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-        </div>
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
               <div class="table-responsive">
                   <form action="" id='formData' method="post">
+                    @include('staff::employees.includes._update-structure')
                     @csrf
                     <table id="dynamic-table" class="table data-table" >
                         <thead class="bg-info white">
@@ -61,6 +58,9 @@
       </div>
     </div>
 </div>
+
+
+
 @endsection
 @section('script')
 <script>
@@ -75,6 +75,14 @@
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('employees.create')}}";
                         }
+                },
+                {
+                    "text": "{{trans('staff::local.update_structure')}}",
+                    "className": "btn btn-purple buttons-print btn-purple mr-1",
+                    action:function(e, dt, node, config){
+                      $('#updateStructure').modal({backdrop: 'static', keyboard: false})
+                      $('#updateStructure').modal('show');
+                    }
                 },
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'employees.destroy'])
@@ -155,7 +163,105 @@
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
-    }        
+    }     
+
+    function updateStructure()
+    {
+      event.preventDefault();
+      var form_data = $('#formData').serialize();
+      var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
+      if (itemChecked == "0") {
+        swal("{{trans('staff::local.update_structure')}}", "{{trans('msg.no_records_selected')}}", "info");
+        return;
+      }    
+
+      swal({
+        title: "{{trans('staff::local.update_structure')}}",
+        text: "{{trans('staff::local.confirm_update_structure')}}",
+        showCancelButton: true,
+        confirmButtonColor: "#87B87F",
+        confirmButtonText: "{{trans('msg.yes')}}",
+        cancelButtonText: "{{trans('msg.no')}}",
+        closeOnConfirm: false,
+        },
+        function() {
+          $.ajax({
+            url:"{{route('employees.update-structure')}}",
+            method:"POST",
+            data:form_data,
+            dataType:"json",                            
+            success:function(data)
+            {                            
+              $('#updateStructure').modal('hide');
+              $('#dynamic-table').DataTable().ajax.reload();
+            }
+          })
+          // display success confirm message
+          .done(function(data) {
+            swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
+          })
+          // display error message
+          .error(function(data) {
+            swal("{{trans('msg.error')}}", "{{trans('msg.error')}}");
+          });
+        }
+      );
+      // end swal      
+    }   
+
+    $('#filter_sector_id').on('change', function(){
+          var sector_id = $(this).val();                  
+
+          if (sector_id == '') // is empty
+          {
+            $('#filter_department_id').prop('disabled', true); // set disable                  
+          }
+          else // is not empty
+          {
+            $('#filter_department_id').prop('disabled', false);	// set enable                  
+            //using
+            $.ajax({
+              url:'{{route("getDepartmentsBySectorId")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',
+                sector_id 	  : sector_id,                      
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){
+                $('#filter_department_id').html(data);                      
+              }
+            });
+          }
+    });  
+
+    $('#sector_id').on('change', function(){
+          var sector_id = $(this).val();                  
+
+          if (sector_id == '') // is empty
+          {
+            $('#department_id').prop('disabled', true); // set disable                  
+          }
+          else // is not empty
+          {
+            $('#department_id').prop('disabled', false);	// set enable                  
+            //using
+            $.ajax({
+              url:'{{route("getDepartmentsBySectorId")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',
+                sector_id 	  : sector_id,                      
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){
+                $('#department_id').html(data);                      
+              }
+            });
+          }
+    });      
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

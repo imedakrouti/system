@@ -5,6 +5,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::resource('employees','EmployeeController')->except('destroy');
     Route::post('employees/destroy','EmployeeController@destroy')->name('employees.destroy');
     Route::put('/employees/all/filter','EmployeeController@filter')->name('employees.filter');       
+    Route::post('/employees/update-structure','EmployeeController@updateStructure')->name('employees.update-structure');       
 
 
 

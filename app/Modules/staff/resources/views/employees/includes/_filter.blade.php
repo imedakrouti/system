@@ -3,7 +3,7 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
-            <form action="#" method="get" id="filterForm" >
+            <form action="#" method="get" id="filterForm" >                
                 <div class="row mt-1">      
                     <div class="col-lg-2 col-md-6">
                         <select name="sector_id" class="form-control" id="filter_sector_id">

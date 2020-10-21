@@ -383,4 +383,21 @@ class EmployeeController extends Controller
             </a>';
     }
 
+    public function updateStructure()
+    {
+        if (request()->ajax()) {
+            foreach (request('id') as $employee_id) {
+                                
+                Employee::where('id',$employee_id)->update(
+                    [
+                        'sector_id'         =>request('sector_id'),
+                        'department_id'     =>request('department_id'),
+                        'section_id'        =>request('section_id'),
+                        'position_id'       =>request('position_id'),
+                    ]);
+            }                        
+        }
+        return response(['status'=>true]);
+    }
+
 }
