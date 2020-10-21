@@ -27,17 +27,18 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.advanced_search') }}</span>
                     </a>
                 </li>  
+                <li class=" nav-item {{request()->segment(2)=='attachments'?'active':''}}">
+                    <a href="{{route('attachments.index')}}"><i class="la la-archive">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attachments') }}</span>
+                    </a>
+                </li>
                 <li class=" nav-item {{request()->segment(2)=='leaved'?'active':''}}">
                     <a href="{{route('employees.leaved')}}"><i class="la la-external-link">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_leaved') }}</span>
                     </a>
                 </li>                
                               
-                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-archive">
-                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attachments') }}</span>
-                    </a>
-                </li> --}}
+
                 <li class=" nav-item {{request()->segment(2)=='trash'?'active':''}}">
                     <a href="{{route('employees.trash')}}"><i class="la la-trash">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_trash') }}</span>

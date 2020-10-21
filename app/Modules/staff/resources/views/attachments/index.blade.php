@@ -3,7 +3,7 @@
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
 @endsection
 @section('sidebar')
-@include('layouts.backEnd.includes.sidebars._admission')
+@include('layouts.backEnd.includes.sidebars._staff')
 @endsection
 @section('content')
 <div class="content-header row">
@@ -37,13 +37,15 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('student::local.student_number')}}</th>
-                                <th>{{trans('student::local.student_name')}}</th>
-                                <th>{{trans('student::local.grade')}}</th>
-                                <th>{{trans('student::local.division')}}</th>
-                                <th>{{trans('student::local.document_name')}}</th>
-                                <th>{{trans('student::local.view')}}</th>
-                                <th>{{trans('student::local.edit')}}</th>
+                                <th>{{trans('staff::local.attendance_id')}}</th>
+                                <th>{{trans('staff::local.employee_name')}}</th>
+                                <th>{{trans('staff::local.sector')}}</th>
+                                <th>{{trans('staff::local.department')}}</th>
+                                <th>{{trans('staff::local.section')}}</th>
+                                <th>{{trans('staff::local.position')}}</th>
+                                <th>{{trans('staff::local.document_name')}}</th>
+                                <th>{{trans('staff::local.view')}}</th>
+                                <th>{{trans('staff::local.edit')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,26 +67,28 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('student::local.add_to_archive')}}",
+                    "text": "{{trans('staff::local.add_to_attachment')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('archives.create')}}";
+                        window.location.href = "{{route('attachments.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'archives.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'attachments.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('archives.index') }}",
+          ajax: "{{ route('attachments.index') }}",
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'student_number',      name: 'student_number'},
-              {data: 'student_name',        name: 'student_name'},
-              {data: 'grade',               name: 'grade'},
-              {data: 'division',            name: 'division'}, 
+              {data: 'attendance_id',       name: 'attendance_id'},
+              {data: 'employee_name',       name: 'employee_name'},
+              {data: 'sector',              name: 'sector'},
+              {data: 'department',          name: 'department'},
+              {data: 'section',             name: 'section'},
+              {data: 'position',            name: 'position'},              
               {data: 'document_name',       name: 'document_name'}, 
               {data: 'file_name',           name: 'file_name'}, 
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},

@@ -16,10 +16,12 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('/trash/employees/all','EmployeeController@trash')->name('employees.trash');       
     Route::post('/trash/employees/all','EmployeeController@restore')->name('employees.restore');       
 
-
     //  advanced search
     Route::get('advanced-search/employees/filter','EmployeeController@advancedSearchPage')->name('employees.advanced-search');
     Route::put('employees/advanced-search/ajax','EmployeeController@search')->name('employees.advancedSearch');
 
 
+    // attachments
+    Route::resource('attachments','AttachmentController')->except('destroy');
+    Route::post('attachments/destroy','AttachmentController@destroy')->name('attachments.destroy');
 });  

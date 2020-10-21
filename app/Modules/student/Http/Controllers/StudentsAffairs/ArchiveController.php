@@ -124,7 +124,7 @@ class ArchiveController extends Controller
     public function edit(Archive $archive)
     {
         $students = Student::orderBy('ar_student_name')->get();
-        $title = trans('student::local.add_to_archive');
+        $title = trans('student::local.edit_to_archive');
 
         return view('student::students-affairs.archive.edit',
         compact('archive','students','title'));

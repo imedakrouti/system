@@ -297,5 +297,9 @@ class Admin extends Authenticatable
     public function employees()
     {
         return $this->hasMany('Staff\Models\Employees\Employee','admin_id');
-    }          
+    }    
+    public function attachments()
+    {
+        return $this->hasMany('Staff\Models\Employees\Attachment','admin_id');
+    }        
 }
