@@ -183,6 +183,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
+        Alkoumi\LaravelArabicTafqeet\LaravelArabicTafqeetServiceProvider::class,
 
     ],
 

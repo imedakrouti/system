@@ -16,6 +16,7 @@ use Staff\Models\Settings\HrReport;
 use DB;
 use PDF;
 use Carbon;
+use Alkoumi\LaravelArabicTafqeet\Tafqeet;
 
 class EmployeeController extends Controller
 {
@@ -419,7 +420,9 @@ class EmployeeController extends Controller
         $content = str_replace('employee_name',$employee_name ,$content);        
         $content = str_replace('employee_national_id',$employee_national_id ,$content);        
         $content = str_replace('position',$position ,$content);        
-        $content = str_replace('hiring_date', $hiring_date , $content);        
+        $content = str_replace('hiring_date', $hiring_date , $content); 
+        $content = str_replace('salary_text', Tafqeet::inArabic($salary,'egp') , $content);        
+               
         $content = str_replace('salary', $salary , $content);        
 
         $date = Carbon\Carbon::today();

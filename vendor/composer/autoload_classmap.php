@@ -7,6 +7,13 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AdminTableSeeder' => $baseDir . '/database/seeds/AdminTableSeeder.php',
+    'Alkoumi\\LaravelArabicTafqeet\\Helpers\\App' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/helpers/App.php',
+    'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Calculators' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Calculators.php',
+    'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Digit' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Digit.php',
+    'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Handler' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Handler.php',
+    'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Validation' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Validation.php',
+    'Alkoumi\\LaravelArabicTafqeet\\LaravelArabicTafqeetServiceProvider' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/LaravelArabicTafqeetServiceProvider.php',
+    'Alkoumi\\LaravelArabicTafqeet\\Tafqeet' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/Tafqeet.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Admin\\AdminAuth' => $baseDir . '/app/Http/Controllers/Admin/AdminAuth.php',

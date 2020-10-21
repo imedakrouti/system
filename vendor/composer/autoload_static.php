@@ -171,6 +171,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'A' => 
         array (
             'App\\' => 4,
+            'Alkoumi\\LaravelArabicTafqeet\\' => 29,
         ),
     );
 
@@ -469,6 +470,10 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Alkoumi\\LaravelArabicTafqeet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -494,6 +499,13 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
 
     public static $classMap = array (
         'AdminTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminTableSeeder.php',
+        'Alkoumi\\LaravelArabicTafqeet\\Helpers\\App' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/helpers/App.php',
+        'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Calculators' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Calculators.php',
+        'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Digit' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Digit.php',
+        'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Handler' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Handler.php',
+        'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Validation' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Validation.php',
+        'Alkoumi\\LaravelArabicTafqeet\\LaravelArabicTafqeetServiceProvider' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/LaravelArabicTafqeetServiceProvider.php',
+        'Alkoumi\\LaravelArabicTafqeet\\Tafqeet' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/Tafqeet.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AdminAuth' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminAuth.php',
