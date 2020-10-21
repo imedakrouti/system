@@ -78,8 +78,6 @@
                     "text": "{{trans('staff::local.update_structure')}}",
                     "className": "btn btn-purple buttons-print btn-purple mr-1",
                     action:function(e, dt, node, config){
-                      // $('#formData')[0].reset();
-                      
                       $('#updateStructure').modal({backdrop: 'static', keyboard: false})
                       $('#updateStructure').modal('show');
                     }
@@ -127,6 +125,14 @@
                     action : function ( e, dt, node, config ) {
                         window.location.href = "{{route('employees.create')}}";
                         }
+                },
+                {
+                    "text": "{{trans('staff::local.update_structure')}}",
+                    "className": "btn btn-purple buttons-print btn-purple mr-1",
+                    action:function(e, dt, node, config){
+                      $('#updateStructure').modal({backdrop: 'static', keyboard: false})
+                      $('#updateStructure').modal('show');
+                    }
                 },
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'employees.destroy'])
