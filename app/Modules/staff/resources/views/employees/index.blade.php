@@ -59,8 +59,6 @@
     </div>
 </div>
 
-
-
 @endsection
 @section('script')
 <script>
@@ -80,6 +78,8 @@
                     "text": "{{trans('staff::local.update_structure')}}",
                     "className": "btn btn-purple buttons-print btn-purple mr-1",
                     action:function(e, dt, node, config){
+                      // $('#formData')[0].reset();
+                      
                       $('#updateStructure').modal({backdrop: 'static', keyboard: false})
                       $('#updateStructure').modal('show');
                     }
@@ -191,7 +191,7 @@
             data:form_data,
             dataType:"json",                            
             success:function(data)
-            {                            
+            {                                    
               $('#updateStructure').modal('hide');
               $('#dynamic-table').DataTable().ajax.reload();
             }

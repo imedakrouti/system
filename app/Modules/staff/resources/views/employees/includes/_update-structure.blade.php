@@ -23,7 +23,7 @@
                             {{session('lang') == 'ar' ? $sector->ar_sector:$sector->en_sector}}</option>
                         @endforeach
                       </select>      
-                      <span class="red">{{ trans('staff::local.required') }}</span>                                                                 
+                      
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -33,7 +33,7 @@
                         <option value="">{{ trans('staff::local.select') }}</option>    
                             
                       </select> 
-                      <span class="red">{{ trans('staff::local.required') }}</span>                                                                   
+                        
                     </div>
                 </div>
               </div>
@@ -48,7 +48,7 @@
                               {{session('lang') == 'ar' ? $section->ar_section:$section->en_section}}</option>
                           @endforeach
                       </select>   
-                      <span class="red">{{ trans('staff::local.required') }}</span>                                                                    
+                         
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -61,10 +61,33 @@
                               {{session('lang') == 'ar' ? $position->ar_position:$position->en_position}}</option>
                           @endforeach
                       </select> 
-                      <span class="red">{{ trans('staff::local.required') }}</span>                                                                   
+                        
                     </div>
                 </div>
-              </div>  
+              </div> 
+              <div class="row">
+                <div class="col-lg-6 col-md-6">
+                  <div class="form-group">
+                    <label>{{ trans('staff::local.timetable_id') }}</label>
+                    <select id="timetable_id" name="timetable_id" class="form-control select2">
+                      <option value="">{{ trans('staff::local.select') }}</option>    
+                      @foreach ($timetables as $timetable)
+                          <option value="{{$timetable->id}}">
+                          {{session('lang') == 'ar' ? $timetable->ar_timetable:$timetable->en_timetable}}</option>
+                      @endforeach
+                    </select>      
+                    
+                  </div> 
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="form-group">
+                    <label>{{ trans('staff::local.bus_value') }}</label>
+                    <input type="number" min="0" class="form-control " value="{{old('bus_value')}}" 
+                    placeholder="{{ trans('staff::local.bus_value') }}"
+                      name="bus_value">                                            
+                  </div>
+              </div> 
+              </div>
               <div class="form-actions left">
                 <button onclick="updateStructure()" class="btn btn-success">
                     <i class="la la-check-square-o"></i> {{ trans('admin.save') }}

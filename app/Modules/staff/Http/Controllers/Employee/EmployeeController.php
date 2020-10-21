@@ -35,9 +35,9 @@ class EmployeeController extends Controller
         $positions = Position::sort()->get();
         $documents = Document::sort()->get();
         $title = trans('staff::local.employees');
-
+        $timetables = Timetable::all();
         return view('staff::employees.index',
-       compact('sectors','sections','positions','documents','title'));   
+       compact('sectors','sections','positions','documents','title','timetables'));   
     }
 
     /**
@@ -386,15 +386,16 @@ class EmployeeController extends Controller
     public function updateStructure()
     {
         if (request()->ajax()) {
-            foreach (request('id') as $employee_id) {
-                                
-                Employee::where('id',$employee_id)->update(
-                    [
-                        'sector_id'         =>request('sector_id'),
-                        'department_id'     =>request('department_id'),
-                        'section_id'        =>request('section_id'),
-                        'position_id'       =>request('position_id'),
-                    ]);
+            $fields = [];
+            $fields ['sector_id'] = !empty(request('sector_id'))? request('sector_id'):'';                          
+            $fields ['department_id'] = !empty(request('department_id'))? request('department_id'):'';                          
+            $fields ['section_id'] = !empty(request('section_id'))? request('section_id'):'';                              
+            $fields ['position_id'] = !empty(request('position_id'))?request('position_id'):'';                              
+            $fields ['timetable_id'] = !empty(request('timetable_id'))? request('timetable_id'):'';                              
+            $fields ['bus_value'] = !empty(request('bus_value'))? request('bus_value'):'';        
+            $fields = array_filter($fields);                     
+            foreach (request('id') as $employee_id) {   
+                Employee::where('id',$employee_id)->update($fields);
             }                        
         }
         return response(['status'=>true]);
