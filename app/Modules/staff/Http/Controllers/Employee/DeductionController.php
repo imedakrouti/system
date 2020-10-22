@@ -2,12 +2,11 @@
 
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoanRequest;
+use App\Http\Requests\DeductionRequest;
 use Staff\Models\Employees\Employee;
-use Staff\Models\Employees\Loan;
-use Carbon;
+use Staff\Models\Employees\Deduction;
 
-class LoanController extends Controller
+class DeductionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,11 @@ class LoanController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Loan::with('employee')->orderBy('id','desc')->get();
+            $data = Deduction::with('employee')->orderBy('id','desc')->get();
             return $this-> dataTableApproval1($data);
         }
-        return view('staff::loans.index',
-        ['title'=>trans('staff::local.loans')]);  
+        return view('staff::deductions.index',
+        ['title'=>trans('staff::local.deductions')]);  
     }
     private function getFullEmployeeName($data)
     {
@@ -107,7 +106,7 @@ class LoanController extends Controller
     public function filter()
     {
         if (request()->ajax()) {
-            $data = Loan::with('employee')->orderBy('id','desc')->where('approval1',request('approval1'))->get();
+            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval1',request('approval1'))->get();
             return $this-> dataTableApproval1($data);
         }
     }
@@ -119,13 +118,14 @@ class LoanController extends Controller
     public function create()
     {
         $employees = Employee::orderBy('attendance_id')->get();
-        return view('staff::loans.create',
-        ['title'=>trans('staff::local.new_loan'),'employees'=>$employees]);
+        return view('staff::deductions.create',
+        ['title'=>trans('staff::local.new_deduction'),'employees'=>$employees]);
     }
     private function attributes()
     {
-        return  [            
-            'amount',           
+        return  [                        
+            'date_deduction',           
+            'reason',           
             'approval1',           
             'approval2',                       
             'admin_id'   
@@ -138,35 +138,44 @@ class LoanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LoanRequest $request)
+    public function store(DeductionRequest $request)
     {
-        foreach (request('employee_id') as $employee_id) {
-            $dt = Carbon\Carbon::create(request('date_loan'))->subMonth(1);
-            for ($i=0; $i < request('repeat'); $i++) { 
-                $request->user()->loans()->create($request->only($this->attributes())+
-                [
-                    'employee_id'   => $employee_id,
-                    'date_loan'     => $dt->addMonths(1),
-                ]);                        
-            }            
+
+        foreach (request('employee_id') as $employee_id) {            
+            $request->user()->deductions()->create($request->only($this->attributes())+
+            ['employee_id'   => $employee_id,'amount' => request('amount') * $this->salaryPerDay($employee_id)]);             
         }        
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('loans.index');
+        return redirect()->route('deductions.index');
+    }
+    private function salaryPerDay($employee_id)
+    {
+        return Employee::findOrFail($employee_id)->salary / 30;
+    }
+
+    public function edit(Deduction $deduction)
+    {
+
+    }
+
+    public function update(DeductionRequest $request , Deduction $deduction)
+    {
+
     }
   
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Loan  $loan
+     * @param  \App\Deduction  $deduction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Loan $loan)
+    public function destroy(Deduction $deduction)
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {                    
-                    Loan::destroy($id);
+                    Deduction::destroy($id);
                 }
             }
         }
@@ -177,7 +186,7 @@ class LoanController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Loan::where('id',$id)->update(['approval1'=>'Accepted']);
+                Deduction::where('id',$id)->update(['approval1'=>'Accepted']);
             }
         }
         return response(['status'=>true]);
@@ -186,7 +195,7 @@ class LoanController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Loan::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected']);
+                Deduction::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected']);
             }
         }
         return response(['status'=>true]);
@@ -195,7 +204,7 @@ class LoanController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Loan::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending']);
+                Deduction::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending']);
             }
         }
         return response(['status'=>true]);
@@ -204,17 +213,17 @@ class LoanController extends Controller
     public function confirm()
     {
         if (request()->ajax()) {
-            $data = Loan::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
+            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
             return $this->dataTableApproval2($data);
         }
-        return view('staff::loans.confirm.index',
-        ['title'=>trans('staff::local.confirm_loans')]);  
+        return view('staff::deductions.confirm.index',
+        ['title'=>trans('staff::local.confirm_deductions')]);  
     }
 
     public function filterConfirm()
     {
         if (request()->ajax()) {
-            $data = Loan::with('employee')->orderBy('id','desc')
+            $data = Deduction::with('employee')->orderBy('id','desc')
             ->where('approval1','Accepted')
             ->where('approval2',request('approval2'))->get();
             return $this-> dataTableApproval2($data);
@@ -298,7 +307,7 @@ class LoanController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Loan::where('id',$id)->update(['approval2'=>'Accepted']);
+                Deduction::where('id',$id)->update(['approval2'=>'Accepted']);
             }
         }
         return response(['status'=>true]);
@@ -307,7 +316,7 @@ class LoanController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Loan::where('id',$id)->update(['approval2'=>'Rejected']);
+                Deduction::where('id',$id)->update(['approval2'=>'Rejected']);
             }
         }
         return response(['status'=>true]);

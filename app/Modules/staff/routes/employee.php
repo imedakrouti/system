@@ -38,5 +38,15 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::put('loans/filter/confirm','LoanController@filterConfirm')->name('loans.filter-confirm');
 
 
-    
+    // Deduction
+    Route::resource('deductions','DeductionController')->except('destroy','show');
+    Route::post('deductions/destroy','DeductionController@destroy')->name('deductions.destroy');
+    Route::post('deductions/accept','DeductionController@accept')->name('deductions.accept');
+    Route::post('deductions/reject','DeductionController@reject')->name('deductions.reject');
+    Route::post('deductions/cancel','DeductionController@cancel')->name('deductions.cancel');
+    Route::get('deductions-confirm/deductions','DeductionController@confirm')->name('deductions.confirm');
+    Route::post('deductions-confirm/deductions/accept','DeductionController@acceptConfirm')->name('deductions.accept-confirm');
+    Route::post('deductions-confirm/deductions/reject','DeductionController@rejectConfirm')->name('deductions.reject-confirm');  
+    Route::put('deductions/search/get/filter','DeductionController@filter')->name('deductions.filter');
+    Route::put('deductions/search/get/filter/confirm','DeductionController@filterConfirm')->name('deductions.filter-confirm');
 });  

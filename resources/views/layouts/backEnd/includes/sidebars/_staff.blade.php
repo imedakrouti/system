@@ -87,21 +87,21 @@
         </li>    --}}
         
         {{-- deductions --}}
-        {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
+        <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-gavel"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.deductions') }}</span></a>
             <ul class="menu-content">                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='deductions'?'active':''}}">
+                    <a href="{{route('deductions.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.deductions') }}</span>
                     </a>
                 </li>
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='deductions-confirm'?'active':''}}">
+                    <a href="{{route('deductions.confirm')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.confirm_deductions') }}</span>
                     </a>
                 </li>                
             </ul>
-        </li>   --}}
+        </li>   
         
         {{-- loans --}}
          <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
