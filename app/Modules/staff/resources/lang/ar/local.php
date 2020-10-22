@@ -368,7 +368,7 @@ return [
     'deduction_reject_confirm'          => 'هل تريد رفض الجزاء؟',
     'deduction_cancel_confirm'          => 'هل تريد الغاء الجزاء؟',
     'new_deduction'                     => 'اضافة جزاء',
-    'edit_deduction'                    => 'تعديل بيانات الجزاء؟',
+    'edit_deduction'                    => 'تعديل بيانات الجزاء',
     'deduction_amount'                  => 'قيمة الجزاء بالايام',
     'deduction_updated_at'              => 'وقت الموافقة عليه',
     ''               => '',

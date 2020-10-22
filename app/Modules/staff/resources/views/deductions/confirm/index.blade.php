@@ -71,6 +71,7 @@
                                 <th>{{trans('staff::local.approval1')}}</th>                                                                                                
                                 <th>{{trans('staff::local.approval2')}}</th>                                                                                                
                                 <th>{{trans('staff::local.deduction_updated_at')}}</th>                                                                                                
+                                <th>{{trans('staff::local.reason')}}</th>                                                                                                
                             </tr>
                         </thead>
                         <tbody>
@@ -83,6 +84,7 @@
       </div>
     </div>
 </div>
+@include('staff::deductions.includes._reason')
 @endsection
 @section('script')
 <script>
@@ -182,10 +184,11 @@
               {data: 'workingData',         name: 'workingData'},
               {data: 'position',            name: 'position'},              
               {data: 'amount',              name: 'amount'},               
-              {data: 'date_deduction',           name: 'date_deduction'},                             
+              {data: 'date_deduction',      name: 'date_deduction'},                             
               {data: 'approval1',           name: 'approval1'},                                           
               {data: 'approval2',           name: 'approval2'},                                           
               {data: 'updated_at',          name: 'updated_at'},                                           
+              {data: 'reason',              name: 'reason'},                                           
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
@@ -300,15 +303,23 @@
               {data: 'workingData',         name: 'workingData'},
               {data: 'position',            name: 'position'},              
               {data: 'amount',              name: 'amount'},               
-              {data: 'date_deduction',           name: 'date_deduction'},                             
+              {data: 'date_deduction',      name: 'date_deduction'},                             
               {data: 'approval1',           name: 'approval1'},                                           
               {data: 'approval2',           name: 'approval2'},                                           
               {data: 'updated_at',          name: 'updated_at'},  
+              {data: 'reason',              name: 'reason'},  
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')        
-    })    
+    })  
+    function reason(reason)
+    {
+        event.preventDefault();          
+        $('#reason_text').val(reason);			
+        $('#reason').modal({backdrop: 'static', keyboard: false})
+        $('#reason').modal('show');
+    }  
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

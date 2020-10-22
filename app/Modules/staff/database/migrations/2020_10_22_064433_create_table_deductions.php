@@ -18,6 +18,7 @@ class CreateTableDeductions extends Migration
             $table->date('date_deduction');
             $table->text('reason');
             $table->integer('amount');
+            $table->double('days',4,2);
             $table->enum('approval1',['Accepted','Rejected','Canceled','Pending'])->default('Pending');
             $table->enum('approval2',['Accepted','Rejected','Canceled','Pending'])->default('Pending');
             $table->unsignedBigInteger('employee_id')->nullable();

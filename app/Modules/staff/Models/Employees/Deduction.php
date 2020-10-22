@@ -10,6 +10,7 @@ class Deduction extends Model
         'date_deduction',
         'reason',
         'amount',
+        'days',
         'approval1',      
         'approval2',          
         'employee_id',          

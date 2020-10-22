@@ -87,6 +87,9 @@ class DeductionController extends Controller
         })                     
         ->addColumn('workingData',function($data){
             return $this->workingData($data);
+        })  
+        ->addColumn('reason',function($data){
+            return '<a href="#" onclick="reason('."'".$data->reason."'".')">'.trans('staff::local.reason').'</a>';
         })          
         ->addColumn('position',function($data){
             return !empty($data->employee->position) ?(session('lang') == 'ar' ? $data->employee->position->ar_position:
@@ -99,7 +102,13 @@ class DeductionController extends Controller
                         </label>';
                 return $btnCheck;
         })
-        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1'])
+        ->addColumn('action', function($data){
+            $btn = '<a class="btn btn-warning btn-sm" href="'.route('deductions.edit',$data->id).'">
+                        <i class=" la la-edit"></i>
+                    </a>';
+                return $data->approval1 == trans('staff::local.pending') ? $btn : '';
+        })
+        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','reason','action'])
         ->make(true);
     }
 
@@ -126,6 +135,7 @@ class DeductionController extends Controller
         return  [                        
             'date_deduction',           
             'reason',           
+            'days',           
             'approval1',           
             'approval2',                       
             'admin_id'   
@@ -143,7 +153,10 @@ class DeductionController extends Controller
 
         foreach (request('employee_id') as $employee_id) {            
             $request->user()->deductions()->create($request->only($this->attributes())+
-            ['employee_id'   => $employee_id,'amount' => request('amount') * $this->salaryPerDay($employee_id)]);             
+            [
+                'employee_id'   => $employee_id,
+                'days'          => request('amount'),
+                'amount' => request('amount') * $this->salaryPerDay($employee_id)]);             
         }        
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('deductions.index');
@@ -155,12 +168,22 @@ class DeductionController extends Controller
 
     public function edit(Deduction $deduction)
     {
-
+        $employees = Employee::leaved()->orderBy('attendance_id')->get();
+        return view('staff::deductions.edit',
+        ['title'=>trans('staff::local.edit_deduction'),'employees'=>$employees,'deduction' => $deduction]);
     }
 
     public function update(DeductionRequest $request , Deduction $deduction)
     {
-
+        foreach (request('employee_id') as $employee_id) {            
+            $deduction->update($request->only($this->attributes())+
+            [
+                'employee_id'   => $employee_id,
+                'days'          => request('amount'),
+                'amount' => request('amount') * $this->salaryPerDay($employee_id)]);             
+        } 
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('deductions.index');
     }
   
     /**
@@ -287,7 +310,10 @@ class DeductionController extends Controller
         })                   
         ->addColumn('workingData',function($data){
             return $this->workingData($data);
-        })          
+        })    
+        ->addColumn('reason',function($data){
+            return '<a href="#" onclick="reason('."'".$data->reason."'".')">'.trans('staff::local.reason').'</a>';
+        })        
         ->addColumn('position',function($data){
             return !empty($data->employee->position) ?(session('lang') == 'ar' ? $data->employee->position->ar_position:
             $data->employee->position->en_position) :'';
@@ -299,7 +325,7 @@ class DeductionController extends Controller
                         </label>';
                 return $btnCheck;
         })
-        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','approval2'])
+        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','approval2','reason'])
         ->make(true);
     }
 

@@ -72,6 +72,8 @@
                                 <th>{{trans('staff::local.date_deduction')}}</th>                                                                
                                 <th>{{trans('staff::local.approval1')}}</th>                                                                                                
                                 <th>{{trans('staff::local.created_at')}}</th>                                                                                                
+                                <th>{{trans('staff::local.reason')}}</th>                                                                                                
+                                <th>{{trans('staff::local.edit')}}</th>                                                                                                
                             </tr>
                         </thead>
                         <tbody>
@@ -84,6 +86,7 @@
       </div>
     </div>
 </div>
+@include('staff::deductions.includes._reason')
 @endsection
 @section('script')
 <script>
@@ -235,9 +238,11 @@
               {data: 'workingData',         name: 'workingData'},
               {data: 'position',            name: 'position'},              
               {data: 'amount',              name: 'amount'},               
-              {data: 'date_deduction',           name: 'date_deduction'},                             
+              {data: 'date_deduction',      name: 'date_deduction'},                             
               {data: 'approval1',           name: 'approval1'},                                           
               {data: 'created_at',          name: 'created_at'},                                           
+              {data: 'reason',              name: 'reason'},  
+              {data: 'action', 	            name: 'action', orderable: false, searchable: false},                                         
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
@@ -407,11 +412,21 @@
               {data: 'date_deduction',      name: 'date_deduction'},                             
               {data: 'approval1',           name: 'approval1'},                                           
               {data: 'created_at',          name: 'created_at'},  
+              {data: 'reason',              name: 'reason'}, 
+              {data: 'action', 	            name: 'action', orderable: false, searchable: false},                                          
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')        
     })
+
+    function reason(reason)
+    {
+        event.preventDefault();          
+        $('#reason_text').val(reason);			
+        $('#reason').modal({backdrop: 'static', keyboard: false})
+        $('#reason').modal('show');
+    }
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

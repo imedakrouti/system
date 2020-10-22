@@ -97,4 +97,8 @@ class Employee extends Model
     {
         return $this->belongsTo('Staff\Models\Settings\Holiday','holiday_id');
     }
+    public function scopeLeaved($query)
+    {
+        return $query->where('leaved','No');
+    }
 }
