@@ -29,7 +29,7 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-4 col-md-12">
                         <div class="form-group">
                           <label>{{ trans('staff::local.document_name') }}</label>
                           <input type="text" class="form-control " value="{{old('document_name',$attachment->document_name)}}" 
@@ -38,7 +38,7 @@
                             <span class="red">{{ trans('staff::local.required') }}</span>                          
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12">
+                    <div class="col-lg-4 col-md-12">
                         <div class="form-group">
                           <label>{{ trans('staff::local.employee_name') }}</label> <br>
                           <select name="employee_id" id="employee_id" class="form-control select2" required>
@@ -56,7 +56,7 @@
                           <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                         </div>
                     </div>                     
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label >{{ trans('staff::local.file_name') }}</label>
                           <input  type="file" class="form-control" name="file_name"/>                          

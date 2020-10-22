@@ -104,21 +104,21 @@
         </li>   --}}
         
         {{-- loans --}}
-        {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
+         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-minus-square"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.loans') }}</span></a>
             <ul class="menu-content">                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='loans'?'active':''}}">
+                    <a href="{{route('loans.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.loans') }}</span>
                     </a>
                 </li>
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='loans-confirm'?'active':''}}">
+                    <a href="{{route('loans.confirm')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.confirm_loans') }}</span>
                     </a>
                 </li>                
             </ul>
-        </li>   --}}
+        </li>   
         
         {{-- vacations --}}
         {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">

@@ -3,7 +3,7 @@
 
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\AttachmentRequest;
 use Illuminate\Http\Request;
 use Staff\Models\Employees\Attachment;
 use Staff\Models\Employees\Employee;
@@ -108,7 +108,7 @@ class AttachmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AttachmentRequest $request)
     {        
         $this->file_name = uploadFileOrImage(null,request('file_name'),'images/attachments'); 
         $request->user()->attachments()->create($request->only($this->attributes())+

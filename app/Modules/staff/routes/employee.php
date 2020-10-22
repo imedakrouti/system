@@ -22,6 +22,21 @@ Route::group(['namespace'=>'Employee'],function(){
 
 
     // attachments
-    Route::resource('attachments','AttachmentController')->except('destroy');
+    Route::resource('attachments','AttachmentController')->except('destroy','show');
     Route::post('attachments/destroy','AttachmentController@destroy')->name('attachments.destroy');
+
+    // loans
+    Route::resource('loans','LoanController')->except('destroy','edit','update','show');
+    Route::post('loans/destroy','LoanController@destroy')->name('loans.destroy');
+    Route::post('loans/accept','LoanController@accept')->name('loans.accept');
+    Route::post('loans/reject','LoanController@reject')->name('loans.reject');
+    Route::post('loans/cancel','LoanController@cancel')->name('loans.cancel');
+    Route::get('loans-confirm/loans','LoanController@confirm')->name('loans.confirm');
+    Route::post('loans-confirm/loans/accept','LoanController@acceptConfirm')->name('loans.accept-confirm');
+    Route::post('loans-confirm/loans/reject','LoanController@rejectConfirm')->name('loans.reject-confirm');  
+    Route::put('loans/filter','LoanController@filter')->name('loans.filter');
+    Route::put('loans/filter/confirm','LoanController@filterConfirm')->name('loans.filter-confirm');
+
+
+    
 });  
