@@ -310,4 +310,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Employees\Deduction','admin_id');
     }   
+    public function vacations()
+    {
+        return $this->hasMany('Staff\Models\Employees\Vacation','admin_id');
+    }  
 }

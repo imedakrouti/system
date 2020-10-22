@@ -49,4 +49,18 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::post('deductions-confirm/deductions/reject','DeductionController@rejectConfirm')->name('deductions.reject-confirm');  
     Route::put('deductions/search/get/filter','DeductionController@filter')->name('deductions.filter');
     Route::put('deductions/search/get/filter/confirm','DeductionController@filterConfirm')->name('deductions.filter-confirm');
+
+    // Vacation
+    Route::resource('vacations','VacationController')->except('destroy','show','edit','update');
+    Route::post('vacations/destroy','VacationController@destroy')->name('vacations.destroy');
+    Route::post('vacations/accept','VacationController@accept')->name('vacations.accept');
+    Route::post('vacations/reject','VacationController@reject')->name('vacations.reject');
+    Route::post('vacations/cancel','VacationController@cancel')->name('vacations.cancel');
+    Route::get('vacations-confirm/vacations','VacationController@confirm')->name('vacations.confirm');
+    Route::post('vacations-confirm/vacations/accept','VacationController@acceptConfirm')->name('vacations.accept-confirm');
+    Route::post('vacations-confirm/vacations/reject','VacationController@rejectConfirm')->name('vacations.reject-confirm');  
+    Route::put('vacations/search/get/filter','VacationController@filter')->name('vacations.filter');
+    Route::put('vacations/search/get/filter/confirm','VacationController@filterConfirm')->name('vacations.filter-confirm');
+    Route::get('vacations-balance/vacations','VacationController@balance')->name('vacations.balance');
+    Route::post('vacations-balance/vacations','VacationController@setBalance')->name('vacations.set-balance');
 });  

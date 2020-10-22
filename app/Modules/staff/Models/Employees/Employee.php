@@ -99,6 +99,10 @@ class Employee extends Model
     }
     public function scopeLeaved($query)
     {
+        return $query->where('leaved','Yes');
+    }
+    public function scopeWork($query)
+    {
         return $query->where('leaved','No');
     }
 }

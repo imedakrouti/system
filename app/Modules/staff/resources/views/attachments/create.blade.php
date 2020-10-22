@@ -58,7 +58,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label >{{ trans('staff::local.file_name') }}</label>
-                          <input  type="file" class="form-control" name="file_name"/ required>
+                          <input  type="file" class="form-control" name="file_name" required />
                           <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                         </div>
                     </div>                                 

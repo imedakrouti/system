@@ -2,12 +2,22 @@
 
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeductionRequest;
-use Staff\Models\Employees\Employee;
-use Staff\Models\Employees\Deduction;
+use App\Http\Requests\VacationRequest;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 
-class DeductionController extends Controller
+use Staff\Models\Employees\Employee;
+use Staff\Models\Employees\Vacation;
+use Staff\Models\Employees\VacationPeriod;
+use Staff\Models\Settings\Department;
+use Staff\Models\Settings\Position;
+use Staff\Models\Settings\Section;
+use Staff\Models\Settings\Sector;
+
+class VacationController extends Controller
 {
+    private $file_name;
     /**
      * Display a listing of the resource.
      *
@@ -16,11 +26,11 @@ class DeductionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')->get();
+            $data = Vacation::with('employee')->orderBy('id','desc')->get();
             return $this-> dataTableApproval1($data);
         }
-        return view('staff::deductions.index',
-        ['title'=>trans('staff::local.deductions')]);  
+        return view('staff::vacations.index',
+        ['title'=>trans('staff::local.vacations')]);  
     }
     private function getFullEmployeeName($data)
     {
@@ -84,17 +94,13 @@ class DeductionController extends Controller
                             </div>';                         
             }
             
-        })                     
-        ->addColumn('workingData',function($data){
-            return $this->workingData($data);
-        })  
-        ->addColumn('reason',function($data){
-            return '<a href="#" onclick="reason('."'".$data->reason."'".')">'.trans('staff::local.reason').'</a>';
-        })          
-        ->addColumn('position',function($data){
-            return !empty($data->employee->position) ?(session('lang') == 'ar' ? $data->employee->position->ar_position:
-            $data->employee->position->en_position) :'';
-        })                   
+        })                         
+        ->addColumn('vacation_period',function($data){
+            return '<span class="red"><strong>'.trans('staff::local.from').'</strong></span> '.            
+            \Carbon\Carbon::parse( $data->from_date)->format('M d Y, D')
+            .'<br><span class="success"><strong>' .trans('staff::local.to') .'</strong></span> ' .
+            \Carbon\Carbon::parse( $data->to_date)->format('M d Y, D');
+        })                          
         ->addColumn('check', function($data){
                $btnCheck = '<label class="pos-rel">
                             <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -102,23 +108,31 @@ class DeductionController extends Controller
                         </label>';
                 return $btnCheck;
         })
-        ->addColumn('action', function($data){
-            $btn = '<a class="btn btn-warning btn-sm" href="'.route('deductions.edit',$data->id).'">
-                        <i class=" la la-edit"></i>
+        ->addColumn('attachments',function($data){
+            $file =  '<a target="_blank" class="btn btn-success btn-sm" href="'.asset('images/attachments/'.$data->file_name).'">
+                        <i class=" la la-download"></i>
                     </a>';
-                return $data->approval1 == trans('staff::local.pending') ? $btn : '';
+            return empty($data->file_name) ? '' : $file;   
         })
-        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','reason','action'])
+        ->addColumn('employee_image',function($data){
+            return $this->employeeImage($data);
+        })
+        ->rawColumns(['check','employee_name','attendance_id','approval1','vacation_period','attachments','employee_image'])
         ->make(true);
     }
 
     public function filter()
     {
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval1',request('approval1'))->get();
+            $vacation_type = empty(request('vacation_type'))? ['vacation_type','<>','']:['vacation_type',request('vacation_type')];
+            $approval1 = empty(request('approval1'))? ['approval1','<>','']:['approval1',request('approval1')];
+            $data = Vacation::with('employee')->orderBy('id','desc')
+            ->where([$vacation_type,$approval1])            
+            ->get();
             return $this-> dataTableApproval1($data);
         }
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -127,18 +141,18 @@ class DeductionController extends Controller
     public function create()
     {
         $employees = Employee::work()->orderBy('attendance_id')->get();
-        return view('staff::deductions.create',
-        ['title'=>trans('staff::local.new_deduction'),'employees'=>$employees]);
+        return view('staff::vacations.create',
+        ['title'=>trans('staff::local.new_vacation'),'employees'=>$employees]);
     }
     private function attributes()
     {
-        return  [                        
-            'date_deduction',           
-            'reason',           
-            'days',           
-            'approval1',           
-            'approval2',                       
-            'admin_id'   
+        return  [
+            'date_vacation',
+            'from_date',
+            'to_date',                                   
+            'vacation_type',            
+            'substitute_employee_id',
+            'admin_id'
         ];
     }
 
@@ -148,57 +162,87 @@ class DeductionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DeductionRequest $request)
-    {
 
+     private function getDaysCount()
+     {      
+         // get count of days between two dates---
+         $datetime1 = new DateTime(request('from_date'));
+         $datetime2 = new DateTime(request('to_date'));
+         $interval = $datetime1->diff($datetime2);  
+
+         return $interval->invert == 0 ? $interval->format('%a') : 1;//now do whatever you like with $days
+     }
+    public function store(VacationRequest $request)
+    {                
+        if ($this-> getDaysCount() == 1 ) {
+            toast(trans('staff::local.invalid_vacation_period'),'error');
+            return back()->withInput();
+        } 
+
+        if (request()->hasFile('file_name')) {
+            if (request('employee_id') > 1) {
+                toast(trans('staff::local.invalid_number_employees'),'error');
+                return back()->withInput();
+            }
+            $this->file_name = uploadFileOrImage(null,request('file_name'),'images/attachments');             
+        }        
         foreach (request('employee_id') as $employee_id) {            
-            $request->user()->deductions()->create($request->only($this->attributes())+
+            $vacation = $request->user()->vacations()->create($request->only($this->attributes())+
             [
                 'employee_id'   => $employee_id,
-                'days'          => request('amount'),
-                'amount' => request('amount') * $this->salaryPerDay($employee_id)]);             
+                'file_name'     => $this->file_name,
+                'count'         => $this-> getDaysCount()+ 1,
+            ]);    
+            $this->InsertVacationPeriod($vacation,$employee_id);         
         }        
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('deductions.index');
+        return redirect()->route('vacations.index');
     }
-    private function salaryPerDay($employee_id)
+    private function InsertVacationPeriod($vacation,$employee_id)
     {
-        return Employee::findOrFail($employee_id)->salary / 30;
+        $to_date = date('Y-m-d', strtotime(request('to_date'). ' + 1 day'));
+        
+        $period = new DatePeriod(
+            new DateTime(request('from_date')),
+            new DateInterval('P1D'),
+            new DateTime($to_date)
+       );
+
+       foreach ($period as $date_vacation) {
+           VacationPeriod::firstOrCreate([
+            'date_vacation' => $date_vacation,
+            'employee_id'   => $employee_id,
+            'vacation_id'   => $vacation->id,
+            'vacation_type' => request('vacation_type'),
+           ]);
+       }
+
+
     }
 
-    public function edit(Deduction $deduction)
-    {
-        $employees = Employee::work()->orderBy('attendance_id')->get();
-        return view('staff::deductions.edit',
-        ['title'=>trans('staff::local.edit_deduction'),'employees'=>$employees,'deduction' => $deduction]);
-    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Vacation  $vacation
+     * @return \Illuminate\Http\Response
+     */
 
-    public function update(DeductionRequest $request , Deduction $deduction)
-    {
-        foreach (request('employee_id') as $employee_id) {            
-            $deduction->update($request->only($this->attributes())+
-            [
-                'employee_id'   => $employee_id,
-                'days'          => request('amount'),
-                'amount' => request('amount') * $this->salaryPerDay($employee_id)]);             
-        } 
-        toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('deductions.index');
-    }
-  
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Deduction  $deduction
+     * @param  \App\Vacation  $vacation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Deduction $deduction)
+    public function destroy(Vacation $vacation)
     {
         if (request()->ajax()) {
             if (request()->has('id'))
             {
-                foreach (request('id') as $id) {                    
-                    Deduction::destroy($id);
+                foreach (request('id') as $id) {
+                    $Vacation = Vacation::findOrFail($id);
+                    $file_path = public_path()."/images/attachments/".$Vacation->file_name;                                                             
+                    removeFileOrImage($file_path); // remove file from directory
+                    Vacation::destroy($id);
                 }
             }
         }
@@ -209,7 +253,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval1'=>'Accepted']);
+                Vacation::where('id',$id)->update(['approval1'=>'Accepted']);
             }
         }
         return response(['status'=>true]);
@@ -218,7 +262,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected']);
+                Vacation::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected']);
             }
         }
         return response(['status'=>true]);
@@ -227,7 +271,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending']);
+                Vacation::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending']);
             }
         }
         return response(['status'=>true]);
@@ -236,19 +280,22 @@ class DeductionController extends Controller
     public function confirm()
     {
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
+            $data = Vacation::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
             return $this->dataTableApproval2($data);
         }
-        return view('staff::deductions.confirm.index',
-        ['title'=>trans('staff::local.confirm_deductions')]);  
+        return view('staff::vacations.confirm',
+        ['title'=>trans('staff::local.confirm_vacations')]);  
     }
 
     public function filterConfirm()
     {
+        $vacation_type = empty(request('vacation_type'))? ['vacation_type','<>','']:['vacation_type',request('vacation_type')];
+        $approval2 = empty(request('approval2'))? ['approval2','<>','']:['approval2',request('approval2')];
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')
-            ->where('approval1','Accepted')
-            ->where('approval2',request('approval2'))->get();
+            $data = Vacation::with('employee')->orderBy('id','desc')
+            ->where('approval1','Accepted')            
+            ->where([$vacation_type,$approval2])            
+            ->get();
             return $this-> dataTableApproval2($data);
         }
     }
@@ -262,32 +309,7 @@ class DeductionController extends Controller
         })
         ->addColumn('employee_name',function($data){
             return $this->getFullEmployeeName($data);
-        }) 
-        ->addColumn('approval1',function($data){
-            switch ($data->approval1) {
-                case trans('staff::local.accepted'): 
-                    return '<div class="badge badge-primary round">
-                                <span>'.trans('staff::local.accepted_done').'</span>
-                                <i class="la la-check font-medium-2"></i>
-                            </div>';
-                case trans('staff::local.rejected'):                                 
-                     return '<div class="badge badge-warning round">
-                                <span>'.trans('staff::local.rejected_done').'</span>
-                                <i class="la la-close font-medium-2"></i>
-                            </div>';
-                case trans('staff::local.canceled'):                                 
-                    return '<div class="badge badge-info round">
-                                <span>'.trans('staff::local.canceled_done').'</span>
-                                <i class="la la-hand-paper-o font-medium-2"></i>
-                            </div>';
-                case trans('staff::local.pending'):                                 
-                    return '<div class="badge badge-dark round">
-                                <span>'.trans('staff::local.pending').'</span>
-                                <i class="la la-hourglass-1 font-medium-2"></i>
-                            </div>';                         
-            }
-            
-        })    
+        })          
         ->addColumn('approval2',function($data){
             switch ($data->approval2) {
                 case trans('staff::local.accepted'): 
@@ -307,17 +329,13 @@ class DeductionController extends Controller
                             </div>';                         
             }
             
-        })                   
-        ->addColumn('workingData',function($data){
-            return $this->workingData($data);
-        })    
-        ->addColumn('reason',function($data){
-            return '<a href="#" onclick="reason('."'".$data->reason."'".')">'.trans('staff::local.reason').'</a>';
-        })        
-        ->addColumn('position',function($data){
-            return !empty($data->employee->position) ?(session('lang') == 'ar' ? $data->employee->position->ar_position:
-            $data->employee->position->en_position) :'';
-        })                   
+        })                                   
+        ->addColumn('vacation_period',function($data){
+            return '<span class="red"><strong>'.trans('staff::local.from').'</strong></span> '.            
+            \Carbon\Carbon::parse( $data->from_date)->format('M d Y, D')
+            .'<br><span class="success"><strong>' .trans('staff::local.to') .'</strong></span> ' .
+            \Carbon\Carbon::parse( $data->to_date)->format('M d Y, D');
+        })                          
         ->addColumn('check', function($data){
                $btnCheck = '<label class="pos-rel">
                             <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -325,15 +343,38 @@ class DeductionController extends Controller
                         </label>';
                 return $btnCheck;
         })
-        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','approval2','reason'])
+        ->addColumn('attachments',function($data){
+            $file =  '<a target="_blank" class="btn btn-success btn-sm" href="'.asset('images/attachments/'.$data->file_name).'">
+                        <i class=" la la-download"></i>
+                    </a>';
+            return empty($data->file_name) ? '' : $file;   
+        })
+        ->addColumn('employee_image',function($data){
+            return $this->employeeImage($data);
+        })
+        ->rawColumns(['check','employee_name','attendance_id','approval2','vacation_period','attachments','employee_image'])
         ->make(true);
+    }
+    private function employeeImage($data)
+    {
+        $employee_id = isset($data->employee->id) ? $data->employee->id : $data->employee->employee_id;   
+        $image_path = $data->employee->gender == 'male' ? 'images/website/male.png' : 'images/website/female.png';     
+        return !empty($data->employee->employee_image)?
+            '<a href="'.route('employees.show',$employee_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset('images/employeesImages/'.$data->employee->employee_image).'" />
+            </a>':
+            '<a href="'.route('employees.show',$employee_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset($image_path).'" />
+            </a>';
     }
 
     public function acceptConfirm()
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval2'=>'Accepted']);
+                Vacation::where('id',$id)->update(['approval2'=>'Accepted']);
             }
         }
         return response(['status'=>true]);
@@ -342,12 +383,26 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval2'=>'Rejected']);
+                Vacation::where('id',$id)->update(['approval2'=>'Rejected']);
             }
         }
         return response(['status'=>true]);
     }
 
+    public function balance()
+    {
+        $sectors = Sector::sort()->get();
+        $departments = Department::sort()->get();
+        $sections = Section::sort()->get();
+        $positions = Position::sort()->get();
+        $employee = Employee::work()->get();
+        $title = trans('staff::local.vacation_balance');
+        return view('staff::vacations.balance',
+        compact('sectors','departments','sections','positions','employee','title'));
 
+    }
+    public function setBalance()
+    {
 
+    }
 }

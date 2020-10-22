@@ -121,21 +121,26 @@
         </li>   
         
         {{-- vacations --}}
-        {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
+        <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-plane"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.vacations') }}</span></a>
             <ul class="menu-content">                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='vacations'?'active':''}}">
+                    <a href="{{route('vacations.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.vacations') }}</span>
                     </a>
                 </li>
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='vacations-confirm'?'active':''}}">
+                    <a href="{{route('vacations.confirm')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.confirm_vacations') }}</span>
+                    </a>
+                </li>
+                <li class=" nav-item {{request()->segment(2)=='vacations-balance'?'active':''}}">
+                    <a href="{{route('vacations.balance')}}"><i class="la la-minus">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.vacation_balance') }}</span>
                     </a>
                 </li>                
             </ul>
-        </li>    --}}
+        </li> 
         
         {{-- payrolls --}}
         {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
