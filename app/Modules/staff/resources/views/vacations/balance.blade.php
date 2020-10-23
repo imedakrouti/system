@@ -1,7 +1,4 @@
 @extends('layouts.backEnd.cpanel')
-@section('styles')
-  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
-@endsection
 @section('sidebar')
 @include('layouts.backEnd.includes.sidebars._staff')
 @endsection
@@ -26,31 +23,95 @@
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body card-dashboard">
-          <form action="#" method="get" id="filterForm" >                
-              <div class="row mt-1">                          
-                  <div class="col-lg-3 col-md-6">
-                      <select name="approval2" class="form-control" id="approval2">                            
-                          <option value="">{{ trans('staff::local.status') }}</option>
-                          <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
-                          <option value="Rejected">{{ trans('staff::local.rejected') }}</option>            
-                          <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
-                          <option value="Pending">{{ trans('staff::local.pending') }}</option>            
-                      </select>
-                  </div>   
-                  <div class="col-lg-3 col-md-6">
-                    <select name="vacation_type" class="form-control" id="vacation_type">                            
-                        <option value="">{{ trans('staff::local.vacation_type') }}</option>
-                        <option value="Start work">{{ trans('staff::local.start_work') }}</option>
-                        <option value="End work">{{ trans('staff::local.end_work') }}</option>
-                        <option value="Sick leave">{{ trans('staff::local.sick_leave') }}</option>
-                        <option value="Regular vacation">{{ trans('staff::local.regular_vacation') }}</option>
-                        <option value="Vacation without pay">{{ trans('staff::local.vacation_without_pay') }}</option>
-                        <option value="Work errand">{{ trans('staff::local.work_errand') }}</option>
-                        <option value="Training">{{ trans('staff::local.training') }}</option>
-                        <option value="Casual vacation">{{ trans('staff::local.casual_vacation') }}</option>          
-                    </select>
-                </div>                   
-              </div>
+          <form class="form form-horizontal" method="POST" action="{{route('vacations.set-balance')}}" >                
+                @csrf
+                <div class="row">                          
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                        <label>{{ trans('staff::local.start_set_vacation_date') }}</label>
+                        <input type="date" class="form-control " value="{{old('set_date')}}"                           
+                            name="set_date" required>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                          
+                        </div>
+                    </div> 
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                        <label>{{ trans('staff::local.execute_type') }}</label>
+                        <select name="execute_type" class="form-control" id="execute_type">                            
+                                <option value="">{{ trans('staff::local.select') }}</option>
+                                <option value="departments">{{ trans('staff::local.departments') }}</option>
+                                <option value="employees">{{ trans('staff::local.employees') }}</option>                                             
+                            </select>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                          
+                        </div>
+                    </div>                  
+                </div>
+                <div class="row hidden" id="employees">                          
+                    <div class="col-lg-6 col-md-6" >
+                        <div class="form-group">
+                        <label>{{ trans('staff::local.employee_name') }}</label>
+                        <select name="employee_id[]" class="form-control select2" multiple id="vacation_type">                            
+                            @foreach ($employees as $employee)
+                                <option {{old('staff_id') == $employee->id ? 'selected' :''}} value="{{$employee->id}}">
+                                @if (session('lang') == 'ar')
+                                [{{$employee->attendance_id}}] {{$employee->ar_st_name}} {{$employee->ar_nd_name}} {{$employee->ar_rd_name}} {{$employee->ar_th_name}}
+                                @else
+                                [{{$employee->attendance_id}}] {{$employee->en_st_name}} {{$employee->en_nd_name}} {{$employee->en_rd_name}} {{$staff->en_th_name}}
+                                @endif
+                                </option>
+                            @endforeach
+
+                        </select>
+                        <span class="red">{{ trans('staff::local.required') }}</span>                        
+                        </div>
+                    </div>                  
+                </div> 
+                <div class="row hidden" id="departments">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                        <label>{{ trans('staff::local.sector_id') }}</label>
+                        <select id="sector_id" name="sector_id" class="form-control select2">
+                            <option value="">{{ trans('staff::local.select') }}</option>    
+                            @foreach ($sectors as $sector)
+                                <option value="{{$sector->id}}">
+                                {{session('lang') == 'ar' ? $sector->ar_sector:$sector->en_sector}}</option>
+                            @endforeach
+                        </select>                                             
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                        <label>{{ trans('staff::local.department_id') }}</label>
+                        <select id="department_id" required name="department_id" disabled class="form-control select2">
+                            <option value="">{{ trans('staff::local.select') }}</option>    
+                                
+                        </select>                                          
+                        </div>
+                    </div>
+                </div>   
+                <div class="col-lg-2 col-md-6">
+                    <div class="form-group row">
+                      <label>{{ trans('staff::local.vacation_balance_no') }}</label>
+                      <input type="number" min="0" step="1" class="form-control " value="{{old('number')}}"                           
+                        name="vacation_balance" required>
+                        <span class="red">{{ trans('staff::local.required') }}</span>                          
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="form-group row">
+                        <h5>                                
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace" name="old_vacation" value="true">
+                                <span class="lbl"></span> {{ trans('staff::local.keep_old_vacation_balance') }}
+                            </label>                                                                                            
+                        </h5>
+                    </div>
+                </div> 
+                <div class="form-actions left">
+                    <button type="submit" class="btn btn-success">
+                        <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
+                      </button>                
+                </div>               
           </form>          
         </div>
       </div>
@@ -62,241 +123,52 @@
 @endsection
 @section('script')
 <script>
-    $(function () {
-        var myTable = $('#dynamic-table').DataTable({
-        @include('layouts.backEnd.includes.datatables._datatableConfig')            
-            buttons: [ 
-                 // new accepted
-                {
-                    "text": "{{trans('staff::local.accepted')}}",
-                    "className": "btn btn-success mr-1",
-                    action : function ( e, dt, node, config ) {
-                      var form_data = $('#formData').serialize();
-                        var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
-                        if (itemChecked == "0") {
-                            swal("{{trans('staff::local.vacations')}}", "{{trans('msg.no_records_selected')}}", "info");
-                            return;
-                        }
-                        swal({
-                            title: "{{trans('staff::local.vacations')}}",
-                            text: "{{trans('staff::local.vacations_accept_confirm')}}",
-                            showCancelButton: true,
-                            confirmButtonColor: "#87B87F",
-                            confirmButtonText: "{{trans('msg.yes')}}",
-                            cancelButtonText: "{{trans('msg.no')}}",
-                            closeOnConfirm: false,
-                            },
-                            function() {
-                                $.ajax({
-                                    url:"{{route('vacations.accept-confirm')}}",
-                                    method:"POST",
-                                    data:form_data,
-                                    dataType:"json",
-                                    success:function(data)
-                                    {                                        
-                                        $('#dynamic-table').DataTable().ajax.reload();
-                                    }
-                                })
-                                // display success confirm message
-                                .done(function(data) {
-                                    swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
-                                })
-                            }
-                        );
-                        // end swal                        
-                    }
-                },
-                // new rejected
-                {
-                    "text": "{{trans('staff::local.rejected')}}",
-                    "className": "btn btn-danger mr-1",
-                    action : function ( e, dt, node, config ) {
-                      var form_data = $('#formData').serialize();
-                        var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
-                        if (itemChecked == "0") {
-                            swal("{{trans('staff::local.vacations')}}", "{{trans('msg.no_records_selected')}}", "info");
-                            return;
-                        }
-                        swal({
-                            title: "{{trans('staff::local.vacations')}}",
-                            text: "{{trans('staff::local.vacations_reject_confirm')}}",
-                            showCancelButton: true,
-                            confirmButtonColor: "#87B87F",
-                            confirmButtonText: "{{trans('msg.yes')}}",
-                            cancelButtonText: "{{trans('msg.no')}}",
-                            closeOnConfirm: false,
-                            },
-                            function() {
-                                $.ajax({
-                                    url:"{{route('vacations.reject-confirm')}}",
-                                    method:"POST",
-                                    data:form_data,
-                                    dataType:"json",
-                                    success:function(data)
-                                    {                                        
-                                        $('#dynamic-table').DataTable().ajax.reload();
-                                    }
-                                })
-                                // display success confirm message
-                                .done(function(data) {
-                                    swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
-                                })
-                            }
-                        );
-                        // end swal                        
-                    }
-                },                 
-                // default btns
-                @include('layouts.backEnd.includes.datatables._datatableBtn')
-            ],
-          ajax: "{{ route('vacations.confirm') }}",
-          columns: [
-              {data: 'check',               name: 'check', orderable: false, searchable: false},
-              {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'employee_image',      name: 'employee_image'},
-              {data: 'attendance_id',       name: 'attendance_id'},
-              {data: 'employee_name',       name: 'employee_name'},                            
-              {data: 'vacation_type',       name: 'vacation_type'},
-              {data: 'date_vacation',       name: 'date_vacation'},                             
-              {data: 'vacation_period',     name: 'vacation_period'},              
-              {data: 'count',               name: 'count'},                             
-              {data: 'approval2',           name: 'approval2'},                                           
-              {data: 'attachments',         name: 'attachments'},                                             
-              {data: 'updated_at',          name: 'updated_at'},                                                         
-          ],
-          @include('layouts.backEnd.includes.datatables._datatableLang')
-      });
-      @include('layouts.backEnd.includes.datatables._multiSelect')
+    $('#execute_type').on('change',function () {
+
+        if($('#execute_type').val() == 'employees')
+        {
+            $('#departments').addClass('hidden');
+            $('#employees').removeClass('hidden');
+        }else{
+            $('#departments').removeClass('hidden');
+            $('#employees').addClass('hidden');
+        }
+
+        if($('#execute_type').val() == 'departments')
+        {
+            $('#departments').removeClass('hidden');
+            $('#employees').addClass('hidden');
+        }else{
+            $('#departments').addClass('hidden');
+            $('#employees').removeClass('hidden');
+        }
     });
 
-    $('#approval2').on('change',function(){
-        filter();
-    })  
-    $('#vacation_type').on('change',function(){
-        filter();
-    })
-    function filter()
-    {
-        $('#dynamic-table').DataTable().destroy();
-        var approval2 		  = $('#approval2').val();
-        var vacation_type 	  = $('#vacation_type').val();
-        
-        var myTable = $('#dynamic-table').DataTable({
-            @include('layouts.backEnd.includes.datatables._datatableConfig')            
-            buttons: [ 
-                    // new accepted
-                    {
-                        "text": "{{trans('staff::local.accepted')}}",
-                        "className": "btn btn-success mr-1",
-                        action : function ( e, dt, node, config ) {
-                        var form_data = $('#formData').serialize();
-                            var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
-                            if (itemChecked == "0") {
-                                swal("{{trans('staff::local.vacations')}}", "{{trans('msg.no_records_selected')}}", "info");
-                                return;
-                            }
-                            swal({
-                                title: "{{trans('staff::local.vacations')}}",
-                                text: "{{trans('staff::local.vacations_accept_confirm')}}",
-                                showCancelButton: true,
-                                confirmButtonColor: "#87B87F",
-                                confirmButtonText: "{{trans('msg.yes')}}",
-                                cancelButtonText: "{{trans('msg.no')}}",
-                                closeOnConfirm: false,
-                                },
-                                function() {
-                                    $.ajax({
-                                        url:"{{route('vacations.accept-confirm')}}",
-                                        method:"POST",
-                                        data:form_data,
-                                        dataType:"json",
-                                        success:function(data)
-                                        {                                        
-                                            $('#dynamic-table').DataTable().ajax.reload();
-                                        }
-                                    })
-                                    // display success confirm message
-                                    .done(function(data) {
-                                        swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
-                                    })
-                                }
-                            );
-                            // end swal                        
-                        }
-                    },
-                    // new rejected
-                    {
-                        "text": "{{trans('staff::local.rejected')}}",
-                        "className": "btn btn-danger mr-1",
-                        action : function ( e, dt, node, config ) {
-                        var form_data = $('#formData').serialize();
-                            var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
-                            if (itemChecked == "0") {
-                                swal("{{trans('staff::local.vacations')}}", "{{trans('msg.no_records_selected')}}", "info");
-                                return;
-                            }
-                            swal({
-                                title: "{{trans('staff::local.vacations')}}",
-                                text: "{{trans('staff::local.vacations_reject_confirm')}}",
-                                showCancelButton: true,
-                                confirmButtonColor: "#87B87F",
-                                confirmButtonText: "{{trans('msg.yes')}}",
-                                cancelButtonText: "{{trans('msg.no')}}",
-                                closeOnConfirm: false,
-                                },
-                                function() {
-                                    $.ajax({
-                                        url:"{{route('vacations.reject-confirm')}}",
-                                        method:"POST",
-                                        data:form_data,
-                                        dataType:"json",
-                                        success:function(data)
-                                        {                                        
-                                            $('#dynamic-table').DataTable().ajax.reload();
-                                        }
-                                    })
-                                    // display success confirm message
-                                    .done(function(data) {
-                                        swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
-                                    })
-                                }
-                            );
-                            // end swal                        
-                        }
-                    },                 
-                    // default btns
-                    @include('layouts.backEnd.includes.datatables._datatableBtn')
-                ],
-            ajax:{
-                type:'POST',
-                url:'{{route("vacations.filter-confirm")}}',
-                data: {
-                    _method       : 'PUT',
-                    approval2     : approval2,                
-                    vacation_type : vacation_type,                
-                    _token        : '{{ csrf_token() }}'
-                }
-            },
-            // columns
-            columns: [
-                {data: 'check',               name: 'check', orderable: false, searchable: false},
-                {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-                {data: 'employee_image',      name: 'employee_image'},
-                {data: 'attendance_id',       name: 'attendance_id'},
-                {data: 'employee_name',       name: 'employee_name'},                              
-                {data: 'vacation_type',       name: 'vacation_type'},                             
-                {data: 'date_vacation',       name: 'date_vacation'},                             
-                {data: 'vacation_period',     name: 'vacation_period'},              
-                {data: 'count',               name: 'count'},                               
-                {data: 'approval2',           name: 'approval2'},                                           
-                {data: 'attachments',         name: 'attachments'},                                             
-                {data: 'updated_at',          name: 'updated_at'},   
-                
-            ],
-            @include('layouts.backEnd.includes.datatables._datatableLang')
-        });
-        @include('layouts.backEnd.includes.datatables._multiSelect')  
-    }
+    $('#sector_id').on('change', function(){
+          var sector_id = $(this).val();                  
+
+          if (sector_id == '') // is empty
+          {
+            $('#department_id').prop('disabled', true); // set disable                  
+          }
+          else // is not empty
+          {
+            $('#department_id').prop('disabled', false);	// set enable                  
+            //using
+            $.ajax({
+              url:'{{route("getDepartmentsBySectorId")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',
+                sector_id 	  : sector_id,                      
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){
+                $('#department_id').html(data);                      
+              }
+            });
+          }
+    });  
 </script>
-@include('layouts.backEnd.includes.datatables._datatable')
 @endsection

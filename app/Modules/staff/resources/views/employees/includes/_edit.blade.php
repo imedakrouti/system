@@ -206,7 +206,7 @@
                 <div class="col-lg-2 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.vacation_allocated') }}</label>
-                      <input type="number" min="0" class="form-control " value="{{old('vacation_allocated',$employee->vacation_allocated)}}" 
+                      <input type="number" min="0" class="form-control " disabled value="{{old('vacation_allocated',$employee->vacation_allocated)}}" 
                       placeholder="{{ trans('staff::local.vacation_allocated') }}"
                         name="vacation_allocated">                                            
                     </div>

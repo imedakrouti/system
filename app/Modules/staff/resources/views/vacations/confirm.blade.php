@@ -137,7 +137,11 @@
                                 })
                                 // display success confirm message
                                 .done(function(data) {
-                                    swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
+                                    if (data.status == true) {
+                                        swal("{{trans('msg.success')}}", data.msg, "success");    
+                                    } else {
+                                        swal("{{trans('msg.error')}}", data.msg, "error");
+                                    }
                                 })
                             }
                         );
@@ -177,7 +181,11 @@
                                 })
                                 // display success confirm message
                                 .done(function(data) {
-                                    swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
+                                    if (data.status == true) {
+                                        swal("{{trans('msg.success')}}", data.msg, "success");    
+                                    } else {
+                                        swal("{{trans('msg.error')}}", data.msg, "error");
+                                    }
                                 })
                             }
                         );
@@ -255,7 +263,11 @@
                                     })
                                     // display success confirm message
                                     .done(function(data) {
-                                        swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
+                                        if (data.status == true) {
+                                        swal("{{trans('msg.success')}}", data.msg, "success");    
+                                    } else {
+                                        swal("{{trans('msg.error')}}", data.msg, "error");
+                                    }
                                     })
                                 }
                             );
@@ -295,7 +307,11 @@
                                     })
                                     // display success confirm message
                                     .done(function(data) {
-                                        swal("{{trans('msg.success')}}", "{{trans('msg.updated_successfully')}}", "success");
+                                        if (data.status == true) {
+                                        swal("{{trans('msg.success')}}", data.msg, "success");    
+                                    } else {
+                                        swal("{{trans('msg.error')}}", data.msg, "error");
+                                    }
                                     })
                                 }
                             );

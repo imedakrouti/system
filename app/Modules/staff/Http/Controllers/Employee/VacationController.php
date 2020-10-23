@@ -6,7 +6,7 @@ use App\Http\Requests\VacationRequest;
 use DateInterval;
 use DatePeriod;
 use DateTime;
-
+use DB;
 use Staff\Models\Employees\Employee;
 use Staff\Models\Employees\Vacation;
 use Staff\Models\Employees\VacationPeriod;
@@ -26,7 +26,7 @@ class VacationController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Vacation::with('employee')->orderBy('id','desc')->get();
+            $data = Vacation::with('employee')->orderBy('id','desc')->where('approval2','<>','Accepted')->get();
             return $this-> dataTableApproval1($data);
         }
         return view('staff::vacations.index',
@@ -44,22 +44,6 @@ class VacationController extends Controller
         }
         return $employee_name;
     }
-    private function workingData($data)
-    {
-        $sector = '';
-        if (!empty($data->employee->sector->ar_sector)) {
-            $sector = session('lang') == 'ar' ?  '<span class="blue">'.$data->employee->sector->ar_sector . '</span>': '<span class="blue">'.$data->employee->sector->en_sector . '</span>';            
-        }
-        $department = '';
-        if (!empty($data->employee->department->ar_department)) {
-            $department = session('lang') == 'ar' ?  '<span class="purple">'.$data->employee->department->ar_department . '</span>': '<span class="blue">'.$data->employee->department->en_department . '</span>';            
-        }
-        $section = '';
-        if (!empty($data->employee->section->ar_section)) {
-            $section = session('lang') == 'ar' ?  '<span class="red">'.$data->employee->section->ar_section . '</span>': '<span class="blue">'.$data->employee->section->en_section . '</span>';            
-        }
-        return $sector . ' '. $department . '<br>' .  $section ;
-    }
     private function dataTableApproval1($data)
     {
         return datatables($data)
@@ -71,27 +55,28 @@ class VacationController extends Controller
             return $this->getFullEmployeeName($data);
         }) 
         ->addColumn('approval1',function($data){
+            $username = empty($data->approvalOne->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalOne->username;
             switch ($data->approval1) {
                 case trans('staff::local.accepted'): 
                     return '<div class="badge badge-primary round">
                                 <span>'.trans('staff::local.accepted_done').'</span>
                                 <i class="la la-check font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.rejected'):                                 
                      return '<div class="badge badge-warning round">
                                 <span>'.trans('staff::local.rejected_done').'</span>
                                 <i class="la la-close font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.canceled'):                                 
                     return '<div class="badge badge-info round">
                                 <span>'.trans('staff::local.canceled_done').'</span>
                                 <i class="la la-hand-paper-o font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.pending'):                                 
                     return '<div class="badge badge-dark round">
                                 <span>'.trans('staff::local.pending').'</span>
                                 <i class="la la-hourglass-1 font-medium-2"></i>
-                            </div>';                         
+                            </div>' .$username;                         
             }
             
         })                         
@@ -128,7 +113,7 @@ class VacationController extends Controller
             $approval1 = empty(request('approval1'))? ['approval1','<>','']:['approval1',request('approval1')];
             $data = Vacation::with('employee')->orderBy('id','desc')
             ->where([$vacation_type,$approval1])            
-            ->get();
+            ->where('approval2','<>','Accepted')->get();
             return $this-> dataTableApproval1($data);
         }
     }
@@ -170,30 +155,46 @@ class VacationController extends Controller
          $datetime2 = new DateTime(request('to_date'));
          $interval = $datetime1->diff($datetime2);  
 
-         return $interval->invert == 0 ? $interval->format('%a') : 1;//now do whatever you like with $days
+         return $interval->invert == 0 ? $interval->format('%a') +1 : 'invalid';//now do whatever you like with $days
      }
     public function store(VacationRequest $request)
-    {                
-        if ($this-> getDaysCount() == 1 ) {
+    {         
+
+        if ($this-> getDaysCount() == 'invalid' ) {
             toast(trans('staff::local.invalid_vacation_period'),'error');
             return back()->withInput();
         } 
 
         if (request()->hasFile('file_name')) {
-            if (request('employee_id') > 1) {
+            if (count(request('employee_id')) > 1) {
                 toast(trans('staff::local.invalid_number_employees'),'error');
                 return back()->withInput();
             }
             $this->file_name = uploadFileOrImage(null,request('file_name'),'images/attachments');             
         }        
-        foreach (request('employee_id') as $employee_id) {            
-            $vacation = $request->user()->vacations()->create($request->only($this->attributes())+
-            [
-                'employee_id'   => $employee_id,
-                'file_name'     => $this->file_name,
-                'count'         => $this-> getDaysCount()+ 1,
-            ]);    
-            $this->InsertVacationPeriod($vacation,$employee_id);         
+        foreach (request('employee_id') as $employee_id) {   
+            $employee = Employee::findOrFail($employee_id);
+            $vacation_allocated = $employee->vacation_allocated;
+
+            $message = '';
+
+            if ($vacation_allocated < $this->getDaysCount()+1) {
+                $message .= ' [' .$employee->attendance_id . ' ]';
+            }else{
+                $vacation = $request->user()->vacations()->firstOrCreate($request->only($this->attributes())+
+                [                    
+                    'employee_id'       => $employee_id,
+                    'file_name'         => $this->file_name,
+                    'count'             => $this-> getDaysCount(),
+                ]);    
+                $this->InsertVacationPeriod($vacation,$employee_id);  
+                
+                // notification
+
+                // deduct from vacation allocated
+                Employee::where('id',$employee_id)->
+                update(['vacation_allocated'=>($vacation_allocated - $this->getDaysCount()) ]);
+            }
         }        
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('vacations.index');
@@ -239,9 +240,17 @@ class VacationController extends Controller
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    $Vacation = Vacation::findOrFail($id);
-                    $file_path = public_path()."/images/attachments/".$Vacation->file_name;                                                             
-                    removeFileOrImage($file_path); // remove file from directory
+                    $vacation = Vacation::findOrFail($id);
+                    
+                    $file_path = public_path()."/images/attachments/".$vacation->file_name;                                                             
+                    removeFileOrImage($file_path); // remove file from directory                    
+                    if ($vacation->approval1 == trans('staff::local.accepted') || 
+                    $vacation->approval1 == trans('staff::local.pending')) {
+                        $employee = Employee::findOrFail($vacation->employee->id);
+                        Employee::where('id',$employee->id)
+                        ->update(['vacation_allocated'=> ($employee->vacation_allocated + $vacation->count )]);
+                        Vacation::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending']);
+                    }
                     Vacation::destroy($id);
                 }
             }
@@ -253,7 +262,14 @@ class VacationController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Vacation::where('id',$id)->update(['approval1'=>'Accepted']);
+                $vacation = Vacation::findOrFail($id);
+                if ($vacation->approval1 == trans('staff::local.rejected')|| 
+                $vacation->approval1 == trans('staff::local.canceled')) {
+                    $employee = Employee::findOrFail($vacation->employee->id);
+                    Employee::where('id',$employee->id)
+                    ->update(['vacation_allocated'=> ($employee->vacation_allocated - $vacation->count )]);
+                }
+                Vacation::where('id',$id)->update(['approval1'=>'Accepted','approval_one_user' => authInfo()->id]);
             }
         }
         return response(['status'=>true]);
@@ -262,25 +278,46 @@ class VacationController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Vacation::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected']);
+                DB::transaction(function() use ($id){
+                    $vacation = Vacation::findOrFail($id);
+                    if (($vacation->approval1 == trans('staff::local.accepted')|| $vacation->approval1 == trans('staff::local.pending')) &&
+                    ($vacation->approval2 != trans('staff::local.rejected') || $vacation->approval2 == trans('staff::local.pending'))) {
+
+                        $employee = Employee::findOrFail($vacation->employee->id);
+                        Employee::where('id',$employee->id)
+                        ->update(['vacation_allocated'=> ($employee->vacation_allocated + $vacation->count )]);
+                    }
+                    Vacation::where('id',$id)
+                    ->update(['approval1'=>'Rejected','approval2'=>'Pending','approval_one_user' => authInfo()->id]);                         
+                });
             }
         }
-        return response(['status'=>true]);
+        return response(['status'=>true,'msg'=>trans('staff::local.rejected_successfully')]);
     }
     public function cancel()
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Vacation::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending']);
+                DB::transaction(function() use ($id){
+                    $vacation = Vacation::findOrFail($id);
+                    if ($vacation->approval1 == trans('staff::local.accepted')|| 
+                    $vacation->approval1 == trans('staff::local.pending')) {
+                        $employee = Employee::findOrFail($vacation->employee->id);
+                        Employee::where('id',$employee->id)
+                        ->update(['vacation_allocated'=> ($employee->vacation_allocated + $vacation->count )]);
+                    }
+                    Vacation::where('id',$id)
+                    ->update(['approval1'=>'Canceled','approval2'=>'Pending','approval_one_user' => authInfo()->id]);
+                });                
             }
         }
-        return response(['status'=>true]);
+        return response(['status'=>true,'msg'=>trans('staff::local.canceled_successfully')]);
     }
 
     public function confirm()
     {
         if (request()->ajax()) {
-            $data = Vacation::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
+            $data = Vacation::with('employee','admin')->orderBy('id','desc')->where('approval1','Accepted')->get();
             return $this->dataTableApproval2($data);
         }
         return view('staff::vacations.confirm',
@@ -292,7 +329,7 @@ class VacationController extends Controller
         $vacation_type = empty(request('vacation_type'))? ['vacation_type','<>','']:['vacation_type',request('vacation_type')];
         $approval2 = empty(request('approval2'))? ['approval2','<>','']:['approval2',request('approval2')];
         if (request()->ajax()) {
-            $data = Vacation::with('employee')->orderBy('id','desc')
+            $data = Vacation::with('employee','admin')->orderBy('id','desc')
             ->where('approval1','Accepted')            
             ->where([$vacation_type,$approval2])            
             ->get();
@@ -311,22 +348,23 @@ class VacationController extends Controller
             return $this->getFullEmployeeName($data);
         })          
         ->addColumn('approval2',function($data){
+            $username = empty($data->approvalTwo->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalTwo->username;
             switch ($data->approval2) {
                 case trans('staff::local.accepted'): 
                     return '<div class="badge badge-success round">
                                 <span>'.trans('staff::local.accepted_done').'</span>
                                 <i class="la la-check font-medium-2"></i>
-                            </div>';
+                            </div>'. $username;
                 case trans('staff::local.rejected'):                                 
                      return '<div class="badge badge-danger round">
                                 <span>'.trans('staff::local.rejected_done').'</span>
                                 <i class="la la-close font-medium-2"></i>
-                            </div>';
+                            </div>'. $username;
                 case trans('staff::local.pending'):                                 
                     return '<div class="badge badge-dark round">
                                 <span>'.trans('staff::local.pending').'</span>
                                 <i class="la la-hourglass-1 font-medium-2"></i>
-                            </div>';                         
+                            </div>'. $username;                         
             }
             
         })                                   
@@ -374,7 +412,13 @@ class VacationController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Vacation::where('id',$id)->update(['approval2'=>'Accepted']);
+                $vacation = Vacation::findOrFail($id);
+                if ($vacation->approval2 == trans('staff::local.rejected')) {
+                    $employee = Employee::findOrFail($vacation->employee->id);
+                    Employee::where('id',$employee->id)
+                    ->update(['vacation_allocated'=> ($employee->vacation_allocated - $vacation->count )]);
+                }
+                Vacation::where('id',$id)->update(['approval2'=>'Accepted','approval_two_user' => authInfo()->id]);
             }
         }
         return response(['status'=>true]);
@@ -383,10 +427,19 @@ class VacationController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
+                
+                $vacation = Vacation::findOrFail($id);
+                if ($vacation->approval1 == trans('staff::local.accepted')|| 
+                $vacation->approval1 == trans('staff::local.pending') ||$vacation->approval2 == trans('staff::local.accepted')|| 
+                $vacation->approval2 == trans('staff::local.pending')) {
+                    $employee = Employee::findOrFail($vacation->employee->id);
+                    Employee::where('id',$employee->id)
+                    ->update(['vacation_allocated'=> ($employee->vacation_allocated + $vacation->count )]);
+                }
                 Vacation::where('id',$id)->update(['approval2'=>'Rejected']);
             }
         }
-        return response(['status'=>true]);
+        return response(['status'=>true,'msg'=>trans('staff::local.rejected_successfully'),'approval_two_user' => authInfo()->id]);
     }
 
     public function balance()
@@ -395,14 +448,37 @@ class VacationController extends Controller
         $departments = Department::sort()->get();
         $sections = Section::sort()->get();
         $positions = Position::sort()->get();
-        $employee = Employee::work()->get();
+        $employees = Employee::work()->get();
         $title = trans('staff::local.vacation_balance');
         return view('staff::vacations.balance',
-        compact('sectors','departments','sections','positions','employee','title'));
+        compact('sectors','departments','sections','positions','employees','title'));
 
     }
     public function setBalance()
-    {
+    {        
+        if (request('execute_type') == 'employees') {
+            foreach (request('employee_id') as $employee_id) {
+                $vacation_allocated = Employee::findOrFail($employee_id)->vacation_allocated;
+                $balance_allocated = request('old_vacation') == 'true' ? $vacation_allocated + request('vacation_balance')
+                :request('vacation_balance');                
+                Employee::where('hiring_date','<=',request('set_date'))
+                ->where('id',$employee_id)
+                ->update(['vacation_allocated'=>$balance_allocated]);
+            }
+        }else{
+            $employees = Employee::work()->get();
+            foreach ($employees as $employee) {
+                $vacation_allocated = $employee->vacation_allocated;
+                $balance_allocated = request('old_vacation') == 'true' ? $vacation_allocated + request('vacation_balance')
+                :request('vacation_balance'); 
 
+                Employee::where('hiring_date','<=',request('set_date'))
+                ->where('id',$employee->id)
+                ->where('department_id',request('department_id'))
+                ->update(['vacation_allocated'=>$balance_allocated]);
+            }
+        }
+        toast(trans('staff::local.set_vacation_balance'),'success');
+        return redirect()->route('vacations.balance');
     }
 }

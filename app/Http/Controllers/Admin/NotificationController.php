@@ -52,7 +52,7 @@ class NotificationController extends Controller
                             </a>';
                 }else{                    
                     $view = '<a class="dropdown-item text-muted text-center" href="'.route('view.notifications').'">
-                    '. trans('admin.no_notifications') .'                        
+                    '. trans('admin.no_new_notifications') .'                        
                     </a>';
                 }  
             // view
