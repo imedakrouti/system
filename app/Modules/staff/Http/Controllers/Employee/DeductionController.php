@@ -3,6 +3,7 @@
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeductionRequest;
+use App\Models\Admin;
 use Staff\Models\Employees\Employee;
 use Staff\Models\Employees\Deduction;
 
@@ -334,6 +335,15 @@ class DeductionController extends Controller
         if (request()->ajax()) {
             foreach (request('id') as $id) {
                 Deduction::where('id',$id)->update(['approval2'=>'Accepted']);
+                $deduction = Deduction::findOrFail($id);
+                $employee = Employee::findOrFail($deduction->employee->id);
+                // notification                    
+                $user = Admin::findOrFail($employee->user_id);                
+                $data['icon']  = 'gavel';
+                $data['color'] = 'danger';
+                $data['title'] = 'الجزاءات';
+                $data['data']  = 'تم تسجيل جزاء واعتماده بتاريخ ' . $deduction->date_deduction . '<br>' .$deduction->reason;
+                $user->notify(new \App\Notifications\StaffNotification($data));
             }
         }
         return response(['status'=>true]);
@@ -343,6 +353,16 @@ class DeductionController extends Controller
         if (request()->ajax()) {
             foreach (request('id') as $id) {
                 Deduction::where('id',$id)->update(['approval2'=>'Rejected']);
+                $deduction = Deduction::findOrFail($id);
+                $employee = Employee::findOrFail($deduction->employee->id);
+
+                // notification                    
+                $user = Admin::findOrFail($employee->user_id);                
+                $data['icon']  = 'gavel';
+                $data['color'] = 'success';
+                $data['title'] = 'الجزاءات';
+                $data['data']  = 'تم رفض جزاء بتاريخ ' . $deduction->date_deduction . '<br>' .$deduction->reason;
+                $user->notify(new \App\Notifications\StaffNotification($data));
             }
         }
         return response(['status'=>true]);

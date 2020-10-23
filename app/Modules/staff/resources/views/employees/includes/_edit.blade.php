@@ -54,14 +54,22 @@
         <div role="tabpanel" class="tab-pane active" id="tabVerticalLeft11" aria-expanded="true"
             aria-labelledby="baseVerticalLeft1-tab1">
             <h4 class="purple">{{ trans('staff::local.basic_data') }}</h4>
-
-            <div class="col-lg-1 col-md-3">
-                <div class="form-group row">
-                <label>{{ trans('staff::local.attendance_id') }}</label>
-                <input type="number" min="0" class="form-control " value="{{old('attendance_id',$employee->attendance_id)}}"                             
-                    name="attendance_id" required>   
+            <div class="row" style="margin-left: 0;">
+              <div class="col-lg-1 col-md-3">
+                  <div class="form-group">
+                  <label>{{ trans('staff::local.attendance_id') }}</label>
+                  <input type="number" min="0" class="form-control " value="{{old('attendance_id',$employee->attendance_id)}}"                             
+                      name="attendance_id" required>   
+                  <span class="red">{{ trans('staff::local.required') }}</span>                                                     
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-3">
+                <div class="form-group">
+                <label>{{ trans('admin.username') }}</label>
+                <input type="text" class="form-control" disabled value="{{$employee->employee_user->username}}">   
                 <span class="red">{{ trans('staff::local.required') }}</span>                                                     
                 </div>
+            </div>
             </div>
 
             <div class="row" style="margin-left: 0;">

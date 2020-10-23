@@ -239,10 +239,10 @@ if (!function_exists('removeFileOrImage')) {
 
 if (!function_exists('getClassroomName')) {
 	function getClassroomName($classroom_id)
-	{		
-		
+	{				
 		$classroom = Student\Models\Settings\Classroom::findOrFail($classroom_id);  
 		$className = session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom ;     
 		return $className;   	
 	}
 }
+

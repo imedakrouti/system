@@ -32,12 +32,13 @@
                     @foreach (auth()->user()->notifications as $notification)
                         <div class="bs-callout-{{$notification->data["color"]}} mb-1">
                             <div class="media align-items-stretch">
-                                <div class="media-left media-middle bg-{{$notification->data["color"]}} p-1">
+                                <div class="media-left media-middle bg-{{$notification->data["color"]}} p-2">
                                 <i class="la la-{{ $notification->read_at==null?$notification->data["icon"]:'check' }} white font-medium-5 mb-1"></i>
                                 </div>
                                 <div class="media-body p-1">  
-                                <strong>{{$notification->data["title"]}}</strong>                              
-                                <p>{{ trans('admin.'.$notification->data["data"]) }}</p>
+                                <strong>{{ $notification->data["title"] }}</strong>                              
+                                <p>{!!$notification->data["data"]!!}</p>
+                                <h6><strong>{{$notification->created_at->isoFormat(' dddd, Do MMMM  YYYY, h:mm')}}</strong></h6>
                                 </div>
                             </div>
                         </div>                                    

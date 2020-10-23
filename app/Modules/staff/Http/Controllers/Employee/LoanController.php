@@ -3,6 +3,7 @@
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoanRequest;
+use App\Models\Admin;
 use Staff\Models\Employees\Employee;
 use Staff\Models\Employees\Loan;
 use Carbon;
@@ -299,6 +300,15 @@ class LoanController extends Controller
         if (request()->ajax()) {
             foreach (request('id') as $id) {
                 Loan::where('id',$id)->update(['approval2'=>'Accepted']);
+                $loan = Loan::findOrFail($id);
+                $employee = Employee::findOrFail($loan->employee->id);
+                // notification                    
+                $user = Admin::findOrFail($employee->user_id);                
+                $data['icon']  = 'minus';
+                $data['color'] = 'info';
+                $data['title'] = 'السلف';
+                $data['data']  = 'تم تسجيل سلفه واعتماده بتاريخ ' . $loan->date_loan . '<br> قيمة السلفه '. $loan->amount .' جنيه ';
+                $user->notify(new \App\Notifications\StaffNotification($data));
             }
         }
         return response(['status'=>true]);
@@ -308,6 +318,15 @@ class LoanController extends Controller
         if (request()->ajax()) {
             foreach (request('id') as $id) {
                 Loan::where('id',$id)->update(['approval2'=>'Rejected']);
+                $loan = Loan::findOrFail($id);
+                $employee = Employee::findOrFail($loan->employee->id);
+                // notification                    
+                $user = Admin::findOrFail($employee->user_id);                
+                $data['icon']  = 'minus';
+                $data['color'] = 'danger';
+                $data['title'] = 'السلف';
+                $data['data']  = 'تم رفض سلفه بتاريخ ' . $loan->date_loan  . '<br> قيمة السلفه '. $loan->amount .' جنيه ';
+                $user->notify(new \App\Notifications\StaffNotification($data));
             }
         }
         return response(['status'=>true]);

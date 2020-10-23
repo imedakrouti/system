@@ -17,6 +17,7 @@ use DB;
 use PDF;
 use Carbon;
 use Alkoumi\LaravelArabicTafqeet\Tafqeet;
+use App\Models\Admin;
 
 class EmployeeController extends Controller
 {
@@ -134,9 +135,18 @@ class EmployeeController extends Controller
     {                
         DB::transaction(function() use ($request){
             $this->uploadEmployeeImage($request->id);
+            // create user for employee
+            $user_id = Admin::create([
+                'name'          => request('en_st_name'),
+                'username'      => strtolower(str_replace(' ', '', trim(request('en_st_name')))),
+                'email'         => request('email'),
+                'password'      => 'password'.request('attendance_id'),
+                'image_profile' => $this->employee_image,
+            ]);
+
             $employee = [];
             $employee = $request->user()->employees()->firstOrCreate($request->only($this->attributes())+
-            ['employee_image' => $this->employee_image]);        
+            ['employee_image' => $this->employee_image ,'user_id' => $user_id->id]);        
             $this->employeeDocuments($employee->id);
             $this->employeeHolidays($employee->id);
             $this->employeeSkills($employee->id);

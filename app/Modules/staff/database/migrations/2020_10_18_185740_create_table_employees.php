@@ -68,6 +68,7 @@ class CreateTableEmployees extends Migration
             $table->unsignedBigInteger('section_id')->nullable();
             $table->unsignedBigInteger('position_id')->nullable();
             $table->unsignedBigInteger('timetable_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('admin_id');
             $table->unsignedBigInteger('direct_manager_id')->nullable();            
             $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade')->onUpdate('cascade');
@@ -76,6 +77,7 @@ class CreateTableEmployees extends Migration
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('timetable_id')->references('id')->on('timetables')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('direct_manager_id')->references('id')->on('employees');
+            $table->foreign('user_id')->references('id')->on('admins');
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->softDeletes();
             $table->timestamps();

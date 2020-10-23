@@ -3,6 +3,7 @@
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VacationRequest;
+use App\Models\Admin;
 use DateInterval;
 use DatePeriod;
 use DateTime;
@@ -408,15 +409,25 @@ class VacationController extends Controller
             </a>';
     }
 
+
     public function acceptConfirm()
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
                 $vacation = Vacation::findOrFail($id);
+                $employee = Employee::findOrFail($vacation->employee->id);
+                
                 if ($vacation->approval2 == trans('staff::local.rejected')) {
-                    $employee = Employee::findOrFail($vacation->employee->id);
                     Employee::where('id',$employee->id)
                     ->update(['vacation_allocated'=> ($employee->vacation_allocated - $vacation->count )]);
+                    
+                    // notification                    
+                    $user = Admin::findOrFail($employee->user_id);                
+                    $data['icon']  = 'plane';
+                    $data['color'] = 'warning';
+                    $data['title'] = 'الاجازات';
+                    $data['data']  = 'تم تسجل الاجازة واعتمادها خلال الفترة ما بين ' . $vacation->from_date . ' و ' . $vacation->to_date;                
+                    $user->notify(new \App\Notifications\StaffNotification($data));
                 }
                 Vacation::where('id',$id)->update(['approval2'=>'Accepted','approval_two_user' => authInfo()->id]);
             }
@@ -435,6 +446,14 @@ class VacationController extends Controller
                     $employee = Employee::findOrFail($vacation->employee->id);
                     Employee::where('id',$employee->id)
                     ->update(['vacation_allocated'=> ($employee->vacation_allocated + $vacation->count )]);
+
+                    // notification                    
+                    $user = Admin::findOrFail($employee->user_id);                
+                    $data['icon']  = 'plane';
+                    $data['color'] = 'danger';
+                    $data['title'] = 'الاجازات';
+                    $data['data']  = 'تم رفض الاجازة خلال الفترة ما بين ' . $vacation->from_date . ' و ' . $vacation->to_date;                
+                    $user->notify(new \App\Notifications\StaffNotification($data));
                 }
                 Vacation::where('id',$id)->update(['approval2'=>'Rejected']);
             }

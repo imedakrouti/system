@@ -66,12 +66,18 @@ class Employee extends Model
         'timetable_id',
         'direct_manager_id',            
         'admin_id',
+        'user_id',
         'employee_image'
     ];
 
     public function admins()
     {
-        $this->belongsTo(App\Models\Admin::class);
+        return $this->belongsTo(App\Models\Admin::class);
+    }
+    public function employee_user()
+    {
+        return $this->belongsTo('App\Models\Admin','user_id');
+
     }
     public function timetable()
     {
@@ -104,5 +110,22 @@ class Employee extends Model
     public function scopeWork($query)
     {
         return $query->where('leaved','No');
+    }
+
+    public function setEnStNameAttribute($value)
+    {
+        return $this->attributes['en_st_name'] = ucfirst($value);
+    }
+    public function setEnNdNameAttribute($value)
+    {
+        return $this->attributes['en_nd_name'] = ucfirst($value);
+    }
+    public function setEnRdNameAttribute($value)
+    {
+        return $this->attributes['en_rd_name'] = ucfirst($value);
+    }
+    public function setEnThNameAttribute($value)
+    {
+        return $this->attributes['en_th_name'] = ucfirst($value);
     }
 }
