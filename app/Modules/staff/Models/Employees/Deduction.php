@@ -13,13 +13,23 @@ class Deduction extends Model
         'days',
         'approval1',      
         'approval2',          
-        'employee_id',          
+        'employee_id', 
+        'approval_one_user',
+        'approval_two_user',         
         'admin_id'
 
     ];
     public function admin()
     {
         return $this->belongsTo('App\Models\Admin','admin_id');
+    }
+    public function approvalOne()
+    {
+        return $this->belongsTo('App\Models\Admin','approval_one_user');
+    }
+    public function approvalTwo()
+    {
+        return $this->belongsTo('App\Models\Admin','approval_two_user');
     }
     public function employee()
     {

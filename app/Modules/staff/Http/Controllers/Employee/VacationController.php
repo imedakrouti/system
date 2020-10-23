@@ -27,7 +27,7 @@ class VacationController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Vacation::with('employee')->orderBy('id','desc')->where('approval2','<>','Accepted')->get();
+            $data = Vacation::with('employee')->orderBy('id','desc')->where('approval2','<>','Accepted')->where('approval2','<>','Rejected')->get();
             return $this-> dataTableApproval1($data);
         }
         return view('staff::vacations.index',
@@ -149,18 +149,18 @@ class VacationController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     private function getDaysCount()
-     {      
+    private function getDaysCount()
+    {      
          // get count of days between two dates---
          $datetime1 = new DateTime(request('from_date'));
          $datetime2 = new DateTime(request('to_date'));
          $interval = $datetime1->diff($datetime2);  
 
          return $interval->invert == 0 ? $interval->format('%a') +1 : 'invalid';//now do whatever you like with $days
-     }
+    }
+
     public function store(VacationRequest $request)
     {         
-
         if ($this-> getDaysCount() == 'invalid' ) {
             toast(trans('staff::local.invalid_vacation_period'),'error');
             return back()->withInput();
@@ -172,7 +172,8 @@ class VacationController extends Controller
                 return back()->withInput();
             }
             $this->file_name = uploadFileOrImage(null,request('file_name'),'images/attachments');             
-        }        
+        }    
+
         foreach (request('employee_id') as $employee_id) {   
             $employee = Employee::findOrFail($employee_id);
             $vacation_allocated = $employee->vacation_allocated;
@@ -197,9 +198,10 @@ class VacationController extends Controller
                 update(['vacation_allocated'=>($vacation_allocated - $this->getDaysCount()) ]);
             }
         }        
-        toast(trans('msg.stored_successfully'),'success');
+        toast(trans('msg.stored_successfully') . ' - ' .trans('staff::local.check_vacation_balance').$message,'success');
         return redirect()->route('vacations.index');
     }
+
     private function InsertVacationPeriod($vacation,$employee_id)
     {
         $to_date = date('Y-m-d', strtotime(request('to_date'). ' + 1 day'));

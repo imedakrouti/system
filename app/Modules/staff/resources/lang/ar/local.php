@@ -408,7 +408,7 @@ return [
     'vacations_accept_confirm'          => 'هل ترغب في قبول اعتماد الاجازات؟',
     'deductions_accept_confirm'         => 'هل ترغب في قبول اعتماد الجزاءات؟',
     'deductions_reject_confirm'         => 'هل ترغب في رفض اعتماد الجزاءات؟',
-    ''               => '',
+    'check_vacation_balance'            => 'الرجاء التحقق من رصيد أجازات الموظفين ..رقم البصمه : ',
     ''               => '',
     ''               => '',
     ''               => '',

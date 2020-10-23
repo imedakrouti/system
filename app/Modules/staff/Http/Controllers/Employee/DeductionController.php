@@ -17,7 +17,7 @@ class DeductionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')->get();
+            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval2','<>','Accepted')->where('approval2','<>','Rejected')->get();
             return $this-> dataTableApproval1($data);
         }
         return view('staff::deductions.index',
@@ -62,27 +62,28 @@ class DeductionController extends Controller
             return $this->getFullEmployeeName($data);
         }) 
         ->addColumn('approval1',function($data){
+            $username = empty($data->approvalOne->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalOne->username;
             switch ($data->approval1) {
                 case trans('staff::local.accepted'): 
                     return '<div class="badge badge-primary round">
                                 <span>'.trans('staff::local.accepted_done').'</span>
                                 <i class="la la-check font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.rejected'):                                 
                      return '<div class="badge badge-warning round">
                                 <span>'.trans('staff::local.rejected_done').'</span>
                                 <i class="la la-close font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.canceled'):                                 
                     return '<div class="badge badge-info round">
                                 <span>'.trans('staff::local.canceled_done').'</span>
                                 <i class="la la-hand-paper-o font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.pending'):                                 
                     return '<div class="badge badge-dark round">
                                 <span>'.trans('staff::local.pending').'</span>
                                 <i class="la la-hourglass-1 font-medium-2"></i>
-                            </div>';                         
+                            </div>' .$username;                         
             }
             
         })                     
@@ -210,7 +211,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval1'=>'Accepted']);
+                Deduction::where('id',$id)->update(['approval1'=>'Accepted','approval_one_user' => authInfo()->id]);
             }
         }
         return response(['status'=>true]);
@@ -219,7 +220,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected']);
+                Deduction::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected','approval_one_user' => authInfo()->id]);
             }
         }
         return response(['status'=>true]);
@@ -228,7 +229,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending']);
+                Deduction::where('id',$id)->update(['approval1'=>'Canceled','approval2'=>'Pending','approval_one_user' => authInfo()->id]);
             }
         }
         return response(['status'=>true]);
@@ -265,47 +266,49 @@ class DeductionController extends Controller
             return $this->getFullEmployeeName($data);
         }) 
         ->addColumn('approval1',function($data){
+            $username = empty($data->approvalOne->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalOne->username;
             switch ($data->approval1) {
                 case trans('staff::local.accepted'): 
                     return '<div class="badge badge-primary round">
                                 <span>'.trans('staff::local.accepted_done').'</span>
                                 <i class="la la-check font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.rejected'):                                 
                      return '<div class="badge badge-warning round">
                                 <span>'.trans('staff::local.rejected_done').'</span>
                                 <i class="la la-close font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.canceled'):                                 
                     return '<div class="badge badge-info round">
                                 <span>'.trans('staff::local.canceled_done').'</span>
                                 <i class="la la-hand-paper-o font-medium-2"></i>
-                            </div>';
+                            </div>' .$username;
                 case trans('staff::local.pending'):                                 
                     return '<div class="badge badge-dark round">
                                 <span>'.trans('staff::local.pending').'</span>
                                 <i class="la la-hourglass-1 font-medium-2"></i>
-                            </div>';                         
+                            </div>' .$username;                         
             }
             
-        })    
+        })      
         ->addColumn('approval2',function($data){
+            $username = empty($data->approvalTwo->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalTwo->username;
             switch ($data->approval2) {
                 case trans('staff::local.accepted'): 
                     return '<div class="badge badge-success round">
                                 <span>'.trans('staff::local.accepted_done').'</span>
                                 <i class="la la-check font-medium-2"></i>
-                            </div>';
+                            </div>'. $username;
                 case trans('staff::local.rejected'):                                 
                      return '<div class="badge badge-danger round">
                                 <span>'.trans('staff::local.rejected_done').'</span>
                                 <i class="la la-close font-medium-2"></i>
-                            </div>';
+                            </div>'. $username;
                 case trans('staff::local.pending'):                                 
                     return '<div class="badge badge-dark round">
                                 <span>'.trans('staff::local.pending').'</span>
                                 <i class="la la-hourglass-1 font-medium-2"></i>
-                            </div>';                         
+                            </div>'. $username;                         
             }
             
         })                   
@@ -334,7 +337,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval2'=>'Accepted']);
+                Deduction::where('id',$id)->update(['approval2'=>'Accepted','approval_two_user' => authInfo()->id]);
                 $deduction = Deduction::findOrFail($id);
                 $employee = Employee::findOrFail($deduction->employee->id);
                 // notification                    
@@ -352,7 +355,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval2'=>'Rejected']);
+                Deduction::where('id',$id)->update(['approval2'=>'Rejected','approval_two_user' => authInfo()->id]);
                 $deduction = Deduction::findOrFail($id);
                 $employee = Employee::findOrFail($deduction->employee->id);
 
