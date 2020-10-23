@@ -64,5 +64,20 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
             Route::get('user-profile','AdminController@userProfile')->name('user-profile');
             Route::post('user-profile','AdminController@updateProfile')->name('update.profile');
 
+            // notifications
+            Route::get('all/user/notification','NotificationController@userNotifications')->name('user.notifications');
+            Route::get('view/all','NotificationController@viewNotifications')->name('view.notifications');
+            Route::get('delete/all','NotificationController@delete')->name('delete.notifications');
+            Route::get('read/all','NotificationController@markAsRead')->name('read.notifications');
         });
+});
+
+Route::get('/test',function()
+{
+    $data['icon'] = 'money';
+    $data['color'] = 'info';
+    $data['title'] = 'Payroll';
+    $data['data'] = 'payroll_msg';
+    $user = authInfo();
+    $user->notify(new \App\Notifications\StaffNotification($data));
 });

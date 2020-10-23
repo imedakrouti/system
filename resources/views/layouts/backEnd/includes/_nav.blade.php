@@ -20,6 +20,26 @@
             <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
           </ul>
           <ul class="nav navbar-nav float-right">
+
+            <li class="dropdown dropdown-notification nav-item">
+              <a class="nav-link nav-link-label" href="#" data-toggle="dropdown" id="count"><i class="ficon ft-bell"></i>
+                {{-- <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">5</span> --}}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                <li class="dropdown-menu-header">
+                  <h6 class="dropdown-header m-0">
+                    <span class="grey darken-2">{{ trans('admin.notifications') }}</span>
+                  </h6>                  
+                </li>
+                <li class="scrollable-container media-list w-100"  id="notifications">
+
+                </li>
+                <li class="dropdown-menu-footer" id="view">
+                  <a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all notifications</a>
+                </li>
+              </ul>
+            </li>
+
             {{-- modules --}}
               <li class="dropdown dropdown-user nav-item">
                 <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
@@ -51,8 +71,7 @@
                 </div>
             </li>
 
-
-
+            {{-- user --}}
             <li class="dropdown dropdown-user nav-item">
                 <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                     <span class="mr-1">{{ trans('admin.hello') }},
@@ -71,6 +90,9 @@
                 <div class="dropdown-divider"></div><a class="dropdown-item" href="{{route('logout')}}"><i class="ft-power"></i> {{ trans('admin.logout') }}</a>
               </div>
             </li>
+
+
+
           </ul>
         </div>
       </div>

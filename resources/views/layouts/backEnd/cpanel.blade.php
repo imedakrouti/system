@@ -129,6 +129,38 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
   {{-- message alerts --}}
   <script src="{{asset('cpanel/app-assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
+  <script>
+            
+    (function()
+    {
+        $.ajax({
+            type:'get',
+            url:'{{route("user.notifications")}}',
+            dataType:'json',
+            success:function(data){
+                $('#count').html(data.count);
+                $('#countTitle').html(data.countTitle);
+                $('#notifications').html(data.notifications);
+                $('#view').html(data.view);
+            }
+        });
+    }());
+    setInterval(function()
+    {
+        $.ajax({
+            type:'get',
+            url:'{{route("user.notifications")}}',
+            dataType:'json',
+            success:function(data){
+                $('#count').html(data.count);
+                $('#countTitle').html(data.countTitle);
+                $('#notifications').html(data.notifications);
+                $('#view').html(data.view);
+            }
+        });
+    },5000); //5000
+
+</script>
 <script>$(".se-pre-con").fadeOut("slow");</script>
 
 </body>
