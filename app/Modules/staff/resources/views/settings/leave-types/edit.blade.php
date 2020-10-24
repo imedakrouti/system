@@ -147,7 +147,25 @@
                                 <span class="red">{{ trans('staff::local.required') }}</span>                          
                             </div>
                         </div>                        
-                    </div>  
+                    </div>
+                    <div class="col-lg-6 col-md-3">
+                        <div class="form-group row">
+                          <label>{{ trans('staff::local.active_days') }}</label>
+                          <div id="days_id">
+
+                          </div>
+                              {{-- @foreach ($days as $day)
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <h5>
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace" name="days[]" value="{{$day->id}}">
+                                        <span class="lbl"></span>  
+                                        {{session('lang') == 'ar' ? $day->ar_day : $day->en_day}} 
+                                    </label> 
+                                  </h5>    
+                              @endforeach   --}}
+                        </div>
+                    </div>                      
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
@@ -163,4 +181,26 @@
       </div>
     </div>
 </div>
+@endsection
+@section('script')
+    <script>
+          (function getDaysSelected()
+          {
+            var leave_type = "{{$leave_type->id}}";
+            
+              $.ajax({
+                type:'POST',
+                url:'{{route("getDaysSelected")}}',
+                data: {
+                    _method       : 'PUT',
+                    leave_type   : leave_type,
+                    _token        : '{{ csrf_token() }}'
+                  },
+                dataType:'json',
+                success:function(data){
+                  $('#days_id').html(data);
+                }
+              });
+          }());       
+    </script>
 @endsection

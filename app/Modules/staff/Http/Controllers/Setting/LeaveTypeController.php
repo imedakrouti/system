@@ -4,7 +4,10 @@ namespace Staff\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use DB;
 use Staff\Http\Requests\LeaveTypeRequest;
+use Staff\Models\Employees\ActiveDayRequest;
+use Staff\Models\Settings\Day;
 use Staff\Models\Settings\LeaveType;
 
 class LeaveTypeController extends Controller
@@ -47,8 +50,9 @@ class LeaveTypeController extends Controller
      */
     public function create()
     {
+        $days = Day::sort()->get();
         return view('staff::settings.leave-types.create',
-        ['title'=>trans('staff::local.new_leave_type')]);
+        ['title'=>trans('staff::local.new_leave_type'),'days' => $days]);
     }
     private function attributes()
     {
@@ -75,9 +79,22 @@ class LeaveTypeController extends Controller
      */
     public function store(LeaveTypeRequest $request)
     {
-        $request->user()->leaveTypes()->create($request->only($this->attributes()));        
+        DB::transaction(function() use ($request){
+            $leave_type = $request->user()->leaveTypes()->create($request->only($this->attributes()));        
+            $this->insertActiveDays($leave_type);
+        });
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('leave-types.index');
+    }
+    private function insertActiveDays($leave_type)
+    {        
+        ActiveDayRequest::where('leave_type_id',$leave_type->id)->delete();
+        foreach (request('days') as $day) {
+            ActiveDayRequest::create([
+                'working_day'   => $day,
+                'leave_type_id' => $leave_type->id,
+            ]);
+        }
     }
 
     /**
@@ -88,9 +105,10 @@ class LeaveTypeController extends Controller
      */
     public function edit($id)
     {
+        $days = Day::sort()->get();
         $leave_type = LeaveType::findOrFail($id);
         return view('staff::settings.leave-types.edit',
-        ['title'=>trans('staff::local.edit_leave_type'),'leave_type'=>$leave_type]);
+        ['title'=>trans('staff::local.edit_leave_type'),'leave_type'=>$leave_type,'days' => $days]);
     }
 
     /**
@@ -102,8 +120,12 @@ class LeaveTypeController extends Controller
      */
     public function update(LeaveTypeRequest $request, $id)
     {
-        $leave_type = LeaveType::findOrFail($id);
-        $leave_type->update($request->only($this->attributes()));
+        DB::transaction(function() use ($id, $request){
+            $leave_type = LeaveType::findOrFail($id);
+            $leave_type->update($request->only($this->attributes()));
+            $this->insertActiveDays($leave_type);
+        });
+
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('leave-types.index');
     }
@@ -125,5 +147,28 @@ class LeaveTypeController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function getDaysSelected()
+    {        
+        $output = "";
+        $leave_type = request()->get('leave_type');        
+               
+        $workingDays = Day::sort()->get();
+        foreach ($workingDays as $day) {
+            $leave_type_id = ActiveDayRequest::where('leave_type_id',request('leave_type'))->select('working_day')
+            ->where('working_day',$day->id)->first();
+            
+            $leave_request_value = !empty($leave_type_id->working_day)?$leave_type_id->working_day:0;
+
+            $checked = $day->id == $leave_request_value ?"checked":"";
+            $day_name = session('lang')=='ar'?$day->ar_day:$day->en_day;
+            $output .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="pos-rel">
+                            <input type="checkbox" class="ace" name="days[]" '.$checked.' value="'.$day->id.'" />
+                            <span class="lbl"></span> '.$day_name.'
+                        </label>
+                    ';
+        };        
+        return json_encode($output);
     }
 }

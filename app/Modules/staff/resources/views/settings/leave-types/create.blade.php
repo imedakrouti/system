@@ -18,6 +18,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -146,8 +147,24 @@
                                 <span class="red">{{ trans('staff::local.required') }}</span>                          
                             </div>
                         </div>                        
-                    </div>                    
+                    </div>   
+                    <div class="col-lg-6 col-md-3">
+                        <div class="form-group row">
+                          <label>{{ trans('staff::local.active_days') }}</label>                          
+                            @foreach ($days as $day)
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <h5>
+                                  <label class="pos-rel">
+                                      <input type="checkbox" class="ace" name="days[]" value="{{$day->id}}">
+                                      <span class="lbl"></span>  
+                                      {{session('lang') == 'ar' ? $day->ar_day : $day->en_day}} 
+                                  </label> 
+                                </h5>    
+                            @endforeach                                                   
+                        </div>
+                    </div>                  
                 </div>
+               
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
