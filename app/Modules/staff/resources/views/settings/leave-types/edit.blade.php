@@ -154,16 +154,6 @@
                           <div id="days_id">
 
                           </div>
-                              {{-- @foreach ($days as $day)
-                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                  <h5>
-                                    <label class="pos-rel">
-                                        <input type="checkbox" class="ace" name="days[]" value="{{$day->id}}">
-                                        <span class="lbl"></span>  
-                                        {{session('lang') == 'ar' ? $day->ar_day : $day->en_day}} 
-                                    </label> 
-                                  </h5>    
-                              @endforeach   --}}
                         </div>
                     </div>                      
                 </div>

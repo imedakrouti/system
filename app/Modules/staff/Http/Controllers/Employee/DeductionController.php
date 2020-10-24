@@ -17,7 +17,11 @@ class DeductionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval2','<>','Accepted')->where('approval2','<>','Rejected')->get();
+            $data = Deduction::with('employee')->orderBy('id','desc')
+            ->where('approval2','<>','Accepted')
+            ->where('approval2','<>','Rejected')
+            ->whereNull('leave_permission_id')
+            ->get();
             return $this-> dataTableApproval1($data);
         }
         return view('staff::deductions.index',
@@ -117,7 +121,10 @@ class DeductionController extends Controller
     public function filter()
     {
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval1',request('approval1'))->get();
+            $data = Deduction::with('employee')->orderBy('id','desc')
+            ->whereNull('leave_permission_id')
+            ->where('approval1',request('approval1'))
+            ->get();
             return $this-> dataTableApproval1($data);
         }
     }
@@ -152,7 +159,6 @@ class DeductionController extends Controller
      */
     public function store(DeductionRequest $request)
     {
-
         foreach (request('employee_id') as $employee_id) {            
             $request->user()->deductions()->create($request->only($this->attributes())+
             [
@@ -220,7 +226,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             foreach (request('id') as $id) {
-                Deduction::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Rejected','approval_one_user' => authInfo()->id]);
+                Deduction::where('id',$id)->update(['approval1'=>'Rejected','approval2'=>'Pending','approval_one_user' => authInfo()->id]);
             }
         }
         return response(['status'=>true]);
@@ -238,7 +244,10 @@ class DeductionController extends Controller
     public function confirm()
     {
         if (request()->ajax()) {
-            $data = Deduction::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
+            $data = Deduction::with('employee')->orderBy('id','desc')
+            ->whereNull('leave_permission_id')
+            ->where('approval1','Accepted')
+            ->get();
             return $this->dataTableApproval2($data);
         }
         return view('staff::deductions.confirm.index',
@@ -249,6 +258,7 @@ class DeductionController extends Controller
     {
         if (request()->ajax()) {
             $data = Deduction::with('employee')->orderBy('id','desc')
+            ->whereNull('leave_permission_id')
             ->where('approval1','Accepted')
             ->where('approval2',request('approval2'))->get();
             return $this-> dataTableApproval2($data);

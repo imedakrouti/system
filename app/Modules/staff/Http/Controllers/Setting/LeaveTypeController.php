@@ -88,12 +88,14 @@ class LeaveTypeController extends Controller
     }
     private function insertActiveDays($leave_type)
     {        
-        ActiveDayRequest::where('leave_type_id',$leave_type->id)->delete();
-        foreach (request('days') as $day) {
-            ActiveDayRequest::create([
-                'working_day'   => $day,
-                'leave_type_id' => $leave_type->id,
-            ]);
+        if (request()->has('days')) {
+            ActiveDayRequest::where('leave_type_id',$leave_type->id)->delete();        
+            foreach (request('days') as $day) {
+                ActiveDayRequest::create([
+                    'working_day'   => $day,
+                    'leave_type_id' => $leave_type->id,
+                ]);
+            }            
         }
     }
 

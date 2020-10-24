@@ -63,4 +63,19 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::put('vacations/search/get/filter/confirm','VacationController@filterConfirm')->name('vacations.filter-confirm');
     Route::get('vacations-balance/vacations','VacationController@balance')->name('vacations.balance');
     Route::post('vacations-balance/vacations','VacationController@setBalance')->name('vacations.set-balance');
+
+
+    // Leave Permissions
+    Route::resource('leave-permissions','LeavePermissionController')->except('destroy','show','edit','update');
+    Route::post('leave-permissions/destroy','LeavePermissionController@destroy')->name('leave-permissions.destroy');  
+    Route::post('leave-permissions/accept','LeavePermissionController@accept')->name('leave-permissions.accept');
+    Route::post('leave-permissions/reject','LeavePermissionController@reject')->name('leave-permissions.reject');
+    Route::post('leave-permissions/cancel','LeavePermissionController@cancel')->name('leave-permissions.cancel');
+    Route::get('leave-permissions-confirm/leave-permissions','LeavePermissionController@confirm')->name('leave-permissions.confirm');
+    Route::post('leave-permissions-confirm/leave-permissions/accept','LeavePermissionController@acceptConfirm')->name('leave-permissions.accept-confirm');
+    Route::post('leave-permissions-confirm/leave-permissions/reject','LeavePermissionController@rejectConfirm')->name('leave-permissions.reject-confirm');  
+    Route::put('leave-permissions/search/get/filter','LeavePermissionController@filter')->name('leave-permissions.filter');
+    Route::put('leave-permissions/search/get/filter/confirm','LeavePermissionController@filterConfirm')->name('leave-permissions.filter-confirm');
+    Route::get('leave-permissions-balance/leave-permissions','LeavePermissionController@balance')->name('leave-permissions.balance');
+    Route::post('leave-permissions-balance/leave-permissions','LeavePermissionController@setBalance')->name('leave-permissions.set-balance');
 });  

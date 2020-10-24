@@ -128,4 +128,8 @@ class Employee extends Model
     {
         return $this->attributes['en_th_name'] = ucfirst($value);
     }
+    public function leavesPermission()
+    {
+        return $this->hasMany('Staff\Models\Employees\LeavePermission','employee_id');
+    }
 }

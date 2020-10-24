@@ -70,21 +70,21 @@
         </li>    --}}
         
         {{-- leaves requests --}}
-        {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
-            <i class="la la-road"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.leave_requests') }}</span></a>
+        <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
+            <i class="la la-road"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.leave_permissions') }}</span></a>
             <ul class="menu-content">                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
-                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.leave_requests') }}</span>
+                <li class=" nav-item {{request()->segment(2)=='leave-permissions'?'active':''}}">
+                    <a href="{{route('leave-permissions.index')}}"><i class="la la-minus">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.leave_permissions') }}</span>
                     </a>
                 </li>
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='leave-permissions-confirm'?'active':''}}">
+                    <a href="{{route('leave-permissions.confirm')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.confirm_requests') }}</span>
                     </a>
                 </li>                
             </ul>
-        </li>    --}}
+        </li>  
         
         {{-- deductions --}}
         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">

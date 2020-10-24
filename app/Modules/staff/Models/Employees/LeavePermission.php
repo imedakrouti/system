@@ -4,21 +4,20 @@ namespace Staff\Models\Employees;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Deduction extends Model
+class LeavePermission extends Model
 {
+    protected $table = 'leave_permissions';
     protected $fillable = [
-        'date_deduction',
-        'reason',
-        'amount',
-        'days',
-        'approval1',      
-        'approval2',          
-        'employee_id', 
+        'date_leave',
+        'time_leave',
         'approval_one_user',
-        'approval_two_user', 
-        'leave_permission_id',        
-        'admin_id'
-
+        'approval_two_user',
+        'approval1',
+        'approval2',
+        'leave_type_id',
+        'employee_id',
+        'admin_id',
+         
     ];
     public function admin()
     {
@@ -54,5 +53,9 @@ class Deduction extends Model
             case 'Canceled': return trans('staff::local.canceled');
             case 'Pending': return trans('staff::local.pending');                           
         }
+    }
+    public function leaveType()
+    {
+        return $this->belongsTo('Staff\Models\Settings\LeaveType','leave_type_id');
     }
 }

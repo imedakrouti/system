@@ -75,3 +75,5 @@ Route::post('salary-components/destroy','SalaryComponentController@destroy')->na
 // Timetable
 Route::resource('timetables','TimetableController')->except('show','destroy');
 Route::post('timetables/destroy','TimetableController@destroy')->name('timetables.destroy');
+
+

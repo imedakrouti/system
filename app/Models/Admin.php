@@ -314,4 +314,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Employees\Vacation','admin_id');
     }  
+    public function leavePermissions()
+    {
+        return $this->hasMany('Staff\Models\Employees\LeavePermission','admin_id');
+    }
 }

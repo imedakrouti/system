@@ -40,6 +40,8 @@
                                 <th>#</th>
                                 <th>{{trans('staff::local.ar_timetable')}}</th>
                                 <th>{{trans('staff::local.en_timetable')}}</th>                                
+                                <th>{{trans('staff::local.on_duty_time')}}</th>                                
+                                <th>{{trans('staff::local.off_duty_time')}}</th>                                
                                 <th>{{trans('staff::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -80,6 +82,8 @@
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'ar_timetable',        name: 'ar_timetable'},
               {data: 'en_timetable',        name: 'en_timetable'},              
+              {data: 'on_duty_time',        name: 'on_duty_time'},              
+              {data: 'off_duty_time',       name: 'off_duty_time'},              
               {data: 'action', 	            name: 'action', orderable: false, searchable: false},
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
