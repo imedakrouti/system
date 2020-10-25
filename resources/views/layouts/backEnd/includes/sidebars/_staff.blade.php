@@ -48,7 +48,7 @@
         </li>   
      
         {{-- attendance --}}
-        <li class=" nav-item {{request()->segment(2)=='attendance'?'active':''}}"><a href="#">
+        <li class=" nav-item {{request()->segment(2)=='attendances'?'active':''}}"><a href="#">
             <i class="la la-clock-o"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.attendance') }}</span></a>
             <ul class="menu-content">                
                 {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
@@ -61,7 +61,7 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attendance') }}</span>
                     </a>
                 </li>                 --}}
-                <li class=" nav-item {{request()->segment(2)=='import'?'active':''}}">
+                <li class=" nav-item {{request()->segment(3)=='import'?'active':''}}">
                     <a href="{{route('attendance.import')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.import_attendance') }}</span>
                     </a>
