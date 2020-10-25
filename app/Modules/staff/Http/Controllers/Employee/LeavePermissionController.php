@@ -645,5 +645,96 @@ class LeavePermissionController extends Controller
         }
         return response(['status'=>true]);
     }
+
+    public function leaveDeduction()
+    {
+        if (request()->ajax()) {
+            $data = Deduction::with('employee')->orderBy('id','desc')
+            ->whereNotNull('leave_permission_id')
+            ->where('approval1','Accepted')            
+            ->get();
+            
+            return $this->dataTable($data);
+        }
+        return view('staff::leave-permissions.leave-deduction',
+        ['title'=>trans('staff::local.leave_deduction')]);  
+    }
+    private function dataTable($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()                                 
+        ->addColumn('attendance_id',function($data){
+            return $data->employee->attendance_id;
+        })
+        ->addColumn('employee_name',function($data){
+            return $this->getFullEmployeeName($data);
+        }) 
+        ->addColumn('approval1',function($data){
+            $username = empty($data->approvalOne->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalOne->username;
+            switch ($data->approval1) {
+                case trans('staff::local.accepted'): 
+                    return '<div class="badge badge-primary round">
+                                <span>'.trans('staff::local.accepted_done').'</span>
+                                <i class="la la-check font-medium-2"></i>
+                            </div>' .$username;
+                case trans('staff::local.rejected'):                                 
+                     return '<div class="badge badge-warning round">
+                                <span>'.trans('staff::local.rejected_done').'</span>
+                                <i class="la la-close font-medium-2"></i>
+                            </div>' .$username;
+                case trans('staff::local.canceled'):                                 
+                    return '<div class="badge badge-info round">
+                                <span>'.trans('staff::local.canceled_done').'</span>
+                                <i class="la la-hand-paper-o font-medium-2"></i>
+                            </div>' .$username;
+                case trans('staff::local.pending'):                                 
+                    return '<div class="badge badge-dark round">
+                                <span>'.trans('staff::local.pending').'</span>
+                                <i class="la la-hourglass-1 font-medium-2"></i>
+                            </div>' .$username;                         
+            }
+            
+        })      
+        ->addColumn('approval2',function($data){
+            $username = empty($data->approvalTwo->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalTwo->username;
+            switch ($data->approval2) {
+                case trans('staff::local.accepted'): 
+                    return '<div class="badge badge-success round">
+                                <span>'.trans('staff::local.accepted_done').'</span>
+                                <i class="la la-check font-medium-2"></i>
+                            </div>'. $username;
+                case trans('staff::local.rejected'):                                 
+                     return '<div class="badge badge-danger round">
+                                <span>'.trans('staff::local.rejected_done').'</span>
+                                <i class="la la-close font-medium-2"></i>
+                            </div>'. $username;
+                case trans('staff::local.pending'):                                 
+                    return '<div class="badge badge-dark round">
+                                <span>'.trans('staff::local.pending').'</span>
+                                <i class="la la-hourglass-1 font-medium-2"></i>
+                            </div>'. $username;                         
+            }
+            
+        })                   
+        ->addColumn('workingData',function($data){
+            return $this->workingData($data);
+        })    
+        ->addColumn('reason',function($data){
+            return '<a href="#" onclick="reason('."'".$data->reason."'".')">'.trans('staff::local.reason').'</a>';
+        })        
+        ->addColumn('position',function($data){
+            return !empty($data->employee->position) ?(session('lang') == 'ar' ? $data->employee->position->ar_position:
+            $data->employee->position->en_position) :'';
+        })                   
+        ->addColumn('check', function($data){
+               $btnCheck = '<label class="pos-rel">
+                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                            <span class="lbl"></span>
+                        </label>';
+                return $btnCheck;
+        })
+        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','approval2','reason'])
+        ->make(true);
+    }
     
 }

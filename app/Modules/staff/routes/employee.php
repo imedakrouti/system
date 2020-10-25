@@ -78,4 +78,5 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::put('leave-permissions/search/get/filter/confirm','LeavePermissionController@filterConfirm')->name('leave-permissions.filter-confirm');
     Route::get('leave-permissions-balance/leave-permissions','LeavePermissionController@balance')->name('leave-permissions.balance');
     Route::post('leave-permissions-balance/leave-permissions','LeavePermissionController@setBalance')->name('leave-permissions.set-balance');
+    Route::get('leave-permissions-deduction/leave-permissions','LeavePermissionController@leaveDeduction')->name('leave-permissions.deduction');
 });  

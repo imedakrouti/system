@@ -82,7 +82,12 @@
                     <a href="{{route('leave-permissions.confirm')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.confirm_requests') }}</span>
                     </a>
-                </li>                
+                </li>       
+                <li class=" nav-item {{request()->segment(2)=='leave-permissions-deduction'?'active':''}}">
+                    <a href="{{route('leave-permissions.deduction')}}"><i class="la la-minus">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.leave_deduction') }}</span>
+                    </a>
+                </li>           
             </ul>
         </li>  
         
