@@ -74,10 +74,5 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
 
 Route::get('/test',function()
 {
-    $data['icon'] = 'money';
-    $data['color'] = 'info';
-    $data['title'] = 'Payroll';
-    $data['data'] = 'payroll_msg';
-    $user = authInfo();
-    $user->notify(new \App\Notifications\StaffNotification($data));
+    dd(authInfo()->user->ar_st_name);
 });

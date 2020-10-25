@@ -17,7 +17,7 @@ if (!function_exists('authInfo')) {
 	{
 		if (adminAuth()->check()) {
 			$id = adminAuth()->user()->id;
-			$userInfo = \App\Models\Admin::where('id',$id)->first();
+			$userInfo = \App\Models\Admin::with('employees')->where('id',$id)->first();
 			return $userInfo;
 		}
 	}

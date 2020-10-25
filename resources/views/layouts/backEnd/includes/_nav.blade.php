@@ -80,7 +80,9 @@
             <li class="dropdown dropdown-user nav-item">
                 <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                     <span class="mr-1">{{ trans('admin.hello') }},
-                        <span class="user-name text-bold-700">{{authInfo()->name}}</span>
+                        <span class="user-name text-bold-700">
+                          {{session('lang') == 'ar'? authInfo()->user->ar_st_name : authInfo()->user->en_st_name}}
+                        </span>
                     </span>
                     <span class="avatar avatar-online">
                       @isset(authInfo()->image_profile)

@@ -318,4 +318,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Employees\LeavePermission','admin_id');
     }
+    public function user()
+    {
+        return $this->hasOne('Staff\Models\Employees\Employee','user_id');
+    }
 }
