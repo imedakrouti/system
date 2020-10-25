@@ -245,4 +245,3 @@ if (!function_exists('getClassroomName')) {
 		return $className;   	
 	}
 }
-

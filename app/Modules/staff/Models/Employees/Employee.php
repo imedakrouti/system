@@ -77,7 +77,6 @@ class Employee extends Model
     public function employee_user()
     {
         return $this->belongsTo('App\Models\Admin','user_id');
-
     }
     public function timetable()
     {

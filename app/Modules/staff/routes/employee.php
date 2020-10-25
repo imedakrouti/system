@@ -81,6 +81,8 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('leave-permissions-deduction/leave-permissions','LeavePermissionController@leaveDeduction')->name('leave-permissions.deduction');
 
     // attendance
-    Route::get('attendances/import','AttendanceController@importPage')->name('attendance.import');
-    Route::post('attendances/import/excel','AttendanceController@importExcel')->name('attendance.import-excel');
+    Route::get('attendances/import','AttendanceController@importPage')->name('attendances.import');
+    Route::post('attendances/import/excel','AttendanceController@importExcel')->name('attendances.import-excel');
+    Route::post('attendances/destroy','AttendanceController@destroy')->name('attendances.destroy');  
+
 });  

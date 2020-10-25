@@ -322,4 +322,8 @@ class Admin extends Authenticatable
     {
         return $this->hasOne('Staff\Models\Employees\Employee','user_id');
     }
+    public function attendanceSheet()
+    {
+        return $this->hasMany('Staff\Models\Employees\AttendanceSheet','admin_id');
+    }
 }

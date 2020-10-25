@@ -62,7 +62,7 @@
                     </a>
                 </li>                 --}}
                 <li class=" nav-item {{request()->segment(3)=='import'?'active':''}}">
-                    <a href="{{route('attendance.import')}}"><i class="la la-minus">
+                    <a href="{{route('attendances.import')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.import_attendance') }}</span>
                     </a>
                 </li>
