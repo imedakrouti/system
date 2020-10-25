@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ReportContentSeeder::class);
         $this->call(HrReportSeeder::class);
         $this->call(DaysSeeder::class);
+        $this->call(DateListSeeder::class);
     }
 }

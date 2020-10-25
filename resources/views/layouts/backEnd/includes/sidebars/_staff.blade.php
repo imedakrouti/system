@@ -48,26 +48,26 @@
         </li>   
      
         {{-- attendance --}}
-        {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
+        <li class=" nav-item {{request()->segment(2)=='attendance'?'active':''}}"><a href="#">
             <i class="la la-clock-o"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.attendance') }}</span></a>
             <ul class="menu-content">                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.daily_absence') }}</span>
                     </a>
-                </li>
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
+                </li> --}}
+                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attendance') }}</span>
                     </a>
-                </li>                
-                <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                </li>                 --}}
+                <li class=" nav-item {{request()->segment(2)=='import'?'active':''}}">
+                    <a href="{{route('attendance.import')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.import_attendance') }}</span>
                     </a>
                 </li>
             </ul>
-        </li>    --}}
+        </li>    
         
         {{-- leaves requests --}}
         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">

@@ -184,6 +184,7 @@ return [
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
         Alkoumi\LaravelArabicTafqeet\LaravelArabicTafqeetServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -240,6 +241,7 @@ return [
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
