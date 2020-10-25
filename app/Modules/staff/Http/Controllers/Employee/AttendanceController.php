@@ -27,11 +27,6 @@ class AttendanceController extends Controller
 
             $last_date_in_attendance_before_import = date('Y-m-d',strtotime(DB::table('date_lists')->max('selected_date'). ' + 1 day'));
 
-            // inserting into table
-            if(!empty($arr)){
-                Attendance::insert($arr);
-            }
-
             $last_date_in_attendance_after_import = date('Y-m-d',strtotime(Attendance::max('time_attendance')));
             // insert dates into date list table
             /*
