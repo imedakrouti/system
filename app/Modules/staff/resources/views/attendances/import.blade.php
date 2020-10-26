@@ -34,6 +34,7 @@
         <h4>{{ trans('staff::local.attend_note_1') }}</h4>
         <h4>{{ trans('staff::local.attend_note_2') }}</h4>
         <h4>{{ trans('staff::local.attend_note_3') }}</h4>
+        <h4>{{ trans('staff::local.import_attendance_tip') }}</h4>
 
         </div>
       </div>
@@ -50,10 +51,6 @@
         </div>
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
-            <div class="alert bg-primary alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
-                <span class="alert-icon"><i class="la la-info-circle"></i></span>               
-                <h4 class="white">{{ trans('staff::local.import_attendance_tip') }}</h4>
-            </div>
               <div class="table-responsive">   
                     <table class="table center" >
                         <thead class="bg-info white">

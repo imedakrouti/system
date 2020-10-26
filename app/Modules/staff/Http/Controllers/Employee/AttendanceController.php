@@ -7,6 +7,7 @@ use DB;
 use Staff\Imports\AttendanceImport;
 use Staff\Models\Employees\Attendance;
 use Staff\Models\Employees\AttendanceSheet;
+use Staff\Models\Employees\Employee;
 
 class AttendanceController extends Controller
 {
@@ -23,10 +24,13 @@ class AttendanceController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
+                    ->addColumn('sheet_name',function($data){
+                        return '<a href="'.route("attendances.sheet",$data->id).'">'.$data->sheet_name.'</a>';
+                    })
                     ->addColumn('admin',function($data){
                         return $data->admin->username;
                     })
-                    ->rawColumns(['check','admin'])
+                    ->rawColumns(['check','admin','sheet_name'])
                     ->make(true);
         }
         return view('staff::attendances.import',
@@ -89,5 +93,51 @@ class AttendanceController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+
+    public function attendanceSheet($attendance_sheet_id)
+    {        
+        if (request()->ajax()) {
+            $data = Attendance::with('admin')->orderBy('attendances.id','asc')
+            ->join('employees','attendances.attendance_id','=','employees.attendance_id')
+            ->where('attendance_sheet_id',$attendance_sheet_id)
+            ->get();            
+            return datatables($data)
+                    ->addIndexColumn()  
+                    ->addColumn('check', function($data){
+                           $btnCheck = '<label class="pos-rel">
+                                        <input type="checkbox" class="ace" name="id[]" value="" />
+                                        <span class="lbl"></span>
+                                    </label>';
+                            return $btnCheck;
+                    })
+                    ->addColumn('admin',function($data){
+                        return $data->admin->username;
+                    })
+                    ->addColumn('employee_name',function($data){
+                        return $this->getEmployeeNameByAttendanceId($data->attendance_id);
+                    })
+                    ->rawColumns(['check','admin','employee_name'])
+                    ->make(true);
+        }
+        $title = trans('staff::local.attendance_sheet_data');
+        $sheet_name = AttendanceSheet::findOrFail($attendance_sheet_id)->sheet_name;
+        return view('staff::attendances.uploaded-sheet',
+        compact('title','sheet_name','attendance_sheet_id')
+        );
+    }
+
+    private function getEmployeeNameByAttendanceId($attendance_id)
+    {
+        $employee = Employee::where('attendance_id',$attendance_id)->first();        
+        $employee_name = '';
+        if (session('lang') == 'ar') {
+            $employee_name = '<a href="'.route('employees.show',$employee->id).'">' .$employee->ar_st_name . ' ' . $employee->ar_nd_name.
+            ' ' . $employee->ar_rd_name.' ' . $employee->ar_th_name.'</a>';
+        }else{
+            $employee_name = '<a href="'.route('employees.show',$employee->id).'">' .$employee->en_st_name . ' ' . $employee->en_nd_name.
+            ' ' . $employee->th_rd_name.' ' . $employee->th_th_name.'</a>';
+        }
+        return $employee_name;
     }
 }

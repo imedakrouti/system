@@ -16,8 +16,8 @@ class Attendance extends Model
     }
 
     public function admin()
-    {
-        return $this->belongsTo(App\Models\Admin::class);
+    {        
+        return $this->belongsTo('App\Models\Admin','admin_id');
     }
 
 

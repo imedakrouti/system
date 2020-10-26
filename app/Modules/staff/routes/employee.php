@@ -84,5 +84,6 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('attendances/import','AttendanceController@importPage')->name('attendances.import');
     Route::post('attendances/import/excel','AttendanceController@importExcel')->name('attendances.import-excel');
     Route::post('attendances/destroy','AttendanceController@destroy')->name('attendances.destroy');  
+    Route::get('attendances/sheet/{id}','AttendanceController@attendanceSheet')->name('attendances.sheet');  
 
 });  
