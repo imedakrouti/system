@@ -104,3 +104,12 @@ div.dataTables_wrapper div.dataTables_length label {
 .nav-vertical .nav-left.nav-tabs.nav-border-left li.nav-item a.nav-link.active {
     border-right: 3px solid #168dee; 
 }
+.dropdown .dropdown-menu .dropdown-header {
+    padding: 10px 20px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    color: #168dee;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
