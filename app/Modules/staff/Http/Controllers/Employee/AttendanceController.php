@@ -140,4 +140,179 @@ class AttendanceController extends Controller
         }
         return $employee_name;
     }
+
+    public function logs()
+    {
+        $employees = Employee::work()->orderBy('attendance_id')->get();
+        return view('staff::attendances.logs',
+        ['title'=>trans('staff::local.attendance'),'employees'=>$employees]);
+    }
+    public function sheetLogs()
+    {        
+        $attendance_id  = request('attendance_id');
+        $from_date      = request('from_date');
+        $to_date        = request('to_date');
+        
+
+        $data = DB::table('last_main_view')->orderBy('selected_date','asc')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])
+            ->get();            
+
+        if (request()->ajax()) {
+            return datatables($data)
+            ->addIndexColumn()
+            ->addColumn('week', function($data){
+                $day = '';
+                switch ($data->week) {
+                    case 'Saturday':
+                        $day = trans('staff::local.saturday');
+                        break;
+                    case 'Sunday':
+                        $day = trans('staff::local.sunday');
+                        break;
+                    case 'Monday':
+                        $day = trans('staff::local.monday');
+                        break;
+                    case 'Tuesday':
+                        $day = trans('staff::local.tuesday');
+                        break;
+                    case 'Wednesday':
+                        $day = trans('staff::local.wednesday');
+                        break;
+                    case 'Thursday':
+                        $day = trans('staff::local.thursday');
+                        break;
+                    default:
+                        $day = trans('staff::local.friday');
+                        break;
+                }
+
+                return $day;
+            })
+            ->addColumn('vacation_type', function($data){
+                $day = '';
+                switch ($data->vacation_type) {
+                    case 'Start work':
+                        $day = trans('staff::employee.startWork');
+                        break;
+                    case 'End work':
+                        $day = trans('staff::local.end_work');
+                        break;
+                    case 'Sick leave':
+                        $day = trans('staff::local.sick_leave');
+                        break;
+                    case 'Regular vacation':
+                        $day = trans('staff::local.regular_vacation');
+                        break;
+                    case 'Vacation without pay':
+                        $day = trans('staff::local.vacation_without_pay');
+                        break;
+                    case 'Work errand':
+                        $day  = trans('staff::local.work_errand');
+                        break;
+                    case 'Training':
+                        $day  = trans('staff::local.training');
+                        break;
+                    case 'Casual vacation':
+                        $day  = trans('staff::local.casual_vacation');
+                        break;
+                    default:
+                        $day = '';
+                        break;
+                }
+
+                return $day;
+            })
+            ->addColumn('absent', function($data){
+                $dayAbsent = '';
+                switch ($data->absent_after_holidays) {
+                    case 'True':
+                        $dayAbsent = trans('staff::local.absent_day');
+                        break;
+                    default:
+                        $dayAbsent ='';
+                        break;
+                }
+                return $dayAbsent;
+            })
+            ->addColumn('no_attend', function($data){
+                if($data->no_attend == 0 || ($data->no_attend == 1 && $data->no_leave == 1))
+                {
+                    return '';
+                }else
+                {
+                    return $data->no_attend;
+                }
+            })
+            ->addColumn('selected_date',function($data){
+                $date = date("d-m-Y", strtotime($data->selected_date));
+                return session('lang') == 'en'?$date:$data->selected_date;
+            })
+            ->addColumn('date_leave',function($data){
+                if(!empty($data->date_leave))
+                {
+                    $date = date("d-m-Y", strtotime($data->date_leave));
+                    return session('lang') == 'en'?$date:$data->date_leave;
+                }else{
+                    return '';
+                }
+            })
+            ->addColumn('clock_in',function($data){
+                if(!empty($data->clock_in))
+                {
+                    return date('h:i A', strtotime($data->clock_in));
+                }
+                return $data->clock_in;
+            })
+            ->addColumn('clock_out',function($data){
+                if(!empty($data->clock_out))
+                {
+                    return date('h:i A', strtotime($data->clock_out));
+                }
+                return $data->clock_out;
+            })
+            ->addColumn('time_leave',function($data){
+                if(!empty($data->time_leave))
+                {
+                    return date('h:i A', strtotime($data->time_leave));
+                }
+                return $data->time_leave;
+            })
+            ->addColumn('no_leave', function($data){
+                if($data->no_leave == 0 || ($data->no_attend == 1 && $data->no_leave == 1))
+                {
+                    return '';
+                }else
+                {
+                    return $data->no_leave;
+                }
+            })
+            ->addColumn('absentValue', function($data){
+                if($data->absentValue == 0)
+                {
+                    return '';
+                }
+                elseif($data->absentValue < 1)
+                {
+                    return $data->absentValue;
+                }
+                else{
+                    return (int)$data->absentValue;
+                }
+            })
+            ->addColumn('leave_mins', function($data){
+                return ($data->leave_mins)==0?'':$data->leave_mins;
+            })
+            ->addColumn('main_lates',function($data){
+                $main_lates = !empty($data->main_lates)?$data->main_lates:0;
+                $minutes_lates_after_request = !empty($data->minutes_lates_after_request)?$data->minutes_lates_after_request:0;
+                $lates =  $main_lates;
+                return $lates == 0? '':$lates;
+            })
+            ->rawColumns(['absent','week','main_lates','no_attend','no_leave','leave_mins','absentValue','clock_in','vacation_type',
+            'time_leave','clock_out','selected_date','date_holiday','date_leave'])
+            ->make(true);
+   		 }
+    }
 }

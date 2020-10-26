@@ -56,11 +56,11 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.daily_absence') }}</span>
                     </a>
                 </li> --}}
-                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(2)=='logs'?'active':''}}">
+                    <a href="{{route('attendances.logs')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attendance') }}</span>
                     </a>
-                </li>                 --}}
+                </li>                 
                 <li class=" nav-item {{request()->segment(3)=='import' || request()->segment(3)=='sheet'?'active':''}}">
                     <a href="{{route('attendances.import')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.import_attendance') }}</span>
