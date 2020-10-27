@@ -56,7 +56,7 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.daily_absence') }}</span>
                     </a>
                 </li> --}}
-                <li class=" nav-item {{request()->segment(2)=='logs'?'active':''}}">
+                <li class=" nav-item {{request()->segment(3)=='logs'?'active':''}}">
                     <a href="{{route('attendances.logs')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.attendance') }}</span>
                     </a>

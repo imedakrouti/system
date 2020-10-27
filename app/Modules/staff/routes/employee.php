@@ -85,10 +85,10 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::post('attendances/import/excel','AttendanceController@importExcel')->name('attendances.import-excel');
     Route::post('attendances/destroy','AttendanceController@destroy')->name('attendances.destroy');  
     Route::get('attendances/sheet/{id}','AttendanceController@attendanceSheet')->name('attendances.sheet');  
-    Route::get('attendance/logs','AttendanceController@logs')->name('attendances.logs');  
-    Route::put('attendance/logs/sheet','AttendanceController@sheetLogs')->name('attendances.logs-sheet');  
-    Route::put('attendance/logs/summary','AttendanceController@summary')->name('attendances.summary');  
-    Route::get('attendance/sheet/report','AttendanceController@attendanceSheetReport')->name('attendances.report');  
+    Route::get('attendances/logs','AttendanceController@logs')->name('attendances.logs');  
+    Route::put('attendances/sheet','AttendanceController@sheetLogs')->name('attendances.logs-sheet');  
+    Route::put('attendances/summary','AttendanceController@summary')->name('attendances.summary');  
+    Route::get('attendances/sheet/report','AttendanceController@attendanceSheetReport')->name('attendances.report');  
 
 
 });  
