@@ -30,7 +30,7 @@
             float: right;text-align: center;width: 30%;padding-top: 30px;text-transform: capitalize;
         }
         .header-report{
-            float: right;width: 30%;padding-top: 30px;line-height: 1
+            float: right;width: 30%;padding-top: 30px;line-height: 1;text-align: center
         }
         .left-header{
             float: left;width:30%;padding-top: 40px;text-transform: capitalize;

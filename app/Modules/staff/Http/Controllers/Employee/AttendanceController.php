@@ -8,6 +8,7 @@ use Staff\Imports\AttendanceImport;
 use Staff\Models\Employees\Attendance;
 use Staff\Models\Employees\AttendanceSheet;
 use Staff\Models\Employees\Employee;
+use PDF;
 
 class AttendanceController extends Controller
 {
@@ -228,7 +229,7 @@ class AttendanceController extends Controller
                 $dayAbsent = '';
                 switch ($data->absent_after_holidays) {
                     case 'True':
-                        $dayAbsent = trans('staff::local.absent_day');
+                        $dayAbsent ='<i class="la la-remove"><i>';                        
                         break;
                     default:
                         $dayAbsent ='';
@@ -242,7 +243,7 @@ class AttendanceController extends Controller
                     return '';
                 }else
                 {
-                    return $data->no_attend;
+                    return '<i class="la la-check"><i>';
                 }
             })
             ->addColumn('selected_date',function($data){
@@ -258,6 +259,7 @@ class AttendanceController extends Controller
                     return '';
                 }
             })
+            
             ->addColumn('clock_in',function($data){
                 if(!empty($data->clock_in))
                 {
@@ -285,7 +287,16 @@ class AttendanceController extends Controller
                     return '';
                 }else
                 {
-                    return $data->no_leave;
+                    return '<i class="la la-check"><i>';
+                }
+            })
+            ->addColumn('date_holiday', function($data){
+                if(empty($data->date_holiday))
+                {
+                    return '';
+                }else
+                {
+                    return '<i class="la la-home"><i>';
                 }
             })
             ->addColumn('absentValue', function($data){
@@ -314,5 +325,139 @@ class AttendanceController extends Controller
             'time_leave','clock_out','selected_date','date_holiday','date_leave'])
             ->make(true);
    		 }
+    }
+
+    public function summary()
+    {
+        $attendance_id  = request('attendance_id');
+        $from_date      = request('from_date');
+        $to_date        = request('to_date');
+
+        $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
+        $data['employee_name'] = $this->getFullEmployeeName($employee);
+        $data['working_data'] = $this->workingData($employee);
+        $data['timetable_id'] = session('lang') == 'ar' ? $employee->timetable->ar_timetable : $employee->timetable->en_timetable;
+        $data['hiring_date'] =  $employee->hiring_date;
+        $data['leave_date'] =  empty($employee->leave_date)? trans('staff::local.work'):$employee->leave_date;
+        
+        $data['attend_days'] = DB::table('last_main_view')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+            ->where('absent_after_holidays','!=','True')                              
+            ->count();
+            
+        $data['absent_days'] = DB::table('last_main_view')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+            ->where('absent_after_holidays','True')                      
+            ->count();
+            
+        $data['total_lates'] = DB::table('last_main_view')
+                ->where('last_main_view.attendance_id', $attendance_id )
+                ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])                  
+                ->sum('main_lates') / 60;
+
+        $data['vacation_days_count'] =DB::table('last_main_view')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+            ->where('vacation_type','!=','')                      
+            ->count();
+        $data['leave_permissions_count'] = DB::table('last_main_view')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+            ->whereNotNull('date_leave')                      
+            ->count();
+
+        return json_encode($data);
+    }
+    private function getFullEmployeeName($data)
+    {
+        $employee_name = '';
+        if (session('lang') == 'ar') {
+            $employee_name = '<a target="blank" href="'.route('employees.show',$data->id).'">' .$data->ar_st_name . ' ' . $data->ar_nd_name.
+            ' ' . $data->ar_rd_name.' ' . $data->ar_th_name.'</a>';
+        }else{
+            $employee_name = '<a target="blank" href="'.route('employees.show',$data->id).'">' .$data->en_st_name . ' ' . $data->en_nd_name.
+            ' ' . $data->th_rd_name.' ' . $data->th_th_name.'</a>';
+        }
+        return $employee_name;
+    }
+    private function workingData($data)
+    {
+        $sector = '';
+        if (!empty($data->sector->ar_sector)) {
+            $sector = session('lang') == 'ar' ?  '<span class="blue">'.$data->sector->ar_sector . '</span>': '<span class="blue">'.$data->sector->en_sector . '</span>';            
+        }
+        $department = '';
+        if (!empty($data->department->ar_department)) {
+            $department = session('lang') == 'ar' ?  '<span class="purple">'.$data->department->ar_department . '</span>': '<span class="blue">'.$data->department->en_department . '</span>';            
+        }
+        $section = '';
+        if (!empty($data->section->ar_section)) {
+            $section = session('lang') == 'ar' ?  '<span class="red">'.$data->section->ar_section . '</span>': '<span class="blue">'.$data->section->en_section . '</span>';            
+        }
+        return $sector . ' '. $department . '<br>' .  $section ;
+    }
+    public function attendanceSheetReport()
+    {
+        $attendance_id  = request('attendance_id');
+        $from_date      = request('from_date');
+        $to_date        = request('to_date');
+
+        $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
+        $employee_name = $this->getFullEmployeeName($employee);
+        $working_data = $this->workingData($employee);        
+        $hiring_date =  $employee->hiring_date;
+        $leave_date =  empty($employee->leave_date)? trans('staff::local.work'):$employee->leave_date;
+        
+        $attend_days = DB::table('last_main_view')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+            ->where('absent_after_holidays','!=','True')                                 
+            ->count();
+            
+        $absent_days = DB::table('last_main_view')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+            ->where('absent_after_holidays','True')                      
+            ->count();
+            
+        $total_lates = DB::table('last_main_view')
+            ->where('last_main_view.attendance_id', $attendance_id )
+            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])                  
+            ->sum('main_lates') / 60;    
+        
+        $logs = DB::table('last_main_view')->orderBy('selected_date','asc')
+        ->where('last_main_view.attendance_id', $attendance_id )
+        ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])
+        ->get();  
+
+        $data = [         
+            'title'                         => trans('staff::local.attendance_sheet'),                   
+            'logo'                          => logo(),            
+            'school_name'                   => schoolName(), 
+            'employee_name'                 => strip_tags($employee_name),           
+            'working_data'                  => strip_tags($working_data),           
+            'hiring_date'                   => $hiring_date,           
+            'leave_date'                    => $leave_date,           
+            'attend_days'                   => $attend_days,           
+            'absent_days'                   => $absent_days,           
+            'total_lates'                   => $total_lates,           
+            'logs'                          => $logs,           
+                   
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 5,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 30,
+            'margin_bottom'        => 8,
+        ]; 
+
+        $pdf = PDF::loadView('staff::attendances.reports.attendance-sheet', $data,[],$config);
+        return $pdf->stream(trans('staff::local.attendance_sheet'));
     }
 }

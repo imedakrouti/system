@@ -272,10 +272,10 @@ class EmployeeController extends Controller
     {
         $employee_name = '';
         if (session('lang') == 'ar') {
-            $employee_name = '<a href="'.route('employees.show',$data->id).'">' .$data->ar_st_name . ' ' . $data->ar_nd_name.
+            $employee_name = '<a target="blank" href="'.route('employees.show',$data->id).'">' .$data->ar_st_name . ' ' . $data->ar_nd_name.
             ' ' . $data->ar_rd_name.' ' . $data->ar_th_name.'</a>';
         }else{
-            $employee_name = '<a href="'.route('employees.show',$data->id).'">' .$data->en_st_name . ' ' . $data->en_nd_name.
+            $employee_name = '<a target="blank" href="'.route('employees.show',$data->id).'">' .$data->en_st_name . ' ' . $data->en_nd_name.
             ' ' . $data->th_rd_name.' ' . $data->th_th_name.'</a>';
         }
         return $employee_name;

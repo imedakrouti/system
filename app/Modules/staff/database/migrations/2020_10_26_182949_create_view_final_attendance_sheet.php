@@ -50,7 +50,32 @@ class CreateViewFinalAttendanceSheet extends Migration
             (SELECT no_leave FROM timetables WHERE timetables.id = employees.timetable_id) as noLeave,             
             attendance_sheet_dates.*,
 
-            IF(`clock_in` IS NULL && `clock_out`  IS NULL,'True','') AS absent
+            IF(`clock_in` IS NULL && `clock_out`  IS NULL &&
+			(
+            DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Saturday' &&
+            (SELECT saturday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'
+            OR
+            DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Sunday' &&
+            (SELECT sunday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'
+            OR
+            DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Monday' &&
+            (SELECT monday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'
+            OR
+            DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Tuesday' &&
+            (SELECT tuesday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'
+            OR
+            DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Wednesday' &&
+            (SELECT wednesday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'
+            OR
+            DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Thursday' &&
+            (SELECT thursday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'
+            OR
+            DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Friday' &&
+            (SELECT friday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'
+            
+            ),
+            
+            'True','') AS absent
 
             FROM attendance_sheet_dates
             INNER JOIN employees

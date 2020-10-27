@@ -26,10 +26,11 @@
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body card-dashboard">            
-            <div class="row">
+            <form action="{{route('attendances.report')}}" method="GET" target="blank" id="sheetReport">
+              <div class="row">
                 <div class="col-lg-3 col-md-12">
                     <div class="form-group">                      
-                      <select name="attendance_id" id="attendance_id" class="form-control" required>
+                      <select name="attendance_id" id="attendance_id" class="form-control select2" required>
                           <option value="">{{ trans('staff::local.employee_name') }}</option>
                           @foreach ($employees as $employee)
                               <option {{old('attendance_id') == $employee->id ? 'selected' :''}} value="{{$employee->attendance_id}}">
@@ -59,7 +60,39 @@
                         <a href="#" class="btn btn-primary" onclick="searchFilter()">{{ trans('staff::local.search') }}</a>
                     </div>
                 </div>
-            </div>
+            </div>              
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-content collapse show">
+        <div class="card-body card-dashboard">            
+          <table class="table table-striped" >
+            <thead class="bg-info white">
+                <tr class="center">                                                                                      
+                      <th width="120px">{{trans('staff::local.employee_name')}}</th>
+                      <th width="120px">{{trans('staff::local.working_data')}}</th>
+                      <th width="120px">{{trans('staff::local.timetable_id')}}</th>
+                      <th width="120px">{{trans('staff::local.hiring_date')}}</th>
+                      <th width="120px">{{trans('staff::local.leave_date')}}</th>
+                      <th width="120px">{{trans('staff::local.attend_days')}}</th>
+                      <th width="120px">{{trans('staff::local.absent_days')}}</th>                                                      
+                      <th width="120px">{{trans('staff::local.total_lates')}}</th>
+                      <th width="120px">{{trans('staff::local.vacation_days_count')}}</th>                                                        
+                      <th width="120px">{{trans('staff::local.leave_permissions_count')}}</th>                                                                   
+                </tr>
+            </thead>
+            <tbody id="summary">
+
+            </tbody>
+        </table>
+         
         </div>
       </div>
     </div>
@@ -85,7 +118,7 @@
                               <th width="120px">{{trans('staff::local.no_attend_fp')}}</th>
                               <th width="120px">{{trans('staff::local.no_leave_fp')}}</th>
                               <th width="120px">{{trans('staff::local.vacation_type')}}</th>
-                              <th width="120px">{{trans('staff::local.date_holiday')}}</th>
+                              <th width="120px">{{trans('staff::local.holiday')}}</th>
                               <th width="120px">{{trans('staff::local.absent')}}</th>
                               <th width="120px">{{trans('staff::local.date_leave')}}</th>
                               <th width="120px">{{trans('staff::local.time_leave')}}</th>
@@ -109,6 +142,7 @@
 <script>
     function searchFilter()
     {
+        summary()
         var attendance_id   = $('#attendance_id').val();
         var from_date       = $('#from_date').val();
         var to_date         = $('#to_date').val();
@@ -127,10 +161,10 @@
             dom: 'Blfrtip',
             buttons: [
                 {
-                "text": "{{trans('admin.delete')}}",
-                "className": "btn btn-info mr-1",
+                "text": "{{trans('admin.print')}}",
+                "className": "btn btn-primary mr-1",
                 action: function ( e, dt, node, config ) {
-              
+                  $('#sheetReport').submit();
                 }
             },
             // default btns
@@ -169,7 +203,7 @@
           ],
           columnDefs: [
                     // default column not visibilty
-                    { visible: false, targets: [3,4,12,13,14,15] },
+                    { visible: false, targets: [3,4,12,13,15] },
                     { orderable: false, targets: [0 ] }, 
                     { width: 65, targets: 0 },
                     { width: 100, targets: 1 },
@@ -191,12 +225,16 @@
                 ],
           fixedColumns: true ,
             'rowCallback': function(row, data, index){                        
-                if(data.week == "Friday" || data.week == 'Saturday'){                        
+                if(data.absent ){                        
                     $('td', row).css('background-color', '#bc0a0a');                        
                     $('td', row).css('color', 'white');                        
                 }
+                if(data.vacation_type ){                        
+                    $('td', row).css('background-color', '#0f7b93');                        
+                    $('td', row).css('color', 'white');                        
+                }
                 if(data.date_holiday ){                        
-                    $('td', row).css('background-color', 'orange');                        
+                    $('td', row).css('background-color', '#edb32e');                        
                     $('td', row).css('color', 'white');                        
                 }
                 if(data.date_leave ){                        
@@ -207,11 +245,43 @@
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
+
+       
+    }
+    function summary()
+    {
+      var attendance_id   = $('#attendance_id').val();
+      var from_date       = $('#from_date').val();
+      var to_date         = $('#to_date').val();
+      $.ajax({
+            url:'{{route("attendances.summary")}}',
+            type:"post",
+            data: {
+              _method		    : 'PUT',                
+              attendance_id : attendance_id,
+              from_date 	  : from_date,
+              to_date 	    : to_date,
+              _token		    : '{{ csrf_token() }}'
+              },
+            dataType: 'json',
+            success: function(data){
+              var tbody = `<tr>                  
+                  <td class="center">`+(data.employee_name)+`</td>
+                  <td class="center">`+(data.working_data)+`</td>
+                  <td class="center">`+(data.timetable_id)+`</td>
+                  <td class="center">`+(data.hiring_date)+`</td>
+                  <td class="center">`+(data.leave_date)+`</td>
+                  <td class="center">`+(data.attend_days)+`</td>
+                  <td class="center">`+(data.absent_days)+`</td>
+                  <td class="center">`+(data.total_lates)+`</td>
+                  <td class="center">`+(data.vacation_days_count)+`</td>
+                  <td class="center">`+(data.leave_permissions_count)+`</td>
+                </tr>`
+              $('#summary').html(tbody);
+            }
+        });
     }
 
-    $(function () {
-
-    });
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

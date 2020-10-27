@@ -229,7 +229,7 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.dob') }}</label>
-                      <input type="date" class="form-control " value="{{old('dob')}}"                                           
+                      <input type="date" class="form-control " value="{{old('dob', date('Y-m-d'))}}"                                           
                         name="dob">                                            
                     </div>
                 </div>
@@ -317,7 +317,7 @@
               <div class="col-lg-3 col-md-6">
                   <div class="form-group">
                     <label>{{ trans('staff::local.hiring_date') }}</label>
-                    <input type="date" class="form-control " value="{{old('hiring_date')}}"                                           
+                    <input type="date" class="form-control " value="{{old('hiring_date', date('Y-m-d'))}}" id="hiring_date"                                           
                       name="hiring_date">                                            
                   </div>
               </div>
@@ -445,7 +445,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="form-group">
                   <label>{{ trans('staff::local.contract_date') }}</label>
-                  <input type="date" class="form-control " value="{{old('contract_date')}}"                                           
+                  <input type="date" class="form-control " value="{{old('contract_date', date('Y-m-d'))}}"                                           
                     name="contract_date">                                            
                 </div>
             </div>
@@ -599,7 +599,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="form-group">
                   <label>{{ trans('staff::local.social_insurance_date') }}</label>
-                  <input type="date" class="form-control" value="{{old('social_insurance_date')}}"                                       
+                  <input type="date" class="form-control" value="{{old('social_insurance_date', date('Y-m-d'))}}"                                       
                     name="social_insurance_date">                                        
                 </div>
             </div>                        
@@ -626,7 +626,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="form-group">
                   <label>{{ trans('staff::local.medical_insurance_date') }}</label>
-                  <input type="date" class="form-control" value="{{old('medical_insurance_date')}}"                                       
+                  <input type="date" class="form-control" value="{{old('medical_insurance_date', date('Y-m-d'))}}"                                       
                     name="medical_insurance_date">                                        
                 </div>
             </div>                        

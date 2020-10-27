@@ -266,7 +266,12 @@ class LeavePermissionController extends Controller
             return false;
         }
         $timetable = Timetable::findOrFail($timetable_id);
-        if ($timetable->off_duty_time <= request('time_leave') || $timetable->on_duty_time >= request('time_leave')) {            
+        if ($timetable->off_duty_time <= request('time_leave')) {            
+            return false;
+        }
+        $time_leave = date("H:i", strtotime("+1 minutes", strtotime(request('time_leave'))));
+        
+        if ($timetable->on_duty_time > $time_leave ) {            
             return false;
         }
         return true;

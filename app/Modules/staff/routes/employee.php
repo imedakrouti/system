@@ -87,6 +87,8 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('attendances/sheet/{id}','AttendanceController@attendanceSheet')->name('attendances.sheet');  
     Route::get('attendance/logs','AttendanceController@logs')->name('attendances.logs');  
     Route::put('attendance/logs/sheet','AttendanceController@sheetLogs')->name('attendances.logs-sheet');  
+    Route::put('attendance/logs/summary','AttendanceController@summary')->name('attendances.summary');  
+    Route::get('attendance/sheet/report','AttendanceController@attendanceSheetReport')->name('attendances.report');  
 
 
 });  
