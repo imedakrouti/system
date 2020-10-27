@@ -161,11 +161,11 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.temporary_components') }}</span>
                     </a>
                 </li> 
-                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(3)=='fixed-component'?'active':''}}">
+                    <a href="{{route('fixed-component.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.fixed_components') }}</span>
                     </a>
-                </li>     --}}
+                </li>     
                 {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
                     <a href="{{route('calendar.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.reports') }}</span>

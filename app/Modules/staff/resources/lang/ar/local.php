@@ -460,7 +460,7 @@ return [
     'employee_absent'                   => 'غائب',
     'notes'                             => 'ملاحظات',
     'add_temporary_component'           => 'اضافة مفردات مؤقتة',
-    ''               => '',
+    'add_fixed_component'               => 'اضافة مفردات ثابتة',
     ''               => '',
     ''               => '',
     ''               => '',

@@ -61,4 +61,8 @@ class SalaryComponent extends Model
     {
         return $query->where('type','variable');
     }
+    public function scopeFixed($query)
+    {
+        return $query->where('type','fixed');
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFixComponentsTable extends Migration
+class CreateFixedComponentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFixComponentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fix_components', function (Blueprint $table) {
+        Schema::create('fixed_components', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->decimal('amount',8,2)->nullable();
             $table->unsignedBigInteger('employee_id');
@@ -33,6 +33,6 @@ class CreateFixComponentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fix_components');
+        Schema::dropIfExists('fixed_components');
     }
 }

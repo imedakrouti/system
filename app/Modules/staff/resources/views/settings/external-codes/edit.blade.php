@@ -10,7 +10,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('dashboard.admission')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('external-codes.index')}}">{{ trans('staff::local.external-codes') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('external-codes.index')}}">{{ trans('staff::local.external_codes') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>
@@ -36,7 +36,7 @@
                     <div class="col-lg-4 col-md-6">
                       <div class="form-group">
                         <label>{{ trans('staff::local.description') }}</label>
-                        <input type="text" class="form-control " value="{{old('description',$externalCode->description`)}}" 
+                        <input type="text" class="form-control" value="{{old('description',$externalCode->description)}}" 
                         placeholder="{{ trans('staff::local.description') }}"
                           name="description" required>
                           <span class="red">{{ trans('staff::local.required') }}</span>                          
