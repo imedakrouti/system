@@ -195,7 +195,7 @@ class AttendanceController extends Controller
                 $day = '';
                 switch ($data->vacation_type) {
                     case 'Start work':
-                        $day = trans('staff::employee.startWork');
+                        $day = trans('staff::local.startWork');
                         break;
                     case 'End work':
                         $day = trans('staff::local.end_work');
@@ -344,6 +344,7 @@ class AttendanceController extends Controller
             ->where('last_main_view.attendance_id', $attendance_id )
             ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
             ->where('absent_after_holidays','!=','True')                              
+            ->where('vacation_type','')                      
             ->count();
             
         $data['absent_days'] = DB::table('last_main_view')
@@ -413,7 +414,8 @@ class AttendanceController extends Controller
         $attend_days = DB::table('last_main_view')
             ->where('last_main_view.attendance_id', $attendance_id )
             ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
-            ->where('absent_after_holidays','!=','True')                                 
+            ->where('absent_after_holidays','!=','True')  
+            ->where('vacation_type','')                                                     
             ->count();
             
         $absent_days = DB::table('last_main_view')

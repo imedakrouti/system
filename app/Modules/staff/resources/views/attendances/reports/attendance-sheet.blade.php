@@ -100,9 +100,37 @@
                         @endif    
                     </td>                    
                     <td>
-                        @if ($log->absent == 'True')
-                            {{ trans('staff::local.employee_absent') }}                      
+                        @if ($log->absent_after_holidays == 'True')
+                            {{ trans('staff::local.employee_absent') }}                     
                         @endif
+                        @switch($log->vacation_type)
+                            @case('Start work')
+                                {{trans('staff::local.startWork')}}
+                                @break
+                            @case('End work')
+                                {{trans('staff::local.end_work')}}
+                                @break
+                            @case('Sick leave')
+                                {{trans('staff::local.sick_leave')}}
+                                @break
+                            @case('Regular vacation')
+                                {{trans('staff::local.regular_vacation')}}
+                                @break
+                            @case('Vacation without pay')
+                                {{trans('staff::local.vacation_without_pay')}}
+                                @break
+                            @case('Work errand')
+                                {{trans('staff::local.work_errand')}}
+                                @break
+                            @case('Training')
+                                {{trans('staff::local.training')}}
+                                @break
+                            @case('Casual vacation')
+                                {{trans('staff::local.casual_vacation')}}
+                                @break
+                            @default
+                                
+                        @endswitch
                     </td>
                     <td>{{$log->main_lates}}</td>
                 </tr>
