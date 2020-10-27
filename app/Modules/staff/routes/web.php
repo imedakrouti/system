@@ -12,6 +12,7 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
         });
         require 'dashboard.php';
         require 'employee.php';
+        require 'payroll.php';
            
   
     });

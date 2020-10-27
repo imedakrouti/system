@@ -57,4 +57,8 @@ class SalaryComponent extends Model
         }
         return $calc;
     }
+    public function scopeVariable($query)
+    {
+        return $query->where('type','variable');
+    }
 }

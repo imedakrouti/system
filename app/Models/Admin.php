@@ -326,4 +326,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Employees\AttendanceSheet','admin_id');
     }
+    public function temporaryComponent()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\TemporaryComponent','admin_id');
+    }
 }

@@ -38,10 +38,12 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
-                                <th>{{trans('staff::local.ar_section')}}</th>
-                                <th>{{trans('staff::local.en_section')}}</th>
-                                <th>{{trans('staff::local.sort')}}</th>                                
-                                <th>{{trans('staff::local.edit')}}</th>
+                                <th>{{trans('staff::local.employee_name')}}</th>
+                                <th>{{trans('staff::local.type')}}</th>
+                                <th>{{trans('staff::local.amount')}}</th>                                
+                                <th>{{trans('staff::local.date')}}</th>
+                                <th>{{trans('staff::local.notes')}}</th>
+                                <th>{{trans('admin.username')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,26 +65,29 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('staff::local.new_section')}}",
+                    "text": "{{trans('staff::local.add_temporary_component')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('sections.create')}}";
+                        window.location.href = "{{route('temporary-component.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'sections.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'temporary-component.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('sections.index') }}",
+          ajax: "{{ route('temporary-component.index') }}",
           columns: [
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
-              {data: 'ar_section',           name: 'ar_section'},
-              {data: 'en_section',           name: 'en_section'},
-              {data: 'sort',                name: 'sort'},               
-              {data: 'action', 	            name: 'action', orderable: false, searchable: false},
+              {data: 'employee_name',       name: 'employee_name'},
+              {data: 'salary_component',    name: 'salary_component'},
+              {data: 'amount',              name: 'amount'},               
+              {data: 'date',                name: 'date'},               
+              {data: 'remark',              name: 'remark'},               
+              {data: 'username',            name: 'username'},               
+              
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
