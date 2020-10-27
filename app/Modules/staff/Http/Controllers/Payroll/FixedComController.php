@@ -77,11 +77,9 @@ class FixedComController extends Controller
             ]);    
         }
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('fixed-component.index');     
-          
-        toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('loans.index');
+        return redirect()->route('fixed-component.index');               
     }
+    
     public function destroy()
     {
         if (request()->ajax()) {

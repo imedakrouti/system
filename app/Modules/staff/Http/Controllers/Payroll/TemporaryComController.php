@@ -79,10 +79,7 @@ class TemporaryComController extends Controller
             ]);    
         }
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('temporary-component.index');     
-          
-        toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('loans.index');
+        return redirect()->route('temporary-component.index');               
     }
     public function destroy()
     {
