@@ -132,7 +132,11 @@
                                 
                         @endswitch
                     </td>
-                    <td>{{$log->main_lates}}</td>
+                    <td>
+                        @if ($log->main_lates != 0)
+                            {{$log->main_lates}}
+                        @endif
+                    </td>
                 </tr>
                 {{$n++}}
             @endforeach

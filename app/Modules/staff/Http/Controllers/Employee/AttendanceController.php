@@ -49,8 +49,6 @@ class AttendanceController extends Controller
             ]);
             Excel::import(new AttendanceImport($attendance_sheet),request()->file('import_file'));
 
-
-
             $last_date_in_attendance_before_import = date('Y-m-d',strtotime(DB::table('date_lists')->max('selected_date'). ' + 1 day'));
 
             $last_date_in_attendance_after_import = date('Y-m-d',strtotime(Attendance::max('time_attendance')));

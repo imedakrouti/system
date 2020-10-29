@@ -68,7 +68,7 @@ class CreateTableEmployees extends Migration
             $table->unsignedBigInteger('section_id')->nullable();
             $table->unsignedBigInteger('position_id')->nullable();
             $table->unsignedBigInteger('timetable_id')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->unsignedBigInteger('direct_manager_id')->nullable();            
             $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade')->onUpdate('cascade');

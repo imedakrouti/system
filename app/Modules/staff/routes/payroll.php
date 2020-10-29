@@ -24,4 +24,10 @@ Route::group(['namespace'=>'Payroll'],function(){
     Route::get('/payrolls/payrolls-sheets/employees/create/{id}','PayrollSheetController@addEmployeesToSheet')->name('payrolls-sheets.add-employees');
     Route::post('/payrolls/payrolls-sheets/employees/store','PayrollSheetController@storeEmployeeIntoSheet')->name('payrolls-sheets.store-employees');
     Route::post('/payrolls/payrolls-sheets/employees/remove','PayrollSheetController@removeEmployeeFromSheet')->name('payrolls-sheets.remove-employees');
+
+    // payroll process
+    Route::get('/payrolls/payroll-process','PayrollProcessController@index')->name('payroll-process.index');
+    Route::get('/payrolls/payroll-process/create','PayrollProcessController@create')->name('payroll-process.create');
+    Route::post('/payrolls/payroll-process/store','PayrollProcessController@store')->name('payroll-process.store');
+
 });

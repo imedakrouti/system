@@ -13,6 +13,7 @@ class PayrollSheet extends Model
         'from_day',
         'to_day',
         'end_period',
+        'code',
         'admin_id',
     ];
     public function admin()

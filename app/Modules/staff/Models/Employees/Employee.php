@@ -131,4 +131,9 @@ class Employee extends Model
     {
         return $this->hasMany('Staff\Models\Employees\LeavePermission','employee_id');
     }
+    public function payrollSheetEmployee()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\PayrollSheetEmployee','employee_id');
+
+    }
 }

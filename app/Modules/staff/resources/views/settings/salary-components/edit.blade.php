@@ -82,7 +82,7 @@
                               <select name="registration" class="form-control" required>
                                   <option value="">{{ trans('staff::local.select') }}</option>
                                   <option {{old('registration',$salaryComponent->registration) == trans('staff::local.employee_calc') ||
-                                  {old('registration',$salaryComponent->registration) == 'employee_calc' ? 'selected':'' }} value="employee">{{ trans('staff::local.employee_calc') }}</option>
+                                  old('registration',$salaryComponent->registration) == 'employee_calc' ? 'selected':'' }} value="employee">{{ trans('staff::local.employee_calc') }}</option>
                                   <option {{old('registration',$salaryComponent->registration) == trans('staff::local.payroll_calc')||
                                     old('registration',$salaryComponent->registration) == 'payroll_calc' ? 'selected':'' }} value="payroll">{{ trans('staff::local.payroll_calc') }}</option>
                               </select>
