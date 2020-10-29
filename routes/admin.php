@@ -5,40 +5,14 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
         Config::set('auth.defaults.passwords','users');
     // ========================================= END CONFIGURATIONS ==================================
     // ========================================= LANG ================================================
-        Route::get('lang/{lang}',function($lang){
-            // check session lang and destroy session
-            $data['lang'] = $lang;
-
-            if (adminAuth()->check()) {
-                \App\Models\Admin::where('id',authInfo()->id)->update($data);
-            }
-
-            session()->has('lang')?session()->forget('lang'):'';
-            // set new session
-            $lang == 'ar' || $lang == trans('admin.ar') ? session()->put('lang','ar'):session()->put('lang','en');
-            //return to previous page
-            return back();
-        });
+        Route::get('lang/{lang}','ClosureController@lang');        
     // ========================================= END LANG ============================================
 
     // ========================================= LOGIN ===============================================
         Route::get('/login','AdminAuth@login');
         Route::post('/signIn','AdminAuth@setLogin')->name('setLogin');
 
-        Route::get('/',function(){
-
-            if (session()->has('login')) {
-                if (adminAuth()->check()) {
-                    Route::get('/dashboard','DashboardController@index')->name('main.dashboard');
-                }
-                else{
-                    Route::get('/login','AdminAuth@login');
-                }
-            }
-            else{
-                Route::get('/login','AdminAuth@login');
-            }
-        });
+        Route::get('/','ClosureController@checkLogin');            
 
     // ================================= LOGOUT ==============================================
 
@@ -72,7 +46,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
         });
 });
 
-Route::get('/test',function()
-{
-    dd(authInfo()->user->ar_st_name);
-});
+// Route::get('/test',function()
+// {
+//     dd(authInfo()->user->ar_st_name);
+// });

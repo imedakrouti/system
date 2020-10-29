@@ -11,11 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-   return redirect(aurl());
-});
+// Route::get('/', function () {
+//    return redirect(aurl());
+// });
 
 // Auth::routes();
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'Admin\ClosureController@index');
