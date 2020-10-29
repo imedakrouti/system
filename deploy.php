@@ -23,7 +23,7 @@ add('writable_dirs', []);
 // Hosts
 
 host('141.164.48.30')
-    ->set('deploy_path', '/var/www/html/system');    
+    ->set('deploy_path', '/var/www/html/system/');    
     
 // Tasks
 
