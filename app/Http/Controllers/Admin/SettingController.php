@@ -27,7 +27,7 @@ class SettingController extends Controller
             'close_time.required'       => trans('msg.close_time_required'),
 
         ]);
-        $data = request()->except('_token','_method');
+        $data = request()->except('_token','_method','query_string');
 
         if (request()->hasFile('logo'))
         {            
