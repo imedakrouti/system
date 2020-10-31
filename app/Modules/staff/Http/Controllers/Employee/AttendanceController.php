@@ -404,7 +404,7 @@ class AttendanceController extends Controller
     }
 
     public function attendanceSheetReport()
-    {
+    {        
         $attendance_id  = request('attendance_id');
         $from_date      = request('from_date');
         $to_date        = request('to_date');
