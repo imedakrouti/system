@@ -220,7 +220,10 @@
 
           if (sector_id == '') // is empty
           {
-            $('#filter_department_id').prop('disabled', true); // set disable                  
+            $('#filter_department_id').prop('disabled', true); // set disable    
+            $('#filter_department_id')                
+                .empty()
+                .append('<option value="whatever">{{trans('staff::local.departments')}}</option>');                       
           }
           else // is not empty
           {
