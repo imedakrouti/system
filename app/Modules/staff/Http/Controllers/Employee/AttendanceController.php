@@ -408,17 +408,17 @@ class AttendanceController extends Controller
         $attendance_id  = request('attendance_id');
         $from_date      = request('from_date');
         $to_date        = request('to_date');
-
         
-        $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
-        $employee_name = '';
-        if (!empty($employee)) {
-            $employee_name = session('lang') == 'ar' ? $employee->ar_st_name . ' ' . $employee->ar_nd_name.
-            ' ' . $employee->ar_rd_name.' ' . $employee->ar_th_name:
-            $employee->en_st_name . ' ' . $employee->en_nd_name.' ' . $employee->en_rd_name.' ' . $employee->en_th_name;            
-        }else{
-            $employee_name = 'Invalid';
+        $employee = Employee::has('timetable')->where('attendance_id',$attendance_id)->first();
+        if (empty($employee)) {
+            toast(trans('staff::local.invalid_attendance_id'),'success');
+            return back()->withInput();
         }
+        
+        $employee_name = session('lang') == 'ar' ? $employee->ar_st_name . ' ' . $employee->ar_nd_name.
+        ' ' . $employee->ar_rd_name.' ' . $employee->ar_th_name:
+        $employee->en_st_name . ' ' . $employee->en_nd_name.' ' . $employee->en_rd_name.' ' . $employee->en_th_name;            
+      
 
         
         $working_data = $this->workingData($employee);        

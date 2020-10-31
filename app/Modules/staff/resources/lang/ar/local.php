@@ -502,7 +502,7 @@ return [
     'loans_desc'                        => 'السلف',
     'deductions_desc'                   => 'الجزاءات',
     'payroll_sheet'                     => 'كشف مرتبات',
-    ''               => '',
+    'invalid_attendance_id'             => 'رقم البصمة غير صحيح',
     ''               => '',
     ''               => '',
     ''               => '',
