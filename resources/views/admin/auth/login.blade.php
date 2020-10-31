@@ -33,7 +33,7 @@
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css-rtl/custom-rtl.css')}}">      
   @else
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/app.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/custom-rtl.css')}}">      
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/css/custom.css')}}">      
   @endif
   
   <!-- END MODERN CSS-->
