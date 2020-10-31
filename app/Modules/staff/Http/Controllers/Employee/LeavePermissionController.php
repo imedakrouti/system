@@ -163,6 +163,7 @@ class LeavePermissionController extends Controller
      */
     public function store(LeavePermissionRequest $request)
     {
+      
         if (!$this->checkDateRequest()) {                
             toast(trans('staff::local.invalid_date_leave'),'error');
             return back()->withInput();
@@ -172,7 +173,7 @@ class LeavePermissionController extends Controller
             toast(trans('staff::local.deny_day_leave'),'error');
             return back()->withInput();
         }
-
+       
         $employee_no_balance = '';
         $employee_no_department = '';
         $department_no_balance = '';
@@ -183,23 +184,23 @@ class LeavePermissionController extends Controller
                 if (!$this->haveBalance($employee_id)){
                     $employee_no_balance .= ' ['.$this->getAttendanceId($employee_id).'] ';                    
                 }
-
+                
                 if (!$this->hasDepartment($employee_id)){
                     $employee_no_department .= ' ['.$this->getAttendanceId($employee_id).'] ';                    
                 }
-
+              
                 if (!$this->departmentHasBalance($employee_id)){
                     $department_no_balance .= ' ['.$this->department_name.'] ';                    
                 }
-
+               
                 if (!$this->employeeHasTodayPermission($employee_id)) {
                     $employee_has_current_permission .= ' ['.$this->getAttendanceId($employee_id).'] ';                    
                 }
-
+               
                 if (!$this->availableTimeLeave($employee_id)) {
                     $available_time .= ' ['.$this->getAttendanceId($employee_id).'] ';                    
                 }
-
+                
             }
 
             if (!empty($employee_no_balance)) {
@@ -226,7 +227,7 @@ class LeavePermissionController extends Controller
                 toast(trans('staff::local.available_time').' '.trans('staff::local.attendance_id').' '.$available_time,'error');
                 return back()->withInput();
             }
-
+           
         foreach (request('employee_id') as $employee_id) {  
             DB::transaction(function() use ($employee_id, $request){
                 $leave_permission_id = $request->user()->leavePermissions()->create($request->only($this->attributes())+
@@ -279,7 +280,9 @@ class LeavePermissionController extends Controller
 
     private function checkAvailableDay()
     {
-        $today_name = \Carbon\Carbon::now()->format('l');
+        
+        $today_name = date('l', strtotime(request('date_leave')));
+        
         $day_id = Day::where('en_day',$today_name)->first()->id;
         $where = [
             ['working_day',$day_id],
@@ -311,9 +314,9 @@ class LeavePermissionController extends Controller
     }
     private function checkDateRequest()
     {
-        if (request('dateLeave') > Carbon\Carbon::now()->addDays(7) ||request('date_leave') < Carbon\Carbon::now()->subDays(10)) {
-            return false;
-        }
+        // if (request('dateLeave') > Carbon\Carbon::now()->addDays(7) ||request('date_leave') < Carbon\Carbon::now()->subDays(25)) {
+        //     return false;
+        // }
         return true;
     }
 
@@ -347,6 +350,9 @@ class LeavePermissionController extends Controller
     private function departmentHasBalance($employee_id)
     {
         $department_id = Employee::findOrFail($employee_id)->department_id;
+        if (empty($department_id)) {
+            return false;            
+        }
         $leave_allocate = Department::findOrFail($department_id)->leave_allocate;
  
         $count = LeavePermission::whereHas('employee',function($q) use ($department_id){
@@ -372,6 +378,10 @@ class LeavePermissionController extends Controller
     {
         $leave_type =  LeaveType::findOrFail(request('leave_type_id'));
 
+        if (empty($leave_type)) {
+            return false;            
+        }
+        
         // convert date leave from string to date
         $date_leave     = new DateTime(request('date_leave'));
         $day_leave      = $date_leave->format('d');

@@ -50,7 +50,7 @@ class CreateViewFinalAttendanceSheet extends Migration
             (SELECT no_leave FROM timetables WHERE timetables.id = employees.timetable_id) as noLeave,             
             attendance_sheet_dates.*,
 
-            IF(`clock_in` IS NULL && `clock_out`  IS NULL &&
+            IF(`clock_in` = '' && `clock_out`  = ''  &&
 			(
             DAYNAME(`attendance_sheet_dates`.`selected_date`) = 'Saturday' &&
             (SELECT saturday FROM timetables WHERE timetables.id = employees.timetable_id) = 'Enable'

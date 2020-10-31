@@ -20,7 +20,9 @@ class CreateViewVacationPeriodView extends Migration
             vacation_periods.*,vacations.approval2
             from vacations
             INNER JOIN vacation_periods ON vacations.employee_id = vacation_periods.employee_id
-            AND vacations.id = vacation_periods.vacation_id"
+            AND vacations.id = vacation_periods.vacation_id 
+            WHERE vacations.approval1='Accepted' 
+            AND vacations.approval2 = 'Accepted'"
           );
     }
 

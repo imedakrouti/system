@@ -161,12 +161,11 @@ class VacationController extends Controller
 
     public function store(VacationRequest $request)
     {                 
-        if (request('vacation_type') == trans('staff::local.regular_vacation')) {
-            if ($this-> getDaysCount() == 'invalid' ) {
-                toast(trans('staff::local.invalid_vacation_period'),'error');
-                return back()->withInput();
-            }             
-        }
+        $message = '';
+        if ($this-> getDaysCount() == 'invalid' ) {
+            toast(trans('staff::local.invalid_vacation_period'),'error');
+            return back()->withInput();
+        }             
 
         if (request()->hasFile('file_name')) {
             if (count(request('employee_id')) > 1) {
@@ -178,30 +177,39 @@ class VacationController extends Controller
 
         foreach (request('employee_id') as $employee_id) {   
             $employee = Employee::findOrFail($employee_id);
-            $vacation_allocated = $employee->vacation_allocated;
 
-            $message = '';
-
-            if ($vacation_allocated < $this->getDaysCount()+1 && request('vacation_type') == trans('staff::local.regular_vacation')) {
-                $message .= ' [' .$employee->attendance_id . ' ]';
+            $vacation_allocated = $employee->vacation_allocated;                
+            if (request('vacation_type') == trans('staff::local.regular_vacation') || request('vacation_type') == 'Regular vacation') { //vacation_type
+                if ($vacation_allocated < $this->getDaysCount()+1) {
+                    $message .=  ' - ' .trans('staff::local.check_vacation_balance').' [' .$employee->attendance_id . ' ]';
+                }else{
+                    $this->insertVacation($request, $employee_id, $vacation_allocated);
+                }
             }else{
-                $vacation = $request->user()->vacations()->firstOrCreate($request->only($this->attributes())+
-                [                    
-                    'employee_id'       => $employee_id,
-                    'file_name'         => $this->file_name,
-                    'count'             => $this-> getDaysCount(),
-                ]);    
-                $this->InsertVacationPeriod($vacation,$employee_id);  
-                
-                // notification
+                $message = '';
+                $this->insertVacation($request, $employee_id, $vacation_allocated);
+            }           
 
-                // deduct from vacation allocated
-                Employee::where('id',$employee_id)->
-                update(['vacation_allocated'=>($vacation_allocated - $this->getDaysCount()) ]);
-            }
         }        
-        toast(trans('msg.stored_successfully') . ' - ' .trans('staff::local.check_vacation_balance').$message,'success');
+        toast(trans('msg.stored_successfully') .$message,'success');
         return redirect()->route('vacations.index');
+    }
+
+    private function insertVacation($request, $employee_id, $vacation_allocated)
+    {
+        $vacation = $request->user()->vacations()->firstOrCreate($request->only($this->attributes())+
+        [                    
+            'employee_id'       => $employee_id,
+            'file_name'         => $this->file_name,
+            'count'             => $this-> getDaysCount(),
+        ]);    
+        $this->InsertVacationPeriod($vacation,$employee_id);  
+        
+        // notification
+
+        // deduct from vacation allocated
+        Employee::where('id',$employee_id)->
+        update(['vacation_allocated' => ($vacation_allocated - $this->getDaysCount()) ]);
     }
 
     private function InsertVacationPeriod($vacation,$employee_id)

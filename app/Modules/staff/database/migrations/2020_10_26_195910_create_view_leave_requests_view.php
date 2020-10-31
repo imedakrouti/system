@@ -19,6 +19,8 @@ class CreateViewLeaveRequestsView extends Migration
             SELECT leave_permissions.*,employees.attendance_id
             FROM leave_permissions
             INNER JOIN employees ON leave_permissions.employee_id = employees.id
+            WHERE leave_permissions.approval1='Accepted' 
+            AND leave_permissions.approval2 = 'Accepted'
              "
           ); 
     }
