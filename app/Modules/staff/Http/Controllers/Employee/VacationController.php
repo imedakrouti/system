@@ -160,11 +160,13 @@ class VacationController extends Controller
     }
 
     public function store(VacationRequest $request)
-    {         
-        if ($this-> getDaysCount() == 'invalid' ) {
-            toast(trans('staff::local.invalid_vacation_period'),'error');
-            return back()->withInput();
-        } 
+    {                 
+        if (request('vacation_type') == trans('staff::local.regular_vacation')) {
+            if ($this-> getDaysCount() == 'invalid' ) {
+                toast(trans('staff::local.invalid_vacation_period'),'error');
+                return back()->withInput();
+            }             
+        }
 
         if (request()->hasFile('file_name')) {
             if (count(request('employee_id')) > 1) {
