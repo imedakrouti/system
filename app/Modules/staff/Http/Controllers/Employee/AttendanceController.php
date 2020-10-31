@@ -407,10 +407,10 @@ class AttendanceController extends Controller
         $to_date        = request('to_date');
 
         $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
+        
         $employee_name = session('lang') == 'ar' ? $employee->ar_st_name . ' ' . $employee->ar_nd_name.
         ' ' . $employee->ar_rd_name.' ' . $employee->ar_th_name:
-        $employee->en_st_name . ' ' . $employee->en_nd_name.
-        ' ' . $employee->en_rd_name.' ' . $employee->en_th_name;
+        $employee->en_st_name . ' ' . $employee->en_nd_name.' ' . $employee->en_rd_name.' ' . $employee->en_th_name;
         
         $working_data = $this->workingData($employee);        
         $hiring_date =  $employee->hiring_date;
@@ -445,7 +445,7 @@ class AttendanceController extends Controller
             'title'                         => trans('staff::local.attendance_sheet'),                   
             'logo'                          => logo(),            
             'header'                        => $header, 
-            'employee_name'                 => strip_tags($employee_name),           
+            'employee_name'                 => $employee_name,           
             'working_data'                  => strip_tags($working_data),           
             'hiring_date'                   => $hiring_date,           
             'leave_date'                    => $leave_date,           
