@@ -87,7 +87,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">
                               <label>{{ trans('staff::local.deduction_allocated') }}</label>
-                              <input type="number" min="0" class="form-control " value="{{old('deduction_allocated')}}" 
+                              <input type="number" min="0" step="0.25" class="form-control " value="{{old('deduction_allocated')}}" 
                               placeholder="{{ trans('staff::local.deduction_allocated') }}"
                                 name="deduction_allocated" required>
                                 <span class="red">{{ trans('staff::local.required') }}</span>                          

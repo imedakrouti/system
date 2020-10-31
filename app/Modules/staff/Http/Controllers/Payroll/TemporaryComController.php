@@ -55,7 +55,7 @@ class TemporaryComController extends Controller
     {
         $title = trans('staff::local.add_temporary_component');
         $employees = Employee::work()->orderBy('attendance_id')->get();
-        $components = SalaryComponent::variable()->sort()->get();
+        $components = SalaryComponent::variable()->employee()->sort()->get();
         return view('staff::payrolls.temporary-component.create',
         compact('title','employees','components'));
     }
@@ -73,7 +73,7 @@ class TemporaryComController extends Controller
     public function store(TemporaryRequest $request)
     {
         foreach (request('employee_id') as $employee_id) {            
-            $request->user()->temporaryComponent()->create($request->only($this->attributes())+
+            $request->user()->temporaryComponent()->firstOrCreate($request->only($this->attributes())+
             [
                 'employee_id'   => $employee_id,                
             ]);    

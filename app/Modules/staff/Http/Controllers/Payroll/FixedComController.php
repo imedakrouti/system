@@ -55,7 +55,7 @@ class FixedComController extends Controller
     {
         $title = trans('staff::local.add_fixed_component');
         $employees = Employee::work()->orderBy('attendance_id')->get();
-        $components = SalaryComponent::fixed()->sort()->get();
+        $components = SalaryComponent::fixed()->employee()->sort()->get();
         return view('staff::payrolls.fixed-component.create',
         compact('title','employees','components'));
     }
@@ -71,7 +71,7 @@ class FixedComController extends Controller
     public function store(FixedRequest $request)
     {
         foreach (request('employee_id') as $employee_id) {            
-            $request->user()->fixedComponent()->create($request->only($this->attributes())+
+            $request->user()->fixedComponent()->firstOrCreate($request->only($this->attributes())+
             [
                 'employee_id'   => $employee_id,                
             ]);    

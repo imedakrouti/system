@@ -105,7 +105,7 @@
       <div class="card-content collapse show">
         <div class="card-body card-dashboard">
             <div class="table-responsive">
-                <table id="dynamic-table" class="table table-striped" >
+                <table id="dynamic-table" class="table table-bordered" >
                     <thead class="bg-info white">
                         <tr>                                                                
                               <th width="65px">#</th>  

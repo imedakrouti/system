@@ -107,7 +107,7 @@ class PayrollSheetController extends Controller
     }
     public function employeesPayrollSheet($payroll_sheet_id)
     {        
-        $data = PayrollSheetEmployee::with('admin','employees')->get();
+        $data = PayrollSheetEmployee::with('admin','employees')->where('payroll_sheet_id',$payroll_sheet_id)->get();
         return datatables($data)
                 ->addIndexColumn()
                 ->addColumn('username',function($data){

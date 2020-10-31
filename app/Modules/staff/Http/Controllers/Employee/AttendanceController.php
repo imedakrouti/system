@@ -9,6 +9,7 @@ use Staff\Models\Employees\Attendance;
 use Staff\Models\Employees\AttendanceSheet;
 use Staff\Models\Employees\Employee;
 use PDF;
+use Staff\Models\Settings\HrReport;
 
 class AttendanceController extends Controller
 {
@@ -434,10 +435,12 @@ class AttendanceController extends Controller
         ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])
         ->get();  
 
+        $header = HrReport::first()->header;        
+        
         $data = [         
             'title'                         => trans('staff::local.attendance_sheet'),                   
             'logo'                          => logo(),            
-            'school_name'                   => schoolName(), 
+            'header'                        => $header, 
             'employee_name'                 => strip_tags($employee_name),           
             'working_data'                  => strip_tags($working_data),           
             'hiring_date'                   => $hiring_date,           

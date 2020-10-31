@@ -65,4 +65,13 @@ class SalaryComponent extends Model
     {
         return $query->where('type','fixed');
     }
+    public function scopeEmployee($query)
+    {
+        return $query->where('registration','employee');
+    }
+    public function payrollComponent()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\PayrollComponent','salary_component_id');
+    }
+    
 }

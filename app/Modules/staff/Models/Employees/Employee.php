@@ -131,4 +131,20 @@ class Employee extends Model
     {
         return $this->hasMany('Staff\Models\Employees\LeavePermission','employee_id');
     }
+    public function payrollSheetEmployee()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\PayrollSheetEmployee','employee_id');
+    }
+    public function payrollComponents()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\PayrollComponent','employee_id')->orderBy('sort');
+    }
+    public function fixedComponent()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\FixedComponent','employee_id');
+    }
+    public function temporaryComponent()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\TemporaryComponent','employee_id');
+    }
 }

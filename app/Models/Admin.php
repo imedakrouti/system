@@ -342,4 +342,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Payrolls\PayrollSheetEmployee','admin_id');
     }
+    public function payrollComponent()
+    {
+        return $this->hasMany('Staff\Models\Payrolls\PayrollComponent','admin_id');
+    }
 }

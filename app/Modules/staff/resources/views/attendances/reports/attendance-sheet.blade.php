@@ -1,10 +1,10 @@
 @include('layouts.backEnd.layout-report.header')
 <htmlpageheader name="page-header"> 
     <div class="left-header" style="margin-top: -20px">
-        <img height="75" src="{{$logo}}" alt="" class="logo">
+        <img style="width: 75px;height:75px;" src="{{$logo}}" alt="" class="logo">
     </div>
     <div class="header-report">
-       {{$school_name}}
+        <span style="text-align: center">{!!$header!!}</span>
     </div>
     <div class="clear"></div>
     </htmlpageheader>

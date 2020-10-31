@@ -151,11 +151,11 @@
         <li class=" nav-item {{request()->segment(2)=='payrolls'?'active':''}}"><a href="#">
             <i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.payrolls') }}</span></a>
             <ul class="menu-content">                
-                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
+                <li class=" nav-item {{request()->segment(3)=='payroll-process'?'active':''}}">
+                    <a href="{{route('payroll-process.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.process_payroll') }}</span>
                     </a>
-                </li> --}}
+                </li> 
                 <li class=" nav-item {{request()->segment(3)=='temporary-component'?'active':''}}">
                     <a href="{{route('temporary-component.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.temporary_components') }}</span>
@@ -227,19 +227,19 @@
                       <li class="{{request()->segment(3)=='employee-loan'?'active':''}}"><a class="menu-item" href="{{route('employee-loan.get')}}" data-i18n="nav.form_elements.form_select.form_selectivity"><i class="la la-file-text"></i>{{ trans('staff::local.employee_loan_form') }}</a></li>                      
                     </ul>
                 </li>                    
+                <li class="{{request()->segment(3)=='timetables'?'active':''}}"><a class="menu-item" href="{{route('timetables.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.timetables') }}</a></li>           
+                <li class="{{request()->segment(3)=='holidays'?'active':''}}"><a class="menu-item" href="{{route('holidays.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.holidays') }}</a></li>           
+                <li class="{{request()->segment(3)=='leave-types'?'active':''}}"><a class="menu-item" href="{{route('leave-types.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.leave_types') }}</a></li>           
                 <li class="{{request()->segment(3)=='sectors'?'active':''}}"><a class="menu-item" href="{{route('sectors.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.sectors') }}</a></li>           
                 <li class="{{request()->segment(3)=='departments'?'active':''}}"><a class="menu-item" href="{{route('departments.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.departments') }}</a></li>           
                 <li class="{{request()->segment(3)=='sections'?'active':''}}"><a class="menu-item" href="{{route('sections.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.sections') }}</a></li>           
                 <li class="{{request()->segment(3)=='positions'?'active':''}}"><a class="menu-item" href="{{route('positions.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.positions') }}</a></li>           
                 <li class="{{request()->segment(3)=='documents'?'active':''}}"><a class="menu-item" href="{{route('documents.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.required_documents') }}</a></li>                           
                 <li class="{{request()->segment(3)=='skills'?'active':''}}"><a class="menu-item" href="{{route('skills.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.skills') }}</a></li>           
-                <li class="{{request()->segment(3)=='holidays'?'active':''}}"><a class="menu-item" href="{{route('holidays.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.holidays') }}</a></li>           
-                <li class="{{request()->segment(3)=='leave-types'?'active':''}}"><a class="menu-item" href="{{route('leave-types.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.leave_types') }}</a></li>           
                 <li class="{{request()->segment(3)=='machines'?'active':''}}"><a class="menu-item" href="{{route('machines.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.machines') }}</a></li>           
-                <li class="{{request()->segment(3)=='external-codes'?'active':''}}"><a class="menu-item" href="{{route('external-codes.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.external_codes') }}</a></li>           
                 <li class="{{request()->segment(3)=='salary-components'?'active':''}}"><a class="menu-item" href="{{route('salary-components.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.salary_components') }}</a></li>           
-                <li class="{{request()->segment(3)=='timetables'?'active':''}}"><a class="menu-item" href="{{route('timetables.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.timetables') }}</a></li>           
-                {{--<li class="{{request()->segment(3)=='interviews'?'active':''}}"><a class="menu-item" href="{{route('interviews.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.payrolls_statement') }}</a></li>                            --}}
+                <li class="{{request()->segment(3)=='external-codes'?'active':''}}"><a class="menu-item" href="{{route('external-codes.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('staff::local.external_codes') }}</a></li>           
+                
             </ul>
         </li>                                                      
       </ul>
