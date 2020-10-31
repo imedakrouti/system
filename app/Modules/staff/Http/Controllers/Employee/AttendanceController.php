@@ -372,6 +372,7 @@ class AttendanceController extends Controller
 
         return json_encode($data);
     }
+
     private function getFullEmployeeName($data)
     {
         $employee_name = '';
@@ -384,6 +385,7 @@ class AttendanceController extends Controller
         }
         return $employee_name;
     }
+
     private function workingData($data)
     {
         $sector = '';
@@ -400,17 +402,24 @@ class AttendanceController extends Controller
         }
         return $sector . ' '. $department . '<br>' .  $section ;
     }
+
     public function attendanceSheetReport()
     {
         $attendance_id  = request('attendance_id');
         $from_date      = request('from_date');
         $to_date        = request('to_date');
 
-        $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
         
-        $employee_name = session('lang') == 'ar' ? $employee->ar_st_name . ' ' . $employee->ar_nd_name.
-        ' ' . $employee->ar_rd_name.' ' . $employee->ar_th_name:
-        $employee->en_st_name . ' ' . $employee->en_nd_name.' ' . $employee->en_rd_name.' ' . $employee->en_th_name;
+        $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
+        $employee_name = '';
+        if (!empty($employee)) {
+            $employee_name = session('lang') == 'ar' ? $employee->ar_st_name . ' ' . $employee->ar_nd_name.
+            ' ' . $employee->ar_rd_name.' ' . $employee->ar_th_name:
+            $employee->en_st_name . ' ' . $employee->en_nd_name.' ' . $employee->en_rd_name.' ' . $employee->en_th_name;            
+        }else{
+            $employee_name = 'Invalid';
+        }
+
         
         $working_data = $this->workingData($employee);        
         $hiring_date =  $employee->hiring_date;
