@@ -182,9 +182,9 @@ class VacationController extends Controller
 
             $message = '';
 
-            if ($vacation_allocated < $this->getDaysCount()+1) {
-                $message .= ' [' .$employee->attendance_id . ' ]';
-            }else{
+            // if ($vacation_allocated < $this->getDaysCount()+1) {
+            //     $message .= ' [' .$employee->attendance_id . ' ]';
+            // }else{
                 $vacation = $request->user()->vacations()->firstOrCreate($request->only($this->attributes())+
                 [                    
                     'employee_id'       => $employee_id,
@@ -198,7 +198,7 @@ class VacationController extends Controller
                 // deduct from vacation allocated
                 Employee::where('id',$employee_id)->
                 update(['vacation_allocated'=>($vacation_allocated - $this->getDaysCount()) ]);
-            }
+            // }
         }        
         toast(trans('msg.stored_successfully') . ' - ' .trans('staff::local.check_vacation_balance').$message,'success');
         return redirect()->route('vacations.index');
