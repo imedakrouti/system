@@ -411,7 +411,7 @@ class AttendanceController extends Controller
         
         $employee = Employee::has('timetable')->where('attendance_id',request('attendance_id'))->first();
         if (empty($employee)) {
-            toast(trans('staff::local.invalid_attendance_id'),'success');
+            toast(trans('staff::local.invalid_attendance_id'),'error');
             return back()->withInput();
         }
         
