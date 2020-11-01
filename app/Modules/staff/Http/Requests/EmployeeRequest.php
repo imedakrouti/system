@@ -23,7 +23,7 @@ class EmployeeRequest extends FormRequest
      */
     public function rules()
     {
-        $id = request()->segment(5);
+        $id = request()->segment(3);
         return [
             'ar_st_name'     => 'required|max:15',
             'ar_nd_name'     => 'required|max:15',
