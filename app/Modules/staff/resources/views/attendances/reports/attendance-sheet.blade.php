@@ -132,7 +132,7 @@
                                 
                         @endswitch
                     </td>
-                    <td>{{$log->main_lates}}</td>
+                    <td>{{$log->main_lates == 0 ? '':$log->main_lates}}</td>
                 </tr>
                 {{$n++}}
             @endforeach

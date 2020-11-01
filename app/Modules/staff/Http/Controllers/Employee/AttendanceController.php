@@ -404,7 +404,11 @@ class AttendanceController extends Controller
     }
 
     public function attendanceSheetReport()
-    {                
+    {       
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }         
         $attendance_id  = request('attendance_id');
         $from_date      = request('from_date');
         $to_date        = request('to_date');
@@ -442,7 +446,9 @@ class AttendanceController extends Controller
         ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])
         ->get();  
 
-        $header = HrReport::first()->header;        
+        $header = HrReport::first()->header;     
+        
+        
         
         $data = [         
             'title'                         => trans('staff::local.attendance_sheet'),                   
