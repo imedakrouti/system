@@ -13,7 +13,7 @@ class CreateTableEmployees extends Migration
      */
     public function up()
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('employees2', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('attendance_id')->unique();
             $table->string('ar_st_name',25)->nullable();

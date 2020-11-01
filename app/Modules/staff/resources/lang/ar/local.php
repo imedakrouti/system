@@ -377,7 +377,7 @@ return [
     'end_work'                          => 'نهاية عمل',
     'sick_leave'                        => 'مرضي',
     'regular_vacation'                  => 'أعتيادي',
-    'vacation_without_pay'              => 'بدون راتب',
+    'vacation_without_pay'              => 'بدون مرتب',
     'work_errand'                       => 'مأمورية عمل',
     'training'                          => 'تدريب',
     'casual_vacation'                   => 'عارضة',
