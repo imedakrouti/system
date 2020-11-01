@@ -1,4 +1,15 @@
 <?php
+/**
+ * LOGIN
+ * LANG
+ * CHANGE PASSWORD
+ * UPDATE SETTINGS
+ * USER PROFILE
+ * CREATE NEW USER
+ * NOTIFICATIONS
+ * LOGS
+ * 
+ */
 Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
     // ========================================= CONFIGURATIONS ======================================
         Config::set('auth.defaults.guard','admin');
@@ -43,6 +54,9 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
             Route::get('view/all','NotificationController@viewNotifications')->name('view.notifications');
             Route::get('delete/all','NotificationController@delete')->name('delete.notifications');
             Route::get('read/all','NotificationController@markAsRead')->name('read.notifications');
+
+            // logs
+            Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
         });
 });
 

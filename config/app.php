@@ -185,7 +185,7 @@ return [
         Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
         Alkoumi\LaravelArabicTafqeet\LaravelArabicTafqeetServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
     ],
 
     /*
