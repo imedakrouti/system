@@ -503,10 +503,12 @@ class VacationController extends Controller
                 $balance_allocated = request('old_vacation') == 'true' ? $vacation_allocated + request('vacation_balance')
                 :request('vacation_balance'); 
 
-                Employee::where('hiring_date','<=',request('set_date'))
-                ->where('id',$employee->id)
-                ->where('department_id',request('department_id'))
-                ->update(['vacation_allocated'=>$balance_allocated]);
+                foreach (request('department_id') as $department_id) {
+                    Employee::where('hiring_date','<=',request('set_date'))
+                    ->where('id',$employee->id)
+                    ->where('department_id',$department_id)
+                    ->update(['vacation_allocated'=>$balance_allocated]);                    
+                }
             }
         }
         toast(trans('staff::local.set_vacation_balance'),'success');

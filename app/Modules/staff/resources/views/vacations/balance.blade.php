@@ -82,7 +82,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                         <label>{{ trans('staff::local.department_id') }}</label>
-                        <select id="department_id" required name="department_id" disabled class="form-control select2">
+                        <select id="department_id" required  name="department_id[]" class="form-control select2" multiple>
                             <option value="">{{ trans('staff::local.select') }}</option>    
                                 
                         </select>                                          

@@ -58,7 +58,7 @@ class DepartmentController extends Controller
 
     private function attributes()
     {
-        return ['ar_department','en_department','sector_id','sort','leave_allocate','admin_id'];
+        return ['ar_department','en_department','sort','leave_allocate','admin_id'];
     }
 
     /**
@@ -69,7 +69,11 @@ class DepartmentController extends Controller
      */
     public function store(DepartmentRequest $request)
     {
-        $request->user()->departments()->create($request->only($this->attributes()));        
+        foreach (request('sector_id') as $sector_id) {
+            $request->user()->departments()->create($request->only($this->attributes())+
+            ['sector_id' => $sector_id]);        
+            
+        }
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('departments.index');
     }

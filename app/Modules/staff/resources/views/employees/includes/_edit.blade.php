@@ -206,9 +206,10 @@
                 <div class="col-lg-2 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.leave_balance') }}</label>
-                      <input type="number" min="0" class="form-control " value="{{old('leave_balance',$employee->leave_balance)}}" 
+                      <input type="number" min="0" class="form-control" required value="{{old('leave_balance',$employee->leave_balance)}}" 
                       placeholder="{{ trans('staff::local.leave_balance') }}"
-                        name="leave_balance">                                            
+                        name="leave_balance">  
+                        <span class="red">{{ trans('staff::local.required') }}</span>                                                                    
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6">
@@ -225,7 +226,7 @@
               <div class="col-lg-4 col-md-4">
                   <div class="form-group">
                     <label >{{ trans('staff::local.employee_image') }}</label>
-                    <input  type="file" name="employee_image"/>                
+                    <input  type="file" name="employee_image" class="form-control"/>                
                   </div>
                 </div>
             </div>  

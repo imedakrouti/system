@@ -31,7 +31,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('staff::local.sector_id') }}</label>
-                          <select name="sector_id" class="form-control" required>
+                          <select name="sector_id[]" class="form-control select2" multiple required>
                                 <option value="">{{ trans('staff::local.select') }}</option>
                                 @foreach ($sectors as $sector)
                                     <option {{old('sector_id') == $sector->id ? 'selected' : ''}} value="{{$sector->id}}">
