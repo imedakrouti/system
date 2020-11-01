@@ -308,7 +308,7 @@ class PayrollProcessController extends Controller
             if ($employee->id == $this->employee_id) {                
                 $this->salary                   = round($employee->salary);
                 $this->salary_per_day           = $employee->salary/30;                
-                $this->bus                      = $employee->bus_value;                     
+                $this->bus                      = empty($employee->bus_value) ?0:$employee->bus_value;                     
                 $this->salary_mode              = $employee->salary_mode;
                 $this->salary_bank_name         = $employee->salary_bank_name;
                 $this->bank_account             = $employee->bank_account;                
