@@ -80,7 +80,14 @@ class VacationController extends Controller
                             </div>' .$username;                         
             }
             
-        })                         
+        })    
+        ->addColumn('created_at',function($data){
+            return '<div class="badge badge-info round">
+                        <span>'.$data->admin->username.'</span>
+                        <i class="la la-check font-medium-2"></i>
+                    </div> <br>'. \Carbon\Carbon::parse( $data->created_at)->format('M d Y, D h:m ');
+            return $data->admin->username .'<br>'. \Carbon\Carbon::parse( $data->created_at)->format('M d Y, D h:m ');
+        })                      
         ->addColumn('vacation_period',function($data){
             return '<span class="red"><strong>'.trans('staff::local.from').'</strong></span> '.            
             \Carbon\Carbon::parse( $data->from_date)->format('M d Y, D')
@@ -103,7 +110,7 @@ class VacationController extends Controller
         ->addColumn('employee_image',function($data){
             return $this->employeeImage($data);
         })
-        ->rawColumns(['check','employee_name','attendance_id','approval1','vacation_period','attachments','employee_image'])
+        ->rawColumns(['check','employee_name','attendance_id','approval1','vacation_period','attachments','employee_image','created_at'])
         ->make(true);
     }
 

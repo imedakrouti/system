@@ -122,8 +122,7 @@
                           <div class="col-lg-12 col-md-12">
                               <div class="form-group row">
                                 <label>{{ trans('staff::local.description') }}</label>
-                                  <textarea name="description" class="form-control" cols="30" rows="5">{{old('description',$salaryComponent->description)}}</textarea>
-                                  <span class="red">{{ trans('staff::local.required') }}</span>                          
+                                  <textarea name="description" class="form-control" cols="30" rows="5">{{old('description',$salaryComponent->description)}}</textarea>                                  
                               </div>
                           </div>
                       </div>

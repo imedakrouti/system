@@ -90,7 +90,14 @@ class DeductionController extends Controller
                             </div>' .$username;                         
             }
             
-        })                     
+        })    
+        ->addColumn('created_at',function($data){
+            return '<div class="badge badge-info round">
+                        <span>'.$data->admin->username.'</span>
+                        <i class="la la-check font-medium-2"></i>
+                    </div> <br>'. \Carbon\Carbon::parse( $data->created_at)->format('M d Y, D h:m ');
+            return $data->admin->username .'<br>'. \Carbon\Carbon::parse( $data->created_at)->format('M d Y, D h:m ');
+        })                  
         ->addColumn('workingData',function($data){
             return $this->workingData($data);
         })  
@@ -114,7 +121,7 @@ class DeductionController extends Controller
                     </a>';
                 return $data->approval1 == trans('staff::local.pending') ? $btn : '';
         })
-        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','reason','action'])
+        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','reason','action','created_at'])
         ->make(true);
     }
 

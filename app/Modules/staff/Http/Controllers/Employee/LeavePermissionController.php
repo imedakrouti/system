@@ -28,7 +28,7 @@ class LeavePermissionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = LeavePermission::with('employee','leaveType')->orderBy('id','desc')
+            $data = LeavePermission::with('employee','leaveType','admin')->orderBy('id','desc')
             ->where('approval2','<>','Accepted')->where('approval2','<>','Rejected')->get();
             return $this-> dataTableApproval1($data);
         }
@@ -101,22 +101,29 @@ class LeavePermissionController extends Controller
         })                     
         ->addColumn('workingData',function($data){
             return $this->workingData($data);
-        })        
+        })    
+        ->addColumn('created_at',function($data){
+            return '<div class="badge badge-info round">
+                        <span>'.$data->admin->username.'</span>
+                        <i class="la la-check font-medium-2"></i>
+                    </div> <br>'. \Carbon\Carbon::parse( $data->created_at)->format('M d Y, D h:m ');
+            return $data->admin->username .'<br>'. \Carbon\Carbon::parse( $data->created_at)->format('M d Y, D h:m ');
+        })      
         ->addColumn('position',function($data){
             return !empty($data->employee->position) ?(session('lang') == 'ar' ? $data->employee->position->ar_position:
             $data->employee->position->en_position) :'';
         })                   
         ->addColumn('check', function($data){
                $btnCheck = '<label class="pos-rel">
-                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
-                            <span class="lbl"></span>
-                        </label>';
+                                <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                                <span class="lbl"></span>
+                            </label>';
                 return $btnCheck;
         })
         ->addColumn('leave_permission_id',function($data){
             return session('lang') == 'ar' ? $data->leaveType->ar_leave:$data->leaveType->ar_leave ;
         })
-        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','leave_permission_id'])
+        ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','leave_permission_id','created_at'])
         ->make(true);
     }
     public function filter()
