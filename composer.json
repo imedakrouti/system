@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.2",
         "alkoumi/laravel-arabic-tafqeet": "^1.4",
-        "carlos-meneses/laravel-mpdf": "^2.1",
+        "carlos-meneses/laravel-mpdf": "^2.1",        
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.18",
         "laravel/tinker": "^2.0",

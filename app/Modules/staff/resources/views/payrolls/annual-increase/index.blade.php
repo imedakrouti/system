@@ -23,7 +23,7 @@
     <div class="card">
       <div class="card-content collapse show">
         <div class="card-body card-dashboard">
-          <form class="form form-horizontal" method="POST" action="{{route('vacations.set-balance')}}" >                
+          <form class="form form-horizontal" method="POST" action="{{route('annual-increase.update')}}" >                
                 @csrf
                 <div class="row">                          
                     <div class="col-lg-3 col-md-6">
@@ -91,22 +91,12 @@
                 </div>   
                 <div class="col-lg-2 col-md-6">
                     <div class="form-group row">
-                      <label>{{ trans('staff::local.vacation_balance_no') }}</label>
-                      <input type="number" min="0" step="1" class="form-control " value="{{old('annual_increase')}}"                           
-                        name="c" required>
+                      <label>{{ trans('staff::local.annual_increase_percent') }}</label>
+                      <input type="number" min="0" step="10" class="form-control " value="{{old('annual_increase')}}"                           
+                        name="annual_increase" required>
                         <span class="red">{{ trans('staff::local.required') }}</span>                          
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="form-group row">
-                        <h5>                                
-                            <label class="pos-rel">
-                                <input type="checkbox" class="ace" name="old_vacation" value="true">
-                                <span class="lbl"></span> {{ trans('staff::local.keep_old_vacation_balance') }}
-                            </label>                                                                                            
-                        </h5>
-                    </div>
-                </div> 
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
                         <i class="la la-check-square-o"></i> {{ trans('admin.save') }}

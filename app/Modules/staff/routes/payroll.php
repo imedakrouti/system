@@ -31,8 +31,15 @@ Route::group(['namespace'=>'Payroll'],function(){
     Route::post('/payrolls/payroll-process/destroy','PayrollProcessController@destroy')->name('payroll-process.destroy');
     Route::get('/payrolls/payroll-process/show/{code}','PayrollProcessController@show')->name('payroll-process.show');
 
+    // annual increase
+    Route::get('payrolls/annual-increase','AnnualIncreaseController@index')->name('annual-increase.index');
+    Route::post('payrolls/annual-increase/update','AnnualIncreaseController@updateSalaries')->name('annual-increase.update');
+    
+
     // payroll reports
     Route::get('/payrolls/report/{code}','PayrollProcessController@allEmployeesReport')->name('payroll-report.all');
+
+
 
 
     

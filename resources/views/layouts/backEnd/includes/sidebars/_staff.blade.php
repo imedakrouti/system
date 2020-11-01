@@ -171,11 +171,11 @@
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.payrolls_sheets') }}</span>
                     </a>
                 </li>     
-                {{-- <li class=" nav-item {{request()->segment(2)=='calendar'?'active':''}}">
-                    <a href="{{route('calendar.index')}}"><i class="la la-minus">
-                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.reports') }}</span>
+                <li class=" nav-item {{request()->segment(3)=='annual-increase.index'?'active':''}}">
+                    <a href="{{route('annual-increase.index')}}"><i class="la la-minus">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.annual_increase') }}</span>
                     </a>
-                </li>                                                 --}}
+                </li>                                                 
             </ul>
         </li>     
 
