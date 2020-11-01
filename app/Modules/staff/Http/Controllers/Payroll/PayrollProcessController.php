@@ -132,7 +132,7 @@ class PayrollProcessController extends Controller
         }else{
             $this->net = $net->id;
         }
-
+        // dd($this->from_date);
         if ($this->get_data_attendance() == 0) {
             toast(trans('staff::local.no_attendance_records'),'error');
             return back()->withInput();
@@ -145,29 +145,27 @@ class PayrollProcessController extends Controller
         ->work()        
         ->where('salary_suspend','no')
         ->orderBy('attendance_id')
-        ->get();
-
-        
+        ->get();        
 
         if (count($this->employees) == 0) {
             toast(trans('staff::local.no_employees_found'),'error');
             return back()->withInput();
         }
-
+        
         DB::transaction(function(){
             $where = [
                 // ['type', 'variable'],
                 ['registration', 'payroll'],
             ];
             $salary_components = SalaryComponent::where($where)->sort()->get();    
-            // dd($salary_components);
+            
             foreach ($this->employees as $employee) {
                 $this->employee_id = $employee->id;
-                
                 $this->getData();
-
+                
                 foreach ($salary_components as $salary_component) {                    
                     $this->value = $this->getAmountByFormula($salary_component->id,$salary_component->formula,$salary_component->sort);
+                    
                     $calculate = $salary_component->calculate == trans('staff::local.net_type') ? 'net' : '';
                     
                     $value = number_format($this->value, 2, '.', '');                    
@@ -225,8 +223,6 @@ class PayrollProcessController extends Controller
 
     private function temporaryComponents()
     {
-        // $this->temporary = TemporaryComponent::whereBetween('date',[$this->from_date,$this->to_date])
-        // ->get();
         $this->temporary = TemporaryComponent::whereBetween('date',[$this->from_date,$this->to_date])
         ->groupBy('employee_id','salary_component_id')
         ->selectRaw('sum(amount) as amount, employee_id,salary_component_id')
@@ -248,7 +244,7 @@ class PayrollProcessController extends Controller
     }
 
     private function preparePeriodDates()
-    {        
+    {             
         $payroll_sheet = PayrollSheet::findOrFail(request('payroll_sheet_id'));
         $from_day    = $payroll_sheet->from_day;
         $to_day      = $payroll_sheet->to_day;
@@ -270,10 +266,7 @@ class PayrollProcessController extends Controller
                 $this_month  = $now->month;
             }
             
-            // get from date
-            $this->from_date = Carbon\Carbon::create( $this_year, $this_month, $from_day , 0, 0, 0);
-            
-           
+            // get from date                                   
             $now->addMonth();
             $next_month  = $now->month;
             $year       = $now->year;
@@ -286,10 +279,15 @@ class PayrollProcessController extends Controller
                 $now->addYear();
                 $year =  $now->year;
             }
-            // get to date
-            $this->to_date = Carbon\Carbon::create($year, $next_month, $to_day, 0, 0, 0);
-
             
+            $this->from_date = Carbon\Carbon::create( $this_year, $this_month, $from_day , 0, 0, 0);
+            // get to date
+            $this->to_date = Carbon\Carbon::create($year, $next_month, $to_day, 0, 0, 0);  
+            
+            if (!empty(request('from_date')) && !empty(request('to_date'))) {
+                $this->from_date = request('from_date');
+                $this->to_date = request('to_date');         
+            }
         }
         
         $month_name = date("F", strtotime( $this->to_date));
@@ -331,19 +329,22 @@ class PayrollProcessController extends Controller
         $this->num_leave_early();        
     }
 
-    private function getAmountByFormula($salary_component_id,$formula, $salary_component_sort)
+    private function getAmountByFormula($salary_component_id,$formula)
     {        
         $formula_value = $this->prepareFormula($formula);
+        if (empty($formula_value)) {
+            $formula_value = 0;
+        }
+      
         if (strrchr($formula_value,'{') == $formula) {
             // return 'Error In Formula';
             toast(trans('staff::local.invalid_formula'),'error');
             return redirect('/')->withInput();
-        }else{
-            
-            $str = DB::select('select '. $formula_value .' as formula');
-
+        }else{            
+            $str = DB::select('select '. $formula_value .' as formula');            
             $value = (float)$str[0]->formula;
-            if ($salary_component_id == $this->net) {                
+            if ($salary_component_id == $this->net) {   
+                           
                 $value = (float)$str[0]->formula + 
                 $this->calculateComponents($this->temporary)+ 
                 $this->calculateComponents($this->fixed);
@@ -427,7 +428,7 @@ class PayrollProcessController extends Controller
                     foreach ($this->category as $category) {
                         if ($category->id == $type->salary_component_id) {
                             // insert
-                            // dd($type->amount);
+
                             $this->storePayrollComponent( $calculate,$type->amount, $type->employee_id, $type->salary_component_id,$component->sort);
 
                             // end insert
@@ -498,7 +499,7 @@ class PayrollProcessController extends Controller
         ->sum('amount');
     }
     private function get_data_attendance()
-    {
+    {        
         $this->get_data_attendance  = DB::table('last_main_view')
         ->whereBetween('selected_date',[$this->from_date,$this->to_date])->get();
         return count($this->get_data_attendance);

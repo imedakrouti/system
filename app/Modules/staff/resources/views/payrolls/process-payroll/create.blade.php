@@ -28,21 +28,34 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-lg-3 col-md-12">
-                        <div class="form-group row">
-                          <label>{{ trans('staff::local.payroll_sheet_name') }}</label> <br>
-                          <select name="payroll_sheet_id" class="form-control" required>
-                              <option value="">{{ trans('staff::local.select') }}</option>
-                              @foreach ($payrollSheets as $payrollSheet)
-                                  <option {{old('payroll_sheet_id') == $payrollSheet->id ? 'selected' :''}} value="{{$payrollSheet->id}}">
-                                        {{session('lang') == 'ar' ? $payrollSheet->ar_sheet_name : $payrollSheet->en_sheet_name}}                                  
-                                  </option>
-                              @endforeach
-                          </select> <br>
-                          <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                    <div class="row">
+                      <div class="col-lg-3 col-md-12">
+                          <div class="form-group">
+                            <label>{{ trans('staff::local.payroll_sheet_name') }}</label> <br>
+                            <select name="payroll_sheet_id" class="form-control" required>
+                                <option value="">{{ trans('staff::local.select') }}</option>
+                                @foreach ($payrollSheets as $payrollSheet)
+                                    <option {{old('payroll_sheet_id') == $payrollSheet->id ? 'selected' :''}} value="{{$payrollSheet->id}}">
+                                          {{session('lang') == 'ar' ? $payrollSheet->ar_sheet_name : $payrollSheet->en_sheet_name}}                                  
+                                    </option>
+                                @endforeach
+                            </select> <br>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                          </div>
+                      </div>   
+                      <div class="col-lg-2 col-md-12">
+                          <div class="form-group">
+                            <label>{{ trans('staff::local.payroll_from_date') }}</label>
+                            <input type="date" class="form-control" name="from_date">                            
+                          </div>
+                      </div>                                                                          
+                      <div class="col-lg-2 col-md-12">
+                        <div class="form-group">
+                          <label>{{ trans('staff::local.payroll_to_date') }}</label>
+                          <input type="date" class="form-control" name="to_date">                          
                         </div>
+                    </div> 
                     </div>
-                                                     
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">
