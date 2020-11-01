@@ -405,11 +405,12 @@ class AttendanceController extends Controller
 
     public function attendanceSheetReport()
     {        
+        dd(request()->all());
         $attendance_id  = request('attendance_id');
         $from_date      = request('from_date');
         $to_date        = request('to_date');
         
-        $employee = Employee::has('timetable')->where('attendance_id',request('attendance_id'))->first();
+        $employee = Employee::has('timetable')->where('attendance_id',$attendance_id)->first();
         if (empty($employee)) {
             toast(trans('staff::local.invalid_attendance_id'),'error');
             return back()->withInput();
@@ -426,25 +427,25 @@ class AttendanceController extends Controller
         $leave_date =  empty($employee->leave_date)? trans('staff::local.work'):$employee->leave_date;
         
         $attend_days = DB::table('last_main_view')
-            ->where('last_main_view.attendance_id', request('attendance_id') )
+            ->where('last_main_view.attendance_id', $attendance_id )
             ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
             ->where('absent_after_holidays','!=','True')  
             ->where('vacation_type','')                                                     
             ->count();
             
         $absent_days = DB::table('last_main_view')
-            ->where('last_main_view.attendance_id', request('attendance_id') )
+            ->where('last_main_view.attendance_id', $attendance_id )
             ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
             ->where('absent_after_holidays','True')                      
             ->count();
             
         $total_lates = DB::table('last_main_view')
-            ->where('last_main_view.attendance_id', request('attendance_id') )
+            ->where('last_main_view.attendance_id', $attendance_id )
             ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])                  
             ->sum('main_lates') / 60;    
         
         $logs = DB::table('last_main_view')->orderBy('selected_date','asc')
-        ->where('last_main_view.attendance_id', request('attendance_id') )
+        ->where('last_main_view.attendance_id', $attendance_id )
         ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])
         ->get();  
 

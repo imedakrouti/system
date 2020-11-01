@@ -16,14 +16,14 @@ class CreateTableEmployees extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('attendance_id')->unique();
-            $table->string('ar_st_name',25);
-            $table->string('ar_nd_name',25);
-            $table->string('ar_rd_name',25);
-            $table->string('ar_th_name',25);
-            $table->string('en_st_name',25);
-            $table->string('en_nd_name',25);
-            $table->string('en_rd_name',25);
-            $table->string('en_th_name',25);
+            $table->string('ar_st_name',25)->nullable();
+            $table->string('ar_nd_name',25)->nullable();
+            $table->string('ar_rd_name',25)->nullable();
+            $table->string('ar_th_name',25)->nullable();
+            $table->string('en_st_name',25)->nullable();
+            $table->string('en_nd_name',25)->nullable();
+            $table->string('en_rd_name',25)->nullable();
+            $table->string('en_th_name',25)->nullable();
             $table->string('email',50)->nullable();
             $table->string('mobile1',12)->nullable();
             $table->string('mobile2',12)->nullable();
@@ -68,7 +68,7 @@ class CreateTableEmployees extends Migration
             $table->unsignedBigInteger('section_id')->nullable();
             $table->unsignedBigInteger('position_id')->nullable();
             $table->unsignedBigInteger('timetable_id')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->unsignedBigInteger('direct_manager_id')->nullable();            
             $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade')->onUpdate('cascade');

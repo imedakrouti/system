@@ -72,27 +72,28 @@
   <div class="col-12">
     <div class="card">
       <div class="card-content collapse show">
-        <div class="card-body card-dashboard">            
-          <table class="table table-striped" >
-            <thead class="bg-info white">
-                <tr class="center">                                                                                      
-                      <th width="120px">{{trans('staff::local.employee_name')}}</th>
-                      <th width="120px">{{trans('staff::local.working_data')}}</th>
-                      <th width="120px">{{trans('staff::local.timetable_id')}}</th>
-                      <th width="120px">{{trans('staff::local.hiring_date')}}</th>
-                      <th width="120px">{{trans('staff::local.leave_date')}}</th>
-                      <th width="120px">{{trans('staff::local.attend_days')}}</th>
-                      <th width="120px">{{trans('staff::local.absent_days')}}</th>                                                      
-                      <th width="120px">{{trans('staff::local.total_lates')}}</th>
-                      <th width="120px">{{trans('staff::local.vacation_days_count')}}</th>                                                        
-                      <th width="120px">{{trans('staff::local.leave_permissions_count')}}</th>                                                                   
-                </tr>
-            </thead>
-            <tbody id="summary">
-
-            </tbody>
-        </table>
-         
+        <div class="card-body card-dashboard">
+          <div class="table-responsive">
+            <table class="table table-striped" >
+              <thead class="bg-info white">
+                  <tr class="center">                                                                                      
+                        <th width="120px">{{trans('staff::local.employee_name')}}</th>
+                        <th width="120px">{{trans('staff::local.working_data')}}</th>
+                        <th width="120px">{{trans('staff::local.timetable_id')}}</th>
+                        <th width="120px">{{trans('staff::local.hiring_date')}}</th>
+                        <th width="120px">{{trans('staff::local.leave_date')}}</th>
+                        <th width="120px">{{trans('staff::local.attend_days')}}</th>
+                        <th width="120px">{{trans('staff::local.absent_days')}}</th>                                                      
+                        <th width="120px">{{trans('staff::local.total_lates')}}</th>
+                        <th width="120px">{{trans('staff::local.vacation_days_count')}}</th>                                                        
+                        <th width="120px">{{trans('staff::local.leave_permissions_count')}}</th>                                                                   
+                  </tr>
+              </thead>
+              <tbody id="summary">
+  
+              </tbody>
+          </table>            
+          </div>                     
         </div>
       </div>
     </div>
@@ -248,6 +249,7 @@
 
        
     }
+
     function summary()
     {
       var attendance_id   = $('#attendance_id').val();
