@@ -145,20 +145,20 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
             }
         });
     }());
-    setInterval(function()
-    {
-        $.ajax({
-            type:'get',
-            url:'{{route("user.notifications")}}',
-            dataType:'json',
-            success:function(data){
-                $('#count').html(data.count);
-                $('#countTitle').html(data.countTitle);
-                $('#notifications').html(data.notifications);
-                $('#view').html(data.view);
-            }
-        });
-    },5000); //5000
+    // setInterval(function()
+    // {
+    //     $.ajax({
+    //         type:'get',
+    //         url:'{{route("user.notifications")}}',
+    //         dataType:'json',
+    //         success:function(data){
+    //             $('#count').html(data.count);
+    //             $('#countTitle').html(data.countTitle);
+    //             $('#notifications').html(data.notifications);
+    //             $('#view').html(data.view);
+    //         }
+    //     });
+    // },5000); //5000
 
 </script>
 <script>$(".se-pre-con").fadeOut("slow");</script>
