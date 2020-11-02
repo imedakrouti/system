@@ -23,7 +23,9 @@ class Admin
             Config::set('database.default', 'mysql2');                        
         }
         if (empty($request->user())) {
-            Auth::setUser(authInfo());
+            if (!empty(authInfo())) {
+                Auth::setUser(authInfo());                
+            }
         }
        
         if (!Auth::guard('admin')->check()) {
