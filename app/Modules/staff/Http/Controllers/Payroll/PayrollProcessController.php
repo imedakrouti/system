@@ -117,7 +117,9 @@ class PayrollProcessController extends Controller
     }
 
     public function store()
-    {            
+    {      
+        set_time_limit(0);
+        
         $this->prePayrollProcess();  
         $period = PayrollComponent::where('code',$this->payroll_date.request('payroll_sheet_id'))->first();
         if (!empty($period)) {
