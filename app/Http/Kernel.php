@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         // Own Middleware
         'admin'         => \App\Http\Middleware\Admin::class,
         'lang'          => \App\Http\Middleware\Lang::class,
+        
     ];
 
     /**

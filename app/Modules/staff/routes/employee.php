@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['namespace'=>'Employee'],function(){
+Route::group(['namespace'=>'Employee','middleware'=>'connection'],function(){
     // Employee
     Route::resource('employees','EmployeeController')->except('destroy');
     Route::post('employees/destroy','EmployeeController@destroy')->name('employees.destroy');

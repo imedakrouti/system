@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class Admin
 {
@@ -15,8 +16,16 @@ class Admin
      * @return mixed
      */
     public function handle($request, Closure $next)
-    {
+    {        
+        if (session('connection') == 'meis') {            
+            Config::set('database.default', 'mysql');            
+        }else{              
+            Config::set('database.default', 'mysql2');                        
+        }
+        // dd(session('connection'));
+        // dd(config('database.default'));
         if (!Auth::guard('admin')->check()) {
+
             return redirect('admin/login');
         }
         return $next($request);

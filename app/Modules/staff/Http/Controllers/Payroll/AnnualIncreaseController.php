@@ -23,14 +23,14 @@ class AnnualIncreaseController extends Controller
     }
     public function updateSalaries()
     {
-        $annual_increase = request('annual_increase');
+        // $annual_increase = request('annual_increase');
         if (request('execute_type') == 'employees') {
-            foreach (request('employee_id') as $employee_id) {
+            foreach (request('employee_id') as $employee_id) {                
                 $salary = Employee::findOrFail($employee_id)->salary;
-                $annual_increase = ($salary * $annual_increase) / 100;
+                $annual_increase = ($salary * request('annual_increase')) / 100;
                 $new_salary = $salary + $annual_increase;
                 Employee::where('id',$employee_id)
-                ->update(['salary'=>$new_salary]);
+                ->update(['salary'=>$new_salary]);                                
             }
         }else{
             foreach (request('department_id') as $department_id) {
@@ -38,7 +38,7 @@ class AnnualIncreaseController extends Controller
                 foreach ($employees as $employee) {                
                     $salary = Employee::findOrFail($employee->id);
                     if (!empty($salary->hiring_date)) {
-                        $annual_increase = ($salary->salary * $annual_increase) / 100;
+                        $annual_increase = ($salary->salary * request('annual_increase')) / 100;
                         
                         $new_salary = $salary->salary + $annual_increase;
                         Employee::where('hiring_date','<=',request('set_date'))

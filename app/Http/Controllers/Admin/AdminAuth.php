@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class AdminAuth extends Controller
 {
@@ -20,6 +21,11 @@ class AdminAuth extends Controller
     public function setLogin(LoginRequest $request)
     {
         $rememberMe = $request->input('rememberMe')==1 ?true:false;
+        if (request('school') == 'meis') {            
+            Config::set('database.default', 'mysql');            
+        }else{              
+            Config::set('database.default', 'mysql2');                        
+        }
 
         if (adminAuth()->attempt(['username'=>$request->input('username'),'password'=>$request->input('password')],$rememberMe))
         {
@@ -35,6 +41,11 @@ class AdminAuth extends Controller
                     session()->put('lang','en');                    
                 }
             }
+            if (request('school') == 'meis') {
+                session()->put('connection','meis');                                    
+            }else{
+                session()->put('connection','cgs');                                    
+            }
             return redirect(route('main.dashboard'));
         }
 
@@ -45,6 +56,7 @@ class AdminAuth extends Controller
     {
     	adminAuth()->logout();
         session()->forget('login');
+        session()->forget('connection');
         
         if (!session()->has('lang')) {
             session()->put('lang',authInfo()->lang);
