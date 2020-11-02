@@ -13,6 +13,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('dashboard.admission')}}">{{ trans('admin.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('payroll-process.index')}}">{{ trans('staff::local.process_payroll') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>
@@ -31,7 +32,7 @@
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
               <div class="table-responsive">
-                    <table id="dynamic-table" class="table table-bordered" >
+                    <table id="dynamic-table" class="table table-striped" >
                         <thead class="bg-info white">
                             <tr>
                                 <th class="center">{{ trans('staff::local.employee_name') }}</th>

@@ -52,7 +52,8 @@ class PayrollProcessController extends Controller
                         return '<a href="'.route('payroll-process.show',$data->code).'" >'.$sheet_name.'</a>';
                     })
                     ->addColumn('username',function($data){
-                        return $data->username . '<br>' . $data->created_at;
+                        return $data->username ;
+                        // . '<br>' . $data->created_at;
                     })
                     ->addColumn('reports',function($data){
                         return $this->reports($data);
@@ -212,6 +213,7 @@ class PayrollProcessController extends Controller
     private function prePayrollProcess()
     {
         $this->preparePeriodDates();
+        
         $this->categoryTypes();
         $this->fixedComponents();
         $this->temporaryComponents();
@@ -285,11 +287,11 @@ class PayrollProcessController extends Controller
             $this->from_date = Carbon\Carbon::create( $this_year, $this_month, $from_day , 0, 0, 0);
             // get to date
             $this->to_date = Carbon\Carbon::create($year, $next_month, $to_day, 0, 0, 0);  
-            
-            if (!empty(request('from_date')) && !empty(request('to_date'))) {
-                $this->from_date = request('from_date');
-                $this->to_date = request('to_date');         
-            }
+              
+        }
+        if (!empty(request('from_date')) && !empty(request('to_date'))) {            
+            $this->from_date = request('from_date');
+            $this->to_date = request('to_date');         
         }
         
         $month_name = date("F", strtotime( $this->to_date));
@@ -648,6 +650,10 @@ class PayrollProcessController extends Controller
 
     public function allEmployeesReport($code)
     {
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
         $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
         $salary_components = SalaryComponent::has('payrollComponent')->sort()->get();
 
