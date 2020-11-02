@@ -42,9 +42,9 @@ class AdminAuth extends Controller
                 }
             }
             if (request('school') == 'meis') {
-                session()->put('connection','meis');                                    
+                session()->put('connection','mysql');                                    
             }else{
-                session()->put('connection','cgs');                                    
+                session()->put('connection','mysql2');                                    
             }
             return redirect(route('main.dashboard'));
         }

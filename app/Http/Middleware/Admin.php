@@ -17,7 +17,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {        
-        if (session('connection') == 'meis') {            
+        if (session('connection') == 'mysql') {            
             Config::set('database.default', 'mysql');            
         }else{              
             Config::set('database.default', 'mysql2');                        

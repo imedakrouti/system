@@ -208,22 +208,22 @@ class LeavePermissionController extends Controller
                     $available_time .= ' ['.$this->getAttendanceId($employee_id).'] ';                    
                 }
                 
-            }
+        }
 
             if (!empty($employee_no_balance)) {
                 toast(trans('staff::local.no_enough_balance').' '.trans('staff::local.attendance_id').' '.$employee_no_balance,'error');
                 return back()->withInput();
             }
 
-            if (!empty($employee_no_department)) {
-                toast(trans('staff::local.no_department_found').' '.trans('staff::local.attendance_id').' '.$employee_no_department,'error');
-                return back()->withInput();
-            }
+            // if (!empty($employee_no_department)) {
+            //     toast(trans('staff::local.no_department_found').' '.trans('staff::local.attendance_id').' '.$employee_no_department,'error');
+            //     return back()->withInput();
+            // }
 
-            if (!empty($department_no_balance)) {
-                toast(trans('staff::local.no_balance_department').' '.$department_no_balance,'error');
-                return back()->withInput();
-            }
+            // if (!empty($department_no_balance)) {
+            //     toast(trans('staff::local.no_balance_department').' '.$department_no_balance,'error');
+            //     return back()->withInput();
+            // }
 
             if (!empty($employee_has_current_permission)) {
                 toast(trans('staff::local.employee_has_current_permission').'</br>['.request('date_leave').']'.' '.trans('staff::local.attendance_id').' '.$employee_has_current_permission,'error');

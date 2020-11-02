@@ -12,6 +12,12 @@ class AdmissionReport extends Model
     protected $fillable = [
         'report_title','student_id','father_id','report','admin_id'
     ];
+    public function __construct(Array $attributes = [])
+    {
+        parent::__construct($attributes);
+        
+        $this->setConnection(session('connection')); // see config/database.php where you have specified this second connection to a different DB
+    }
     public function admin()
     {
         return $this->belongsTo('App\Models\Admin','admin_id');

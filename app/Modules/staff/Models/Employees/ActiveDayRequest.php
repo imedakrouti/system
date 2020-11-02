@@ -11,4 +11,10 @@ class ActiveDayRequest extends Model
         'working_day',
         'leave_type_id'        
     ];
+    public function __construct(Array $attributes = [])
+    {
+        parent::__construct($attributes);
+        
+        $this->setConnection(session('connection')); // see config/database.php where you have specified this second connection to a different DB
+    }
 }

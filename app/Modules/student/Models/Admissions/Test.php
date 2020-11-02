@@ -9,6 +9,12 @@ class Test extends Model
     protected $fillable = [
         'assessment_id','test_id','test_result','employee_id','acceptance_test_id'
     ];
+    public function __construct(Array $attributes = [])
+    {
+        parent::__construct($attributes);
+        
+        $this->setConnection(session('connection')); // see config/database.php where you have specified this second connection to a different DB
+    }
     public function assessment()
     {
         return $this->belongsTo('Students\Models\Admissions\Assessment','assessment_id');

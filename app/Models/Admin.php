@@ -13,7 +13,12 @@ class Admin extends Authenticatable
 {
 
     use Notifiable;
-
+    public function __construct(Array $attributes = [])
+    {
+        parent::__construct($attributes);
+        
+        $this->setConnection(session('connection')); // see config/database.php where you have specified this second connection to a different DB
+    }
     /**
      * The attributes that are mass assignable.
      *
