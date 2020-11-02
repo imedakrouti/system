@@ -29,8 +29,7 @@ class AnnualIncreaseController extends Controller
                 $salary = Employee::findOrFail($employee_id)->salary;
                 $annual_increase = ($salary * $annual_increase) / 100;
                 $new_salary = $salary + $annual_increase;
-                Employee::where('hiring_date','<=',request('set_date'))
-                ->where('id',$employee_id)
+                Employee::where('id',$employee_id)
                 ->update(['salary'=>$new_salary]);
             }
         }else{
