@@ -18,9 +18,11 @@ use PDF;
 use Carbon;
 use Alkoumi\LaravelArabicTafqeet\Tafqeet;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Config;
 
 class EmployeeController extends Controller
 {
+
     private $employee_image;
     /**
      * Display a listing of the resource.

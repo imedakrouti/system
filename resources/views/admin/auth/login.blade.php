@@ -83,12 +83,12 @@ data-open="click" data-menu="vertical-menu" data-col="1-column">
                 <div class="card-header border-0">
                   <div class="card-title text-center">
                     <div class="p-1">
-                      @isset(settingHelper()->logo)
+                      {{-- @isset(settingHelper()->logo)
                           <img width="150" height="150" src="{{asset('images/website/'.settingHelper()->logo)}}" alt="branding logo">                        
-                      @endisset
-                      @empty(settingHelper()->logo)
+                      @endisset --}}
+                      {{-- @empty(settingHelper()->logo) --}}
                           <img width="150" height="150" src="{{asset('images/website/logo.png')}}" alt="branding logo">                                                
-                      @endempty
+                      {{-- @endempty --}}
                     </div>
                   </div>
                   <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\Admin;
-use Illuminate\Http\Request;
+use Session;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 
 class AdminAuth extends Controller
 {
@@ -19,7 +21,13 @@ class AdminAuth extends Controller
 
     public function setLogin(LoginRequest $request)
     {
+
         $rememberMe = $request->input('rememberMe')==1 ?true:false;
+        if (request('schools') == 'meis') {
+            session()->put('con','meis');            
+        }else{  
+            session()->put('con','cgs');                      
+        }
 
         if (adminAuth()->attempt(['username'=>$request->input('username'),'password'=>$request->input('password')],$rememberMe))
         {
@@ -35,6 +43,9 @@ class AdminAuth extends Controller
                     session()->put('lang','en');                    
                 }
             }
+
+            // dd(session('database'));
+            
             return redirect(route('main.dashboard'));
         }
 
@@ -45,6 +56,7 @@ class AdminAuth extends Controller
     {
     	adminAuth()->logout();
         session()->forget('login');
+        session()->forget('con');
         
         if (!session()->has('lang')) {
             session()->put('lang',authInfo()->lang);

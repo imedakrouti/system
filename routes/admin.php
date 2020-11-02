@@ -14,6 +14,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
     // ========================================= CONFIGURATIONS ======================================
         Config::set('auth.defaults.guard','admin');
         Config::set('auth.defaults.passwords','users');
+        Config::set('auth.defaults.passwords','users');
     // ========================================= END CONFIGURATIONS ==================================
     // ========================================= LANG ================================================
         Route::get('lang/{lang}','ClosureController@lang');        
