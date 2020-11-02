@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Config;
 use Staff\Models\Settings\Department;
 use Staff\Models\Settings\Sector;
 
 class Admin extends Authenticatable
 {
+
     use Notifiable;
 
     /**

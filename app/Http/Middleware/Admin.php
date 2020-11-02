@@ -22,8 +22,7 @@ class Admin
         }else{              
             Config::set('database.default', 'mysql2');                        
         }
-        // dd(session('connection'));
-        // dd(config('database.default'));
+        Auth::setUser(authInfo());
         if (!Auth::guard('admin')->check()) {
 
             return redirect('admin/login');
