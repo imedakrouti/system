@@ -147,12 +147,15 @@
             </div>   
 
             <div class="row" style="margin-left: 0;">
+              @php
+                  $national_id = $employee->national_id == '' || $employee->national_id == null ? 0 : $employee->national_id;
+              @endphp
                 <div class="col-lg-4 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.national_id') }}</label>
-                      <input type="text" class="form-control " value="{{old('national_id',$employee->national_id)}}" 
+                      <input type="text" class="form-control " value="{{old('national_id',$national_id)}}" 
                       placeholder="{{ trans('staff::local.national_id') }}"
-                        name="national_id" required>
+                        name="national_id">
                         <span class="red">{{ trans('staff::local.required') }}</span>                          
                     </div>
                 </div>
@@ -203,10 +206,13 @@
                         name="bus_value">                                            
                     </div>
                 </div>      
+                @php
+                    $leave_balance = $employee->leave_balance == '' || $employee->leave_balance == null ? 0 : $employee->leave_balance;
+                @endphp
                 <div class="col-lg-2 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.leave_balance') }}</label>
-                      <input type="number" min="0" class="form-control" required value="{{old('leave_balance',$employee->leave_balance)}}" 
+                      <input type="number" min="0" class="form-control" required value="{{old('leave_balance',$leave_balance)}}" 
                       placeholder="{{ trans('staff::local.leave_balance') }}"
                         name="leave_balance">  
                         <span class="red">{{ trans('staff::local.required') }}</span>                                                                    
