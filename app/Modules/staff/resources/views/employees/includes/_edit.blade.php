@@ -252,8 +252,10 @@
                     <div class="form-group">
                       <label>{{ trans('staff::local.gender') }}</label>
                       <select name="gender" class="form-control">                        
-                        <option {{old('gender',$employee->gender) =='male' ? 'selected':'' }} value="male">{{ trans('staff::local.male') }}</option>    
-                        <option {{old('gender',$employee->gender) =='female' ? 'selected':'' }} value="female">{{ trans('staff::local.female') }}</option>    
+                        <option {{old('gender',$employee->gender) =='male' || 
+                        old('gender',$employee->gender) == trans('staff::local.male')? 'selected':'' }} value="male">{{ trans('staff::local.male') }}</option>    
+                        <option {{old('gender',$employee->gender) =='female'||
+                        old('gender',$employee->gender) == trans('staff::local.female')? 'selected':'' }} value="female">{{ trans('staff::local.female') }}</option>    
                       </select>                                          
                     </div>
                 </div>

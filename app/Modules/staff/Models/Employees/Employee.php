@@ -75,9 +75,9 @@ class Employee extends Model
         
         $this->setConnection(session('connection')); // see config/database.php where you have specified this second connection to a different DB
     }
-    public function admins()
+    public function admin()
     {
-        return $this->belongsTo(App\Models\Admin::class);
+        return $this->belongsTo('App\Models\Admin','admin_id');
     }
     public function employee_user()
     {
@@ -151,5 +151,9 @@ class Employee extends Model
     public function temporaryComponent()
     {
         return $this->hasMany('Staff\Models\Payrolls\TemporaryComponent','employee_id');
+    }
+    public function getGenderAttribute()
+    {
+        return $this->attributes['gender'] == 'male' ? trans('staff::local.male') : trans('staff::local.female');
     }
 }

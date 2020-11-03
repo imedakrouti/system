@@ -202,7 +202,15 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        //
+        
+        $title = trans('staff::local.employee_data');
+        $sectors = Sector::sort()->get();
+        $departments = Department::sort()->get();
+        $sections = Section::sort()->get();
+        $positions = Position::sort()->get();        
+        $timetables = Timetable::all();
+        return view('staff::employees.show',
+        compact('employee','title','sectors','departments','sections','positions','timetables'));
     }
 
     /**
@@ -212,7 +220,7 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Employee $employee)
-    {
+    {        
         $title = trans('staff::local.edit_employee');
         $sectors = Sector::sort()->get();
         $departments = Department::sort()->get();
@@ -386,7 +394,7 @@ class EmployeeController extends Controller
     private function employeeImage($data)
     {
         $employee_id = isset($data->id) ? $data->id : $data->employee_id;   
-        $image_path = $data->gender == 'male' ? 'images/website/male.png' : 'images/website/female.png';     
+        $image_path = $data->gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';     
         return !empty($data->employee_image)?
             '<a href="'.route('employees.show',$employee_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
