@@ -42,8 +42,10 @@ class EmployeeController extends Controller
         $documents = Document::sort()->get();
         $title = trans('staff::local.employees');
         $timetables = Timetable::all();
+        $holidays = Holiday::sort()->get();
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::employees.index',
-       compact('sectors','sections','positions','documents','title','timetables'));   
+       compact('sectors','sections','positions','documents','title','timetables','holidays','employees'));   
     }
 
     /**
@@ -61,8 +63,9 @@ class EmployeeController extends Controller
         $skills = Skill::sort()->get();
         $holidays = Holiday::sort()->get();
         $timetables = Timetable::all();
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::employees.create',
-        compact('title','sectors','sections','positions','timetables','documents','skills','holidays'));
+        compact('title','sectors','sections','positions','timetables','documents','skills','holidays','employees'));
     }
     private function attributes()
     {
@@ -227,9 +230,9 @@ class EmployeeController extends Controller
         $sections = Section::sort()->get();
         $positions = Position::sort()->get();        
         $timetables = Timetable::all();
-
+        $headers = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::employees.edit',
-       compact('employee','title','sectors','sections','positions','timetables','departments'));
+       compact('employee','title','sectors','sections','positions','timetables','departments','headers'));
     }
 
     /**
@@ -416,9 +419,11 @@ class EmployeeController extends Controller
             $fields ['position_id'] = !empty(request('position_id'))?request('position_id'):'';                              
             $fields ['timetable_id'] = !empty(request('timetable_id'))? request('timetable_id'):'';                              
             $fields ['bus_value'] = !empty(request('bus_value'))? request('bus_value'):'';        
+            $fields ['direct_manager_id'] = !empty(request('direct_manager_id'))? request('direct_manager_id'):'';        
             $fields = array_filter($fields);                     
             foreach (request('id') as $employee_id) {   
                 Employee::where('id',$employee_id)->update($fields);
+                $this->employeeHolidays($employee_id);
             }                        
         }
         return response(['status'=>true]);

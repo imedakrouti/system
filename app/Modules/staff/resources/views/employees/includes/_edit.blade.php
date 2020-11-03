@@ -356,9 +356,18 @@
                   <div class="form-group">
                     <label>{{ trans('staff::local.direct_manager_id') }}</label>
                     <select name="direct_manager_id" class="form-control select2">
-                      <option value="">{{ trans('staff::local.select') }}</option>    
-                          
-                    </select>                                          
+                      <option value="">{{ trans('staff::local.select') }}</option>
+           
+                      @foreach ($headers as $head)
+                          <option {{old('direct_manager_id',$employee->direct_manager_id) == $head->id ? 'selected' :''}} value="{{$head->id}}">
+                          @if (session('lang') == 'ar')
+                          [{{$head->attendance_id}}] {{$head->ar_st_name}} {{$head->ar_nd_name}} {{$head->ar_rd_name}} {{$head->ar_th_name}}
+                          @else
+                          [{{$head->attendance_id}}] {{$head->en_st_name}} {{$head->en_nd_name}} {{$head->en_rd_name}} {{$head->en_th_name}}
+                          @endif
+                          </option>
+                      @endforeach
+                  </select> <br>                                         
                   </div>
               </div>
             </div> 
