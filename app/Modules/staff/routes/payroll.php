@@ -38,6 +38,7 @@ Route::group(['namespace'=>'Payroll'],function(){
 
     // payroll reports
     Route::get('/payrolls/report/{code}','PayrollProcessController@allEmployeesReport')->name('payroll-report.all');
+    Route::get('/payrolls/report/department/get','PayrollProcessController@departmentPayrollReport')->name('payroll-report.department');
 
 
 

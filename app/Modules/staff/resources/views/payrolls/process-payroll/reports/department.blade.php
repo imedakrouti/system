@@ -9,9 +9,10 @@
     </div>
     <div class="clear"></div>   
     <h4 class="center">{{trans('staff::local.payroll_sheet')}} 
-        {{session('lang') == 'ar' ? $payroll_sheet_data->payrollSheet->ar_sheet_name : $payroll_sheet_data->payrollSheet->en_sheet_name}} 
+        {{$department_name}} 
         [{{\DateTime::createFromFormat("Y-m-d",$payroll_sheet_data->from_date)->format("Y/m/d")}}] - 
-        [{{\DateTime::createFromFormat("Y-m-d",$payroll_sheet_data->to_date)->format("Y/m/d")}}]</h4>
+        [{{\DateTime::createFromFormat("Y-m-d",$payroll_sheet_data->to_date)->format("Y/m/d")}}]</h4> 
+        
 </htmlpageheader>
 <table>
     <thead class="bg-info white">

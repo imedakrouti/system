@@ -12,7 +12,9 @@ use Staff\Models\Settings\SalaryComponent;
 use Carbon;
 use PDF;
 use Staff\Models\Employees\Employee;
+use Staff\Models\Settings\Department;
 use Staff\Models\Settings\HrReport;
+use Staff\Models\Settings\Sector;
 
 class PayrollProcessController extends Controller
 {
@@ -75,8 +77,11 @@ class PayrollProcessController extends Controller
                     ->rawColumns(['check','payrollSheet','username','reports','confirm'])
                     ->make(true);
         }
+        $sectors = Sector::sort()->get();            
+        $departments = Department::sort()->get();
+        $title = trans('staff::local.process_payroll');
         return view('staff::payrolls.process-payroll.index',
-        ['title'=>trans('staff::local.process_payroll')]);  
+        compact('sectors','departments','title'));  
     }
     public function show($code)
     {
@@ -104,7 +109,7 @@ class PayrollProcessController extends Controller
                 </button>
                 <div class="dropdown-menu">                    
                     <a target="_blank" class="dropdown-item" href="'.route('payroll-report.all',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.total_payroll_report').'</a>                                             
-                    <a target="_blank" class="dropdown-item" href="'.route('employee.experience',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.department_payroll_report').'</a>                                
+                    <a onclick="departmentReport('."'$data->code'".')" class="dropdown-item" href="#"><i class="la la-print"></i> '.trans('staff::local.department_payroll_report').'</a>                                
                     <a target="_blank" class="dropdown-item" href="'.route('employee.leave',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.employee_payroll_report').'</a>                    
                 </div>
             </div>';
@@ -677,14 +682,64 @@ class PayrollProcessController extends Controller
         $config = [
             'orientation'          => 'L',
             'margin_header'        => 5,
-            'margin_footer'        => 5,
+            'margin_footer'        => 30,
             'margin_left'          => 10,
             'margin_right'         => 10,
             'margin_top'           => 50,
-            'margin_bottom'        => 8,
+            'margin_bottom'        => session('lang') == 'ar' ? 50 : 55,
         ]; 
 
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.all-employees', $data,[],$config);
+        return $pdf->stream(trans('staff::local.payroll_sheet'));
+    }
+
+    public function departmentPayrollReport()
+    {
+        $code           = request('code');
+        $sector_id      = request('sector_id');
+        $department_id  = request('department_id');
+        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
+        $salary_components = SalaryComponent::has('payrollComponent')->sort()->get();
+
+        $department = Department::findOrFail($department_id);
+        $department_name = session('lang') == 'ar' ? $department->ar_department : $department->en_department;
+
+        $employees = Employee::with('sector','department')->work()->with('payrollComponents')
+        ->whereHas('payrollComponents',function($q) use ($code){
+            $q->where('code',$code);                                    
+        })
+        ->where('sector_id',$sector_id)
+        ->where('department_id',$department_id)
+        ->orderBy('attendance_id','asc')        
+        ->get();
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.payroll_sheet'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'salary_components'             => $salary_components,                
+            'employees'                     => $employees,                                   
+            'payroll_sheet_data'            => $payroll_sheet_data,                                   
+            'department_name'               => $department_name,                                   
+        ];
+
+        $config = [
+            'orientation'          => 'L',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 50,
+            'margin_bottom'        => session('lang') == 'ar' ? 50 : 55,
+        ]; 
+
+        $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.department', $data,[],$config);
         return $pdf->stream(trans('staff::local.payroll_sheet'));
     }
 

@@ -59,6 +59,8 @@
       </div>
     </div>
 </div>
+
+@include('staff::payrolls.process-payroll.includes._department-reports')
 @endsection
 @section('script')
 <script>
@@ -99,6 +101,39 @@
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });
+
+    function departmentReport(code)
+    {
+      $('#code').val(code);
+      $('#departmentReport').modal({backdrop: 'static', keyboard: false})
+      $('#departmentReport').modal('show');   
+    }
+    $('#sector_id').on('change', function(){
+          var sector_id = $(this).val();                  
+
+          if (sector_id == '') // is empty
+          {
+            $('#department_id').prop('disabled', true); // set disable                  
+          }
+          else // is not empty
+          {
+            $('#department_id').prop('disabled', false);	// set enable                  
+            //using
+            $.ajax({
+              url:'{{route("getDepartmentsBySectorId")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',
+                sector_id 	  : sector_id,                      
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){
+                $('#department_id').html(data);                      
+              }
+            });
+          }
+    });   
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

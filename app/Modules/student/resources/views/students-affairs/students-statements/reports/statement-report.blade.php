@@ -124,8 +124,7 @@
 
 
 <htmlpagefooter name="page-footer">
-    <div class="signature">
-        {{-- <h3 style="text-align: left; margin-left:80px;"><strong>{{ trans('admin.students_affairs') }}</strong></h3> --}}
+    <div class="signature">        
         {!!$signature!!}
     </div>	
 </htmlpagefooter>

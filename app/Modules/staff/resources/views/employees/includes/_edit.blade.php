@@ -66,7 +66,7 @@
               <div class="col-lg-2 col-md-3">
                 <div class="form-group">
                 <label>{{ trans('admin.username') }}</label>
-                <input type="text" class="form-control" disabled value="{{$employee->employee_user->username}}">   
+                <input type="text" class="form-control" disabled value="{{empty($employee->employee_user->username)?'':$employee->employee_user->username}}">   
                 <span class="red">{{ trans('staff::local.required') }}</span>                                                     
                 </div>
             </div>
