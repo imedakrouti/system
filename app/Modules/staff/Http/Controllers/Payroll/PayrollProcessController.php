@@ -216,9 +216,8 @@ class PayrollProcessController extends Controller
     }
     
     private function prePayrollProcess()
-    {
-        $this->preparePeriodDates();
-        
+    {        
+        $this->preparePeriodDates();        
         $this->categoryTypes();
         $this->fixedComponents();
         $this->temporaryComponents();
@@ -240,7 +239,7 @@ class PayrollProcessController extends Controller
     }
     private function categoryTypes()
     {
-        $this->category = SalaryComponent::where('calculate','earn')->orWhere('calculate','deduction')->get();
+        $this->category = SalaryComponent::where('calculate','earn')->orWhere('calculate','deduction')->get();        
     }
 
     private function salaryComponents()
@@ -253,52 +252,55 @@ class PayrollProcessController extends Controller
     }
 
     private function preparePeriodDates()
-    {             
-        $payroll_sheet = PayrollSheet::findOrFail(request('payroll_sheet_id'));
-        $from_day    = $payroll_sheet->from_day;
-        $to_day      = $payroll_sheet->to_day;
-       
-        $now        = Carbon\Carbon::now();
-
-        $this_month  = $now->month;
-        $this_year   = $now->year;
-        
-        if ($payroll_sheet->end_period == 'End Month') {
-            $last_day_of_month = $now->endOfMonth()->isoFormat('Do');
-            $this->from_date = Carbon\Carbon::create( $this_year, $this_month, 1, 0, 0, 0);
-            $this->to_date = Carbon\Carbon::create($this_year, $this_month, $last_day_of_month, 0, 0, 0);
+    {                     
+        if (request()->has('payroll_sheet_id')) {
+            $payroll_sheet = PayrollSheet::findOrFail(request('payroll_sheet_id'));
+            $from_day    = $payroll_sheet->from_day;
+            $to_day      = $payroll_sheet->to_day;
+           
+            $now        = Carbon\Carbon::now();
+    
+            $this_month  = $now->month;
+            $this_year   = $now->year;
             
-        }else{
-            $last_day_of_month = $now->endOfMonth()->isoFormat('Do');
-            if ($now <= $last_day_of_month) {
-                $now->subDays(40);
-                $this_month  = $now->month;
-            }
-            
-            // get from date                                   
-            $now->addMonth();
-            $next_month  = $now->month;
-            $year       = $now->year;
-
-            if ($now <= $last_day_of_month) {
+            if ($payroll_sheet->end_period == 'End Month') {
+                $last_day_of_month = $now->endOfMonth()->isoFormat('Do');
+                $this->from_date = Carbon\Carbon::create( $this_year, $this_month, 1, 0, 0, 0);
+                $this->to_date = Carbon\Carbon::create($this_year, $this_month, $last_day_of_month, 0, 0, 0);
+                
+            }else{
+                $last_day_of_month = $now->endOfMonth()->isoFormat('Do');
+                if ($now <= $last_day_of_month) {
+                    $now->subDays(40);
+                    $this_month  = $now->month;
+                }
+                
+                // get from date                                   
+                $now->addMonth();
                 $next_month  = $now->month;
-            }
-
-            if ($this_month == 12) {
-                $now->addYear();
-                $year =  $now->year;
-            }
-            
-            $this->from_date = Carbon\Carbon::create( $this_year, $this_month, $from_day , 0, 0, 0);
-            // get to date
-            $this->to_date = Carbon\Carbon::create($year, $next_month, $to_day, 0, 0, 0);  
-              
+                $year       = $now->year;
+    
+                if ($now <= $last_day_of_month) {
+                    $next_month  = $now->month;
+                }
+    
+                if ($this_month == 12) {
+                    $now->addYear();
+                    $year =  $now->year;
+                }
+                
+                $this->from_date = Carbon\Carbon::create( $this_year, $this_month, $from_day , 0, 0, 0);
+                // get to date
+                $this->to_date = Carbon\Carbon::create($year, $next_month, $to_day, 0, 0, 0);  
+                  
+            }            
         }
+
         if (!empty(request('from_date')) && !empty(request('to_date'))) {            
             $this->from_date = request('from_date');
             $this->to_date = request('to_date');         
         }
-        
+      
         $month_name = date("F", strtotime( $this->to_date));
         
         $year_name = date("Y", strtotime( $this->to_date));
@@ -312,17 +314,26 @@ class PayrollProcessController extends Controller
 
         $this->call_methods();
 
-        foreach($this->employees as $employee)
-        {
-            if ($employee->id == $this->employee_id) {                
-                $this->salary                   = round($employee->salary);
-                $this->salary_per_day           = $employee->salary/30;                
-                $this->bus                      = empty($employee->bus_value) ?0:$employee->bus_value;                     
-                $this->salary_mode              = $employee->salary_mode;
-                $this->salary_bank_name         = $employee->salary_bank_name;
-                $this->bank_account             = $employee->bank_account;                
-            }            
-        }               
+        if (is_object($this->employees)) {
+            foreach($this->employees as $employee)
+            {
+                if ($employee->id == $this->employee_id) {                
+                    $this->salary                   = round($employee->salary);
+                    $this->salary_per_day           = $employee->salary/30;                
+                    $this->bus                      = empty($employee->bus_value) ?0:$employee->bus_value;                     
+                    $this->salary_mode              = $employee->salary_mode;
+                    $this->salary_bank_name         = $employee->salary_bank_name;
+                    $this->bank_account             = $employee->bank_account;                
+                }            
+            }                           
+        }else{                   
+            $this->salary                   = round($this->employees->salary);
+            $this->salary_per_day           = $this->employees->salary/30;                
+            $this->bus                      = empty($this->employees->bus_value) ?0:$this->employees->bus_value;                     
+            $this->salary_mode              = $this->employees->salary_mode;
+            $this->salary_bank_name         = $this->employees->salary_bank_name;
+            $this->bank_account             = $this->employees->bank_account;      
+        }
     }
 
     private function call_methods()
@@ -741,6 +752,47 @@ class PayrollProcessController extends Controller
 
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.department', $data,[],$config);
         return $pdf->stream(trans('staff::local.payroll_sheet'));
+    }
+    public function review()
+    {
+        $employees = Employee::work()->orderBy('attendance_id')->get();
+        $title = trans('staff::local.review_payroll');
+        return view('staff::payrolls.process-payroll.review-salary',
+        compact('employees','title')); 
+    }
+    public function setSalaryReview()
+    {        
+        if (request()->ajax()) {
+            set_time_limit(0);            
+            $output = '';          
+          
+            $this->prePayrollProcess();  
+                     
+            $net = SalaryComponent::where('calculate','net')->first();
+            if (!empty($net)) {                
+                $this->net = $net->id;                
+            }
+       
+            $this->employees = Employee::work()->where('salary_suspend','no')
+            ->where('attendance_id',request('attendance_id'))->first();
+            if (!empty($this->employees)) {
+                $this->employee_id = $this->employees->id;                
+                            
+                $where = [                
+                    ['registration', 'payroll'],
+                ];
+                $salary_components = SalaryComponent::where($where)->sort()->get();                            
+                $this->getData();             
+                foreach ($salary_components as $salary_component) {                    
+                    $this->value = $this->getAmountByFormula($salary_component->id,$salary_component->formula,$salary_component->sort);                                        
+                    $value = number_format($this->value, 2, '.', '');                                       
+                    $output .= '<tr class="center"><td>'.$salary_component->ar_item.'</td><td>'.$value.'</td></tr>';                    
+                }                
+            }
+            return json_encode($output);          
+        }
+    
+
     }
 
 }

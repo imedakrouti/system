@@ -30,6 +30,8 @@ Route::group(['namespace'=>'Payroll'],function(){
     Route::post('/payrolls/payroll-process/store','PayrollProcessController@store')->name('payroll-process.store');
     Route::post('/payrolls/payroll-process/destroy','PayrollProcessController@destroy')->name('payroll-process.destroy');
     Route::get('/payrolls/payroll-process/show/{code}','PayrollProcessController@show')->name('payroll-process.show');
+    Route::get('/payrolls/review','PayrollProcessController@review')->name('payroll-process.review');
+    Route::put('/payrolls/payroll-process/set-review','PayrollProcessController@setSalaryReview')->name('payroll-process.set-review');
 
     // annual increase
     Route::get('payrolls/annual-increase','AnnualIncreaseController@index')->name('annual-increase.index');
@@ -39,6 +41,7 @@ Route::group(['namespace'=>'Payroll'],function(){
     // payroll reports
     Route::get('/payrolls/report/{code}','PayrollProcessController@allEmployeesReport')->name('payroll-report.all');
     Route::get('/payrolls/report/department/get','PayrollProcessController@departmentPayrollReport')->name('payroll-report.department');
+    
 
 
 

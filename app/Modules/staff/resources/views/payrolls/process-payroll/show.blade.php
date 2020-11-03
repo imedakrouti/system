@@ -90,11 +90,7 @@
 
                     // default btns
                     @include('layouts.backEnd.includes.datatables._datatableBtn')
-                ],
-                columnDefs: [
-                    // default column not visibilty
-                    { visible: false, targets: [7,8] },                  
-                ],
+                ],          
               @include('layouts.backEnd.includes.datatables._datatableLang')
           });
           @include('layouts.backEnd.includes.datatables._multiSelect')

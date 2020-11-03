@@ -330,47 +330,49 @@ class AttendanceController extends Controller
 
     public function summary()
     {
-        $attendance_id  = request('attendance_id');
-        $from_date      = request('from_date');
-        $to_date        = request('to_date');
-
-        $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
-        $data['employee_name'] = $this->getFullEmployeeName($employee);
-        $data['working_data'] = $this->workingData($employee);
-        $data['timetable_id'] = session('lang') == 'ar' ? $employee->timetable->ar_timetable : $employee->timetable->en_timetable;
-        $data['hiring_date'] =  $employee->hiring_date;
-        $data['leave_date'] =  empty($employee->leave_date)? trans('staff::local.work'):$employee->leave_date;
-        
-        $data['attend_days'] = DB::table('last_main_view')
-            ->where('last_main_view.attendance_id', $attendance_id )
-            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
-            ->where('absent_after_holidays','!=','True')                              
-            ->where('vacation_type','')                      
-            ->count();
+        if (request()->ajax()) {
+            $attendance_id  = request('attendance_id');
+            $from_date      = request('from_date');
+            $to_date        = request('to_date');
+    
+            $employee = Employee::with('timetable')->where('attendance_id',$attendance_id)->first();
+            $data['employee_name'] = $this->getFullEmployeeName($employee);
+            $data['working_data'] = $this->workingData($employee);
+            $data['timetable_id'] = session('lang') == 'ar' ? $employee->timetable->ar_timetable : $employee->timetable->en_timetable;
+            $data['hiring_date'] =  $employee->hiring_date;
+            $data['leave_date'] =  empty($employee->leave_date)? trans('staff::local.work'):$employee->leave_date;
             
-        $data['absent_days'] = DB::table('last_main_view')
-            ->where('last_main_view.attendance_id', $attendance_id )
-            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
-            ->where('absent_after_holidays','True')                      
-            ->count();
-            
-        $data['total_lates'] = DB::table('last_main_view')
+            $data['attend_days'] = DB::table('last_main_view')
                 ->where('last_main_view.attendance_id', $attendance_id )
-                ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])                  
-                ->sum('main_lates') / 60;
-
-        $data['vacation_days_count'] =DB::table('last_main_view')
-            ->where('last_main_view.attendance_id', $attendance_id )
-            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
-            ->where('vacation_type','!=','')                      
-            ->count();
-        $data['leave_permissions_count'] = DB::table('last_main_view')
-            ->where('last_main_view.attendance_id', $attendance_id )
-            ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
-            ->whereNotNull('date_leave')                      
-            ->count();
-
-        return json_encode($data);
+                ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+                ->where('absent_after_holidays','!=','True')                              
+                ->where('vacation_type','')                      
+                ->count();
+                
+            $data['absent_days'] = DB::table('last_main_view')
+                ->where('last_main_view.attendance_id', $attendance_id )
+                ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+                ->where('absent_after_holidays','True')                      
+                ->count();
+                
+            $data['total_lates'] = DB::table('last_main_view')
+                    ->where('last_main_view.attendance_id', $attendance_id )
+                    ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])                  
+                    ->sum('main_lates') / 60;
+    
+            $data['vacation_days_count'] =DB::table('last_main_view')
+                ->where('last_main_view.attendance_id', $attendance_id )
+                ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+                ->where('vacation_type','!=','')                      
+                ->count();
+            $data['leave_permissions_count'] = DB::table('last_main_view')
+                ->where('last_main_view.attendance_id', $attendance_id )
+                ->whereBetween('last_main_view.selected_date', [$from_date , $to_date])  
+                ->whereNotNull('date_leave')                      
+                ->count();
+    
+            return json_encode($data);            
+        }
     }
 
     private function getFullEmployeeName($data)
