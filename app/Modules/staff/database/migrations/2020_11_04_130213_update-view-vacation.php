@@ -90,8 +90,8 @@ class UpdateViewVacation extends Migration
                         
                                     
                     WHEN main_attendance_sheet.minutes_lates_after_request >= main_attendance_sheet.daily_late_minutes AND main_attendance_sheet.absent_after_holidays = '' THEN 0                   
-                    WHEN main_attendance_sheet.`clock_in` = '' AND `main_attendance_sheet`.`clock_out` != '' AND main_attendance_sheet.vacation_type.vacation_type != '' THEN main_attendance_sheet.noAttend
-                    WHEN main_attendance_sheet.no_attend = 1 AND main_attendance_sheet.no_leave = 0 AND main_attendance_sheet.vacation_type.vacation_type != '' THEN main_attendance_sheet.noAttend
+                    WHEN main_attendance_sheet.`clock_in` = '' AND `main_attendance_sheet`.`clock_out` != '' AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
+                    WHEN main_attendance_sheet.no_attend = 1 AND main_attendance_sheet.no_leave = 0 AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
                     ELSE main_attendance_sheet.minutes_lates_after_request
                     
                 END as main_lates,
@@ -181,8 +181,8 @@ class UpdateViewVacation extends Migration
                         
                                     
                     WHEN main_attendance_sheet.minutes_lates_after_request >= main_attendance_sheet.daily_late_minutes AND main_attendance_sheet.absent_after_holidays = '' THEN 0                   
-                    WHEN main_attendance_sheet.`clock_in` = '' AND `main_attendance_sheet`.`clock_out` != '' AND main_attendance_sheet.vacation_type.vacation_type != '' THEN main_attendance_sheet.noAttend
-                    WHEN main_attendance_sheet.no_attend = 1 AND main_attendance_sheet.no_leave = 0 AND main_attendance_sheet.vacation_type.vacation_type != '' THEN main_attendance_sheet.noAttend
+                    WHEN main_attendance_sheet.`clock_in` = '' AND `main_attendance_sheet`.`clock_out` != '' AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
+                    WHEN main_attendance_sheet.no_attend = 1 AND main_attendance_sheet.no_leave = 0 AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
                     ELSE main_attendance_sheet.minutes_lates_after_request
                     
                 END as main_lates,
