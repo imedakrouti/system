@@ -25,6 +25,7 @@ class UpdateViewVacation extends Migration
                     WHEN main_attendance_sheet.week = 'Saturday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = ''  THEN main_attendance_sheet.saturday_value
                     WHEN main_attendance_sheet.week = 'Saturday' 
                     AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                    WHEN main_attendance_sheet.week = 'Saturday'  AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
                     
                     WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.sunday_value
                     WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' 
@@ -55,6 +56,7 @@ class UpdateViewVacation extends Migration
                     WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.friday_value
                     WHEN main_attendance_sheet.week = 'Friday' 
                     AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                    WHEN main_attendance_sheet.week = 'Friday'  AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
                     
                     ELSE 0 
                 END as absentValue,
@@ -99,9 +101,9 @@ class UpdateViewVacation extends Migration
                 
                 FROM main_attendance_sheet                       
              "
-          );
+        );
 
-          DB::connection('mysql2')->statement(
+        DB::connection('mysql2')->statement(
             "CREATE OR REPLACE VIEW last_main_view
                 AS
                 SELECT *,
@@ -113,6 +115,7 @@ class UpdateViewVacation extends Migration
                     WHEN main_attendance_sheet.week = 'Saturday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = ''  THEN main_attendance_sheet.saturday_value
                     WHEN main_attendance_sheet.week = 'Saturday' 
                     AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                    WHEN main_attendance_sheet.week = 'Saturday'  AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
                     
                     WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.sunday_value
                     WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' 
@@ -143,6 +146,7 @@ class UpdateViewVacation extends Migration
                     WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.friday_value
                     WHEN main_attendance_sheet.week = 'Friday' 
                     AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                    WHEN main_attendance_sheet.week = 'Friday'  AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
                     
                     ELSE 0 
                 END as absentValue,
@@ -187,7 +191,7 @@ class UpdateViewVacation extends Migration
                 
                 FROM main_attendance_sheet                       
              "
-          );
+        );
     }
 
     /**
