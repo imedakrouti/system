@@ -113,7 +113,7 @@ class PayrollProcessController extends Controller
                 <div class="dropdown-menu">                    
                     <a target="_blank" class="dropdown-item" href="'.route('payroll-report.all',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.total_payroll_report').'</a>                                             
                     <a onclick="departmentReport('."'$data->code'".')" class="dropdown-item" href="#"><i class="la la-print"></i> '.trans('staff::local.department_payroll_report').'</a>                                
-                    <a target="_blank" class="dropdown-item" href="'.route('employee.leave',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.employee_payroll_report').'</a>                    
+                    
                 </div>
             </div>';
     }
