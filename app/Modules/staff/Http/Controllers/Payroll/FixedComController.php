@@ -55,7 +55,7 @@ class FixedComController extends Controller
     {
         $title = trans('staff::local.add_fixed_component');
         $employees = Employee::work()->orderBy('attendance_id')->get();
-        $components = SalaryComponent::fixed()->employee()->sort()->get();
+        $components = SalaryComponent::with('payrollSheet')->fixed()->employee()->sort()->get();
         return view('staff::payrolls.fixed-component.create',
         compact('title','employees','components'));
     }
