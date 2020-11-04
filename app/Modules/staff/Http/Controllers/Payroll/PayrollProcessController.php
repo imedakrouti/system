@@ -608,7 +608,7 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['no_attend'] == 1 && $arrays[$i]['no_leave'] == 0) {
+                if ($arrays[$i]['no_attend'] == 1 && $arrays[$i]['no_leave'] == 0 && $arrays[$i]['vacation_type'] == '') {
                     $data[] = $arrays[$i]['no_attend'];
                 }
             }
@@ -629,7 +629,7 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['no_attend'] == 0 && $arrays[$i]['no_leave'] == 1) {
+                if ($arrays[$i]['no_attend'] == 0 && $arrays[$i]['no_leave'] == 1 && $arrays[$i]['vacation_type'] == '') {
                     $data[] = $arrays[$i]['no_leave'];
                 }
             }

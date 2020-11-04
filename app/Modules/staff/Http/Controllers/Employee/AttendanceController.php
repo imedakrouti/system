@@ -196,7 +196,7 @@ class AttendanceController extends Controller
                 $day = '';
                 switch ($data->vacation_type) {
                     case 'Start work':
-                        $day = trans('staff::local.startWork');
+                        $day = trans('staff::local.start_work');
                         break;
                     case 'End work':
                         $day = trans('staff::local.end_work');
