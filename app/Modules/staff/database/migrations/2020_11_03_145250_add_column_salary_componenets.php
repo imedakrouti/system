@@ -13,9 +13,11 @@ class AddColumnSalaryComponenets extends Migration
      */
     public function up()
     {
-        Schema::table('salary_components', function (Blueprint $table) {
-            $table->unsignedBigInteger('payroll_sheet_id');
-            $table->foreign('payroll_sheet_id')->references('id')->on('payroll_sheets')->onDelete('cascade')->onUpdate('cascade');            
+        Schema::connection('mysql')->table('salary_components', function (Blueprint $table) {
+            $table->unsignedBigInteger('payroll_sheet_id');            
+        });
+        Schema::connection('mysql2')->table('salary_components', function (Blueprint $table) {
+            $table->unsignedBigInteger('payroll_sheet_id');            
         });
     }
 
@@ -26,8 +28,10 @@ class AddColumnSalaryComponenets extends Migration
      */
     public function down()
     {
-        Schema::table('salary_components', function (Blueprint $table) {
-            $table->dropForeign('salary_components_payroll_sheet_id_foreign');            
+        Schema::connection('mysql')->table('salary_components', function (Blueprint $table) {            
+            $table->dropColumn('payroll_sheet_id');
+        });
+        Schema::connection('mysql2')->table('salary_components', function (Blueprint $table) {            
             $table->dropColumn('payroll_sheet_id');
         });
     }
