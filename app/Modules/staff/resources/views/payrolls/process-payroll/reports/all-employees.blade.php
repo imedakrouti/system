@@ -12,6 +12,7 @@
         {{session('lang') == 'ar' ? $payroll_sheet_data->payrollSheet->ar_sheet_name : $payroll_sheet_data->payrollSheet->en_sheet_name}} 
         [{{\DateTime::createFromFormat("Y-m-d",$payroll_sheet_data->from_date)->format("Y/m/d")}}] - 
         [{{\DateTime::createFromFormat("Y-m-d",$payroll_sheet_data->to_date)->format("Y/m/d")}}]</h4>
+        <span style="font-size: 10px;">{DATE j-m-Y} [{{authInfo()->username}}] -{{ trans('staff::local.page') }} {PAGENO}</span>    
 </htmlpageheader>
 <table>
     <thead class="bg-info white">
@@ -71,10 +72,8 @@
 </table>
 
 
-<htmlpagefooter name="page-footer">
-    <span style="font-size: 10px;">{DATE j-m-Y}  {{authInfo()->username}}</span>
-    <br>
-    <span style="font-size: 10px;">{{ trans('staff::local.page') }} {PAGENO}</span>
+<htmlpagefooter name="page-footer">       
+    
     <div class="center">  
         <strong>
             {{ trans('staff::local.hr_manager') }} 	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; 	&nbsp;	&nbsp;	&nbsp;	&nbsp;

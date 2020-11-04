@@ -738,8 +738,8 @@ class PayrollProcessController extends Controller
             'margin_footer'        => 30,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 50,
-            'margin_bottom'        => session('lang') == 'ar' ? 50 : 55,
+            'margin_top'           => 60,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
         ]; 
 
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.all-employees', $data,[],$config);
@@ -798,8 +798,8 @@ class PayrollProcessController extends Controller
             'margin_footer'        => 30,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 50,
-            'margin_bottom'        => session('lang') == 'ar' ? 50 : 55,
+            'margin_top'           => 60,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
         ]; 
 
 
