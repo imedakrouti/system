@@ -1,6 +1,6 @@
 @extends('layouts.backEnd.cpanel')
 @section('sidebar')
-@include('layouts.backEnd.includes.sidebars._admission')
+@include('layouts.backEnd.includes.sidebars._staff')
 @endsection
 @section('content')
 <div class="content-header row">

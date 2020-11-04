@@ -160,7 +160,8 @@ class PayrollProcessController extends Controller
         ->work()        
         ->where('salary_suspend','no')
         ->orderBy('attendance_id')
-        ->get();        
+        ->get();  
+                
 
         if (count($this->employees) == 0) {
             toast(trans('staff::local.no_employees_found'),'error');
@@ -173,11 +174,16 @@ class PayrollProcessController extends Controller
                 ['registration', 'payroll'],
             ];
             $salary_components = SalaryComponent::has('payrollSheet')
-            ->where($where)->sort()->get();                
+            ->where($where)->sort()->get();  
+
+            $this->get_data_attendance(); // i will check this method if not important to call again    
+
             foreach ($this->employees as $employee) {
                 $this->employee_id = $employee->id;
                 $this->getData();
                 
+               
+
                 foreach ($salary_components as $salary_component) {                    
                     $this->value = $this->getAmountByFormula($salary_component->id,$salary_component->formula,$salary_component->sort);
                     
@@ -230,11 +236,11 @@ class PayrollProcessController extends Controller
     
     private function prePayrollProcess()
     {        
-        $this->preparePeriodDates();        
+        $this->preparePeriodDates(); 
         $this->categoryTypes();
         $this->fixedComponents();
         $this->temporaryComponents();
-        $this->salaryComponents();                       
+        $this->salaryComponents();                               
     }
 
     private function fixedComponents()
@@ -327,7 +333,7 @@ class PayrollProcessController extends Controller
 
     private function getData()
     {
-        $this->get_data_attendance(); // i will check this method if not important to call again
+        
 
         $this->call_methods();
 

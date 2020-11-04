@@ -168,11 +168,11 @@
         <li class=" nav-item {{request()->segment(2)=='payrolls'?'active':''}}"><a href="#">
             <i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.payrolls') }}</span></a>
             <ul class="menu-content">                
-                <li class=" nav-item {{request()->segment(3)=='review'?'active':''}}">
+                {{-- <li class=" nav-item {{request()->segment(3)=='review'?'active':''}}">
                     <a href="{{route('payroll-process.review')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.review_payroll') }}</span>
                     </a>
-                </li> 
+                </li>  --}}
                 <li class=" nav-item {{request()->segment(3)=='payroll-process'?'active':''}}">
                     <a href="{{route('payroll-process.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.process_payroll') }}</span>
