@@ -32,7 +32,7 @@
                     <div class="col-lg-3 col-md-12">
                         <div class="form-group row">
                           <label>{{ trans('staff::local.payroll_sheet_name') }}</label> <br>
-                          <select name="payroll_sheet_id" class="form-control" required>
+                          <select name="payroll_sheet_id[]" class="form-control select2" required multiple>
                               <option value="">{{ trans('staff::local.select') }}</option>
                               @foreach ($payrollSheets as $payrollSheet)
                                   <option {{old('payroll_sheet_id') == $payrollSheet->id ? 'selected' :''}} value="{{$payrollSheet->id}}">

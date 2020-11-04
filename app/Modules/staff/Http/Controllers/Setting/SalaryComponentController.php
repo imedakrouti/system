@@ -70,8 +70,7 @@ class SalaryComponentController extends Controller
             'type',
             'registration',
             'calculate',
-            'admin_id',
-            'payroll_sheet_id'
+            'admin_id'            
         ];
     }
 
@@ -82,10 +81,13 @@ class SalaryComponentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(SalaryComponentRequest $request)
-    {
-        $request->user()->salaryComponents()->create($request->only($this->attributes()));        
+    {        
+        foreach (request('payroll_sheet_id') as $payroll_sheet_id) {
+            $request->user()->salaryComponents()->create($request->only($this->attributes())+
+            ['payroll_sheet_id'=>$payroll_sheet_id]);        
+        }
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('salary-components.index');
+        return redirect()->route('salary-components.index');            
     }
 
     /**
