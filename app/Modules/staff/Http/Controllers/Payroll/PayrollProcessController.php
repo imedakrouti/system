@@ -88,7 +88,8 @@ class PayrollProcessController extends Controller
     }
     public function show($code)
     {
-        $salary_components = SalaryComponent::has('payrollComponent')->sort()->get();
+        $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
+        $salary_components = SalaryComponent::where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)->sort()->get();
 
         $employees = Employee::work()->with('payrollComponents')
         ->whereHas('payrollComponents',function($q) use ($code){
@@ -531,7 +532,7 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['absent_after_holidays'] != 'True') {
+                if ($arrays[$i]['absent_after_holidays'] != 'True' && $arrays[$i]['vacation_type'] == '') {
                     $data[] = $arrays[$i]['absent_after_holidays'];
                 }
             }
@@ -567,7 +568,7 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['absent_after_holidays'] == 'True') {
+                if ($arrays[$i]['absent_after_holidays'] == 'True' && $arrays[$i]['vacation_type'] == '') {
                     $data[] = $arrays[$i]['absent_after_holidays'];
                 }
             }
@@ -704,8 +705,7 @@ class PayrollProcessController extends Controller
             return back()->withInput();
         }  
         $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
-        $salary_components = SalaryComponent::has('payrollComponent')      
-        ->sort()->get();
+        $salary_components = SalaryComponent::where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)->sort()->get();
 
         $employees = Employee::with('sector','department')->work()->with('payrollComponents')
         ->whereHas('payrollComponents',function($q) use ($code){
@@ -757,7 +757,7 @@ class PayrollProcessController extends Controller
             return back()->withInput();
         }  
         $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
-        $salary_components = SalaryComponent::with('payrollComponent')->sort()->get();
+        $salary_components = SalaryComponent::where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)->sort()->get();
 
         $totals = DB::table('payroll_components')->select(DB::raw('salary_component_id,sum(value) as sum,sort'))
         ->where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)

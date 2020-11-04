@@ -39,6 +39,7 @@
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
                                 <th>{{trans('staff::local.employee_name')}}</th>
+                                <th>{{trans('staff::local.working_data')}}</th>
                                 <th>{{trans('staff::local.type')}}</th>
                                 <th>{{trans('staff::local.amount')}}</th>                                                                
                                 <th>{{trans('admin.username')}}</th>
@@ -80,6 +81,7 @@
               {data: 'check',               name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'employee_name',       name: 'employee_name'},
+              {data: 'work_data',           name: 'work_data'},
               {data: 'salary_component',    name: 'salary_component'},
               {data: 'amount',              name: 'amount'},                               
               {data: 'username',            name: 'username'},               
