@@ -498,9 +498,8 @@ class VacationController extends Controller
             foreach (request('employee_id') as $employee_id) {
                 $vacation_allocated = Employee::findOrFail($employee_id)->vacation_allocated;
                 $balance_allocated = request('old_vacation') == 'true' ? $vacation_allocated + request('vacation_balance')
-                :request('vacation_balance');                
-                Employee::where('hiring_date','<=',request('set_date'))
-                ->where('id',$employee_id)
+                :request('vacation_balance');                      
+                Employee::where('id',$employee_id)
                 ->update(['vacation_allocated'=>$balance_allocated]);
             }
         }else{

@@ -82,7 +82,7 @@
                     <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                         <label>{{ trans('staff::local.department_id') }}</label>
-                        <select id="department_id" required  name="department_id[]" class="form-control select2" multiple>
+                        <select id="department_id"  name="department_id[]" class="form-control select2" multiple>
                             <option value="">{{ trans('staff::local.select') }}</option>    
                                 
                         </select>                                          
@@ -92,8 +92,8 @@
                 <div class="col-lg-2 col-md-6">
                     <div class="form-group row">
                       <label>{{ trans('staff::local.vacation_balance_no') }}</label>
-                      <input type="number" min="0" step="1" class="form-control " value="{{old('annual_increase')}}"                           
-                        name="c" required>
+                      <input type="number" min="0" step="1" class="form-control " value="{{old('vacation_balance')}}"                           
+                        name="vacation_balance" required>
                         <span class="red">{{ trans('staff::local.required') }}</span>                          
                     </div>
                 </div>
