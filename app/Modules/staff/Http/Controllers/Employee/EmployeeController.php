@@ -423,7 +423,9 @@ class EmployeeController extends Controller
             $fields = array_filter($fields);                     
             foreach (request('id') as $employee_id) {   
                 Employee::where('id',$employee_id)->update($fields);
-                $this->employeeHolidays($employee_id);
+                if (request()->has('holiday_id')) {
+                    $this->employeeHolidays($employee_id);                    
+                }
             }                        
         }
         return response(['status'=>true]);

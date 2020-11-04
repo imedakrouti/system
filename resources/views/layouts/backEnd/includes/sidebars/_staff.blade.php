@@ -71,7 +71,12 @@
         
         {{-- leaves requests --}}
         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
-            <i class="la la-road"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.leave_permissions') }}</span></a>
+            <i class="la la-road"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.leave_permissions') }}</span>
+                <span class="badge badge badge-danger badge-pill float-right mr-2">
+                    {{Staff\Models\Employees\LeavePermission::where('approval1','Accepted')->where('approval2','Pending')->count()}}
+                </span>
+            </a>
+           
             <ul class="menu-content">                
                 <li class=" nav-item {{request()->segment(2)=='leave-permissions'?'active':''}}">
                     <a href="{{route('leave-permissions.index')}}"><i class="la la-minus">
@@ -93,7 +98,11 @@
         
         {{-- deductions --}}
         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
-            <i class="la la-gavel"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.deductions') }}</span></a>
+            <i class="la la-gavel"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.deductions') }}</span>
+            <span class="badge badge badge-danger badge-pill float-right mr-2">
+                {{Staff\Models\Employees\Deduction::where('approval1','Accepted')->where('approval2','Pending')->count()}}
+            </span>
+            </a>
             <ul class="menu-content">                
                 <li class=" nav-item {{request()->segment(2)=='deductions'?'active':''}}">
                     <a href="{{route('deductions.index')}}"><i class="la la-minus">
@@ -110,7 +119,11 @@
         
         {{-- loans --}}
          <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
-            <i class="la la-minus-square"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.loans') }}</span></a>
+            <i class="la la-minus-square"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.loans') }}</span>
+            <span class="badge badge badge-danger badge-pill float-right mr-2">
+                {{Staff\Models\Employees\Loan::where('approval1','Accepted')->where('approval2','Pending')->count()}}
+            </span>
+            </a>
             <ul class="menu-content">                
                 <li class=" nav-item {{request()->segment(2)=='loans'?'active':''}}">
                     <a href="{{route('loans.index')}}"><i class="la la-minus">
@@ -127,7 +140,11 @@
         
         {{-- vacations --}}
         <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
-            <i class="la la-plane"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.vacations') }}</span></a>
+            <i class="la la-plane"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.vacations') }}</span>
+            <span class="badge badge badge-danger badge-pill float-right mr-2">
+                {{Staff\Models\Employees\Vacation::where('approval1','Accepted')->where('approval2','Pending')->count()}}
+            </span>
+            </a>
             <ul class="menu-content">                
                 <li class=" nav-item {{request()->segment(2)=='vacations'?'active':''}}">
                     <a href="{{route('vacations.index')}}"><i class="la la-minus">

@@ -16,6 +16,7 @@ class SalaryComponent extends Model
         'registration',
         'calculate',
         'admin_id',
+        'payroll_sheet_id'
     ];
     public function __construct(Array $attributes = [])
     {
@@ -77,6 +78,11 @@ class SalaryComponent extends Model
     public function payrollComponent()
     {
         return $this->hasMany('Staff\Models\Payrolls\PayrollComponent','salary_component_id');
+    }
+    public function payrollSheet()
+    {
+        return $this->belongsTo('Staff\Models\Payrolls\PayrollSheet','payroll_sheet_id');
+
     }
     
 }

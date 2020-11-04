@@ -14,11 +14,14 @@
         [{{\DateTime::createFromFormat("Y-m-d",$payroll_sheet_data->to_date)->format("Y/m/d")}}]</h4> 
         
 </htmlpageheader>
+@php
+    $total = 0;
+@endphp
 <table>
     <thead class="bg-info white">
         <tr>
             <th>{{ trans('staff::local.employee_name') }}</th>
-            <th>{{ trans('staff::local.working_data') }}</th>
+            <th>{{ trans('staff::local.department') }}</th>
             @foreach ($salary_components as $com_id)
                 <th>
                     {{session('lang') == 'ar' ? $com_id->ar_item : $com_id->en_item}}
@@ -41,9 +44,9 @@
                 <td>
                     @isset($employee->sector->ar_sector)
                         @if (session('lang') == 'ar' )
-                            {{$employee->sector->ar_sector}} - {{$employee->department->ar_department}}
+                           {{$employee->department->ar_department}}
                         @else
-                            {{$employee->sector->en_sector}} - {{$employee->department->en_department}}
+                            {{$employee->department->en_department}}
                         @endif                                            
                     @endisset
                 </td>
@@ -53,12 +56,20 @@
                         <td>
                             {{$item->value}}
                         </td>                                      
-                    @endif      
-                                                      
+                    @endif                                                            
                 @endforeach
             </tr>
         @endforeach
+        <tr>
+            <td colspan="2"><strong>{{ trans('staff::local.total_payroll') }}</strong></td>  
+            @foreach ($totals as $total)                               
+                <td>                        
+                    <strong>{{$total->sum}}</strong>
+                </td>                                                                                                                            
+            @endforeach
+        </tr>
     </tbody>
+  
 </table>
 
 
@@ -69,11 +80,11 @@
     <div class="center">  
         <strong>
             {{ trans('staff::local.hr_manager') }} 	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; 	&nbsp;	&nbsp;	&nbsp;	&nbsp;
-                &nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;
+                &nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; 
             {{ trans('staff::local.hr_audit') }} 	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; 	&nbsp;	&nbsp;	&nbsp;	&nbsp;
                 &nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;
             {{ trans('staff::local.school_manager') }}	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; 	&nbsp;	&nbsp;	&nbsp;	&nbsp;
-            {{ trans('staff::local.chairman') }}	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp;	&nbsp; 	&nbsp;	&nbsp;	&nbsp;	&nbsp;
+            {{ trans('staff::local.chairman') }}	
         </strong>      
     </div>
     

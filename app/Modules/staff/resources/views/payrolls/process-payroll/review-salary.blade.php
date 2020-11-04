@@ -30,10 +30,10 @@
                 <div class="row">
                   <div class="col-lg-3 col-md-12">
                       <div class="form-group">                      
-                        <select name="attendance_id" id="attendance_id" class="form-control select2" required>
+                        <select name="employee_id" id="employee_id" class="form-control select2" required>
                             <option value="">{{ trans('staff::local.employee_name') }}</option>
                             @foreach ($employees as $employee)
-                                <option {{old('attendance_id') == $employee->id ? 'selected' :''}} value="{{$employee->attendance_id}}">
+                                <option value="{{$employee->id}}">
                                 @if (session('lang') == 'ar')
                                 [{{$employee->attendance_id}}] {{$employee->ar_st_name}} {{$employee->ar_nd_name}} {{$employee->ar_rd_name}} {{$employee->ar_th_name}}
                                 @else
@@ -99,11 +99,11 @@
     <script>
         function reviewSalary()
         {
-        var attendance_id   = $('#attendance_id').val();
+        var employee_id   = $('#employee_id').val();
         var from_date       = $('#from_date').val();
         var to_date         = $('#to_date').val();
 
-        if (attendance_id == '') {
+        if (employee_id == '') {
             swal("{{trans('staff::local.review_payroll')}}", "{{trans('staff::local.no_employee')}}", "error");
             return;
         }
@@ -117,7 +117,7 @@
                 type:"post",
                 data: {
                 _method		    : 'PUT',                
-                attendance_id : attendance_id,
+                employee_id : employee_id,
                 from_date 	  : from_date,
                 to_date 	    : to_date,
                 _token		    : '{{ csrf_token() }}'

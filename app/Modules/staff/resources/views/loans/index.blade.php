@@ -36,11 +36,9 @@
                             <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
                             <option value="Pending">{{ trans('staff::local.pending') }}</option>            
                         </select>
-                    </div> 
-                     
+                    </div>                      
                 </div>
-            </form>
-            
+            </form>            
           </div>
         </div>
       </div>

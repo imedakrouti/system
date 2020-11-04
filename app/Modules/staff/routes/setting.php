@@ -71,6 +71,7 @@ Route::post('external-codes/destroy','ExternalCodeController@destroy')->name('ex
 // Salary Components
 Route::resource('salary-components','SalaryComponentController')->except('show','destroy');
 Route::post('salary-components/destroy','SalaryComponentController@destroy')->name('salary-components.destroy');
+Route::put('salary-components/s/filter','SalaryComponentController@filter')->name('salary-components.filter');
 
 // Timetable
 Route::resource('timetables','TimetableController')->except('show','destroy');

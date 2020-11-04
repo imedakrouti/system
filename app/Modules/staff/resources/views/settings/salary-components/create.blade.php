@@ -29,6 +29,20 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
+                    <div class="col-lg-3 col-md-12">
+                        <div class="form-group row">
+                          <label>{{ trans('staff::local.payroll_sheet_name') }}</label> <br>
+                          <select name="payroll_sheet_id" class="form-control" required>
+                              <option value="">{{ trans('staff::local.select') }}</option>
+                              @foreach ($payrollSheets as $payrollSheet)
+                                  <option {{old('payroll_sheet_id') == $payrollSheet->id ? 'selected' :''}} value="{{$payrollSheet->id}}">
+                                        {{session('lang') == 'ar' ? $payrollSheet->ar_sheet_name : $payrollSheet->en_sheet_name}}                                  
+                                  </option>
+                              @endforeach
+                          </select> <br>
+                          <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                        </div>
+                    </div>  
                     <div class="row">
                         <div class="col-lg-8 col-md-12">
                           <div class="row">
@@ -78,9 +92,9 @@
                               <div class="col-lg-6 col-md-6">
                                   <div class="form-group">
                                     <label>{{ trans('staff::local.registration') }}</label>
-                                    <select name="registration" class="form-control" required>
+                                    <select name="registration" class="form-control" id="registration" required>
+                                      <option {{old('registration') =='payroll' ? 'selected':'' }} value="payroll">{{ trans('staff::local.payroll_calc') }}</option>
                                         <option {{old('registration') =='employee' ? 'selected':'' }} value="employee">{{ trans('staff::local.employee_calc') }}</option>
-                                        <option {{old('registration') =='payroll' ? 'selected':'' }} value="payroll">{{ trans('staff::local.payroll_calc') }}</option>
                                     </select>
                                       <span class="red">{{ trans('staff::local.required') }}</span>                          
                                   </div>
@@ -99,10 +113,10 @@
                               </div>                        
                           </div>
     
-                          <div class="col-lg-12 col-md-12">
+                          <div class="col-lg-12 col-md-12" id="formula">
                               <div class="form-group row">
-                                <label>{{ trans('staff::local.formula') }}</label>
-                                  <textarea name="formula" class="form-control" cols="30" rows="5">{{old('formula')}}</textarea>
+                                <label id>{{ trans('staff::local.formula') }}</label>
+                                  <textarea id="formula_value"  name="formula" class="form-control" cols="30" rows="5">{{old('formula')}}</textarea>
                                   <span class="red">{{ trans('staff::local.required') }}</span>                          
                               </div>
                           </div>
@@ -206,4 +220,26 @@
       </div>
     </div>
 </div>
+@endsection
+@section('script')
+    <script>
+    $('#registration').on('change',function () {
+        if($('#registration').val() == 'employee')
+        {
+            $('#formula').addClass('hidden');   
+            $('#formula_value').val('0');           
+        }else{
+            $('#formula').removeClass('hidden');                        
+                     
+        }
+
+        if($('#registration').val() == 'payroll')
+        {
+            $('#formula').removeClass('hidden');            
+            $('#formula_value').val('');     
+        }else{
+          $('#formula').addClass('hidden');  
+        }
+    });      
+    </script>
 @endsection

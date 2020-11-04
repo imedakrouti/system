@@ -12,6 +12,7 @@ use Staff\Models\Settings\SalaryComponent;
 use Carbon;
 use PDF;
 use Staff\Models\Employees\Employee;
+use Staff\Models\Payrolls\PayrollSheetEmployee;
 use Staff\Models\Settings\Department;
 use Staff\Models\Settings\HrReport;
 use Staff\Models\Settings\Sector;
@@ -38,7 +39,9 @@ class PayrollProcessController extends Controller
     private $other_replacement;
     private $salary_per_day;
     private $salary;    
-    private $bus;    
+    private $bus;
+    private $payroll_sheet_id;  
+    private $output;
 
     
     public function index()
@@ -132,15 +135,19 @@ class PayrollProcessController extends Controller
             toast(trans('staff::local.payroll_already_done') . '[' . $this->from_date->format('Y-m-d') . '][' . $this->to_date->format('Y-m-d') .']' ,'error');
             return back()->withInput();
         }        
-
-        $net = SalaryComponent::where('calculate','net')->first();
+        $where_net = [
+                ['calculate' , 'net'],
+                ['payroll_sheet_id' , request('payroll_sheet_id')]
+        ];
+        $net = SalaryComponent::has('payrollSheet')->where($where_net)->first();
+        
         if (empty($net)) {
             toast(trans('staff::local.no_net_detected'),'error');
             return back()->withInput();
         }else{
             $this->net = $net->id;
         }
-        // dd($this->from_date);
+        
         if ($this->get_data_attendance() == 0) {
             toast(trans('staff::local.no_attendance_records'),'error');
             return back()->withInput();
@@ -162,11 +169,11 @@ class PayrollProcessController extends Controller
         
         DB::transaction(function(){
             $where = [
-                // ['type', 'variable'],
+                ['payroll_sheet_id', request('payroll_sheet_id')],
                 ['registration', 'payroll'],
             ];
-            $salary_components = SalaryComponent::where($where)->sort()->get();    
-            
+            $salary_components = SalaryComponent::has('payrollSheet')
+            ->where($where)->sort()->get();                
             foreach ($this->employees as $employee) {
                 $this->employee_id = $employee->id;
                 $this->getData();
@@ -191,12 +198,16 @@ class PayrollProcessController extends Controller
     }
     private function storeEmployeesNotInFixedTemporaryTables()
     {
+        
         $employees_fixed = Employee::whereDoesntHave('fixedComponent')->with('payrollSheetEmployee')
         ->whereHas('payrollSheetEmployee',function($q){
             $q->where('payroll_sheet_id',request('payroll_sheet_id')) ;
         })
         ->get();
-        $salary_components_fixed = SalaryComponent::fixed()->sort()->employee()->get();                      
+        
+        $salary_components_fixed = SalaryComponent::has('payrollSheet')
+        ->where('payroll_sheet_id',request('payroll_sheet_id'))        
+        ->fixed()->sort()->employee()->get();                      
         foreach ($employees_fixed as $employee) {
             foreach ($salary_components_fixed as $comp_id) {
                 $this->storePayrollComponent('' , 0, $employee->id, $comp_id->id,$comp_id->sort);                
@@ -207,7 +218,9 @@ class PayrollProcessController extends Controller
             $q->where('payroll_sheet_id',request('payroll_sheet_id')) ;
         })
         ->get();
-        $salary_components_variable = SalaryComponent::variable()->sort()->employee()->get();
+        $salary_components_variable = SalaryComponent::has('payrollSheet')
+        ->where('payroll_sheet_id',request('payroll_sheet_id'))
+        ->variable()->sort()->employee()->get();
         foreach ($employees_temporary as $employee) {            
             foreach ($salary_components_variable as $comp_id) {
                 $this->storePayrollComponent('' , 0, $employee->id, $comp_id->id,$comp_id->sort);                
@@ -226,7 +239,7 @@ class PayrollProcessController extends Controller
 
     private function fixedComponents()
     {        
-        $this->fixed = FixedComponent::get();     
+        $this->fixed = FixedComponent::get();          
     }
 
     private function temporaryComponents()
@@ -239,12 +252,16 @@ class PayrollProcessController extends Controller
     }
     private function categoryTypes()
     {
-        $this->category = SalaryComponent::where('calculate','earn')->orWhere('calculate','deduction')->get();        
+        $this->category = SalaryComponent::has('payrollSheet')
+        ->where('payroll_sheet_id',request('payroll_sheet_id'))        
+        ->where('calculate','earn')->orWhere('calculate','deduction')->get();        
     }
 
     private function salaryComponents()
     {        
-        $salary_components = SalaryComponent::where('calculate','earn')->orWhere('calculate','deduction')->get();
+        $salary_components = SalaryComponent::has('payrollSheet')
+        ->where('payroll_sheet_id',request('payroll_sheet_id'))        
+        ->where('calculate','earn')->orWhere('calculate','deduction')->get();
         foreach($salary_components as $row)
         {
             $this->salary_components[] =  (array) $row;
@@ -314,7 +331,7 @@ class PayrollProcessController extends Controller
 
         $this->call_methods();
 
-        if (is_object($this->employees)) {
+        if (is_countable($this->employees)) {
             foreach($this->employees as $employee)
             {
                 if ($employee->id == $this->employee_id) {                
@@ -362,9 +379,9 @@ class PayrollProcessController extends Controller
             return redirect('/')->withInput();
         }else{            
             $str = DB::select('select '. $formula_value .' as formula');            
-            $value = (float)$str[0]->formula;
+            $value = (float)$str[0]->formula;            
+            
             if ($salary_component_id == $this->net) {   
-                           
                 $value = (float)$str[0]->formula + 
                 $this->calculateComponents($this->temporary)+ 
                 $this->calculateComponents($this->fixed);
@@ -436,20 +453,30 @@ class PayrollProcessController extends Controller
     }
     private function calculateComponents($component_type)
     {        
+       
         $amounts = array();
         $calculate = '';
-      
+
         if ($component_type != null ) {  
             foreach ($component_type as $type) {
-                $component = SalaryComponent::findOrFail($type->salary_component_id);
-                
 
+                if (request()->has('payroll_sheet_id')) {
+                    $this->payroll_sheet_id = request('payroll_sheet_id');
+                }
+                $component = SalaryComponent::has('payrollSheet')
+                ->where('payroll_sheet_id',$this->payroll_sheet_id)
+                ->where('id',$type->salary_component_id)
+                ->first();
+                
                 if ($type->employee_id == $this->employee_id) {                    
                     foreach ($this->category as $category) {
                         if ($category->id == $type->salary_component_id) {
                             // insert
-
-                            $this->storePayrollComponent( $calculate,$type->amount, $type->employee_id, $type->salary_component_id,$component->sort);
+                            if (request()->has('payroll_sheet_id')) {
+                                $this->storePayrollComponent( $calculate,$type->amount, $type->employee_id, $type->salary_component_id,$component->sort);                                
+                            }else{                                
+                                $this->output = '<tr class="center"><td>'.$component->ar_item.'</td><td>'.$type->amount.'</td></tr>';                    
+                            }
 
                             // end insert
                             if ($category->calculate == trans('staff::local.deduction_type')) {
@@ -671,7 +698,8 @@ class PayrollProcessController extends Controller
             return back()->withInput();
         }  
         $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
-        $salary_components = SalaryComponent::has('payrollComponent')->sort()->get();
+        $salary_components = SalaryComponent::has('payrollComponent')      
+        ->sort()->get();
 
         $employees = Employee::with('sector','department')->work()->with('payrollComponents')
         ->whereHas('payrollComponents',function($q) use ($code){
@@ -679,6 +707,13 @@ class PayrollProcessController extends Controller
         })
         ->orderBy('attendance_id','asc')        
         ->get();
+
+        $totals = DB::table('payroll_components')->select(DB::raw('salary_component_id,sum(value) as sum,sort'))
+        ->where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)        
+        ->groupBy('salary_component_id','sort')
+        ->orderBy('sort')
+        ->get();
+
 
         $header = HrReport::first()->header;        
         $data = [         
@@ -688,6 +723,7 @@ class PayrollProcessController extends Controller
             'salary_components'             => $salary_components,                
             'employees'                     => $employees,                                   
             'payroll_sheet_data'            => $payroll_sheet_data,                                   
+            'totals'                        => $totals,                                   
         ];
 
         $config = [
@@ -715,7 +751,16 @@ class PayrollProcessController extends Controller
             return back()->withInput();
         }  
         $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
-        $salary_components = SalaryComponent::has('payrollComponent')->sort()->get();
+        $salary_components = SalaryComponent::with('payrollComponent')->sort()->get();
+
+        $totals = DB::table('payroll_components')->select(DB::raw('salary_component_id,sum(value) as sum,sort'))
+        ->where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)
+        ->join('employees','payroll_components.employee_id','=','employees.id')        
+        ->where('employees.department_id',$department_id)
+        ->groupBy('salary_component_id','sort')
+        ->orderBy('sort')
+        ->get();
+        
 
         $department = Department::findOrFail($department_id);
         $department_name = session('lang') == 'ar' ? $department->ar_department : $department->en_department;
@@ -738,6 +783,7 @@ class PayrollProcessController extends Controller
             'employees'                     => $employees,                                   
             'payroll_sheet_data'            => $payroll_sheet_data,                                   
             'department_name'               => $department_name,                                   
+            'totals'                        => $totals,                                   
         ];
 
         $config = [
@@ -749,6 +795,8 @@ class PayrollProcessController extends Controller
             'margin_top'           => 50,
             'margin_bottom'        => session('lang') == 'ar' ? 50 : 55,
         ]; 
+
+
 
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.department', $data,[],$config);
         return $pdf->stream(trans('staff::local.payroll_sheet'));
@@ -767,25 +815,36 @@ class PayrollProcessController extends Controller
             $output = '';          
           
             $this->prePayrollProcess();  
-                     
-            $net = SalaryComponent::where('calculate','net')->first();
-            if (!empty($net)) {                
-                $this->net = $net->id;                
-            }
+
        
             $this->employees = Employee::work()->where('salary_suspend','no')
-            ->where('attendance_id',request('attendance_id'))->first();
+            ->where('id',request('employee_id'))->first();
             if (!empty($this->employees)) {
-                $this->employee_id = $this->employees->id;                
-                            
+                $this->employee_id = $this->employees->id;    
+                $payroll_sheet_id = PayrollSheetEmployee::where('employee_id',$this->employee_id)->first()->payroll_sheet_id;   
+
+                $this->payroll_sheet_id = $payroll_sheet_id;
+
+                $where_net = [
+                    ['calculate' , 'net'],
+                    ['payroll_sheet_id' , $payroll_sheet_id]
+                ];
+                $net = SalaryComponent::has('payrollSheet')->where($where_net)->first();
+                $this->net = $net->id;
+                
                 $where = [                
+                    ['payroll_sheet_id', $payroll_sheet_id],
                     ['registration', 'payroll'],
                 ];
-                $salary_components = SalaryComponent::where($where)->sort()->get();                            
+
+                $salary_components = SalaryComponent::has('payrollSheet')->where($where)->sort()->get();                   
+                
+
                 $this->getData();             
                 foreach ($salary_components as $salary_component) {                    
                     $this->value = $this->getAmountByFormula($salary_component->id,$salary_component->formula,$salary_component->sort);                                        
-                    $value = number_format($this->value, 2, '.', '');                                       
+                    $value = number_format($this->value, 2, '.', '');  
+                    $output .= $this->output;                                     
                     $output .= '<tr class="center"><td>'.$salary_component->ar_item.'</td><td>'.$value.'</td></tr>';                    
                 }                
             }

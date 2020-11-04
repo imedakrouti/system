@@ -4,6 +4,7 @@ namespace Staff\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Staff\Http\Requests\SalaryComponentRequest;
+use Staff\Models\Payrolls\PayrollSheet;
 use Staff\Models\Settings\SalaryComponent;
 
 class SalaryComponentController extends Controller
@@ -16,27 +17,35 @@ class SalaryComponentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = SalaryComponent::sort()->get();
-            return datatables($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('salary-components.edit',$data->id).'">
-                           <i class=" la la-edit"></i>
-                       </a>';
-                            return $btn;
-                    })
-                    ->addColumn('check', function($data){
-                           $btnCheck = '<label class="pos-rel">
-                                        <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
-                                        <span class="lbl"></span>
-                                    </label>';
-                            return $btnCheck;
-                    })
-                    ->rawColumns(['action','check'])
-                    ->make(true);
+            $data = SalaryComponent::with('payrollSheet')->sort()->get();
+            return $this->dataTable($data);
         }
+        $payrollSheets = PayrollSheet::all();
         return view('staff::settings.salary-components.index',
-        ['title'=>trans('staff::local.salary_components')]);   
+        ['title'=>trans('staff::local.salary_components'),'payrollSheets' => $payrollSheets]);   
+    }
+    private function dataTable($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('action', function($data){
+               $btn = '<a class="btn btn-warning btn-sm" href="'.route('salary-components.edit',$data->id).'">
+               <i class=" la la-edit"></i>
+           </a>';
+                return $btn;
+        })
+        ->addColumn('payroll_sheet_name',function($data){
+            return session('lang') == 'ar' ? $data->payrollSheet->ar_sheet_name : $data->payrollSheet->en_sheet_name;
+        })
+        ->addColumn('check', function($data){
+               $btnCheck = '<label class="pos-rel">
+                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                            <span class="lbl"></span>
+                        </label>';
+                return $btnCheck;
+        })
+        ->rawColumns(['action','check','payroll_sheet_name'])
+        ->make(true);
     }
 
     /**
@@ -46,8 +55,9 @@ class SalaryComponentController extends Controller
      */
     public function create()
     {
+        $payrollSheets = PayrollSheet::all();
         return view('staff::settings.salary-components.create',
-        ['title'=>trans('staff::local.new_salary_component')]);
+        ['title'=>trans('staff::local.new_salary_component'),'payrollSheets'=>$payrollSheets]);
     }
     private function attributes()
     {
@@ -61,6 +71,7 @@ class SalaryComponentController extends Controller
             'registration',
             'calculate',
             'admin_id',
+            'payroll_sheet_id'
         ];
     }
 
@@ -85,8 +96,10 @@ class SalaryComponentController extends Controller
      */
     public function edit(SalaryComponent $salaryComponent)
     {
+        $payrollSheets = PayrollSheet::all();
         return view('staff::settings.salary-components.edit',
-        ['title'=>trans('staff::local.edit_salary_component'),'salaryComponent'=>$salaryComponent]);
+        ['title'=>trans('staff::local.edit_salary_component'),
+        'salaryComponent'=>$salaryComponent,'payrollSheets'=>$payrollSheets]);
     }
 
     /**
@@ -120,5 +133,15 @@ class SalaryComponentController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+
+    public function filter()
+    {
+        if (request()->ajax()) {
+            $data = SalaryComponent::with('payrollSheet')->sort()
+            ->where('payroll_sheet_id',request('payroll_sheet_id'))
+            ->get();
+            return $this->dataTable($data);
+        }
     }
 }
