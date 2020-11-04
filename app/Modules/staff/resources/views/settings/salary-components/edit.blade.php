@@ -263,8 +263,7 @@
 
         if($('#registration').val() == 'payroll')
         {
-            $('#formula').removeClass('hidden');            
-            $('#formula_value').val('');     
+            $('#formula').removeClass('hidden');                         
         }else{
           $('#formula').addClass('hidden');  
         }
