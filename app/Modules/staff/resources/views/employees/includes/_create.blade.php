@@ -212,7 +212,26 @@
                         name="vacation_allocated">                                            
                     </div>
                 </div>
-            </div>  
+            </div>
+            <div class="row" style="margin-left: 0;">
+              <div class="col-lg-2 col-md-6">
+                  <div class="form-group">
+                    <label>{{ trans('staff::local.insurance_value') }}</label>
+                    <input type="number" min="0" class="form-control " value="{{old('insurance_value')}}" 
+                    placeholder="{{ trans('staff::local.insurance_value') }}"
+                      name="insurance_value" required>
+                      <span class="red">{{ trans('staff::local.required') }}</span>                          
+                  </div>
+              </div>
+              <div class="col-lg-2 col-md-6">
+                  <div class="form-group">
+                    <label>{{ trans('staff::local.tax_value') }}</label>
+                    <input type="number" min="0" class="form-control " value="{{old('tax_value')}}" 
+                    placeholder="{{ trans('staff::local.tax_value') }}"
+                      name="tax_value">                                            
+                  </div>
+              </div>      
+          </div>    
             <div class="row" style="margin-left: 0;">
               <div class="col-lg-4 col-md-4">
                   <div class="form-group">

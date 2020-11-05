@@ -67,7 +67,9 @@ class Employee extends Model
         'direct_manager_id',            
         'admin_id',
         'user_id',
-        'employee_image'
+        'employee_image',
+        'insurance_value',
+        'tax_value'
     ];
     public function __construct(Array $attributes = [])
     {

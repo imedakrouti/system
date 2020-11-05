@@ -197,7 +197,7 @@
                     <a href="{{route('annual-increase.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.annual_increase') }}</span>
                     </a>
-                </li>                                                 
+                </li>                                                           
             </ul>
         </li>     
 

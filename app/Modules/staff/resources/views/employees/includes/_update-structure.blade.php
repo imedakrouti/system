@@ -91,6 +91,24 @@
                 </div>               
               </div>
               <div class="row">
+                <div class="col-lg-6 col-md-6">
+                  <div class="form-group">
+                    <label>{{ trans('staff::local.insurance_value') }}</label>
+                    <input type="number" min="0" class="form-control " value="{{old('insurance_value')}}" 
+                    placeholder="{{ trans('staff::local.insurance_value') }}"
+                      name="insurance_value">                                            
+                  </div>
+              </div> 
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                      <label>{{ trans('staff::local.tax_value') }}</label>
+                      <input type="number" min="0" class="form-control " value="{{old('tax_value')}}" 
+                      placeholder="{{ trans('staff::local.tax_value') }}"
+                        name="tax_value">                                            
+                    </div>
+                </div>               
+              </div>
+              <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('staff::local.direct_manager_id') }}</label>

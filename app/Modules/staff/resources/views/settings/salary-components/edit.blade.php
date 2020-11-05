@@ -162,6 +162,14 @@
                                 <td class="center">{{ trans('staff::local.bus_desc') }}</td>
                               </tr>
                               <tr>
+                                <td class="center">{insurance}</td>
+                                <td class="center">{{ trans('staff::local.insurance_desc') }}</td>
+                              </tr>
+                              <tr>
+                                <td class="center">{tax}</td>
+                                <td class="center">{{ trans('staff::local.tax_desc') }}</td>
+                              </tr>
+                              <tr>
                                 <td class="center">{days_attendance}</td>
                                 <td class="center">{{ trans('staff::local.days_attendance_desc') }}</td>
                               </tr>

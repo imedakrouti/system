@@ -10,7 +10,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('dashboard.admission')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('payrolls-sheets.index')}}">{{ trans('staff::local.temporary_components') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('payrolls-sheets.index')}}">{{ trans('staff::local.payrolls_sheets') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>

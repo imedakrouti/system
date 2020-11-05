@@ -183,15 +183,28 @@ class PayrollSheetController extends Controller
     
     public function storeEmployeeIntoSheet()
     {        
-        foreach (request('employee_id') as $employee_id) {            
-            request()->user()->payrollSheetEmployee()->firstOrCreate(request()->only($this->attributesPayrollEmployeeSheet())+
-            [
-                'employee_id'   => $employee_id,                
-            ]);    
+        foreach (request('employee_id') as $employee_id) { 
+            if ($this->checkExist($employee_id)) {
+                request()->user()->payrollSheetEmployee()->firstOrCreate(request()->only($this->attributesPayrollEmployeeSheet())+
+                [
+                    'employee_id'   => $employee_id,                
+                ]);                    
+            }           
         }
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('payrolls-sheets.add-employees-page',request('payroll_sheet_id')); 
     }
+    private function checkExist($employee_id)
+    {        
+        $check = PayrollSheetEmployee::where('employee_id',$employee_id)->first();
+        
+        if (!empty($check)) {
+            return false;
+        }
+        return true;
+
+    }
+
     public function removeEmployeeFromSheet()
     {
         if (request()->ajax()) {

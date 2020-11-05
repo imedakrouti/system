@@ -124,7 +124,9 @@ class EmployeeController extends Controller
             'position_id',
             'timetable_id',
             'admin_id',
-            'direct_manager_id',            
+            'direct_manager_id', 
+            'insurance_value',
+            'tax_value'          
         ];
     }
 
@@ -141,7 +143,7 @@ class EmployeeController extends Controller
             // create user for employee
             $user_id = Admin::create([
                 'name'          => request('en_st_name'),
-                'username'      => strtolower(str_replace(' ', '', trim(request('en_st_name')))),
+                'username'      => strtolower(str_replace(' ', '', trim(request('en_st_name')))).request('attendance_id'),
                 'email'         => request('email'),
                 'password'      => 'password'.request('attendance_id'),
                 'image_profile' => $this->employee_image,
@@ -419,6 +421,8 @@ class EmployeeController extends Controller
             $fields ['position_id'] = !empty(request('position_id'))?request('position_id'):'';                              
             $fields ['timetable_id'] = !empty(request('timetable_id'))? request('timetable_id'):'';                              
             $fields ['bus_value'] = !empty(request('bus_value'))? request('bus_value'):'';        
+            $fields ['insurance_value'] = !empty(request('insurance_value'))? request('insurance_value'):'';        
+            $fields ['tax_value'] = !empty(request('tax_value'))? request('tax_value'):'';        
             $fields ['direct_manager_id'] = !empty(request('direct_manager_id'))? request('direct_manager_id'):'';        
             $fields = array_filter($fields);                     
             foreach (request('id') as $employee_id) {   
