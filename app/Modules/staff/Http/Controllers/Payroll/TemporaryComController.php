@@ -4,6 +4,7 @@ namespace Staff\Http\Controllers\Payroll;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TemporaryRequest;
 use Staff\Models\Employees\Employee;
+use Staff\Models\Payrolls\PayrollSheetEmployee;
 use Staff\Models\Payrolls\TemporaryComponent;
 use Staff\Models\Settings\SalaryComponent;
 
@@ -71,15 +72,28 @@ class TemporaryComController extends Controller
 
     public function store(TemporaryRequest $request)
     {        
-        foreach (request('employee_id') as $employee_id) {            
-            $request->user()->temporaryComponent()->firstOrCreate($request->only($this->attributes())+
-            [
-                'employee_id'   => $employee_id,    
-                'amount'        => request('amount') * $this->salaryPerDay($employee_id)                      
-            ]);    
+        foreach (request('employee_id') as $employee_id) {   
+            if ($this->checkPayrollSheet(request('salary_component_id'), $employee_id)) {
+                $request->user()->temporaryComponent()->firstOrCreate($request->only($this->attributes())+
+                [
+                    'employee_id'   => $employee_id,    
+                    'amount'        => request('amount') * $this->salaryPerDay($employee_id)                      
+                ]);                    
+            }         
         }
-        toast(trans('msg.stored_successfully'),'success');
+        toast(trans('staff::local.add_according_to_sheet'),'success');
         return redirect()->route('temporary-component.index');               
+    }
+    private function checkPayrollSheet($salary_component_id, $employee_id)
+    {
+        $payroll_sheet_id = SalaryComponent::findOrFail($salary_component_id)->payroll_sheet_id;
+        $check = PayrollSheetEmployee::where('payroll_sheet_id',$payroll_sheet_id)->where('employee_id',$employee_id)->first();
+        
+        if (empty($check)) {
+            return false;
+        }
+        return true;
+
     }
     private function salaryPerDay($employee_id)
     {

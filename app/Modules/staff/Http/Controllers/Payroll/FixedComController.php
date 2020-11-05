@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FixedRequest;
 use Staff\Models\Employees\Employee;
 use Staff\Models\Payrolls\FixedComponent;
+use Staff\Models\Payrolls\PayrollSheetEmployee;
 use Staff\Models\Settings\SalaryComponent;
 
 class FixedComController extends Controller
@@ -88,14 +89,27 @@ class FixedComController extends Controller
 
     public function store(FixedRequest $request)
     {
-        foreach (request('employee_id') as $employee_id) {            
-            $request->user()->fixedComponent()->firstOrCreate($request->only($this->attributes())+
-            [
-                'employee_id'   => $employee_id,                
-            ]);    
+        foreach (request('employee_id') as $employee_id) {    
+            if ($this->checkPayrollSheet(request('salary_component_id'), $employee_id)) {
+                $request->user()->fixedComponent()->firstOrCreate($request->only($this->attributes())+
+                [
+                    'employee_id'   => $employee_id,                
+                ]);                    
+            }        
         }
-        toast(trans('msg.stored_successfully'),'success');
+        toast(trans('staff::local.add_according_to_sheet'),'success');
         return redirect()->route('fixed-component.index');               
+    }
+    private function checkPayrollSheet($salary_component_id, $employee_id)
+    {
+        $payroll_sheet_id = SalaryComponent::findOrFail($salary_component_id)->payroll_sheet_id;
+        $check = PayrollSheetEmployee::where('payroll_sheet_id',$payroll_sheet_id)->where('employee_id',$employee_id)->first();
+        
+        if (empty($check)) {
+            return false;
+        }
+        return true;
+
     }
     
     public function destroy()
