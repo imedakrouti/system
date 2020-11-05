@@ -64,22 +64,26 @@ class TemporaryComController extends Controller
     {
         return [
             'date',
-            'remark',
-            'amount',            
+            'remark',                      
             'salary_component_id',            
         ];
     }
 
     public function store(TemporaryRequest $request)
-    {
+    {        
         foreach (request('employee_id') as $employee_id) {            
             $request->user()->temporaryComponent()->firstOrCreate($request->only($this->attributes())+
             [
-                'employee_id'   => $employee_id,                
+                'employee_id'   => $employee_id,    
+                'amount'        => request('amount') * $this->salaryPerDay($employee_id)                      
             ]);    
         }
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('temporary-component.index');               
+    }
+    private function salaryPerDay($employee_id)
+    {
+        return Employee::findOrFail($employee_id)->salary / 30;
     }
     public function destroy()
     {

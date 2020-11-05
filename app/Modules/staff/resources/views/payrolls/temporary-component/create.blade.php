@@ -29,19 +29,20 @@
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
                     <div class="col-lg-3 col-md-12">
-                        <div class="form-group row">
-                          <label>{{ trans('staff::local.type') }}</label> <br>
-                          <select name="salary_component_id" class="form-control" required>
-                              <option value="">{{ trans('staff::local.select') }}</option>
-                              @foreach ($components as $component)
-                                  <option {{old('salary_component_id') == $component->id ? 'selected' :''}} value="{{$component->id}}">
-                                        {{session('lang') == 'ar' ? $component->ar_item : $component->en_item}}                                  
-                                  </option>
-                              @endforeach
-                          </select> <br>
-                          <span class="red">{{ trans('staff::local.required') }}</span>                                                      
-                        </div>
-                    </div>
+                      <div class="form-group row">
+                        <label>{{ trans('staff::local.type') }}</label> <br>
+                        <select name="salary_component_id" class="form-control" required>
+                            <option value="">{{ trans('staff::local.select') }}</option>
+                            @foreach ($components as $component)
+                                <option {{old('salary_component_id') == $component->id ? 'selected' :''}} value="{{$component->id}}">
+                                      {{session('lang') == 'ar' ? $component->payrollSheet->ar_sheet_name . ' - ' . $component->ar_item : 
+                                      $component->payrollSheet->en_sheet_name . ' - ' . $component->en_item}}                                  
+                                </option>
+                            @endforeach
+                        </select> <br>
+                        <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                      </div>
+                  </div>
                     <div class="col-lg-3 col-md-12">
                         <div class="form-group row">
                           <label>{{ trans('staff::local.employee_name') }}</label> <br>
@@ -72,7 +73,7 @@
                         </div>
                         <div class="col-lg-1 col-md-6">
                             <div class="form-group">
-                              <label>{{ trans('staff::local.amount') }}</label>
+                              <label>{{ trans('staff::local.days') }}</label>
                               <input type="number" min="0" class="form-control" value="{{old('amount')}}"                           
                                 name="amount" required>
                                 <span class="red">{{ trans('staff::local.required') }}</span>                          
