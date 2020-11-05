@@ -422,18 +422,18 @@ class PayrollProcessController extends Controller
         $this->loadPattern();        
         $pattern = array();
         $pattern[0] = '/{salary}/';
-        $pattern[1] = '/{salary_per_day}/';        
-        $pattern[3] = '/{days_attendance}/';
+        $pattern[1] = '/{sa_per_day}/';        
+        $pattern[3] = '/{days_attend}/';
         $pattern[4] = '/{loans}/';
-        $pattern[5] = '/{deductions}/';
-        $pattern[6] = '/{num_actual_absences}/';
-        $pattern[7] = '/{num_calculated_absences}/';
-        $pattern[8] = '/{num_no_attend}/';
-        $pattern[9] = '/{num_no_leave}/';
-        $pattern[10] = '/{num_minutes_late}/';
-        $pattern[11] = '/{num_leave_early}/';        
+        $pattern[5] = '/{deduc}/';
+        $pattern[6] = '/{actual_abse}/';
+        $pattern[7] = '/{calc_abs}/';
+        $pattern[8] = '/{no_attend}/';
+        $pattern[9] = '/{no_leave}/';
+        $pattern[10] = '/{min_late}/';
+        $pattern[11] = '/{le_early}/';        
         $pattern[12] = '/{bus}/';        
-        $pattern[13] = '/{insurance}/';        
+        $pattern[13] = '/{insu}/';        
         $pattern[14] = '/{tax}/';        
 
         foreach ($this->other_pattern as $value) {

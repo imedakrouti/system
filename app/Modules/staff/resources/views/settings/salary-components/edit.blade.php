@@ -154,7 +154,7 @@
                                 <td class="center">{{ trans('staff::local.salary_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{salary_per_day}</td>
+                                <td class="center">{sa_per_day}</td>
                                 <td class="center">{{ trans('staff::local.salary_per_day_desc') }}</td>
                               </tr>
                               <tr>
@@ -162,7 +162,7 @@
                                 <td class="center">{{ trans('staff::local.bus_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{insurance}</td>
+                                <td class="center">{insu}</td>
                                 <td class="center">{{ trans('staff::local.insurance_desc') }}</td>
                               </tr>
                               <tr>
@@ -170,31 +170,31 @@
                                 <td class="center">{{ trans('staff::local.tax_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{days_attendance}</td>
+                                <td class="center">{days_attend}</td>
                                 <td class="center">{{ trans('staff::local.days_attendance_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{num_actual_absences}</td>
+                                <td class="center">{actual_abse}</td>
                                 <td class="center">{{ trans('staff::local.num_actual_absences_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{num_calculated_absences}</td>
+                                <td class="center">{calc_abs}</td>
                                 <td class="center">{{ trans('staff::local.num_calculated_absences_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{num_no_attend}</td>
+                                <td class="center">{no_attend}</td>
                                 <td class="center">{{ trans('staff::local.num_no_attend_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{num_no_leave}</td>
+                                <td class="center">{no_leave}</td>
                                 <td class="center">{{ trans('staff::local.num_no_leave_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{num_minutes_late}</td>
+                                <td class="center">{min_late}</td>
                                 <td class="center">{{ trans('staff::local.num_minutes_late_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{num_leave_early}</td>
+                                <td class="center">{le_early}</td>
                                 <td class="center">{{ trans('staff::local.num_leave_early_desc') }}</td>
                               </tr>
                               <tr>
@@ -202,7 +202,7 @@
                                 <td class="center">{{ trans('staff::local.loans_desc') }}</td>
                               </tr>
                               <tr>
-                                <td class="center">{deductions}</td>
+                                <td class="center">{deduc}</td>
                                 <td class="center">{{ trans('staff::local.deductions_desc') }}</td>
                               </tr>
                               <tr>
