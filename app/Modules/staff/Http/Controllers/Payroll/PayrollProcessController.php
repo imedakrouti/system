@@ -37,7 +37,7 @@ class PayrollProcessController extends Controller
     private $days_attendance;
     private $other_pattern;
     private $other_replacement;
-    private $salary_per_day;
+    private $sa_per_day;
     private $salary;    
     private $bus;
     private $insurance;
@@ -338,9 +338,7 @@ class PayrollProcessController extends Controller
     }
 
     private function getData()
-    {
-        
-
+    {        
         $this->call_methods();
 
         if (is_countable($this->employees)) {
@@ -348,7 +346,7 @@ class PayrollProcessController extends Controller
             {
                 if ($employee->id == $this->employee_id) {                
                     $this->salary                   = round($employee->salary);
-                    $this->salary_per_day           = $employee->salary/30;                
+                    $this->sa_per_day               = $employee->salary/30;                
                     $this->bus                      = empty($employee->bus_value) ?0:$employee->bus_value;                     
                     $this->insurance                = empty($employee->insurance_value) ?0:$employee->insurance_value;                     
                     $this->tax                      = empty($employee->tax_value) ?0:$employee->tax_value;                     
@@ -359,7 +357,7 @@ class PayrollProcessController extends Controller
             }                           
         }else{                   
             $this->salary                   = round($this->employees->salary);
-            $this->salary_per_day           = $this->employees->salary/30;                
+            $this->sa_per_day               = $this->employees->salary/30;                
             $this->bus                      = empty($this->employees->bus_value) ?0:$this->employees->bus_value;                     
             $this->insurance                = empty($this->employees->insurance_value) ?0:$this->employees->insurance_value;                     
             $this->tax                      = empty($this->employees->tax_value) ?0:$this->employees->tax_value;                     
@@ -452,7 +450,7 @@ class PayrollProcessController extends Controller
         $this->loadReplacement();
         $replacement = array();
         $replacement[0] = $this->salary;
-        $replacement[1] = $this->salary_per_day;        
+        $replacement[1] = $this->sa_per_day;        
         $replacement[3] = $this->days_attendance;
         $replacement[4] = $this->loans();
         $replacement[5] = $this->deductions();
