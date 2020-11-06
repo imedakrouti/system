@@ -177,23 +177,22 @@ class PayrollProcessController extends Controller
                 ['registration', 'payroll'],
             ];
             $salary_components = SalaryComponent::has('payrollSheet')
-            ->where($where)->sort()->get();  
+            ->where($where)->sort()->get(); 
 
             $this->get_data_attendance(); // i will check this method if not important to call again    
 
             foreach ($this->employees as $employee) {
                 $this->employee_id = $employee->id;
                 $this->getData();
-                
-               
-
+                               
                 foreach ($salary_components as $salary_component) {                    
                     $this->value = $this->getAmountByFormula($salary_component->id,$salary_component->formula,$salary_component->sort);
                     
                     $calculate = $salary_component->calculate == trans('staff::local.net_type') ? 'net' : '';
                     
                     $value = number_format($this->value, 2, '.', '');                    
-                    // $value = $this->value;                    
+                    // $value = $this->value;    
+                    // dd($value);                
 
                     $this->storePayrollComponent($calculate , $value, $this->employee_id, $salary_component->id,$salary_component->sort);
                 }
@@ -393,9 +392,10 @@ class PayrollProcessController extends Controller
             return redirect('/')->withInput();
         }else{            
             $str = DB::select('select '. $formula_value .' as formula');            
-            $value = (float)$str[0]->formula;            
-            
+            $value = (float)$str[0]->formula; 
+                        
             if ($salary_component_id == $this->net) {   
+                
                 $value = (float)$str[0]->formula + 
                 $this->calculateComponents($this->temporary);
                 // +$this->calculateComponents($this->fixed);
