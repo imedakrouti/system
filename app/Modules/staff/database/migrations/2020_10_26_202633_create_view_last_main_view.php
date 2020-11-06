@@ -93,7 +93,7 @@ class CreateViewLastMainView extends Migration
             
             FROM main_attendance_sheet
              "
-          );
+        );
     }
 
     /**
