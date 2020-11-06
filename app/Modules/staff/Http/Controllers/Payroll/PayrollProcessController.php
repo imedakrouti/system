@@ -131,6 +131,9 @@ class PayrollProcessController extends Controller
     public function store()
     {      
         set_time_limit(0);
+        // to avoid error timeout
+        ini_set('mysql.connect_timeout', 300);
+        ini_set('default_socket_timeout', 300); 
         
         $this->prePayrollProcess();  
         $period = PayrollComponent::where('code',$this->payroll_date.request('payroll_sheet_id'))->first();
