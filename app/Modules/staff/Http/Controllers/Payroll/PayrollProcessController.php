@@ -24,7 +24,7 @@ class PayrollProcessController extends Controller
     private $from_date;
     private $to_date;
     private $get_data_attendance;
-    private $fixed; 
+    private $late_absent_value; 
     private $category; 
     private $temporary; 
     private $salary_components;  
@@ -372,6 +372,7 @@ class PayrollProcessController extends Controller
     private function call_methods()
     {
         $this->days_attendance();
+        $this->late_absent_value();
         $this->loans();
         $this->deductions();
         $this->num_actual_absences();
@@ -457,7 +458,7 @@ class PayrollProcessController extends Controller
         $replacement[3] = $this->days_attendance;
         $replacement[4] = $this->loans();
         $replacement[5] = $this->deductions();
-        $replacement[6] = $this->num_actual_absences();
+        $replacement[6] = $this->num_actual_absences() + $this->late_absent_value;
         $replacement[7] = $this->num_calculated_absences();
         $replacement[8] = $this->num_no_attend();
         $replacement[9] = $this->num_no_leave();
@@ -554,16 +555,38 @@ class PayrollProcessController extends Controller
         $this->days_attendance = count($data);        
     }
 
+    public function late_absent_value()
+    {
+        foreach($this->get_data_attendance as $row)
+        {
+            $arrays[] =  (array) $row;
+        }
+        $data = array();
+        for ($i=0; $i < count($arrays) ; $i++) {
+            if ($arrays[$i]['employee_id'] == $this->employee_id) {
+                if ($arrays[$i]['late_absent_value'] == 1) {
+                    $data[] = $arrays[$i]['late_absent_value'];
+                }
+            }
+        }
+
+        $this->late_absent_value = count($data);   
+    }
+
     private function loans()
     {
         return Loan::where('employee_id',$this->employee_id)
         ->whereBetween('date_loan',[$this->from_date,$this->to_date])
+        ->where('approval1','Accepted')
+        ->where('approval2','Accepted')
         ->sum('amount');
     }
     private function deductions()
     {
         return Deduction::where('employee_id',$this->employee_id)
         ->whereBetween('date_deduction',[$this->from_date,$this->to_date])
+        ->where('approval1','Accepted')
+        ->where('approval2','Accepted')
         ->sum('amount');
     }
     private function get_data_attendance()
