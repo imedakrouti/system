@@ -197,7 +197,18 @@
                     <a href="{{route('annual-increase.index')}}"><i class="la la-minus">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.annual_increase') }}</span>
                     </a>
-                </li>                                                           
+                </li>    
+                {{-- <li class=" nav-item {{request()->segment(3)=='annual-increase.index'?'active':''}}">
+                    <a href="{{route('annual-increase.index')}}"><i class="la la-minus">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.reports') }}</span>
+                    </a>
+                    <ul class="menu-content">
+                        <li>
+                            <a class="menu-item" href="#" data-i18n="nav.menu_levels.second_level_child.third_level">{{ trans('staff::local._out_payroll_sheet') }}</a>
+                        </li> 
+                    </ul>
+                </li>   --}}
+                                                                       
             </ul>
         </li>     
 

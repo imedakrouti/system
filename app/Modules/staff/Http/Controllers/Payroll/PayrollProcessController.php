@@ -115,8 +115,9 @@ class PayrollProcessController extends Controller
                 </button>
                 <div class="dropdown-menu">                    
                     <a target="_blank" class="dropdown-item" href="'.route('payroll-report.all',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.total_payroll_report').'</a>                                             
-                    <a onclick="departmentReport('."'$data->code'".')" class="dropdown-item" href="#"><i class="la la-print"></i> '.trans('staff::local.department_payroll_report').'</a>                                
-                    
+                    <a onclick="departmentReport('."'$data->code'".')" class="dropdown-item" href="#"><i class="la la-print"></i> '.trans('staff::local.department_payroll_report').'</a>                                                    
+                    <a class="dropdown-item" href="'.route('payroll-report.bank',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.payroll_bank').'</a>                                             
+                    <a target="_blank" class="dropdown-item" href="'.route('payroll-report.cash',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.payroll_cash').'</a>                                                                 
                 </div>
             </div>';
     }
@@ -841,7 +842,7 @@ class PayrollProcessController extends Controller
             'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
         ]; 
 
-
+        // to avoid error timeout
         ini_set('max_execution_time', '300');
         ini_set("pcre.backtrack_limit", "5000000");
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.department', $data,[],$config);
