@@ -4649,6 +4649,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Staff\\Http\\Controllers\\Payroll\\AnnualIncreaseController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Payroll/AnnualIncreaseController.php',
         'Staff\\Http\\Controllers\\Payroll\\FixedComController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Payroll/FixedComController.php',
         'Staff\\Http\\Controllers\\Payroll\\PayrollProcessController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Payroll/PayrollProcessController.php',
+        'Staff\\Http\\Controllers\\Payroll\\PayrollReportController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Payroll/PayrollReportController.php',
         'Staff\\Http\\Controllers\\Payroll\\PayrollSheetController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Payroll/PayrollSheetController.php',
         'Staff\\Http\\Controllers\\Payroll\\TemporaryComController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Payroll/TemporaryComController.php',
         'Staff\\Http\\Controllers\\Setting\\DepartmentController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Setting/DepartmentController.php',

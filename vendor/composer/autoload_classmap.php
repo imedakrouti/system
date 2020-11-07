@@ -4054,6 +4054,7 @@ return array(
     'Staff\\Http\\Controllers\\Payroll\\AnnualIncreaseController' => $baseDir . '/app/Modules/staff/Http/Controllers/Payroll/AnnualIncreaseController.php',
     'Staff\\Http\\Controllers\\Payroll\\FixedComController' => $baseDir . '/app/Modules/staff/Http/Controllers/Payroll/FixedComController.php',
     'Staff\\Http\\Controllers\\Payroll\\PayrollProcessController' => $baseDir . '/app/Modules/staff/Http/Controllers/Payroll/PayrollProcessController.php',
+    'Staff\\Http\\Controllers\\Payroll\\PayrollReportController' => $baseDir . '/app/Modules/staff/Http/Controllers/Payroll/PayrollReportController.php',
     'Staff\\Http\\Controllers\\Payroll\\PayrollSheetController' => $baseDir . '/app/Modules/staff/Http/Controllers/Payroll/PayrollSheetController.php',
     'Staff\\Http\\Controllers\\Payroll\\TemporaryComController' => $baseDir . '/app/Modules/staff/Http/Controllers/Payroll/TemporaryComController.php',
     'Staff\\Http\\Controllers\\Setting\\DepartmentController' => $baseDir . '/app/Modules/staff/Http/Controllers/Setting/DepartmentController.php',

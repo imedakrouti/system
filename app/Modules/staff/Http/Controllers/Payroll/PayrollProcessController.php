@@ -477,8 +477,7 @@ class PayrollProcessController extends Controller
         return $replacement;
     }
     private function calculateComponents($component_type)
-    {        
-       
+    {               
         $amounts = array();
         $calculate = '';
 
@@ -502,7 +501,6 @@ class PayrollProcessController extends Controller
                             }else{                                
                                 $this->output = '<tr class="center"><td>'.$component->ar_item.'</td><td>'.$type->amount.'</td></tr>';                    
                             }
-
                             // end insert
                             if ($category->calculate == trans('staff::local.deduction_type')) {
                                 $amounts[] = $type->amount * -1;
@@ -538,7 +536,6 @@ class PayrollProcessController extends Controller
             'sort'                  => $sort,                                    
         ]);
     }
-
     // parameters
 
     public function days_attendance()
@@ -584,7 +581,8 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['vacation_type'] != '') {
+                if ($arrays[$i]['vacation_type'] == 'Start work' && $arrays[$i]['vacation_type'] == 'End work' 
+                && $arrays[$i]['vacation_type'] == 'Vacation without pay' && $arrays[$i]['vacation_type'] == 'Sick leave') {
                     $data[] = $arrays[$i]['vacation_type'];
                 }
             }
