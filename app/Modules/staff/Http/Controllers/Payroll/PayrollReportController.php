@@ -70,7 +70,7 @@ class PayrollReportController extends Controller
             'margin_footer'        => 30,
             'margin_left'          => 10,
             'margin_right'         => 10,
-            'margin_top'           => 68,// pdf on server required this sizes
+            'margin_top'           => 75,// pdf on server required this sizes
             'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
         ]; 
 
