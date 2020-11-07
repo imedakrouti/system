@@ -74,7 +74,7 @@
                         <div class="col-lg-1 col-md-6">
                             <div class="form-group">
                               <label>{{ trans('staff::local.days') }}</label>
-                              <input type="number" min="0" class="form-control" value="{{old('amount')}}"                           
+                              <input type="number" min="0" step="0.25" class="form-control" value="{{old('amount')}}"                           
                                 name="amount" required>
                                 <span class="red">{{ trans('staff::local.required') }}</span>                          
                             </div>

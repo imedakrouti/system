@@ -25,6 +25,7 @@ class PayrollProcessController extends Controller
     private $to_date;
     private $get_data_attendance;
     private $late_absent_value; 
+    private $count_vacation; 
     private $category; 
     private $temporary; 
     private $salary_components;  
@@ -374,6 +375,7 @@ class PayrollProcessController extends Controller
     {
         $this->days_attendance();
         $this->late_absent_value();
+        $this->count_vacation();
         $this->loans();
         $this->deductions();
         $this->num_actual_absences();
@@ -459,7 +461,7 @@ class PayrollProcessController extends Controller
         $replacement[3] = $this->days_attendance;
         $replacement[4] = $this->loans();
         $replacement[5] = $this->deductions();
-        $replacement[6] = $this->num_actual_absences() + $this->late_absent_value;
+        $replacement[6] = $this->num_actual_absences() + $this->late_absent_value + $this->count_vacation;
         $replacement[7] = $this->num_calculated_absences();
         $replacement[8] = $this->num_no_attend();
         $replacement[9] = $this->num_no_leave();
@@ -570,9 +572,26 @@ class PayrollProcessController extends Controller
                 }
             }
         }
-
         $this->late_absent_value = count($data);   
     }
+
+    public function count_vacation()
+    {
+        foreach($this->get_data_attendance as $row)
+        {
+            $arrays[] =  (array) $row;
+        }
+        $data = array();
+        for ($i=0; $i < count($arrays) ; $i++) {
+            if ($arrays[$i]['employee_id'] == $this->employee_id) {
+                if ($arrays[$i]['vacation_type'] != '') {
+                    $data[] = $arrays[$i]['vacation_type'];
+                }
+            }
+        }     
+        $this->count_vacation = count($data);   
+    }
+
 
     private function loans()
     {
@@ -783,7 +802,7 @@ class PayrollProcessController extends Controller
         ini_set('max_execution_time', '300');
         ini_set("pcre.backtrack_limit", "5000000");
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.all-employees', $data,[],$config);
-        return $pdf->stream(trans('staff::local.payroll_sheet'));
+        return $pdf->stream(trans('staff::local.payroll_sheet').'.pdf');
     }
 
     public function departmentPayrollReport()
@@ -846,7 +865,7 @@ class PayrollProcessController extends Controller
         ini_set('max_execution_time', '300');
         ini_set("pcre.backtrack_limit", "5000000");
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.department', $data,[],$config);
-        return $pdf->stream(trans('staff::local.payroll_sheet'));
+        return $pdf->stream(trans('staff::local.payroll_sheet').'.pdf');
     }
     public function review()
     {

@@ -51,8 +51,14 @@ class EnhancementLastMainView extends Migration
                 AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
                 
                 ELSE 0 
-            END as absentValue,          
-            main_attendance_sheet.minutes_lates_after_request as main_lates,
+            END as absentValue,   
+
+            CASE 
+                WHEN main_attendance_sheet.minutes_lates_after_request >= main_attendance_sheet.daily_late_minutes AND main_attendance_sheet.absent_after_holidays = '' THEN 0                   
+                WHEN main_attendance_sheet.`clock_in` = '' AND `main_attendance_sheet`.`clock_out` != '' AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
+                WHEN main_attendance_sheet.no_attend = 1 AND main_attendance_sheet.no_leave = 0 AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
+                ELSE main_attendance_sheet.minutes_lates_after_request
+                END as main_lates,
             CASE
                     WHEN main_attendance_sheet.`clock_in` != '' AND `main_attendance_sheet`.`clock_out` = '' THEN 0
                     ELSE IF(main_attendance_sheet.leave_early_after_request = 0 ,0,main_attendance_sheet.leave_early_after_request)
@@ -103,8 +109,14 @@ class EnhancementLastMainView extends Migration
                 AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
                 
                 ELSE 0 
-            END as absentValue,          
-            main_attendance_sheet.minutes_lates_after_request as main_lates,
+            END as absentValue,   
+
+            CASE 
+                WHEN main_attendance_sheet.minutes_lates_after_request >= main_attendance_sheet.daily_late_minutes AND main_attendance_sheet.absent_after_holidays = '' THEN 0                   
+                WHEN main_attendance_sheet.`clock_in` = '' AND `main_attendance_sheet`.`clock_out` != '' AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
+                WHEN main_attendance_sheet.no_attend = 1 AND main_attendance_sheet.no_leave = 0 AND main_attendance_sheet.vacation_type != '' THEN main_attendance_sheet.noAttend
+                ELSE main_attendance_sheet.minutes_lates_after_request
+                END as main_lates,
             CASE
                     WHEN main_attendance_sheet.`clock_in` != '' AND `main_attendance_sheet`.`clock_out` = '' THEN 0
                     ELSE IF(main_attendance_sheet.leave_early_after_request = 0 ,0,main_attendance_sheet.leave_early_after_request)
@@ -115,10 +127,8 @@ class EnhancementLastMainView extends Migration
             
             FROM main_attendance_sheet
              "
-        );  
-
-
-            
+        ); 
+           
     }
 
     /**

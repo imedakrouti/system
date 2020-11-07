@@ -478,6 +478,6 @@ class AttendanceController extends Controller
         ]; 
 
         $pdf = PDF::loadView('staff::attendances.reports.attendance-sheet', $data,[],$config);
-        return $pdf->stream(trans('staff::local.attendance_sheet'));
+        return $pdf->stream(trans('staff::local.attendance_sheet').'.pdf');
     }
 }
