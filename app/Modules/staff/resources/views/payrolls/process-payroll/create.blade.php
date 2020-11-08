@@ -135,7 +135,5 @@
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });
 </script>
-@include('layouts.backEnd.includes.datatables._multiSelect')
-});
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection
