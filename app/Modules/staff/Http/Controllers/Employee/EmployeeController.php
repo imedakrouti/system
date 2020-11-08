@@ -18,6 +18,7 @@ use PDF;
 use Carbon;
 use Alkoumi\LaravelArabicTafqeet\Tafqeet;
 use App\Models\Admin;
+use Staff\Models\Payrolls\PayrollSheet;
 
 class EmployeeController extends Controller
 {
@@ -56,6 +57,7 @@ class EmployeeController extends Controller
     public function create()
     {
         $title = trans('staff::local.new_employee');
+        $payrollSheets = PayrollSheet::all();
         $sectors = Sector::sort()->get();
         $sections = Section::sort()->get();
         $positions = Position::sort()->get();
@@ -65,7 +67,7 @@ class EmployeeController extends Controller
         $timetables = Timetable::all();
         $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::employees.create',
-        compact('title','sectors','sections','positions','timetables','documents','skills','holidays','employees'));
+        compact('title','sectors','sections','positions','timetables','documents','skills','holidays','employees','payrollSheets'));
     }
     private function attributes()
     {
@@ -137,7 +139,7 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(EmployeeRequest $request)
-    {                
+    {             
         DB::transaction(function() use ($request){
             $this->uploadEmployeeImage($request->id);
             // create user for employee
@@ -155,6 +157,12 @@ class EmployeeController extends Controller
             $this->employeeDocuments($employee->id);
             $this->employeeHolidays($employee->id);
             $this->employeeSkills($employee->id);
+            if (!empty(request('payroll_sheet_id'))) {
+                $request->user()->payrollSheetEmployee()->firstOrCreate([
+                    'employee_id'       => $employee->id,
+                    'payroll_sheet_id'  => request('payroll_sheet_id')
+                ]);
+            }
         });
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('employees.index');
@@ -206,8 +214,8 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Employee $employee)
-    {
-        
+    {       
+        $payrollSheets = PayrollSheet::all(); 
         $title = trans('staff::local.employee_data');
         $sectors = Sector::sort()->get();
         $departments = Department::sort()->get();
@@ -215,7 +223,7 @@ class EmployeeController extends Controller
         $positions = Position::sort()->get();        
         $timetables = Timetable::all();
         return view('staff::employees.show',
-        compact('employee','title','sectors','departments','sections','positions','timetables'));
+        compact('employee','title','sectors','departments','sections','positions','timetables','payrollSheets'));
     }
 
     /**
@@ -226,6 +234,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {        
+        $payrollSheets = PayrollSheet::all(); 
         $title = trans('staff::local.edit_employee');
         $sectors = Sector::sort()->get();
         $departments = Department::sort()->get();
@@ -234,7 +243,7 @@ class EmployeeController extends Controller
         $timetables = Timetable::all();
         $headers = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::employees.edit',
-       compact('employee','title','sectors','sections','positions','timetables','departments','headers'));
+       compact('employee','title','sectors','sections','positions','timetables','departments','headers','payrollSheets'));
     }
 
     /**
@@ -413,7 +422,7 @@ class EmployeeController extends Controller
 
     public function updateStructure()
     {
-        if (request()->ajax()) {
+        if (request()->ajax()) {            
             $fields = [];
             $fields ['sector_id'] = !empty(request('sector_id'))? request('sector_id'):'';                          
             $fields ['department_id'] = !empty(request('department_id'))? request('department_id'):'';                          
@@ -425,7 +434,7 @@ class EmployeeController extends Controller
             $fields ['tax_value'] = !empty(request('tax_value'))? request('tax_value'):'';        
             $fields ['direct_manager_id'] = !empty(request('direct_manager_id'))? request('direct_manager_id'):'';        
             $fields = array_filter($fields);                     
-            foreach (request('id') as $employee_id) {   
+            foreach (request('employee_id') as $employee_id) {   
                 Employee::where('id',$employee_id)->update($fields);
                 if (request()->has('holiday_id')) {
                     $this->employeeHolidays($employee_id);                    

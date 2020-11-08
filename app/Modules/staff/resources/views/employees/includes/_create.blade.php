@@ -219,7 +219,7 @@
                     <label>{{ trans('staff::local.insurance_value') }}</label>
                     <input type="number" min="0" class="form-control " value="{{old('insurance_value')}}" 
                     placeholder="{{ trans('staff::local.insurance_value') }}"
-                      name="insurance_value" required>
+                      name="insurance_value">
                       <span class="red">{{ trans('staff::local.required') }}</span>                          
                   </div>
               </div>
@@ -558,6 +558,21 @@
             </div>
          
           </div> 
+          <div class="row" style="margin-left: 0;">
+              <div class="col-lg-3 col-md-6">
+                  <div class="form-group">
+                    <label>{{ trans('staff::local.payroll_sheet_name') }}</label> <br>
+                    <select name="payroll_sheet_id" class="form-control">
+                        <option value="">{{ trans('staff::local.select') }}</option>
+                        @foreach ($payrollSheets as $payrollSheet)
+                            <option {{old('payroll_sheet_id') == $payrollSheet->id ? 'selected' :''}} value="{{$payrollSheet->id}}">
+                                  {{session('lang') == 'ar' ? $payrollSheet->ar_sheet_name : $payrollSheet->en_sheet_name}}                                  
+                            </option>
+                        @endforeach
+                    </select> <br>                
+                  </div>
+              </div> 
+          </div>
         </div>
         {{-- skills --}}
         <div class="tab-pane" id="tabVerticalLeft19" aria-labelledby="baseVerticalLeft1-tab9">

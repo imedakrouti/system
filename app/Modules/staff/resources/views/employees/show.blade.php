@@ -315,7 +315,25 @@
                                             name="vacation_allocated">                                            
                                         </div>
                                     </div>
-                                </div>                                 
+                                </div>  
+                                <div class="row" style="margin-left: 0;">
+                                  <div class="col-lg-2 col-md-6">
+                                      <div class="form-group">
+                                        <label>{{ trans('staff::local.insurance_value') }}</label>
+                                        <input type="number" min="0" class="form-control" disabled value="{{old('insurance_value',$employee->insurance_value)}}" 
+                                        placeholder="{{ trans('staff::local.insurance_value') }}"
+                                          name="insurance_value">                                          
+                                      </div>
+                                  </div>
+                                  <div class="col-lg-2 col-md-6">
+                                      <div class="form-group">
+                                        <label>{{ trans('staff::local.tax_value') }}</label>
+                                        <input type="number" min="0" class="form-control" disabled value="{{old('tax_value',$employee->tax_value)}}" 
+                                        placeholder="{{ trans('staff::local.tax_value') }}"
+                                          name="tax_value">                                            
+                                      </div>
+                                  </div>      
+                                </div>                                                                
                             </div>
                             {{-- personal data --}}
                             <div class="tab-pane" id="tabVerticalLeft12" aria-labelledby="baseVerticalLeft1-tab2">

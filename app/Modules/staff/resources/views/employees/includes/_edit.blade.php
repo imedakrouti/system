@@ -233,7 +233,7 @@
                     <label>{{ trans('staff::local.insurance_value') }}</label>
                     <input type="number" min="0" class="form-control " value="{{old('insurance_value',$employee->insurance_value)}}" 
                     placeholder="{{ trans('staff::local.insurance_value') }}"
-                      name="insurance_value" required>
+                      name="insurance_value">
                       <span class="red">{{ trans('staff::local.required') }}</span>                          
                   </div>
               </div>
@@ -245,7 +245,7 @@
                       name="tax_value">                                            
                   </div>
               </div>      
-          </div>  
+            </div>  
               
             <div class="row" style="margin-left: 0;">
               <div class="col-lg-4 col-md-4">

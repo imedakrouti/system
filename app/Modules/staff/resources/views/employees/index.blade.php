@@ -175,12 +175,7 @@
     {
       event.preventDefault();
       var form_data = $('#formData').serialize();
-      var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
-      if (itemChecked == "0") {
-        swal("{{trans('staff::local.update_structure')}}", "{{trans('msg.no_records_selected')}}", "info");
-        return;
-      }    
-
+   
       swal({
         title: "{{trans('staff::local.update_structure')}}",
         text: "{{trans('staff::local.confirm_update_structure')}}",
