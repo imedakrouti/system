@@ -98,6 +98,7 @@
       </div>
     </div>
 </div>
+@include('staff::vacations.includes._note')
 @endsection
 @section('script')
 <script>
@@ -463,6 +464,14 @@
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect') 
+    }
+
+    function notes(notes)
+    {
+        event.preventDefault();          
+        $('#notes_text').val(notes);			
+        $('#notes').modal({backdrop: 'static', keyboard: false})
+        $('#notes').modal('show');
     }
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')

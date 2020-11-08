@@ -19,6 +19,7 @@ class Vacation extends Model
         'substitute_employee_id',
         'approval_one_user',
         'approval_two_user',
+        'notes',
         'admin_id'
     ];
     public function __construct(Array $attributes = [])

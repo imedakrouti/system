@@ -99,6 +99,12 @@
                           <input  type="file" class="form-control" name="file_name">
                           
                         </div>
+                    </div>   
+                    <div class="col-lg-6 col-md-12">
+                      <div class="form-group row">
+                        <label >{{ trans('staff::local.notes') }}</label>
+                        <textarea name="notes" class="form-control" cols="30" rows="5">{{old('notes')}}</textarea>                        
+                      </div>
                     </div>                                                                      
                 </div>
                 <div class="form-actions left">

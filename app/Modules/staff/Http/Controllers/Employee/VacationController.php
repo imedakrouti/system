@@ -55,6 +55,9 @@ class VacationController extends Controller
         ->addColumn('employee_name',function($data){
             return $this->getFullEmployeeName($data);
         }) 
+        ->addColumn('vacation_type',function($data){
+            return '<a href="#" onclick="notes('."'".$data->notes."'".')">'.$data->vacation_type.'</a>';
+        })
         ->addColumn('approval1',function($data){
             $username = empty($data->approvalOne->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalOne->username;
             switch ($data->approval1) {
@@ -110,7 +113,8 @@ class VacationController extends Controller
         ->addColumn('employee_image',function($data){
             return $this->employeeImage($data);
         })
-        ->rawColumns(['check','employee_name','attendance_id','approval1','vacation_period','attachments','employee_image','created_at'])
+        ->rawColumns(['check','employee_name','attendance_id','approval1','vacation_period','attachments',
+        'employee_image','created_at','vacation_type'])
         ->make(true);
     }
 
@@ -145,6 +149,7 @@ class VacationController extends Controller
             'to_date',                                   
             'vacation_type',            
             'substitute_employee_id',
+            'notes',
             'admin_id'
         ];
     }
