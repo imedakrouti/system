@@ -727,7 +727,7 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['leave_mins'] != 0 ) {
+                if ($arrays[$i]['leave_mins'] != 0  && $arrays[$i]['late_absent_value'] != 'early') {
                     $data[] = $arrays[$i]['leave_mins'];
                 }
             }
@@ -737,6 +737,7 @@ class PayrollProcessController extends Controller
         }else{
             $this->num_leave_early = count($data);
         }
+    
         return count($data);
     }
 
