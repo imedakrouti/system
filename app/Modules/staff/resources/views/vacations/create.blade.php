@@ -59,7 +59,7 @@
                         <div class="col-lg-2 col-md-6">
                             <div class="form-group">
                               <label>{{ trans('staff::local.vacation_type') }}</label>
-                              <select name="vacation_type" class="form-control" id="vacation_type">                            
+                              <select name="vacation_type" class="form-control" id="vacation_type" required>                            
                                     <option value="">{{ trans('staff::local.select') }}</option>
                                     <option value="Start work">{{ trans('staff::local.start_work') }}</option>
                                     <option value="End work">{{ trans('staff::local.end_work') }}</option>

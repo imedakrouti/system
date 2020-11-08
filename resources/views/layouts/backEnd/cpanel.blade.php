@@ -158,7 +158,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
                 $('#view').html(data.view);
             }
         });
-    },5000); //5000
+    },60000); //1000 second
 
 </script>
 <script>$(".se-pre-con").fadeOut("slow");</script>

@@ -63,6 +63,13 @@ class AddTargetLastMainView extends Migration
                 END as main_lates,
             CASE
                     WHEN main_attendance_sheet.`clock_in` != '' AND `main_attendance_sheet`.`clock_out` = '' THEN 0
+                    WHEN main_attendance_sheet.saturday = '' THEN 0
+                    WHEN main_attendance_sheet.sunday = '' THEN 0
+                    WHEN main_attendance_sheet.monday = '' THEN 0
+                    WHEN main_attendance_sheet.tuesday = '' THEN 0
+                    WHEN main_attendance_sheet.wednesday = '' THEN 0
+                    WHEN main_attendance_sheet.thursday = '' THEN 0
+                    WHEN main_attendance_sheet.friday = '' THEN 0
                     ELSE IF(main_attendance_sheet.leave_early_after_request = 0 ,0,main_attendance_sheet.leave_early_after_request)
                 END as leave_mins,
             CASE

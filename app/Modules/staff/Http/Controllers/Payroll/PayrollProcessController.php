@@ -124,11 +124,79 @@ class PayrollProcessController extends Controller
     }
     public function create()
     {
+        if (request()->ajax()) {
+            $data = Employee::whereDoesntHave('payrollSheetEmployee')
+            ->where('salary_suspend','no')->work()->get();  
+            return $this->dataTable($data);
+        }
         $payrollSheets = PayrollSheet::all();
         $title = trans('staff::local.process_payroll');
         return view('staff::payrolls.process-payroll.create',
         compact('payrollSheets','title'));
     }
+    private function dataTable($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('employee_name',function($data){
+            return $this->getFullEmployeeName($data);
+        })
+        ->addColumn('employee_image',function($data){
+            return $this->employeeImage($data);
+        })
+        ->addColumn('working_data',function($data){
+            return $this->workingData($data);
+        })
+        ->addColumn('position',function($data){
+            return !empty($data->position->ar_position)?
+            (session('lang') == 'ar'?$data->position->ar_position:$data->position->en_position):'';
+        })
+        ->rawColumns(['employee_name','working_data','position','employee_image'])
+        ->make(true);
+    }
+    private function getFullEmployeeName($data)
+    {
+        $employee_name = '';
+        if (session('lang') == 'ar') {
+            $employee_name = '<a target="blank" href="'.route('employees.show',$data->id).'">' .$data->ar_st_name . ' ' . $data->ar_nd_name.
+            ' ' . $data->ar_rd_name.' ' . $data->ar_th_name.'</a>';
+        }else{
+            $employee_name = '<a target="blank" href="'.route('employees.show',$data->id).'">' .$data->en_st_name . ' ' . $data->en_nd_name.
+            ' ' . $data->th_rd_name.' ' . $data->th_th_name.'</a>';
+        }
+        return $employee_name;
+    }
+    private function workingData($data)
+    {
+        $sector = '';
+        if (!empty($data->sector->ar_sector)) {
+            $sector = session('lang') == 'ar' ?  '<span class="blue">'.$data->sector->ar_sector . '</span>': '<span class="blue">'.$data->sector->en_sector . '</span>';            
+        }
+        $department = '';
+        if (!empty($data->department->ar_department)) {
+            $department = session('lang') == 'ar' ?  '<span class="purple">'.$data->department->ar_department . '</span>': '<span class="blue">'.$data->department->en_department . '</span>';            
+        }
+        $section = '';
+        if (!empty($data->section->ar_section)) {
+            $section = session('lang') == 'ar' ?  '<span class="red">'.$data->section->ar_section . '</span>': '<span class="blue">'.$data->section->en_section . '</span>';            
+        }
+        return $sector . ' '. $department . '<br>' .  $section ;
+    }
+    private function employeeImage($data)
+    {
+        $employee_id = isset($data->id) ? $data->id : $data->employee_id;   
+        $image_path = $data->gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';     
+        return !empty($data->employee_image)?
+            '<a href="'.route('employees.show',$employee_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset('images/employeesImages/'.$data->employee_image).'" />
+            </a>':
+            '<a href="'.route('employees.show',$employee_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset($image_path).'" />
+            </a>';
+    }
+
 
     public function store()
     {      
@@ -727,7 +795,7 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['leave_mins'] != 0  && $arrays[$i]['late_absent_value'] != 'early') {
+                if ($arrays[$i]['leave_mins'] != 0  && $arrays[$i]['target'] != 'early') {
                     $data[] = $arrays[$i]['leave_mins'];
                 }
             }
@@ -736,7 +804,7 @@ class PayrollProcessController extends Controller
             $this->num_leave_early = 0;
         }else{
             $this->num_leave_early = count($data);
-        }
+        }   
     
         return count($data);
     }

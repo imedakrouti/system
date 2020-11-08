@@ -2,6 +2,9 @@
 @section('sidebar')
 @include('layouts.backEnd.includes.sidebars._staff')
 @endsection
+@section('styles')
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+@endsection
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
@@ -18,6 +21,7 @@
       </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -71,4 +75,67 @@
       </div>
     </div>
 </div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-content collapse show">
+        <div class="card-header">
+          <h4 class="card-title">{{ trans('staff::local.employee_no_payroll') }}</h4>
+          <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+        </div>
+        <div class="card-body card-dashboard">
+            <div class="table-responsive">                
+                  <table id="dynamic-table" class="table data-table" >
+                      <thead class="bg-info white">
+                          <tr>                              
+                              <th>#</th>
+                              <th>{{trans('staff::local.employee_image')}}</th>
+                              <th>{{trans('staff::local.attendance_id')}}</th>                                
+                              <th>{{trans('staff::local.employee_name')}}</th>                              
+                              <th>{{trans('staff::local.hiring_date')}}</th>                              
+                              <th>{{trans('staff::local.working_data')}}</th>
+                              <th>{{trans('staff::local.position')}}</th>                              
+                          </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                  </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+@section('script')
+<script>
+     $(function () {
+        var myTable = $('#dynamic-table').DataTable({
+          processing: true,
+          serverSide: false,
+          "paging": true,
+          "ordering": true,
+          "info":     true,
+          "pageLength": 10, // set page records
+          "lengthMenu": [10,20, 50, 100, 200,500],
+          "bLengthChange" : true,                   
+          ajax: "{{ route('payroll-process.create') }}",
+          columns: [              
+              {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},
+              {data: 'employee_image',      name: 'employee_image'},              
+              {data: 'attendance_id',       name: 'attendance_id'},              
+              {data: 'employee_name',       name: 'employee_name'},              
+              {data: 'hiring_date',         name: 'hiring_date'},              
+              {data: 'working_data',        name: 'working_data'},
+              {data: 'position',            name: 'position'},              
+          ],
+          @include('layouts.backEnd.includes.datatables._datatableLang')
+      });
+      @include('layouts.backEnd.includes.datatables._multiSelect')
+    });
+</script>
+@include('layouts.backEnd.includes.datatables._multiSelect')
+});
+@include('layouts.backEnd.includes.datatables._datatable')
 @endsection
