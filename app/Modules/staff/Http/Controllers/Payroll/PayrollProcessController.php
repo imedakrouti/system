@@ -581,12 +581,12 @@ class PayrollProcessController extends Controller
         $data = array();
         for ($i=0; $i < count($arrays) ; $i++) {
             if ($arrays[$i]['employee_id'] == $this->employee_id) {
-                if ($arrays[$i]['vacation_type'] == 'Start work' && $arrays[$i]['vacation_type'] == 'End work' 
-                && $arrays[$i]['vacation_type'] == 'Vacation without pay' && $arrays[$i]['vacation_type'] == 'Sick leave') {
+                if ($arrays[$i]['vacation_type'] == 'Start work' || $arrays[$i]['vacation_type'] == 'End work' 
+                || $arrays[$i]['vacation_type'] == 'Vacation without pay' || $arrays[$i]['vacation_type'] == 'Sick leave') {
                     $data[] = $arrays[$i]['vacation_type'];
                 }
             }
-        }     
+        }    
         $this->count_vacation = count($data);   
     }
 
