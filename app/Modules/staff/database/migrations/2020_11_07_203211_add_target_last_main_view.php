@@ -25,31 +25,38 @@ class AddTargetLastMainView extends Migration
 
                 WHEN main_attendance_sheet.week = 'Saturday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = ''  THEN main_attendance_sheet.saturday_value
                 WHEN main_attendance_sheet.week = 'Saturday' AND main_attendance_sheet.absent_after_holidays = 'True' 
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.sunday_value
                 WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' 
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Monday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.monday_value
                 WHEN main_attendance_sheet.week = 'Monday' AND main_attendance_sheet.absent_after_holidays = 'True'
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Tuesday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.tuesday_value
                 WHEN main_attendance_sheet.week = 'Tuesday' AND main_attendance_sheet.absent_after_holidays = 'True' 
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Wednesday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.wednesday_value
                 WHEN main_attendance_sheet.week = 'Wednesday' AND main_attendance_sheet.absent_after_holidays = 'True'  
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Thursday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.thursday_value
                 WHEN main_attendance_sheet.week = 'Thursday' AND main_attendance_sheet.absent_after_holidays = 'True'  
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.friday_value
                 WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.absent_after_holidays = 'True'  
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
              
                 ELSE 0 
@@ -87,31 +94,38 @@ class AddTargetLastMainView extends Migration
 
                 WHEN main_attendance_sheet.week = 'Saturday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = ''  THEN main_attendance_sheet.saturday_value
                 WHEN main_attendance_sheet.week = 'Saturday' AND main_attendance_sheet.absent_after_holidays = 'True' 
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.sunday_value
                 WHEN main_attendance_sheet.week = 'Sunday' AND main_attendance_sheet.absent_after_holidays = 'True' 
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Monday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.monday_value
                 WHEN main_attendance_sheet.week = 'Monday' AND main_attendance_sheet.absent_after_holidays = 'True'
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Tuesday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.tuesday_value
                 WHEN main_attendance_sheet.week = 'Tuesday' AND main_attendance_sheet.absent_after_holidays = 'True' 
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Wednesday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.wednesday_value
                 WHEN main_attendance_sheet.week = 'Wednesday' AND main_attendance_sheet.absent_after_holidays = 'True'  
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Thursday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.thursday_value
                 WHEN main_attendance_sheet.week = 'Thursday' AND main_attendance_sheet.absent_after_holidays = 'True'  
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
                 WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.absent_after_holidays = 'True' AND main_attendance_sheet.vacation_type = '' THEN main_attendance_sheet.friday_value
                 WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.absent_after_holidays = 'True'  
-                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work' ) THEN 1
+                AND (main_attendance_sheet.vacation_type = 'Vacation without pay' OR main_attendance_sheet.vacation_type = 'Sick leave'  OR main_attendance_sheet.vacation_type = 'Start work'
+                 OR main_attendance_sheet.vacation_type = 'End work' ) THEN 1
                 
              
                 ELSE 0 
@@ -124,9 +138,9 @@ class AddTargetLastMainView extends Migration
                 ELSE main_attendance_sheet.minutes_lates_after_request
                 END as main_lates,
             CASE
-                    WHEN main_attendance_sheet.`clock_in` != '' AND `main_attendance_sheet`.`clock_out` = '' THEN 0
+                    WHEN main_attendance_sheet.`clock_in` != '' AND `main_attendance_sheet`.`clock_out` = '' THEN 0  
                     WHEN main_attendance_sheet.week = 'Saturday' AND main_attendance_sheet.leave_early_after_request > 0 THEN 0                    
-                    WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.leave_early_after_request > 0 THEN 0
+                    WHEN main_attendance_sheet.week = 'Friday' AND main_attendance_sheet.leave_early_after_request > 0 THEN 0  
                     ELSE IF(main_attendance_sheet.leave_early_after_request = 0 ,0,main_attendance_sheet.leave_early_after_request)
                 END as leave_mins,
             CASE
@@ -135,7 +149,7 @@ class AddTargetLastMainView extends Migration
             
             FROM main_attendance_sheet
              "
-        ); 
+        );        
     }
 
     /**
