@@ -13,7 +13,10 @@ class AddColumnNotesVacations extends Migration
      */
     public function up()
     {
-        Schema::table('vacations', function (Blueprint $table) {
+        Schema::connection('mysql')->table('vacations', function (Blueprint $table) {
+            $table->string('notes')->nullable();
+        });
+        Schema::connection('mysql2')->table('vacations', function (Blueprint $table) {
             $table->string('notes')->nullable();
         });
     }
@@ -25,7 +28,10 @@ class AddColumnNotesVacations extends Migration
      */
     public function down()
     {
-        Schema::table('vacations', function (Blueprint $table) {
+        Schema::connection('mysql')->table('vacations', function (Blueprint $table) {
+            $table->dropColumn('notes');
+        });
+        Schema::connection('mysql2')->table('vacations', function (Blueprint $table) {
             $table->dropColumn('notes');
         });
     }
