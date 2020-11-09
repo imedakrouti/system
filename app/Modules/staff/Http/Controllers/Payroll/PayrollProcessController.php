@@ -279,24 +279,6 @@ class PayrollProcessController extends Controller
     }
     private function storeEmployeesNotInFixedTemporaryTables()
     {
-        // $salary_components_fixed = SalaryComponent::has('payrollSheet')
-        // ->where('payroll_sheet_id',request('payroll_sheet_id'))        
-        // ->fixed()->sort()->employee()->get();    
-
-        // foreach ($salary_components_fixed as $comp_id) {
-        //     $employees_fixed = Employee::with('fixedComponent','payrollSheetEmployee')
-        //     ->whereHas('payrollSheetEmployee',function($q){
-        //         $q->where('payroll_sheet_id',request('payroll_sheet_id')) ;
-        //     })
-        //     ->whereHas('fixedComponent',function($q) use ($comp_id){
-        //         $q->where('salary_component_id','!=',$comp_id->id) ;
-        //     })
-        //     ->get();
-            
-        //     foreach ($employees_fixed as $employee) {
-        //         $this->storePayrollComponent('' , 0, $employee->id, $comp_id->id,$comp_id->sort);                
-        //     }          
-        // }
         $employees_temporary = Employee::whereDoesntHave('temporaryComponent')->with('payrollSheetEmployee')
         ->whereHas('payrollSheetEmployee',function($q){
             $q->where('payroll_sheet_id',request('payroll_sheet_id')) ;

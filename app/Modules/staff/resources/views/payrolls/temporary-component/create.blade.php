@@ -35,8 +35,10 @@
                             <option value="">{{ trans('staff::local.select') }}</option>
                             @foreach ($components as $component)
                                 <option {{old('salary_component_id') == $component->id ? 'selected' :''}} value="{{$component->id}}">
-                                      {{session('lang') == 'ar' ? $component->payrollSheet->ar_sheet_name . ' - ' . $component->ar_item : 
-                                      $component->payrollSheet->en_sheet_name . ' - ' . $component->en_item}}                                  
+                                  @if (!empty($component->payrollSheet->ar_sheet_name))
+                                      {{session('lang') == 'ar'  ? $component->payrollSheet->ar_sheet_name . ' - ' . $component->ar_item : 
+                                      $component->payrollSheet->en_sheet_name . ' - ' . $component->en_item}}                                                                        
+                                  @endif
                                 </option>
                             @endforeach
                         </select> <br>
