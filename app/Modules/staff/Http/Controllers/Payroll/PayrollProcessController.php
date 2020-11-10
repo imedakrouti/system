@@ -60,8 +60,8 @@ class PayrollProcessController extends Controller
                         return '<a href="'.route('payroll-process.show',$data->code).'" >'.$sheet_name.'</a>';
                     })
                     ->addColumn('username',function($data){
-                        return $data->username ;
-                        // . '<br>' . $data->created_at;
+                        return '<span class="purple">'.$data->username .'</span>'
+                        . '<br>' . $data->created_at;
                     })
                     ->addColumn('reports',function($data){
                         return $this->reports($data);
