@@ -38,10 +38,16 @@
                     </a>
                 </li>                
                               
-
                 <li class=" nav-item {{request()->segment(2)=='trash'?'active':''}}">
                     <a href="{{route('employees.trash')}}"><i class="la la-trash">
                         </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.employees_trash') }}</span>
+                    </a>
+                </li>
+
+
+                <li class=" nav-item {{request()->segment(2)=='reports'?'active':''}}">
+                    <a href="{{route('employees.reports')}}"><i class="la la-file-text">
+                        </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.reports') }}</span>
                     </a>
                 </li>
             </ul>

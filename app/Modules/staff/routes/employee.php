@@ -20,7 +20,6 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('advanced-search/employees/filter','EmployeeController@advancedSearchPage')->name('employees.advanced-search');
     Route::put('employees/advanced-search/ajax','EmployeeController@search')->name('employees.advancedSearch');
 
-
     // attachments
     Route::resource('attachments','AttachmentController')->except('destroy','show');
     Route::post('attachments/destroy','AttachmentController@destroy')->name('attachments.destroy');
@@ -36,7 +35,6 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::post('loans-confirm/loans/reject','LoanController@rejectConfirm')->name('loans.reject-confirm');  
     Route::put('loans/filter','LoanController@filter')->name('loans.filter');
     Route::put('loans/filter/confirm','LoanController@filterConfirm')->name('loans.filter-confirm');
-
 
     // Deduction
     Route::resource('deductions','DeductionController')->except('destroy','show');
@@ -64,7 +62,6 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('vacations-balance/vacations','VacationController@balance')->name('vacations.balance');
     Route::post('vacations-balance/vacations','VacationController@setBalance')->name('vacations.set-balance');
 
-
     // Leave Permissions
     Route::resource('leave-permissions','LeavePermissionController')->except('destroy','show','edit','update');
     Route::post('leave-permissions/destroy','LeavePermissionController@destroy')->name('leave-permissions.destroy');  
@@ -90,5 +87,16 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::put('attendances/summary','AttendanceController@summary')->name('attendances.summary');  
     Route::get('attendances/logs/sheet/report','AttendanceController@attendanceSheetReport')->name('attendances.report');  
 
+    // reports
+    Route::get('reports/print','EmployeeController@employeesReports')->name('employees.reports');
+    Route::get('reports/print/contacts','EmployeeController@contacts')->name('employees.contacts');
+    Route::get('reports/print/insurance','EmployeeController@insurance')->name('employees.insurance');
+    Route::get('reports/print/tax','EmployeeController@tax')->name('employees.tax');
+    Route::get('reports/print/bus','EmployeeController@bus')->name('employees.bus');
+    Route::get('reports/print/salaries','EmployeeController@salaries')->name('employees.salaries');
+    Route::get('reports/print/contract','EmployeeController@contract')->name('employees.contract');
+    Route::get('reports/print/salarySuspended','EmployeeController@salarySuspended')->name('employees.salarySuspended');
+    Route::get('reports/print/timetable','EmployeeController@noTimetable')->name('employees.timetable');
+    Route::get('reports/print/requiredDocument','EmployeeController@requiredDocument')->name('employees.requiredDocument');
 
 });  

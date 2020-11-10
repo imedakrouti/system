@@ -933,4 +933,357 @@ class EmployeeController extends Controller
         ->rawColumns(['action','check','employee_name','mobile','working_data','position','reports','employee_image'])
         ->make(true);
     }
+
+    public function employeesReports()
+    {
+        $sectors = Sector::sort()->get();
+        $departments = Department::sort()->get();
+        $sections = SEction::sort()->get();
+        $title = trans('staff::local.reports');
+        return view('staff::employees.reports.reports-page',
+        compact('title','sectors','departments','sections'));
+    }
+
+    public function contacts()
+    {        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $where = [
+            ['sector_id' ,request('sector_id')],
+            ['department_id' ,request('department_id')],
+            ['section_id' ,request('section_id')],
+        ];
+        $employees = Employee::with('sector','department','section','position')->work()
+        ->where($where)
+        ->orderBy('attendance_id','asc')               
+        ->get();
+
+        $sectors = Sector::findOrFail(request('sector_id'));
+        $sector_name = session('lang') == 'ar' ? $sectors->ar_sector : $sectors->en_sector;
+
+        $departments = Department::findOrFail(request('department_id'));
+        $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
+
+ 
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.employees_contact'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'employees'                     => $employees,                
+            'sector_name'                   => $sector_name,                
+            'department_name'               => $department_name,                                    
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::employees.reports.contacts', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employees_contact').'.pdf');
+    }
+    public function insurance()
+    {        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $where = [
+            ['sector_id' ,request('sector_id')],
+            ['department_id' ,request('department_id')],
+            ['section_id' ,request('section_id')],
+            ['social_insurance' ,'yes'],
+        ];
+        $employees = Employee::with('sector','department','section','position')->work()
+        ->where($where)
+        ->orderBy('attendance_id','asc')               
+        ->get();
+
+        $sectors = Sector::findOrFail(request('sector_id'));
+        $sector_name = session('lang') == 'ar' ? $sectors->ar_sector : $sectors->en_sector;
+
+        $departments = Department::findOrFail(request('department_id'));
+        $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
+
+ 
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.employees_insurance'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'employees'                     => $employees,                
+            'sector_name'                   => $sector_name,                
+            'department_name'               => $department_name,                                    
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::employees.reports.insurance', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employees_insurance').'.pdf');
+    }
+    public function tax()
+    {        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $where = [
+            ['sector_id' ,request('sector_id')],
+            ['department_id' ,request('department_id')],
+            ['section_id' ,request('section_id')],
+            ['tax_value' ,'!=',0],
+        ];
+        $employees = Employee::with('sector','department','section','position')->work()
+        ->where($where)
+        ->orderBy('attendance_id','asc')               
+        ->get();
+
+        $sectors = Sector::findOrFail(request('sector_id'));
+        $sector_name = session('lang') == 'ar' ? $sectors->ar_sector : $sectors->en_sector;
+
+        $departments = Department::findOrFail(request('department_id'));
+        $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
+
+ 
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.employees_tax'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'employees'                     => $employees,                
+            'sector_name'                   => $sector_name,                
+            'department_name'               => $department_name,                                    
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::employees.reports.tax', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employees_tax').'.pdf');
+    }
+    public function bus()
+    {        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $where = [
+            ['sector_id' ,request('sector_id')],
+            ['department_id' ,request('department_id')],
+            ['section_id' ,request('section_id')],
+            ['bus_value' ,'!=',0],
+        ];
+        $employees = Employee::with('sector','department','section','position')->work()
+        ->where($where)
+        ->orderBy('attendance_id','asc')               
+        ->get();
+
+        $sectors = Sector::findOrFail(request('sector_id'));
+        $sector_name = session('lang') == 'ar' ? $sectors->ar_sector : $sectors->en_sector;
+
+        $departments = Department::findOrFail(request('department_id'));
+        $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
+
+ 
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.employees_bus'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'employees'                     => $employees,                
+            'sector_name'                   => $sector_name,                
+            'department_name'               => $department_name,                                    
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::employees.reports.bus', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employees_bus').'.pdf');
+    }
+    public function salaries()
+    {        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $where = [
+            ['sector_id' ,request('sector_id')],
+            ['department_id' ,request('department_id')],
+            ['section_id' ,request('section_id')],            
+        ];
+        $employees = Employee::with('sector','department','section','position')->work()
+        ->where($where)
+        ->orderBy('attendance_id','asc')               
+        ->get();
+
+        $sectors = Sector::findOrFail(request('sector_id'));
+        $sector_name = session('lang') == 'ar' ? $sectors->ar_sector : $sectors->en_sector;
+
+        $departments = Department::findOrFail(request('department_id'));
+        $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
+
+ 
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.employees_salaries'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'employees'                     => $employees,                
+            'sector_name'                   => $sector_name,                
+            'department_name'               => $department_name,                                    
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::employees.reports.salaries', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employees_salaries').'.pdf');
+    }
+    public function salarySuspended()
+    {        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $where = [
+            ['sector_id' ,request('sector_id')],
+            ['department_id' ,request('department_id')],
+            ['section_id' ,request('section_id')],            
+            ['salary_suspend' ,'yes'],            
+        ];
+        $employees = Employee::with('sector','department','section','position')->work()
+        ->where($where)
+        ->orderBy('attendance_id','asc')               
+        ->get();
+
+        $sectors = Sector::findOrFail(request('sector_id'));
+        $sector_name = session('lang') == 'ar' ? $sectors->ar_sector : $sectors->en_sector;
+
+        $departments = Department::findOrFail(request('department_id'));
+        $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
+
+ 
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.employees_salary_suspended'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'employees'                     => $employees,                
+            'sector_name'                   => $sector_name,                
+            'department_name'               => $department_name,                                    
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::employees.reports.suspended', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employees_salary_suspended').'.pdf');
+    }
+    public function noTimetable()
+    {        
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $where = [
+            ['sector_id' ,request('sector_id')],
+            ['department_id' ,request('department_id')],
+            ['section_id' ,request('section_id')],                        
+        ];
+        $employees = Employee::with('sector','department','section','position')->work()
+        ->where($where)
+        ->whereNull('timetable_id')
+        ->orderBy('attendance_id','asc')               
+        ->get();
+
+        $sectors = Sector::findOrFail(request('sector_id'));
+        $sector_name = session('lang') == 'ar' ? $sectors->ar_sector : $sectors->en_sector;
+
+        $departments = Department::findOrFail(request('department_id'));
+        $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
+
+ 
+
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.employees_no_timetable'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'employees'                     => $employees,                
+            'sector_name'                   => $sector_name,                
+            'department_name'               => $department_name,                                    
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 65,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::employees.reports.timetable', $data,[],$config);
+        return $pdf->stream(trans('staff::local.employees_no_timetable').'.pdf');
+    }
+
 }
