@@ -215,13 +215,12 @@ class VacationController extends Controller
             'file_name'         => $this->file_name,
             'count'             => $this-> getDaysCount(),
         ]);    
-        $this->InsertVacationPeriod($vacation,$employee_id);  
-        
-        // notification
-
-        // deduct from vacation allocated
-        Employee::where('id',$employee_id)->
-        update(['vacation_allocated' => ($vacation_allocated - $this->getDaysCount()) ]);
+        $this->InsertVacationPeriod($vacation,$employee_id);                  
+        if (request('vacation_type') == trans('staff::local.regular_vacation') || request('vacation_type') == 'Regular vacation') { //vacation_type
+            // deduct from vacation allocated            
+            Employee::where('id',$employee_id)->
+            update(['vacation_allocated' => ($vacation_allocated - $this->getDaysCount()) ]);            
+        }
     }
 
     private function InsertVacationPeriod($vacation,$employee_id)
