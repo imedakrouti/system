@@ -1096,14 +1096,7 @@ class EmployeeController extends Controller
             toast(trans('staff::local.no_logo_found'),'error');
             return back()->withInput();
         }  
-        $where = [
-            ['sector_id' ,request('sector_id')],
-            ['department_id' ,request('department_id')],
-            ['section_id' ,request('section_id')],
-            ['bus_value' ,'!=',0],
-        ];
-        $employees = Employee::with('sector','department','section','position')->work()
-        ->where($where)
+        $employees = Employee::with('sector','department','section','position')->work()        
         ->orderBy('attendance_id','asc')               
         ->get();
 
@@ -1193,14 +1186,7 @@ class EmployeeController extends Controller
             toast(trans('staff::local.no_logo_found'),'error');
             return back()->withInput();
         }  
-        $where = [
-            ['sector_id' ,request('sector_id')],
-            ['department_id' ,request('department_id')],
-            ['section_id' ,request('section_id')],            
-            ['salary_suspend' ,'yes'],            
-        ];
-        $employees = Employee::with('sector','department','section','position')->work()
-        ->where($where)
+        $employees = Employee::with('sector','department','section','position')->work()        
         ->orderBy('attendance_id','asc')               
         ->get();
 
@@ -1209,8 +1195,6 @@ class EmployeeController extends Controller
 
         $departments = Department::findOrFail(request('department_id'));
         $department_name = session('lang') == 'ar' ? $departments->ar_department : $departments->en_department;
-
- 
 
         $header = HrReport::first()->header;        
         $data = [         
@@ -1242,13 +1226,8 @@ class EmployeeController extends Controller
             toast(trans('staff::local.no_logo_found'),'error');
             return back()->withInput();
         }  
-        $where = [
-            ['sector_id' ,request('sector_id')],
-            ['department_id' ,request('department_id')],
-            ['section_id' ,request('section_id')],                        
-        ];
-        $employees = Employee::with('sector','department','section','position')->work()
-        ->where($where)
+  
+        $employees = Employee::with('sector','department','section','position')->work()        
         ->whereNull('timetable_id')
         ->orderBy('attendance_id','asc')               
         ->get();
