@@ -54,15 +54,29 @@
         <div role="tabpanel" class="tab-pane active" id="tabVerticalLeft11" aria-expanded="true"
             aria-labelledby="baseVerticalLeft1-tab1">
             <h4 class="purple">{{ trans('staff::local.basic_data') }}</h4>
-
-            <div class="col-lg-1 col-md-3">
-                <div class="form-group row">
-                <label>{{ trans('staff::local.attendance_id') }}</label>
-                <input type="number" min="0" class="form-control " value="{{old('attendance_id')}}"                             
-                    name="attendance_id" required>   
-                <span class="red">{{ trans('staff::local.required') }}</span>                                                     
-                </div>
-            </div>
+            <div class="row" style="margin-left: 0;">
+              <div class="col-lg-2 col-md-3">
+                  <div class="form-group">
+                  <label>{{ trans('staff::local.attendance_id') }}</label>
+                  <input type="number" min="0" class="form-control " value="{{old('attendance_id')}}"                             
+                      name="attendance_id" required>   
+                  <span class="red">{{ trans('staff::local.required') }}</span>                                                     
+                  </div>
+              </div>
+              <div class="col-lg-3 col-md-3">
+                  <div class="form-group">
+                  <label>{{ trans('staff::local.domain_role') }}</label>
+                  <select name="domain_role" class="form-control">
+                    <option value="null">{{ trans('staff::local.select') }}</option>
+                    <option value="super admin">{{ trans('staff::local.super_admin') }}</option>
+                    <option value="manager">{{ trans('staff::local.manager') }}</option>
+                    <option value="super visor">{{ trans('staff::local.super_visor') }}</option>
+                    <option value="staff">{{ trans('staff::local.staff') }}</option>
+                    <option value="teacher">{{ trans('staff::local.teacher') }}</option>                    
+                  </select>
+                  </div>
+              </div>
+           </div>
 
             <div class="row" style="margin-left: 0;">
                 <div class="col-lg-3 col-md-6">

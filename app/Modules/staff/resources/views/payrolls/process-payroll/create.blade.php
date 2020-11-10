@@ -50,13 +50,13 @@
                       <div class="col-lg-2 col-md-12">
                           <div class="form-group">
                             <label>{{ trans('staff::local.payroll_from_date') }}</label>
-                            <input type="date" class="form-control" name="from_date">                            
+                            <input type="date" class="form-control" name="from_date" value="{{old('from_date')}}">                            
                           </div>
                       </div>                                                                          
                       <div class="col-lg-2 col-md-12">
                         <div class="form-group">
                           <label>{{ trans('staff::local.payroll_to_date') }}</label>
-                          <input type="date" class="form-control" name="to_date">                          
+                          <input type="date" class="form-control" name="to_date" value="{{old('to_date')}}">                          
                         </div>
                     </div> 
                     </div>

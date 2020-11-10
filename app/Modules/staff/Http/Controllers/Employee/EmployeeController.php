@@ -145,6 +145,8 @@ class EmployeeController extends Controller
             // create user for employee
             $user_id = Admin::create([
                 'name'          => request('en_st_name'),
+                'ar_name'       => request('ar_st_name'),
+                'domain_role'   => request('domain_role'),
                 'username'      => strtolower(str_replace(' ', '', trim(request('en_st_name')))).request('attendance_id'),
                 'email'         => request('email'),
                 'password'      => 'password'.request('attendance_id'),

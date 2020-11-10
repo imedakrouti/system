@@ -25,7 +25,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','username', 'email', 'password','image_profile','lang','status','adminGroupId'
+        'name','username', 'email', 'password','image_profile','lang','status','adminGroupId','ar_name','domain_role'
     ];
 
     /**
@@ -60,6 +60,17 @@ class Admin extends Authenticatable
     public function getStatusAttribute()
     {
         return $this->attributes['status'] == 'enable' ? trans('admin.active') : trans('admin.inactive');
+    }
+    public function getDomainRoleAttribute()
+    {
+        switch ($this->attributes['domain_role']) {
+            case 'super admin': return trans('staff::local.super_admin');
+            case 'manager': return trans('staff::local.manager');
+            case 'super visor': return trans('staff::local.super_visor');
+            case 'staff': return trans('staff::local.staff');                           
+            case 'owner': return trans('staff::local.owner');                           
+            case 'none': return trans('staff::local.none_role');                           
+        }        
     }
     public function getLangAttribute()
     {

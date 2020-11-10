@@ -39,20 +39,19 @@
 
                     <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" for="userinput1">{{ trans('admin.account_name') }}</label>
+                          <label class="col-md-3 label-control" >{{ trans('admin.account_name') }}</label>
                           <div class="col-md-9">
                             <input type="text" required class="form-control" value="{{old('name')}}" placeholder="{{ trans('admin.account_name') }}"
                               name="name">
                           </div>
                         </div>
                       </div>
-
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" >{{ trans('admin.username') }}</label>
+                          <label class="col-md-3 label-control" >{{ trans('admin.account_ar_name') }}</label>
                           <div class="col-md-9">
-                            <input type="text" required class="form-control" value="{{old('username')}}" placeholder="{{ trans('admin.username') }}"
-                            name="username" >
+                            <input type="text" required class="form-control" value="{{old('ar_name')}}" placeholder="{{ trans('admin.account_ar_name') }}"
+                              name="ar_name">
                           </div>
                         </div>
                       </div>
@@ -88,7 +87,33 @@
                               </select>
                             </div>
                           </div>
+                      </div>
+                      <h6 class="blue">{{ trans('admin.login_data') }}</h6>
+                      <hr>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-md-3 label-control" >{{ trans('staff::local.domain_role') }}</label>
+                            <div class="col-md-9">
+                              <select name="domain_role" class="form-control">
+                                <option {{old('domain_role') == '' ?'selected':''}} value="">{{ trans('staff::local.select') }}</option>
+                                <option {{old('domain_role') == 'super admin' ?'selected':''}} value="super admin">{{ trans('staff::local.super_admin') }}</option>
+                                <option {{old('domain_role') == 'manager' ?'selected':''}} value="manager">{{ trans('staff::local.manager') }}</option>
+                                <option {{old('domain_role') == 'super visor' ?'selected':''}} value="super visor">{{ trans('staff::local.super_visor') }}</option>
+                                <option {{old('domain_role') == 'staff' ?'selected':''}} value="staff">{{ trans('staff::local.staff') }}</option>
+                                <option {{old('domain_role') == 'teacher' ?'selected':''}} value="teacher">{{ trans('staff::local.teacher') }}</option>                    
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" >{{ trans('admin.username') }}</label>
+                          <div class="col-md-9">
+                            <input type="text" required class="form-control" value="{{old('username')}}" placeholder="{{ trans('admin.username') }}"
+                            name="username" >
+                          </div>
                         </div>
+                      </div>
                       <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-md-3 label-control" >{{ trans('admin.password') }}</label>

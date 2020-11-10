@@ -38,6 +38,8 @@
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
                                 <th>{{trans('admin.account_name')}}</th>
+                                <th>{{trans('admin.account_ar_name')}}</th>
+                                <th>{{trans('staff::local.domain_role')}}</th>
                                 <th>{{trans('admin.username')}}</th>
                                 <th>{{trans('admin.email')}}</th>
                                 <th>{{trans('admin.account_status')}}</th>
@@ -80,8 +82,10 @@
               {data: 'check',       name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
               {data: 'name',        name: 'name'},
+              {data: 'ar_name',     name: 'ar_name'},
+              {data: 'domain_role', name: 'domain_role'},
               {data: 'username',    name: 'username'},
-              {data: 'email', 		name: 'email'},
+              {data: 'email', 		  name: 'email'},
               {data: 'status', 	    name: 'status'},
               {data: 'action', 	    name: 'action', orderable: false, searchable: false},
           ],

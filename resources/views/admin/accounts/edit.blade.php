@@ -10,7 +10,7 @@
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{aurl('dashboard')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('accounts.index')}}">{{ trans('admin.admin_accounts') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('accounts.index')}}">{{ trans('admin.users_accounts') }}</a></li>
             <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>
@@ -46,13 +46,12 @@
                           </div>
                         </div>
                       </div>
-
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-md-3 label-control" >{{ trans('admin.username') }}</label>
+                          <label class="col-md-3 label-control" >{{ trans('admin.account_ar_name') }}</label>
                           <div class="col-md-9">
-                            <input type="text" required class="form-control" value="{{old('username',$admins->username)}}" placeholder="{{ trans('admin.username') }}"
-                            name="username" >
+                            <input type="text" required class="form-control" value="{{old('ar_name',$admins->ar_name)}}" placeholder="{{ trans('admin.account_ar_name') }}"
+                              name="ar_name">
                           </div>
                         </div>
                       </div>
@@ -89,6 +88,32 @@
                             </div>
                           </div>
                         </div>
+                      <h6 class="blue">{{ trans('admin.login_data') }}</h6>
+                      <hr>                      
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-md-3 label-control" >{{ trans('staff::local.domain_role') }}</label>
+                            <div class="col-md-9">
+                              <select name="domain_role" class="form-control">
+                                <option value="">{{ trans('staff::local.select') }}</option>
+                                <option {{old('domain_role',$admins->domain_role) == trans('staff::local.super_admin')?'selected':''}} value="super admin">{{ trans('staff::local.super_admin') }}</option>
+                                <option {{old('domain_role',$admins->domain_role) == trans('staff::local.manager')?'selected':''}} value="manager">{{ trans('staff::local.manager') }}</option>
+                                <option {{old('domain_role',$admins->domain_role) == trans('staff::local.super_visor')?'selected':''}} value="super visor">{{ trans('staff::local.super_visor') }}</option>
+                                <option {{old('domain_role',$admins->domain_role) == trans('staff::local.staff')?'selected':''}} value="staff">{{ trans('staff::local.staff') }}</option>
+                                <option {{old('domain_role',$admins->domain_role) == trans('staff::local.teacher')?'selected':''}} value="teacher">{{ trans('staff::local.teacher') }}</option>                    
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" >{{ trans('admin.username') }}</label>
+                          <div class="col-md-9">
+                            <input type="text" required class="form-control" value="{{old('username',$admins->username)}}" placeholder="{{ trans('admin.username') }}"
+                            name="username" >
+                          </div>
+                        </div>
+                      </div>
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

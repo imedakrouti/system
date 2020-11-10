@@ -197,20 +197,20 @@ class PayrollProcessController extends Controller
             </a>';
     }
 
-
     public function store()
     {      
+        $this->prePayrollProcess();  
+        $period = PayrollComponent::where('code',$this->payroll_date.request('payroll_sheet_id'))->first();
+        if (!empty($period)) {
+            toast(trans('staff::local.payroll_already_done'),'error');
+            return back()->withInput();
+        }  
+
         set_time_limit(0);
         // to avoid error timeout
         ini_set('mysql.connect_timeout', 300);
         ini_set('default_socket_timeout', 300); 
         
-        $this->prePayrollProcess();  
-        $period = PayrollComponent::where('code',$this->payroll_date.request('payroll_sheet_id'))->first();
-        if (!empty($period)) {
-            toast(trans('staff::local.payroll_already_done') . '[' . $this->from_date->format('Y-m-d') . '][' . $this->to_date->format('Y-m-d') .']' ,'error');
-            return back()->withInput();
-        }        
         $where_net = [
                 ['calculate' , 'net'],
                 ['payroll_sheet_id' , request('payroll_sheet_id')]

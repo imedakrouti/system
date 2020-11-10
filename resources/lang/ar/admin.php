@@ -158,7 +158,7 @@ return
     'vacation_added_confirmed'              => 'تم تسجيل الاجازة واعتمادها',
     'vacations'                             => 'الاجازات',
     'import'                                => 'استيراد',
-    '' => '',
+    'account_ar_name'                       => 'اسم الحساب بالعربي',
     '' => '',
     '' => '',
 ];
