@@ -37,10 +37,11 @@ Route::group(['namespace'=>'Payroll'],function(){
     Route::get('payrolls/annual-increase','AnnualIncreaseController@index')->name('annual-increase.index');
     Route::post('payrolls/annual-increase/update','AnnualIncreaseController@updateSalaries')->name('annual-increase.update');
     
-
+    
     // payroll reports
     Route::get('/payrolls/report/{code}','PayrollProcessController@allEmployeesReport')->name('payroll-report.all');
     Route::get('/payrolls/report/department/get','PayrollProcessController@departmentPayrollReport')->name('payroll-report.department');
+    Route::get('payrolls/reports/salary-slip/get','PayrollProcessController@salarySlipReport')->name('salary-slip.employee');
 
     Route::get('/payrolls/reports/bank/{code}','PayrollReportController@bankReport')->name('payroll-report.bank');
     Route::get('/payrolls/reports/cash/{code}','PayrollReportController@cashReport')->name('payroll-report.cash');

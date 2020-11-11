@@ -61,6 +61,7 @@
 </div>
 
 @include('staff::payrolls.process-payroll.includes._department-reports')
+@include('staff::payrolls.process-payroll.includes._salary-slip')
 @endsection
 @section('script')
 <script>
@@ -134,6 +135,14 @@
             });
           }
     });   
+
+    function salarySlip(code)
+    {
+
+      $('#code-employee').val(code);
+      $('#salarySlip').modal({backdrop: 'static', keyboard: false})
+      $('#salarySlip').modal('show');   
+    }
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

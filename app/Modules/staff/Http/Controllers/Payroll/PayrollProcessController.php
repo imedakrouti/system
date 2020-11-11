@@ -86,8 +86,9 @@ class PayrollProcessController extends Controller
         $sectors = Sector::sort()->get();            
         $departments = Department::sort()->get();
         $title = trans('staff::local.process_payroll');
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::payrolls.process-payroll.index',
-        compact('sectors','departments','title'));  
+        compact('sectors','departments','title','employees'));  
     }
     public function show($code)
     {
@@ -107,7 +108,7 @@ class PayrollProcessController extends Controller
         compact('employees','title','salary_components'));
     }
     private function reports($data)
-    {
+    {        
         return '<div class="btn-group mr-1 mb-1">
                 <button type="button" class="btn btn-primary"> '.trans('student::local.reports').'</button>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
@@ -118,7 +119,8 @@ class PayrollProcessController extends Controller
                     <a target="_blank" class="dropdown-item" href="'.route('payroll-report.all',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.total_payroll_report').'</a>                                             
                     <a onclick="departmentReport('."'$data->code'".')" class="dropdown-item" href="#"><i class="la la-print"></i> '.trans('staff::local.department_payroll_report').'</a>                                                    
                     <a class="dropdown-item" href="'.route('payroll-report.bank',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.payroll_bank').'</a>                                             
-                    <a target="_blank" class="dropdown-item" href="'.route('payroll-report.cash',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.payroll_cash').'</a>                                                                 
+                    <a target="_blank" class="dropdown-item" href="'.route('payroll-report.cash',$data->code).'"><i class="la la-print"></i> '.trans('staff::local.payroll_cash').'</a>                                                                                     
+                    <a onclick="salarySlip('."'$data->code'".')" class="dropdown-item" href="#"><i class="la la-print"></i> '.trans('staff::local.salary_slip').'</a>                                                           
                 </div>
             </div>';
     }
@@ -930,7 +932,6 @@ class PayrollProcessController extends Controller
             $output = '';          
           
             $this->prePayrollProcess();  
-
        
             $this->employees = Employee::work()->where('salary_suspend','no')
             ->where('id',request('employee_id'))->first();
@@ -964,9 +965,53 @@ class PayrollProcessController extends Controller
                 }                
             }
             return json_encode($output);          
-        }
-    
+        }    
+    }
+    public function salarySlipReport()
+    {        
+        $code = request('code');
+        if (empty(logo())) {
+            toast(trans('staff::local.no_logo_found'),'error');
+            return back()->withInput();
+        }  
+        $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
+        $salary_components = SalaryComponent::where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)->sort()->get();
 
+        $employee = Employee::with('sector','department')->with('payrollComponents')
+        ->whereHas('payrollComponents',function($q) use ($code,$payroll_sheet_data){
+            $q->where('code',$code);                                    
+            $q->where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id);
+        })
+        ->where('id',request('employee_id'))               
+        ->first();  
+        if (empty($employee)) {
+            toast(trans('staff::local.employee_not_in_sheet'),'error');
+            return back()->withInput();
+        }      
+        // dd($employee);
+        $header = HrReport::first()->header;        
+        $data = [         
+            'title'                         => trans('staff::local.salary_slip'),                   
+            'logo'                          => logo(),            
+            'header'                        => $header,                
+            'salary_components'             => $salary_components,                
+            'employee'                      => $employee,
+            'payroll_sheet_data'            => $payroll_sheet_data,                                                                                                            
+        ];
+
+        $config = [
+            'orientation'          => 'P',
+            'margin_header'        => 5,
+            'margin_footer'        => 30,
+            'margin_left'          => 10,
+            'margin_right'         => 10,
+            'margin_top'           => 75,// pdf on server required this sizes
+            'margin_bottom'        => session('lang') == 'ar' ? 40 : 45,  // pdf on server required this sizes
+        ]; 
+        ini_set('max_execution_time', '300');
+        ini_set("pcre.backtrack_limit", "5000000");
+        $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.salary-slip', $data,[],$config);
+        return $pdf->stream(trans('staff::local.salary_slip').'.pdf');
     }
 
 }

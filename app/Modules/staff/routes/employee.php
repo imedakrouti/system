@@ -98,5 +98,6 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('reports/print/salarySuspended','EmployeeController@salarySuspended')->name('employees.salarySuspended');
     Route::get('reports/print/timetable','EmployeeController@noTimetable')->name('employees.timetable');
     Route::get('reports/print/requiredDocument','EmployeeController@requiredDocument')->name('employees.requiredDocument');
+    
 
 });  

@@ -8,7 +8,8 @@
         {!!$header!!}
     </div>
     <div class="clear"></div>   
-    <h4 class="center">{{trans('staff::local.employees_salary_suspended')}} </h4>    
+    <h4 class="center">{{trans('staff::local.employees_required_document')}} </h4>   
+    {{$sector_name}} - {{$department_name}}  
 </htmlpageheader>
 <table>
     <thead>
@@ -19,7 +20,7 @@
             <th>{{trans('staff::local.working_data')}}</th>                                                      
             <th>{{trans('staff::local.position')}}</th>
             <th>{{trans('staff::local.mobile1')}}</th>            
-            <th>{{trans('staff::local.salary')}}</th>                                                      
+            <th>{{trans('staff::local.required_documents')}}</th>                                                      
         </tr>
     </thead>
     <tbody>
@@ -38,23 +39,23 @@
                    {{$employee->en_st_name}} {{$employee->en_nd_name}} 
                     {{$employee->en_rd_name}} {{$employee->en_th_name}}   
                   @endif    
-              </td>                                  
+              </td>
               <td>
-                @if (!empty($employee->sector->ar_sector))
-                    @if (session('lang') == 'ar')
-                        {{$employee->sector->ar_sector}} - {{$employee->department->ar_department}}
-                    @else
-                        {{$employee->sector->en_sector}} - {{$employee->department->en_department}}
-                    @endif                      
-                @endif
-              </td>                                  
+                  @if (!empty($employee->sector->ar_sector))
+                        @if (session('lang') == 'ar')
+                            {{$employee->sector->ar_sector}} - {{$employee->department->ar_department}}
+                        @else
+                            {{$employee->sector->en_sector}} - {{$employee->department->en_department}}
+                        @endif                      
+                  @endif
+              </td>                                    
               <td>
                 @isset($employee->position->ar_position)
                     {{session('lang') == 'ar' ? $employee->position->ar_position:$employee->position->en_department}}
                 @endisset
               </td>
               <td>{{$employee->mobile1}}</td>                            
-              <td>{{$employee->salary}}</td>                                  
+              <td>{{$employee->ar_document}}</td>                                  
           </tr>
           @php
               $n++;
@@ -63,7 +64,6 @@
     </tbody>
 </table>
 <htmlpagefooter name="page-footer">  
-    <span style="font-size: 10px;">{DATE j-m-Y} [{{authInfo()->username}}] -{{ trans('staff::local.page') }} {PAGENO}</span>    
-    
+    <span style="font-size: 10px;">{DATE j-m-Y} [{{authInfo()->username}}] -{{ trans('staff::local.page') }} {PAGENO}</span>        
 </htmlpagefooter>
 @include('layouts.backEnd.layout-report.footer')

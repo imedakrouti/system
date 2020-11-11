@@ -79,9 +79,9 @@
                     <div class="card-content collapse show">
                         <div class="card-body">
                           <div class="list-group">
-                            <button type="button" onclick="contacts()" class="list-group-item list-group-item-action"> 1- {{trans('staff::local.employees_contact') }}</button>
-                            <button type="button" onclick="insurance()" class="list-group-item list-group-item-action">2- {{trans('staff::local.employees_insurance') }}</button>
-                            <button type="button" onclick="tax()" class="list-group-item list-group-item-action">3- {{trans('staff::local.employees_tax') }}</button>        
+                            <button type="button" onclick="contacts()" class="list-group-item list-group-item-action"> 1- {{trans('staff::local.employees_contact') }} <span class="red">{{ trans('staff::local.by_department') }}</span></button>
+                            <button type="button" onclick="insurance()" class="list-group-item list-group-item-action">2- {{trans('staff::local.employees_insurance') }} <span class="red">{{ trans('staff::local.by_department') }}</span></button>
+                            <button type="button" onclick="tax()" class="list-group-item list-group-item-action">3- {{trans('staff::local.employees_tax') }} <span class="red">{{ trans('staff::local.by_department') }}</span></button>        
                           </div>
                         </div>
                     </div>
@@ -91,8 +91,8 @@
                         <div class="card-body">
                           <div class="list-group">
                             <button type="button" onclick="bus()" class="list-group-item list-group-item-action">4- {{trans('staff::local.employees_bus') }}</button>
-                            <button type="button" onclick="salaries()" class="list-group-item list-group-item-action">5- {{trans('staff::local.employees_salaries') }}</button>
-                            <button type="button" onclick="contract()" class="list-group-item list-group-item-action">6- {{trans('staff::local.employees_contract') }}</button>        
+                            <button type="button" onclick="salaries()" class="list-group-item list-group-item-action">5- {{trans('staff::local.employees_salaries') }} <span class="red">{{ trans('staff::local.by_department') }}</span></button>
+                            <button type="button" onclick="contract()" class="list-group-item list-group-item-action">6- {{trans('staff::local.employees_contract') }} <span class="red">{{ trans('staff::local.by_department') }}</span></button>        
                           </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                         <div class="list-group">
                           <button type="button" onclick="salarySuspended()" class="list-group-item list-group-item-action">7- {{trans('staff::local.employees_salary_suspended') }}</button>
                           <button type="button" onclick="timetable()" class="list-group-item list-group-item-action">8- {{trans('staff::local.employees_no_timetable') }}</button>
-                          <button type="button" onclick="requiredDocument()" class="list-group-item list-group-item-action">9- {{trans('staff::local.employees_required_document') }}</button>                          
+                          <button type="button" onclick="requiredDocument()" class="list-group-item list-group-item-action">9- {{trans('staff::local.employees_required_document') }} <span class="red">{{ trans('staff::local.by_department') }}</span></button>                          
                         </div>
                       </div>
                   </div>
@@ -114,7 +114,7 @@
       </div>
     </div>
 </div>
-
+@include('staff::employees.includes._contract')
 @endsection
 @section('script')
 <script>
@@ -150,8 +150,17 @@
 
         function contract()
         {
-            $('#filterForm').attr('action',"{{route('employees.contract')}}");
-            $('#filterForm').submit();
+            $('#sector_id').val($('#filter_sector_id').val());
+            $('#department_id').val($('#filter_department_id').val());
+            $('#section_id').val($('#filter_section_id').val());
+            $('#contract').modal({backdrop: 'static', keyboard: false})
+            $('#contract').modal('show'); 
+
+        }
+        function contractSubmit()
+        {
+            $('#frm').attr('action',"{{route('employees.contract')}}");
+            $('#frm').submit();
         }
 
         function salarySuspended()
