@@ -58,9 +58,6 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
             // logs
             Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
         });
-});
+    });
+    Route::get('teacher', 'HomeController@index');
 
-Route::get('/test',function()
-{
-    return view('layouts.backEnd.teacher');
-});
