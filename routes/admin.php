@@ -60,7 +60,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
         });
 });
 
-// Route::get('/test',function()
-// {
-//     dd(authInfo()->user->ar_st_name);
-// });
+Route::get('/test',function()
+{
+    return view('layouts.backEnd.teacher');
+});
