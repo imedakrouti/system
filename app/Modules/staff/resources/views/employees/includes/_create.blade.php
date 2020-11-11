@@ -66,7 +66,7 @@
               <div class="col-lg-3 col-md-3">
                   <div class="form-group">
                   <label>{{ trans('staff::local.domain_role') }}</label>
-                  <select name="domain_role" class="form-control">
+                  <select name="domain_role" class="form-control" required>
                     <option value="null">{{ trans('staff::local.select') }}</option>
                     <option value="super admin">{{ trans('staff::local.super_admin') }}</option>
                     <option value="manager">{{ trans('staff::local.manager') }}</option>
@@ -74,6 +74,7 @@
                     <option value="staff">{{ trans('staff::local.staff') }}</option>
                     <option value="teacher">{{ trans('staff::local.teacher') }}</option>                    
                   </select>
+                  <span class="red">{{ trans('staff::local.required') }}</span>                                                     
                   </div>
               </div>
            </div>
