@@ -30,8 +30,9 @@ class VacationController extends Controller
             $data = Vacation::with('employee')->orderBy('id','desc')->where('approval2','<>','Accepted')->where('approval2','<>','Rejected')->get();
             return $this-> dataTableApproval1($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::vacations.index',
-        ['title'=>trans('staff::local.vacations')]);  
+        ['title'=>trans('staff::local.vacations'),'employees' => $employees]);  
     }
     private function getFullEmployeeName($data)
     {
@@ -523,5 +524,19 @@ class VacationController extends Controller
         }
         toast(trans('staff::local.set_vacation_balance'),'success');
         return redirect()->route('vacations.balance');
+    }
+    public function byEmployee()
+    {
+        if (request()->ajax()) {
+            $vacation_type = empty(request('vacation_type'))? ['vacation_type','<>','']:['vacation_type',request('vacation_type')];
+            $approval1 = empty(request('approval1'))? ['approval1','<>','']:['approval1',request('approval1')];
+            $data = Vacation::with('employee')->orderBy('id','desc')
+            ->where([$vacation_type,$approval1])            
+            ->where('approval2','<>','Accepted')
+            ->where('employee_id',request('employee_id'))
+            ->get();
+
+            return $this-> dataTableApproval1($data);
+        }
     }
 }

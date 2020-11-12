@@ -32,8 +32,9 @@ class LeavePermissionController extends Controller
             ->where('approval2','<>','Accepted')->where('approval2','<>','Rejected')->get();
             return $this-> dataTableApproval1($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::leave-permissions.index',
-        ['title'=>trans('staff::local.leave_permissions')]);  
+        ['title'=>trans('staff::local.leave_permissions'),'employees' => $employees]);  
     }
     private function getFullEmployeeName($data)
     {
@@ -757,6 +758,16 @@ class LeavePermissionController extends Controller
         })
         ->rawColumns(['check','employee_name','attendance_id','workingData','approval1','approval2','reason'])
         ->make(true);
+    }
+    public function byEmployee()
+    {
+        if (request()->ajax()) {
+            $data = LeavePermission::with('employee')->orderBy('id','desc')
+            ->where('approval1',request('approval1'))
+            ->where('employee_id',request('employee_id'))
+            ->get();
+            return $this-> dataTableApproval1($data);
+        }
     }
     
 }

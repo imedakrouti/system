@@ -21,8 +21,9 @@ class LoanController extends Controller
             $data = Loan::with('employee')->orderBy('id','desc')->where('approval2','<>','Accepted')->where('approval2','<>','Rejected')->get();
             return $this-> dataTableApproval1($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::loans.index',
-        ['title'=>trans('staff::local.loans')]);  
+        ['title'=>trans('staff::local.loans'),'employees' => $employees]);  
     }
     private function getFullEmployeeName($data)
     {
@@ -333,6 +334,17 @@ class LoanController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function byEmployee()
+    {
+        if (request()->ajax()) {
+            $data = Loan::with('employee')->orderBy('id','desc')            
+            ->where('approval1',request('approval1'))
+            ->where('employee_id',request('employee_id'))
+            ->get();
+            
+            return $this-> dataTableApproval1($data);
+        }
     }
 
 

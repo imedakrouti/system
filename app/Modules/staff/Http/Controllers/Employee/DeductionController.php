@@ -24,8 +24,9 @@ class DeductionController extends Controller
             ->get();
             return $this-> dataTableApproval1($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::deductions.index',
-        ['title'=>trans('staff::local.deductions')]);  
+        ['title'=>trans('staff::local.deductions'),'employees'=>$employees]);  
     }
     private function getFullEmployeeName($data)
     {
@@ -386,6 +387,17 @@ class DeductionController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function byEmployee()
+    {
+        if (request()->ajax()) {
+            $data = Deduction::with('employee')->orderBy('id','desc')
+            ->whereNull('leave_permission_id')            
+            ->where('employee_id',request('employee_id'))
+            ->where('approval1',request('approval1'))
+            ->get();
+            return $this-> dataTableApproval1($data);
+        }
     }
 
 

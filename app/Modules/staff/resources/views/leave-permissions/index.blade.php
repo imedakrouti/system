@@ -22,29 +22,44 @@
 </div>
 
 <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-content collapse show">
-          <div class="card-body card-dashboard">
-            <form action="#" method="get" id="filterForm" >                
-                <div class="row mt-1">                          
-                    <div class="col-lg-3 col-md-6">
-                        <select name="approval1" class="form-control" id="approval1">                            
+  <div class="col-12">
+    <div class="card">
+      <div class="card-content collapse show">
+        <div class="card-body card-dashboard">
+          <form action="#" method="get" id="filterForm" >                
+              <div class="row mt-1">  
+                  <div class="col-lg-2 col-md-6">
+                      <select name="approval1" class="form-control" id="approval1">                            
+                          <option value="">{{ trans('staff::local.select') }}</option>
+                          <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
+                          <option value="Rejected">{{ trans('staff::local.rejected') }}</option>            
+                          <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
+                          <option value="Pending">{{ trans('staff::local.pending') }}</option>            
+                      </select>
+                  </div>    
+                  <div class="col-lg-3 col-md-12">
+                      <div class="form-group row">                          
+                        <select name="employee_id" id="employee_id" class="form-control select2">
                             <option value="">{{ trans('staff::local.select') }}</option>
-                            <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
-                            <option value="Rejected">{{ trans('staff::local.rejected') }}</option>            
-                            <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
-                            <option value="Pending">{{ trans('staff::local.pending') }}</option>            
-                        </select>
-                    </div> 
-                     
-                </div>
-            </form>
-            
-          </div>
+                            @foreach ($employees as $employee)
+                                <option {{old('staff_id') == $employee->id ? 'selected' :''}} value="{{$employee->id}}">
+                                @if (session('lang') == 'ar')
+                                [{{$employee->attendance_id}}] {{$employee->ar_st_name}} {{$employee->ar_nd_name}} {{$employee->ar_rd_name}} {{$employee->ar_th_name}}
+                                @else
+                                [{{$employee->attendance_id}}] {{$employee->en_st_name}} {{$employee->en_nd_name}} {{$employee->en_rd_name}} {{$employee->en_th_name}}
+                                @endif
+                                </option>
+                            @endforeach
+                        </select> <br>
+                        <span>{{ trans('staff::local.employee_name') }}</span>                                                      
+                      </div>
+                  </div>                                          
+              </div>
+          </form>            
         </div>
       </div>
     </div>
+  </div>
 </div>
 
 <div class="row">
@@ -99,6 +114,9 @@
     });
 
     $('#approval1').on('change',function(){
+         
+      $('#employee_id').val(null).trigger('change');
+
       $('#dynamic-table').DataTable().destroy();
       var approval1 		  = $('#approval1').val();
       
@@ -111,6 +129,30 @@
             data: {
                 _method       : 'PUT',
                 approval1     : approval1,                
+                _token        : '{{ csrf_token() }}'
+            }
+          },
+          @include('staff::leave-permissions.includes._columns'),
+          @include('layouts.backEnd.includes.datatables._datatableLang')
+      });
+      @include('layouts.backEnd.includes.datatables._multiSelect')        
+    })
+
+    $('#employee_id').on('change',function(){
+      $('#dynamic-table').DataTable().destroy();
+      var employee_id 		  = $('#employee_id').val();
+      var approval1 		  = $('#approval1').val();
+      
+      var myTable = $('#dynamic-table').DataTable({
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
+        @include('staff::leave-permissions.includes._buttons'),
+        ajax:{
+            type:'POST',
+            url:'{{route("leave-permissions.employee")}}',
+            data: {
+                _method       : 'PUT',
+                approval1     : approval1,                
+                employee_id   : employee_id,                
                 _token        : '{{ csrf_token() }}'
             }
           },

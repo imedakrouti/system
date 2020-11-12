@@ -35,6 +35,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::post('loans-confirm/loans/reject','LoanController@rejectConfirm')->name('loans.reject-confirm');  
     Route::put('loans/filter','LoanController@filter')->name('loans.filter');
     Route::put('loans/filter/confirm','LoanController@filterConfirm')->name('loans.filter-confirm');
+    Route::put('loans/search/get/employee','LoanController@byEmployee')->name('loans.employee');
 
     // Deduction
     Route::resource('deductions','DeductionController')->except('destroy','show');
@@ -47,6 +48,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::post('deductions-confirm/deductions/reject','DeductionController@rejectConfirm')->name('deductions.reject-confirm');  
     Route::put('deductions/search/get/filter','DeductionController@filter')->name('deductions.filter');
     Route::put('deductions/search/get/filter/confirm','DeductionController@filterConfirm')->name('deductions.filter-confirm');
+    Route::put('deductions/search/get/employee','DeductionController@byEmployee')->name('deductions.employee');
 
     // Vacation
     Route::resource('vacations','VacationController')->except('destroy','show','edit','update');
@@ -61,6 +63,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::put('vacations/search/get/filter/confirm','VacationController@filterConfirm')->name('vacations.filter-confirm');
     Route::get('vacations-balance/vacations','VacationController@balance')->name('vacations.balance');
     Route::post('vacations-balance/vacations','VacationController@setBalance')->name('vacations.set-balance');
+    Route::put('vacations/search/get/employee','VacationController@byEmployee')->name('vacations.employee');
 
     // Leave Permissions
     Route::resource('leave-permissions','LeavePermissionController')->except('destroy','show','edit','update');
@@ -76,6 +79,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('leave-permissions-balance/leave-permissions','LeavePermissionController@balance')->name('leave-permissions.balance');
     Route::post('leave-permissions-balance/leave-permissions','LeavePermissionController@setBalance')->name('leave-permissions.set-balance');
     Route::get('leave-permissions-deduction/leave-permissions','LeavePermissionController@leaveDeduction')->name('leave-permissions.deduction');
+    Route::put('leave-permissions/search/get/employee','LeavePermissionController@byEmployee')->name('leave-permissions.employee');
 
     // attendance
     Route::get('attendances/import','AttendanceController@importPage')->name('attendances.import');
