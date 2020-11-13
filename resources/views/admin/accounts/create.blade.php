@@ -132,6 +132,25 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                            <label  class="col-md-3 label-control">{{ trans('staff::local.employee_name') }}</label>
+                            <div class="col-md-9">
+                              <select name="employee_id" id="employee_id" class="form-control select2">
+                                  <option value="">{{ trans('staff::local.select') }}</option>
+                                  @foreach ($employees as $employee)
+                                      <option {{old('employee_id') == $employee->id ? 'selected' :''}} value="{{$employee->id}}">
+                                      @if (session('lang') == 'ar')
+                                      [{{$employee->attendance_id}}] {{$employee->ar_st_name}} {{$employee->ar_nd_name}} {{$employee->ar_rd_name}} {{$employee->ar_th_name}}
+                                      @else
+                                      [{{$employee->attendance_id}}] {{$employee->en_st_name}} {{$employee->en_nd_name}} {{$employee->en_rd_name}} {{$employee->en_th_name}}
+                                      @endif
+                                      </option>
+                                  @endforeach
+                              </select>                            
+                            </div>
+                          </div>
+                      </div>
                 </div>
                 <div class="form-actions left">
                     <button type="submit" class="btn btn-success">

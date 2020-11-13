@@ -70,7 +70,7 @@
 
 <div class="row">
   <div class="col-12">
-    <div class="card">
+    <div class="card hidden" id="attendance">
       <div class="card-content collapse show">
         <div class="card-body card-dashboard">
           <div class="table-responsive">
@@ -144,6 +144,7 @@
     function searchFilter()
     {
         summary()
+        $('#attendance').removeClass('hidden');      
         var attendance_id   = $('#attendance_id').val();
         var from_date       = $('#from_date').val();
         var to_date         = $('#to_date').val();

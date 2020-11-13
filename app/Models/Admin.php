@@ -69,6 +69,7 @@ class Admin extends Authenticatable
             case 'super visor': return trans('staff::local.super_visor');
             case 'staff': return trans('staff::local.staff');                           
             case 'owner': return trans('staff::local.owner');                           
+            case 'teacher': return trans('staff::local.teacher');                           
             case 'none': return trans('staff::local.none_role');                           
         }        
     }
@@ -336,7 +337,7 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Employees\LeavePermission','admin_id');
     }
-    public function user()
+    public function employeeUser()
     {
         return $this->hasOne('Staff\Models\Employees\Employee','user_id');
     }

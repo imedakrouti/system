@@ -12,24 +12,21 @@
           </div>
           <div class="modal-body">   
             <div class="table-responsive">
-                <form action="" id='formData' method="post">
-                  @csrf
-                  <table id="dynamic-table" class="table data-table" style="width: 100%">
-                      <thead class="bg-info white">
-                          <tr>                              
-                              <th>#</th>                              
-                              <th>{{trans('staff::local.amount')}}</th>                                
-                              <th>{{trans('staff::local.date_deduction')}}</th>                                                                
-                              <th>{{trans('staff::local.approval1')}}</th>                                                                                                
-                              <th>{{trans('staff::local.approval2')}}</th>                                                                                                                              
-                              <th>{{trans('staff::local.deduction_updated_at')}}</th>                                                                                                
-                              <th>{{trans('staff::local.reason')}}</th>                                                                                                                              
-                          </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                  </table>
-                </form>
+              <table id="dynamic-table" class="table data-table" style="width: 100%">
+                <thead class="bg-info white">
+                    <tr>                              
+                        <th>#</th>                              
+                        <th>{{trans('staff::local.amount')}}</th>                                
+                        <th>{{trans('staff::local.date_deduction')}}</th>                                                                
+                        <th>{{trans('staff::local.approval1')}}</th>                                                                                                
+                        <th>{{trans('staff::local.approval2')}}</th>                                                                                                                              
+                        <th>{{trans('staff::local.deduction_updated_at')}}</th>                                                                                                
+                        <th>{{trans('staff::local.reason')}}</th>                                                                                                                              
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
             </div>
          
               <div class="form-actions left">           

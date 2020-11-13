@@ -31,7 +31,7 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
             Route::any('/logout','AdminAuth@logout')->name('logout');
             Route::get('/','DashboardController@index');
             // dashboards
-            Route::get('/dashboard','DashboardController@index')->name('main.dashboard');
+            Route::get('/dashboard/staff','DashboardController@index')->name('main.dashboard');            
                         
 
             // change password
@@ -57,7 +57,11 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
 
             // logs
             Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-        });
     });
-    Route::get('teacher', 'HomeController@index');
+});
+
+Route::get('/set-users','HomeController@index');
+
+
+    
 

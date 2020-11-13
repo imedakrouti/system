@@ -34,7 +34,7 @@
                           <select name="employee_id[]" id="employee_id" class="form-control select2" required multiple>
                               <option value="">{{ trans('staff::local.select') }}</option>
                               @foreach ($employees as $employee)
-                                  <option {{old('staff_id') == $employee->id ? 'selected' :''}} value="{{$employee->id}}">
+                                  <option {{old('employee_id') == $employee->id ? 'selected' :''}} value="{{$employee->id}}">
                                   @if (session('lang') == 'ar')
                                   [{{$employee->attendance_id}}] {{$employee->ar_st_name}} {{$employee->ar_nd_name}} {{$employee->ar_rd_name}} {{$employee->ar_th_name}}
                                   @else

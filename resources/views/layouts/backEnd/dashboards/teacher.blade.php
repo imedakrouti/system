@@ -89,6 +89,7 @@
 </head>
 <body class="horizontal-layout horizontal-menu horizontal-menu-padding content-detached-right-sidebar   menu-expanded"
 data-open="click" data-menu="horizontal-menu" data-col="content-detached-right-sidebar" >
+<div class="se-pre-con"></div>
   <!-- fixed-top-->
   <nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow navbar-static-top navbar-light navbar-brand-center">
     <div class="navbar-wrapper">
@@ -313,19 +314,23 @@ data-open="click" data-menu="horizontal-menu" data-col="content-detached-right-s
             <span>{{ trans('admin.dashboard') }}</span>
           </a>
         </li>
-        <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-television"></i>
+        <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-user"></i>
             <span>{{ trans('staff::local.my_account') }}</span></a>
           <ul class="dropdown-menu">
-              <li data-menu=""><a class="dropdown-item" href="dashboard-crypto.html" data-toggle="dropdown"><i class="la la-clock-o"></i> {{ trans('staff::local.my_attendance') }}</a></li>
-              <li data-menu=""><a class="dropdown-item" href="dashboard-crypto.html" data-toggle="dropdown"><i class="la la-road"></i> {{ trans('staff::local.my_permssions') }}</a></li>
-            <li data-menu=""><a class="dropdown-item" href="dashboard-crypto.html" data-toggle="dropdown"><i class="la la-umbrella"></i> {{ trans('staff::local.my_vacation') }}</a></li>
-            <li data-menu=""><a class="dropdown-item" href="dashboard-crypto.html" data-toggle="dropdown"><i class="la la-minus-square"></i> {{ trans('staff::local.my_loans') }}</a></li>
-            <li data-menu=""><a class="dropdown-item" href="dashboard-crypto.html" data-toggle="dropdown"><i class="la la-gavel"></i> {{ trans('staff::local.my_deductions') }}</a></li>
-            <li data-menu=""><a class="dropdown-item" href="dashboard-crypto.html" data-toggle="dropdown"><i class="la la-money"></i> {{ trans('staff::local.my_salries') }}</a></li>
+            <li data-menu=""><a class="dropdown-item" href="{{route('teacher.attendance')}}" data-toggle="dropdown"><i class="la la-clock-o"></i> {{ trans('staff::local.my_attendance') }}</a></li>
+            <li data-menu=""><a class="dropdown-item" href="{{route('teacher.permissions')}}" data-toggle="dropdown"><i class="la la-road"></i> {{ trans('staff::local.my_permssions') }}</a></li>
+            <li data-menu=""><a class="dropdown-item" href="{{route('teacher.vacations')}}" data-toggle="dropdown"><i class="la la-umbrella"></i> {{ trans('staff::local.my_vacation') }}</a></li>
+            <li data-menu=""><a class="dropdown-item" href="{{route('teacher.loans')}}" data-toggle="dropdown"><i class="la la-minus-square"></i> {{ trans('staff::local.my_loans') }}</a></li>
+            <li data-menu=""><a class="dropdown-item" href="{{route('teacher.deductions')}}" data-toggle="dropdown"><i class="la la-gavel"></i> {{ trans('staff::local.my_deductions') }}</a></li>
+            <li data-menu=""><a class="dropdown-item" href="{{route('teacher.payrolls')}}" data-toggle="dropdown"><i class="la la-money"></i> {{ trans('staff::local.my_salries') }}</a></li>
             
           </ul>
         </li>
-   
+        <li class="dropdown nav-item" data-menu="dropdown">
+          <a class="dropdown-toggle nav-link" href="index.html" data-toggle="dropdown"><i class="la la-warning"></i>
+            <span>{{ trans('staff::local.internal_regulation') }}</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

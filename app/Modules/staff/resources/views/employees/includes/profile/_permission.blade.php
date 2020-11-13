@@ -14,7 +14,7 @@
             <div class="table-responsive">
                 <form action="" id='formData' method="post">
                   @csrf
-                  <table id="dynamic-table-permission" class="table data-table" style="width: 100%">
+                  <table id="dynamic-table-" class="table data-table" style="width: 100%">
                       <thead class="bg-info white">
                           <tr>                              
                               <th>#</th>                              

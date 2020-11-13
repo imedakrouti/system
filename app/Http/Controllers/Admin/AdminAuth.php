@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Config;
 class AdminAuth extends Controller
 {
     public function login()
-    {
-        if (session()->has('login') == true) {
-            return redirect()->route('main.dashboard');
+    {   
+        if (session()->has('login') == true) {         
+               return redirect()->route('main.dashboard');
         }else{
             return view('admin.auth.login');
         }
@@ -46,7 +46,14 @@ class AdminAuth extends Controller
             }else{
                 session()->put('connection','mysql2');                                    
             }
-            return redirect(route('main.dashboard'));
+
+            
+            if (empty(authInfo()->domain_role)) {
+                return redirect(aurl('login'))->with('error',trans('staff::local.no_domain_role'));                
+            }
+
+           
+            
         }
 
         return redirect(aurl('login'))->with('error',trans('admin.invalid_login'));

@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
-use Illuminate\Http\Request;
-use File;
-use Illuminate\Support\Facades\Storage;
+use DB;
+use Staff\Models\Employees\Employee;
 
 class AdminController extends Controller
 {
-    private $file;
+    
     /**
      * Display a listing of the resource.
      *
@@ -48,7 +47,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.accounts.create',['title'=>trans('admin.new_account')]);
+        $employees = Employee::work()->orderBy('attendance_id')->get();
+        return view('admin.accounts.create',['title'=>trans('admin.new_account'),'employees' => $employees]);
     }
 
     /**
@@ -58,8 +58,24 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(AdminRequest $request)
-    {
-        Admin::create($request->all());        
+    {        
+        DB::transaction(function() use($request){
+            $user_id = Admin::create([
+                'name'          => $request->name,
+                'ar_name'       => $request->ar_name,
+                'username'      => $request->username,
+                'password'      => $request->password,
+                'lang'          => $request->lang,
+                'status'        => $request->status,
+                'domain_role'   => $request->domain_role,
+                'email'         => $request->email,
+            ]);
+            
+            if (!empty(request('employee_id'))) {
+                $employee = Employee::findOrFail(request('employee_id'));                
+                $employee->update(['user_id' => $user_id->id]);
+            }                 
+        });
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('accounts.index');
     }

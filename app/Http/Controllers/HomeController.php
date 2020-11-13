@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Traits\PDF_Converter;
-use Illuminate\Http\Request;
-use Student\Models\Settings\Grade;
-use PDF;
-use Student\Models\Settings\Design;
-use Student\Models\Students\Student;
+
+use App\Models\Admin;
+use Staff\Models\Employees\Employee;
+
 
 class HomeController extends Controller
 {
@@ -28,7 +26,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('layouts.backEnd.teacher');
+        $employees = Employee::work()->get();
+        foreach ($employees as $employee) {
+            Admin::firstOrCreate([
+                'name'          => $employee->en_st_name,
+                'ar_name'       => $employee->ar_st_name,
+                'domain_role'   => 'teacher',
+                'username'      => strtolower(str_replace(' ', '', trim($employee->en_st_name))).$employee->attendance_id,
+                'email'         => $employee->email,
+                'password'      => 'password'.$employee->attendance_id                
+            ]);
+        }
+        
     }
 
 

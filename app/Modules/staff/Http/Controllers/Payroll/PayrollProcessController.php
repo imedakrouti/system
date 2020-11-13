@@ -1026,7 +1026,7 @@ class PayrollProcessController extends Controller
            
                     ->addColumn('payrollSheet',function($data){
                         $sheet_name = session('lang') == 'ar' ? $data->ar_sheet_name : $data->en_sheet_name; 
-                        return '<a target="blank" href="'.route('payroll-process.show',$data->code).'" >'.$sheet_name.'</a>';
+                        return $sheet_name;
                     })
                     ->rawColumns(['check','payrollSheet'])
                     ->make(true);

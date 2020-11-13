@@ -111,6 +111,15 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('reports/print/salarySuspended','EmployeeController@salarySuspended')->name('employees.salarySuspended');
     Route::get('reports/print/timetable','EmployeeController@noTimetable')->name('employees.timetable');
     Route::get('reports/print/requiredDocument','EmployeeController@requiredDocument')->name('employees.requiredDocument');
+
+    // Teacher Account
+
+    Route::get('teacher/permissions','TeacherController@permissions')->name('teacher.permissions');
+    Route::get('teacher/vacations','TeacherController@vacations')->name('teacher.vacations');
+    Route::get('teacher/loans','TeacherController@loans')->name('teacher.loans');
+    Route::get('teacher/deductions','TeacherController@deductions')->name('teacher.deductions');
+    Route::get('teacher/payrolls','TeacherController@payrolls')->name('teacher.payrolls');
+    Route::get('teacher/attendance','TeacherController@attendance')->name('teacher.attendance');
     
 
 });  

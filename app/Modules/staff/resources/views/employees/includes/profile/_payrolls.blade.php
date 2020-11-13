@@ -12,23 +12,20 @@
           </div>
           <div class="modal-body">   
             <div class="table-responsive">
-                <form action="" id='formData' method="post">
-                  @csrf
-                  <table id="dynamic-table-payroll" class="table data-table" style="width: 100%">
-                      <thead class="bg-info white">
-                          <tr>                              
-                                <th>#</th>                              
-                                <th>{{trans('staff::local.payroll_sheet_name')}}</th>
-                                <th>{{trans('staff::local.month')}}</th>                                
-                                <th>{{trans('staff::local.from')}}</th>                                
-                                <th>{{trans('staff::local.to')}}</th>                                                                                                                       
-                                <th>{{trans('staff::local.salary')}}</th>                                                                                                                       
-                          </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                  </table>
-                </form>
+              <table id="dynamic-table-payroll" class="table data-table" style="width: 100%">
+                <thead class="bg-info white">
+                    <tr>                              
+                          <th>#</th>                              
+                          <th>{{trans('staff::local.payroll_sheet_name')}}</th>
+                          <th>{{trans('staff::local.month')}}</th>                                
+                          <th>{{trans('staff::local.from')}}</th>                                
+                          <th>{{trans('staff::local.to')}}</th>                                                                                                                       
+                          <th>{{trans('staff::local.salary')}}</th>                                                                                                                       
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
             </div>
          
               <div class="form-actions left">           

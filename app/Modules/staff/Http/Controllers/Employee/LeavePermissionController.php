@@ -800,7 +800,7 @@ class LeavePermissionController extends Controller
     
     public function profile()
     {
-        if (request()->ajax()) {
+        if (request()->ajax()) {                  
             $data = LeavePermission::orderBy('id','desc')            
             ->where('employee_id',request('employee_id'))
             ->get();
