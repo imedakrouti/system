@@ -1014,4 +1014,23 @@ class PayrollProcessController extends Controller
         return $pdf->stream(trans('staff::local.salary_slip').'.pdf');
     }
 
+    public function profile()
+    {
+        if (request()->ajax()) {
+            $data = DB::table('employee_payroll_view')->where('employee_id',request('employee_id'))
+            ->orderBy('from_date','desc')
+            ->get();
+
+            return datatables($data)
+                    ->addIndexColumn()
+           
+                    ->addColumn('payrollSheet',function($data){
+                        $sheet_name = session('lang') == 'ar' ? $data->ar_sheet_name : $data->en_sheet_name; 
+                        return '<a target="blank" href="'.route('payroll-process.show',$data->code).'" >'.$sheet_name.'</a>';
+                    })
+                    ->rawColumns(['check','payrollSheet'])
+                    ->make(true);
+        }
+    }
+
 }

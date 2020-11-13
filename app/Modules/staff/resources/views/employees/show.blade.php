@@ -2,6 +2,9 @@
 @section('sidebar')
 @include('layouts.backEnd.includes.sidebars._staff')
 @endsection
+@section('styles')
+  <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+@endsection
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
@@ -37,11 +40,11 @@
               <div class="col-md-12">
                 <div class="btn-group">                    
                     <a href="{{route('employees.edit',$employee->id)}}" class="mb-1 btn btn-warning white"><i class="la la-edit"></i> {{ trans('staff::local.edit') }}</a>                    
-                    <a href="#" class="mb-1 btn btn-danger white"><i class="la la-gavel"></i> {{ trans('staff::local.deductions') }}</a>                                        
-                    <a href="#" class="mb-1 btn btn-dark white"><i class="la la-minus-square"></i> {{ trans('staff::local.loans') }}</a>                                        
-                    <a href="#" class="mb-1 btn btn-info white"><i class="la la-umbrella"></i> {{ trans('staff::local.vacations') }}</a>                                        
-                    <a href="#" class="mb-1 btn btn-purple white"><i class="la la-road"></i> {{ trans('staff::local.leave_requests') }}</a>                                        
-                    <a href="#" class="mb-1 btn btn-primary white"><i class="la la-monry"></i> {{ trans('staff::local.payrolls') }}</a>                                        
+                    <a href="#" onclick="deduction({{$employee->id}})" class="mb-1 btn btn-danger white"><i class="la la-gavel"></i> {{ trans('staff::local.deductions') }}</a>                                        
+                    <a href="#" onclick="loans({{$employee->id}})" class="mb-1 btn btn-dark white"><i class="la la-minus-square"></i> {{ trans('staff::local.loans') }}</a>                                        
+                    <a href="#" onclick="vacations({{$employee->id}})" class="mb-1 btn btn-info white"><i class="la la-umbrella"></i> {{ trans('staff::local.vacations') }}</a>                                        
+                    <a href="#" onclick="permissions({{$employee->id}})" class="mb-1 btn btn-purple white"><i class="la la-road"></i> {{ trans('staff::local.leave_requests') }}</a>                                        
+                    <a href="#" onclick="payrolls({{$employee->id}})" class="mb-1 btn btn-primary white"><i class="la la-monry"></i> {{ trans('staff::local.payrolls') }}</a>                                        
                 </div>
             </div>
             @if(session('error'))
@@ -792,7 +795,12 @@
     </div>      
 </div>
 
-
+@include('staff::employees.includes.profile._dudction')
+@include('staff::deductions.includes._reason')
+@include('staff::employees.includes.profile._loans')
+@include('staff::employees.includes.profile._vacations')
+@include('staff::employees.includes.profile._permission')
+@include('staff::employees.includes.profile._payrolls')
 @endsection
 
 @section('script')
@@ -879,6 +887,190 @@
                   $('#skill_id').html(data);
                 }
               });
-          }());                             
+          }()); 
+
+          function deduction(employee_id)
+          {
+            event.preventDefault();  
+            $('#dynamic-table').DataTable().destroy();            
+            
+            var myTable = $('#dynamic-table').DataTable({
+              "info":     true,              
+              "bLengthChange" : false,          
+              "pageLength": 5, // set page records
+              ajax:{
+                  type:'POST',
+                  url:'{{route("deductions.profile")}}',
+                  data: {
+                      _method       : 'PUT',
+                      employee_id   : employee_id,                                      
+                      _token        : '{{ csrf_token() }}'
+                  }
+                },
+                // columns
+                columns: [                    
+                    {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},                             
+                    {data: 'amount',              name: 'amount'},               
+                    {data: 'date_deduction',      name: 'date_deduction'},                             
+                    {data: 'approval1',           name: 'approval1'},                                           
+                    {data: 'approval2',           name: 'approval2'},                                                               
+                    {data: 'updated_at',          name: 'updated_at'},  
+                    {data: 'reason',              name: 'reason'},                     
+                ],
+                @include('layouts.backEnd.includes.datatables._datatableLang')
+            });
+            @include('layouts.backEnd.includes.datatables._multiSelect')                      
+            $('#deduction').modal({backdrop: 'static', keyboard: false})
+            $('#deduction').modal('show');
+          }   
+          
+          function reason(reason)
+          {
+              event.preventDefault();          
+              $('#reason_text').val(reason);			
+              $('#reason').modal({backdrop: 'static', keyboard: false})
+              $('#reason').modal('show');
+          }    
+
+          function loans(employee_id)
+          {
+            event.preventDefault();  
+            $('#dynamic-table-loan').DataTable().destroy();            
+            
+            var myTable = $('#dynamic-table-loan').DataTable({
+              "info":     true,              
+              "bLengthChange" : false,          
+              "pageLength": 5, // set page records
+              ajax:{
+                  type:'POST',
+                  url:'{{route("loans.profile")}}',
+                  data: {
+                      _method       : 'PUT',
+                      employee_id   : employee_id,                                      
+                      _token        : '{{ csrf_token() }}'
+                  }
+                },
+                // columns
+                columns: [                    
+                    {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},                             
+                    {data: 'amount',              name: 'amount'},               
+                    {data: 'date_loan',           name: 'date_loan'},                             
+                    {data: 'approval1',           name: 'approval1'},                                           
+                    {data: 'approval2',           name: 'approval2'},                                                               
+                    {data: 'updated_at',          name: 'updated_at'},                      
+                ],
+                @include('layouts.backEnd.includes.datatables._datatableLang')
+            });
+            @include('layouts.backEnd.includes.datatables._multiSelect')                      
+            $('#loan').modal({backdrop: 'static', keyboard: false})
+            $('#loan').modal('show');            
+          }                               
+
+          function vacations(employee_id)
+          {
+            event.preventDefault();  
+            $('#dynamic-table-vacation').DataTable().destroy();            
+            
+            var myTable = $('#dynamic-table-vacation').DataTable({
+              "info":     true,              
+              "bLengthChange" : false,          
+              "pageLength": 5, // set page records
+              ajax:{
+                  type:'POST',
+                  url:'{{route("vacations.profile")}}',
+                  data: {
+                      _method       : 'PUT',
+                      employee_id   : employee_id,                                      
+                      _token        : '{{ csrf_token() }}'
+                  }
+                },
+                // columns
+                columns: [                    
+                    {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},                             
+                    {data: 'vacation_type',       name: 'vacation_type'},                             
+                    {data: 'date_vacation',       name: 'date_vacation'},                             
+                    {data: 'vacation_period',     name: 'vacation_period'},              
+                    {data: 'count',               name: 'count'},                               
+                    {data: 'approval1',           name: 'approval1'},                                           
+                    {data: 'approval2',           name: 'approval2'},                                           
+                    {data: 'attachments',         name: 'attachments'},                                                                                  
+                    {data: 'updated_at',          name: 'updated_at'},                      
+                ],
+                @include('layouts.backEnd.includes.datatables._datatableLang')
+            });
+            @include('layouts.backEnd.includes.datatables._multiSelect')                      
+            $('#vacation').modal({backdrop: 'static', keyboard: false})
+            $('#vacation').modal('show');            
+          }  
+
+          function permissions(employee_id)
+          {
+            event.preventDefault();  
+            $('#dynamic-table-permission').DataTable().destroy();            
+            
+            var myTable = $('#dynamic-table-permission').DataTable({
+              "info":     true,              
+              "bLengthChange" : false,          
+              "pageLength": 5, // set page records
+              ajax:{
+                  type:'POST',
+                  url:'{{route("leave-permissions.profile")}}',
+                  data: {
+                      _method       : 'PUT',
+                      employee_id   : employee_id,                                      
+                      _token        : '{{ csrf_token() }}'
+                  }
+                },
+                // columns
+                columns: [                    
+                    {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},                             
+                    {data: 'date_leave',          name: 'date_leave'},                             
+                    {data: 'time_leave',          name: 'time_leave'}, 
+                    {data: 'leave_permission_id', name: 'leave_permission_id'},                                                                         
+                    {data: 'approval1',           name: 'approval1'},                                           
+                    {data: 'approval2',           name: 'approval2'},                                           
+                    {data: 'updated_at',          name: 'updated_at'},                     
+                ],
+                @include('layouts.backEnd.includes.datatables._datatableLang')
+            });
+            @include('layouts.backEnd.includes.datatables._multiSelect')                      
+            $('#permission').modal({backdrop: 'static', keyboard: false})
+            $('#permission').modal('show');            
+          }   
+
+          function payrolls(employee_id)
+          {
+            event.preventDefault();  
+            $('#dynamic-table-payroll').DataTable().destroy();            
+            
+            var myTable = $('#dynamic-table-payroll').DataTable({
+              "info":     true,              
+              "bLengthChange" : false,          
+              "pageLength": 5, // set page records
+              ajax:{
+                  type:'POST',
+                  url:'{{route("payroll-process.profile")}}',
+                  data: {
+                      _method       : 'PUT',
+                      employee_id   : employee_id,                                      
+                      _token        : '{{ csrf_token() }}'
+                  }
+                },
+                // columns
+                columns: [                    
+                    {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},                             
+                    {data: 'payrollSheet',        name: 'payrollSheet'},
+                    {data: 'period',              name: 'period'},              
+                    {data: 'from_date',           name: 'from_date'},               
+                    {data: 'to_date',             name: 'to_date'},                
+                    {data: 'value',               name: 'value'},                
+                ],
+                @include('layouts.backEnd.includes.datatables._datatableLang')
+            });
+            @include('layouts.backEnd.includes.datatables._multiSelect')                      
+            $('#payroll').modal({backdrop: 'static', keyboard: false})
+            $('#payroll').modal('show'); 
+          }                                      
     </script>
+@include('layouts.backEnd.includes.datatables._datatable')
 @endsection

@@ -798,4 +798,68 @@ class LeavePermissionController extends Controller
         }
     }
     
+    public function profile()
+    {
+        if (request()->ajax()) {
+            $data = LeavePermission::orderBy('id','desc')            
+            ->where('employee_id',request('employee_id'))
+            ->get();
+            return datatables($data)
+                ->addIndexColumn()                                 
+                
+                ->addColumn('approval1',function($data){
+                    $username = empty($data->approvalOne->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalOne->username;
+                    switch ($data->approval1) {
+                        case trans('staff::local.accepted'): 
+                            return '<div class="badge badge-primary round">
+                                        <span>'.trans('staff::local.accepted_done').'</span>
+                                        <i class="la la-check font-medium-2"></i>
+                                    </div>' .$username;
+                        case trans('staff::local.rejected'):                                 
+                            return '<div class="badge badge-warning round">
+                                        <span>'.trans('staff::local.rejected_done').'</span>
+                                        <i class="la la-close font-medium-2"></i>
+                                    </div>' .$username;
+                        case trans('staff::local.canceled'):                                 
+                            return '<div class="badge badge-info round">
+                                        <span>'.trans('staff::local.canceled_done').'</span>
+                                        <i class="la la-hand-paper-o font-medium-2"></i>
+                                    </div>' .$username;
+                        case trans('staff::local.pending'):                                 
+                            return '<div class="badge badge-dark round">
+                                        <span>'.trans('staff::local.pending').'</span>
+                                        <i class="la la-hourglass-1 font-medium-2"></i>
+                                    </div>' .$username;                         
+                    }
+                    
+                })      
+                ->addColumn('approval2',function($data){
+                    $username = empty($data->approvalTwo->username)?'':'<br><strong>' . trans('admin.by') . '</strong> : ' .$data->approvalTwo->username;
+                    switch ($data->approval2) {
+                        case trans('staff::local.accepted'): 
+                            return '<div class="badge badge-success round">
+                                        <span>'.trans('staff::local.accepted_done').'</span>
+                                        <i class="la la-check font-medium-2"></i>
+                                    </div>'. $username;
+                        case trans('staff::local.rejected'):                                 
+                            return '<div class="badge badge-danger round">
+                                        <span>'.trans('staff::local.rejected_done').'</span>
+                                        <i class="la la-close font-medium-2"></i>
+                                    </div>'. $username;
+                        case trans('staff::local.pending'):                                 
+                            return '<div class="badge badge-dark round">
+                                        <span>'.trans('staff::local.pending').'</span>
+                                        <i class="la la-hourglass-1 font-medium-2"></i>
+                                    </div>'. $username;                         
+                    }
+                    
+                })                                   
+                ->addColumn('leave_permission_id',function($data){
+                    return session('lang') == 'ar' ? $data->leaveType->ar_leave:$data->leaveType->ar_leave ;
+                })
+                ->rawColumns(['approval1','approval2','leave_permission_id'])
+                ->make(true);
+        }
+    }
+    
 }

@@ -447,7 +447,7 @@
     }
 
     $('#employee_id').on('change',function(){
-        $('#dynamic-table').DataTable().destroy();
+    $('#dynamic-table').DataTable().destroy();
       var employee_id 		  = $('#employee_id').val();
       var approval1 		  = $('#approval1').val();
       var myTable = $('#dynamic-table').DataTable({

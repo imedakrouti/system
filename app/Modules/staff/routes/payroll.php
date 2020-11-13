@@ -32,6 +32,7 @@ Route::group(['namespace'=>'Payroll'],function(){
     Route::get('/payrolls/payroll-process/show/{code}','PayrollProcessController@show')->name('payroll-process.show');
     Route::get('/payrolls/review','PayrollProcessController@review')->name('payroll-process.review');
     Route::put('/payrolls/payroll-process/set-review','PayrollProcessController@setSalaryReview')->name('payroll-process.set-review');
+    Route::put('/payrolls/payroll-process/profile','PayrollProcessController@profile')->name('payroll-process.profile');
 
     // annual increase
     Route::get('payrolls/annual-increase','AnnualIncreaseController@index')->name('annual-increase.index');
