@@ -28,17 +28,19 @@
           <div class="card-body card-dashboard">
             <form action="#" method="get" id="filterForm" >                
                 <div class="row mt-1">  
-                    <div class="col-lg-2 col-md-6">
-                        <select name="approval1" class="form-control" id="approval1">                            
-                            <option value="">{{ trans('staff::local.select') }}</option>
-                            <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
-                            <option value="Rejected">{{ trans('staff::local.rejected') }}</option>            
-                            <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
-                            <option value="Pending">{{ trans('staff::local.pending') }}</option>            
-                        </select>
+                    <div class="col-lg-2 col-md-12">
+                        <div class="form-group">
+                            <select name="approval1" class="form-control" id="approval1">                            
+                                <option value="">{{ trans('staff::local.select') }}</option>
+                                <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
+                                <option value="Rejected">{{ trans('staff::local.rejected') }}</option>            
+                                <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
+                                <option value="Pending">{{ trans('staff::local.pending') }}</option>            
+                            </select>
+                        </div>
                     </div>    
                     <div class="col-lg-3 col-md-12">
-                        <div class="form-group row">                          
+                        <div class="form-group">                          
                           <select name="employee_id" id="employee_id" class="form-control select2">
                               <option value="">{{ trans('staff::local.select') }}</option>
                               @foreach ($employees as $employee)

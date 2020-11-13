@@ -27,8 +27,9 @@
       <div class="card-content collapse show">
         <div class="card-body card-dashboard">
           <form action="#" method="get" id="filterForm" >                
-              <div class="row mt-1">                          
-                  <div class="col-lg-3 col-md-6">
+              <div class="row mt-1">  
+                  <div class="col-lg-2 col-md-12">
+                    <div class="form-group">
                       <select name="approval2" class="form-control" id="approval2">                            
                           <option value="">{{ trans('staff::local.select') }}</option>
                           <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
@@ -36,9 +37,27 @@
                           <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
                           <option value="Pending">{{ trans('staff::local.pending') }}</option>            
                       </select>
-                  </div>                    
+                    </div>
+                  </div>    
+                  <div class="col-lg-3 col-md-12">
+                      <div class="form-group row">                          
+                        <select name="employee_id" id="employee_id" class="form-control select2">
+                            <option value="">{{ trans('staff::local.select') }}</option>
+                            @foreach ($employees as $employee)
+                                <option {{old('staff_id') == $employee->id ? 'selected' :''}} value="{{$employee->id}}">
+                                @if (session('lang') == 'ar')
+                                [{{$employee->attendance_id}}] {{$employee->ar_st_name}} {{$employee->ar_nd_name}} {{$employee->ar_rd_name}} {{$employee->ar_th_name}}
+                                @else
+                                [{{$employee->attendance_id}}] {{$employee->en_st_name}} {{$employee->en_nd_name}} {{$employee->en_rd_name}} {{$employee->en_th_name}}
+                                @endif
+                                </option>
+                            @endforeach
+                        </select> <br>
+                        <span>{{ trans('staff::local.employee_name') }}</span>                                                      
+                      </div>
+                  </div>                                          
               </div>
-          </form>          
+          </form>            
         </div>
       </div>
     </div>
@@ -98,6 +117,7 @@
     });
 
     $('#approval2').on('change',function(){
+      $('#employee_id').val(null).trigger('change');
       $('#dynamic-table').DataTable().destroy();
       var approval2 		  = $('#approval2').val();
       
@@ -118,7 +138,33 @@
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')        
-    })    
+    })  
+
+    $('#employee_id').on('change',function(){
+      
+      $('#dynamic-table').DataTable().destroy();
+      var approval2 		  = $('#approval2').val();
+      var employee_id 		= $('#employee_id').val();
+      
+      var myTable = $('#dynamic-table').DataTable({
+        @include('layouts.backEnd.includes.datatables._datatableConfig')            
+        @include('staff::leave-permissions.includes._buttons-confirm'),
+        ajax:{
+            type:'POST',
+            url:'{{route("leave-permissions.employee-confirm")}}',
+            data: {
+                _method       : 'PUT',
+                employee_id   : employee_id,                
+                approval2     : approval2,                
+                _token        : '{{ csrf_token() }}'
+            }
+          },
+          // columns
+          @include('staff::leave-permissions.includes._columns-confirm'),
+          @include('layouts.backEnd.includes.datatables._datatableLang')
+      });
+      @include('layouts.backEnd.includes.datatables._multiSelect')        
+    })      
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

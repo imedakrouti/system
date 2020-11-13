@@ -210,8 +210,9 @@ class LoanController extends Controller
             $data = Loan::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
             return $this->dataTableApproval2($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::loans.confirm.index',
-        ['title'=>trans('staff::local.confirm_loans')]);  
+        ['title'=>trans('staff::local.confirm_loans'),'employees' => $employees]);  
     }
 
     public function filterConfirm()
@@ -344,6 +345,18 @@ class LoanController extends Controller
             ->get();
             
             return $this-> dataTableApproval1($data);
+        }
+    }
+
+    public function byEmployeeConfirm()
+    {
+        if (request()->ajax()) {
+            $data = Loan::with('employee')->orderBy('id','desc')
+            ->where('approval1','Accepted')
+            ->where('approval2',request('approval2'))
+            ->where('employee_id',request('employee_id'))
+            ->get();
+            return $this-> dataTableApproval2($data);
         }
     }
 

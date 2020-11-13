@@ -345,8 +345,9 @@ class VacationController extends Controller
             $data = Vacation::with('employee','admin')->orderBy('id','desc')->where('approval1','Accepted')->get();
             return $this->dataTableApproval2($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::vacations.confirm',
-        ['title'=>trans('staff::local.confirm_vacations')]);  
+        ['title'=>trans('staff::local.confirm_vacations'),'employees' => $employees]);  
     }
 
     public function filterConfirm()
@@ -537,6 +538,19 @@ class VacationController extends Controller
             ->get();
 
             return $this-> dataTableApproval1($data);
+        }
+    }
+    public function byEmployeeConfirm()
+    {
+        $vacation_type = empty(request('vacation_type'))? ['vacation_type','<>','']:['vacation_type',request('vacation_type')];
+        $approval2 = empty(request('approval2'))? ['approval2','<>','']:['approval2',request('approval2')];
+        if (request()->ajax()) {
+            $data = Vacation::with('employee','admin')->orderBy('id','desc')
+            ->where('approval1','Accepted')            
+            ->where([$vacation_type,$approval2])            
+            ->where('employee_id',request('employee_id'))            
+            ->get();
+            return $this-> dataTableApproval2($data);
         }
     }
 }

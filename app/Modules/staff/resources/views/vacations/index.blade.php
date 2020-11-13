@@ -28,30 +28,34 @@
           <div class="card-body card-dashboard">
             <form action="#" method="get" id="filterForm" >                
                 <div class="row mt-1">                          
-                    <div class="col-lg-2 col-md-6">
-                        <select name="approval1" class="form-control" id="approval1">                            
-                            <option value="">{{ trans('staff::local.select') }}</option>
-                            <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
-                            <option value="Rejected">{{ trans('staff::local.rejected') }}</option>            
-                            <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
-                            <option value="Pending">{{ trans('staff::local.pending') }}</option>            
-                        </select>
+                    <div class="col-lg-2 col-md-12">
+                        <div class="form-group">
+                            <select name="approval1" class="form-control" id="approval1">                            
+                                <option value="">{{ trans('staff::local.select') }}</option>
+                                <option value="Accepted">{{ trans('staff::local.accepted') }}</option>
+                                <option value="Rejected">{{ trans('staff::local.rejected') }}</option>            
+                                <option value="Canceled">{{ trans('staff::local.canceled') }}</option>            
+                                <option value="Pending">{{ trans('staff::local.pending') }}</option>            
+                            </select>
+                        </div>
                     </div> 
-                    <div class="col-lg-2 col-md-6">
-                        <select name="vacation_type" class="form-control" id="vacation_type">                            
-                            <option value="">{{ trans('staff::local.vacation_type') }}</option>
-                            <option value="Start work">{{ trans('staff::local.start_work') }}</option>
-                            <option value="End work">{{ trans('staff::local.end_work') }}</option>
-                            <option value="Sick leave">{{ trans('staff::local.sick_leave') }}</option>
-                            <option value="Regular vacation">{{ trans('staff::local.regular_vacation') }}</option>
-                            <option value="Vacation without pay">{{ trans('staff::local.vacation_without_pay') }}</option>
-                            <option value="Work errand">{{ trans('staff::local.work_errand') }}</option>
-                            <option value="Training">{{ trans('staff::local.training') }}</option>
-                            <option value="Casual vacation">{{ trans('staff::local.casual_vacation') }}</option>          
-                        </select>
+                    <div class="col-lg-2 col-md-12">
+                        <div class="form-group">
+                            <select name="vacation_type" class="form-control" id="vacation_type">                            
+                                <option value="">{{ trans('staff::local.vacation_type') }}</option>
+                                <option value="Start work">{{ trans('staff::local.start_work') }}</option>
+                                <option value="End work">{{ trans('staff::local.end_work') }}</option>
+                                <option value="Sick leave">{{ trans('staff::local.sick_leave') }}</option>
+                                <option value="Regular vacation">{{ trans('staff::local.regular_vacation') }}</option>
+                                <option value="Vacation without pay">{{ trans('staff::local.vacation_without_pay') }}</option>
+                                <option value="Work errand">{{ trans('staff::local.work_errand') }}</option>
+                                <option value="Training">{{ trans('staff::local.training') }}</option>
+                                <option value="Casual vacation">{{ trans('staff::local.casual_vacation') }}</option>          
+                            </select>
+                        </div>
                     </div>
                     <div class="col-lg-3 col-md-12">
-                        <div class="form-group row">                          
+                        <div class="form-group">                          
                           <select name="employee_id" id="employee_id" class="form-control select2">
                               <option value="">{{ trans('staff::local.select') }}</option>
                               @foreach ($employees as $employee)

@@ -211,38 +211,41 @@ class LeavePermissionController extends Controller
                 
         }
 
-            if (!empty($employee_no_balance)) {
-                toast(trans('staff::local.no_enough_balance').' '.trans('staff::local.attendance_id').' '.$employee_no_balance,'error');
-                return back()->withInput();
-            }
+        if (!empty($employee_no_balance)) {
+            toast(trans('staff::local.no_enough_balance').' '.trans('staff::local.attendance_id').' '.$employee_no_balance,'error');
+            return back()->withInput();
+        }
 
-            // if (!empty($employee_no_department)) {
-            //     toast(trans('staff::local.no_department_found').' '.trans('staff::local.attendance_id').' '.$employee_no_department,'error');
-            //     return back()->withInput();
-            // }
+        if (!empty($employee_no_department)) {
+            toast(trans('staff::local.no_department_found').' '.trans('staff::local.attendance_id').' '.$employee_no_department,'error');
+            return back()->withInput();
+        }
 
-            // if (!empty($department_no_balance)) {
-            //     toast(trans('staff::local.no_balance_department').' '.$department_no_balance,'error');
-            //     return back()->withInput();
-            // }
+        if (!empty($department_no_balance)) {
+            toast(trans('staff::local.no_balance_department').' '.$department_no_balance,'error');
+            return back()->withInput();
+        }
 
-            if (!empty($employee_has_current_permission)) {
-                toast(trans('staff::local.employee_has_current_permission').'</br>['.request('date_leave').']'.' '.trans('staff::local.attendance_id').' '.$employee_has_current_permission,'error');
-                return back()->withInput();
-            }
+        if (!empty($employee_has_current_permission)) {
+            toast(trans('staff::local.employee_has_current_permission').'</br>['.request('date_leave').']'.' '.trans('staff::local.attendance_id').' '.$employee_has_current_permission,'error');
+            return back()->withInput();
+        }
 
-            if (!empty($available_time)) {
-                toast(trans('staff::local.available_time').' '.trans('staff::local.attendance_id').' '.$available_time,'error');
-                return back()->withInput();
-            }
+        if (!empty($available_time)) {
+            toast(trans('staff::local.available_time').' '.trans('staff::local.attendance_id').' '.$available_time,'error');
+            return back()->withInput();
+        }
+
+        $leave_type = LeaveType::findOrFail(request('leave_type_id'));            
+        $reason = $leave_type->ar_leave .' - '. $leave_type->en_leave;
            
         foreach (request('employee_id') as $employee_id) {  
-            DB::transaction(function() use ($employee_id, $request){
+            DB::transaction(function() use ($employee_id, $request, $reason){
                 $leave_permission_id = $request->user()->leavePermissions()->create($request->only($this->attributes())+
                 [
                     'employee_id'   => $employee_id,
                 ]);  
-                $this->hasDeduction($employee_id,$leave_permission_id);          
+                $this->hasDeduction($employee_id,$leave_permission_id, $reason);          
             });
         }        
         toast(trans('msg.stored_successfully'),'success');
@@ -250,17 +253,17 @@ class LeavePermissionController extends Controller
     }
     // requirements
 
-    private function hasDeduction($employee_id,$leave_permission_id)
+    private function hasDeduction($employee_id,$leave_permission_id, $reason)
     {
         $deduction = LeaveType::findOrFail(request('leave_type_id'));
         $salaryPerDay = Employee::findOrFail($employee_id)->salary / 30;
         if ($deduction->deduction == 'yes') {
-            
+
             request()->user()->deductions()->create(
             [
                 'date_deduction'        => request('date_leave'),
                 'leave_permission_id'   => $leave_permission_id->id,
-                'reason'                => 'اذن بخصم permission with deduction',
+                'reason'                => $reason,
                 'employee_id'           => $employee_id,
                 'days'                  => $deduction->deduction_allocated,
                 'amount'                => $deduction->deduction_allocated *$salaryPerDay
@@ -516,8 +519,9 @@ class LeavePermissionController extends Controller
             $data = LeavePermission::with('employee')->orderBy('id','desc')->where('approval1','Accepted')->get();
             return $this->dataTableApproval2($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::leave-permissions.confirm',
-        ['title'=>trans('staff::local.confirm_requests')]);  
+        ['title'=>trans('staff::local.confirm_requests'),'employees'=>$employees]);  
     }
 
     public function filterConfirm()
@@ -679,8 +683,9 @@ class LeavePermissionController extends Controller
             
             return $this->dataTable($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::leave-permissions.leave-deduction',
-        ['title'=>trans('staff::local.leave_deduction')]);  
+        ['title'=>trans('staff::local.leave_deduction'),'employees'=>$employees]);  
     }
     private function dataTable($data)
     {
@@ -767,6 +772,29 @@ class LeavePermissionController extends Controller
             ->where('employee_id',request('employee_id'))
             ->get();
             return $this-> dataTableApproval1($data);
+        }
+    }
+
+    public function byEmployeeConfirm()
+    {
+        if (request()->ajax()) {
+            $data = LeavePermission::with('employee')->orderBy('id','desc')
+            ->where('approval1','Accepted')
+            ->where('approval2',request('approval2'))
+            ->where('employee_id',request('employee_id'))
+            ->get();
+            return $this-> dataTableApproval2($data);
+        }
+    }
+
+    public function byEmployeeDeduction()
+    {
+        if (request()->ajax()) {
+            $data = Deduction::with('employee')->orderBy('id','desc')
+            ->whereNotNull('leave_permission_id')
+            ->where('employee_id',request('employee_id'))            
+            ->get();
+            return $this->dataTable($data);
         }
     }
     

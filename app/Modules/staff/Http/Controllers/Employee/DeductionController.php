@@ -258,8 +258,9 @@ class DeductionController extends Controller
             ->get();
             return $this->dataTableApproval2($data);
         }
+        $employees = Employee::work()->orderBy('attendance_id')->get();
         return view('staff::deductions.confirm.index',
-        ['title'=>trans('staff::local.confirm_deductions')]);  
+        ['title'=>trans('staff::local.confirm_deductions'),'employees' => $employees]);  
     }
 
     public function filterConfirm()
@@ -397,6 +398,18 @@ class DeductionController extends Controller
             ->where('approval1',request('approval1'))
             ->get();
             return $this-> dataTableApproval1($data);
+        }
+    }
+    public function byEmployeeConfirm()
+    {
+        if (request()->ajax()) {
+            $data = Deduction::with('employee')->orderBy('id','desc')
+            ->whereNull('leave_permission_id')
+            ->where('approval1','Accepted')
+            ->where('approval2',request('approval2'))
+            ->where('employee_id',request('employee_id'))
+            ->get();
+            return $this-> dataTableApproval2($data);
         }
     }
 
