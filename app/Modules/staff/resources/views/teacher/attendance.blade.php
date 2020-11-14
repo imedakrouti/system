@@ -220,7 +220,7 @@
 
     function summary()
     {
-      var attendance_id   = $('#attendance_id').val();
+      var attendance_id = "{{authInfo()->employeeUser->attendance_id}}"             
       var from_date       = $('#from_date').val();
       var to_date         = $('#to_date').val();
       $.ajax({
