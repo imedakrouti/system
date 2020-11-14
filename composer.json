@@ -55,8 +55,7 @@
         "classmap": [
             "database/seeds",
             "app/Modules/student/database/seeds",                        
-            "app/Modules/staff/database/seeds",                        
-            "app/Modules/learning/database/seeds",                        
+            "app/Modules/staff/database/seeds",                                    
             "database/factories"
         ]
     },
