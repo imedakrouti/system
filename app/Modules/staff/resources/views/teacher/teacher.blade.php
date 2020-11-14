@@ -12,7 +12,7 @@
                             <div class="card-header bg-transparent">
                             <h4 class="card-title">
                                 {{session('lang') == 'ar' ? $announcement->admin->ar_name : $announcement->admin->name}} | 
-                                    <span class="blue" style="font-size: 12px;">{{$announcement->created_at->diffForHumans()}}</span>              
+                                    <span class="blue" style="font-size: 12px;">{{$announcement->updated_at->diffForHumans()}}</span>              
                             </h4>
                             </div>
                             <div class="card-content collapse show">

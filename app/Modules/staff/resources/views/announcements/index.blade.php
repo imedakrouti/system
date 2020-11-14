@@ -42,7 +42,7 @@
                                 <input type="checkbox" class="ace" name="id[]" value="{{$announcement->id}}">
                                 <span class="lbl"></span> 
                                   {{session('lang') == 'ar' ? $announcement->admin->ar_name : $announcement->admin->name}} | 
-                                  <span class="blue" style="font-size: 12px;">{{$announcement->created_at->diffForHumans()}}</span>
+                                  <span class="blue" style="font-size: 12px;">{{$announcement->updated_at->diffForHumans()}}</span>
                               </label>                           
                             </h4>
                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>

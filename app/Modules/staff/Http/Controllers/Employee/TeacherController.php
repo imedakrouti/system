@@ -41,8 +41,8 @@ class TeacherController extends Controller
     public function dashboard()
     {
         $announcements = Announcement::where('domain_role','teacher')
-        ->where('start_at','>=',\Carbon\Carbon::today())
-        ->where('end_at','<=',\Carbon\Carbon::today())
+        ->where('start_at','<=',\Carbon\Carbon::today())
+        ->where('end_at','>=',\Carbon\Carbon::today())
         ->orderBy('id','desc')->limit(5)->get();
         return view('staff::teacher.teacher',
         compact('announcements'));
