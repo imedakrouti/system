@@ -66,6 +66,7 @@ return array(
     'Meneses\\LaravelMpdf\\' => array($vendorDir . '/carlos-meneses/laravel-mpdf/src/LaravelMpdf'),
     'Matrix\\' => array($vendorDir . '/markbaker/matrix/classes/src'),
     'Maatwebsite\\Excel\\' => array($vendorDir . '/maatwebsite/excel/src'),
+    'Learning\\' => array($baseDir . '/app/Modules/learning'),
     'League\\MimeTypeDetection\\' => array($vendorDir . '/league/mime-type-detection/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'League\\CommonMark\\' => array($vendorDir . '/league/commonmark/src'),

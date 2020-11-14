@@ -26,7 +26,7 @@ class DashboardController extends Controller
                 return view('layouts.backEnd.dashboards.dashboard',['title'=>trans('admin.dashboard')]);
                 break;            
             default:
-                return redirect()->route('teacher.dashboard');
+                return redirect()->route('dashboard.teacher');
                 break;
         }
     }

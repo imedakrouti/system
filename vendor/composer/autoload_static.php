@@ -198,6 +198,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         ),
         'L' => 
         array (
+            'Learning\\' => 9,
             'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\' => 17,
             'League\\CommonMark\\' => 18,
@@ -490,6 +491,10 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         array (
             0 => __DIR__ . '/..' . '/maatwebsite/excel/src',
         ),
+        'Learning\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Modules/learning',
+        ),
         'League\\MimeTypeDetection\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
@@ -625,7 +630,6 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Alkoumi\\LaravelArabicTafqeet\\Helpers\\Validation' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/helpers/Validation.php',
         'Alkoumi\\LaravelArabicTafqeet\\LaravelArabicTafqeetServiceProvider' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/LaravelArabicTafqeetServiceProvider.php',
         'Alkoumi\\LaravelArabicTafqeet\\Tafqeet' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/Tafqeet.php',
-        'App\\Announcment' => __DIR__ . '/../..' . '/app/Announcment.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AdminAuth' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminAuth.php',
@@ -634,7 +638,6 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'App\\Http\\Controllers\\Admin\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/DashboardController.php',
         'App\\Http\\Controllers\\Admin\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/NotificationController.php',
         'App\\Http\\Controllers\\Admin\\SettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SettingController.php',
-        'App\\Http\\Controllers\\AnnouncementController' => __DIR__ . '/../..' . '/app/Http/Controllers/AnnouncementController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -2708,6 +2711,8 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'League\\MimeTypeDetection\\FinfoMimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/FinfoMimeTypeDetector.php',
         'League\\MimeTypeDetection\\GeneratedExtensionToMimeTypeMap' => __DIR__ . '/..' . '/league/mime-type-detection/src/GeneratedExtensionToMimeTypeMap.php',
         'League\\MimeTypeDetection\\MimeTypeDetector' => __DIR__ . '/..' . '/league/mime-type-detection/src/MimeTypeDetector.php',
+        'Learning\\Http\\Controllers\\Dashboard\\LearningDashboardController' => __DIR__ . '/../..' . '/app/Modules/learning/Http/Controllers/Dashboard/LearningDashboardController.php',
+        'Learning\\Providers\\LearningServiceProvider' => __DIR__ . '/../..' . '/app/Modules/learning/Providers/LearningServiceProvider.php',
         'Maatwebsite\\Excel\\Cache\\BatchCache' => __DIR__ . '/..' . '/maatwebsite/excel/src/Cache/BatchCache.php',
         'Maatwebsite\\Excel\\Cache\\CacheManager' => __DIR__ . '/..' . '/maatwebsite/excel/src/Cache/CacheManager.php',
         'Maatwebsite\\Excel\\Cache\\MemoryCache' => __DIR__ . '/..' . '/maatwebsite/excel/src/Cache/MemoryCache.php',
@@ -4724,6 +4729,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Spatie\\DbDumper\\Exceptions\\DumpFailed' => __DIR__ . '/..' . '/spatie/db-dumper/src/Exceptions/DumpFailed.php',
         'Spatie\\TemporaryDirectory\\TemporaryDirectory' => __DIR__ . '/..' . '/spatie/temporary-directory/src/TemporaryDirectory.php',
         'Staff\\Http\\Controllers\\Dashboard\\StaffDashboardController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Dashboard/StaffDashboardController.php',
+        'Staff\\Http\\Controllers\\Employee\\AnnouncementController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Employee/AnnouncementController.php',
         'Staff\\Http\\Controllers\\Employee\\AttachmentController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Employee/AttachmentController.php',
         'Staff\\Http\\Controllers\\Employee\\AttendanceController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Employee/AttendanceController.php',
         'Staff\\Http\\Controllers\\Employee\\DeductionController' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Controllers/Employee/DeductionController.php',
@@ -4768,6 +4774,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Staff\\Http\\Requests\\TimetableRequest' => __DIR__ . '/../..' . '/app/Modules/staff/Http/Requests/TimetableRequest.php',
         'Staff\\Imports\\AttendanceImport' => __DIR__ . '/../..' . '/app/Modules/staff/Imports/AttendanceImport.php',
         'Staff\\Models\\Employees\\ActiveDayRequest' => __DIR__ . '/../..' . '/app/Modules/staff/Models/Employees/ActiveDayRequest.php',
+        'Staff\\Models\\Employees\\Announcement' => __DIR__ . '/../..' . '/app/Modules/staff/Models/Employees/Announcement.php',
         'Staff\\Models\\Employees\\Attachment' => __DIR__ . '/../..' . '/app/Modules/staff/Models/Employees/Attachment.php',
         'Staff\\Models\\Employees\\Attendance' => __DIR__ . '/../..' . '/app/Modules/staff/Models/Employees/Attendance.php',
         'Staff\\Models\\Employees\\AttendanceSheet' => __DIR__ . '/../..' . '/app/Modules/staff/Models/Employees/AttendanceSheet.php',

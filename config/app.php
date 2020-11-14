@@ -170,6 +170,7 @@ return [
          */        
         Student\Providers\StudentServiceProvider::class,
         Staff\Providers\StaffServiceProvider::class,
+        Learning\Providers\LearningServiceProvider::class,
         /*
          * Application Service Providers...
          */

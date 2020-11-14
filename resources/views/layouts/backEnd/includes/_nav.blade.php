@@ -58,6 +58,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{route('dashboard.admission')}}"><i class="la la-graduation-cap"></i>{{ trans('admin.students_affairs') }}</a>
                 <a class="dropdown-item" href="{{route('dashboard.staff')}}"><i class="ft-user"></i>{{ trans('admin.hr') }}</a>                
+                <a class="dropdown-item" href="{{route('dashboard.learning')}}"><i class="ft-book"></i>{{ trans('admin.e_learning') }}</a>                
               </div>
             </li>
             {{-- end modules --}}
