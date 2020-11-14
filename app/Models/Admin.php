@@ -192,11 +192,7 @@ class Admin extends Authenticatable
     public function scopeActive($q)
     {
         return $q->where('status','enable');
-    }
-    // public function employees()
-    // {
-    //     return $this->hasMany('Student\Models\Students\Student','employee_id');
-    // }
+    }    
     public function assessments()
     {
         return $this->hasMany('Student\Models\Admissions\Assessment','admin_id');
@@ -364,5 +360,9 @@ class Admin extends Authenticatable
     public function payrollComponent()
     {
         return $this->hasMany('Staff\Models\Payrolls\PayrollComponent','admin_id');
+    }
+    public function internalRegulation()
+    {
+        return $this->hasMany('Staff\Models\Employees\InternalRegulation','admin_id');
     }
 }

@@ -1,24 +1,5 @@
-@extends('layouts.backEnd.cpanel')
-@section('sidebar')
-    @include('layouts.backEnd.includes.sidebars._main')
-@endsection
+@extends('layouts.backEnd.dashboards.teacher')
 @section('content')
-<div class="content-header row">
-    <div class="content-header-left col-md-6 col-12 mb-2">
-      <h3 class="content-header-title">{{$title}}</h3>
-      <div class="row breadcrumbs-top">
-        <div class="breadcrumb-wrapper col-12">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('main.dashboard')}}">{{ trans('admin.dashboard') }}</a>
-            </li>
-            <li class="breadcrumb-item active">{{$title}}
-            </li>
-          </ol>
-        </div>
-      </div>
-    </div>
-</div>
-
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -27,7 +8,7 @@
             <form class="form form-horizontal" method="POST" action="{{aurl('update/password')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-body">
-                    <h4 class="form-section"> {{ $title }}</h4>
+                    <h4 class="form-section">{{ trans('admin.change_password') }}</h4>
                     @if($errors->any())
                         <div class="alert alert-danger">
                             @foreach($errors->all() as $error)

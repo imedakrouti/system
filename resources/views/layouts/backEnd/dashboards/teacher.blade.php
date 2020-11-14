@@ -133,8 +133,8 @@ data-open="click" data-menu="horizontal-menu" data-col="content-detached-right-s
                   </span>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="{{route('user-profile')}}"><i class="ft-user"></i>{{ trans('admin.profile') }}</a>
-                <a class="dropdown-item" href="{{aurl('password')}}"><i class="ft-lock"></i> {{ trans('admin.change_password') }}</a>                
+                <a class="dropdown-item" href="{{route('teacher.account')}}"><i class="ft-user"></i>{{ trans('admin.profile') }}</a>
+                <a class="dropdown-item" href="{{route('teacher.password')}}"><i class="ft-lock"></i> {{ trans('admin.change_password') }}</a>                
                 <div class="dropdown-divider"></div><a class="dropdown-item" href="{{route('logout')}}"><i class="ft-power"></i> {{ trans('admin.logout') }}</a>
               </div>
             </li>
@@ -310,7 +310,7 @@ data-open="click" data-menu="horizontal-menu" data-col="content-detached-right-s
     <div class="navbar-container main-menu-content container center-layout" data-menu="menu-container">
       <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
         <li class="dropdown nav-item" data-menu="dropdown">
-          <a class="dropdown-toggle nav-link" href="index.html" data-toggle="dropdown"><i class="la la-home"></i>
+          <a class="dropdown-toggle nav-link" href="{{route('main.dashboard')}}"><i class="la la-home"></i>
             <span>{{ trans('admin.dashboard') }}</span>
           </a>
         </li>
@@ -327,7 +327,7 @@ data-open="click" data-menu="horizontal-menu" data-col="content-detached-right-s
           </ul>
         </li>
         <li class="dropdown nav-item" data-menu="dropdown">
-          <a class="dropdown-toggle nav-link" href="index.html" data-toggle="dropdown"><i class="la la-warning"></i>
+          <a class="dropdown-toggle nav-link" href="{{route('internal-regulations.teacher')}}"><i class="la la-warning"></i>
             <span>{{ trans('staff::local.internal_regulation') }}</span>
           </a>
         </li>

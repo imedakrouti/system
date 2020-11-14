@@ -217,7 +217,12 @@
                                                                        
             </ul>
         </li>     
-
+        {{-- internal regulation  --}}
+        <li class=" nav-item {{request()->segment(2)=='internal-regulation'?'active':''}}">
+            <a href="{{route('internal-regulations.index')}}"><i class="la la-exclamation-triangle">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.internal_regulation') }}</span>
+            </a>
+        </li> 
         {{-- training --}}
         {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-certificate"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.training') }}</span></a>
