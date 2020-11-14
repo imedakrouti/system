@@ -27,33 +27,7 @@
                 @csrf
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
-                    @include('layouts.backEnd.includes._msg')
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6">
-                            <div class="form-group">
-                              <label>{{ trans('learning::local.division') }}</label>
-                              <select name="division_id[]" class="form-control select2" multiple required>
-                                  @foreach ($divisions as $division)
-                                      <option {{old('division_id') == $division->id ? 'selected' : ''}} value="{{$division->id}}">
-                                          {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
-                                  @endforeach
-                              </select>
-                              <span class="red">{{ trans('learning::local.required') }}</span>                              
-                            </div>
-                        </div>    
-                        <div class="col-lg-4 col-md-6">
-                            <div class="form-group">
-                              <label>{{ trans('learning::local.grade') }}</label>
-                              <select name="grade_id[]" class="form-control select2" multiple required>
-                                  @foreach ($grades as $grade)
-                                      <option {{old('grade_id') == $grade->id ? 'selected' : ''}} value="{{$grade->id}}">
-                                          {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
-                                  @endforeach
-                              </select>
-                              <span class="red">{{ trans('learning::local.required') }}</span>                              
-                            </div>
-                        </div> 
-                    </div>                    
+                    @include('layouts.backEnd.includes._msg')                   
                     <div class="row">
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">

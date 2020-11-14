@@ -4,8 +4,6 @@ namespace Learning\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use Learning\Models\Settings\Subject;
 use Learning\Http\Requests\SubjectRequest;
-use Student\Models\Settings\Division;
-use Student\Models\Settings\Grade;
 
 class SubjectController extends Controller
 {
@@ -15,16 +13,14 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $grades = Grade::sort()->get();        
-        $divisions = Division::sort()->get();
+    {        
         $title = trans('learning::local.subjects');
-        $data = Subject::with('grade','division')->sort()->get();
+        $data = Subject::sort()->get();
         if (request()->ajax()) {
             return $this->dataTable($data);
         }
         return view('learning::settings.subjects.index',
-        compact('grades','divisions','title'));
+        compact('title'));
     }
     private function dataTable($data)
     {
@@ -35,15 +31,7 @@ class SubjectController extends Controller
                            <i class=" la la-edit"></i>
                        </a>';
                             return $btn;
-                    })
-                    ->addColumn('division_id',function($data){
-                        return session('lang') == 'ar' ? 
-                        $data->division->ar_division_name : $data->division->en_division_name;
                     })                    
-                    ->addColumn('grade_id',function($data){
-                        return session('lang') == 'ar' ? 
-                        $data->grade->ar_grade_name : $data->grade->en_grade_name;
-                    })
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
                                         <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -61,12 +49,10 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        $grades = Grade::sort()->get();        
-        $divisions = Division::sort()->get();
+    {        
         $title = trans('learning::local.new_subject');
         return view('learning::settings.subjects.create',
-        compact('grades','divisions','title'));
+        compact('title'));
     }
 
     private function attributes()
@@ -88,15 +74,7 @@ class SubjectController extends Controller
      */
     public function store(SubjectRequest $request)
     {        
-        foreach (request('division_id') as $division_id) {
-            foreach (request('grade_id') as $grade_id) {
-                $request->user()->subjects()->firstOrCreate($request->only($this->attributes()) + 
-                [
-                    'division_id' => $division_id,
-                    'grade_id' => $grade_id
-                ]);
-            }
-        }
+        $request->user()->subjects()->firstOrCreate($request->only($this->attributes()));        
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('subjects.index');
     }
@@ -109,12 +87,10 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Subject $subject)
-    {
-        $grades = Grade::sort()->get();        
-        $divisions = Division::sort()->get();
+    {        
         $title = trans('learning::local.edit_subject');
         return view('learning::settings.subjects.edit',
-        compact('grades','divisions','title','subject'));
+        compact('title','subject'));
     }
 
     /**
@@ -149,18 +125,5 @@ class SubjectController extends Controller
         }
         return response(['status'=>true]);
     }
-    public function filter()
-    {        
-        $grades = Grade::sort()->get();        
-        $divisions = Division::sort()->get();
-        $title = trans('learning::local.subjects');
-        $data = Subject::with('grade','division')->sort()
-        ->where('grade_id',request('grade_id'))
-        ->Where('division_id',request('division_id'))        
-        ->get();
-        
-        if (request()->ajax()) {
-            return $this->dataTable($data);
-        } 
-    }
+
 }

@@ -35,6 +35,7 @@
         <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">                                                 
                 <li class="{{request()->segment(3)=='subjects'?'active':''}}"><a class="menu-item" href="{{route('subjects.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('learning::local.subjects') }}</a></li>                         
+                <li class="{{request()->segment(3)=='teacher-subjects'?'active':''}}"><a class="menu-item" href="{{route('teacher-subjects.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('learning::local.teacher_subject') }}</a></li>                         
                 
             </ul>
         </li>                                                      
