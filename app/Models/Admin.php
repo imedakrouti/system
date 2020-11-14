@@ -365,4 +365,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Staff\Models\Employees\InternalRegulation','admin_id');
     }
+    public function announcements()
+    {
+        return $this->hasMany('Staff\Models\Employees\Announcement','admin_id');
+    }
 }

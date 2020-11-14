@@ -1,0 +1,86 @@
+@extends('layouts.backEnd.cpanel')
+@section('sidebar')
+@include('layouts.backEnd.includes.sidebars._staff')
+@endsection
+@section('content')
+<div class="content-header row">
+    <div class="content-header-left col-md-6 col-12 mb-2">
+      <h3 class="content-header-title">{{$title}}</h3>
+      <div class="row breadcrumbs-top">
+        <div class="breadcrumb-wrapper col-12">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('dashboard.staff')}}">{{ trans('admin.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('announcements.index')}}">{{ trans('staff::local.announcements') }}</a></li>
+            <li class="breadcrumb-item active">{{$title}}
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+      <div class="card">        
+        <div class="card-content collapse show">
+          <div class="card-body card-dashboard">
+            <form class="form form-horizontal" method="POST" action="{{route('announcements.store')}}">
+                @csrf
+                <div class="form-body">
+                    <h4 class="form-section"> {{ $title }}</h4>
+                    @include('layouts.backEnd.includes._msg')
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('staff::local.start_at') }}</label>
+                          <input type="date" class="form-control " value="{{old('start_at')}}" 
+                          placeholder="{{ trans('staff::local.start_at') }}"
+                            name="start_at" required>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                          
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('staff::local.end_at') }}</label>
+                          <input type="date" class="form-control " value="{{old('end_at')}}" 
+                          placeholder="{{ trans('staff::local.end_at') }}"
+                            name="end_at" required>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                          
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('staff::local.domain_role') }}</label>
+                          <select name="domain_role[]" class="form-control select2" multiple required>                            
+                            <option {{old('domain_role') == 'super admin' ?'selected':''}} value="super admin">{{ trans('staff::local.super_admin') }}</option>
+                            <option {{old('domain_role') == 'manager' ?'selected':''}} value="manager">{{ trans('staff::local.manager') }}</option>
+                            <option {{old('domain_role') == 'super visor' ?'selected':''}} value="super visor">{{ trans('staff::local.super_visor') }}</option>
+                            <option {{old('domain_role') == 'staff' ?'selected':''}} value="staff">{{ trans('staff::local.staff') }}</option>
+                            <option {{old('domain_role') == 'teacher' ?'selected':''}} value="teacher">{{ trans('staff::local.teacher') }}</option>                    
+                          </select> <br>
+                          <span class="red">{{ trans('staff::local.required') }}</span>                                                   
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12"> 
+                        <label>{{ trans('staff::local.announcement') }}</label>
+                        <textarea class="form-control" name="announcement" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('announcement')}}</textarea>                                                                 
+                        <span class="red">{{ trans('staff::local.required') }}</span>                                                   
+                    </div>                                  
+                </div>
+                <div class="form-actions left">
+                    <button type="submit" class="btn btn-success">
+                        <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
+                      </button>
+                    <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('announcements.index')}}';">
+                    <i class="ft-x"></i> {{ trans('admin.cancel') }}
+                  </button>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+@endsection
+@section('script')
+<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
+@endsection

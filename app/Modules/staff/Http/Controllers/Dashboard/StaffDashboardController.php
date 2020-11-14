@@ -11,4 +11,5 @@ class StaffDashboardController extends Controller
         return view('staff::dashboard.staff',      
         compact('title'));
     }
+
 }

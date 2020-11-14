@@ -123,12 +123,16 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('/internal-regulation/teacher','InternalRegulationController@showForTeacher')->name('internal-regulations.teacher');
     Route::get('teacher/account','TeacherController@account')->name('teacher.account');
     Route::get('teacher/password','TeacherController@password')->name('teacher.password');
-
-
+    Route::get('teacher/dashboard','TeacherController@dashboard')->name('teacher.dashboard');
 
     // internal regulation
     Route::get('/internal-regulation','InternalRegulationController@index')->name('internal-regulations.index');
     Route::post('/internal-regulation','InternalRegulationController@update')->name('internal-regulations.update');
-    
+
+    // announcements
+    Route::resource('announcements','AnnouncementController')->except('destroy','show');
+    Route::post('announcements/destroy','AnnouncementController@destroy')->name('announcements.destroy');  
+
+
 
 });  

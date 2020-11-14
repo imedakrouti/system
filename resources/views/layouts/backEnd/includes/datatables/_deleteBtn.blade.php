@@ -8,6 +8,7 @@
             swal({
                     title: "{{trans('msg.delete_confirmation')}}",
                     text: "{{trans('msg.delete_ask')}}",
+                    type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#D15B47",
                     confirmButtonText: "{{trans('msg.yes')}}",

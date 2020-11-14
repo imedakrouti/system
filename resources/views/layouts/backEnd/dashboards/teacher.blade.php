@@ -310,7 +310,7 @@ data-open="click" data-menu="horizontal-menu" data-col="content-detached-right-s
     <div class="navbar-container main-menu-content container center-layout" data-menu="menu-container">
       <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
         <li class="dropdown nav-item" data-menu="dropdown">
-          <a class="dropdown-toggle nav-link" href="{{route('main.dashboard')}}"><i class="la la-home"></i>
+          <a class="dropdown-toggle nav-link" href="{{route('teacher.dashboard')}}"><i class="la la-home"></i>
             <span>{{ trans('admin.dashboard') }}</span>
           </a>
         </li>

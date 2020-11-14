@@ -2,7 +2,8 @@
 
 namespace Staff\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
-
+use Staff\Models\Employees\Announcement;
+use Carbon;
 class TeacherController extends Controller
 {
     public function permissions()
@@ -36,5 +37,14 @@ class TeacherController extends Controller
     public function password()
     {
         return view('staff::teacher.password');
+    }
+    public function dashboard()
+    {
+        $announcements = Announcement::where('domain_role','teacher')
+        ->where('start_at','>=',\Carbon\Carbon::today())
+        ->where('end_at','<=',\Carbon\Carbon::today())
+        ->orderBy('id','desc')->limit(5)->get();
+        return view('staff::teacher.teacher',
+        compact('announcements'));
     }
 }

@@ -223,6 +223,12 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.internal_regulation') }}</span>
             </a>
         </li> 
+        {{-- accouncements  --}}
+        <li class=" nav-item {{request()->segment(2)=='announcemets'?'active':''}}">
+            <a href="{{route('announcements.index')}}"><i class="la la-lightbulb-o">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('staff::local.announcements') }}</span>
+            </a>
+        </li> 
         {{-- training --}}
         {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-certificate"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.training') }}</span></a>
