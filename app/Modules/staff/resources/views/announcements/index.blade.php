@@ -55,7 +55,7 @@
                           <div class="card-content collapse show">
                             <div class="card-body">                                                                                                               
                               <p class="card-text">{!!$announcement->announcement!!}</p>
-                              <span class="primary" style="font-size: 13px;">
+                              <span class="black" style="font-size: 13px;">
                                 <strong>{{ trans('staff::local.apper_to') }}</strong> :  {{$announcement->domain_role}} |
                               <strong> {{ trans('staff::local.start_at') }}</strong> : {{$announcement->start_at}} | 
                                 <strong>{{ trans('staff::local.end_at') }} </strong>: {{$announcement->end_at}}
