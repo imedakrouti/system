@@ -2,20 +2,23 @@
 
 namespace Learning\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
-use Learning\Models\Settings\Subject;
-use Learning\Models\Settings\TeacherSubject;
+use Learning\Models\Settings\EmployeeClassroom;
 use Staff\Models\Employees\Employee;
 
-class TeacherSubjectController extends Controller
+use Student\Models\Settings\Division;
+use Student\Models\Settings\Grade;
+
+class EmployeeClassroomController extends Controller
 {
     public function index()
     {
-        $title = trans('learning::local.teacher_subject');
-        $data = TeacherSubject::with('employee','subject')->get();
+        $title = trans('learning::local.teacher_classes');        
+        $data = Employee::has('classrooms')->work()->orderBy('attendance_id')->get();    
         if (request()->ajax()) {
             return $this->dataTable($data);
         }
-        return view('learning::settings.teacher-subjects.index',
+        
+        return view('learning::settings.teacher-classes.index',
         compact('title'));
     }
     private function dataTable($data)
@@ -23,17 +26,33 @@ class TeacherSubjectController extends Controller
         return datatables($data)
                     ->addIndexColumn()   
                     ->addColumn('attendance_id',function($data){
-                        return $data->employee->attendance_id;
+                        return $data->attendance_id;
                     })                                                   
                     ->addColumn('employee_name',function($data){
-                        return $this->getFullEmployeeName($data->employee);
+                        return $this->getFullEmployeeName($data);
                     })
                     ->addColumn('employee_image',function($data){
-                        return $this->employeeImage($data->employee);
+                        return $this->employeeImage($data);
                     })
-                    ->addColumn('subject',function($data){
-                        return session('lang') == 'ar' ? 
-                        $data->subject->ar_name : $data->subject->en_name;
+                    ->addColumn('classrooms',function($data){                        
+                        $class_name = '';
+                        foreach ($data->classrooms as $classroom) {                            
+                            $class_name .= '<div class="badge badge-warning">
+                                                <span>'. $classroom->ar_name_classroom.'</span>
+                                                <i class="la la-flag font-medium-3"></i>
+                                            </div> ' ;
+                        }
+                        return $class_name;
+                    })
+                    ->addColumn('subjects',function($data){                        
+                        $subject_name = '';
+                        foreach ($data->subjects as $subject) {                            
+                            $subject_name .= '<div class="badge badge-primary">
+                                                <span>'. $subject->ar_name.'</span>
+                                                <i class="la la-folder-o font-medium-3"></i>
+                                            </div> ' ;
+                        }
+                        return $subject_name;
                     })
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
@@ -42,7 +61,7 @@ class TeacherSubjectController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['check','subject','employee_name','employee_image','attendance_id'])
+                    ->rawColumns(['check','classrooms','employee_name','employee_image','attendance_id','subjects'])
                     ->make(true);
     }
     private function getFullEmployeeName($data)
@@ -74,23 +93,26 @@ class TeacherSubjectController extends Controller
     public function create()
     {
         $employees = Employee::work()->orderBy('attendance_id')->get();
-        $subjects = Subject::sort()->get();
-        $title = trans('learning::local.add_teacher_subject');
-        return view('learning::settings.teacher-subjects.create',
-        compact('employees','subjects','title'));
+        $divisions = Division::sort()->get();
+        $grades = Grade::sort()->get();
+        $title = trans('learning::local.add_teacher_classroom');
+        return view('learning::settings.teacher-classes.create',
+        compact('employees','divisions','grades','title'));
     }
     public function store()
     {
-        if (request()->has('employee_id')) {
+        if (request()->has('employee_id','classroom_id')) {
             foreach (request('employee_id') as $employee_id) {
-                request()->user()->teacherSubject()->firstOrCreate([
-                    'employee_id' => $employee_id,
-                    'subject_id'  => request('subject_id'),
-                ]);
+                foreach (request('classroom_id') as $classroom_id) {
+                    request()->user()->teacherClasses()->firstOrCreate([
+                        'employee_id'   => $employee_id,
+                        'classroom_id'  => $classroom_id,
+                    ]);                    
+                }
             }
+            toast(trans('msg.stored_successfully'),'success');
         }
-        toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('teacher-subjects.index');
+        return redirect()->route('teacher-classes.index');
     }
     public function destroy()
     {
@@ -98,7 +120,7 @@ class TeacherSubjectController extends Controller
             if (request()->has('id'))
             {
                 foreach (request('id') as $id) {
-                    TeacherSubject::destroy($id);
+                    EmployeeClassroom::destroy($id);
                 }
             }
         }

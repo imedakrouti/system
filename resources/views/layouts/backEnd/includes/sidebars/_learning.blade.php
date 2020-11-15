@@ -14,7 +14,7 @@
             </a>
         </li>      
         {{-- employees --}}
-        <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
+        {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-users"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.employees') }}</span></a>
             <ul class="menu-content">                
                 <li class=" nav-item {{request()->segment(2)=='employees'?'active':''}}">
@@ -29,13 +29,14 @@
                 </li>  
 
             </ul>
-        </li>   
+        </li>    --}}
      
         {{-- settings --}}
         <li class=" nav-item {{request()->segment(2)=='settings'?'active':''}}"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('admin.settings') }}</span></a>
             <ul class="menu-content">                                                 
                 <li class="{{request()->segment(3)=='subjects'?'active':''}}"><a class="menu-item" href="{{route('subjects.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('learning::local.subjects') }}</a></li>                         
                 <li class="{{request()->segment(3)=='teacher-subjects'?'active':''}}"><a class="menu-item" href="{{route('teacher-subjects.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('learning::local.teacher_subject') }}</a></li>                         
+                <li class="{{request()->segment(3)=='teacher-classes'?'active':''}}"><a class="menu-item" href="{{route('teacher-classes.index')}}" ><i class="la la-angle-{{session('lang') =='ar' ?'left':'right'}}"></i> {{ trans('learning::local.teacher_classes') }}</a></li>                         
                 
             </ul>
         </li>                                                      

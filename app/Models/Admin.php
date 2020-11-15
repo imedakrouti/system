@@ -375,6 +375,10 @@ class Admin extends Authenticatable
     }
     public function teacherSubject()
     {
-        return $this->hasMany('Learning\Models\Settings\TeacherSubject','admin_id');
+        return $this->hasMany('Learning\Models\Settings\EmployeeSubject','admin_id');
+    }
+    public function teacherClasses()
+    {
+        return $this->hasMany('Learning\Models\Settings\EmployeeClassroom','admin_id');
     }
 }

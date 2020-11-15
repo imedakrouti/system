@@ -158,4 +158,12 @@ class Employee extends Model
     {
         return $this->attributes['gender'] == 'male' ? trans('staff::local.male') : trans('staff::local.female');
     }
+    public function classrooms()
+    {        
+        return $this->belongsToMany('Student\Models\Settings\Classroom','employee_classroom','employee_id','classroom_id');
+    }
+    public function subjects()
+    {        
+        return $this->belongsToMany('Learning\Models\Settings\Subject','employee_subject','employee_id','subject_id');
+    }
 }

@@ -40,7 +40,8 @@
                                 <th>{{trans('staff::local.employee_image')}}</th>                                
                                 <th>{{trans('staff::local.attendance_id')}}</th>
                                 <th>{{trans('staff::local.employee_name')}}</th>
-                                <th>{{trans('learning::local.subject')}}</th>                                
+                                <th>{{trans('learning::local.classrooms')}}</th>                                
+                                <th>{{trans('learning::local.subjects')}}</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -62,27 +63,27 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('learning::local.add_teacher_subject')}}",
+                    "text": "{{trans('learning::local.add_teacher_classroom')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('teacher-subjects.create')}}";
+                        window.location.href = "{{route('teacher-classes.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'teacher-subjects.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'teacher-classes.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('teacher-subjects.index') }}",
+          ajax: "{{ route('teacher-classes.index') }}",
           columns: [
                 {data: 'check',                 name: 'check', orderable: false, searchable: false},
                 {data: 'DT_RowIndex',           name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'employee_image',        name: 'employee_image'},
                 {data: 'attendance_id',         name: 'attendance_id'},
                 {data: 'employee_name',         name: 'employee_name'},
-                {data: 'subjects',              name: 'subjects'},              
-                
+                {data: 'classrooms',            name: 'classrooms'},                              
+                {data: 'subjects',              name: 'subjects'},                              
             ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

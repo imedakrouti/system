@@ -4,9 +4,9 @@ namespace Learning\Models\Settings;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TeacherSubject extends Model
+class EmployeeSubject extends Model
 {
-    protected $table = "teacher_subjects";
+    protected $table = "employee_subject";
 
     protected $fillable = [
         'employee_id' , 'subject_id' , 'admin_id'
@@ -21,12 +21,5 @@ class TeacherSubject extends Model
     {
         $this->belongsTo(App\Models\Admin::class);
     }
-    public function employee()
-    {
-        return $this->belongsTo('Staff\Models\Employees\Employee','employee_id');
-    }
-    public function subject()
-    {
-        return $this->belongsTo('Learning\Models\Settings\Subject','subject_id');
-    }
+
 }

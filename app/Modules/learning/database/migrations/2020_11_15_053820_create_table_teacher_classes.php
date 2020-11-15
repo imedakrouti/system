@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableTeacherSubjects extends Migration
+class CreateTableTeacherClasses extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,20 @@ class CreateTableTeacherSubjects extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('employee_subject', function (Blueprint $table) {
+        Schema::connection('mysql')->create('employee_classroom', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('subject_id')->nullable();
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade')->onUpdate('cascade');            
+            $table->unsignedBigInteger('classroom_id')->nullable();
+            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');            
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');            
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
-
-        Schema::connection('mysql2')->create('employee_subject', function (Blueprint $table) {
+        Schema::connection('mysql2')->create('employee_classroom', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('subject_id')->nullable();
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade')->onUpdate('cascade');            
+            $table->unsignedBigInteger('classroom_id')->nullable();
+            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');            
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');            
             $table->unsignedBigInteger('admin_id');
@@ -43,7 +42,7 @@ class CreateTableTeacherSubjects extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('employee_subject');
-        Schema::connection('mysql2')->dropIfExists('employee_subject');
+        Schema::connection('mysql')->dropIfExists('employee_classroom');
+        Schema::connection('mysql2')->dropIfExists('employee_classroom');
     }
 }

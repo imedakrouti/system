@@ -43,4 +43,8 @@ class Classroom extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function employees()
+    {        
+        return $this->belongsToMany('Staff\Models\Employees\Employee','employee_classroom','classroom_id','employee_id');
+    }
 }
