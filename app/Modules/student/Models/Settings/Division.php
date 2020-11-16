@@ -22,4 +22,10 @@ class Division extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function subjects()
+    {        
+        return $this->belongsToMany('Learning\Models\Settings\Subject','division_subject','division_id','subject_id');
+    }
+    
+
 }

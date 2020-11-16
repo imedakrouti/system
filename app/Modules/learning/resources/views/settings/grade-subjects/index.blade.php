@@ -36,11 +36,9 @@
                         <thead class="bg-info white">
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
-                                <th>#</th>
-                                <th>{{trans('learning::local.ar_name_subject')}}</th>                                
-                                <th>{{trans('learning::local.en_name_subject')}}</th>                                                                
-                                <th>{{trans('student::local.sort')}}</th>                                
-                                <th>{{trans('student::local.edit')}}</th>
+                                <th>#</th>                                
+                                <th>{{trans('student::local.grade')}}</th>                                                                
+                                <th>{{trans('learning::local.subject')}}</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -62,25 +60,30 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('learning::local.new_subject')}}",
+                    "text": "{{trans('learning::local.add_grade_subject')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('subjects.create')}}";
+                        window.location.href = "{{route('grade-subjects.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'subjects.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'grade-subjects.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('subjects.index') }}",
-          @include('learning::settings.subjects.includes._columns'),
+          ajax: "{{ route('grade-subjects.index') }}",
+          columns: [
+                {data: 'check',                 name: 'check', orderable: false, searchable: false},
+                {data: 'DT_RowIndex',           name: 'DT_RowIndex', orderable: false, searchable: false},                                
+                {data: 'grade',                 name: 'grade'},
+                {data: 'subjects',              name: 'subjects'},              
+                
+            ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });  
-
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

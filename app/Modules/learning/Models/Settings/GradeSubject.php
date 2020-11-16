@@ -4,14 +4,12 @@ namespace Learning\Models\Settings;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class GradeSubject extends Model
 {
+    protected $table = 'grade_subject';
+
     protected $fillable = [
-        'ar_name',
-        'en_name',
-        'sort',
-        'image',                
-        'admin_id',
+        'grade_id' , 'subject_id' , 'admin_id'
     ];
     public function __construct(Array $attributes = [])
     {
@@ -22,10 +20,7 @@ class Subject extends Model
     public function admins()
     {
         $this->belongsTo(App\Models\Admin::class);
-    }
-    
-    public function scopeSort($query)
-    {
-        return $query->orderBy('sort','asc');
-    }
+    }  
+
+
 }

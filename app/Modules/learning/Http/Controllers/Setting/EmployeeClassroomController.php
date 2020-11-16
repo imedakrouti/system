@@ -13,7 +13,8 @@ class EmployeeClassroomController extends Controller
     public function index()
     {
         $title = trans('learning::local.teacher_classes');        
-        $data = Employee::has('classrooms')->work()->orderBy('attendance_id')->get();    
+        $data = Employee::has('classrooms')->work()->orderBy('attendance_id')->get();  
+        
         if (request()->ajax()) {
             return $this->dataTable($data);
         }
@@ -34,11 +35,12 @@ class EmployeeClassroomController extends Controller
                     ->addColumn('employee_image',function($data){
                         return $this->employeeImage($data);
                     })
-                    ->addColumn('classrooms',function($data){                        
+                    ->addColumn('classrooms',function($data){     
                         $class_name = '';
                         foreach ($data->classrooms as $classroom) {                            
+                            $class = session('lang') =='ar' ? $classroom->ar_name_classroom:$classroom->en_name_classroom;                   
                             $class_name .= '<div class="badge badge-warning">
-                                                <span>'. $classroom->ar_name_classroom.'</span>
+                                                <span>'. $class.'</span>
                                                 <i class="la la-flag font-medium-3"></i>
                                             </div> ' ;
                         }
@@ -46,10 +48,11 @@ class EmployeeClassroomController extends Controller
                     })
                     ->addColumn('subjects',function($data){                        
                         $subject_name = '';
-                        foreach ($data->subjects as $subject) {                            
+                        foreach ($data->subjects as $subject) {     
+                            $sub = session('lang') == 'ar' ? $subject->ar_name : $subject->en_name;
                             $subject_name .= '<div class="badge badge-primary">
-                                                <span>'. $subject->ar_name.'</span>
-                                                <i class="la la-folder-o font-medium-3"></i>
+                                                <span>'. $sub.'</span>
+                                                <i class="la la-book font-medium-3"></i>
                                             </div> ' ;
                         }
                         return $subject_name;
@@ -115,12 +118,12 @@ class EmployeeClassroomController extends Controller
         return redirect()->route('teacher-classes.index');
     }
     public function destroy()
-    {
+    {        
         if (request()->ajax()) {
             if (request()->has('id'))
             {
-                foreach (request('id') as $id) {
-                    EmployeeClassroom::destroy($id);
+                foreach (request('id') as $employee_id) {
+                    EmployeeClassroom::where('employee_id',$employee_id)->delete();
                 }
             }
         }

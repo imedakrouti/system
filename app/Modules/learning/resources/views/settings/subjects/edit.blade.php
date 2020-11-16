@@ -28,7 +28,8 @@
                 @method('PUT')
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
-                    @include('layouts.backEnd.includes._msg')                   
+                    @include('layouts.backEnd.includes._msg')   
+                
                     <div class="row">
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">

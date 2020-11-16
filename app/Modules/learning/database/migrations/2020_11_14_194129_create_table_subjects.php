@@ -18,7 +18,7 @@ class CreateTableSubjects extends Migration
             $table->string('ar_name');
             $table->string('en_name');
             $table->string('image')->nullable();
-            $table->integer('sort');            
+            $table->integer('sort');               
             $table->unsignedBigInteger('admin_id');         
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
@@ -29,7 +29,7 @@ class CreateTableSubjects extends Migration
             $table->string('ar_name');
             $table->string('en_name');
             $table->string('image')->nullable();
-            $table->integer('sort');            
+            $table->integer('sort');                
             $table->unsignedBigInteger('admin_id');         
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();

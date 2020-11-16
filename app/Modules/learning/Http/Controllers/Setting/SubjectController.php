@@ -4,6 +4,7 @@ namespace Learning\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use Learning\Models\Settings\Subject;
 use Learning\Http\Requests\SubjectRequest;
+use Student\Models\Settings\Division;
 
 class SubjectController extends Controller
 {
@@ -31,7 +32,7 @@ class SubjectController extends Controller
                            <i class=" la la-edit"></i>
                        </a>';
                             return $btn;
-                    })                    
+                    })                              
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
                                         <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -49,7 +50,7 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {        
+    {              
         $title = trans('learning::local.new_subject');
         return view('learning::settings.subjects.create',
         compact('title'));
@@ -73,8 +74,8 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(SubjectRequest $request)
-    {        
-        $request->user()->subjects()->firstOrCreate($request->only($this->attributes()));        
+    {                
+        $request->user()->subjects()->firstOrCreate($request->only($this->attributes()));                        
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('subjects.index');
     }
@@ -87,7 +88,7 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Subject $subject)
-    {        
+    {                
         $title = trans('learning::local.edit_subject');
         return view('learning::settings.subjects.edit',
         compact('title','subject'));
@@ -101,8 +102,8 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(SubjectRequest $request, Subject $subject)
-    {
-        $subject->update($request->only($this->attributes()));
+    {              
+        $subject->update($request->only($this->attributes()));                        
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('subjects.index');
     }

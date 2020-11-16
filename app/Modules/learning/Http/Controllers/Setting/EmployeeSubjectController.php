@@ -33,10 +33,11 @@ class EmployeeSubjectController extends Controller
                     })
                     ->addColumn('subjects',function($data){                        
                         $subject_name = '';
-                        foreach ($data->subjects as $subject) {                            
+                        foreach ($data->subjects as $subject) {     
+                            $sub = session('lang') == 'ar' ? $subject->ar_name : $subject->en_name;
                             $subject_name .= '<div class="badge badge-primary">
-                                                <span>'. $subject->ar_name.'</span>
-                                                <i class="la la-check-circle-o font-medium-3"></i>
+                                                <span>'. $sub.'</span>
+                                                <i class="la la-folder-o font-medium-3"></i>
                                             </div> ' ;
                         }
                         return $subject_name;
@@ -103,8 +104,8 @@ class EmployeeSubjectController extends Controller
         if (request()->ajax()) {
             if (request()->has('id'))
             {
-                foreach (request('id') as $id) {
-                    EmployeeSubject::destroy($id);
+                foreach (request('id') as $employee_id) {
+                    EmployeeSubject::where('employee_id',$employee_id)->delete();
                 }
             }
         }

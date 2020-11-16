@@ -43,4 +43,8 @@ class Grade extends Model
     {
         return $this->hasMany('Student\Models\Students\SetMigration','from_grade_id');
     }
+    public function subjects()
+    {        
+        return $this->belongsToMany('Learning\Models\Settings\Subject','grade_subject','grade_id','subject_id');
+    }  
 }
