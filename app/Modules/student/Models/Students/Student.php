@@ -169,6 +169,9 @@ class Student extends Model
     {
         return $this->attributes['en_student_name'] = ucfirst($value);
     }
-
+    public function subjects()
+    {        
+        return $this->belongsToMany('Learning\Models\Settings\Subject','student_subject','student_id','subject_id');
+    }
 
 }
