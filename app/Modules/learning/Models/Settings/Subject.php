@@ -8,7 +8,9 @@ class Subject extends Model
 {
     protected $fillable = [
         'ar_name',
+        'ar_shortcut',
         'en_name',
+        'en_shortcut',
         'sort',
         'image',                
         'admin_id',

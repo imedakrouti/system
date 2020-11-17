@@ -16,7 +16,21 @@ class CreateTableSubjects extends Migration
         Schema::connection('mysql')->create('subjects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('ar_name');
+            $table->string('ar_shortcut');
             $table->string('en_name');
+            $table->string('en_shortcut');
+            $table->string('image')->nullable();
+            $table->integer('sort');               
+            $table->unsignedBigInteger('admin_id');         
+            $table->foreign('admin_id')->references('id')->on('admins');
+            $table->timestamps();
+        });
+        Schema::connection('mysql2')->create('subjects', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('ar_name');
+            $table->string('ar_shortcut');
+            $table->string('en_name');
+            $table->string('en_shortcut');
             $table->string('image')->nullable();
             $table->integer('sort');               
             $table->unsignedBigInteger('admin_id');         
@@ -24,16 +38,7 @@ class CreateTableSubjects extends Migration
             $table->timestamps();
         });
 
-        Schema::connection('mysql2')->create('subjects', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('ar_name');
-            $table->string('en_name');
-            $table->string('image')->nullable();
-            $table->integer('sort');                
-            $table->unsignedBigInteger('admin_id');         
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+
     }
 
     /**

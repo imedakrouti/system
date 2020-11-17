@@ -60,9 +60,11 @@ class SubjectController extends Controller
     {
         return [
             'ar_name',
+            'ar_shortcut',
             'en_name',
+            'en_shortcut',
             'sort',
-            'image',            
+            'image',                
             'admin_id',
         ];
     }

@@ -37,8 +37,11 @@
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>                                
+                                <th>{{trans('student::local.student_number')}}</th>                                                                
+                                <th>{{trans('student::local.student_name')}}</th>                                                                
+                                <th>{{trans('student::local.division')}}</th>                                                                
                                 <th>{{trans('student::local.grade')}}</th>                                                                
-                                <th>{{trans('learning::local.subject')}}</th>                                
+                                <th>{{trans('learning::local.subjects')}}</th>                                
                             </tr>
                         </thead>
                         <tbody>
@@ -60,22 +63,25 @@
             buttons: [
                 // new btn
                 {
-                    "text": "{{trans('learning::local.add_grade_subject')}}",
+                    "text": "{{trans('learning::local.add_student_subject')}}",
                     "className": "btn btn-success buttons-print btn-success mr-1",
                     action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('grade-subjects.create')}}";
+                        window.location.href = "{{route('student-subjects.create')}}";
                         }
                 },
                 // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'grade-subjects.destroy'])
+                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'student-subjects.destroy'])
 
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('grade-subjects.index') }}",
+          ajax: "{{ route('student-subjects.index') }}",
           columns: [
                 {data: 'check',                 name: 'check', orderable: false, searchable: false},
                 {data: 'DT_RowIndex',           name: 'DT_RowIndex', orderable: false, searchable: false},                                
+                {data: 'student_number',        name: 'student_number'},
+                {data: 'student_name',          name: 'student_name'},
+                {data: 'division',              name: 'division'},
                 {data: 'grade',                 name: 'grade'},
                 {data: 'subjects',              name: 'subjects'},              
                 

@@ -4,12 +4,12 @@ namespace Learning\Models\Settings;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DivisionSubject extends Model
+class StudentSubject extends Model
 {
-    protected $table = 'division_subject';
+    protected $table = 'student_subject';
 
     protected $fillable = [
-        'division_id' , 'subject_id' , 'admin_id'
+        'student_id' , 'subject_id' , 'admin_id'
     ];
     public function __construct(Array $attributes = [])
     {

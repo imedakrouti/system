@@ -38,7 +38,9 @@
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
                                 <th>{{trans('learning::local.ar_name_subject')}}</th>                                
+                                <th>{{trans('learning::local.ar_shortcut')}}</th>                                
                                 <th>{{trans('learning::local.en_name_subject')}}</th>                                                                
+                                <th>{{trans('learning::local.en_shortcut')}}</th>                                                                
                                 <th>{{trans('student::local.sort')}}</th>                                
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>

@@ -39,9 +39,27 @@
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">
+                              <label>{{ trans('learning::local.ar_shortcut') }}</label>
+                              <input type="text" class="form-control " value="{{old('ar_shortcut')}}" placeholder="{{ trans('learning::local.ar_shortcut') }}"
+                                name="ar_shortcut" required>
+                                <span class="red">{{ trans('learning::local.required') }}</span>                              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
                               <label>{{ trans('learning::local.en_name_subject') }}</label>
                               <input type="text" class="form-control " value="{{old('en_name')}}" placeholder="{{ trans('learning::local.en_name_subject') }}"
                                 name="en_name" required>
+                                <span class="red">{{ trans('learning::local.required') }}</span>                              
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="form-group">
+                              <label>{{ trans('learning::local.en_shortcut') }}</label>
+                              <input type="text" class="form-control " value="{{old('en_shortcut')}}" placeholder="{{ trans('learning::local.en_shortcut') }}"
+                                name="en_shortcut" required>
                                 <span class="red">{{ trans('learning::local.required') }}</span>                              
                             </div>
                         </div>
