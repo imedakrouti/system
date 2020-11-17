@@ -36,6 +36,7 @@ class Father extends Model
         'marital_status' ,
         'recognition' ,        
         'admin_id' ,
+        'user_id' ,
         
     ];
     public function __construct(Array $attributes = [])

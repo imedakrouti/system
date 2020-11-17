@@ -3,6 +3,7 @@
 namespace Student\Http\Controllers\ParentsAndStudents;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\User;
 use Student\Http\Requests\StudentRequest;
 use Student\Models\Guardians\Guardian;
 use Student\Models\Parents\Father;
@@ -226,12 +227,22 @@ class StudentController extends Controller
         }        
         DB::transaction(function () use ($request) {        
             $this->uploadStudentImage($request->id);
+            // create student user
+            $user_id = User::create([
+                'name'          => request('en_student_name'),
+                'ar_name'       => request('ar_student_name'),
+                'domain_role'   => 'parent',
+                'username'      => $this->studentNumber(),                
+                'password'      => 'password',                
+            ]);            
             $student = $request->user()->students()->firstOrCreate($request->only($this->studentAttributes()) 
             + [
                 'student_image' => $this->student_image,
                 'student_number'=> $this->studentNumber(),
                 'code'          => $this->studentCode(),
-                'year_id'       => currentYear()]);  
+                'year_id'       => currentYear(),  
+                'user_id'       => $user_id->id
+            ]);  
             
             $this->studentAdmissionSteps($student->id);
             

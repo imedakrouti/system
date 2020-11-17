@@ -44,6 +44,7 @@ class Student extends Model
         'admin_id',
         'siblings',
         'twins',
+        'user_id',
     
     ];
     public function __construct(Array $attributes = [])

@@ -26,24 +26,24 @@ class StudentSubjectController extends Controller
         return datatables($data)
                     ->addIndexColumn()                       
                     ->addColumn('student_number',function($data){
-                        return $data->students->student_number;
+                        return $data->student_number;
                     })
                     ->addColumn('student_name',function($data){
-                        return $this->getStudentName($data);
+                        return $this->fullStudentName($data);
                     })
                     ->addColumn('grade',function($data){
-                        return session('lang') == 'ar' ? $data->students->grade->ar_grade_name:$data->students->grade->en_grade_name;
+                        return session('lang') == 'ar' ? $data->grade->ar_grade_name:$data->grade->en_grade_name;
                     }) 
                     ->addColumn('division',function($data){
-                        return session('lang') == 'ar' ? $data->students->division->ar_division_name:$data->students->division->en_division_name;
+                        return session('lang') == 'ar' ? $data->division->ar_division_name:$data->division->en_division_name;
                     })                
                     ->addColumn('subjects',function($data){                        
                         $subject_name = '';
                         foreach ($data->subjects as $subject) {     
                             $sub = session('lang') == 'ar' ? $subject->ar_name : $subject->en_name;
-                            $subject_name .= '<div class="badge badge-primary">
+                            $subject_name .= '<div class="badge badge-danger">
                                                 <span>'. $sub.'</span>
-                                                <i class="la la-folder-o font-medium-3"></i>
+                                                <i class="la la-book font-medium-3"></i>
                                             </div> ' ;
                         }
                         return $subject_name;
@@ -55,15 +55,20 @@ class StudentSubjectController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['check','subjects','grade'])
+                    ->rawColumns(['check','subjects','grade','student_number','student_name','division','grade'])
                     ->make(true);
     }
-    private function getStudentName($data)
-    {        
-        return session('lang') == 'ar' ?
-        '<a href="'.route('students.show',$data->students->id).'">'. $data->students->ar_student_name.' '. $data->students->father->ar_st_name .' '.$data->students->father->ar_nd_name .' '.$data->students->father->ar_rd_name .' '.$data->students->father->ar_th_name .'</a>':
-        
-        '<a href="'.route('students.show',$data->students->id).'">'. $data->students->en_student_name.' '.$data->students->father->en_st_name .' '.$data->students->father->en_nd_name .' '.$data->students->father->en_rd_name .' '.$data->students->father->en_th_name .'</a>';  
+    private function fullStudentName($data)
+    {   
+        if (session('lang') == 'ar') {
+          return   '<a href="'.route('students.show',$data->id).'">'.$data->ar_student_name 
+          . ' ' . $data->father->ar_st_name
+          . ' ' . $data->father->ar_nd_name. ' ' . $data->father->ar_rd_name.'</a>';
+        }else{
+            return   '<a href="'.route('students.show',$data->id).'">'.$data->en_student_name 
+            . ' ' . $data->father->en_st_name
+            . ' ' . $data->father->en_nd_name. ' ' . $data->father->en_rd_name.'</a>';
+        }
     }
     public function create()
     {                

@@ -2,7 +2,7 @@
 
 namespace Student\Http\Controllers\ParentsAndStudents;
 use App\Http\Controllers\Controller;
-
+use App\Models\User;
 use DB;
 use Student\Http\Requests\FatherRequest;
 use Student\Http\Requests\MotherRequest;
@@ -138,8 +138,17 @@ class ParentController extends Controller
         $this->father = $fatherRequest->only($this->fatherAttributes());
         $this->mother = $motherRequest->only($this->motherAttributes());
         
-        DB::transaction(function () use ($fatherRequest,$motherRequest) {            
-            $fatherData = $fatherRequest->user()->fathers()->create($this->father);        
+        DB::transaction(function () use ($fatherRequest,$motherRequest) {  
+            // create parent user
+            $user_id = User::create([
+                'name'          => request('en_st_name'),
+                'ar_name'       => request('ar_st_name'),
+                'domain_role'   => 'parent',
+                'username'      => strtolower(str_replace(' ', '', trim(request('mobile1')))),
+                'email'         => request('email'),
+                'password'      => 'password',                
+            ]);            
+            $fatherData = $fatherRequest->user()->fathers()->create($this->father + ['user_id' => $user_id->id]);        
             $motherData = $motherRequest->user()->mothers()->create($this->mother);    
             $this->father_id = $fatherData->id;
             $father = Father::find($this->father_id);
