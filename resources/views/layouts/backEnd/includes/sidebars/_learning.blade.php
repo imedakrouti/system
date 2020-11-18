@@ -9,10 +9,22 @@
           </li>        
         {{-- dashboard --}}
         <li class=" nav-item {{request()->segment(2)=='dashboard'?'active':''}}">
-            <a href="{{route('dashboard.staff')}}"><i class="la la-home">
+            <a href="{{route('dashboard.learning')}}"><i class="la la-home">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.dashboard') }}</span>
             </a>
-        </li>      
+        </li> 
+        {{-- playlists --}}
+        <li class=" nav-item {{request()->segment(2)=='playlists'?'active':''}}">
+            <a href="{{route('playlists.index')}}"><i class="la la-youtube-play">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('learning::local.playlists') }}</span>
+            </a>
+        </li>     
+        {{-- lessons --}}
+        <li class=" nav-item {{request()->segment(2)=='lessons'?'active':''}}">
+            <a href="{{route('lessons.index')}}"><i class="la la-book">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('learning::local.lessons') }}</span>
+            </a>
+        </li>          
         {{-- employees --}}
         {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-users"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.employees') }}</span></a>
