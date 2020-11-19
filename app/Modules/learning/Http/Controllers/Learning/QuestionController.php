@@ -48,6 +48,7 @@ class QuestionController extends Controller
         // dd(request()->all());
         DB::transaction(function(){
             $question =  request()->user()->questions()->firstOrCreate(request()->only($this->attributes()));
+
             if (request('question_type') == 'multiple_choice' || request('question_type') == 'complete') {
                 foreach (request('repeater-group') as $answer) {                 
                     request()->user()->answers()->firstOrCreate([
@@ -57,17 +58,19 @@ class QuestionController extends Controller
                         'question_id'   => $question->id,
                     ]);
                 }                
-            }            
+            }        
+
             if (request('question_type') == 'true_false') {
-                for ($i=0; $i < count(request('answer_text')); $i++) { 
+                for ($i=0; $i < count(request('answer_text')); $i++) {                     
                    request()->user()->answers()->firstOrCreate([
-                       'answer_text'   => request('answer_text'),
+                       'answer_text'   => request('answer_text')[$i],
                        'answer_note'   => request('answer_note')[$i],
                        'right_answer'  => request('right_answer')[$i],
                        'question_id'   => $question->id,
                    ]);
                 }                
             }
+
             if (request('question_type') == 'essay') {
                 request()->user()->answers()->firstOrCreate([
                     'answer_text'   => '',
