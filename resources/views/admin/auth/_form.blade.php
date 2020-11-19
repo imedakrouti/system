@@ -1,11 +1,12 @@
 <form class="form-horizontal form-simple" action="{{route('setLogin')}}" novalidate method="POST">
     @csrf
-    <fieldset class="form-group position-relative has-icon-left mb-0">
+    <input type="hidden" name="school" value="meis">
+    {{-- <fieldset class="form-group position-relative has-icon-left mb-0">
         <select name="school" class="form-control">
             <option value="meis">{{session('lang') == 'ar' ? 'مدارس ميدل إيست' : 'Middle East Schools'}}</option>
             <option value="cgs">{{session('lang') == 'ar' ? 'مدرسة كابيتال جيت' : 'Capital Gate School'}}</option>
         </select>
-    </fieldset>
+    </fieldset> --}}
     <br>
     <fieldset class="form-group position-relative has-icon-left mb-0">
       <input type="text" class="form-control form-control-lg input-lg" id="user-name" placeholder="{{trans('admin.username')}}"

@@ -397,4 +397,20 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\Playlist','admin_id');
     }
+    public function exams()
+    {
+        return $this->hasMany('Learning\Models\Learning\Exam','admin_id');
+    }
+    public function questions()
+    {
+        return $this->hasMany('Learning\Models\Learning\Question','admin_id');
+    }
+    public function answers()
+    {
+        return $this->hasMany('Learning\Models\Learning\Answer','admin_id');
+    }
+    public function matchings()
+    {
+        return $this->hasMany('Learning\Models\Learning\Matching','admin_id');
+    }
 }

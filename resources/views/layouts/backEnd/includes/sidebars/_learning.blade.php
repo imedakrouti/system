@@ -24,7 +24,13 @@
             <a href="{{route('lessons.index')}}"><i class="la la-book">
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('learning::local.lessons') }}</span>
             </a>
-        </li>          
+        </li> 
+        {{-- exams --}}
+        <li class=" nav-item {{request()->segment(2)=='exams'?'active':''}}">
+            <a href="{{route('exams.index')}}"><i class="la la-tasks">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('learning::local.exams') }}</span>
+            </a>
+        </li>            
         {{-- employees --}}
         {{-- <li class=" nav-item {{request()->segment(2)=='admissions'?'active':''}}"><a href="#">
             <i class="la la-users"></i><span class="menu-title" data-i18n="nav.dash.main">{{ trans('staff::local.employees') }}</span></a>

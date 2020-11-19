@@ -31,7 +31,8 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="form-group row">
                             <label>{{ trans('learning::local.playlist_name') }}</label>
-                            <input type="text" class="form-control" name="playlist_name" value="{{old('playlist_name')}}">
+                            <input type="text" class="form-control" name="playlist_name" value="{{old('playlist_name')}}" required>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">

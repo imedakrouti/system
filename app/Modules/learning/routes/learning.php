@@ -12,6 +12,13 @@
         Route::post('lessons/attachment/destroy','LessonController@attachmentDestroy')->name('lesson-attachment.destroy');
         Route::post('lessons/approval','LessonController@approval')->name('lessons.approval');
         
+        // exams
+        Route::resource('exams','ExamController')->except('destroy');
+        Route::post('exams/destroy','ExamController@destroy')->name('exams.destroy');
+        Route::get('exams/employee/{id}','ExamController@employee')->name('exams.employee');
 
+        // questions
+        Route::resource('questions','QuestionController')->except('destroy');        
+        Route::post('questions/destroy','QuestionController@destroy')->name('questions.destroy');
     
     });  
