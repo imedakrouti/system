@@ -36,29 +36,59 @@
                             <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12">
-                      <div class="form-group row">
-                          <label>{{ trans('learning::local.lessons_related_exam') }}</label>
-                          <select name="lessons[]" class="form-control select2" multiple>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label>{{ trans('learning::local.division') }}</label>
+                                <select name="divisions[]" class="form-control select2" required multiple>                                                                        
+                                    @foreach ($divisions as $division)                                               
+                                        <option {{in_array( $division->id,$arr_divisions) ? 'selected' : ''}} value="{{$division->id}}">
+                                            {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}
+                                        </option>                                                                                                                     
+                                    @endforeach
+                                </select>
+                                <span class="red">{{ trans('learning::local.required') }}</span>                              
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group"> 
+                                <label>{{ trans('learning::local.grade') }}</label>
+                                <select name="grades[]" class="form-control select2" multiple required >                                    
+                                    @foreach ($grades as $grade)                                               
+                                        <option {{in_array( $grade->id,$arr_grades) ? 'selected' : ''}} value="{{$grade->id}}">
+                                            {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}
+                                        </option>                                                                                                                     
+                                    @endforeach
+                                </select>
+                                <span class="red">{{ trans('learning::local.required') }}</span>                              
+                            </div>
+                        </div>     
+                    </div>  
+                    <div class="row">
+                      <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                            <label>{{ trans('learning::local.lessons_related_exam') }}</label>
+                            <select name="lessons[]" class="form-control select2" multiple>
+                                <option value="">{{ trans('staff::local.select') }}</option>
+                                @foreach ($lessons as $lesson)
+                                    <option {{in_array( $lesson->id,$arr_lessons) ? 'selected' : ''}} value="{{$lesson->id}}">{{$lesson->lesson_title}} 
+                                        [{{session('lang') == 'ar' ? $lesson->subject->ar_name : $lesson->subject->en_name}}]</option>
+                                @endforeach
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('learning::local.subject') }}</label>
+                          <select name="subject_id" class="form-control select2" required>
                               <option value="">{{ trans('staff::local.select') }}</option>
-                              @foreach ($lessons as $lesson)
-                                  <option {{in_array( $lesson->id,$arr_lessons) ? 'selected' : ''}} value="{{$lesson->id}}">{{$lesson->lesson_title}} 
-                                      [{{session('lang') == 'ar' ? $lesson->subject->ar_name : $lesson->subject->en_name}}]</option>
+                              @foreach ($subjects as $subject)
+                                  <option {{old('subject_id',$exam->subject_id) == $subject->id ? 'selected' : ''}} value="{{$subject->id}}">
+                                      {{session('lang') =='ar' ?$subject->ar_name:$subject->en_name}}</option>                                    
                               @endforeach
                           </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                      <div class="form-group row">
-                        <label>{{ trans('learning::local.subject') }}</label>
-                        <select name="subject_id" class="form-control select2" required>
-                            <option value="">{{ trans('staff::local.select') }}</option>
-                            @foreach ($subjects as $subject)
-                                <option {{old('subject_id',$exam->subject_id) == $subject->id ? 'selected' : ''}} value="{{$subject->id}}">
-                                    {{session('lang') =='ar' ?$subject->ar_name:$subject->en_name}}</option>                                    
-                            @endforeach
-                        </select>
-                        <span class="red">{{ trans('learning::local.required') }}</span>                              
+                          <span class="red">{{ trans('learning::local.required') }}</span>                              
+                        </div>
                       </div>
                     </div>
                     <div class="row">

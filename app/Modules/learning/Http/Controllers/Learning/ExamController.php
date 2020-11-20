@@ -160,15 +160,27 @@ class ExamController extends Controller
     public function edit(Exam $exam)
     {
         $subjects = Subject::sort()->get();  
+        $divisions = Division::sort()->get();     
+        $grades = Grade::sort()->get();      
         $lessons = Lesson::with('subject')->orderBy('lesson_title')->get();   
         $title = trans('learning::local.edit_exam');
         $arr_lessons = [];
+        $arr_divisions = [];
+        $arr_grades = [];
+
         foreach ($exam->lessons as $lesson) {
             $arr_lessons []= $lesson->id;            
         } 
+        foreach ($exam->divisions as $division) {
+            $arr_divisions []= $division->id;            
+        }   
+        foreach ($exam->grades as $grade) {
+            $arr_grades []= $grade->id;            
+        }   
 
         return view('learning::exams.edit',
-        compact('title','exam','subjects','lessons','arr_lessons'));
+        compact('title','exam','subjects','lessons','arr_lessons','divisions',
+        'grades','arr_divisions','arr_grades'));
     }
 
     /**
@@ -180,13 +192,28 @@ class ExamController extends Controller
      */
     public function update(Request $request, Exam $exam)
     {
-        $exam->update(request()->only($this->attributes()));
-        DB::table('lesson_exam')->where('exam_id',$exam->id)->delete();
-        if (request()->has('lessons')) {            
-            foreach (request('lessons') as $lesson_id) {
-                $exam->lessons()->attach($lesson_id);                        
+      
+        DB::transaction(function() use ($exam){
+            $exam->update(request()->only($this->attributes()));
+
+            DB::table('lesson_exam')->where('exam_id',$exam->id)->delete();
+            if (request()->has('lessons')) {            
+                foreach (request('lessons') as $lesson_id) {
+                    $exam->lessons()->attach($lesson_id);                        
+                }
             }
-        }
+
+            DB::table('exam_division')->where('exam_id',$exam->id)->delete();                   
+            foreach (request('divisions') as $division_id) {
+                $exam->divisions()->attach($division_id);                        
+            }
+    
+            DB::table('exam_grade')->where('exam_id',$exam->id)->delete();
+                
+            foreach (request('grades') as $grade_id) {
+                $exam->grades()->attach($grade_id);                        
+            }
+        });
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('exams.index');
     }

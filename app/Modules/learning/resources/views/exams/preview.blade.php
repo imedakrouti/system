@@ -61,58 +61,41 @@
                 @csrf                               
                 @foreach ($questions as $question)
                     <div class="bs-callout-info callout-border-left callout-square callout-bordered callout-transparent mt-1 p-1">
-                        <strong class="black">{{$n}} - {{$question->question_type}} <span class="red">{{ trans('learning::local.mark') }} 
-                            {{$question->mark}}</span> | <a href="{{route('questions.edit',$question->id)}}">{{ trans('learning::local.edit') }}</a></strong>
+                        <strong class="black">{{$n}} - {{$question->question_type}} |  <span class="blue">{{ trans('learning::local.mark') }} 
+                            {{$question->mark}}</span></strong>
                             @isset($question->file_name)
                                 <div class="form-group center">                                    
-                                    <img class="mt-1" width="600" src="{{asset('images/questions_attachments/'.$question->file_name)}}" alt="" >
+                                    <img class="mt-1" width="75%" src="{{asset('images/questions_attachments/'.$question->file_name)}}" alt="" >
                                 </div>
                             @endisset
                             @if ($question->question_type == trans('learning::local.question_matching'))
                                 <div class="mb-1 mt-1">
                                     <h4 class="red">
-                                        <label class="pos-rel">
-                                            <input type="checkbox" class="ace" name="id[]" value="{{$question->id}}">
-                                            <span class="lbl"></span> {{ trans('learning::local.matching_between_columns') }}                               
-                                        </label>  
+                                        {{ trans('learning::local.matching_between_columns') }}      
                                     </h4>
                                 </div>  
                             @else
                                 <div class="mb-1 mt-1">
                                     <h4 class="red">
-                                        <label class="pos-rel">
-                                            <input type="checkbox" class="ace" name="id[]" value="{{$question->id}}">
-                                            <span class="lbl"></span> {!!$question->question_text!!}                               
-                                        </label>  
+                                        {!!$question->question_text!!} 
+                                        @if ($question->question_type == trans('learning::local.question_essay') ||
+                                            $question->question_type == trans('learning::local.question_paragraph'))
+                                            <div class="form-group">
+                                                <textarea name="essay" class="form-control" cols="30" rows="10"></textarea>
+                                            </div>
+                                        @endif
                                     </h4>
                                 </div>                                                               
                             @endif
                         
                         @if ($question->question_type != trans('learning::local.question_essay') && $question->question_type != trans('learning::local.question_matching'))
-                            @if ($question->question_type == trans('learning::local.question_complete'))
-                               
-                                <h5 class="black">   
-                                    <strong>{{ trans('learning::local.possible_answers') }} : </strong>
-                                    @foreach ($question->answers as $answer)                        
-                                        [ {{$answer->answer_text}} ] 	&nbsp;
-                                    @endforeach 
-                                    <div class="badge badge-success">
-                                        <span>{{trans('learning::local.right_answer')}}</span>
-                                        <i class="la la-check font-medium-3"></i>
-                                    </div> 
-                                </h5>
-                            @else
+                            @if ($question->question_type != trans('learning::local.question_complete'))                                                                                
                                 @foreach ($question->answers->shuffle() as $answer)                        
                                     <h5 class="black">
                                         <label class="pos-rel">
                                             <input type="radio" class="ace" name="{{$question->id}}" value="{{$question->id}}">
                                             <span class="lbl"></span> {{$answer->answer_text}} 
-                                            @if ($answer->right_answer == 'true')
-                                                <div class="badge badge-success">
-                                                    <span>{{trans('learning::local.right_answer')}}</span>
-                                                    <i class="la la-check font-medium-3"></i>
-                                                </div> 
-                                            @endif
+                                     
                                         </label>                                
                                     </h5>
                                 @endforeach                                                            
@@ -121,37 +104,30 @@
                         
                         {{-- matching --}}
                         @if ($question->question_type == trans('learning::local.question_matching'))
-                                <div class="row">
-                                  <div class="col-lg-9 col-md-12">
-                                      <ol>
-                                        @foreach ($question->matchings->shuffle() as $matching)
-                                            <li>
-                                                <strong>{{$matching->matching_item}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                @foreach ($question->answers as $answer)                            
-                                                    <label class="pos-rel">
-                                                        <input type="radio" class="ace" name="{{$matching->id}}" value="true">
-                                                        <span class="lbl"></span> {{$answer->answer_text}}                               
-                                                    </label>  
-                                                    
-                                                @endforeach
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <div class="badge badge-success">
-                                                    <span>{{trans('learning::local.right_answer')}}</span>
-                                                    <i class="la la-check font-medium-3"></i>
-                                                </div>  {{$matching->matching_answer}}
-                                            </li>
-                                        @endforeach
-                                      </ol>
-                                  </div>
-                                  <div class="col-lg-3 col-md-12">
-                                      <ol type="I">
-                                        @foreach ($question->answers->shuffle() as $answer)
-                                            <li>{{$answer->answer_text}}</li>
-                                        @endforeach
-                                      </ol>
-                                  </div>
+                            <div class="row">
+                                <div class="col-lg-9 col-md-12">
+                                    <ol>
+                                    @foreach ($question->matchings->shuffle() as $matching)
+                                        <li>
+                                            <strong>{{$matching->matching_item}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            [ @foreach ($question->answers as $answer)                            
+                                                <label class="pos-rel">
+                                                    <input type="radio" class="ace" name="{{$matching->id}}" value="true">
+                                                    <span class="lbl"></span> {{$answer->answer_text}}                               
+                                                </label>                                                      
+                                            @endforeach  ]                                      
+                                        </li>
+                                    @endforeach
+                                    </ol>
                                 </div>
-
+                                <div class="col-lg-3 col-md-12">
+                                    <ol type="I">
+                                    @foreach ($question->answers->shuffle() as $answer)
+                                        <li>{{$answer->answer_text}}</li>
+                                    @endforeach
+                                    </ol>
+                                </div>
+                            </div>
                         @endif                                               
                     </div>
                     @php
@@ -167,8 +143,4 @@
     </div>
 </div>
 
-@endsection
-@section('script')
-    <script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-    <script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>  
 @endsection

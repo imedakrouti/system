@@ -46,7 +46,7 @@
                         <h5><strong>{{ trans('learning::local.lessons_related_exam') }}</strong></h5>
                         @foreach ($exam->lessons as $lesson)                            
                             <div class="mb-1 badge badge-info">
-                                <span>{{$lesson->lesson_title}}</span>
+                                <span><a target="_blank" href="{{route('lessons.show',$lesson->id)}}">{{$lesson->lesson_title}}</a></span>
                                 <i class="la la-book font-medium-3"></i>
                             </div>
                         @endforeach
@@ -91,7 +91,7 @@
                             {{$question->mark}}</span> | <a href="{{route('questions.edit',$question->id)}}">{{ trans('learning::local.edit') }}</a></strong>
                             @isset($question->file_name)
                                 <div class="form-group center">                                    
-                                    <img class="mt-1" width="600" src="{{asset('images/questions_attachments/'.$question->file_name)}}" alt="" >
+                                    <img class="mt-1" width="75%" src="{{asset('images/questions_attachments/'.$question->file_name)}}" alt="" >
                                 </div>
                             @endisset
                             @if ($question->question_type == trans('learning::local.question_matching'))

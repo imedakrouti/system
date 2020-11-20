@@ -187,7 +187,9 @@ class LessonController extends Controller
         $subjects = Subject::sort()->get();   
         $title = trans('learning::local.edit_lesson');
 
-        $arr_lessons = [];
+        $arr_divisions = [];
+        $arr_grades = [];
+        $arr_years = [];
         
         foreach ($lesson->divisions as $division) {
             $arr_divisions []= $division->id;            
