@@ -24,7 +24,7 @@
         <div class="card-content collapse show">
           <div class="card-body">
               <div class="row">
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-4 col-md-12">
                     <h5><strong>{{ trans('learning::local.exam_name') }} : </strong>{{$exam->exam_name}}</h5>
                     <h5><strong>{{ trans('learning::local.subject_type') }} : </strong>
                         {{session('lang') == 'ar' ? $exam->subjects->ar_name : $exam->subjects->en_name}}</h5>
@@ -32,16 +32,28 @@
                     <h5><strong>{{ trans('learning::local.end_date') }} : </strong>{{$exam->end_date}} - {{$exam->end_time}}</h5>
                     <h5><strong>{{ trans('learning::local.exam_duration') }} : </strong>{{$exam->duration}}</h5>
                     <h5><strong>{{ trans('learning::local.total_mark') }} : </strong>{{$exam->total_mark}}</h5>
-                    <p>{{$exam->description}}</p>
-           
+                    <p>{{$exam->description}}</p>           
                 </div>
-                <div class="col-lg-6 col-md-12">
-                    <h5><strong>{{ trans('learning::local.created_exam_by') }} : 
-                    </strong>{{session('lang') == 'ar' ?$exam->admin->ar_name :$exam->admin->name}}
-                </h5>
-                    <h5><strong>{{ trans('learning::local.created_at') }} : </strong>{{$exam->created_at->diffForHumans()}}</h5>
-                    <h5><strong>{{ trans('learning::local.last_updated') }} : </strong>{{$exam->updated_at->diffForHumans()}}</h5>
 
+                <div class="col-lg-4 col-md-12">                    
+                    <div class="form-group">
+                        <h5><strong>{{ trans('learning::local.divisions_related_exam') }}</strong></h5>
+                        @foreach ($exam->divisions as $division)                            
+                            <div class="mb-1 badge badge-info">
+                                <span>{{session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name}}</span>
+                                <i class="la la-book font-medium-3"></i>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="form-group">
+                        <h5><strong>{{ trans('learning::local.grades_related_exam') }}</strong></h5>
+                        @foreach ($exam->grades as $grade)                            
+                            <div class="mb-1 badge badge-info">
+                                <span>{{session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name}}</span>
+                                <i class="la la-book font-medium-3"></i>
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="form-group">
                         <h5><strong>{{ trans('learning::local.lessons_related_exam') }}</strong></h5>
                         @foreach ($exam->lessons as $lesson)                            
@@ -51,6 +63,15 @@
                             </div>
                         @endforeach
                     </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                    <h5><strong>{{ trans('learning::local.created_exam_by') }} : 
+                        </strong>{{session('lang') == 'ar' ?$exam->admin->ar_name :$exam->admin->name}}
+                    </h5>
+                    <h5><strong>{{ trans('learning::local.created_at') }} : </strong>{{$exam->created_at->diffForHumans()}}</h5>
+                    <h5><strong>{{ trans('learning::local.last_updated') }} : </strong>{{$exam->updated_at->diffForHumans()}}</h5>
+
                     <div class="form-group">
                         <div class="btn-group mr-1 mb-1">                            
                             <button type="button" class="btn btn-success btn-min-width dropdown-toggle" data-toggle="dropdown"
@@ -64,13 +85,12 @@
                               <a class="dropdown-item" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a>
                             </div>  
                             <a href="#" onclick="deleteQuestions()" class="btn btn-danger ml-1"><i class="la la-trash"></i> {{ trans('admin.delete') }}</a>              
+                            <a target="_blank" href="{{route('exams.preview',$exam->id)}}" class="btn btn-primary ml-1"><i class="la la-spinner"></i> {{ trans('admin.preview') }}</a>              
                             <a href="{{route('exams.index')}}" class="btn btn-light ml-1"><i class="la la-mail-forward"></i> {{ trans('admin.back') }}</a>              
                         </div>
                     </div>
-
                 </div>
-              </div>
-
+            </div>
           </div>
         </div>
       </div>
