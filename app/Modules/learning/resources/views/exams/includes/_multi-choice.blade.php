@@ -50,13 +50,13 @@
                     <button type="button" data-repeater-create class="btn btn-primary">
                       <i class="ft-plus"></i> {{ trans('learning::local.add_choice') }}
                     </button>
-                  </div>
+                </div>
     
                 <div class="col-md-12">
                   <div class="form-group row">
                       {{-- <div class="col-md-4"></div> --}}
                       <div class="col-md-8">
-                        <button type="submit" class="btn btn-success">{{ trans('staff::local.ok') }}</button>                   
+                        <button type="submit" class="btn btn-success">{{ trans('admin.save') }}</button>                   
                         <button type="button" data-dismiss="modal" class="btn btn-light">{{ trans('admin.cancel') }}</button>                                                                                              
                       </div>
                     </div>

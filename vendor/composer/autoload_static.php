@@ -2727,6 +2727,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Learning\\Models\\Learning\\Exam' => __DIR__ . '/../..' . '/app/Modules/learning/Models/Learning/Exam.php',
         'Learning\\Models\\Learning\\Lesson' => __DIR__ . '/../..' . '/app/Modules/learning/Models/Learning/Lesson.php',
         'Learning\\Models\\Learning\\LessonFile' => __DIR__ . '/../..' . '/app/Modules/learning/Models/Learning/LessonFile.php',
+        'Learning\\Models\\Learning\\Matching' => __DIR__ . '/../..' . '/app/Modules/learning/Models/Learning/Matching.php',
         'Learning\\Models\\Learning\\Playlist' => __DIR__ . '/../..' . '/app/Modules/learning/Models/Learning/Playlist.php',
         'Learning\\Models\\Learning\\Question' => __DIR__ . '/../..' . '/app/Modules/learning/Models/Learning/Question.php',
         'Learning\\Models\\Settings\\EmployeeClassroom' => __DIR__ . '/../..' . '/app/Modules/learning/Models/Settings/EmployeeClassroom.php',

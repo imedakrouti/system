@@ -42,6 +42,7 @@
                                 <th>{{trans('learning::local.end_exam')}}</th>                                                                                               
                                 <th>{{trans('learning::local.exam_duration')}}</th>                                                                                               
                                 <th>{{trans('learning::local.total_mark')}}</th>                                                                                               
+                                <th>{{trans('learning::local.show_questions')}}</th>                                                                                               
                                 <th>{{trans('student::local.edit')}}</th>
                             </tr>
                         </thead>
@@ -85,6 +86,7 @@
                 {data: 'end',           name: 'end'},
                 {data: 'duration',      name: 'duration'},
                 {data: 'total_mark',    name: 'total_mark'},                                          
+                {data: 'show_questions',name: 'show_questions'},                                          
                 {data: 'action', 	      name: 'action', orderable: false, searchable: false},
             ],
           @include('layouts.backEnd.includes.datatables._datatableLang')

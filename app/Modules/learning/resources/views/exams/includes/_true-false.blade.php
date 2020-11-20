@@ -5,13 +5,13 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel18"><i class="la la-share"></i> {{ trans('learning::local.true_false') }}</h4>
+            <h4 class="modal-title" id="myModalLabel18"><i class="la la-share"></i> {{ trans('learning::local.question_true_false') }}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">              
-            <form  action="{{route('questions.store')}}" method="POST">
+            <form  action="{{route('questions.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="col-lg-4">                    
                     <input type="hidden" name="exam_id" id="true_false_exam_id" value="">                    
@@ -33,6 +33,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="form-group row">
+                        <label>{{ trans('learning::local.add_image') }}</label>
+                        <input type="file" class="form-control" name="file_name">
+                    </div>
+                  </div>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
@@ -78,7 +84,7 @@
                   <div class="form-group row">
                       {{-- <div class="col-md-4"></div> --}}
                       <div class="col-md-8">
-                        <button type="submit" class="btn btn-success">{{ trans('staff::local.ok') }}</button>                   
+                        <button type="submit" class="btn btn-success">{{ trans('admin.save') }}</button>                   
                         <button type="button" data-dismiss="modal" class="btn btn-light">{{ trans('admin.cancel') }}</button>                                                                                              
                       </div>
                     </div>

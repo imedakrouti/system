@@ -39,6 +39,12 @@ class ExamController extends Controller
                 </a>';
                     return $btn;
             })  
+            ->addColumn('show_questions', function($data){
+                $btn = '<a class="btn btn-primary" href="'.route('exams.show',$data->id).'">
+                    '.trans('learning::local.show_questions').'
+                </a>';
+                    return $btn;
+            }) 
             ->addColumn('start',function($data){
                 return '<span class="blue">'.$data->start_date.'</span>' . ' - ' . $data->start_time;
             })  
@@ -52,7 +58,7 @@ class ExamController extends Controller
                             </label>';
                     return $btnCheck;
             })
-            ->rawColumns(['action','check','start','end','exam_name'])
+            ->rawColumns(['action','check','start','end','exam_name','show_questions'])
             ->make(true);
     }
 
@@ -112,8 +118,9 @@ class ExamController extends Controller
         ->get();    
         $questions = $questions->shuffle();    
         $title = trans('learning::local.exams');
+        $n = 1;
         return view('learning::exams.show',
-        compact('title','exam','questions'));
+        compact('title','exam','questions','n'));
     }
 
     /**
@@ -124,9 +131,10 @@ class ExamController extends Controller
      */
     public function edit(Exam $exam)
     {
+        $subjects = Subject::sort()->get();    
         $title = trans('learning::local.edit_exam');
         return view('learning::exams.edit',
-        compact('title','exam'));
+        compact('title','exam','subjects'));
     }
 
     /**

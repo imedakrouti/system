@@ -2111,6 +2111,7 @@ return array(
     'Learning\\Models\\Learning\\Exam' => $baseDir . '/app/Modules/learning/Models/Learning/Exam.php',
     'Learning\\Models\\Learning\\Lesson' => $baseDir . '/app/Modules/learning/Models/Learning/Lesson.php',
     'Learning\\Models\\Learning\\LessonFile' => $baseDir . '/app/Modules/learning/Models/Learning/LessonFile.php',
+    'Learning\\Models\\Learning\\Matching' => $baseDir . '/app/Modules/learning/Models/Learning/Matching.php',
     'Learning\\Models\\Learning\\Playlist' => $baseDir . '/app/Modules/learning/Models/Learning/Playlist.php',
     'Learning\\Models\\Learning\\Question' => $baseDir . '/app/Modules/learning/Models/Learning/Question.php',
     'Learning\\Models\\Settings\\EmployeeClassroom' => $baseDir . '/app/Modules/learning/Models/Settings/EmployeeClassroom.php',

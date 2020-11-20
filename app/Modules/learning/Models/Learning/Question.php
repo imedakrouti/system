@@ -3,6 +3,7 @@
 namespace Learning\Models\Learning;
 
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\Node\Expr\FuncCall;
 
 class Question extends Model
 {
@@ -10,7 +11,8 @@ class Question extends Model
         'question_type',
         'question_text',
         'mark',        
-        'exam_id',                       
+        'exam_id',    
+        'file_name',                   
         'admin_id',
     ];
     public function __construct(Array $attributes = [])
@@ -35,10 +37,15 @@ class Question extends Model
             case 'matching': return trans('learning::local.question_matching');
             case 'complete': return trans('learning::local.question_complete');                           
             case 'essay': return trans('learning::local.question_essay');                           
+            case 'paragraph': return trans('learning::local.question_paragraph');                           
         }
     }
     public function matchings()
     {
         return $this->hasMany('Learning\Models\Learning\Matching','question_id');
+    }
+    public function exam()
+    {
+        return $this->belongsTo('Learning\Models\Learning\Exam','exam_id');
     }
 }

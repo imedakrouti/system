@@ -28,7 +28,7 @@
               <div class="mb-1">
                 @isset($lesson->video_url)              
                   <iframe width="100%" height="100%" style="min-height: 575px;" allowfullscreen
-                      src="{{$lesson->video_url}}">
+                      src="https://www.youtube.com/embed/{{$lesson->video_url}}">
                   </iframe>
                 @endisset
               </div>

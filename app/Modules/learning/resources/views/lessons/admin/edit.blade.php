@@ -143,7 +143,7 @@
                             <div class="mt-2">
                                 @isset($lesson->video_url)              
                                   <iframe width="400" height="300" 
-                                      src="{{$lesson->video_url}}">
+                                      src="https://www.youtube.com/embed/{{$lesson->video_url}}">
                                   </iframe>
                                 @endisset
                               </div>

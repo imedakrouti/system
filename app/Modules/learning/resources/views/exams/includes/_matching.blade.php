@@ -5,7 +5,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel18"><i class="la la-share"></i> {{ trans('learning::local.matching') }}</h4>
+            <h4 class="modal-title" id="myModalLabel18"><i class="la la-share"></i> {{ trans('learning::local.question_matching') }}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -16,7 +16,7 @@
                 <div class="col-lg-4">                    
                     <input type="hidden" name="exam_id" id="matching_exam_id" value="">                    
                     <input type="hidden" name="question_type" value="matching">                    
-                    <input type="hidden" name="question_text" value="none">                    
+                    <input type="hidden" name="question_text" value="">                    
                 </div>
                 <div class="col-lg-2 col-md-3">
                     <div class="form-group ">
@@ -60,7 +60,7 @@
                   <div class="form-group row">
                       {{-- <div class="col-md-4"></div> --}}
                       <div class="col-md-8">
-                        <button type="submit" class="btn btn-success">{{ trans('staff::local.ok') }}</button>                   
+                        <button type="submit" class="btn btn-success">{{ trans('admin.save') }}</button>                   
                         <button type="button" data-dismiss="modal" class="btn btn-light">{{ trans('admin.cancel') }}</button>                                                                                              
                       </div>
                     </div>
