@@ -24,53 +24,27 @@
         <div class="card-content collapse show">
           <div class="card-body">
               <div class="row">
-                <div class="col-lg-6 col-md-12">
-                    <h5><strong>{{ trans('learning::local.exam_name') }} : </strong>{{$exam->exam_name}}</h5>
-                    <h5><strong>{{ trans('learning::local.subject_type') }} : </strong>
-                        {{session('lang') == 'ar' ? $exam->subjects->ar_name : $exam->subjects->en_name}}</h5>
-                    <h5><strong>{{ trans('learning::local.start_date') }} : </strong>{{$exam->start_date}} - {{$exam->start_time}}</h5>
-                    <h5><strong>{{ trans('learning::local.end_date') }} : </strong>{{$exam->end_date}} - {{$exam->end_time}}</h5>
-                    <h5><strong>{{ trans('learning::local.exam_duration') }} : </strong>{{$exam->duration}}</h5>
-                    <h5><strong>{{ trans('learning::local.total_mark') }} : </strong>{{$exam->total_mark}}</h5>
-                    <p>{{$exam->description}}</p>
-           
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <h5><strong>{{ trans('learning::local.created_exam_by') }} : 
-                    </strong>{{session('lang') == 'ar' ?$exam->admin->ar_name :$exam->admin->name}}
-                </h5>
-                    <h5><strong>{{ trans('learning::local.created_at') }} : </strong>{{$exam->created_at->diffForHumans()}}</h5>
-                    <h5><strong>{{ trans('learning::local.last_updated') }} : </strong>{{$exam->updated_at->diffForHumans()}}</h5>
-
-                    <div class="form-group">
-                        <h5><strong>{{ trans('learning::local.lessons_related_exam') }}</strong></h5>
-                        @foreach ($exam->lessons as $lesson)                            
-                            <div class="mb-1 badge badge-info">
-                                <span>{{$lesson->lesson_title}}</span>
-                                <i class="la la-book font-medium-3"></i>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="form-group">
-                        <div class="btn-group mr-1 mb-1">                            
-                            <button type="button" class="btn btn-success btn-min-width dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">{{ trans('learning::local.add_question') }}</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" onclick="paragraph()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_paragraph') }}</a>                                    
-                                <a class="dropdown-item" onclick="essay()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_essay') }}</a>                                    
-                              <a class="dropdown-item" onclick="multiChoice()" href="#"><i class="la la-question"></i> {{ trans('learning::local.multiple_choice') }}</a>
-                              <a class="dropdown-item" onclick="trueFalse()" href="#"><i class="la la-question"></i> {{ trans('learning::local.true_false') }}</a>
-                              <a class="dropdown-item" onclick="complete()" href="#"><i class="la la-question"></i> {{ trans('learning::local.complete') }}</a>
-                              <a class="dropdown-item" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a>
-                            </div>  
-                            <a href="#" onclick="deleteQuestions()" class="btn btn-danger ml-1"><i class="la la-trash"></i> {{ trans('admin.delete') }}</a>              
-                            <a href="{{route('exams.index')}}" class="btn btn-light ml-1"><i class="la la-mail-forward"></i> {{ trans('admin.back') }}</a>              
-                        </div>
-                    </div>
-
-                </div>
+                <div class="col-lg-12 col-md-12">
+                    <h1 class="red center"><strong>{{$exam->exam_name}}</strong></h1>
+                    <h4 class="black center">
+                        <strong>
+                            {{ trans('learning::local.subject_type') }}
+                                <span class="blue">{{session('lang') == 'ar' ? $exam->subjects->ar_name : $exam->subjects->en_name}}</span>
+                            - {{ trans('learning::local.division') }}
+                                @foreach ($exam->divisions as $division)
+                                    <span class="blue">{{session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name}}</span>
+                                @endforeach
+                            - {{ trans('learning::local.grade') }}
+                                @foreach ($exam->grades as $grade)
+                                    <span class="blue">{{session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name}}</span>
+                                @endforeach
+                        </strong>
+                    </h4>      
+                    <h4 class="black center"><strong>{{ trans('learning::local.duration') }}
+                        <span class="blue"> {{$exam->duration}}</span>
+                        {{ trans('learning::local.minute') }}</strong></h4>             
+                </div>           
               </div>
-
           </div>
         </div>
       </div>
@@ -193,94 +167,8 @@
     </div>
 </div>
 
-@include('learning::exams.includes._multi-choice')
-@include('learning::exams.includes._true-false')
-@include('learning::exams.includes._complete')
-@include('learning::exams.includes._matching')
-@include('learning::exams.includes._essay')
-@include('learning::exams.includes._paragraph')
 @endsection
 @section('script')
-    <script>
-        function multiChoice()
-        {
-            $('#exam_id').val({{$exam->id}});			
-            $('#multiple_choice').modal({backdrop: 'static', keyboard: false})
-            $('#multiple_choice').modal('show');
-        }
-
-        function trueFalse()
-        {
-            $('#true_false_exam_id').val({{$exam->id}});			
-            $('#trueFalse').modal({backdrop: 'static', keyboard: false})
-            $('#trueFalse').modal('show');
-        }
-
-        function complete()
-        {
-            $('#complete_exam_id').val({{$exam->id}});			
-            $('#complete').modal({backdrop: 'static', keyboard: false})
-            $('#complete').modal('show');
-        }
-
-        function matching()
-        {
-            $('#matching_exam_id').val({{$exam->id}});			
-            $('#matching').modal({backdrop: 'static', keyboard: false})
-            $('#matching').modal('show');
-        }
-
-        function essay()
-        {
-            $('#essay_exam_id').val({{$exam->id}});			
-            $('#essay').modal({backdrop: 'static', keyboard: false})
-            $('#essay').modal('show');
-        }
-
-        function paragraph()
-        {
-            $('#paragraph_exam_id').val({{$exam->id}});			
-            $('#paragraph').modal({backdrop: 'static', keyboard: false})
-            $('#paragraph').modal('show');
-        }
-
-        function deleteQuestions()
-        {
-            var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
-            if (itemChecked > 0) {
-                var form_data = $('#formData').serialize();
-                swal({
-                        title: "{{trans('msg.delete_confirmation')}}",
-                        text: "{{trans('msg.delete_ask')}}",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#D15B47",
-                        confirmButtonText: "{{trans('msg.yes')}}",
-                        cancelButtonText: "{{trans('msg.no')}}",
-                        closeOnConfirm: false,
-                    },
-                    function() {
-                        $.ajax({
-                            url:"{{route('questions.destroy')}}",
-                            method:"POST",
-                            data:form_data,
-                            dataType:"json",
-                            // display succees message
-                            success:function(data)
-                            {
-                              location.reload();
-                            }
-                        })
-                    }
-                );
-            }	else{
-                swal("{{trans('msg.delete_confirmation')}}", "{{trans('msg.no_records_selected')}}", "info");
-            }
-        }
-    </script>
-    <script src="{{asset('cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
-    <script src="{{asset('cpanel/app-assets/js/scripts/forms/form-repeater.js')}}"></script>
-
     <script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
     <script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>  
 @endsection

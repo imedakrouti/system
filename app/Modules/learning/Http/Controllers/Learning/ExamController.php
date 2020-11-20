@@ -2,14 +2,18 @@
 
 namespace Learning\Http\Controllers\Learning;
 use App\Http\Controllers\Controller;
-
 use Learning\Models\Learning\Exam;
 use Illuminate\Http\Request;
+use Learning\Models\Learning\Lesson;
 use Learning\Models\Learning\Question;
 use Learning\Models\Settings\Subject;
+use DB;
+use Student\Models\Settings\Division;
+use Student\Models\Settings\Grade;
 
 class ExamController extends Controller
 {
+    private $exam;
     /**
      * Display a listing of the resource.
      *
@@ -69,10 +73,13 @@ class ExamController extends Controller
      */
     public function create()
     {          
-        $subjects = Subject::sort()->get();    
+        $subjects = Subject::sort()->get();   
+        $divisions = Division::sort()->get();     
+        $grades = Grade::sort()->get();      
+        $lessons = Lesson::with('subject')->orderBy('lesson_title')->get(); 
         $title = trans('learning::local.new_exam');
         return view('learning::exams.create',
-        compact('title','subjects'));
+        compact('title','subjects','lessons','divisions','grades'));
     }
 
     private function attributes()
@@ -99,10 +106,30 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $exam =  $request->user()->exams()->firstOrCreate(request()->only($this->attributes()));
+    {        
+        DB::transaction(function() use ($request){
+            $this->exam =  $request->user()->exams()->firstOrCreate(request()->only($this->attributes()));
+            if (request()->has('lessons')) {
+                DB::table('lesson_exam')->where('exam_id',$this->exam->id)->delete();
+                
+                foreach (request('lessons') as $lesson_id) {
+                    $this->exam->lessons()->attach($lesson_id);                        
+                }
+            }
+            DB::table('exam_division')->where('exam_id',$this->exam->id)->delete();
+                
+            foreach (request('divisions') as $division_id) {
+                $this->exam->divisions()->attach($division_id);                        
+            }
+
+            DB::table('exam_grade')->where('exam_id',$this->exam->id)->delete();
+                
+            foreach (request('grades') as $grade_id) {
+                $this->exam->grades()->attach($grade_id);                        
+            }
+        });      
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('exams.show',$exam->id);
+        return redirect()->route('exams.show',$this->exam->id);
     }
 
     /**
@@ -116,7 +143,8 @@ class ExamController extends Controller
         $exam = Exam::with('subjects')->where('id',$exam->id)->first();        
         $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
         ->get();    
-        $questions = $questions->shuffle();    
+        $questions = $questions->shuffle();   
+        
         $title = trans('learning::local.exams');
         $n = 1;
         return view('learning::exams.show',
@@ -131,10 +159,16 @@ class ExamController extends Controller
      */
     public function edit(Exam $exam)
     {
-        $subjects = Subject::sort()->get();    
+        $subjects = Subject::sort()->get();  
+        $lessons = Lesson::with('subject')->orderBy('lesson_title')->get();   
         $title = trans('learning::local.edit_exam');
+        $arr_lessons = [];
+        foreach ($exam->lessons as $lesson) {
+            $arr_lessons []= $lesson->id;            
+        } 
+
         return view('learning::exams.edit',
-        compact('title','exam','subjects'));
+        compact('title','exam','subjects','lessons','arr_lessons'));
     }
 
     /**
@@ -147,6 +181,12 @@ class ExamController extends Controller
     public function update(Request $request, Exam $exam)
     {
         $exam->update(request()->only($this->attributes()));
+        DB::table('lesson_exam')->where('exam_id',$exam->id)->delete();
+        if (request()->has('lessons')) {            
+            foreach (request('lessons') as $lesson_id) {
+                $exam->lessons()->attach($lesson_id);                        
+            }
+        }
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('exams.index');
     }
@@ -168,5 +208,17 @@ class ExamController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+    public function preview($exam_id)
+    {
+        $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
+        $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
+        ->get();    
+        $questions = $questions->shuffle();   
+                
+        $n = 1;
+        $title = trans('learning::local.preview_exam');
+        return view('learning::exams.preview',
+        compact('title','exam','questions','n'));
     }
 }

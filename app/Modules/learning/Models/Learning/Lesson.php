@@ -59,4 +59,8 @@ class Lesson extends Model
     {
         return $this->belongsTo('Learning\Models\Learning\Playlist','playlist_id');
     }
+    public function exams()
+    {
+        return $this->belongsToMany('Learning\Models\Learning\Exam','lesson_exam','lesson_id','exam_id');
+    }
 }

@@ -33,4 +33,16 @@ class Exam extends Model
     {
         return $this->belongsTo('Learning\Models\Settings\Subject','subject_id');
     }
+    public function lessons()
+    {
+        return $this->belongsToMany('Learning\Models\Learning\Lesson','lesson_exam','exam_id','lesson_id');
+    }
+    public function divisions()
+    {
+        return $this->belongsToMany('Student\Models\Settings\Division','exam_division','exam_id','division_id');
+    }
+    public function grades()
+    {
+        return $this->belongsToMany('Student\Models\Settings\Grade','exam_grade','exam_id','grade_id');
+    }
 }

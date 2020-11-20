@@ -36,6 +36,18 @@
                             <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                         </div>
                     </div>
+                    <div class="col-lg-4 col-md-12">
+                      <div class="form-group row">
+                          <label>{{ trans('learning::local.lessons_related_exam') }}</label>
+                          <select name="lessons[]" class="form-control select2" multiple>
+                              <option value="">{{ trans('staff::local.select') }}</option>
+                              @foreach ($lessons as $lesson)
+                                  <option {{in_array( $lesson->id,$arr_lessons) ? 'selected' : ''}} value="{{$lesson->id}}">{{$lesson->lesson_title}} 
+                                      [{{session('lang') == 'ar' ? $lesson->subject->ar_name : $lesson->subject->en_name}}]</option>
+                              @endforeach
+                          </select>
+                      </div>
+                    </div>
                     <div class="col-lg-3 col-md-6">
                       <div class="form-group row">
                         <label>{{ trans('learning::local.subject') }}</label>

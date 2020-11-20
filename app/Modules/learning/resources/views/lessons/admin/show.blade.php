@@ -104,22 +104,32 @@
                 
                 @foreach ($lesson->divisions as $division)                    
                     <div class="mb-1 badge badge-info">
-                      <span>{{session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name}}</span>
-                      <i class="la la-folder-o font-medium-3"></i>
-                  </div>
+                        <span>{{session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name}}</span>
+                        <i class="la la-folder-o font-medium-3"></i>
+                    </div>
                 @endforeach
                 @foreach ($lesson->grades as $grade)                    
                     <div class="mb-1 badge badge-success">
-                      <span>{{session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name}}</span>
-                      <i class="la la-folder-o font-medium-3"></i>
-                  </div>
+                        <span>{{session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name}}</span>
+                        <i class="la la-folder-o font-medium-3"></i>
+                    </div>
                 @endforeach
                 @foreach ($lesson->years as $year)                    
                     <div class="mb-1 badge badge-primary">
-                      <span>{{$year->name}}</span>
-                      <i class="la la-calendar font-medium-3"></i>
-                  </div>
+                        <span>{{$year->name}}</span>
+                        <i class="la la-calendar font-medium-3"></i>
+                    </div>
                 @endforeach
+                <hr>
+                <h5>
+                  <strong>{{ trans('learning::local.exams') }} :</strong> 
+                  @foreach ($lesson->exams as $exam)                            
+                  <div class="mb-1 badge badge-info">
+                          <span><a target="_blank" href="{{route('exams.preview',$exam->id)}}">{{$exam->exam_name}}</a></span>
+                          <i class="la la-tasks font-medium-3"></i>
+                      </div>
+                  @endforeach
+                </h5>
                 <hr>
                 <div class="col-md-12">
                   <form action="{{route('lessons.approval')}}" method="POST">

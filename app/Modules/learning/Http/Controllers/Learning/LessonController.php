@@ -186,6 +186,9 @@ class LessonController extends Controller
         $years = Year::open()->current()->get();  
         $subjects = Subject::sort()->get();   
         $title = trans('learning::local.edit_lesson');
+
+        $arr_lessons = [];
+        
         foreach ($lesson->divisions as $division) {
             $arr_divisions []= $division->id;            
         }   
@@ -314,4 +317,5 @@ class LessonController extends Controller
         toast(trans('learning::local.published_successfully'),'success');
         return redirect()->route('lessons.show',request('lesson_id'));
     }
+
 }
