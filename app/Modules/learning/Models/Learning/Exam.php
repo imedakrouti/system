@@ -45,4 +45,8 @@ class Exam extends Model
     {
         return $this->belongsToMany('Student\Models\Settings\Grade','exam_grade','exam_id','grade_id');
     }
+    public function classrooms()
+    {
+        return $this->belongsToMany('Student\Models\Settings\Classroom','exam_classroom','exam_id','classroom_id');
+    }
 }

@@ -10,6 +10,9 @@ use Learning\Http\Requests\LessonRequest;
 use Learning\Models\Learning\LessonFile;
 use Student\Models\Settings\Classroom;
 use DB;
+use Illuminate\Http\Request;
+use Learning\Models\Learning\Exam;
+use Learning\Models\Learning\Question;
 
 class TeacherController extends Controller
 {
@@ -327,6 +330,140 @@ class TeacherController extends Controller
                     })
                     ->rawColumns(['action','check','lesson_title','subject','visibility','approval'])
                     ->make(true);
+    }
+
+    public function viewExams()
+    {        
+        $title = trans('learning::local.exams');
+        $data = Exam::orderBy('start_date')->where('admin_id',authInfo()->id)->get();
+        if (request()->ajax()) {
+            return $this->examDataTable($data);
+        }
+        return view('learning::teacher.exams.view-exams',
+        compact('title'));
+    }
+    private function examDataTable($data)
+    {
+        return datatables($data)
+            ->addIndexColumn()
+            ->addColumn('exam_name',function($data){
+                return '<a href="'.route('teacher.show-exam',$data->id).'"><span><strong>'.$data->exam_name.'</strong></span></a> </br>' .
+                '<span class="black small">'.$data->description.'</span>';
+            })
+            ->addColumn('action', function($data){
+                    $btn = '<a class="btn btn-warning btn-sm" href="'.route('teacher.edit-exam',$data->id).'">
+                    <i class=" la la-edit"></i>
+                </a>';
+                    return $btn;
+            })  
+            ->addColumn('show_questions', function($data){
+                $btn = '<a class="btn btn-primary" href="'.route('teacher.show-exam',$data->id).'">
+                    '.trans('learning::local.show_questions').'
+                </a>';
+                    return $btn;
+            }) 
+            ->addColumn('start',function($data){
+                return '<span class="blue">'.$data->start_date.'</span>' . ' - ' . $data->start_time;
+            })  
+            ->addColumn('end',function($data){
+                return '<span class="red">'.$data->end_date.'</span>' . ' - ' . $data->end_time;
+            })                            
+            ->addColumn('check', function($data){
+                    $btnCheck = '<label class="pos-rel">
+                                <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                                <span class="lbl"></span>
+                            </label>';
+                    return $btnCheck;
+            })
+            ->rawColumns(['action','check','start','end','exam_name','show_questions'])
+            ->make(true);
+    }
+
+    public function newExam()
+    {        
+        $divisions = Division::sort()->get();     
+        $grades = Grade::sort()->get();      
+        $lessons = Lesson::with('subject')->where('admin_id',authInfo()->id)->orderBy('lesson_title')->get(); 
+        $title = trans('learning::local.new_exam');
+        return view('learning::teacher.exams.new-exam',
+        compact('title','lessons','divisions','grades'));
+    }
+
+    private function examAttributes()
+    {
+        return [
+            'exam_name',
+            'start_date',
+            'start_time',
+            'end_date',
+            'end_time',
+            'duration',
+            'total_mark',                
+            'no_question_per_page',                
+            'description',   
+            'subject_id',       
+            'admin_id',
+        ];
+    }
+
+    public function storeExam(Request $request)
+    {        
+        DB::transaction(function() use ($request){
+            $this->exam =  $request->user()->exams()->firstOrCreate(request()->only($this->examAttributes()));
+            if (request()->has('lessons')) {
+                DB::table('lesson_exam')->where('exam_id',$this->exam->id)->delete();
+                
+                foreach (request('lessons') as $lesson_id) {
+                    $this->exam->lessons()->attach($lesson_id);                        
+                }
+            }
+            DB::table('exam_division')->where('exam_id',$this->exam->id)->delete();
+                
+            foreach (request('divisions') as $division_id) {
+                $this->exam->divisions()->attach($division_id);                        
+            }
+
+            DB::table('exam_grade')->where('exam_id',$this->exam->id)->delete();
+                
+            foreach (request('grades') as $grade_id) {
+                $this->exam->grades()->attach($grade_id);                        
+            }
+        });      
+        toast(trans('msg.stored_successfully'),'success');
+        return redirect()->route('teacher.show-exam',$this->exam->id);
+    }
+
+    public function showExam($exam_id)
+    {
+        $exam = Exam::with('subjects')->where('admin_id',authInfo()->id)->where('id',$exam_id)->first();        
+        $questions = Question::with('answers','matchings')->where('exam_id',$exam_id)->orderBy('question_type')
+        ->get();    
+        $questions = $questions->shuffle();   
+        
+        $title = trans('learning::local.exams');
+        $n = 1;
+        return view('learning::teacher.exams.show-exam',
+        compact('title','exam','questions','n'));
+    }
+
+    public function editExam($exam_id)
+    {
+
+    }
+
+    public function updateExam($exam_id)
+    {
+
+    }
+
+    public function editQuestion($question_id)
+    {
+
+    }
+
+    public function updateQuestion($question_id)
+    {
+
     }
  
 }

@@ -16,12 +16,25 @@
       Route::get('teacher/edit-lesson/{id}','TeacherController@editLesson')->name('teacher.edit-lessons');      
       Route::post('teacher/edit-lesson/update/{id}','TeacherController@updateLesson')->name('teacher.update-lessons');  
 
-      Route::get('teacher/view-lessons','TeacherController@viewLessons')->name('view-lessons');
+      Route::get('teacher/view-lessons','TeacherController@viewLessons')->name('teacher.view-lessons');
       
       Route::post('teacher/attachment','TeacherController@attachment')->name('teacher.attachment');
       Route::post('teacher/attachment/destroy','TeacherController@attachmentDestroy')->name('teacher-attachment.destroy');
       Route::post('teacher/approval','TeacherController@approval')->name('teacher.approval');
       
+      // exams
+      Route::get('teacher/view-exams','TeacherController@viewExams')->name('teacher.view-exams');
+      Route::get('teacher/new-exams','TeacherController@newExam')->name('teacher.new-exam');
+      Route::post('teacher/store-exams','TeacherController@storeExam')->name('teacher.store-exam');
+      Route::get('teacher/show-exams/{id}','TeacherController@showExam')->name('teacher.show-exam');
+      Route::get('teacher/edit-exam/{id}','TeacherController@editExam')->name('teacher.edit-exam');
+      Route::post('teacher/update-exam/{id}','TeacherController@updateExam')->name('teacher.update-exam');
+
+      // questions
+      Route::get('teacher/edit-question/{id}','TeacherController@editQuestion')->name('teacher.edit-question');
+      Route::post('teacher/update-question/{id}','TeacherController@updateQuestion')->name('teacher.update-question');
+
+
   
     
     });  

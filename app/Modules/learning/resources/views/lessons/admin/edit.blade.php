@@ -143,7 +143,7 @@
                             <div class="mt-2">
                                 @isset($lesson->video_url)              
                                   <iframe width="400" height="300" 
-                                      src="https://www.youtube.com/embed/{{$lesson->video_url}}">
+                                      src="https://www.youtube.com/embed/{{prepareYoutubeURL($lesson->video_url)}}">
                                   </iframe>
                                 @endisset
                               </div>
@@ -176,7 +176,7 @@
                         <div class="col-lg-12 col-md-12">
                             <div class="form-group">
                               <label>{{ trans('learning::local.explanation') }}</label>
-                              <textarea class="form-control" name="explanation" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('explanation',$lesson->explanation)}}</textarea>                          
+                              <textarea required class="form-control" name="explanation" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('explanation',$lesson->explanation)}}</textarea>                          
                             </div>
                         </div>  
                     </div>  

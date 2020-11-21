@@ -260,3 +260,13 @@ if (!function_exists('employeeSubjects')) {
 	}
 }
 
+if (!function_exists('prepareYoutubeURL')) {
+	function prepareYoutubeURL($youtubeURL)
+	{			
+		$start_from = stripos($youtubeURL,'=') + 1;
+		$first_substr = substr($youtubeURL,$start_from);
+		$end_from = stripos($first_substr,'&');		
+		return substr($youtubeURL,$start_from,$end_from);
+	}
+}
+

@@ -53,7 +53,7 @@
                 // default btns
                 @include('layouts.backEnd.includes.datatables._datatableBtn')
             ],
-          ajax: "{{ route('view-lessons') }}",
+          ajax: "{{ route('teacher.view-lessons') }}",
           columns: [
               {data: 'check',                   name: 'check', orderable: false, searchable: false},
               {data: 'DT_RowIndex',             name: 'DT_RowIndex', orderable: false, searchable: false},

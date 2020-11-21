@@ -32,8 +32,8 @@ role="navigation" data-menu="menu-wrapper">
         <span>{{ trans('admin.e_learning') }}</span></a>
       <ul class="dropdown-menu">
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.playlists')}}" data-toggle="dropdown"><i class="la la-youtube-play"></i> {{ trans('learning::local.playlists') }}</a></li>           
-        <li data-menu=""><a class="dropdown-item" href="{{route('view-lessons')}}" data-toggle="dropdown"><i class="la la-book"></i> {{ trans('learning::local.lessons') }}</a></li>           
-        {{-- <li data-menu=""><a class="dropdown-item" href="{{route('teacher.attendance')}}" data-toggle="dropdown"><i class="la la-tasks"></i> {{ trans('learning::local.exams') }}</a></li>            --}}
+        <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-lessons')}}" data-toggle="dropdown"><i class="la la-book"></i> {{ trans('learning::local.lessons') }}</a></li>           
+        <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-exams')}}" data-toggle="dropdown"><i class="la la-tasks"></i> {{ trans('learning::local.exams') }}</a></li>           
       </ul>
     </li>
 
