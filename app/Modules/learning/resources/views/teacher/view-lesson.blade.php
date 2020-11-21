@@ -1,48 +1,46 @@
-@extends('layouts.backEnd.cpanel')
-@section('sidebar')
-@include('layouts.backEnd.includes.sidebars._learning')
-@endsection
+@extends('layouts.backEnd.teacher')
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
-      <h3 class="content-header-title">{{$lesson->lesson_title}}</h3>
+      <h3 class="content-header-title">{{$title}}</h3>
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('dashboard.learning')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('lessons.index')}}">{{ trans('learning::local.lessons') }}</a></li>
-            <li class="breadcrumb-item active">{{$lesson->lesson_title}}
+            <li class="breadcrumb-item"><a href="{{route('teacher.playlists')}}">{{ trans('learning::local.playlist') }}</a></li>            
+            <li class="breadcrumb-item"><a href="{{route('teacher.show-lessons',$lesson->playlist_id)}}">{{ $lesson->playlist->playlist_name }}</a></li>            
+            <li class="breadcrumb-item active">{{$title}}
             </li>
           </ol>
         </div>
       </div>
-    </div>
+    </div>    
 </div>
+
 <div class="row">
     <div class="col-lg-8 col-md-12">
       <div class="card" style="min-height: 300px">
         <div class="card-content collapse show">
           <div class="card-body">
-              <h4>{{$lesson->lesson_title}} <span class="small"><a href="{{route('lessons.edit',$lesson->id)}}">{{ trans('learning::local.edit') }}</a></span></h4> 
+              <h4>{{$lesson->lesson_title}} <span class="small"><a href="{{route('teacher.edit-lessons',$lesson->id)}}">{{ trans('learning::local.edit') }}</a></span></h4> 
               <p>{{$lesson->description}}</p>
               <div class="mb-1">
                 @isset($lesson->video_url)              
-                  <iframe width="100%" height="100%" style="min-height: 575px;" allowfullscreen
+                  <iframe width="100%"  style="min-height: 575px;" allowfullscreen
                       src="https://www.youtube.com/embed/{{$lesson->video_url}}">
                   </iframe>
                 @endisset
               </div>
               <div class="mb-2">
                 @isset($lesson->file_name)                            
-                  <video width="100%" height="100%" controls>
+                  <video width="100%"  controls>
                         <source src="{{asset('images/lesson_attachments/'.$lesson->file_name)}}" type="video/mp4">
                         
                       Your browser does not support the video tag.
                       </video>
                 @endisset
               </div>
-                <div class="mt-2">
-                    {!!$lesson->explanation!!}
+                <div class="mt-2">                  
+                  {!!$lesson->explanation!!}
                 </div>
           </div>
         </div>
@@ -83,7 +81,8 @@
                   @foreach ($lessons as $lesson_playlist)              
                       @if ($lesson_playlist->id != $lesson->id)
                       <li>
-                        <a href="{{route('lessons.show',$lesson_playlist->id)}}">{{$lesson_playlist->lesson_title}}</a>
+                        <a href="{{route('teacher.view-lesson',['id'=>$lesson_playlist->id,'playlist_id' =>$lesson_playlist->playlist_id])}}">
+                          {{$lesson_playlist->lesson_title}}</a>
                         {!!$lesson_playlist->visibility == 'hide' ? '<i class="la la-eye-slash"></i>' : ''!!}
                       </li>
                       @else
@@ -132,9 +131,10 @@
                 </h5>
                 <hr>
                 <div class="col-md-12">
-                  <form action="{{route('lessons.approval')}}" method="POST">
+                  <form action="{{route('teacher.approval')}}" method="POST">
                     @csrf   
                     <input type="hidden" name="lesson_id" value="{{$lesson->id}}">                 
+                    <input type="hidden" name="playlist_id" value="{{$lesson->playlist_id}}">                 
                     <label>{{ trans('learning::local.publish') }}</label>                      
                     <select name="approval" class="form-control" onchange="this.form.submit()">
                       <option {{$lesson->approval == 'pending' ? 'selected' : ''}} value="pending">{{ trans('learning::local.pending') }}</option>
@@ -148,13 +148,15 @@
       </div>
 </div>
 
-@include('learning::lessons.admin.includes._attachment')
+@include('learning::teacher.includes._attachment')
 @endsection
+
 @section('script')
     <script>
         function attachments()
         {
             $('#lesson_id').val({{$lesson->id}});			
+            $('#playlist_id').val({{$lesson->playlist_id}});			
             $('#attachments').modal({backdrop: 'static', keyboard: false})
             $('#attachments').modal('show');
         }
@@ -176,7 +178,7 @@
                     },
                     function() {
                         $.ajax({
-                            url:"{{route('lesson-attachment.destroy')}}",
+                            url:"{{route('teacher-attachment.destroy')}}",
                             method:"POST",
                             data:form_data,
                             dataType:"json",

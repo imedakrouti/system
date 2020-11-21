@@ -245,3 +245,18 @@ if (!function_exists('getClassroomName')) {
 		return $className;   	
 	}
 }
+
+if (!function_exists('employee_id')) {
+	function employee_id()
+	{				
+		return authInfo()->employeeUser->id; 	
+	}
+}
+
+if (!function_exists('employeeSubjects')) {
+	function employeeSubjects()
+	{				
+		return authInfo()->employeeUser->subjects; 	
+	}
+}
+

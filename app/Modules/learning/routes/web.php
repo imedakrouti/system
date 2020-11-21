@@ -12,7 +12,9 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
         });
         require 'dashboard.php'; 
                
-        require 'learning.php';        
+        require 'learning.php'; 
+
+        require 'teacher.php';        
            
   
     });

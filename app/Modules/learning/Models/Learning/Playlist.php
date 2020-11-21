@@ -36,4 +36,12 @@ class Playlist extends Model
     {
         return $this->belongsTo('Learning\Models\Settings\Subject','subject_id');
     }
+    public function lessons()
+    {
+        return $this->hasMany('Learning\Models\Learning\Lesson','playlist_id');
+    }
+    public function classes()
+    {
+        return $this->belongsToMany('Student\Models\Settings\Classroom','playlist_classroom','playlist_id','classroom_id');
+    }
 }

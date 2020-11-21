@@ -1,4 +1,4 @@
-@extends('layouts.backEnd.dashboards.teacher')
+@extends('layouts.backEnd.teacher')
 @section('content')
 <div class="row">
     <div class="col-12">

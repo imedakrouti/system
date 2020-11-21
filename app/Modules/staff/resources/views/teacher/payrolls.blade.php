@@ -1,4 +1,4 @@
-@extends('layouts.backEnd.dashboards.teacher')
+@extends('layouts.backEnd.teacher')
 @section('styles')
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
 @endsection

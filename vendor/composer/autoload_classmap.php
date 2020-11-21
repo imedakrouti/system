@@ -2101,6 +2101,7 @@ return array(
     'Learning\\Http\\Controllers\\Learning\\LessonController' => $baseDir . '/app/Modules/learning/Http/Controllers/Learning/LessonController.php',
     'Learning\\Http\\Controllers\\Learning\\PlaylistController' => $baseDir . '/app/Modules/learning/Http/Controllers/Learning/PlaylistController.php',
     'Learning\\Http\\Controllers\\Learning\\QuestionController' => $baseDir . '/app/Modules/learning/Http/Controllers/Learning/QuestionController.php',
+    'Learning\\Http\\Controllers\\Learning\\TeacherController' => $baseDir . '/app/Modules/learning/Http/Controllers/Learning/TeacherController.php',
     'Learning\\Http\\Controllers\\Setting\\EmployeeClassroomController' => $baseDir . '/app/Modules/learning/Http/Controllers/Setting/EmployeeClassroomController.php',
     'Learning\\Http\\Controllers\\Setting\\EmployeeSubjectController' => $baseDir . '/app/Modules/learning/Http/Controllers/Setting/EmployeeSubjectController.php',
     'Learning\\Http\\Controllers\\Setting\\StudentSubjectController' => $baseDir . '/app/Modules/learning/Http/Controllers/Setting/StudentSubjectController.php',

@@ -72,8 +72,7 @@
                             name="sort" required>
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
-                    </div>  
-   
+                    </div>     
             
                 </div>
                 <div class="form-actions left">

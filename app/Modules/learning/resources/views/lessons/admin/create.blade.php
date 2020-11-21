@@ -148,7 +148,7 @@
                         <div class="col-lg-12 col-md-12">
                             <div class="form-group">
                               <label>{{ trans('learning::local.explanation') }}</label>
-                              <textarea class="form-control" name="explanation" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('explanation')}}</textarea>                          
+                              <textarea required class="form-control" name="explanation" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('explanation')}}</textarea>                          
                             </div>
                         </div>  
                     </div>                                                                                                
