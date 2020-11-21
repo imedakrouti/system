@@ -19,7 +19,7 @@
     </div>
 </div>
 <div class="row mt-1">
-    @empty($playlists->classes)
+    @empty(count($playlists))
     <div class="col-12">
       <div class="card">
         <div class="card-content collapse show">
