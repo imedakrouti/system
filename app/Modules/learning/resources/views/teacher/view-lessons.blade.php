@@ -7,8 +7,6 @@
     <div class="content-header-left col-md-6 col-12 mb-2">
       <h3 class="content-header-title">{{$title}}</h3>
     </div>    
-
-
 </div>
 
 <div class="row">
@@ -49,14 +47,6 @@
         var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
-                // new btn
-                {
-                    "text": "{{trans('learning::local.new_lesson')}}",
-                    "className": "btn btn-success buttons-print btn-success mr-1",
-                    action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('lessons.create')}}";
-                        }
-                },
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'lessons.destroy'])
 
