@@ -11,7 +11,7 @@
             </button>
           </div>
           <div class="modal-body">              
-            <form  action="{{route('questions.store')}}" method="POST" enctype="multipart/form-data">
+            <form  action="{{route('teacher.store-question')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="col-lg-4">                    
                     <input type="hidden" name="exam_id" id="paragraph_exam_id" value="">                    

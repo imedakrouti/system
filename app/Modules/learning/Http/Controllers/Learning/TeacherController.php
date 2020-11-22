@@ -11,7 +11,9 @@ use Learning\Models\Learning\LessonFile;
 use Student\Models\Settings\Classroom;
 use DB;
 use Illuminate\Http\Request;
+use Learning\Models\Learning\Answer;
 use Learning\Models\Learning\Exam;
+use Learning\Models\Learning\Matching;
 use Learning\Models\Learning\Question;
 
 class TeacherController extends Controller
@@ -428,6 +430,12 @@ class TeacherController extends Controller
             foreach (request('grades') as $grade_id) {
                 $this->exam->grades()->attach($grade_id);                        
             }
+
+            DB::table('exam_classroom')->where('exam_id',$this->exam->id)->delete();
+                
+            foreach (request('classrooms') as $classroom_id) {
+                $this->exam->classrooms()->attach($classroom_id);                        
+            }
         });      
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('teacher.show-exam',$this->exam->id);
@@ -435,35 +443,278 @@ class TeacherController extends Controller
 
     public function showExam($exam_id)
     {
-        $exam = Exam::with('subjects')->where('admin_id',authInfo()->id)->where('id',$exam_id)->first();        
+        $exam = Exam::with('subjects','classrooms')->where('admin_id',authInfo()->id)->where('id',$exam_id)->first();        
         $questions = Question::with('answers','matchings')->where('exam_id',$exam_id)->orderBy('question_type')
         ->get();    
         $questions = $questions->shuffle();   
         
         $title = trans('learning::local.exams');
         $n = 1;
+        $classes = Classroom::with('employees')->whereHas('employees',function($q){
+            $q->where('employee_id',employee_id());
+        })->get();
+        // all classes related to teacher - get through playlist that related to teacher
+        $arr_classes = [];
+        foreach ($exam->classrooms as $class) {
+            $arr_classes []= $class->id;            
+        } 
         return view('learning::teacher.exams.show-exam',
-        compact('title','exam','questions','n'));
+        compact('title','exam','questions','n','classes','arr_classes'));
     }
 
     public function editExam($exam_id)
     {
+        $exam = Exam::findOrFail($exam_id);
+        $divisions = Division::sort()->get();     
+        $grades = Grade::sort()->get();      
+        $lessons = Lesson::with('subject')->orderBy('lesson_title')->get();   
+        $title = trans('learning::local.edit_exam');
+        $arr_lessons = [];
+        $arr_divisions = [];
+        $arr_grades = [];
 
+        foreach ($exam->lessons as $lesson) {
+            $arr_lessons []= $lesson->id;            
+        } 
+        foreach ($exam->divisions as $division) {
+            $arr_divisions []= $division->id;            
+        }   
+        foreach ($exam->grades as $grade) {
+            $arr_grades []= $grade->id;            
+        }   
+
+        return view('learning::teacher.exams.edit-exam',
+        compact('title','exam','lessons','arr_lessons','divisions',
+        'grades','arr_divisions','arr_grades'));
     }
 
     public function updateExam($exam_id)
     {
+        $exam = Exam::findOrFail($exam_id);
+        DB::transaction(function() use ($exam){
+            $exam->update(request()->only($this->examAttributes()));
 
+            DB::table('lesson_exam')->where('exam_id',$exam->id)->delete();
+            if (request()->has('lessons')) {            
+                foreach (request('lessons') as $lesson_id) {
+                    $exam->lessons()->attach($lesson_id);                        
+                }
+            }
+
+            // DB::table('exam_division')->where('exam_id',$exam->id)->delete();                   
+            // foreach (request('divisions') as $division_id) {
+            //     $exam->divisions()->attach($division_id);                        
+            // }
+    
+            // DB::table('exam_grade')->where('exam_id',$exam->id)->delete();
+                
+            // foreach (request('grades') as $grade_id) {
+            //     $exam->grades()->attach($grade_id);                        
+            // }          
+        });
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('teacher.view-exams');
+    }
+
+    private function questionAttributes()
+    {
+        return [
+            'question_type',
+            'question_text',
+            'mark',        
+            'exam_id',                       
+            'admin_id',
+        ];
+    }
+
+    public function storeQuestion()
+    {
+        DB::transaction(function(){
+            // check exist image
+            if (request()->hasFile('file_name')) {
+
+                $image_path = '';                                        
+                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/questions_attachments'); 
+
+                $question =  request()->user()->questions()->firstOrCreate(request()->only($this->questionAttributes()) + 
+                [ 'file_name' => $this->file_name]);                
+            }else{
+                $question =  request()->user()->questions()->firstOrCreate(request()->only($this->questionAttributes()));                
+            }
+
+            if (request('question_type') == 'multiple_choice' || request('question_type') == 'complete') {
+                foreach (request('repeater-group') as $answer) {                 
+                    request()->user()->answers()->firstOrCreate([
+                        'answer_text'   => $answer['answer_text'],
+                        'answer_note'   => $answer['answer_note'],
+                        'right_answer'  => $answer['right_answer'],
+                        'question_id'   => $question->id,
+                    ]);
+                }                
+            }        
+
+            if (request('question_type') == 'true_false') {
+                for ($i=0; $i < count(request('answer_text')); $i++) {                     
+                   request()->user()->answers()->firstOrCreate([
+                       'answer_text'   => request('answer_text')[$i],
+                       'answer_note'   => request('answer_note')[$i],
+                       'right_answer'  => request('right_answer')[$i],
+                       'question_id'   => $question->id,
+                   ]);
+                }                
+            }
+
+            if (request('question_type') == 'essay') {
+                request()->user()->answers()->firstOrCreate([
+                    'answer_text'   => '',
+                    'answer_note'   => '',
+                    'right_answer'  => 'false',
+                    'question_id'   => $question->id,
+                ]);
+            }
+
+            if (request('question_type') == 'matching') {
+                // matchings
+                foreach (request('repeater-group-a') as $matching) {                 
+                    request()->user()->matchings()->firstOrCreate([
+                        'matching_item'     => $matching['matching_item'],
+                        'matching_answer'   => $matching['matching_answer'],
+                        'exam_id'           => request('exam_id'),
+                        'question_id'       => $question->id,
+                    ]);
+                } 
+                // answers
+                foreach (request('repeater-group-b') as $answer) {                 
+                    request()->user()->answers()->firstOrCreate([
+                        'answer_text'   => $answer['answer_text'],
+                        'answer_note'   => '',
+                        'right_answer'  => 'false',
+                        'question_id'   => $question->id,
+                    ]);
+                } 
+            }
+    
+        });
+        toast(trans('msg.stored_successfully'),'success');
+        return redirect()->route('teacher.show-exam',request('exam_id'));
     }
 
     public function editQuestion($question_id)
     {
-
+        $question = Question::with('exam','answers','matchings')->where('id',$question_id)->first();
+        $title = trans('learning::local.edit_question');
+        return view('learning::teacher.questions.edit-question',
+        compact('title','question'));
     }
 
     public function updateQuestion($question_id)
-    {
+    {        
+        $question = Question::findOrFail($question_id);
+        if (request()->has('remove_image')) {
+            $this->removeImage();
+        }
+        DB::transaction(function() use($question){   
+            
+            if (request()->hasFile('file_name')) {
+                $image_path = '';  
+                // remove old image
+                if (!empty($question->file_name)) {
+                    $image_path = public_path()."/images/questions_attachments/".$question->file_name;               
+                }
+                // upload new image
+                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/questions_attachments'); 
 
+                $question->update([
+                    'question_text' => request('question_text'),
+                    'mark'          => request('mark'),
+                    'file_name'     => $this->file_name
+                ]);              
+            }else{
+                $question->update([
+                    'question_text' => request('question_text'),
+                    'mark' => request('mark')
+                ]);
+            }              
+            
+            // true or false
+            if (request('question_type') == trans('learning::local.question_true_false')) {
+                Answer::where('question_id',request('question_id'))->delete();
+             
+                for ($i=0; $i < count(request('answer_text')); $i++) {                     
+                    request()->user()->answers()->firstOrCreate([
+                        'answer_text'   => request('answer_text')[$i],
+                        'answer_note'   => request('answer_note')[$i],
+                        'right_answer'  => request('right_answer')[$i],
+                        'question_id'   => $question->id,
+                    ]);
+                 }                            
+            }
+            
+            // multiple choice or complete
+            if (request('question_type') == trans('learning::local.question_multiple_choice') || 
+                request('question_type') == trans('learning::local.question_complete')) {
+                Answer::where('question_id',request('question_id'))->delete();
+                foreach (request('repeater-group') as $answer) {                 
+                    request()->user()->answers()->firstOrCreate([
+                        'answer_text'   => $answer['answer_text'],
+                        'answer_note'   => $answer['answer_note'],
+                        'right_answer'  => $answer['right_answer'],
+                        'question_id'   => $question->id,
+                    ]);
+                }                
+            }  
+
+            // matching
+            if (request('question_type') == trans('learning::local.question_matching')) {
+                // matchings
+                Matching::where('question_id',request('question_id'))->delete();
+                foreach (request('repeater-group-a') as $matching) {                 
+                    request()->user()->matchings()->firstOrCreate([
+                        'matching_item'     => $matching['matching_item'],
+                        'matching_answer'   => $matching['matching_answer'],
+                        'exam_id'           => request('exam_id'),
+                        'question_id'       => $question->id,
+                    ]);
+                } 
+                // answers
+                Answer::where('question_id',request('question_id'))->delete();
+                foreach (request('repeater-group-b') as $answer) {                 
+                    request()->user()->answers()->firstOrCreate([
+                        'answer_text'   => $answer['answer_text'],
+                        'answer_note'   => '',
+                        'right_answer'  => 'false',
+                        'question_id'   => $question->id,
+                    ]);
+                } 
+            }
+        });
+
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('teacher.show-exam',$question->exam_id);
+    }
+
+    public function preview($exam_id)
+    {
+        $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
+        $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
+        ->get();    
+        $questions = $questions->shuffle();   
+                
+        $n = 1;
+        $title = trans('learning::local.preview_exam');
+        return view('learning::teacher.exams.preview',
+        compact('title','exam','questions','n'));
+    }
+
+    public function setExamClasses()
+    {
+        $exam = Exam::find(request('exam_id'));
+        DB::table('exam_classroom')->where('exam_id',$exam->id)->delete();
+        foreach (request('classroom_id') as $classroom_id) {
+            $exam->classrooms()->attach($classroom_id);                        
+        }
+        toast(trans('learning::local.set_classes_successfully'),'success');
+        return redirect()->route('teacher.show-exam',request('exam_id'));
     }
  
 }

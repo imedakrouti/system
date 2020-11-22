@@ -57,7 +57,7 @@
                         <h5><strong>{{ trans('learning::local.lessons_related_exam') }}</strong></h5>
                         @foreach ($exam->lessons as $lesson)                            
                             <div class="mb-1 badge badge-info">
-                                <span><a target="_blank" href="{{route('lessons.show',$lesson->id)}}">{{$lesson->lesson_title}}</a></span>
+                                <span><a target="_blank" href="{{route('teacher.view-lesson',['id' =>$lesson->id,'playlist_id'=>$lesson->playlist_id])}}">{{$lesson->lesson_title}}</a></span>
                                 <i class="la la-book font-medium-3"></i>
                             </div>
                         @endforeach
@@ -70,24 +70,27 @@
                     </h5>
                     <h5><strong>{{ trans('learning::local.created_at') }} : </strong>{{$exam->created_at->diffForHumans()}}</h5>
                     <h5><strong>{{ trans('learning::local.last_updated') }} : </strong>{{$exam->updated_at->diffForHumans()}}</h5>
-
                     <div class="form-group">
-                        <div class="btn-group mr-1 mb-1">                            
-                            <button type="button" class="btn btn-success btn-min-width dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">{{ trans('learning::local.add_question') }}</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" onclick="paragraph()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_paragraph') }}</a>                                    
-                                <a class="dropdown-item" onclick="essay()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_essay') }}</a>                                    
-                              <a class="dropdown-item" onclick="multiChoice()" href="#"><i class="la la-question"></i> {{ trans('learning::local.multiple_choice') }}</a>
-                              <a class="dropdown-item" onclick="trueFalse()" href="#"><i class="la la-question"></i> {{ trans('learning::local.true_false') }}</a>
-                              <a class="dropdown-item" onclick="complete()" href="#"><i class="la la-question"></i> {{ trans('learning::local.complete') }}</a>
-                              <a class="dropdown-item" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a>
-                            </div>  
-                            <a href="#" onclick="deleteQuestions()" class="btn btn-danger ml-1"><i class="la la-trash"></i> {{ trans('admin.delete') }}</a>              
-                            <a target="_blank" href="{{route('exams.preview',$exam->id)}}" class="btn btn-primary ml-1"><i class="la la-spinner"></i> {{ trans('admin.preview') }}</a>              
-                            <a href="{{route('exams.index')}}" class="btn btn-light ml-1"><i class="la la-mail-forward"></i> {{ trans('admin.back') }}</a>              
+                        <button type="button" class="btn btn-success btn-min-width  dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">{{ trans('learning::local.add_question') }}</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" onclick="paragraph()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_paragraph') }}</a>                                    
+                            <a class="dropdown-item" onclick="essay()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_essay') }}</a>                                    
+                            <a class="dropdown-item" onclick="multiChoice()" href="#"><i class="la la-question"></i> {{ trans('learning::local.multiple_choice') }}</a>
+                            <a class="dropdown-item" onclick="trueFalse()" href="#"><i class="la la-question"></i> {{ trans('learning::local.true_false') }}</a>
+                            <a class="dropdown-item" onclick="complete()" href="#"><i class="la la-question"></i> {{ trans('learning::local.complete') }}</a>
+                            <a class="dropdown-item" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a>
                         </div>
+                        <a href="#" onclick="setClasses()" class="btn btn-info ml-1"><i class="la la-asterisk"></i> {{ trans('learning::local.set_classes') }}</a>              
                     </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="btn-group mr-1 mb-1">                            
+                    <a href="{{route('teacher.view-exams')}}" class="btn btn-light ml-1"><i class="la la-mail-forward"></i> {{ trans('admin.back') }}</a>              
+                    <a href="#" onclick="deleteQuestions()" class="btn btn-danger ml-1"><i class="la la-trash"></i> {{ trans('admin.delete') }}</a>              
+                    <a target="_blank" href="{{route('teacher.preview-exam',$exam->id)}}" class="btn btn-primary ml-1"><i class="la la-spinner"></i> {{ trans('admin.preview') }}</a>              
+                    
                 </div>
             </div>
           </div>
@@ -218,14 +221,14 @@
 @include('learning::teacher.exams.includes._matching')
 @include('learning::teacher.exams.includes._essay')
 @include('learning::teacher.exams.includes._paragraph')
-
+@include('learning::teacher.exams.includes._set-classes')
 @endsection
 
 @section('script')
     <script>
         function multiChoice()
         {
-            $('#exam_id').val({{$exam->id}});			
+            $('#exam_id').val("{{$exam->id}}");			
             $('#multiple_choice').modal({backdrop: 'static', keyboard: false})
             $('#multiple_choice').modal('show');
         }
@@ -298,6 +301,13 @@
                 swal("{{trans('msg.delete_confirmation')}}", "{{trans('msg.no_records_selected')}}", "info");
             }
         }
+
+        function setClasses()
+        {            
+            $('#exam_classes_id').val("{{$exam->id}}");			
+            $('#setClasses').modal({backdrop: 'static', keyboard: false})
+            $('#setClasses').modal('show');
+        }  
     </script>
     <script src="{{asset('cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
     <script src="{{asset('cpanel/app-assets/js/scripts/forms/form-repeater.js')}}"></script>

@@ -133,6 +133,9 @@
                                             <option {{$answer->right_answer == 'false' ? 'selected' : ''}} value="false">{{ trans('learning::local.other') }}</option>
                                             <option {{$answer->right_answer == 'true' ? 'selected' : ''}} value="true">{{ trans('learning::local.right_answer') }}</option>
                                         </select> 
+                                        <span class="input-group-append" id="button-addon2">
+                                            <button class="btn btn-danger" type="button" data-repeater-delete><i class="ft-x"></i></button>
+                                        </span>
                                       </div>
                               @endforeach                                  
                           </div>

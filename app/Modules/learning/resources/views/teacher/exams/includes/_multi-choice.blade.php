@@ -10,8 +10,11 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">              
-            <form  action="{{route('questions.store')}}" method="POST">
+          <div class="modal-body">         
+            <div class="alert alert-light mb-2" role="alert">
+                {{ trans('learning::local.tip_feedback') }}    
+            </div>                             
+            <form  action="{{route('teacher.store-question')}}" method="POST">
                 @csrf
                 <div class="col-lg-4">                    
                     <input type="hidden" name="exam_id" id="exam_id" value="">                    

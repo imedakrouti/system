@@ -6,7 +6,7 @@
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('teacher.playlists')}}">{{ trans('learning::local.playlist') }}</a>
+            <li class="breadcrumb-item"><a href="{{route('teacher.view-exams')}}">{{ trans('learning::local.exams') }}</a>
             </li>                        
             <li class="breadcrumb-item">{{ $title }}</li>     
           </ol>
@@ -33,10 +33,10 @@
                     </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-4 col-md-4">
+                  <div class="col-lg-4 col-md-6">
                       <div class="form-group">
                           <label>{{ trans('learning::local.division') }}</label>
-                          <select name="divisions[]" class="form-control select2" required multiple>                                    
+                          <select name="divisions[]" class="form-control select2" id="filter_division_id" required>                                    
                               @foreach ($divisions as $division)
                                   <option value="{{$division->id}}">
                                       {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
@@ -45,10 +45,10 @@
                           <span class="red">{{ trans('learning::local.required') }}</span>                              
                       </div>
                   </div>
-                  <div class="col-lg-4 col-md-4">
+                  <div class="col-lg-4 col-md-6">
                       <div class="form-group"> 
                           <label>{{ trans('learning::local.grade') }}</label>
-                          <select name="grades[]" class="form-control select2" multiple required >                                    
+                          <select name="grades[]" class="form-control select2" id="filter_grade_id" required >                                    
                               @foreach ($grades as $grade)
                                   <option value="{{$grade->id}}">
                                       {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
@@ -58,17 +58,27 @@
                       </div>
                   </div>  
                 </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-group row">
+                      <label>{{ trans('learning::local.classrooms') }}</label>
+                      <select name="classrooms[]" class="form-control select2" id="filter_room_id" multiple required disabled>
+                    
+                      </select>
+                      <span class="red">{{ trans('learning::local.required') }}</span>                              
+                    </div>
+                </div>  
                 <div class="row">
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                         <label>{{ trans('learning::local.lessons_related_exam') }}</label>
-                        <select name="lessons[]" class="form-control select2" multiple>
+                        <select name="lessons[]" class="form-control select2" multiple required>
                             <option value="">{{ trans('staff::local.select') }}</option>
                             @foreach ($lessons as $lesson)
                                 <option value="{{$lesson->id}}">{{$lesson->lesson_title}} 
                                     [{{session('lang') == 'ar' ? $lesson->subject->ar_name : $lesson->subject->en_name}}]</option>
                             @endforeach
                         </select>
+                        <span class="red">{{ trans('learning::local.required') }}</span>                              
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-12">
@@ -88,7 +98,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.start_date') }}</label>
                           <input type="date"  class="form-control " value="{{old('start_date')}}"
@@ -96,7 +106,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.start_time') }}</label>
                           <input type="time" class="form-control " value="{{old('start_time')}}"
@@ -107,7 +117,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.end_date') }}</label>
                           <input type="date"  class="form-control " value="{{old('end_date')}}"
@@ -115,7 +125,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.end_time') }}</label>
                           <input type="time" class="form-control " value="{{old('end_time')}}"
@@ -150,10 +160,11 @@
                         </div>
                     </div>                                                                                                                               
                 </div>
-                <div class="col-lg-8 col-md-12">
+                <div class="col-lg-12 col-md-12">
                     <div class="form-group row">
                         <label>{{ trans('learning::local.description') }}</label>
-                        <textarea name="description" class="form-control" cols="30" rows="5">{{old('description')}}</textarea>
+                        <textarea required name="description" class="form-control" cols="30" rows="5">{{old('description')}}</textarea>
+                        <span class="red">{{ trans('learning::local.required') }}</span>                              
                     </div>
                 </div>                                                                             
               </div>
@@ -174,6 +185,42 @@
 @endsection
 
 @section('script')
-<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
+<script>
+    $('#filter_division_id').on('change', function(){
+      getRooms();
+    });  
+    $('#filter_grade_id').on('change', function(){
+      getRooms();      
+    });      
+    function getRooms()
+    {
+          var filter_division_id = $('#filter_division_id').val();  
+          var filter_grade_id = $('#filter_grade_id').val();  
+
+          if (filter_grade_id == '' || filter_division_id == '') // is empty
+          {
+            $('#filter_room_id').prop('disabled', true); // set disable            
+          }
+          else // is not empty
+          {
+            $('#filter_room_id').prop('disabled', false);	// set enable            
+            //using
+            $.ajax({
+              url:'{{route("getClassrooms")}}',
+              type:"post",
+              data: {
+                _method		    : 'PUT',
+                division_id 	: filter_division_id,
+                grade_id 	    : filter_grade_id,
+                _token		    : '{{ csrf_token() }}'
+                },
+              dataType: 'json',
+              success: function(data){
+                $('#filter_room_id').html(data);                
+              }
+            });
+          }
+    }    
+</script>
+ 
 @endsection

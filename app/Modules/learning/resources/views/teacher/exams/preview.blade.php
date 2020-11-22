@@ -1,23 +1,11 @@
-@extends('layouts.backEnd.cpanel')
-@section('sidebar')
-@include('layouts.backEnd.includes.sidebars._learning')
-@endsection
+@extends('layouts.backEnd.teacher')
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
-      <h3 class="content-header-title">{{$title}}</h3>
-      <div class="row breadcrumbs-top">
-        <div class="breadcrumb-wrapper col-12">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('dashboard.learning')}}">{{ trans('admin.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{route('exams.index')}}">{{ trans('learning::local.exams') }}</a></li>
-            <li class="breadcrumb-item active">{{$title}}
-            </li>
-          </ol>
-        </div>
-      </div>
-    </div>
+      <h3 class="content-header-title">{{$title}}</h3>      
+    </div>      
 </div>
+
 <div class="row">
     <div class="col-lg-12">
       <div class="card">
@@ -30,13 +18,13 @@
                         <strong>
                             {{ trans('learning::local.subject_type') }}
                                 <span class="blue">{{session('lang') == 'ar' ? $exam->subjects->ar_name : $exam->subjects->en_name}}</span>
-                            - {{ trans('learning::local.division') }}
+                             {{ trans('learning::local.division') }}
                                 @foreach ($exam->divisions as $division)
-                                    <span class="blue">{{session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name}}</span>
+                                    <span class="blue">[{{session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name}}]</span>
                                 @endforeach
-                            - {{ trans('learning::local.grade') }}
+                             {{ trans('learning::local.grade') }}
                                 @foreach ($exam->grades as $grade)
-                                    <span class="blue">{{session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name}}</span>
+                                    <span class="blue">[{{session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name}}]</span>
                                 @endforeach
                         </strong>
                     </h4>      
@@ -150,3 +138,4 @@
 </div>
 
 @endsection
+

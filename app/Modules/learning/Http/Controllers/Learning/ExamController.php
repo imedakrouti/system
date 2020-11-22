@@ -191,8 +191,7 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Exam $exam)
-    {
-      
+    {    
         DB::transaction(function() use ($exam){
             $exam->update(request()->only($this->attributes()));
 

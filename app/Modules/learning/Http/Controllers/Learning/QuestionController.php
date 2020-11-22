@@ -151,8 +151,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update( Question $question)
-    {
-        // dd(request()->all());
+    {        
         if (request()->has('remove_image')) {
             $this->removeImage();
         }
