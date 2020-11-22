@@ -15,8 +15,7 @@ class CreateTablePosts extends Migration
     {
         Schema::connection('mysql')->create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('post_text');
-            $table->string('image')->nullable();
+            $table->text('post_text');            
             $table->string('youtube_url')->nullable();
             $table->string('url')->nullable();
             $table->string('file_name')->nullable();
@@ -29,8 +28,7 @@ class CreateTablePosts extends Migration
 
         Schema::connection('mysql2')->create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('post_text');
-            $table->string('image')->nullable();
+            $table->text('post_text');            
             $table->string('youtube_url')->nullable();
             $table->string('url')->nullable();
             $table->string('file_name')->nullable();

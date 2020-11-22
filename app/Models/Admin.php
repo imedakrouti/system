@@ -413,4 +413,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\Matching','admin_id');
     }
+    public function posts()
+    {
+        return $this->hasMany('Learning\Models\Learning\Post','admin_id');
+    }
 }

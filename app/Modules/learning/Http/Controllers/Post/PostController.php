@@ -17,9 +17,14 @@ class PostController extends Controller
     public function index($classroom_id)
     {
         $classroom = Classroom::findOrFail($classroom_id);
+        $where = [
+            ['classroom_id',$classroom_id],  
+            ['admin_id',authInfo()->id]  
+        ];
+        $posts = Post::where($where)->orderBy('created_at','desc')->get();
         $title = trans('learning::local.posts');
         return view('learning::teacher.posts.index',
-        compact('title','classroom'));
+        compact('title','classroom','posts'));
     }
 
     /**
@@ -31,6 +36,17 @@ class PostController extends Controller
     {
         //
     }
+    private function attributes()
+    {
+        return [        
+            'post_text',                               
+            'youtube_url',                       
+            'url',                       
+            'file_name',                       
+            'classroom_id',                       
+            'admin_id',                                   
+        ];
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,7 +56,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->user()->posts()->firstOrCreate($request->only($this->attributes()));
+        toast(trans('msg.stored_successfully'),'success');
+        return redirect()->route('posts.index',request('classroom_id'));
     }
 
     /**

@@ -33,13 +33,13 @@
                   <div class="media d-flex">
                     <div class="media-body text-left mb-1">
                       <h3 class="danger">20</h3>
-                      <span><a href="{{route('teacher-posts.index',$classroom->id)}}">
+                      <span><a href="{{route('posts.index',$classroom->id)}}">
                         {{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}
                         </a></span>
 
                     </div>
                     <div class="align-self-center">
-                      <a href="{{route('teacher-posts.index',$classroom->id)}}"><i class="la la-graduation-cap info font-large-2 float-right"></i></a>
+                      <a href="{{route('posts.index',$classroom->id)}}"><i class="la la-graduation-cap info font-large-2 float-right"></i></a>
                     </div>
                   </div>     
                 </div>
