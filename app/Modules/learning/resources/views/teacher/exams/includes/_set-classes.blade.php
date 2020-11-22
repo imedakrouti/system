@@ -5,7 +5,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel18"><i class="la la-youtube-play"></i> {{ trans('learning::local.set_classes') }}</h4>
+            <h4 class="modal-title" id="myModalLabel18"><i class="la la-graduation-cap"></i> {{ trans('learning::local.set_classes') }}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

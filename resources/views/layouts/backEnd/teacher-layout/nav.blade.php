@@ -37,7 +37,7 @@
                     @empty(authInfo()->image_profile)                          
                       <img src="{{asset('images/website/male.png')}}" alt="avatar">                          
                     @endempty
-                  </span>
+                </span>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{route('teacher.account')}}"><i class="ft-user"></i>{{ trans('admin.profile') }}</a>

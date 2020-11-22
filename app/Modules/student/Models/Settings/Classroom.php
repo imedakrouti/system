@@ -47,4 +47,5 @@ class Classroom extends Model
     {        
         return $this->belongsToMany('Staff\Models\Employees\Employee','employee_classroom','classroom_id','employee_id');
     }
+
 }

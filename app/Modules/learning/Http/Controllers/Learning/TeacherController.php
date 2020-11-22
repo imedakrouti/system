@@ -29,7 +29,7 @@ class TeacherController extends Controller
         ->get();
         
         $title = trans('learning::local.playlists');
-        return view('learning::teacher.index',
+        return view('learning::teacher.playlists.index',
         compact('title','playlists'));
     }
  
@@ -49,7 +49,7 @@ class TeacherController extends Controller
     {
         $playlist = Playlist::findOrFail($playlist_id);
         $title = trans('learning::local.edit_playlist');
-        return view('learning::teacher.edit-playlist',
+        return view('learning::teacher.playlists.edit-playlist',
         compact('title','playlist'));
     }
 
@@ -89,7 +89,7 @@ class TeacherController extends Controller
         
         $title = $playlist->playlist_name;
         $n = 1;
-        return view('learning::teacher.show-lessons',
+        return view('learning::teacher.playlists.show-lessons',
         compact('playlist','title','lessons','n','classes','arr_classes'));
     }
 
@@ -100,7 +100,7 @@ class TeacherController extends Controller
         $divisions = Division::sort()->get();
         $grades = Grade::sort()->get();
         $years = Year::open()->current()->get();  
-        return view('learning::teacher.new-lesson',
+        return view('learning::teacher.lessons.new-lesson',
         compact('playlist','title','divisions','grades','years'));
     }
 
@@ -154,7 +154,7 @@ class TeacherController extends Controller
         $lessons = Lesson::where('playlist_id',$playlist_id)->sort()->get();        
         $lesson = Lesson::with('divisions','grades','years','files','playlist','admin')->where('id',$lesson_id)->first();          
         $title = $lesson->lesson_title;
-        return view('learning::teacher.view-lesson',
+        return view('learning::teacher.lessons.view-lesson',
         compact('lessons','lesson','title'));
     }
 
@@ -183,7 +183,7 @@ class TeacherController extends Controller
         foreach ($lesson->years as $year) {
             $arr_years []= $year->id;            
         } 
-        return view('learning::teacher.edit-lesson',
+        return view('learning::teacher.lessons.edit-lesson',
         compact('playlists','title','divisions','grades','years','arr_divisions','arr_grades','arr_years','lesson'));
     }
 
@@ -297,7 +297,7 @@ class TeacherController extends Controller
         if (request()->ajax()) {
             return $this->dataTable($data);
         }
-        return view('learning::teacher.view-lessons',
+        return view('learning::teacher.lessons.view-lessons',
         compact('title'));
     }
     private function dataTable($data)
@@ -715,6 +715,19 @@ class TeacherController extends Controller
         }
         toast(trans('learning::local.set_classes_successfully'),'success');
         return redirect()->route('teacher.show-exam',request('exam_id'));
+    }
+
+    public function classrooms()
+    {
+        $classrooms = Classroom::with('employees')->sort()
+        ->whereHas('employees',function($q){
+            $q->where('employee_id',employee_id());
+        })
+        ->get();
+
+        $title = trans('learning::local.classrooms');
+        return view('learning::teacher.classrooms',
+        compact('title','classrooms'));        
     }
  
 }

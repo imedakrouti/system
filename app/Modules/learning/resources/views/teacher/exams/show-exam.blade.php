@@ -81,7 +81,7 @@
                             <a class="dropdown-item" onclick="complete()" href="#"><i class="la la-question"></i> {{ trans('learning::local.complete') }}</a>
                             <a class="dropdown-item" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a>
                         </div>
-                        <a href="#" onclick="setClasses()" class="btn btn-info ml-1"><i class="la la-asterisk"></i> {{ trans('learning::local.set_classes') }}</a>              
+                        <a href="#" onclick="setClasses()" class="btn btn-info ml-1"><i class="la la-graduation-cap"></i> {{ trans('learning::local.set_classes') }}</a>              
                     </div>
                 </div>
             </div>

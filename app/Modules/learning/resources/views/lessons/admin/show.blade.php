@@ -120,6 +120,12 @@
                         <i class="la la-calendar font-medium-3"></i>
                     </div>
                 @endforeach
+                @foreach ($lesson->playlist->classes as $classroom)                    
+                <div class="mb-1 badge badge-dark">
+                        <span>{{session('lang') == 'ar' ? $classroom->ar_name_classroom: $classroom->en_name_classroom}}</span>
+                        <i class="la la-calendar font-medium-3"></i>
+                    </div>
+                @endforeach
                 <hr>
                 <h5>
                   <strong>{{ trans('learning::local.exams') }} :</strong> 
