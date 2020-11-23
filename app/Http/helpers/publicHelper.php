@@ -265,7 +265,8 @@ if (!function_exists('prepareYoutubeURL')) {
 	{			
 		$start_from = stripos($youtubeURL,'=') + 1;
 		$first_substr = substr($youtubeURL,$start_from);
-		$end_from = stripos($first_substr,'&');		
+		$end_from = stripos($first_substr,'&') == false ? strlen($first_substr) : stripos($first_substr,'&');		
+		// return $end_from;
 		return substr($youtubeURL,$start_from,$end_from);
 	}
 }

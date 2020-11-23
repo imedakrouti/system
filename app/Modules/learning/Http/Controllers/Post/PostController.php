@@ -9,6 +9,7 @@ use Student\Models\Settings\Classroom;
 
 class PostController extends Controller
 {
+    private $file_name;
     /**
      * Display a listing of the resource.
      *
@@ -21,29 +22,21 @@ class PostController extends Controller
             ['classroom_id',$classroom_id],  
             ['admin_id',authInfo()->id]  
         ];
+        $classrooms = Classroom::with('employees')->whereHas('employees',function($q){
+            $q->where('employee_id',employee_id());
+        })->get();
         $posts = Post::where($where)->orderBy('created_at','desc')->get();
         $title = trans('learning::local.posts');
         return view('learning::teacher.posts.index',
-        compact('title','classroom','posts'));
+        compact('title','classroom','posts','classrooms'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
     private function attributes()
     {
         return [        
             'post_text',                               
             'youtube_url',                       
-            'url',                       
-            'file_name',                       
-            'classroom_id',                       
+            'url',                                               
             'admin_id',                                   
         ];
     }
@@ -55,8 +48,18 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $request->user()->posts()->firstOrCreate($request->only($this->attributes()));
+    {        
+        if ($request->hasFile('file_name')) {
+            $image_path = '';                                        
+                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/posts_attachments');                                             
+        }
+        foreach (request('classroom_id') as $classroom_id) {
+            $request->user()->posts()->firstOrCreate($request->only($this->attributes())+
+                [
+                    'file_name'     => $this->file_name,
+                    'classroom_id'  => $classroom_id,
+                ]);            
+        }
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('posts.index',request('classroom_id'));
     }
@@ -80,7 +83,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $title = trans('learning::local.edit_post');
+        return view('learning::teacher.posts.edit-post',
+        compact('title','post'));
     }
 
     /**
@@ -91,8 +96,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
-    {
-        //
+    {        
+        $post->update(request()->only($this->attributes()));
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('posts.index',$post->classroom_id);
     }
 
     /**
@@ -103,6 +110,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        toast(trans('msg.delete_successfully'),'success');
+        return redirect()->route('posts.index',request('classroom_id'));
     }
+
 }

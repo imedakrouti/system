@@ -96,6 +96,12 @@ return [
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
         ],   
+        'posts_attachments' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/posts_attachments'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+        ], 
         'questions_attachments' => [
             'driver' => 'local',
             'root' => storage_path('app/public/images/questions_attachments'),
