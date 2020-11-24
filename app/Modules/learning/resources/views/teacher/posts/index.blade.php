@@ -82,7 +82,7 @@
             </div>
             <div class="card hidden" id="my-post">
                 <div class="card-header">   
-                    <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data" id="form_post">
                         @csrf   
                         <input type="hidden" name="classroom_id[]" value="{{$classroom->id}}">                       
                         <input type="hidden" name="post_type" value="post">                       
@@ -346,6 +346,10 @@
         {
             event.preventDefault();
             $('#create-post').show();
+            $('#form_post')[0].reset();
+            $('#file_name').html('');
+            $('#url-link').html('');
+            $('#youtube-url').html('');
             $('#my-post').addClass('hidden');
             $('#post').blur()
         }
