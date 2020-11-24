@@ -14,6 +14,6 @@
     <span class="small  d-none d-sm-inline-block">{{$comment->created_at->diffForHumans()}}</span>
 </h4>
 <span class="small  d-inline-block d-sm-none">{{$comment->created_at->diffForHumans()}}</span>
-<p>{{ $comment->comment_text }}</p>
+<p class="ml-3">{{ $comment->comment_text }}</p>
 
 @endforeach

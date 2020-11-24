@@ -36,7 +36,8 @@
                   <div class="col-lg-4 col-md-6">
                       <div class="form-group">
                           <label>{{ trans('learning::local.division') }}</label>
-                          <select name="divisions[]" class="form-control select2" id="filter_division_id" required>                                    
+                          <select name="divisions[]" class="form-control" id="filter_division_id" required>                                    
+                              <option value="">{{ trans('staff::local.select') }}</option>
                               @foreach ($divisions as $division)
                                   <option value="{{$division->id}}">
                                       {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
@@ -48,8 +49,9 @@
                   <div class="col-lg-4 col-md-6">
                       <div class="form-group"> 
                           <label>{{ trans('learning::local.grade') }}</label>
-                          <select name="grades[]" class="form-control select2" id="filter_grade_id" required >                                    
-                              @foreach ($grades as $grade)
+                          <select name="grades[]" class="form-control" id="filter_grade_id" required >                                    
+                            <option value="">{{ trans('staff::local.select') }}</option>  
+                            @foreach ($grades as $grade)
                                   <option value="{{$grade->id}}">
                                       {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
                               @endforeach
@@ -58,15 +60,7 @@
                       </div>
                   </div>  
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="form-group row">
-                      <label>{{ trans('learning::local.classrooms') }}</label>
-                      <select name="classrooms[]" class="form-control select2" id="filter_room_id" multiple required disabled>
-                    
-                      </select>
-                      <span class="red">{{ trans('learning::local.required') }}</span>                              
-                    </div>
-                </div>  
+
                 <div class="row">
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">

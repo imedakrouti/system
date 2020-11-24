@@ -115,19 +115,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>   
-                    <div class="col-lg-4 col-md-4">
-                        <div class="form-group"> 
-                            <label>{{ trans('student::local.year') }}</label>
-                            <select name="year_id[]" class="form-control select2" multiple required>                           
-                                @foreach ($years as $year)                                               
-                                    <option {{in_array( $year->id,$arr_years) ? 'selected' : ''}} value="{{$year->id}}">
-                                        {{$year->name}}
-                                    </option>                                                                                                                     
-                                @endforeach
-                            </select>
-                            <span class="red">{{ trans('learning::local.required') }}</span>                              
-                        </div>
-                    </div>   
+  
                 </div>               
                 <div class="col-lg-6 col-md-12">
                    <div class="form-group row">
@@ -170,6 +158,7 @@
                         <div class="form-group">
                           <label>{{ trans('learning::local.explanation') }}</label>
                           <textarea required class="form-control" name="explanation" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('explanation',$lesson->explanation)}}</textarea>                          
+                          <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>  
                 </div>                                                                                                

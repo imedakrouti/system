@@ -31,8 +31,15 @@
         <div class="card">          
         <div class="card-content">
             <div class="card-body">              
-              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.upcoming') }}</strong></h4>
-              <p class="card-text">{{ trans('learning::local.no_works') }}</p> 
+              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.next_exams') }}</strong></h4>
+              <ul>
+                  @empty(count($exams))
+                    <p class="card-text">{{ trans('learning::local.no_works') }}</p>                   
+                  @endempty
+                  @foreach ($exams as $exam)
+                      <li><a target="_blank" href="{{route('teacher.preview-exam',$exam->id)}}">{{$exam->exam_name}}</a></li>
+                  @endforeach
+              </ul>
               <hr>             
               <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.classrooms') }}</strong></h4>
               <ol>
@@ -194,7 +201,26 @@
                                         </iframe>
                                     </div>
                                     @endisset                                                                  
-                                @endif                              
+                                @endif  
+                                
+                                {{-- post type exam --}}
+                                @if ($post->post_type == 'exam')
+                                    <h6><span class="blue">{{ trans('learning::local.publish_new_exam') }}</span> {{$post->post_text}}</h6>
+                                    <p>{{$post->description}}</p>
+                                    <h6>
+                                        <div class="mb-1">
+                                            <span class="purple">{{ trans('learning::local.exam_link') }}</span>                                        
+                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{$post->url}}</a>
+                                        </div>
+                                    </h6>
+                                    @isset($post->youtube_url)              
+                                    <div class="mb-1">
+                                        <iframe width="100%"  style="min-height: 500px;" allowfullscreen
+                                            src="https://www.youtube.com/embed/{{prepareYoutubeURL($post->youtube_url)}}">
+                                        </iframe>
+                                    </div>
+                                    @endisset                                                                  
+                                @endif                                    
 
                                 {{-- post type post --}}
                                 @if ($post->post_type == 'post')
@@ -229,17 +255,16 @@
                                         @csrf
                                         <input type="hidden" value="{{ $post->id }}" name="post_id">
                                         <div class="row"> 
-                                            <div class="col-md-12">
-                                                
-                                                 <fieldset>
+                                            <div class="col-md-12">                                                
+                                                <fieldset>
                                                     <div class="input-group">
                                                     <input type="text" name="comment_text" data-id="{{ $post->id }}" class="form-control round commenttext" aria-describedby="button-addon2"
                                                         placeholder="{{ trans('learning::local.add_comment') }}">
-                                                      <div class="input-group-append">
+                                                        <div class="input-group-append">
                                                         <button type="button" class="btn btn-info round submitComment" value="{{ $post->id }}"><i class="fa fa-comment"></i> {{ trans('learning::local.set_comment') }}</button>
-                                                      </div>
+                                                        </div>
                                                     </div>
-                                                  </fieldset>                                                 
+                                                </fieldset>                                                 
                                             </div>                                            
                                         </div>                                        
                                     </form>
@@ -256,59 +281,59 @@
 @endsection
 @section('script')
 
-<script type="text/javascript">
-    $(document).ready(function(){
-$('.commenttext').keypress(function(event){
-    var keycode = (event.keyCode ? event.keyCode : event.which);
-    if(keycode == '13'){
-        
-        return false;
-    }
-});
-        $(document).on('click', '.submitComment', function(){
-            event.preventDefault();
-            var id = $(this).val();            
-            var form_data = new FormData($('#commentForm_'+id)[0]);
+    <script>
+        $(document).ready(function(){
+            $('.commenttext').keypress(function(event){
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if(keycode == '13'){
+                    
+                    return false;
+                }
+            });
+            $(document).on('click', '.submitComment', function(){
+                event.preventDefault();
+                var id = $(this).val();            
+                var form_data = new FormData($('#commentForm_'+id)[0]);
 
-            $.ajax({
-                    url:"{{route('comments.store')}}",
-                    method:"POST",
-                    data:form_data,
-                    cache       : false,
-                    contentType : false,
-                    processData : false,
-                    dataType:"json",
-                    // display succees message
-                    success:function(data)
-                    {	
-                        getComment(id);							
-                        $('#commentForm_'+id)[0].reset();
-                    }
-                });
+                $.ajax({
+                        url:"{{route('comments.store')}}",
+                        method:"POST",
+                        data:form_data,
+                        cache       : false,
+                        contentType : false,
+                        processData : false,
+                        dataType:"json",
+                        // display succees message
+                        success:function(data)
+                        {	
+                            getComment(id);							
+                            $('#commentForm_'+id)[0].reset();
+                        }
+                    });
+            });
         });
-    });
 
-    $(document).on('click', '.comment', function(){
-        var id = $(this).val();
-        if($('#commentField_'+id).is(':visible')){
-            $('#commentField_'+id).slideUp();
-        }
-        else{
-            $('#commentField_'+id).slideDown();
-            getComment(id);
-        }
-    });
-
-    function getComment(id){
-        $.ajax({
-            url: "{{route('comments.index')}}",
-            data: {id:id},
-            success: function(data){                
-                $('#comment_'+id).html(data);                                 
+        $(document).on('click', '.comment', function(){
+            var id = $(this).val();
+            if($('#commentField_'+id).is(':visible')){
+                $('#commentField_'+id).slideUp();
+            }
+            else{
+                $('#commentField_'+id).slideDown();
+                getComment(id);
             }
         });
-    }
-</script>
+
+        function getComment(id){
+            $.ajax({
+                url: "{{route('comments.index')}}",
+                data: {id:id},
+                success: function(data){                
+                    $('#comment_'+id).html(data);                                 
+                }
+            });
+        }
+    </script>
 
     <script>
  

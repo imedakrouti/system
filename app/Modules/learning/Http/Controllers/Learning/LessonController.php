@@ -146,9 +146,7 @@ class LessonController extends Controller
             foreach (request('grade_id') as $grade_id) {
                 $_lessons->grades()->attach($grade_id);                        
             }
-            foreach (request('year_id') as $year_id) {
-                $_lessons->years()->attach($year_id);                        
-            }
+            $_lessons->years()->attach(currentYear());                        
 
         });
         toast(trans('msg.stored_successfully'),'success');
@@ -248,12 +246,7 @@ class LessonController extends Controller
             DB::table('lesson_grade')->where('lesson_id',$_lessons->id)->delete();
             foreach (request('grade_id') as $grade_id) {
                 $_lessons->grades()->attach($grade_id);                        
-            }
-
-            DB::table('lesson_year')->where('lesson_id',$_lessons->id)->delete();
-            foreach (request('year_id') as $year_id) {
-                $_lessons->years()->attach($year_id);                        
-            }
+            }    
         });
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('lessons.show',$lesson->id);

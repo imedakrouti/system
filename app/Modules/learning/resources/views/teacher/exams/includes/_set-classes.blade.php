@@ -5,7 +5,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel18"><i class="la la-graduation-cap"></i> {{ trans('learning::local.set_classes') }}</h4>
+            <h4 class="modal-title" id="myModalLabel18"><i class="la la-share-alt"></i> {{ trans('learning::local.share_with_class') }}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -37,7 +37,7 @@
                   <div class="form-group row">
                       {{-- <div class="col-md-4"></div> --}}
                       <div class="col-md-8">
-                        <button type="submit" class="btn btn-success">{{ trans('admin.save') }}</button>                   
+                        <button type="submit" class="btn btn-success">{{ trans('admin.save_share') }}</button>                   
                         <button type="button" data-dismiss="modal" class="btn btn-light">{{ trans('admin.cancel') }}</button>                                                                                              
                       </div>
                     </div>

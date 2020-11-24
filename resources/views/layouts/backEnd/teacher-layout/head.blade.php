@@ -77,7 +77,7 @@ rel="stylesheet">
         width: 100%;
         height: 100%;
         z-index: 9999;
-        background: url("{{url('cpanel/app-assets/loader-64x/4.gif')}}") center no-repeat #fff;        }
+        background: url("{{url('cpanel/app-assets/loader-64x/red_1.gif')}}") center no-repeat #fff;        }
         .message{
         position: absolute;width: 100%;height: 50px;background-color: #11c011;color: white;line-height: 50px;
         z-index: 1200;text-align: center;opacity: 1;top: -50px ;

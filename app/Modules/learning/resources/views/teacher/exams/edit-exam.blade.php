@@ -61,7 +61,7 @@
                   </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg- col-md-6">
+                    <div class="col-lg-4 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.start_date') }}</label>
                           <input type="date"  class="form-control " value="{{old('start_date',$exam->start_date)}}"

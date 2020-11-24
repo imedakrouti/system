@@ -140,9 +140,8 @@ class TeacherController extends Controller
             foreach (request('grade_id') as $grade_id) {
                 $_lessons->grades()->attach($grade_id);                        
             }
-            foreach (request('year_id') as $year_id) {
-                $_lessons->years()->attach($year_id);                        
-            }
+            
+            $_lessons->years()->attach(currentYear());                        
 
         });
         toast(trans('msg.stored_successfully'),'success');
@@ -225,11 +224,6 @@ class TeacherController extends Controller
             DB::table('lesson_grade')->where('lesson_id',$_lessons->id)->delete();
             foreach (request('grade_id') as $grade_id) {
                 $_lessons->grades()->attach($grade_id);                        
-            }
-
-            DB::table('lesson_year')->where('lesson_id',$_lessons->id)->delete();
-            foreach (request('year_id') as $year_id) {
-                $_lessons->years()->attach($year_id);                        
             }
         });
         toast(trans('msg.updated_successfully'),'success');
@@ -429,13 +423,7 @@ class TeacherController extends Controller
                 
             foreach (request('grades') as $grade_id) {
                 $this->exam->grades()->attach($grade_id);                        
-            }
-
-            DB::table('exam_classroom')->where('exam_id',$this->exam->id)->delete();
-                
-            foreach (request('classrooms') as $classroom_id) {
-                $this->exam->classrooms()->attach($classroom_id);                        
-            }
+            }  
         });      
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('teacher.show-exam',$this->exam->id);
@@ -709,10 +697,21 @@ class TeacherController extends Controller
     public function setExamClasses()
     {
         $exam = Exam::find(request('exam_id'));
+        $url = route('teacher.preview-exam',$exam->id);
         DB::table('exam_classroom')->where('exam_id',$exam->id)->delete();
         foreach (request('classroom_id') as $classroom_id) {
-            $exam->classrooms()->attach($classroom_id);                        
+            $exam->classrooms()->attach($classroom_id);  
+            request()->user()->posts()->firstOrCreate(                      
+            [                        
+                'post_type'     => 'exam',                        
+                'url'           => $url,                        
+                'post_text'     => $exam->exam_name,                        
+                'youtube_url'   => null,                        
+                'description'   => $exam->description,                        
+                'classroom_id'  => $classroom_id,
+            ]);            
         }
+            
         toast(trans('learning::local.set_classes_successfully'),'success');
         return redirect()->route('teacher.show-exam',request('exam_id'));
     }

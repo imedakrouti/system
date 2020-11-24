@@ -17,11 +17,16 @@
     </div>    
 
     <div class="content-header-right col-md-6 col-12">
-      <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-        <a href="{{route('teacher.new-lessons',$playlist->id)}}" class="btn btn-success box-shadow round">{{ trans('learning::local.new_lesson') }}</a>
-        <a href="#" onclick="setClasses()" class="btn btn-info box-shadow round">{{ trans('learning::local.set_classes') }}</a>
-        <a href="{{route('teacher.edit-playlists',$playlist->id)}}" class="btn btn-warning box-shadow round">{{ trans('learning::local.edit') }}</a>
-        <a href="#" onclick="deletePlaylist()" class="btn btn-danger box-shadow round">{{ trans('learning::local.delete_playlist') }}</a>
+      <div class="btn-group pull-left">
+        <button type="button" onclick="location.href='{{route('teacher.new-lessons',$playlist->id)}}';" class="btn btn-success">{{ trans('learning::local.new_lesson') }}</button>
+        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#" onclick="setClasses()"><i class="la la-graduation-cap"></i> {{ trans('learning::local.set_classes') }}</a>
+          <a class="dropdown-item" href="{{route('teacher.edit-playlists',$playlist->id)}}"><i class="la la-edit"></i> {{ trans('learning::local.edit') }}</a>
+          <a class="dropdown-item" href="#" onclick="deletePlaylist()"><i class="la la-trash"></i> {{ trans('learning::local.delete_playlist') }}</a>        
+        </div>
       </div>
     </div>
 </div>
@@ -36,7 +41,9 @@
               @endempty              
             @foreach ($lessons as $lesson)
                 <div class="bs-callout-primary callout-border-left callout-round p-2 py-1 mb-1">
-                    <h4 class="pl-2"><a target="blank" href="{{route('teacher.view-lesson',['id'=>$lesson->id,'playlist_id' =>$playlist->id])}}"><strong>{{$n}} - {{$lesson->lesson_title}}</strong></a></h4>
+                    <h4 class="pl-2"><a target="blank" href="{{route('teacher.view-lesson',['id'=>$lesson->id,'playlist_id' =>$playlist->id])}}"><strong>{{$n}} - {{$lesson->lesson_title}}</strong></a>
+                      <span class="small blue">[<a href="{{route('teacher.edit-lessons',$lesson->id)}}">{{ trans('learning::local.edit') }}</a>]</span>
+                    </h4>
                     <p>{{$lesson->description}}.</p>
                     <div class="form-group">
                         <h6 class="small"><strong>{{ trans('learning::local.created_by') }} : </strong>{{session('lang') == 'ar' ? $lesson->admin->ar_name : $lesson->admin->name}}

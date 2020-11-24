@@ -2,9 +2,10 @@
 
 namespace Learning\Http\Controllers\Post;
 use App\Http\Controllers\Controller;
-
+use Carbon\Carbon;
 use Learning\Models\Learning\Post;
 use Illuminate\Http\Request;
+use Learning\Models\Learning\Exam;
 use Student\Models\Settings\Classroom;
 
 class PostController extends Controller
@@ -17,6 +18,12 @@ class PostController extends Controller
      */
     public function index($classroom_id)
     {
+         $exams = Exam::with('classrooms')->whereHas('classrooms',function($q) use($classroom_id){
+            $q->where('classroom_id',$classroom_id);
+         })
+         ->where('start_date','>=',\Carbon\Carbon::today())
+         ->get();         
+
         $classroom = Classroom::findOrFail($classroom_id);
         $where = [
             ['classroom_id',$classroom_id],  
@@ -28,7 +35,7 @@ class PostController extends Controller
         $posts = Post::where($where)->orderBy('created_at','desc')->get();
         $title = trans('learning::local.posts');
         return view('learning::teacher.posts.index',
-        compact('title','classroom','posts','classrooms'));
+        compact('title','classroom','posts','classrooms','exams'));
     }
 
     private function attributes()
