@@ -8,79 +8,35 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        if (request()->ajax()) {
+            $comments = Comment::with('admin')->where('post_id',request('id'))->get();
+            $comment_count = Comment::with('admin')->where('post_id',request('id'))->count();
+            return view('learning::teacher.posts.includes._comments',
+            compact('comments','comment_count'));
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    private function attributes()
     {
-        //
+        return [        
+            'comment_text',                       
+            'file_name',                       
+            'post_id',                       
+            'user_id',                       
+            'admin_id',                                          
+        ];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
-    {
-        //
+    {        
+        if (request()->ajax()) {
+            $request->user()->comments()->create($request->only($this->attributes()));
+        }
+        return response(['status'=>true]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \Learning\Models\Learning\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Learning\Models\Learning\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Learning\Models\Learning\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \Learning\Models\Learning\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Comment $comment)
-    {
-        //
-    }
 }

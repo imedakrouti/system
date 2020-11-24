@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $fillable = [        
-        'comment_text',                       
-        'file_name',                       
-        'classroom_id',                       
+        'comment_text',                               
+        'post_id',                       
         'user_id',                       
         'admin_id',                                          
     ];

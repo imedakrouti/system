@@ -1,12 +1,15 @@
 @extends('layouts.backEnd.teacher')
 @section('styles')
+
     <style>
             /* Top left text */
             .top-left {
             position: absolute;
             top: 50px;
             left: 70px;
-            color: aliceblue
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
             }    
             .comment-form{
                 padding:5px;                
@@ -25,13 +28,25 @@
 </div>
 <div class="row">
     <div class="col-lg-3 col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.upcoming') }}</strong></h4>
-          </div>
-          <div class="card-content">
+        <div class="card">          
+        <div class="card-content">
             <div class="card-body">              
-              <p class="card-text">{{ trans('learning::local.no_works') }}</p>              
+              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.upcoming') }}</strong></h4>
+              <p class="card-text">{{ trans('learning::local.no_works') }}</p> 
+              <hr>             
+              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.classrooms') }}</strong></h4>
+              <ol>
+                  @foreach ($classrooms as $class_item)
+                    @if ($class_item->id == $classroom->id)
+                        <li>{{session('lang') == 'ar' ? $class_item->ar_name_classroom : $class_item->en_name_classroom}}</li>
+                    @else
+                        <li><a href="{{route('posts.index',$class_item->id)}}">{{session('lang') == 'ar' ? $class_item->ar_name_classroom : $class_item->en_name_classroom}}</a></li>
+                    @endif
+                  @endforeach
+              </ol>
+              <hr>
+              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.attachments') }}</strong></h4>
+
             </div>
           </div>
         </div>
@@ -63,6 +78,7 @@
                     <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data">
                         @csrf   
                         <input type="hidden" name="classroom_id[]" value="{{$classroom->id}}">                       
+                        <input type="hidden" name="post_type" value="post">                       
                         <textarea required name="post_text" class="form-control" cols="30" rows="5" style="border: 0; min-height:50px;max-height:200px;"
                          placeholder="{{ trans('learning::local.share_classroom') }}"></textarea>
                          <div id="file_name"></div>
@@ -104,6 +120,7 @@
             </div>
         </div>
         
+        {{-- no posts --}}
         @empty(count($posts))
         <div class="col-12">
             <div class="card">
@@ -134,6 +151,7 @@
                                 <strong>{{session('lang') == 'ar'? authInfo()->ar_name : authInfo()->name}} </strong>
                                 <span class="small  d-none d-sm-inline-block">{{$post->created_at->diffForHumans()}}</span>
                             </h4>
+                            {{-- mobile --}}
                             <span class="small  d-inline-block d-sm-none">{{$post->created_at->diffForHumans()}}</span>
                             
                             <div class="heading-elements ">                                
@@ -158,42 +176,142 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                
-                                <p class="card-text" style="white-space: pre-line">{{$post->post_text}}</p>
-                                @isset($post->url)
-                                <div class="mb-1">
-                                    <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{$post->url}}</a>
-                                </div>                            
-                                @endisset
-                                @isset($post->file_name)
-                                <div class="mb-1">
-                                    <a target="_blank" href="{{asset('images/posts_attachments/'.$post->file_name)}}"><i class="la la-download"></i> {{$post->file_name}}</a>
-                                </div>                            
-                                @endisset
-                                @isset($post->youtube_url)              
-                                <div class="mb-1">
-                                    <iframe width="100%"  style="min-height: 500px;" allowfullscreen
-                                        src="https://www.youtube.com/embed/{{prepareYoutubeURL($post->youtube_url)}}">
-                                    </iframe>
-                                </div>
-                                @endisset
-                                <hr>
-                                <h6><i class="la la-comments"></i> <a href="#">{{ trans('learning::local.comments') }}</a> 500</h6>
-                                <input type="text" class="form-control round" placeholder="{{ trans('learning::local.add_comment') }}">
+
+                                {{-- post type lesson --}}
+                                @if ($post->post_type == 'lesson')
+                                    <h6><span class="blue">{{ trans('learning::local.publish_new_lesson') }}</span> {{$post->post_text}}</h6>
+                                    <p>{{$post->description}}</p>
+                                    <h6>
+                                        <div class="mb-1">
+                                            <span class="purple">{{ trans('learning::local.lesson_link') }}</span>                                        
+                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{$post->url}}</a>
+                                        </div>
+                                    </h6>
+                                    @isset($post->youtube_url)              
+                                    <div class="mb-1">
+                                        <iframe width="100%"  style="min-height: 500px;" allowfullscreen
+                                            src="https://www.youtube.com/embed/{{prepareYoutubeURL($post->youtube_url)}}">
+                                        </iframe>
+                                    </div>
+                                    @endisset                                                                  
+                                @endif                              
+
+                                {{-- post type post --}}
+                                @if ($post->post_type == 'post')
+                                    <p class="card-text" style="white-space: pre-line">{{$post->post_text}}</p>
+                                    @isset($post->url)
+                                    <div class="mb-1">
+                                        <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{$post->url}}</a>
+                                    </div>                            
+                                    @endisset
+                                    @isset($post->file_name)
+                                    <div class="mb-1">
+                                        <a target="_blank" href="{{asset('images/posts_attachments/'.$post->file_name)}}"><i class="la la-download"></i> {{$post->file_name}}</a>
+                                    </div>                            
+                                    @endisset
+                                    @isset($post->youtube_url)              
+                                    <div class="mb-1">
+                                        <iframe width="100%"  style="min-height: 500px;" allowfullscreen
+                                            src="https://www.youtube.com/embed/{{prepareYoutubeURL($post->youtube_url)}}">
+                                        </iframe>
+                                    </div>
+                                    @endisset
+                                @endif
+                                    <hr>                                    
+                                    <button type="button" class="btn btn-info round btn-sm comment mb-1" value="{{ $post->id }}">{{ trans('learning::local.comments') }}</button>
+                                   
+                                {{-- add comment --}}
+                                                                            
+                                <div id="commentField_{{ $post->id }}" class="panel panel-default" style="padding:10px; margin-top:-20px; display:none;">
+                                    <div id="comment_{{ $post->id }}">
+                                    </div>
+                                    <form id="commentForm_{{ $post->id }}">
+                                        @csrf
+                                        <input type="hidden" value="{{ $post->id }}" name="post_id">
+                                        <div class="row"> 
+                                            <div class="col-md-12">
+                                                
+                                                 <fieldset>
+                                                    <div class="input-group">
+                                                    <input type="text" name="comment_text" data-id="{{ $post->id }}" class="form-control round commenttext" aria-describedby="button-addon2"
+                                                        placeholder="{{ trans('learning::local.add_comment') }}">
+                                                      <div class="input-group-append">
+                                                        <button type="button" class="btn btn-info round submitComment" value="{{ $post->id }}"><i class="fa fa-comment"></i> {{ trans('learning::local.set_comment') }}</button>
+                                                      </div>
+                                                    </div>
+                                                  </fieldset>                                                 
+                                            </div>                                            
+                                        </div>                                        
+                                    </form>
+                                </div>                                    
                             </div>
                         </div>
                     </div>
                 </div>                             
-        @endforeach
-
-                        
+        @endforeach                        
     </div>    
 </div>
 
 
 @endsection
 @section('script')
+
+<script type="text/javascript">
+    $(document).ready(function(){
+$('.commenttext').keypress(function(event){
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        
+        return false;
+    }
+});
+        $(document).on('click', '.submitComment', function(){
+            event.preventDefault();
+            var id = $(this).val();            
+            var form_data = new FormData($('#commentForm_'+id)[0]);
+
+            $.ajax({
+                    url:"{{route('comments.store')}}",
+                    method:"POST",
+                    data:form_data,
+                    cache       : false,
+                    contentType : false,
+                    processData : false,
+                    dataType:"json",
+                    // display succees message
+                    success:function(data)
+                    {	
+                        getComment(id);							
+                        $('#commentForm_'+id)[0].reset();
+                    }
+                });
+        });
+    });
+
+    $(document).on('click', '.comment', function(){
+        var id = $(this).val();
+        if($('#commentField_'+id).is(':visible')){
+            $('#commentField_'+id).slideUp();
+        }
+        else{
+            $('#commentField_'+id).slideDown();
+            getComment(id);
+        }
+    });
+
+    function getComment(id){
+        $.ajax({
+            url: "{{route('comments.index')}}",
+            data: {id:id},
+            success: function(data){                
+                $('#comment_'+id).html(data);                                 
+            }
+        });
+    }
+</script>
+
     <script>
+ 
         $('#post').on('focus',function(){
             $('#create-post').hide();
             $('#my-post').removeClass('hidden');
@@ -278,7 +396,9 @@
                 event.preventDefault();                   
             }
         })
-         
+     
+
+	
     </script>
     <script src="{{asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js')}}"></script>
 @endsection

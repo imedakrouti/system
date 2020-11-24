@@ -5,12 +5,8 @@
       Route::resource('teacher/posts','PostController')->except('index','create');
       Route::get('teacher/posts/index/{id}','PostController@index')->name('posts.index');
 
-    
-
-      // comments
-      Route::resource('teacher/comments','CommentController')->except('destroy');
-      Route::post('teacher/comments/destroy','CommentController@destroy')->name('teacher-comments.destroy');
-
   
+      // comments
+      Route::resource('teacher/comments','CommentController')->only('index','store');   
     
     });  

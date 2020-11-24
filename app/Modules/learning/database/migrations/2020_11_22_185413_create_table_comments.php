@@ -15,10 +15,9 @@ class CreateTableComments extends Migration
     {
         Schema::connection('mysql')->create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('comment_text');
-            $table->string('file_name')->nullable();
-            $table->unsignedBigInteger('classroom_id');
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');                        
+            $table->text('comment_text');            
+            $table->unsignedBigInteger('post_id');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')->onUpdate('cascade');                        
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('admin_id')->nullable();
@@ -28,10 +27,9 @@ class CreateTableComments extends Migration
 
         Schema::connection('mysql2')->create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('comment_text');
-            $table->string('file_name')->nullable();
-            $table->unsignedBigInteger('classroom_id');
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');                        
+            $table->text('comment_text');            
+            $table->unsignedBigInteger('post_id');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')->onUpdate('cascade');                        
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('admin_id')->nullable();

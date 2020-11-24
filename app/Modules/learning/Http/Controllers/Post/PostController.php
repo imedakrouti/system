@@ -37,6 +37,8 @@ class PostController extends Controller
             'post_text',                               
             'youtube_url',                       
             'url',                                               
+            'post_type',                                               
+            'description',                                               
             'admin_id',                                   
         ];
     }

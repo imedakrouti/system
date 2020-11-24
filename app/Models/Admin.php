@@ -417,4 +417,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\Post','admin_id');
     }
+    public function comments()
+    {
+        return $this->hasMany('Learning\Models\Learning\Comment','admin_id');
+    }
 }

@@ -11,7 +11,9 @@ class Post extends Model
         'youtube_url',                       
         'url',                       
         'file_name',                       
-        'classroom_id',                       
+        'classroom_id', 
+        'post_type',                      
+        'description',                      
         'admin_id',                       
         
     ];
@@ -33,4 +35,5 @@ class Post extends Model
     {
         return $this->hasMany('Learning\Models\Learning\Comment','post_id');
     }
+
 }
