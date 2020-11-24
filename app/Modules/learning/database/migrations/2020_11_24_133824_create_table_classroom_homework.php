@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTablePosts extends Migration
+class CreateTableClassroomHomework extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,13 @@ class CreateTablePosts extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('posts', function (Blueprint $table) {
+        Schema::connection('mysql')->create('classroom_homework', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('post_text');            
-            $table->string('youtube_url')->nullable();
-            $table->string('url')->nullable();
-            $table->string('file_name')->nullable();
             $table->unsignedBigInteger('classroom_id');
             $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');                        
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
+            $table->unsignedBigInteger('homework_id');
+            $table->foreign('homework_id')->references('id')->on('homeworks')->onDelete('cascade')->onUpdate('cascade');                        
         });
-
- 
     }
 
     /**
@@ -36,7 +29,6 @@ class CreateTablePosts extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('posts');
-       
+        Schema::connection('mysql')->dropIfExists('classroom_homework');
     }
 }

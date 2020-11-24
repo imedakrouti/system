@@ -30,7 +30,17 @@
     <div class="col-lg-3 col-md-12">
         <div class="card">          
         <div class="card-content">
-            <div class="card-body">              
+            <div class="card-body">   
+                {{-- homework --}}
+                <div class="btn-group mr-1 mb-1">
+                    <button type="button" class="btn btn-info btn-min-width dropdown-toggle btn-sm" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false"><i class="la la-plus"></i> {{ trans('learning::local.class_work') }}</button>
+                    <div class="dropdown-menu">
+                    <a class="dropdown-item" onclick="assignment()" href="#"><i class="la la-sticky-note"></i>{{ trans('learning::local.assignment') }}</a>
+                    <a class="dropdown-item" href="#"><i class="la la-question"></i>{{ trans('learning::local.add_question') }}</a>                  
+                    </div>
+                </div>
+                {{-- end homework --}}
               <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.next_exams') }}</strong></h4>
               <ul>
                   @empty(count($exams))
@@ -186,7 +196,11 @@
 
                                 {{-- post type lesson --}}
                                 @if ($post->post_type == 'lesson')
-                                    <h6><span class="blue">{{ trans('learning::local.publish_new_lesson') }}</span> {{$post->post_text}}</h6>
+                                    <h6>
+                                        <span class="avatar avatar-online mr-1" >
+                                            <img style="border-radius: 0;max-width:110%;width:110%" src="{{asset('images/website/lesson.png')}}" alt="avatar">  
+                                        </span>
+                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_lesson') }}</strong></span> {{$post->post_text}}</h6>
                                     <p>{{$post->description}}</p>
                                     <h6>
                                         <div class="mb-1">
@@ -202,10 +216,32 @@
                                     </div>
                                     @endisset                                                                  
                                 @endif  
+
+                                {{-- post type assignment --}}
+                                @if ($post->post_type == 'assignment')
+                                    <h6>
+                                        <span class="avatar avatar-online mr-1">
+                                            <img style="border-radius: 0;max-width:110%;width:110%" src="{{asset('images/website/hw.png')}}" alt="avatar">  
+                                        </span>
+                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_assignment') }}</strong></span> {{$post->description}}</h6>
+                                    <p>{{$post->post_text}}</p>
+          
+                                    @isset($post->youtube_url)              
+                                    <div class="mb-1">
+                                        <iframe width="100%"  style="min-height: 500px;" allowfullscreen
+                                            src="https://www.youtube.com/embed/{{prepareYoutubeURL($post->youtube_url)}}">
+                                        </iframe>
+                                    </div>
+                                    @endisset                                                                  
+                                @endif                                  
                                 
                                 {{-- post type exam --}}
                                 @if ($post->post_type == 'exam')
-                                    <h6><span class="blue">{{ trans('learning::local.publish_new_exam') }}</span> {{$post->post_text}}</h6>
+                                    <h6>
+                                        <span class="avatar avatar-online mr-1">
+                                            <img style="border-radius: 0;max-width:160%;width:160%" src="{{asset('images/website/test.png')}}" alt="avatar">  
+                                        </span>
+                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_exam') }}</strong></span> {{$post->post_text}}</h6>
                                     <p>{{$post->description}}</p>
                                     <h6>
                                         <div class="mb-1">
@@ -277,7 +313,7 @@
     </div>    
 </div>
 
-
+@include('learning::teacher.posts.includes._homework-assignment')                                    
 @endsection
 @section('script')
 
@@ -369,6 +405,14 @@
             $('#youtube-url-modal').modal({backdrop: 'static', keyboard: false})
             $('#youtube-url-modal').modal('show');
         }
+
+        function assignment()
+        {
+            var youtube_link = $('#url').val();  
+            $('#assignment').modal({backdrop: 'static', keyboard: false})
+            $('#assignment').modal('show');
+        }
+
         function getFile()
         {
             var filename = $('#file-name').val();
@@ -378,6 +422,7 @@
             $('#file_name').html('<i class="la la-file"></i>' + filename);
             $('#upload-file-modal').modal('hide');
         }
+
         function getUrl()
         {
             var url = $('#url').val();  

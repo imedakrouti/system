@@ -24,17 +24,7 @@ class CreateAnswersTable extends Migration
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
-        Schema::connection('mysql2')->create('answers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->text('answer_text');
-            $table->string('answer_note')->nullable();
-            $table->enum('right_answer',['true','false'])->default('false');
-            $table->unsignedBigInteger('exam_id')->nullable();
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+       
     }
 
     /**
@@ -45,6 +35,6 @@ class CreateAnswersTable extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('answers');
-        Schema::connection('mysql2')->dropIfExists('answers');
+        
     }
 }

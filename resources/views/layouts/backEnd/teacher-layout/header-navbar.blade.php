@@ -34,7 +34,7 @@ role="navigation" data-menu="menu-wrapper">
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.playlists')}}" data-toggle="dropdown"><i class="la la-youtube-play"></i> {{ trans('learning::local.playlists') }}</a></li>           
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-lessons')}}" data-toggle="dropdown"><i class="la la-book"></i> {{ trans('learning::local.lessons') }}</a></li>           
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-exams')}}" data-toggle="dropdown"><i class="la la-tasks"></i> {{ trans('learning::local.exams') }}</a></li>           
-        <li data-menu=""><a class="dropdown-item" href="{{route('teacher.classrooms')}}" data-toggle="dropdown"><i class="la la-graduation-cap"></i> {{ trans('learning::local.classrooms') }}</a></li>           
+        <li data-menu=""><a class="dropdown-item" href="{{route('teacher.classrooms')}}" data-toggle="dropdown"><i class="la la-share-alt"></i> {{ trans('learning::local.shares') }}</a></li>           
       </ul>
     </li>
 

@@ -18,23 +18,17 @@ class CreateTableQuestions extends Migration
             $table->enum('question_type',['multiple_choice','true_false','matching','complete','essay','paragraph'])->default('multiple_choice');
             $table->text('question_text')->nullable();
             $table->integer('mark');
-            $table->unsignedBigInteger('exam_id')->nullable();
+            $table->string('file_name')->nullable();
+            $table->unsignedBigInteger('exam_id')->nullable()->nullable();
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
+            $table->unsignedBigInteger('homework_id')->nullable()->nullable();
+            $table->foreign('homework_id')->references('id')->on('homeworks')->onDelete('cascade')->onUpdate('cascade');                        
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
-        Schema::connection('mysql2')->create('questions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->enum('question_type',['multiple_choice','true_false','matching','complete','essay','paragraph'])->default('multiple_choice');
-            $table->text('question_text')->nullable();
-            $table->integer('mark');
-            $table->unsignedBigInteger('exam_id')->nullable();
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+  
+        
     }
 
     /**
@@ -45,6 +39,6 @@ class CreateTableQuestions extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('questions');
-        Schema::connection('mysql2')->dropIfExists('questions');
+      
     }
 }

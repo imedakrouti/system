@@ -421,4 +421,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\Comment','admin_id');
     }
+    public function homeworks()
+    {
+        return $this->hasMany('Learning\Models\Learning\Homework','admin_id');
+    }
 }

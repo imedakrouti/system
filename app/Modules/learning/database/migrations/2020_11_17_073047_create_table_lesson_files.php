@@ -23,16 +23,7 @@ class CreateTableLessonFiles extends Migration
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
-        Schema::connection('mysql2')->create('lesson_files', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('file_name');
-            $table->unsignedBigInteger('lesson_id')->nullable();
-            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+       
     }
 
     /**
@@ -43,6 +34,6 @@ class CreateTableLessonFiles extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('lesson_files');
-        Schema::connection('mysql2')->dropIfExists('lesson_files');
+       
     }
 }

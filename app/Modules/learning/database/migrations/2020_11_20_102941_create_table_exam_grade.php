@@ -21,13 +21,6 @@ class CreateTableExamGrade extends Migration
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
         });
 
-        Schema::connection('mysql2')->create('exam_grade', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('grade_id')->nullable();
-            $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('exam_id')->nullable();
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
-        });
     }
 
     /**
@@ -38,6 +31,6 @@ class CreateTableExamGrade extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('exam_grade');
-        Schema::connection('mysql2')->dropIfExists('exam_grade');
+  
     }
 }

@@ -20,13 +20,7 @@ class CreateTableLessonYear extends Migration
             $table->unsignedBigInteger('year_id')->nullable();
             $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade')->onUpdate('cascade');                        
         });
-        Schema::connection('mysql2')->create('lesson_year', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('lesson_id')->nullable();
-            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('year_id')->nullable();
-            $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade')->onUpdate('cascade');                        
-        });
+       
     }
 
     /**
@@ -37,6 +31,6 @@ class CreateTableLessonYear extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('lesson_year');
-        Schema::connection('mysql2')->dropIfExists('lesson_year');
+        
     }
 }

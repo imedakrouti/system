@@ -24,16 +24,7 @@ class CreateTableTeacherSubjects extends Migration
             $table->timestamps();
         });
 
-        Schema::connection('mysql2')->create('employee_subject', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('subject_id')->nullable();
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('employee_id')->nullable();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+       
     }
 
     /**
@@ -44,6 +35,6 @@ class CreateTableTeacherSubjects extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('employee_subject');
-        Schema::connection('mysql2')->dropIfExists('employee_subject');
+        
     }
 }

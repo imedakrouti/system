@@ -21,13 +21,7 @@ class CreateTableExamClassroom extends Migration
             $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');                        
         });
 
-        Schema::connection('mysql2')->create('exam_classroom', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('exam_id')->nullable();
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('classroom_id')->nullable();
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');                        
-        });
+
     }
 
     /**
@@ -38,6 +32,6 @@ class CreateTableExamClassroom extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('exam_classroom');
-        Schema::connection('mysql2')->dropIfExists('exam_classroom');
+     
     }
 }

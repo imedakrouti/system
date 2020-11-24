@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Learning\Models\Learning\Post;
 use Illuminate\Http\Request;
 use Learning\Models\Learning\Exam;
+use Learning\Models\Learning\Lesson;
 use Student\Models\Settings\Classroom;
 
 class PostController extends Controller
@@ -32,10 +33,13 @@ class PostController extends Controller
         $classrooms = Classroom::with('employees')->whereHas('employees',function($q){
             $q->where('employee_id',employee_id());
         })->get();
-        $posts = Post::where($where)->orderBy('created_at','desc')->get();
+        
+        $lessons = Lesson::with('subject')->where('admin_id',authInfo()->id)->orderBy('lesson_title')->get(); 
+
+        $posts = Post::where($where)->orderBy('created_at','desc')->limit(30)->get();
         $title = trans('learning::local.posts');
         return view('learning::teacher.posts.index',
-        compact('title','classroom','posts','classrooms','exams'));
+        compact('title','classroom','posts','classrooms','exams','lessons'));
     }
 
     private function attributes()

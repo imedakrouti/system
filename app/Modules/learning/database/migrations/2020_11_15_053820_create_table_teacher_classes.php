@@ -23,16 +23,7 @@ class CreateTableTeacherClasses extends Migration
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
-        Schema::connection('mysql2')->create('employee_classroom', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('classroom_id')->nullable();
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('employee_id')->nullable();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+       
     }
 
     /**
@@ -43,6 +34,6 @@ class CreateTableTeacherClasses extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('employee_classroom');
-        Schema::connection('mysql2')->dropIfExists('employee_classroom');
+       
     }
 }

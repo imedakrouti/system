@@ -20,13 +20,7 @@ class CreateTableLessonGrade extends Migration
             $table->unsignedBigInteger('grade_id')->nullable();
             $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade')->onUpdate('cascade');                        
         });
-        Schema::connection('mysql2')->create('lesson_grade', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('lesson_id')->nullable();
-            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('grade_id')->nullable();
-            $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade')->onUpdate('cascade');                        
-        });
+   
     }
 
     /**
@@ -37,6 +31,6 @@ class CreateTableLessonGrade extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('lesson_grade');
-        Schema::connection('mysql2')->dropIfExists('lesson_grade');
+      
     }
 }

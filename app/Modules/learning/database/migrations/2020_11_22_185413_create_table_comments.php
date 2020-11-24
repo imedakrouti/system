@@ -25,17 +25,7 @@ class CreateTableComments extends Migration
             $table->timestamps();
         });
 
-        Schema::connection('mysql2')->create('comments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->text('comment_text');            
-            $table->unsignedBigInteger('post_id');
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')->onUpdate('cascade');                        
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('admin_id')->nullable();
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+ 
     }
 
     /**
@@ -46,6 +36,6 @@ class CreateTableComments extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('comments');
-        Schema::connection('mysql2')->dropIfExists('comments');
+      
     }
 }

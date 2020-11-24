@@ -22,14 +22,6 @@ class CreateTablePlaylistClassroom extends Migration
             
         });
 
-        Schema::connection('mysql2')->create('playlist_classroom', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('playlist_id')->nullable();
-            $table->foreign('playlist_id')->references('id')->on('playlists')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('classroom_id')->nullable();
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->onUpdate('cascade');                        
-            
-        });
     }
 
     /**
@@ -40,6 +32,6 @@ class CreateTablePlaylistClassroom extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('playlist_classroom');
-        Schema::connection('mysql2')->dropIfExists('playlist_classroom');
+        
     }
 }

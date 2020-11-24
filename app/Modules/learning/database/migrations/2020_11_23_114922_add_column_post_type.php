@@ -14,14 +14,11 @@ class AddColumnPostType extends Migration
     public function up()
     {
         Schema::connection('mysql')->table('posts', function (Blueprint $table) {
-            $table->enum('post_type',['post','exam','lesson'])->default('post');
+            $table->enum('post_type',['post','exam','lesson','assignment','question'])->default('post');
             $table->string('description')->nullable();
         });
 
-        Schema::connection('mysql2')->table('posts', function (Blueprint $table) {
-            $table->enum('post_type',['post','exam','lesson'])->default('post');
-            $table->string('description')->nullable();
-        });
+   
     }
 
     /**
@@ -35,9 +32,6 @@ class AddColumnPostType extends Migration
             $table->dropColumn('post_type');
             $table->dropColumn('description');
         });
-        Schema::connection('mysql2')->table('posts', function (Blueprint $table) {
-            $table->dropColumn('post_type');
-            $table->dropColumn('description');
-        });
+
     }
 }

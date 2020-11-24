@@ -20,13 +20,7 @@ class CreateTableLessonDivision extends Migration
             $table->unsignedBigInteger('division_id')->nullable();
             $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade')->onUpdate('cascade');                        
         });
-        Schema::connection('mysql2')->create('lesson_division', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('lesson_id')->nullable();
-            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('division_id')->nullable();
-            $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade')->onUpdate('cascade');                        
-        });
+  
     }
 
     /**
@@ -37,6 +31,6 @@ class CreateTableLessonDivision extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('lesson_division');
-        Schema::connection('mysql2')->dropIfExists('lesson_division');
+       
     }
 }

@@ -20,13 +20,7 @@ class CreateTableLessonExam extends Migration
             $table->unsignedBigInteger('exam_id')->nullable();
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
         });
-        Schema::connection('mysql2')->create('lesson_exam', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('lesson_id')->nullable();
-            $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('exam_id')->nullable();
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
-        });
+
     }
 
     /**
@@ -37,6 +31,6 @@ class CreateTableLessonExam extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('lesson_exam');
-        Schema::connection('mysql2')->dropIfExists('lesson_exam');
+       
     }
 }

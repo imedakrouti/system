@@ -26,18 +26,7 @@ class CreateTableMatchings extends Migration
             $table->timestamps();
         });
 
-        Schema::connection('mysql2')->create('matchings', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('matching_item');
-            $table->string('matching_answer');
-            $table->unsignedBigInteger('exam_id')->nullable();
-            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
-            $table->unsignedBigInteger('question_id')->nullable();
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade')->onUpdate('cascade');                        
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+       
     }
 
     /**
@@ -48,6 +37,6 @@ class CreateTableMatchings extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('matchings');
-        Schema::connection('mysql2')->dropIfExists('matchings');
+       
     }
 }

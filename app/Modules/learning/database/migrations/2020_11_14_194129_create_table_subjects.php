@@ -25,18 +25,7 @@ class CreateTableSubjects extends Migration
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
-        Schema::connection('mysql2')->create('subjects', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('ar_name');
-            $table->string('ar_shortcut');
-            $table->string('en_name');
-            $table->string('en_shortcut');
-            $table->string('image')->nullable();
-            $table->integer('sort');               
-            $table->unsignedBigInteger('admin_id');         
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+       
 
 
     }
@@ -49,6 +38,6 @@ class CreateTableSubjects extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('subjects');
-        Schema::connection('mysql2')->dropIfExists('subjects');
+       
     }
 }

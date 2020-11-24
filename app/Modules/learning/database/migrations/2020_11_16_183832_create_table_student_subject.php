@@ -23,16 +23,7 @@ class CreateTableStudentSubject extends Migration
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
-        Schema::connection('mysql2')->create('student_subject', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('student_id')->nullable();
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');                     
-            $table->unsignedBigInteger('subject_id')->nullable();
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade')->onUpdate('cascade');            
-            $table->unsignedBigInteger('admin_id');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->timestamps();
-        });
+       
     }
 
     /**
@@ -43,6 +34,6 @@ class CreateTableStudentSubject extends Migration
     public function down()
     {
         Schema::connection('mysql')->dropIfExists('student_subject');
-        Schema::connection('mysql2')->dropIfExists('student_subject');
+       
     }
 }
