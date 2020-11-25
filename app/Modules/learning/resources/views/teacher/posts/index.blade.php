@@ -326,6 +326,7 @@
 @section('script')
 
     <script>
+        var post_id;
         $(document).ready(function(){
             $('.commenttext').keypress(function(event){
                 var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -359,6 +360,7 @@
 
         $(document).on('click', '.comment', function(){
             var id = $(this).val();
+            post_id = id;
             if($('#commentField_'+id).is(':visible')){
                 $('#commentField_'+id).slideUp();
             }
@@ -377,6 +379,10 @@
                 }
             });
         }
+        setInterval(function()
+        {
+            getComment(post_id)
+        },20000); //1000 second
     </script>
 
     <script>

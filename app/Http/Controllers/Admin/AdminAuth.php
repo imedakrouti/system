@@ -50,9 +50,7 @@ class AdminAuth extends Controller
             
             if (empty(authInfo()->domain_role)) {
                 return redirect(aurl('login'))->with('error',trans('staff::local.no_domain_role'));                
-            }
-
-           
+            }           
             
         }
 

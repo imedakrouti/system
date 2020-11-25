@@ -50,5 +50,20 @@ class User extends Authenticatable
     {
         return $this->hasOne('Student\Models\Parents\Father','user_id');
     }
-    
+    public function username()
+    {
+        return 'username';
+    }
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+    public function getStatusAttribute()
+    {
+        return $this->attributes['status'] == 'enable' ? trans('admin.active') : trans('admin.inactive');
+    }
+    public function comments()
+    {
+        return $this->hasMany('Learning\Models\Learning\Comment','user_id');
+    }
 }

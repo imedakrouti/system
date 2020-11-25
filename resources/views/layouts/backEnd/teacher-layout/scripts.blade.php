@@ -54,5 +54,7 @@
         });
     },60000); //1000 second
 
+
+
 </script>
 <script>$(".se-pre-con").fadeOut("slow");</script>

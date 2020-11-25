@@ -231,9 +231,9 @@ class StudentController extends Controller
             $user_id = User::create([
                 'name'          => request('en_student_name'),
                 'ar_name'       => request('ar_student_name'),
-                'domain_role'   => 'parent',
+                'domain_role'   => 'student',
                 'username'      => $this->studentNumber(),                
-                'password'      => 'password',                
+                'password'      => $this->studentNumber(),                
             ]);            
             $student = $request->user()->students()->firstOrCreate($request->only($this->studentAttributes()) 
             + [

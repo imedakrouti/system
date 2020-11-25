@@ -1,4 +1,6 @@
 <?php
+// user helpers
+require 'student.php';
 
 if (!function_exists('aurl')) {
     function aurl($url=null)
@@ -22,6 +24,9 @@ if (!function_exists('authInfo')) {
 		}
 	}
 }
+
+
+// end user helpers
 // page direction
 if (!function_exists('dirPage')) {
 	function dirPage()
@@ -47,13 +52,16 @@ if (!function_exists('lang')) {
 		}
 		else{
 			if (adminAuth()->check()) {
-				session()->put('lang',authInfo()->preferredLanguage);
+				session()->put('lang',authInfo()->lang);
 			}
-
+			if (userAuth()->check()) {
+				session()->put('lang',userAuthInfo()->lang);
+			}
 			return session('lang');
 		}
 	}
 }
+
 if (!function_exists('settingHelper')) {
 	function settingHelper()
 	{
@@ -71,6 +79,7 @@ if (!function_exists('history')) {
         ]);
 	}
 }
+
 if (!function_exists('currentYear')) {
 	function currentYear()
 	{
@@ -145,6 +154,7 @@ if (!function_exists('getStudentAge')) {
 		return $data;
 	}
 }
+
 if (!function_exists('getStudentAgeByYear')) {
 	function getStudentAgeByYear($year_id,$dob)
 	{

@@ -1,21 +1,10 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-// Route::get('/', function () {
-//    return redirect(aurl());
-// });
-
-// Auth::routes();
-
+// ========================================= CONFIGURATIONS ======================================
+Config::set('auth.defaults.guard','web');
+Config::set('auth.defaults.passwords','users');
+// ========================================= END CONFIGURATIONS ==================================
 
 Route::get('/', 'Admin\ClosureController@index');
+ require 'student.php';
+
