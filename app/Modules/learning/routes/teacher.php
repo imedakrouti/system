@@ -41,7 +41,13 @@
       Route::get('teacher/show-classrooms','TeacherController@classrooms')->name('teacher.classrooms');
 
       // homework
-      Route::resource('homeworks','HomeworkController');
+      Route::resource('homeworks','HomeworkController')->except('destroy');
+      Route::get('teacher/homeworks','HomeworkController@teacherHomeworks')->name('teacher.homeworks');
+      Route::post('teacher/homeworks/destroy','HomeworkController@destroy')->name('homeworks.destroy');
+      Route::get('homework/question/{id}','HomeworkController@questionPage')->name('homework-question');
+      Route::post('homework/store-question','HomeworkController@storeQuestion')->name('homework.store-question');
+      Route::get('homework/solve-homework-page/{id}','HomeworkController@solveHomeworkPage')->name('homework.solve-question');
+      Route::post('homework/share-homework','HomeworkController@share')->name('homework.share');
   
     
     });  

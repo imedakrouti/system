@@ -37,7 +37,7 @@
                     aria-haspopup="true" aria-expanded="false"><i class="la la-plus"></i> {{ trans('learning::local.class_work') }}</button>
                     <div class="dropdown-menu">
                     <a class="dropdown-item" onclick="assignment()" href="#"><i class="la la-sticky-note"></i>{{ trans('learning::local.assignment') }}</a>
-                    <a class="dropdown-item" href="#"><i class="la la-question"></i>{{ trans('learning::local.add_question') }}</a>                  
+                    <a class="dropdown-item" onclick="question()" href="#"><i class="la la-question"></i>{{ trans('learning::local.add_questions') }}</a>                  
                     </div>
                 </div>
                 {{-- end homework --}}
@@ -130,7 +130,7 @@
                                 </div>                                
                                 <button type="submit" class="btn btn-success btn-sm ml-1">{{ trans('learning::local.post') }}</button>
                             </div>
-                            <button onclick="cancel()" class="btn btn-light btn-sm pull-left">{{ trans('learning::local.cancel') }}</button>
+                            <button onclick="cancel()" class="btn btn-light btn-sm {{session('lang') == 'ar' ? 'pull-left' : 'pull-right'}}">{{ trans('learning::local.cancel') }}</button>
                         </div>    
                         
                     </form>                                         
@@ -200,12 +200,12 @@
                                         <span class="avatar avatar-online mr-1" >
                                             <img style="border-radius: 0;max-width:110%;width:110%" src="{{asset('images/website/lesson.png')}}" alt="avatar">  
                                         </span>
-                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_lesson') }}</strong></span> {{$post->post_text}}</h6>
-                                    <p>{{$post->description}}</p>
+                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_lesson') }}</strong></span> {{$post->post_text}}</h6>                                    
+                                        <p class="card-text" style="white-space: pre-line">{{$post->description}}</p>
                                     <h6>
                                         <div class="mb-1">
                                             <span class="purple">{{ trans('learning::local.lesson_link') }}</span>                                        
-                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{$post->url}}</a>
+                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
                                         </div>
                                     </h6>
                                     @isset($post->youtube_url)              
@@ -225,7 +225,14 @@
                                         </span>
                                         <span class="blue"><strong>{{ trans('learning::local.publish_new_assignment') }}</strong></span> {{$post->description}}</h6>
                                     <p>{{$post->post_text}}</p>
-          
+                                    @empty(!$post->url)
+                                    <h6>
+                                        <div class="mb-1">
+                                            <span class="purple">{{ trans('learning::local.solve_homework_link') }}</span>                                                                                    
+                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
+                                        </div>
+                                    </h6>                                        
+                                    @endempty
                                     @isset($post->youtube_url)              
                                     <div class="mb-1">
                                         <iframe width="100%"  style="min-height: 500px;" allowfullscreen
@@ -241,12 +248,12 @@
                                         <span class="avatar avatar-online mr-1">
                                             <img style="border-radius: 0;max-width:160%;width:160%" src="{{asset('images/website/test.png')}}" alt="avatar">  
                                         </span>
-                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_exam') }}</strong></span> {{$post->post_text}}</h6>
-                                    <p>{{$post->description}}</p>
+                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_exam') }}</strong></span> {{$post->post_text}}</h6>                                    
+                                    <p class="card-text" style="white-space: pre-line">{{$post->description}}</p>
                                     <h6>
                                         <div class="mb-1">
-                                            <span class="purple">{{ trans('learning::local.exam_link') }}</span>                                        
-                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{$post->url}}</a>
+                                            <span class="purple">{{ trans('learning::local.exam_link') }}</span>                                                                                    
+                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
                                         </div>
                                     </h6>
                                     @isset($post->youtube_url)              
@@ -314,6 +321,7 @@
 </div>
 
 @include('learning::teacher.posts.includes._homework-assignment')                                    
+@include('learning::teacher.posts.includes._homework-question')                                    
 @endsection
 @section('script')
 
@@ -407,10 +415,14 @@
         }
 
         function assignment()
-        {
-            var youtube_link = $('#url').val();  
+        {            
             $('#assignment').modal({backdrop: 'static', keyboard: false})
             $('#assignment').modal('show');
+        }
+        function question()
+        {            
+            $('#question').modal({backdrop: 'static', keyboard: false})
+            $('#question').modal('show');
         }
 
         function getFile()

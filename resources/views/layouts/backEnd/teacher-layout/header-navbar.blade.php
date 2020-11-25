@@ -35,6 +35,7 @@ role="navigation" data-menu="menu-wrapper">
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-lessons')}}" data-toggle="dropdown"><i class="la la-book"></i> {{ trans('learning::local.lessons') }}</a></li>           
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-exams')}}" data-toggle="dropdown"><i class="la la-tasks"></i> {{ trans('learning::local.exams') }}</a></li>           
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.classrooms')}}" data-toggle="dropdown"><i class="la la-share-alt"></i> {{ trans('learning::local.shares') }}</a></li>           
+        <li data-menu=""><a class="dropdown-item" href="{{route('teacher.homeworks')}}" data-toggle="dropdown"><i class="la la-eyedropper"></i> {{ trans('learning::local.class_work') }}</a></li>           
       </ul>
     </li>
 

@@ -81,5 +81,9 @@ rel="stylesheet">
         .message{
         position: absolute;width: 100%;height: 50px;background-color: #11c011;color: white;line-height: 50px;
         z-index: 1200;text-align: center;opacity: 1;top: -50px ;
+        
     }
+    .navbar-dark.navbar-horizontal {
+    background: #084872;
+}
 </style>

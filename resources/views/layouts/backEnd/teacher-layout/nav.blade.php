@@ -58,7 +58,7 @@
                     <a class="dropdown-item" href="{{aurl('lang/en')}}"><i class="flag-icon flag-icon-gb"></i> English</a>
                 </div>
             </li>
-            <li class="dropdown dropdown-notification nav-item">
+            {{-- <li class="dropdown dropdown-notification nav-item">
               <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-bell"></i>
                 <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">5</span>
               </a>
@@ -205,7 +205,7 @@
                 </li>
                 <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all messages</a></li>
               </ul>
-            </li>
+            </li> --}}
           </ul>
         </div>
       </div>

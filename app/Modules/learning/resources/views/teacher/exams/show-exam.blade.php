@@ -207,8 +207,7 @@
                     @endphp
                 @endforeach
 
-              </form>
-                
+              </form>                
           </div>
         </div>
       </div>
@@ -275,7 +274,7 @@
                 var form_data = $('#formData').serialize();
                 swal({
                         title: "{{trans('msg.delete_confirmation')}}",
-                        text: "{{trans('msg.delete_ask')}}",
+                        text: "{{trans('learning::local.ask_delete_question')}}",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#D15B47",

@@ -2,18 +2,17 @@
     <!-- Modal -->
     <div class="modal fade text-left" id="assignment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel18"
     aria-hidden="true">
-      <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-dialog modal-xl " role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel18"><i class="la la-sticky-note"></i> {{ trans('learning::local.assignment') }}</h4>
+          <div class="modal-header bg-info">
+            <h4 class="modal-title white" id="myModalLabel18"><i class="la la-sticky-note"></i> {{ trans('learning::local.assignment') }}</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span class="white" aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">              
             <form  action="{{route('homeworks.store')}}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="current_classroom_id" value="{{$classroom->id}}">                                        
+                @csrf                
                 <div class="row">
                   <div class="col-lg-8">
                     <div class="col-lg-12 col-md-12">

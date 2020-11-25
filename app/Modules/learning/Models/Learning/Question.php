@@ -12,6 +12,7 @@ class Question extends Model
         'question_text',
         'mark',        
         'exam_id',    
+        'homework_id',    
         'file_name',                   
         'admin_id',
     ];
@@ -47,5 +48,9 @@ class Question extends Model
     public function exam()
     {
         return $this->belongsTo('Learning\Models\Learning\Exam','exam_id');
+    }
+    public function question()
+    {
+        return $this->belongsTo('Learning\Models\Learning\Homework','homework_id');
     }
 }

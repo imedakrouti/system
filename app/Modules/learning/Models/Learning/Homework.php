@@ -26,7 +26,7 @@ class Homework extends Model
     {
         return $this->belongsTo('App\Models\Admin','admin_id');
     }
-    public function subjects()
+    public function subject()
     {
         return $this->belongsTo('Learning\Models\Settings\Subject','subject_id');
     }

@@ -11,7 +11,7 @@
     columns: ':visible'
     },
     "text": "<i class='la la-copy'></i> <span class='hidden'>Copy to clipboard</span>",
-    "className": "btn btn-white btn-info btn-bold mr-1"
+    "className": "btn btn-white btn-info  btn-bold mr-1"
 },
 
 {

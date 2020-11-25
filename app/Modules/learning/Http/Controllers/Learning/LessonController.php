@@ -305,10 +305,12 @@ class LessonController extends Controller
 
     public function approval()
     {        
+        
         $lesson = Lesson::findOrFail(request('lesson_id'));
         $lesson->update([
             'approval' => request('approval')
         ]);
+
         toast(trans('learning::local.published_successfully'),'success');
         return redirect()->route('lessons.show',request('lesson_id'));
     }

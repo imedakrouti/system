@@ -10,7 +10,8 @@
     </div>
     <div class="clear"></div>
     <hr>
-    <h4 class="center">{{ trans('student::local.school_statement') }} 
+    <h4 class="center">
+        {{ trans('student::local.school_statement') }} 
         {{$statements[0]->grade->ar_grade_name}} - 
         {{ trans('student::local.year') }}
         {{$statements[0]->year->name}}

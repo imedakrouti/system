@@ -264,12 +264,31 @@ class TeacherController extends Controller
     }
 
     public function approval()
-    {        
+    {                
+        $msg = '';
         $lesson = Lesson::findOrFail(request('lesson_id'));
         $lesson->update([
             'approval' => request('approval')
         ]);
-        toast(trans('learning::local.published_successfully'),'success');
+
+        $msg = trans('learning::local.pending_mode');
+        if (request('approval') == 'accepted') {
+            // publish
+            $url = route('teacher.view-lesson',['id'=>$lesson->id,'playlist_id'=>$lesson->playlist_id]);
+            foreach ($lesson->playlist->classes as $classroom_id) {
+                request()->user()->posts()->create(
+                    [                        
+                        'post_type'     => 'lesson',                        
+                        'url'           => $url,                        
+                        'post_text'     => $lesson->lesson_title,                        
+                        'youtube_url'   => $lesson->video_url,                        
+                        'description'   => $lesson->description,                        
+                        'classroom_id'  => $classroom_id->id,
+                    ]);            
+            }   
+            $msg = trans('learning::local.published_successfully');          
+        }
+        toast($msg,'success');
         return redirect()->route('teacher.view-lesson',['id'=>request('lesson_id'),'playlist_id' =>request('playlist_id')]);
     }
 

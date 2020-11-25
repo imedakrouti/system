@@ -10,7 +10,7 @@ data-open="click" data-menu="horizontal-menu" data-col="content-detached-right-s
   @include('layouts.backEnd.teacher-layout.nav')
   
   @include('layouts.backEnd.teacher-layout.header-navbar')
-  
+  @include('sweetalert::alert')
   <div class="app-content container center-layout mt-2">
     <div class="content-wrapper">
         @yield('content')

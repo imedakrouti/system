@@ -882,6 +882,7 @@ return [
     'siblings_tips'                 => 'All students\' names are according to the current statement for the academic year[:year] ..Make sure that all students are added to the student statement',
     'close_model'                   => 'Close',
     'edit_to_archive'               => 'Edit archive data',
-    '' => '',
+    'serial'                        => '#',
+    'school_statement'              => 'Register students for  ',
     '' => '',
 ];
