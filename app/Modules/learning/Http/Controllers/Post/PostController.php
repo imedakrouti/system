@@ -23,6 +23,7 @@ class PostController extends Controller
             $q->where('classroom_id',$classroom_id);
          })
          ->where('start_date','>=',\Carbon\Carbon::today())
+         ->where('admin_id',authInfo()->id)
          ->get();         
 
         $classroom = Classroom::findOrFail($classroom_id);

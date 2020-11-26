@@ -71,10 +71,10 @@
          
                             <h4 class="card-title" id="heading-icon-dropdown">
                                 <span class="avatar avatar-online">
-                                    @isset(userAuthInfo()->image_profile)
-                                    <img src="{{asset('images/imagesProfile/'.userAuthInfo()->image_profile)}}" alt="avatar">                          
+                                    @isset($post->admin->image_profile)
+                                    <img src="{{asset('images/imagesProfile/'. $post->admin->image_profile)}}" alt="avatar">                          
                                     @endisset
-                                    @empty(userAuthInfo()->image_profile)                          
+                                    @empty($post->admin->image_profile)                          
                                     <img src="{{asset('images/website/male.png')}}" alt="avatar">                          
                                     @endempty
                                 </span>
@@ -274,6 +274,6 @@
     setInterval(function()
     {
         getComment(post_id)
-    },20000); //1000 second
+    },5000); //1000 second
 </script>
 @endsection
