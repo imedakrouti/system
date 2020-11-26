@@ -24,7 +24,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
+    {
+        return view('website.index');
+    }
+    public function setAdmins()
     {
         $employees = Employee::work()->get();
         foreach ($employees as $employee) {

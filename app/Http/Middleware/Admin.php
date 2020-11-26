@@ -30,7 +30,12 @@ class Admin
        
         if (!Auth::guard('admin')->check()) {
 
-            return redirect('admin/login');
+            if (Auth::guard('web')->check()) {
+                return redirect('/');                
+            }else{
+                return redirect()->route('admin.login');
+            }
+
         }
         return $next($request);
     }

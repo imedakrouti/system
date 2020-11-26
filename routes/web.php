@@ -5,6 +5,6 @@ Config::set('auth.defaults.guard','web');
 Config::set('auth.defaults.passwords','users');
 // ========================================= END CONFIGURATIONS ==================================
 
-Route::get('/', 'Admin\ClosureController@index');
+Route::get('/', 'HomeController@index');
  require 'student.php';
 
