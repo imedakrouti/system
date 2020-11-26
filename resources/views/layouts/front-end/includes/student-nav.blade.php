@@ -32,10 +32,10 @@
                 </span>
                 <span class="avatar avatar-online">
                     @isset(userAuthInfo()->image_profile)
-                      <img src="{{asset('images/imagesProfile/'.userAuthInfo()->image_profile)}}" alt="avatar">                          
+                    <img src="{{asset('images/imagesProfile/'.userAuthInfo()->image_profile)}}" alt="avatar">                          
                     @endisset
                     @empty(userAuthInfo()->image_profile)                          
-                      <img src="{{asset('images/website/male.png')}}" alt="avatar">                          
+                    <img src="{{asset('images/studentsImages/37.jpeg')}}" alt="avatar">                          
                     @endempty
                 </span>
               </a>
