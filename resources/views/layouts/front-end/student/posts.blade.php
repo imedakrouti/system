@@ -78,7 +78,7 @@
                                     <img src="{{asset('images/website/male.png')}}" alt="avatar">                          
                                     @endempty
                                 </span>
-                                <strong>{{session('lang') == 'ar'? userAuthInfo()->ar_name : userAuthInfo()->name}} </strong>
+                                <strong>{{session('lang') == 'ar'? $post->admin->ar_name: $post->admin->name}} </strong>
                                 <span class="small  d-none d-sm-inline-block">{{$post->created_at->diffForHumans()}}</span>
                             </h4>
                             {{-- mobile --}}

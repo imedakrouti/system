@@ -14,12 +14,13 @@ class UserStudentController extends Controller
     {                
         $exams = Exam::with('classrooms')->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
-         })
-         ->where('start_date','>=',\Carbon\Carbon::today())
-         ->get();  
-         $classroom = Classroom::findOrFail(classroom_id());
+        })
+        ->where('start_date','>=',\Carbon\Carbon::today())
+        ->get();  
 
-        $posts = Post::where('classroom_id',classroom_id())->orderBy('created_at','desc')->limit(30)->get();
+        $classroom = Classroom::findOrFail(classroom_id());
+
+        $posts = Post::with('admin')->where('classroom_id',classroom_id())->orderBy('created_at','desc')->limit(30)->get();
         $title = trans('learning::local.posts');
         return view('layouts.front-end.student.posts',
         compact('title','posts','exams','classroom'));        
