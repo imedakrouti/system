@@ -1,4 +1,4 @@
-<div class="pull-left" id=""><i class="la la-comments"></i> {{ trans('learning::local.comments') }}
+<div class="{{session('lang') == 'ar' ? 'pull-left' : 'pull-right'}}" id=""><i class="la la-comments"></i> {{ trans('learning::local.comments') }}
     <span>{{$comment_count}}</span></div>
 @foreach($comments as $comment)
 <h4 class="card-title" id="heading-icon-dropdown">

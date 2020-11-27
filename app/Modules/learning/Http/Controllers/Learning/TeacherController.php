@@ -145,7 +145,7 @@ class TeacherController extends Controller
 
         });
         toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('teacher.show-lessons',request('playlist_id'));
+        return redirect()->route('teacher.view-lesson',['id'=>$this->lesson->id,'playlist_id'=>request('playlist_id')]);
     }
 
     public function viewLesson($lesson_id, $playlist_id)
@@ -274,16 +274,18 @@ class TeacherController extends Controller
         $msg = trans('learning::local.pending_mode');
         if (request('approval') == 'accepted') {
             // publish
-            $url = route('teacher.view-lesson',['id'=>$lesson->id,'playlist_id'=>$lesson->playlist_id]);
-            foreach ($lesson->playlist->classes as $classroom_id) {
+            $url = $lesson->id.",".$lesson->playlist_id;
+            // dd($lesson->playlist->classes);
+            foreach ($lesson->playlist->classes as $classroom) {
+                
                 request()->user()->posts()->create(
-                    [                        
+                    [                     
                         'post_type'     => 'lesson',                        
                         'url'           => $url,                        
+                        'classroom_id'  => $classroom->id,
                         'post_text'     => $lesson->lesson_title,                        
                         'youtube_url'   => $lesson->video_url,                        
                         'description'   => $lesson->description,                        
-                        'classroom_id'  => $classroom_id->id,
                     ]);            
             }   
             $msg = trans('learning::local.published_successfully');          
@@ -716,14 +718,14 @@ class TeacherController extends Controller
     public function setExamClasses()
     {
         $exam = Exam::find(request('exam_id'));
-        $url = route('teacher.preview-exam',$exam->id);
+        
         DB::table('exam_classroom')->where('exam_id',$exam->id)->delete();
         foreach (request('classroom_id') as $classroom_id) {
             $exam->classrooms()->attach($classroom_id);  
             request()->user()->posts()->firstOrCreate(                      
             [                        
                 'post_type'     => 'exam',                        
-                'url'           => $url,                        
+                'url'           => $exam->id,                        
                 'post_text'     => $exam->exam_name,                        
                 'youtube_url'   => null,                        
                 'description'   => $exam->description,                        

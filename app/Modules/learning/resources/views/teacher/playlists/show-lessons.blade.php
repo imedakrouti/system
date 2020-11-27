@@ -17,16 +17,16 @@
     </div>    
 
     <div class="content-header-right col-md-6 col-12">
-      <div class="btn-group pull-left">
-        <button type="button" onclick="location.href='{{route('teacher.new-lessons',$playlist->id)}}';" class="btn btn-success">{{ trans('learning::local.new_lesson') }}</button>
-        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#" onclick="setClasses()"><i class="la la-graduation-cap"></i> {{ trans('learning::local.set_classes') }}</a>
-          <a class="dropdown-item" href="{{route('teacher.edit-playlists',$playlist->id)}}"><i class="la la-edit"></i> {{ trans('learning::local.edit') }}</a>
-          <a class="dropdown-item" href="#" onclick="deletePlaylist()"><i class="la la-trash"></i> {{ trans('learning::local.delete_playlist') }}</a>        
-        </div>
+      <div class="btn-group {{session('lang') == 'ar'?'pull-left':'pull-right'}}">
+        <button type="button" class="btn btn-success " data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false"> <i class="la la-angle-down"></i>
+      </button>
+      <div class="dropdown-menu xx">
+        <a class="dropdown-item" href="#" onclick="setClasses()"><i class="la la-graduation-cap"></i> {{ trans('learning::local.set_classes') }}</a>
+        <a class="dropdown-item" href="{{route('teacher.edit-playlists',$playlist->id)}}"><i class="la la-edit"></i> {{ trans('learning::local.edit') }}</a>
+        <a class="dropdown-item" href="#" onclick="deletePlaylist()"><i class="la la-trash"></i> {{ trans('learning::local.delete_playlist') }}</a>        
+      </div>
+      <button type="button" onclick="location.href='{{route('teacher.new-lessons',$playlist->id)}}';" class="btn btn-success">{{ trans('learning::local.new_lesson') }}</button>
       </div>
     </div>
 </div>
@@ -40,7 +40,7 @@
                 <h5 class="red">{{ trans('learning::local.no_lessons') }}</h5> 
               @endempty              
             @foreach ($lessons as $lesson)
-                <div class="bs-callout-primary callout-border-left callout-round p-2 py-1 mb-1">
+                <div class="bs-callout-primary callout-border-left  p-2 py-1 mb-1">
                     <h4 class="pl-2"><a target="blank" href="{{route('teacher.view-lesson',['id'=>$lesson->id,'playlist_id' =>$playlist->id])}}"><strong>{{$n}} - {{$lesson->lesson_title}}</strong></a>
                       <span class="small blue">[<a href="{{route('teacher.edit-lessons',$lesson->id)}}">{{ trans('learning::local.edit') }}</a>]</span>
                     </h4>

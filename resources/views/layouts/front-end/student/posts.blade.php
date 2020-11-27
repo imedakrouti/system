@@ -98,7 +98,11 @@
                                     <h6>
                                         <div class="mb-1">
                                             <span class="purple">{{ trans('learning::local.lesson_link') }}</span>                                        
-                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
+                                            @php
+                                                $str  = $post->url;
+                                                $url = explode(",", $str);                                                                                                
+                                            @endphp                                      
+                                            <a target="_blank" href="{{route('student.view-lesson',['id'=>$url[0],'playlist_id'=>$url[0]])}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
                                         </div>
                                     </h6>
                                     @isset($post->youtube_url)              
@@ -145,8 +149,13 @@
                                     <p class="card-text" style="white-space: pre-line">{{$post->description}}</p>
                                     <h6>
                                         <div class="mb-1">
-                                            <span class="purple">{{ trans('learning::local.exam_link') }}</span>                                                                                    
-                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
+                                            <span class="purple">{{ trans('learning::local.exam_link') }}</span>  
+                                            @php
+                                                $str  = $post->url;
+                                                $url = explode(",", $str);                                                                                                
+                                            @endphp                                      
+                                            <a target="_blank" href="{{route('student.preview-exam',$url[0])}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>                                                                                  
+                                            
                                         </div>
                                     </h6>
                                     @isset($post->youtube_url)              

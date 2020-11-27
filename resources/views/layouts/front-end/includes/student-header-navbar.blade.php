@@ -10,7 +10,7 @@ role="navigation" data-menu="menu-wrapper">
     </li>
     {{-- subjects --}}
     <li class="dropdown nav-item">
-        <a class="nav-link" href="{{route('internal-regulations.teacher')}}"><i class="la la-book"></i>
+        <a class="nav-link" href="{{route('student.subjects')}}"><i class="la la-book"></i>
             <span>{{ trans('student.subjects') }}</span>
         </a>
     </li>  

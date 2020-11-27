@@ -30,4 +30,12 @@ class Subject extends Model
     {
         return $query->orderBy('sort','asc');
     }
+    public function employees()
+    {        
+        return $this->belongsToMany('Staff\Models\Employees\Employee','employee_subject','subject_id','employee_id');
+    }
+    public function playlist()
+    {
+        return $this->hasMany('Learning\Models\Learning\Playlist','subject_id');
+    }
 }
