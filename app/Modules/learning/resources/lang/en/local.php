@@ -144,7 +144,7 @@ return [
     'set_comment'                           => 'Comment',
     'publish_new_exam'                      => 'Exam\Quiz',
     'exam_link'                             => 'Test link',
-    'next_exams'                            => 'Upcoming exams & Quizzes',
+    'next_exams'                            => 'Upcoming exams',
     'class_work'                            => 'Homework',
     'assignment'                            => 'Assignment',
     'question'                              => 'Question',
