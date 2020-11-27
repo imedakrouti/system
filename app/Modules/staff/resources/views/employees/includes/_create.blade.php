@@ -347,6 +347,7 @@
         {{-- working data --}}
         <div class="tab-pane" id="tabVerticalLeft13" aria-labelledby="baseVerticalLeft1-tab3">
             <h4 class="purple">{{ trans('staff::local.working_data') }}</h4>
+
             <div class="row" style="margin-left: 0;">
               <div class="col-lg-3 col-md-6">
                   <div class="form-group">
@@ -358,14 +359,14 @@
               <div class="col-lg-3 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('staff::local.direct_manager_id') }}</label>
-                      <select name="direct_manager_id" " class="form-control select2">
+                      <select name="direct_manager_id" class="form-control select2">
                           <option value="">{{ trans('staff::local.select') }}</option>
                           @foreach ($employees as $employee)
                               <option {{old('direct_manager_id') == $employee->id ? 'selected' :''}} value="{{$employee->id}}">
                               @if (session('lang') == 'ar')
                               [{{$employee->attendance_id}}] {{$employee->ar_st_name}} {{$employee->ar_nd_name}} {{$employee->ar_rd_name}} {{$employee->ar_th_name}}
                               @else
-                              [{{$employee->attendance_id}}] {{$employee->en_st_name}} {{$employee->en_nd_name}} {{$employee->en_rd_name}} {{$staff->en_th_name}}
+                              [{{$employee->attendance_id}}] {{$employee->en_st_name}} {{$employee->en_nd_name}} {{$employee->en_rd_name}} {{$employee->en_th_name}}
                               @endif
                               </option>
                           @endforeach
@@ -397,6 +398,7 @@
                   </div>
               </div>
             </div>
+              
             <div class="row" style="margin-left: 0;">
               <div class="col-lg-3 col-md-6">
                   <div class="form-group">
@@ -422,7 +424,7 @@
                     </select>                                          
                   </div>
               </div>
-            </div>  
+            </div>   
         </div>
         {{-- attendance --}}
         <div class="tab-pane" id="tabVerticalLeft14" aria-labelledby="baseVerticalLeft1-tab4">
