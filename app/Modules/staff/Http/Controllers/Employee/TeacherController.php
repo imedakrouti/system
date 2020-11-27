@@ -11,8 +11,7 @@ class TeacherController extends Controller
         return view('staff::teacher.permissions');
     }
     public function vacations()
-    {
-        dd(auth()->guard('admin'));
+    {        
         return view('staff::teacher.vacations');
     }
     public function loans()

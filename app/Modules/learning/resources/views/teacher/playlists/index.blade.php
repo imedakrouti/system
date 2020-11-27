@@ -24,7 +24,7 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body">
-            <h5 class="red">{{ trans('learning::local.no_paylists') }}</h5>       
+            <h5 class="red">{{ trans('learning::local.no_playlists') }}</h5>       
           </div>
         </div>
       </div>

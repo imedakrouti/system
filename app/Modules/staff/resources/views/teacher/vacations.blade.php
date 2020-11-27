@@ -17,8 +17,7 @@
                     <thead class="bg-info white">
                         <tr>                              
                               <th>#</th>                              
-                              <th>{{trans('staff::local.vacation_type')}}</th>                                
-                              <th>{{trans('staff::local.date_vacation')}}</th>                                                                
+                              <th>{{trans('staff::local.vacation_type')}}</th>                                                              
                               <th>{{trans('staff::local.vacation_period')}}</th>
                               <th>{{trans('staff::local.vacation_days')}}</th>                                                                
                               <th>{{trans('staff::local.approval1')}}</th>                                                                                                
@@ -59,8 +58,7 @@
                 // columns
                 columns: [                    
                     {data: 'DT_RowIndex',         name: 'DT_RowIndex', orderable: false, searchable: false},                             
-                    {data: 'vacation_type',       name: 'vacation_type'},                             
-                    {data: 'date_vacation',       name: 'date_vacation'},                             
+                    {data: 'vacation_type',       name: 'vacation_type'},                                                 
                     {data: 'vacation_period',     name: 'vacation_period'},              
                     {data: 'count',               name: 'count'},                               
                     {data: 'approval1',           name: 'approval1'},                                           

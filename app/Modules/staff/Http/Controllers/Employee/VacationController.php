@@ -614,14 +614,17 @@ class VacationController extends Controller
                 \Carbon\Carbon::parse( $data->from_date)->format('M d Y, D')
                 .'<br><span class="success"><strong>' .trans('staff::local.to') .'</strong></span> ' .
                 \Carbon\Carbon::parse( $data->to_date)->format('M d Y, D');
-            })                                      
+            })  
+            ->addColumn('vacation_type',function($data){
+                return $data->vacation_type . '<br> <strong>' . $data->date_vacation .'</strong>';
+            })                                    
             ->addColumn('attachments',function($data){
                 $file =  '<a target="_blank" class="btn btn-success btn-sm" href="'.asset('images/attachments/'.$data->file_name).'">
                             <i class=" la la-download"></i>
                         </a>';
                 return empty($data->file_name) ? '' : $file;   
             })            
-            ->rawColumns(['approval1','approval2','vacation_period','attachments'])
+            ->rawColumns(['approval1','approval2','vacation_period','attachments','vacation_type'])
             ->make(true);
     }
 }
