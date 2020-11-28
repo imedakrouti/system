@@ -31,6 +31,7 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent'],function(){
     // exams
     Route::get('student/upcoming-exams','UserStudentController@upcomingExams')->name('student.upcoming-exams');      
     Route::get('student/my-exams','UserStudentController@exams')->name('student.exams');      
+    Route::get('student/results','UserStudentController@results')->name('student.results');      
     // start exam
     Route::get('student/pre-start-exams/{exam_id}','UserStudentController@preStartExam')->name('student.pre-start-exam');      
     Route::get('student/start-exam/{exam_id}','UserStudentController@startExam')->name('student.start-exam');      

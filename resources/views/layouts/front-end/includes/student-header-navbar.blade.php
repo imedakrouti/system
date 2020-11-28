@@ -29,6 +29,7 @@ role="navigation" data-menu="menu-wrapper">
             <li data-menu=""><a class="dropdown-item" href="{{route('student.upcoming-exams')}}" data-toggle="dropdown"><i class="la 
                 la-bullhorn"></i> {{ trans('student.upcoming_exams') }}</a></li>           
             <li data-menu=""><a class="dropdown-item" href="{{route('student.exams')}}" data-toggle="dropdown"><i class="la la-certificate"></i> {{ trans('student.my_exams') }}</a></li>                            
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.results')}}" data-toggle="dropdown"><i class="la la-check-circle"></i> {{ trans('student.results') }}</a></li>                            
         </ul>
     </li>
 

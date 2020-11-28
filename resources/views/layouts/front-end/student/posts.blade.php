@@ -166,7 +166,7 @@
                                                 $str  = $post->url;
                                                 $url = explode(",", $str);                                                                                                
                                             @endphp                                      
-                                            <a target="_blank" href="{{route('student.preview-exam',$url[0])}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>                                                                                  
+                                            <a target="_blank" href="{{route('student.pre-start-exam',$url[0])}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>                                                                                  
                                             
                                         </div>
                                     </h6>

@@ -20,11 +20,11 @@
                         <tr>                              
                               <th>#</th>
                               <th>{{trans('student.exam_name')}}</th>                                                                                               
-                              <th>{{trans('student.date')}}</th>                                
-                              <th>{{trans('student.expire_date')}}</th>                                                                                               
+                              <th>{{trans('student.date')}}</th>                                                            
                               <th>{{trans('student.subject')}}</th>                                
                               <th>{{trans('student.total_mark')}}</th>                                                                                                                             
-                              <th>{{trans('student.lessons')}}</th>                                                                                                                             
+                              <th>{{trans('student.mark')}}</th>                                                                                                                             
+                              <th>{{trans('student.answers')}}</th>                                                                                                                                                           
                         </tr>
                     </thead>
                     <tbody>
@@ -50,15 +50,15 @@
             "pageLength": 10, // set page records            
             "bLengthChange" : false,
             
-          ajax: "{{ route('student.upcoming-exams') }}",
+          ajax: "{{ route('student.results') }}",
           columns: [                
                 {data: 'DT_RowIndex',   name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'exam_name',     name: 'exam_name'},
-                {data: 'start',         name: 'start'},
-                {data: 'end',           name: 'end'},
+                {data: 'date_exam',     name: 'date_exam'},                
                 {data: 'subject',       name: 'subject'},
                 {data: 'total_mark',    name: 'total_mark'},                                                          
-                {data: 'lessons',       name: 'lessons'},                                                          
+                {data: 'mark',          name: 'mark'},                                                          
+                {data: 'answers',       name: 'answers'},                                                                          
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

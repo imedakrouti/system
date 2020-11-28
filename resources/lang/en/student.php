@@ -28,8 +28,8 @@ return [
     'evaluation'                    => 'Evaluation',    
     'percentage'                    => 'Percentage',
     'congratulations'               => 'Congratulations',
-    ''      => '',
-    ''      => '',
-    ''      => '',
+    'results'                       => 'Results',
+    'lessons'                       => 'Lessons',
+    'finished_exam'                 => 'You have already taken this test before.',
     ''      => '',
 ];

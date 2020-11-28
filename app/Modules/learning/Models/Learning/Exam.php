@@ -58,4 +58,9 @@ class Exam extends Model
     {
         return $this->hasMany('Learning\Models\Learning\UserAnswer','exam_id')->where('mark','!=',0);
     }
+   
+    public function userExams()
+    {        
+        return $this->belongsToMany('App\Models\User','user_exam','exam_id','user_id');
+    }
 }

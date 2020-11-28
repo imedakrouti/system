@@ -57,12 +57,12 @@
                 @endif
                 <hr>
                 {{-- playlist --}}
-                <h5><strong>{{ trans('learning::local.playlist') }} :</strong> <a href="{{route('teacher.show-lessons',$lesson->playlist_id)}}">{{$lesson->playlist->playlist_name}}</a></h5>
+                <h5><strong>{{ trans('learning::local.playlist') }} :</strong> <a href="{{route('student.show-lessons',$lesson->playlist_id)}}">{{$lesson->playlist->playlist_name}}</a></h5>
                 <ol>
                   @foreach ($lessons as $lesson_playlist)              
                       @if ($lesson_playlist->id != $lesson->id)
                       <li>
-                        <a href="{{route('teacher.view-lesson',['id'=>$lesson_playlist->id,'playlist_id' =>$lesson_playlist->playlist_id])}}">
+                        <a href="{{route('student.view-lesson',['id'=>$lesson_playlist->id,'playlist_id' =>$lesson_playlist->playlist_id])}}">
                           {{$lesson_playlist->lesson_title}}</a>
                         {!!$lesson_playlist->visibility == 'hide' ? '<i class="la la-eye-slash"></i>' : ''!!}
                       </li>
@@ -110,7 +110,7 @@
                   <strong>{{ trans('learning::local.exams') }} :</strong> 
                   @foreach ($lesson->exams as $exam)                            
                   <div class="mb-1 badge badge-info">
-                          <span><a target="_blank" href="{{route('teacher.preview-exam',$exam->id)}}">{{$exam->exam_name}}</a></span>
+                          <span><a target="_blank" href="{{route('student.pre-start-exam',$exam->id)}}">{{$exam->exam_name}}</a></span>
                           <i class="la la-tasks font-medium-3"></i>
                       </div>
                   @endforeach

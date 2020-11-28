@@ -13,6 +13,7 @@ use Learning\Models\Learning\UserAnswer;
 use Staff\Models\Employees\Employee;
 use Student\Models\Settings\Classroom;
 use DB;
+use Learning\Models\Learning\UserExam;
 
 class UserStudentController extends Controller
 {
@@ -125,27 +126,36 @@ class UserStudentController extends Controller
         return datatables($data)
         ->addIndexColumn()
         ->addColumn('exam_name',function($data){
-            return '<a href="'.route('teacher.show-exam',$data->id).'"><span><strong>'.$data->exam_name.'</strong></span></a> </br>' .
+            return '<span><strong>'.$data->exam_name.'</strong></span> </br>' .
             '<span class="black small">'.$data->description.'</span>';
         })
         ->addColumn('start',function($data){
-            return '<span class="blue">'.$data->start_date.'</span>';
+            return '<span class="blue">'.\Carbon\Carbon::parse( $data->start_date)->format('M d Y').'</span>';
         })  
+        ->addColumn('end',function($data){
+            return '<span class="red">'.\Carbon\Carbon::parse( $data->end_date)->format('M d Y').'</span>';
+        })
+        ->addColumn('lessons',function($data){
+            foreach ($data->lessons as $lesson) {                
+                return '<div class="mb-1 badge badge-danger">
+                    <i class="la la-book font-medium-3"></i>
+                    <span>'.$lesson->lesson_title.'</span>
+                </div>';
+            }
+        })
         ->addColumn('subject',function($data){
             $subject = session("lang") == "ar" ? $data->subjects->ar_name : $data->subjects->en_name;
             return '<span class="purple">'.$subject.'</span>';
         }) 
-        ->addColumn('end',function($data){
-            return '<span class="red">'.$data->end_date.'</span>';
-        })                            
-        ->rawColumns(['start','end','exam_name','subject'])
+                            
+        ->rawColumns(['start','end','exam_name','subject','lessons'])
         ->make(true);
     }
 
     public function exams()
     {
         $title = trans('student.my_exams');
-        $data = Exam::with('lessons','classrooms','questions','userAnswers')
+        $data = Exam::with('lessons','classrooms')
         ->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
         })
@@ -161,23 +171,24 @@ class UserStudentController extends Controller
         compact('title'));
 
     }
+
     private function dataTableExams($data)
     {
         return datatables($data)
         ->addIndexColumn()
         ->addColumn('exam_name',function($data){
-            return '<a href="'.route('teacher.show-exam',$data->id).'"><span><strong>'.$data->exam_name.'</strong></span></a> </br>' .
+            return '<span><strong>'.$data->exam_name.'</strong></span> </br>' .
             '<span class="black small">'.$data->description.'</span>';
         })
         ->addColumn('start',function($data){
-            return '<span class="blue">'.$data->start_date.'</span>';
+            return '<span class="blue">'.\Carbon\Carbon::parse( $data->start_date)->format('M d Y').'</span>';
         })  
+        ->addColumn('end',function($data){
+            return '<span class="red">'.\Carbon\Carbon::parse( $data->end_date)->format('M d Y').'</span>';
+        }) 
         ->addColumn('subject',function($data){
             $subject = session("lang") == "ar" ? $data->subjects->ar_name : $data->subjects->en_name;
             return '<span class="purple">'.$subject.'</span>';
-        }) 
-        ->addColumn('end',function($data){
-            return '<span class="red">'.$data->end_date.'</span>';
         })   
         ->addColumn('mark',function($data){
             return $data->userAnswers->sum('mark') == 0 ? '-' :$data->userAnswers->sum('mark');
@@ -194,14 +205,25 @@ class UserStudentController extends Controller
         ->rawColumns(['start','end','exam_name','subject','mark','answers','start_exam'])
         ->make(true);
     }
+
     public function preStartExam($exam_id)
     {
+        $count = UserExam::where('exam_id',$exam_id)->where('user_id',userAuthInfo()->id)->count();
+        if ($count > 0) {
+            return view('layouts.front-end.student.exams.finished_exam');
+        }
         $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();                
         return view('layouts.front-end.student.exams.pre-start-exam',
         compact('exam'));
     }
+
     public function startExam($exam_id)
     {
+        $count = UserExam::where('exam_id',$exam_id)->where('user_id',userAuthInfo()->id)->count();
+        if ($count > 0) {
+            return view('layouts.front-end.student.exams.finished_exam');
+        }
+
         $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
         $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
         ->get();    
@@ -212,11 +234,20 @@ class UserStudentController extends Controller
         return view('layouts.front-end.student.exams.start-exam',
         compact('exam','questions','n'));
     }
+
     public function submitExam()
-    {     
+    {  
+        $count = UserExam::where('exam_id',request('exam_id'))->where('user_id',userAuthInfo()->id)->count();
+        if ($count > 0) {
+            return view('layouts.front-end.student.exams.finished_exam');
+        }   
         DB::transaction(function(){
             $questions_count = request('questions_count');
-            UserAnswer::where('exam_id',request('exam_id'))->delete();
+            $this->resetExam();
+
+            request()->user()->userExam()->firstOrCreate(['exam_id'=>request('exam_id')]);
+            
+
             for ($i=0; $i < $questions_count; $i++) { 
                 request()->user()->userAnswers()->firstOrCreate([
                     'question_id'   => request('question_id')[$i],
@@ -230,6 +261,13 @@ class UserStudentController extends Controller
         });       
         return redirect()->route('student.feedback-exam',request('exam_id'));
     }
+
+    private function resetExam()
+    {
+        UserExam::where('exam_id',request('exam_id'))->delete();
+        UserAnswer::where('exam_id',request('exam_id'))->delete();
+    }
+
     private function autoCorrectExam($exam_id)
     {
         $user_answers = UserAnswer::where('exam_id',$exam_id)->get();
@@ -246,10 +284,59 @@ class UserStudentController extends Controller
             }
         }
     }
+
     public function examFeedback($exam_id)
     {
         $exam = Exam::with('questions','userAnswers')->where('id',$exam_id)->first();
         return view('layouts.front-end.student.exams.exam-feedback',
         compact('exam'));
+    }
+
+    public function results()
+    {
+        $title = trans('student.results');
+        $data = Exam::with('questions','classrooms','userAnswers','userExams')
+        ->whereHas('classrooms',function($q){
+            $q->where('classroom_id',classroom_id());
+        })
+        ->whereHas('questions',function($q){})
+        ->whereHas('userExams',function($q){})
+        ->orderBy('start_date')->get();
+
+        if (request()->ajax()) {
+            return $this->dataTableResults($data);
+        }
+        
+        return view('layouts.front-end.student.exams.results',
+        compact('title'));
+    }
+
+    private function dataTableResults($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('exam_name',function($data){
+            return '<span><strong>'.$data->exam_name.'</strong></span> </br>' .
+            '<span class="black small">'.$data->description.'</span>';
+        })
+        ->addColumn('date_exam',function($data){
+
+            foreach ($data->userExams as $user_exam) {
+                return '<span class="blue">'. \Carbon\Carbon::parse( $user_exam->created_at)->format('M d Y, D').'</span>';                
+            }           
+        })  
+        ->addColumn('subject',function($data){
+            $subject = session("lang") == "ar" ? $data->subjects->ar_name : $data->subjects->en_name;
+            return '<span class="purple">'.$subject.'</span>';
+        }) 
+ 
+        ->addColumn('mark',function($data){
+            return $data->userAnswers->sum('mark') == 0 ? '-' :$data->userAnswers->sum('mark');
+        }) 
+        ->addColumn('answers',function($data){
+            return '<span class="red">'.$data->userAnswers->count().'/'.$data->questions->count().'</span>';
+        })                           
+        ->rawColumns(['date_exam','exam_name','subject','mark','answers'])
+        ->make(true);
     }
 }

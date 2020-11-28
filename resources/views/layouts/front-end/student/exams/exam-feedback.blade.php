@@ -54,7 +54,7 @@
               <img width="200" src="{{asset('images/website/checked.png')}}" alt="">
               <h3 class="success">{{ trans('student.exam_feedback_msg') }} </h3>       
           @endif
-          <a class="btn btn-info" href="{{route('student.exams')}}">{{ trans('student.back_to_exams') }}</a>
+          <a class="btn btn-info" href="{{route('student.results')}}">{{ trans('student.back_to_exams') }}</a>
         </div>
       </div>
     </div>
