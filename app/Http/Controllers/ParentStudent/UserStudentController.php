@@ -2,26 +2,29 @@
 
 namespace App\Http\Controllers\ParentStudent;
 use App\Http\Controllers\Controller;
+use Learning\Models\Learning\Answer;
 use Learning\Models\Learning\Comment;
 use Learning\Models\Learning\Exam;
 use Learning\Models\Learning\Lesson;
 use Learning\Models\Learning\Playlist;
 use Learning\Models\Learning\Post;
 use Learning\Models\Learning\Question;
-use PhpParser\Node\Expr\FuncCall;
+use Learning\Models\Learning\UserAnswer;
 use Staff\Models\Employees\Employee;
 use Student\Models\Settings\Classroom;
+use DB;
 
 class UserStudentController extends Controller
 {
     public function dashboard()
     {                
-        $exams = Exam::with('classrooms')->whereHas('classrooms',function($q){
+        $exams = Exam::with('classrooms','subjects')->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
         })
         ->where('start_date','>=',\Carbon\Carbon::today())
-        ->get();  
-
+        ->orderBy('start_date','asc')
+        ->limit(6)
+        ->get();          
         $classroom = Classroom::findOrFail(classroom_id());
 
         $posts = Post::with('admin')->where('classroom_id',classroom_id())->orderBy('created_at','desc')->limit(30)->get();
@@ -69,19 +72,6 @@ class UserStudentController extends Controller
         return view('layouts.front-end.student.view-lesson',
         compact('lessons','lesson','title'));
     }
-    
-    public function preview($exam_id)
-    {
-        $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
-        $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
-        ->get();    
-        $questions = $questions->shuffle();   
-                
-        $n = 1;
-        $title = trans('learning::local.preview_exam');
-        return view('layouts.front-end.student.preview-exam',
-        compact('title','exam','questions','n'));
-    }
 
     public function subjects()
     {
@@ -109,5 +99,157 @@ class UserStudentController extends Controller
         $n = 1;
         return view('layouts.front-end.student.subjects.show-lessons',
         compact('playlist','title','lessons','n'));
+    }
+    
+    public function upcomingExams()
+    {
+        $title = trans('student.upcoming_exams');
+        $data = Exam::with('lessons','classrooms')
+        ->whereHas('classrooms',function($q){
+            $q->where('classroom_id',classroom_id());
+        })
+        ->where('start_date','>=',\Carbon\Carbon::today())
+        ->orderBy('start_date')->get();
+
+        if (request()->ajax()) {
+            return $this->dataTableUpComingExams($data);
+        }
+
+        return view('layouts.front-end.student.exams.upcoming-exam',
+        compact('title'));
+
+    }
+    
+    private function dataTableUpComingExams($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('exam_name',function($data){
+            return '<a href="'.route('teacher.show-exam',$data->id).'"><span><strong>'.$data->exam_name.'</strong></span></a> </br>' .
+            '<span class="black small">'.$data->description.'</span>';
+        })
+        ->addColumn('start',function($data){
+            return '<span class="blue">'.$data->start_date.'</span>';
+        })  
+        ->addColumn('subject',function($data){
+            $subject = session("lang") == "ar" ? $data->subjects->ar_name : $data->subjects->en_name;
+            return '<span class="purple">'.$subject.'</span>';
+        }) 
+        ->addColumn('end',function($data){
+            return '<span class="red">'.$data->end_date.'</span>';
+        })                            
+        ->rawColumns(['start','end','exam_name','subject'])
+        ->make(true);
+    }
+
+    public function exams()
+    {
+        $title = trans('student.my_exams');
+        $data = Exam::with('lessons','classrooms','questions','userAnswers')
+        ->whereHas('classrooms',function($q){
+            $q->where('classroom_id',classroom_id());
+        })
+        ->whereHas('questions',function($q){})
+        // ->where('start_date','>=',\Carbon\Carbon::today())
+        ->orderBy('start_date')->get();
+
+        if (request()->ajax()) {
+            return $this->dataTableExams($data);
+        }
+
+        return view('layouts.front-end.student.exams.exams',
+        compact('title'));
+
+    }
+    private function dataTableExams($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('exam_name',function($data){
+            return '<a href="'.route('teacher.show-exam',$data->id).'"><span><strong>'.$data->exam_name.'</strong></span></a> </br>' .
+            '<span class="black small">'.$data->description.'</span>';
+        })
+        ->addColumn('start',function($data){
+            return '<span class="blue">'.$data->start_date.'</span>';
+        })  
+        ->addColumn('subject',function($data){
+            $subject = session("lang") == "ar" ? $data->subjects->ar_name : $data->subjects->en_name;
+            return '<span class="purple">'.$subject.'</span>';
+        }) 
+        ->addColumn('end',function($data){
+            return '<span class="red">'.$data->end_date.'</span>';
+        })   
+        ->addColumn('mark',function($data){
+            return $data->userAnswers->sum('mark') == 0 ? '-' :$data->userAnswers->sum('mark');
+        }) 
+        ->addColumn('answers',function($data){
+            return '<span class="red">'.$data->userAnswers->count().'/'.$data->questions->count().'</span>';
+        })     
+        ->addColumn('start_exam', function($data){
+            $btn = '<a class="btn btn-success btn-sm" href="'.route('student.pre-start-exam',$data->id).'">
+                '.trans('student.start_exam').'
+            </a>';
+                return $data->userAnswers->sum('mark') == 0 ? $btn : '';
+        })                       
+        ->rawColumns(['start','end','exam_name','subject','mark','answers','start_exam'])
+        ->make(true);
+    }
+    public function preStartExam($exam_id)
+    {
+        $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();                
+        return view('layouts.front-end.student.exams.pre-start-exam',
+        compact('exam'));
+    }
+    public function startExam($exam_id)
+    {
+        $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
+        $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
+        ->get();    
+        $questions = $questions->shuffle();   
+                
+        $n = 1;
+        
+        return view('layouts.front-end.student.exams.start-exam',
+        compact('exam','questions','n'));
+    }
+    public function submitExam()
+    {     
+        DB::transaction(function(){
+            $questions_count = request('questions_count');
+            UserAnswer::where('exam_id',request('exam_id'))->delete();
+            for ($i=0; $i < $questions_count; $i++) { 
+                request()->user()->userAnswers()->firstOrCreate([
+                    'question_id'   => request('question_id')[$i],
+                    'user_answer'   => request(request('question_id')[$i]),
+                    'exam_id'       => request('exam_id'),                
+                ]); 
+            }
+            if (request('auto_correct') == 'yes') {            
+                $this->autoCorrectExam(request('exam_id'));
+            }
+        });       
+        return redirect()->route('student.feedback-exam',request('exam_id'));
+    }
+    private function autoCorrectExam($exam_id)
+    {
+        $user_answers = UserAnswer::where('exam_id',$exam_id)->get();
+        foreach ($user_answers as $ans) {
+            $total_mark = Question::findOrFail($ans->question_id)->mark;
+            
+            $correct_answer = Answer::where('question_id',$ans->question_id)->where('right_answer','true')->get();
+            foreach ($correct_answer as $answer) {
+                if ($ans->user_answer == $answer->answer_text) {
+                    UserAnswer::where('question_id',$ans->question_id)
+                    ->update(['mark'=>$total_mark]);
+                }
+                
+            }
+        }
+    }
+    public function examFeedback($exam_id)
+    {
+        $exam = Exam::with('questions','userAnswers')->where('id',$exam_id)->first();
+        return view('layouts.front-end.student.exams.exam-feedback',
+        compact('exam'));
     }
 }

@@ -20,15 +20,17 @@ role="navigation" data-menu="menu-wrapper">
         <a class="nav-link" href="{{route('internal-regulations.teacher')}}"><i class="la la-eyedropper"></i>
             <span>{{ trans('student.homeworks') }}</span>
         </a>
-    </li>  
-        
+    </li>      
     
     {{-- exams --}}
-    <li class="dropdown nav-item">
-        <a class="nav-link" href="{{route('internal-regulations.teacher')}}"><i class="la la-tasks"></i>
-            <span>{{ trans('student.exams') }}</span>
-        </a>
-    </li>  
+    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-tasks"></i>
+        <span>{{ trans('student.exams') }}</span></a>
+        <ul class="dropdown-menu">
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.upcoming-exams')}}" data-toggle="dropdown"><i class="la 
+                la-bullhorn"></i> {{ trans('student.upcoming_exams') }}</a></li>           
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.exams')}}" data-toggle="dropdown"><i class="la la-certificate"></i> {{ trans('student.my_exams') }}</a></li>                            
+        </ul>
+    </li>
 
     {{-- live --}}
     <li class="dropdown nav-item">

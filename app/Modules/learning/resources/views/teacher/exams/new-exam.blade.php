@@ -36,8 +36,7 @@
                   <div class="col-lg-4 col-md-6">
                       <div class="form-group">
                           <label>{{ trans('learning::local.division') }}</label>
-                          <select name="divisions[]" class="form-control" id="filter_division_id" required>                                    
-                              <option value="">{{ trans('staff::local.select') }}</option>
+                          <select name="divisions[]" class="form-control select2" id="filter_division_id" required multiple>                                                                  
                               @foreach ($divisions as $division)
                                   <option value="{{$division->id}}">
                                       {{session('lang') =='ar' ?$division->ar_division_name:$division->en_division_name}}</option>                                    
@@ -49,8 +48,8 @@
                   <div class="col-lg-4 col-md-6">
                       <div class="form-group"> 
                           <label>{{ trans('learning::local.grade') }}</label>
-                          <select name="grades[]" class="form-control" id="filter_grade_id" required >                                    
-                            <option value="">{{ trans('staff::local.select') }}</option>  
+                          <select name="grades[]" class="form-control select2" id="filter_grade_id" required multiple>                                    
+                            
                             @foreach ($grades as $grade)
                                   <option value="{{$grade->id}}">
                                       {{session('lang') =='ar' ?$grade->ar_grade_name:$grade->en_grade_name}}</option>                                    
@@ -78,8 +77,7 @@
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                       <label>{{ trans('learning::local.subject') }}</label>
-                      <select name="subject_id" class="form-control select2" required>
-                          <option value="">{{ trans('staff::local.select') }}</option>
+                      <select name="subject_id" class="form-control select2" required>                          
                           @foreach (employeeSubjects() as $subject)
                               <option {{old('subject_id') == $subject->id ? 'selected' : ''}} value="{{$subject->id}}">
                                   {{session('lang') =='ar' ?$subject->ar_name:$subject->en_name}}</option>                                    
@@ -152,7 +150,16 @@
                             name="no_question_per_page" required>
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
-                    </div>                                                                                                                               
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('learning::local.auto_correct') }}</label>
+                          <select name="auto_correct" class="form-control">
+                            <option {{old('auto_correct') == 'no' ? 'selected' : ''}} value="no">{{ trans('learning::local.no') }}</option>
+                            <option {{old('auto_correct') == 'yes' ? 'selected' : ''}} value="yes">{{ trans('learning::local.yes') }}</option>
+                          </select>                          
+                        </div>
+                    </div>                                                                                                                                
                 </div>
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group row">

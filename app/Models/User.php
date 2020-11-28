@@ -66,4 +66,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\Comment','user_id');
     }
+    public function userAnswers()
+    {
+        return $this->hasMany('Learning\Models\Learning\UserAnswer','user_id');
+    }
 }

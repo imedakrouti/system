@@ -31,6 +31,7 @@
                     <h5><strong>{{ trans('learning::local.end_date') }} : </strong>{{$exam->end_date}} - {{$exam->end_time}}</h5>
                     <h5><strong>{{ trans('learning::local.exam_duration') }} : </strong>{{$exam->duration}}</h5>
                     <h5><strong>{{ trans('learning::local.total_mark') }} : </strong>{{$exam->total_mark}}</h5>
+                    <h5><strong>{{ trans('learning::local.auto_correct') }} : </strong>{{$exam->auto_correct}}</h5>
                     <p>{{$exam->description}}</p>           
                 </div>
 
@@ -74,12 +75,14 @@
                         <button type="button" class="btn btn-success btn-min-width  dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">{{ trans('learning::local.add_question') }}</button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" onclick="paragraph()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_paragraph') }}</a>                                    
-                            <a class="dropdown-item" onclick="essay()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_essay') }}</a>                                    
+                            @if ($exam->auto_correct == 'no')
+                                <a class="dropdown-item" onclick="paragraph()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_paragraph') }}</a>                                    
+                                <a class="dropdown-item" onclick="essay()" href="#"><i class="la la-question"></i> {{ trans('learning::local.question_essay') }}</a>                                                                    
+                            @endif
                             <a class="dropdown-item" onclick="multiChoice()" href="#"><i class="la la-question"></i> {{ trans('learning::local.multiple_choice') }}</a>
                             <a class="dropdown-item" onclick="trueFalse()" href="#"><i class="la la-question"></i> {{ trans('learning::local.true_false') }}</a>
                             <a class="dropdown-item" onclick="complete()" href="#"><i class="la la-question"></i> {{ trans('learning::local.complete') }}</a>
-                            <a class="dropdown-item" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a>
+                            {{-- <a class="dropdown-item" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a> --}}
                         </div>
                         <a href="#" onclick="setClasses()" class="btn btn-info ml-1"><i class="la la-share-alt"></i> {{ trans('learning::local.share_with_class') }}</a>              
                     </div>

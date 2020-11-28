@@ -17,6 +17,7 @@ class Exam extends Model
         'no_question_per_page',                
         'description', 
         'subject_id',         
+        'auto_correct',
         'admin_id',
     ];
     public function __construct(Array $attributes = [])
@@ -48,5 +49,13 @@ class Exam extends Model
     public function classrooms()
     {
         return $this->belongsToMany('Student\Models\Settings\Classroom','exam_classroom','exam_id','classroom_id');
+    }
+    public function questions()
+    {
+        return $this->hasMany('Learning\Models\Learning\Question','exam_id');
+    }
+    public function userAnswers()
+    {
+        return $this->hasMany('Learning\Models\Learning\UserAnswer','exam_id')->where('mark','!=',0);
     }
 }

@@ -57,3 +57,21 @@ if (!function_exists('classroom_id')) {
 		return $classroom_id; 	
 	}
 }
+
+if (!function_exists('evaluation')) {
+	function evaluation($total_mark, $mark)
+	{	
+		if ($mark != 0) {
+			$percentage = ($mark / $total_mark) * 100;
+			
+			switch ($percentage) {
+				case $percentage >= 95  : return 'A+';
+				case $percentage >= 85 && $percentage < 95  : return 'A';
+				case $percentage >= 75 && $percentage < 85  : return 'B';
+				case $percentage >= 65 && $percentage < 75  : return 'C';
+				case $percentage < 65  : return 'D';			
+			}			
+		}
+		return 'D';		
+	}
+}

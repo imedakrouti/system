@@ -97,7 +97,7 @@
                     </div>                                                                                                                                 
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.exam_duration') }}</label>
                           <input type="number" min="0" class="form-control " value="{{old('duration',$exam->duration)}}"
@@ -120,7 +120,16 @@
                             name="no_question_per_page" required>
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
-                    </div>                                                                                                                               
+                    </div> 
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('learning::local.auto_correct') }}</label>
+                          <select name="auto_correct" class="form-control">
+                            <option {{old('auto_correct',$exam->auto_correct) == 'no' ? 'selected' : ''}} value="no">{{ trans('learning::local.no') }}</option>
+                            <option {{old('auto_correct',$exam->auto_correct) == 'yes' ? 'selected' : ''}} value="yes">{{ trans('learning::local.yes') }}</option>
+                          </select>                          
+                        </div>
+                    </div>                                                                                                                                                   
                 </div>
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group row">

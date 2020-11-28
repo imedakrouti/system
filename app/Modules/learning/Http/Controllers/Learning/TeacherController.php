@@ -374,7 +374,7 @@ class TeacherController extends Controller
                     return $btn;
             })  
             ->addColumn('show_questions', function($data){
-                $btn = '<a class="btn btn-primary" href="'.route('teacher.show-exam',$data->id).'">
+                $btn = '<a class="btn btn-primary btn-sm" href="'.route('teacher.show-exam',$data->id).'">
                     '.trans('learning::local.show_questions').'
                 </a>';
                     return $btn;
@@ -419,6 +419,7 @@ class TeacherController extends Controller
             'no_question_per_page',                
             'description',   
             'subject_id',       
+            'auto_correct',       
             'admin_id',
         ];
     }

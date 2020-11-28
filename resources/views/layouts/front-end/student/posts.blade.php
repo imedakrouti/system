@@ -31,18 +31,30 @@
         <div class="card">          
         <div class="card-content">
             <div class="card-body">   
-              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.next_exams') }}</strong></h4>
-              <ul>
-                  @empty(count($exams))
-                    <p class="card-text">{{ trans('learning::local.no_works') }}</p>                   
-                  @endempty
-                  @foreach ($exams as $exam)
-                      <li><a target="_blank" href="{{route('teacher.preview-exam',$exam->id)}}">{{$exam->exam_name}}</a></li>
-                  @endforeach
-              </ul>
+                <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.next_exams') }}</strong></h4>
+                <ul>
+                    @empty(count($exams))
+                        <p class="card-text">{{ trans('learning::local.no_works') }}</p>                   
+                    @endempty
+                    @foreach ($exams as $exam)                        
+                        <li>
+                            <strong> {{$exam->exam_name}}</strong>
+                            
+                            <h6> {{\Carbon\Carbon::parse( $exam->start_date)->format('M d Y') }} 
+                                <span class="danger">[{{$exam->subjects->en_name}}]</span> </h6>                            
+                        </li>
+                    @endforeach
+                </ul>
+
+                @if (count($exams) > 5)
+                    <span class=" {{session('lang') == 'ar'?'float:left':'float-right'}}">
+                        <a href="{{route('student.upcoming-exams')}}">{{ trans('student.view_all') }}</a>
+                    </span>
+                    <br>
+                @endif
 
               <hr>
-              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.attachments') }}</strong></h4>
+              
 
             </div>
           </div>
