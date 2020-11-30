@@ -19,9 +19,9 @@ class AdminAuth extends Controller
     }
 
     public function setLogin(LoginRequest $request)
-    {
+    {        
         $rememberMe = $request->input('rememberMe')==1 ?true:false;
-        if (request('school') == 'meis') {            
+        if (request('school') == 'mysql') {            
             Config::set('database.default', 'mysql');            
         }else{              
             Config::set('database.default', 'mysql2');                        
@@ -41,7 +41,7 @@ class AdminAuth extends Controller
                     session()->put('lang','en');                    
                 }
             }
-            if (request('school') == 'meis') {
+            if (request('school') == 'mysql') {
                 session()->put('connection','mysql');                                    
             }else{
                 session()->put('connection','mysql2');                                    
@@ -49,12 +49,11 @@ class AdminAuth extends Controller
 
             
             if (empty(authInfo()->domain_role)) {
-                return redirect(aurl('login'))->with('error',trans('staff::local.no_domain_role'));                
+                return redirect()->route('admin.login')->with('error',trans('staff::local.no_domain_role'));                
             }           
             
-        }
-
-        return redirect(aurl('login'))->with('error',trans('admin.invalid_login'));
+        }      
+        return redirect()->route('admin.login')->with('error',trans('admin.invalid_login'));
     }
 
     public function logout()

@@ -139,7 +139,7 @@ class UserStudentController extends Controller
             foreach ($data->lessons as $lesson) {                
                 return '<div class="mb-1 badge badge-danger">
                     <i class="la la-book font-medium-3"></i>
-                    <span>'.$lesson->lesson_title.'</span>
+                    <span><a target="_blank" href="'.route('student.view-lesson',['id'=>$lesson->id,'playlist_id'=>$lesson->playlist_id]).'">'.$lesson->lesson_title.'</a></span>
                 </div>';
             }
         })
@@ -154,12 +154,13 @@ class UserStudentController extends Controller
 
     public function exams()
     {
-        $title = trans('student.my_exams');
+        $title = trans('student.available_exams');
         $data = Exam::with('lessons','classrooms')
         ->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
         })
         ->whereHas('questions',function($q){})
+        ->whereDoesntHave('userExams')
         // ->where('start_date','>=',\Carbon\Carbon::today())
         ->orderBy('start_date')->get();
 
@@ -200,7 +201,7 @@ class UserStudentController extends Controller
             $btn = '<a class="btn btn-success btn-sm" href="'.route('student.pre-start-exam',$data->id).'">
                 '.trans('student.start_exam').'
             </a>';
-                return $data->userAnswers->sum('mark') == 0 ? $btn : '';
+                return $btn;
         })                       
         ->rawColumns(['start','end','exam_name','subject','mark','answers','start_exam'])
         ->make(true);
@@ -236,7 +237,7 @@ class UserStudentController extends Controller
     }
 
     public function submitExam()
-    {  
+    {          
         $count = UserExam::where('exam_id',request('exam_id'))->where('user_id',userAuthInfo()->id)->count();
         if ($count > 0) {
             return view('layouts.front-end.student.exams.finished_exam');
@@ -255,9 +256,7 @@ class UserStudentController extends Controller
                     'exam_id'       => request('exam_id'),                
                 ]); 
             }
-            if (request('auto_correct') == 'yes') {            
-                $this->autoCorrectExam(request('exam_id'));
-            }
+            $this->autoCorrectExam(request('exam_id'));
         });       
         return redirect()->route('student.feedback-exam',request('exam_id'));
     }
@@ -288,8 +287,11 @@ class UserStudentController extends Controller
     public function examFeedback($exam_id)
     {
         $exam = Exam::with('questions','userAnswers')->where('id',$exam_id)->first();
+        $questions = Question::with('answers','matchings')->where('exam_id',$exam_id)->orderBy('question_type')
+        ->get(); 
+        $n = 1;
         return view('layouts.front-end.student.exams.exam-feedback',
-        compact('exam'));
+        compact('exam','questions','n'));
     }
 
     public function results()
@@ -300,7 +302,7 @@ class UserStudentController extends Controller
             $q->where('classroom_id',classroom_id());
         })
         ->whereHas('questions',function($q){})
-        ->whereHas('userExams',function($q){})
+        ->whereHas('userExams',function($q){})        
         ->orderBy('start_date')->get();
 
         if (request()->ajax()) {
@@ -331,12 +333,36 @@ class UserStudentController extends Controller
         }) 
  
         ->addColumn('mark',function($data){
-            return $data->userAnswers->sum('mark') == 0 ? '-' :$data->userAnswers->sum('mark');
+            return $data->userAnswers->sum('mark');
         }) 
-        ->addColumn('answers',function($data){
-            return '<span class="red">'.$data->userAnswers->count().'/'.$data->questions->count().'</span>';
-        })                           
-        ->rawColumns(['date_exam','exam_name','subject','mark','answers'])
+        ->addColumn('answers',function($data){            
+            $right_answers = 0;
+            foreach ($data->userAnswers as $answer) {
+                if ($answer->mark != 0) {
+                    $right_answers ++;
+                }
+            }
+            return '<span class="red">'.$right_answers.'/'.$data->questions->count().'</span>';
+        }) 
+        ->addColumn('show_answers',function($data){
+            return '<a class="btn btn-primary btn-sm" href="'.route('student.answers',$data->id).'">
+                '.trans('student.answers').'
+            </a>';                
+        })                          
+        ->rawColumns(['date_exam','exam_name','subject','mark','answers','show_answers'])
         ->make(true);
+    }
+    
+    public function answers($exam_id)
+    {
+        $exam = Exam::with('userAnswers','userExams')->where('id',$exam_id)->first();
+        
+        $questions = Question::with('answers','matchings')->where('exam_id',$exam_id)->orderBy('question_type')
+        ->get(); 
+        
+        $title = trans('student.answers');
+        $n = 1;
+        return view('layouts.front-end.student.exams.answers',
+        compact('title','exam','questions','n'));
     }
 }

@@ -87,7 +87,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column">
                           <img width="150" height="150" src="{{asset('images/website/'.settingHelper()->logo)}}" alt="branding logo">                        
                       @endisset --}}
                       {{-- @empty(settingHelper()->logo) --}}
-                          <img width="150" height="150" src="{{asset('images/website/logo.png')}}" alt="branding logo">                                                
+                         <a href="{{route('home')}}"> <img width="150" height="150" src="{{asset('images/website/logo.png')}}" alt="branding logo"></a>                                                
                       {{-- @endempty --}}
                     </div>
                   </div>

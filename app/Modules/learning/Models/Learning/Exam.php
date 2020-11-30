@@ -56,11 +56,11 @@ class Exam extends Model
     }
     public function userAnswers()
     {
-        return $this->hasMany('Learning\Models\Learning\UserAnswer','exam_id')->where('mark','!=',0);
+        return $this->hasMany('Learning\Models\Learning\UserAnswer','exam_id');
     }
    
     public function userExams()
     {        
-        return $this->belongsToMany('App\Models\User','user_exam','exam_id','user_id');
+        return $this->hasMany('Learning\Models\Learning\UserExam','exam_id');        
     }
 }

@@ -75,6 +75,7 @@
                             @endif
                         
                         @if ($question->question_type != trans('learning::local.question_essay') && 
+                        $question->question_type != trans('learning::local.question_paragraph') &&
                         $question->question_type != trans('learning::local.question_matching'))
                             @if ($question->question_type != trans('learning::local.question_complete')) 
                             <input type="hidden" name="question_id[]" value="{{$question->id}}">                                                                               

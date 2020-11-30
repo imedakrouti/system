@@ -28,7 +28,7 @@ role="navigation" data-menu="menu-wrapper">
         <ul class="dropdown-menu">
             <li data-menu=""><a class="dropdown-item" href="{{route('student.upcoming-exams')}}" data-toggle="dropdown"><i class="la 
                 la-bullhorn"></i> {{ trans('student.upcoming_exams') }}</a></li>           
-            <li data-menu=""><a class="dropdown-item" href="{{route('student.exams')}}" data-toggle="dropdown"><i class="la la-certificate"></i> {{ trans('student.my_exams') }}</a></li>                            
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.exams')}}" data-toggle="dropdown"><i class="la la-certificate"></i> {{ trans('student.available_exams') }}</a></li>                            
             <li data-menu=""><a class="dropdown-item" href="{{route('student.results')}}" data-toggle="dropdown"><i class="la la-check-circle"></i> {{ trans('student.results') }}</a></li>                            
         </ul>
     </li>
@@ -41,11 +41,11 @@ role="navigation" data-menu="menu-wrapper">
     </li> 
 
     {{-- library --}}
-    <li class="dropdown nav-item">
+    {{-- <li class="dropdown nav-item">
         <a class="nav-link" href="{{route('internal-regulations.teacher')}}"><i class="la la-bank"></i>
             <span>{{ trans('student.library') }}</span>
         </a>
-    </li>     
+    </li>      --}}
 
 
 

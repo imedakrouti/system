@@ -53,4 +53,8 @@ class Question extends Model
     {
         return $this->belongsTo('Learning\Models\Learning\Homework','homework_id');
     }
+    public function userAnswers()
+    {
+        return $this->hasMany('Learning\Models\Learning\UserAnswer','question_id');
+    }
 }

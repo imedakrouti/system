@@ -15,6 +15,7 @@ use Learning\Models\Learning\Answer;
 use Learning\Models\Learning\Exam;
 use Learning\Models\Learning\Matching;
 use Learning\Models\Learning\Question;
+use Learning\Models\Learning\UserAnswer;
 
 class TeacherController extends Controller
 {
@@ -375,15 +376,23 @@ class TeacherController extends Controller
             })  
             ->addColumn('show_questions', function($data){
                 $btn = '<a class="btn btn-primary btn-sm" href="'.route('teacher.show-exam',$data->id).'">
-                    '.trans('learning::local.show_questions').'
-                </a>';
+                            '.trans('learning::local.show_questions').'
+                        </a>';
                     return $btn;
             }) 
-            ->addColumn('start',function($data){
-                return '<span class="blue">'.$data->start_date.'</span>' . ' - ' . $data->start_time;
+            ->addColumn('applicants',function($data){
+                $applicants = '<div class="badge badge-pill badge-danger">'.$data->userExams->count().'</div>';
+                $btn = '<a class="btn btn-secondary white btn-sm" href="'.route('teacher.applicants',$data->id).'">
+                         '.trans('learning::local.applicants').' '.$applicants .'
+                    </a>';
+                return $btn;
+
+            })
+            ->addColumn('start_date',function($data){
+                return \Carbon\Carbon::parse( $data->start_date)->format('M d Y') ;
             })  
-            ->addColumn('end',function($data){
-                return '<span class="red">'.$data->end_date.'</span>' . ' - ' . $data->end_time;
+            ->addColumn('end_date',function($data){
+                return \Carbon\Carbon::parse( $data->end_date)->format('M d Y') ;
             })                            
             ->addColumn('check', function($data){
                     $btnCheck = '<label class="pos-rel">
@@ -392,7 +401,7 @@ class TeacherController extends Controller
                             </label>';
                     return $btnCheck;
             })
-            ->rawColumns(['action','check','start','end','exam_name','show_questions'])
+            ->rawColumns(['action','check','start_date','end_date','exam_name','show_questions','applicants'])
             ->make(true);
     }
 
@@ -749,6 +758,124 @@ class TeacherController extends Controller
         $title = trans('learning::local.classrooms');
         return view('learning::teacher.classrooms',
         compact('title','classrooms'));        
+    }
+
+    public function applicants($exam_id)
+    {
+        $title = trans('learning::local.applicants');
+        $exam = Exam::findOrFail($exam_id);
+        $data = Exam::with('userExams','userAnswers')->where('id',$exam_id)
+        ->whereHas('userExams')
+        ->get();    
+        
+        if (request()->ajax()) {            
+            return $this->applicantsDataTable($data);
+        }
+        return view('learning::teacher.exams.applicants',
+        compact('title','exam_id','exam'));
+    }
+    private function applicantsDataTable($data)
+    {
+        return datatables($data)
+            ->addIndexColumn()
+            ->addColumn('check', function($data){
+                $btnCheck = '<label class="pos-rel">
+                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                            <span class="lbl"></span>
+                        </label>';
+                return $btnCheck;
+            })
+            ->addColumn('student_name',function($data){
+                $user = '';
+                foreach ($data->userExams as $user_exam) {             
+                    $user =  $this->getFullStudentName($user_exam->user->studentUser);
+                }
+                return $user;
+            })
+            ->addColumn('student_image',function($data){
+                $user_image = '';
+                foreach ($data->userExams    as $user_exam) {
+                    $user_image =  $this->studentImage($user_exam->user->studentUser);
+                }
+                return $user_image;
+            })
+            ->addColumn('exam_date', function($data){
+                foreach ($data->userExams as $user_exam) {
+                    return '<span class="blue">'. \Carbon\Carbon::parse( $user_exam->created_at)->format('M d Y, D h:m a').'</span>';                
+                }   
+            })  
+            ->addColumn('mark', function($data){
+                return $data->userAnswers->sum('mark').'/'.$data->total_mark;
+            }) 
+            ->addColumn('evaluation',function($data){
+                return evaluation($data->total_mark,$data->userAnswers->sum('mark'));
+            })
+            ->addColumn('answers',function($data){
+                $answers =  '<a class="btn btn-success btn-sm" href="'.route('teacher.show-answers',$data->id).'">
+                                '.trans('student.answers').'
+                            </a>';                
+                $correct =  '<a class="btn btn-danger btn-sm" href="'.route('teacher.show-answers',$data->id).'">
+                    '.trans('student.correct').'
+                </a>';    
+                return $data->auto_correct == 'no' &&  $data->userAnswers->sum('mark') == 0 ? $correct : $answers;
+                })      
+            ->rawColumns(['check','student_name','exam_date','mark','evaluation','answers','student_image'])
+            ->make(true);
+    }
+    private function getFullStudentName($data)
+    {          
+        $classroom = Classroom::findOrFail(classroom_id($data));       
+        if (session('lang') == 'ar') {
+            return $data->ar_student_name.' '. $data->father->ar_st_name .' '. $data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name 
+            .'<br> <span class="blue"><strong>'. $classroom->ar_name_classroom .'</strong></span>';    
+        }else{
+            return $data->en_student_name.' '. $data->father->en_st_name .' '. $data->father->en_nd_name.' '.$data->father->en_rd_name.' '.$data->father->en_th_name 
+            .'<br> <span class="blue"><strong>'. $classroom->en_name_classroom .'</strong></span>';    
+        }
+    }
+    private function studentImage($data)
+    {
+        $student_id = isset($data->id) ? $data->id : $data->student_id; 
+        $path_image = $data->gender == trans('student::local.male') ? 'images/studentsImages/37.jpeg' : 'images/studentsImages/39.png';       
+        return !empty($data->student_image)?
+            '<a href="'.route('students.show',$student_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset('images/studentsImages/'.$data->student_image).'" />
+            </a>':
+            '<a href="'.route('students.show',$student_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset($path_image).'" />
+            </a>';
+    }
+    public function showAnswers($exam_id)
+    {
+        $exam = Exam::with('userAnswers','userExams')->where('id',$exam_id)->first();
+        
+        $questions = Question::with('answers','matchings','userAnswers')->where('exam_id',$exam_id)->orderBy('question_type')
+        ->get(); 
+        
+        $title = trans('learning::local.applicants');
+        
+        foreach ($exam->userExams as $user_exam) {
+            $student_name =  $this->getFullStudentName($user_exam->user->studentUser);
+        }
+
+        $n = 1;
+        return view('learning::teacher.exams.show-answers',
+        compact('title','exam','questions','n','student_name'));
+    }
+
+    public function correct()
+    {
+        // dd(request()->all());
+        for ($i=0; $i < count(request('question_id')) ; $i++) { 
+            
+            UserAnswer::where('question_id',request('question_id')[$i])->update([
+                'mark' => request('id')[$i]
+            ]);                      
+        }
+        toast(trans('learning::local.correct_answer_done'),'success');
+        return redirect()->route('teacher.applicants',request('exam_id'));
     }
  
 }

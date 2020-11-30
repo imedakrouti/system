@@ -11,12 +11,16 @@ class AuthController extends Controller
 {
     public function login()
     {   
-        if (session()->has('login') == true) {             
-          if (userAuthInfo()->domain_role == 'student') {
-              return redirect()->route('student.dashboard');              
-          }else{
-            return redirect()->route('parent.dashboard');              
-          }            
+        if (session()->has('login') == true) {  
+            if (userAuth()->check()) {
+                if (userAuthInfo()->domain_role == 'student') {
+                    return redirect()->route('student.dashboard');              
+                }else{
+                  return redirect()->route('parent.dashboard');              
+                }                            
+            }else{
+                return redirect()->route('admin.login');
+            }           
         }else{
             return view('layouts.front-end.user.login');
         }

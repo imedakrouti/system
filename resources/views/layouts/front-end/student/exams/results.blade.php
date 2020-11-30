@@ -25,6 +25,7 @@
                               <th>{{trans('student.total_mark')}}</th>                                                                                                                             
                               <th>{{trans('student.mark')}}</th>                                                                                                                             
                               <th>{{trans('student.answers')}}</th>                                                                                                                                                           
+                              <th>{{trans('student.show_answers')}}</th>                                                                                                                                                           
                         </tr>
                     </thead>
                     <tbody>
@@ -59,6 +60,7 @@
                 {data: 'total_mark',    name: 'total_mark'},                                                          
                 {data: 'mark',          name: 'mark'},                                                          
                 {data: 'answers',       name: 'answers'},                                                                          
+                {data: 'show_answers',       name: 'show_answers'},                                                                          
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

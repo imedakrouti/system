@@ -50,7 +50,7 @@
         <!-- <a class="navbar-brand logo-text page-scroll" href="index.html">Evolo</a> -->
 
         <!-- Image Logo -->
-        <a class="navbar-brand logo-image" href="index.html"><img src="{{asset('website/images/logo.svg')}}" alt="alternative"></a>
+        {{-- <a class="navbar-brand logo-image" href="index.html"><img src="{{asset('website/images/logo.svg')}}" alt="alternative"></a> --}}
         
         <!-- Mobile Menu Toggle Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,17 +101,17 @@
             </ul>
             <span class="nav-item social-icons">
                 <span class="fa-stack">
-                    <a href="#your-link">
+                    <a href="https://www.facebook.com/Smart-School-Solutions-103612624872661">
                         <i class="fas fa-circle fa-stack-2x facebook"></i>
                         <i class="fab fa-facebook-f fa-stack-1x"></i>
                     </a>
                 </span>
-                <span class="fa-stack">
+                {{-- <span class="fa-stack">
                     <a href="#your-link">
                         <i class="fas fa-circle fa-stack-2x twitter"></i>
                         <i class="fab fa-twitter fa-stack-1x"></i>
                     </a>
-                </span>
+                </span> --}}
             </span>
         </div>
     </nav> <!-- end of navbar -->
@@ -142,67 +142,13 @@
     </header> <!-- end of header -->
     <!-- end of header -->
 
-
-    <!-- Customers -->
-    <div class="slider-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h5>Trusted By</h5>
-                    
-                    <!-- Image Slider -->
-                    <div class="slider-container">
-                        <div class="swiper-container image-slider">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="{{asset('website/images/customer-logo-1.png')}}" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="{{asset('website/images/customer-logo-2.png')}}" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="{{asset('website/images/customer-logo-3.png')}}" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="{{asset('website/images/customer-logo-4.png')}}" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="{{asset('website/images/customer-logo-5.png')}}" alt="alternative">
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="image-container">
-                                        <img class="img-responsive" src="{{asset('website/images/customer-logo-6.png')}}" alt="alternative">
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-wrapper -->
-                        </div> <!-- end of swiper container -->
-                    </div> <!-- end of slider-container -->
-                    <!-- end of image slider -->
-
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of slider-1 -->
-    <!-- end of customers -->
-
-
     <!-- Services -->
     <div id="services" class="cards-1">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Business Growth Services</h2>
-                    <p class="p-heading p-large">We serve small and medium sized companies in all tech related industries with high quality growth services which are presented below</p>
+                    <h2>Comprehensive solution and transformation of your educational institutions</h2>
+                    <p class="">Our system is a market leading ERP platform for Schools which is user-interactive, flexible, robust, easy-to-access, diversified and can be embedded in every generation devices. It is a smart educational system, which enables every feature and functions to complete the daily needs of all Educational Institutions whether big/small. It provides different roles and functionality to every unique user with diversified perspective making it effective for them.</p>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
             <div class="row">
@@ -210,30 +156,30 @@
 
                     <!-- Card -->
                     <div class="card">
-                        <img class="card-image" src="{{asset('website/images/services-icon-1.svg')}}" alt="alternative">
+                        <img class="card-image" style="width: 6rem; height: 5rem;"  src="{{asset('website/images/simple-icon.png')}}" alt="alternative">
                         <div class="card-body">
-                            <h4 class="card-title">Market Analysis</h4>
-                            <p>Our team of enthusiastic marketers will analyse and evaluate how your company stacks against the closest competitors</p>
+                            <h4 class="card-title">SIMPLE AND EASY TO USE FOR YOUR SCHOOL</h4>
+                            <p>A simple and structured user interface with an easy to operate functionalities</p>
                         </div>
                     </div>
                     <!-- end of card -->
 
                     <!-- Card -->
                     <div class="card">
-                        <img class="card-image" src="{{asset('website/images/services-icon-2.svg')}}" alt="alternative">
+                        <img class="card-image" style="width: 6rem; height: 5rem;"  src="{{asset('website/images/powerful-icon.png')}}" alt="alternative">
                         <div class="card-body">
-                            <h4 class="card-title">Opportunity Scan</h4>
-                            <p>Once the market analysis process is completed our staff will search for opportunities that are in reach</p>
+                            <h4 class="card-title">POWERFUL TOOLS FOR YOUR INSTITUTIONS</h4>
+                            <p>Multi-cross functions and features will empower institutions for the digital evolution.</p>
                         </div>
                     </div>
                     <!-- end of card -->
 
                     <!-- Card -->
                     <div class="card">
-                        <img class="card-image" src="{{asset('website/images/services-icon-3.svg')}}" alt="alternative">
+                        <img class="card-image" style="width: 6rem; height: 5rem;"  src="{{asset('website/images/unlimited-icon.png')}}" alt="alternative">
                         <div class="card-body">
-                            <h4 class="card-title">Action Plan</h4>
-                            <p>With all the information in place you will be presented with an action plan that your company needs to follow</p>
+                            <h4 class="card-title">UNLIMITED ACTION FOR USERS</h4>
+                            <p>Providing different functions and features to all the registered users with Unlimited access to the ERP system.</p>
                         </div>
                     </div>
                     <!-- end of card -->
@@ -251,7 +197,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="text-container">
-                        <h2>Design And Plan Your Business Growth Steps</h2>
+                        <h2>Manage All The Academic Operations</h2>
                         <p>Use our staff and our expertise to design and plan your business growth strategy. Evolo team is eager to advise you on the best opportunities that you should look into</p>
                         <a class="btn-solid-reg popup-with-move-anim" href="#details-lightbox-1">LIGHTBOX</a>
                     </div> <!-- end of text-container -->
@@ -395,8 +341,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Multiple Pricing Options</h2>
-                    <p class="p-heading p-large">We've prepared pricing plans for all budgets so you can get started right away. They're great for small companies and large organizations</p>
+                    <h2>Pricing Options</h2>
+                    <p class="p-heading p-large">We've prepared pricing plans for all budgets so you can get started right away. They're great for schools</p>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
             <div class="row">
@@ -406,28 +352,38 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title">STARTER</div>
-                            <div class="card-subtitle">Just to see what can be achieved</div>
+                            {{-- <div class="card-subtitle">Just to see what can be achieved</div> --}}
                             <hr class="cell-divide-hr">
                             <div class="price">
-                                <span class="currency">$</span><span class="value">199</span>
+                                <span class="currency">$</span><span class="value">240</span>
                                 <div class="frequency">monthly</div>
                             </div>
                             <hr class="cell-divide-hr">
                             <ul class="list-unstyled li-space-lg">
                                 <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">Improve Your Email Marketing</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Online Admission</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">User And Admin Rights Control</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Student Management</div>
+                                </li>
+
+                                <li class="media">
+                                    <i class="fas fa-check"></i><div class="media-body">Employee Management</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-times"></i><div class="media-body">List Building And Cleaning</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Payroll Management</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-times"></i><div class="media-body">Collected Data Management</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Fee Management</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-times"></i><div class="media-body">More Planning And Evaluation</div>
+                                    <i class="fas fa-check"></i><div class="media-body">School Control</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i><div class="media-body">E-Learning</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i><div class="media-body">Sms & Notifications</div>
                                 </li>
                             </ul>
                             <div class="button-wrapper">
@@ -439,75 +395,51 @@
 
                     <!-- Card-->
                     <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">MEDIUM</div>
-                            <div class="card-subtitle">Very appropriate for the short term</div>
-                            <hr class="cell-divide-hr">
-                            <div class="price">
-                                <span class="currency">$</span><span class="value">299</span>
-                                <div class="frequency">monthly</div>
-                            </div>
-                            <hr class="cell-divide-hr">
-                            <ul class="list-unstyled li-space-lg">
-                                <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">Improve Your Email Marketing</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">User And Admin Rights Control</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">List Building And Cleaning</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">Collected Data Management</div>
-                                </li>
-                                <li class="media">
-                                    <i class="fas fa-times"></i><div class="media-body">More Planning And Evaluation</div>
-                                </li>
-                            </ul>
-                            <div class="button-wrapper">
-                                <a class="btn-solid-reg page-scroll" href="#request">REQUEST</a>
-                            </div>
-                        </div>
-                    </div> <!-- end of card -->
-                    <!-- end of card -->
-
-                    <!-- Card-->
-                    <div class="card">
-                        <div class="label">
-                            <p class="best-value">Best Value</p>
-                        </div>
                         <div class="card-body">
                             <div class="card-title">COMPLETE</div>
-                            <div class="card-subtitle">Must have for large companies</div>
+                            {{-- <div class="card-subtitle">Very appropriate for the short term</div> --}}
                             <hr class="cell-divide-hr">
                             <div class="price">
-                                <span class="currency">$</span><span class="value">399</span>
+                                <span class="currency">$</span><span class="value">450</span>
                                 <div class="frequency">monthly</div>
                             </div>
                             <hr class="cell-divide-hr">
                             <ul class="list-unstyled li-space-lg">
                                 <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">Improve Your Email Marketing</div>
+                                    <div class="media-body">Including all features phase 1</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">User And Admin Rights Control</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Security Gate & Front Disk</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">List Building And Cleaning</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Timetable Management</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">Collected Data Management</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Library Management</div>
                                 </li>
                                 <li class="media">
-                                    <i class="fas fa-check"></i><div class="media-body">More Planning And Evaluation</div>
+                                    <i class="fas fa-check"></i><div class="media-body">Transport Management</div>
                                 </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i><div class="media-body">Finance Management</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i><div class="media-body">Suppliers & Purchases</div>
+                                </li>
+                                <li class="media">
+                                    <i class="fas fa-check"></i><div class="media-body">Inventory Management</div>
+                                </li>
+
+
                             </ul>
                             <div class="button-wrapper">
                                 <a class="btn-solid-reg page-scroll" href="#request">REQUEST</a>
                             </div>
                         </div>
                     </div> <!-- end of card -->
+                    <!-- end of card -->
+
+ 
                     <!-- end of card -->
 
                 </div> <!-- end of col -->
@@ -568,8 +500,7 @@
                             <div class="form-group">
                                 <select class="form-control-select" id="rselect" required>
                                     <option class="select-option" value="" disabled selected>Interested in...</option>
-                                    <option class="select-option" value="Personal Loan">Starter</option>
-                                    <option class="select-option" value="Car Loan">Medium</option>
+                                    <option class="select-option" value="Personal Loan">Starter</option>                                    
                                     <option class="select-option" value="House Loan">Complete</option>
                                 </select>
                                 <div class="help-block with-errors"></div>
@@ -719,17 +650,17 @@
                         <p class="job-title">Business Developer</p>
                         <span class="social-icons">
                             <span class="fa-stack">
-                                <a href="#your-link">
+                                <a href="https://www.facebook.com/Smart-School-Solutions-103612624872661">
                                     <i class="fas fa-circle fa-stack-2x facebook"></i>
                                     <i class="fab fa-facebook-f fa-stack-1x"></i>
                                 </a>
                             </span>
-                            <span class="fa-stack">
+                            {{-- <span class="fa-stack">
                                 <a href="#your-link">
                                     <i class="fas fa-circle fa-stack-2x twitter"></i>
                                     <i class="fab fa-twitter fa-stack-1x"></i>
                                 </a>
-                            </span>
+                            </span> --}}
                         </span> <!-- end of social-icons -->
                     </div> <!-- end of team-member -->
                     <!-- end of team member -->

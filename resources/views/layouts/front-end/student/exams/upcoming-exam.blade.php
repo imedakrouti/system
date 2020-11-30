@@ -22,8 +22,7 @@
                               <th>{{trans('student.exam_name')}}</th>                                                                                               
                               <th>{{trans('student.date')}}</th>                                
                               <th>{{trans('student.expire_date')}}</th>                                                                                               
-                              <th>{{trans('student.subject')}}</th>                                
-                              <th>{{trans('student.total_mark')}}</th>                                                                                                                             
+                              <th>{{trans('student.subject')}}</th>                                                              
                               <th>{{trans('student.lessons')}}</th>                                                                                                                             
                         </tr>
                     </thead>
@@ -56,8 +55,7 @@
                 {data: 'exam_name',     name: 'exam_name'},
                 {data: 'start',         name: 'start'},
                 {data: 'end',           name: 'end'},
-                {data: 'subject',       name: 'subject'},
-                {data: 'total_mark',    name: 'total_mark'},                                                          
+                {data: 'subject',       name: 'subject'},                
                 {data: 'lessons',       name: 'lessons'},                                                          
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')

@@ -46,14 +46,21 @@ if (!function_exists('studentSubjects')) {
 }
 
 if (!function_exists('classroom_id')) {
-	function classroom_id()
+	function classroom_id($student = null)
 	{			
-        $classroom_id = '';
-        foreach (userAuthInfo()->studentUser->rooms as $classroom) {
+		$classroom_id = '';			
+		if (empty($student)) {
+			$student = userAuthInfo()->studentUser;
+		}else{
+			$student = $student;
+		}
+		
+        foreach ($student->rooms as $classroom) {
             if ($classroom->year_id == currentYear()) {
                 $classroom_id = $classroom->classroom_id;
             }
-        }	        
+		}	   
+	
 		return $classroom_id; 	
 	}
 }

@@ -31,6 +31,9 @@
       Route::post('teacher/update-exam/{id}','TeacherController@updateExam')->name('teacher.update-exam');
       Route::get('teacher/preview-exam/{id}','TeacherController@preview')->name('teacher.preview-exam');
       Route::post('teacher/exam/set-classes','TeacherController@setExamClasses')->name('set-exam-classes');      
+      Route::get('teacher/exam/applicants/{id}','TeacherController@applicants')->name('teacher.applicants');      
+      Route::get('teacher/exam/show-answers/{id}','TeacherController@showAnswers')->name('teacher.show-answers');      
+      Route::post('teacher/exam/correct-answers','TeacherController@correct')->name('teacher.correct-answers');      
 
       // questions
       Route::post('teacher/store-question','TeacherController@storeQuestion')->name('teacher.store-question');
