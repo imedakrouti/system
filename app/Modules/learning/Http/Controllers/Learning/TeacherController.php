@@ -392,11 +392,16 @@ class TeacherController extends Controller
 
             })
             ->addColumn('start_date',function($data){
-                return \Carbon\Carbon::parse( $data->start_date)->format('M d Y') ;
+                return '<span class="blue">'.\Carbon\Carbon::parse( $data->start_date)->format('M d Y').'<br>
+                '.\Carbon\Carbon::parse( $data->start_time)->format('H:i a').'
+                </span>';
             })  
             ->addColumn('end_date',function($data){
-                return \Carbon\Carbon::parse( $data->end_date)->format('M d Y') ;
-            })                            
+                return '<span class="red">'.\Carbon\Carbon::parse( $data->end_date)->format('M d Y').' <br>
+                '.\Carbon\Carbon::parse( $data->end_time)->format('H:i a').'
+                </span>';
+            })             
+                           
             ->addColumn('check', function($data){
                     $btnCheck = '<label class="pos-rel">
                                 <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />

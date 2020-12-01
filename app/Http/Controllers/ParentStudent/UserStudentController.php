@@ -22,7 +22,8 @@ class UserStudentController extends Controller
         $exams = Exam::with('classrooms','subjects')->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
         })
-        ->where('start_date','>=',\Carbon\Carbon::today())
+        ->where('start_date','>=',date_format(\Carbon\Carbon::now(),"Y/m/d"))
+        ->where('start_time','>',date_format(\Carbon\Carbon::now(),"h:i"))
         ->orderBy('start_date','asc')
         ->limit(6)
         ->get();          
@@ -103,13 +104,14 @@ class UserStudentController extends Controller
     }
     
     public function upcomingExams()
-    {
+    {                
         $title = trans('student.upcoming_exams');
         $data = Exam::with('lessons','classrooms')
         ->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
         })
-        ->where('start_date','>=',\Carbon\Carbon::today())
+        ->where('start_date','>=',date_format(\Carbon\Carbon::now(),"Y/m/d"))
+        ->where('start_time','>',date_format(\Carbon\Carbon::now(),"h:i"))
         ->orderBy('start_date')->get();
 
         if (request()->ajax()) {
@@ -161,7 +163,9 @@ class UserStudentController extends Controller
         })
         ->whereHas('questions',function($q){})
         ->whereDoesntHave('userExams')
-        // ->where('start_date','>=',\Carbon\Carbon::today())
+        ->where('start_date','<=',date_format(\Carbon\Carbon::now(),"Y/m/d"))
+        ->where('start_time','<',date_format(\Carbon\Carbon::now(),"h:i"))
+        
         ->orderBy('start_date')->get();
 
         if (request()->ajax()) {
@@ -182,10 +186,14 @@ class UserStudentController extends Controller
             '<span class="black small">'.$data->description.'</span>';
         })
         ->addColumn('start',function($data){
-            return '<span class="blue">'.\Carbon\Carbon::parse( $data->start_date)->format('M d Y').'</span>';
+            return '<span class="blue">'.\Carbon\Carbon::parse( $data->start_date)->format('M d Y').'<br>
+            '.\Carbon\Carbon::parse( $data->start_time)->format('H:i a').'
+            </span>';
         })  
         ->addColumn('end',function($data){
-            return '<span class="red">'.\Carbon\Carbon::parse( $data->end_date)->format('M d Y').'</span>';
+            return '<span class="red">'.\Carbon\Carbon::parse( $data->end_date)->format('M d Y').' <br>
+            '.\Carbon\Carbon::parse( $data->end_time)->format('H:i a').'
+            </span>';
         }) 
         ->addColumn('subject',function($data){
             $subject = session("lang") == "ar" ? $data->subjects->ar_name : $data->subjects->en_name;
@@ -198,9 +206,14 @@ class UserStudentController extends Controller
             return '<span class="red">'.$data->userAnswers->count().'/'.$data->questions->count().'</span>';
         })     
         ->addColumn('start_exam', function($data){
-            $btn = '<a class="btn btn-success btn-sm" href="'.route('student.pre-start-exam',$data->id).'">
-                '.trans('student.start_exam').'
-            </a>';
+            if ($data->end_time < date_format(\Carbon\Carbon::now(),"h:i")) {
+                $btn = '';
+            }else{
+                $btn = '<a class="btn btn-success btn-sm" href="'.route('student.pre-start-exam',$data->id).'">
+                    '.trans('student.start_exam').'
+                </a>';
+
+            }
                 return $btn;
         })                       
         ->rawColumns(['start','end','exam_name','subject','mark','answers','start_exam'])
@@ -224,8 +237,10 @@ class UserStudentController extends Controller
         if ($count > 0) {
             return view('layouts.front-end.student.exams.finished_exam');
         }
-
         $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
+        // attend exam
+        UserExam::create(['exam_id' => $exam_id,'user_id'=>userAuthInfo()->id]);
+
         $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
         ->get();    
         $questions = $questions->shuffle();   

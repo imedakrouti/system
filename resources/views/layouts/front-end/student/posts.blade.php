@@ -34,7 +34,7 @@
                 <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.next_exams') }}</strong></h4>
                 <ul>
                     @empty(count($exams))
-                        <p class="card-text">{{ trans('learning::local.no_works') }}</p>                   
+                        <p class="card-text">{{ trans('student.no_upcoming_exams') }}</p>                   
                     @endempty
                     @foreach ($exams as $exam)                        
                         <li>
