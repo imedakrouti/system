@@ -10,7 +10,8 @@ class UserExam extends Model
 
     protected $fillable = [        
         'exam_id',                
-        'user_id',        
+        'user_id',  
+        'report'      
     ];
     public function __construct(Array $attributes = [])
     {

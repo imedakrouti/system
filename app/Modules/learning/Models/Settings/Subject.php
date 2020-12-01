@@ -40,6 +40,6 @@ class Subject extends Model
     }
     public function lessons()
     {
-        return $this->hasMany('Learning\Models\Learning\Lesson','subject_id')->orderBy('created_at','desc');
+        return $this->hasMany('Learning\Models\Learning\Lesson','subject_id')->orderBy('created_at','desc')->limit(2);
     }
 }

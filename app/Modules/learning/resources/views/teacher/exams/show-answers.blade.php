@@ -41,62 +41,78 @@
                 <div class="card-body">
                     <h2 class="purple"><strong>{!!$student_name!!}</strong> </h2>
 
-                    <table class="table table-bordered ">
-                        <tr>
+                    <table class="table">
+                        <thead>
                             <th>{{ trans('student.exam_name') }}</th>
-                            <td>{{$exam->exam_name}}</td>
-                        </tr>
-                        <tr>
                             <th>{{ trans('student.exam_date') }}</th>
-                            <td>
-                                @foreach ($exam->userExams as $user_exam)                            
-                                    {{\Carbon\Carbon::parse( $user_exam->created_at)->format('M d Y, D h:m a ')}}
-                                @endforeach                                
-                            </td>
-                        </tr> 
-                        <tr>
-                            <th>{{ trans('student.total_mark') }}</th>    
-                            <td>{{$exam->total_mark}}</td>
-                        </tr>   
-                        <tr>
-                            <th>{{ trans('student.mark') }}</th>    
-                            <td>{{$exam->userAnswers->sum('mark')}}</td>
-                        </tr>   
-                        <tr>
-                            <th>{{ trans('student.evaluation') }}</th>    
-                            <td>{{evaluation($exam->total_mark, $exam->userAnswers->sum('mark'))}}</td>
-                        </tr>   
-                        <tr>
-                            <th>{{ trans('student.right_answer') }}</th>    
-                            <td>
-                                @php
-                                    $right_answers = 0;
-                                    foreach ($exam->userAnswers as $answer) {
-                                        if ($answer->mark != 0) {
-                                            $right_answers ++;
+                            <th>{{ trans('student.total_mark') }}</th>
+                            <th>{{ trans('student.mark') }}</th>
+                            <th>{{ trans('student.evaluation') }}</th>
+                            <th>{{ trans('student.right_answer') }}</th>
+                            <th>{{ trans('student.wrong_answer') }}</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{$exam->exam_name}}</td>
+                                <td>
+                                    @foreach ($exam->userExams as $user_exam)                            
+                                        {{\Carbon\Carbon::parse( $user_exam->created_at)->format('M d Y, D h:m a ')}}
+                                    @endforeach                                
+                                </td>
+                                <td>{{$exam->total_mark}}</td>
+                                <td>{{$exam->userAnswers->sum('mark')}}</td>
+                                <td><strong>{{evaluation($exam->total_mark, $exam->userAnswers->sum('mark'))}}</strong></td>
+                                <td>
+                                    @php
+                                        $right_answers = 0;
+                                        foreach ($exam->userAnswers as $answer) {
+                                            if ($answer->mark != 0) {
+                                                $right_answers ++;
+                                            }
                                         }
-                                    }
-                                @endphp 
-                                {{$right_answers}}                                
-                            </td>
-                        </tr>    
-                        <tr>
-                            <th>{{ trans('student.wrong_answer') }}</th>    
-                            <td>
-                                @php
-                                    $wrong_answers = 0;
-                                    foreach ($exam->userAnswers as $answer) {
-                                        if ($answer->mark == 0) {
-                                            $wrong_answers ++;
+                                    @endphp 
+                                    {{$right_answers}}                                
+                                </td>
+                                <td>
+                                    @php
+                                        $wrong_answers = 0;
+                                        foreach ($exam->userAnswers as $answer) {
+                                            if ($answer->mark == 0) {
+                                                $wrong_answers ++;
+                                            }
                                         }
-                                    }
-                                @endphp 
-                                {{$wrong_answers}}
-                            </td>
-                        </tr>                     
-                        
-                    </table>             
-                    
+                                    @endphp 
+                                    {{$wrong_answers}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4 class="mt-1 mb-1"><strong>{{ trans('student.equivalency') }}</strong></h4>
+                    <table class="table table-border center">
+                        <thead>
+                        <tr>
+                            <th>{{ trans('student.evaluation') }}</th>
+                            <th>A+</th>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>C</th>
+                            <th>D</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ trans('student.percentage') }}</td>
+                            <td>95% ~ 100%</td>
+                            <td>85% ~ 94%</td>
+                            <td>75% ~ 84%</td>
+                            <td>65% ~ 74%</td>
+                            <td>0 ~ 64%</td>
+                        </tr>
+                        </tbody>
+                    </table> 
+                    <div class="form-group">
+                        <a href="#" onclick="addReport()" class="btn btn-primary ">{{ trans('learning::local.add_report') }}</a>
+                    </div>                   
                 </div>
             </div>
         </div>
@@ -122,7 +138,7 @@
                             $question->question_type == trans('learning::local.question_paragraph'))
                                 @foreach ($question->userAnswers as $user_answer)
                                     @if ($question->id == $user_answer->question_id)
-                                        <input type="number" min="" max="{{$question->mark}}" class="text-mark" name="id[]" value="{{$user_answer->mark}}">                                                                                    
+                                        <input type="number" min="0"  step="1" max="{{$question->mark}}" class="text-mark" name="id[]" value="{{$user_answer->mark}}">                                                                                    
                                     @endif
                                 @endforeach
                             @endif
@@ -280,6 +296,7 @@
     </div>
 </div>
 @include('learning::teacher.exams.includes._show-answer')                                    
+@include('learning::teacher.exams.includes._add-report')                                    
 @endsection
 @section('script')
     <script>
@@ -301,6 +318,60 @@
                 }
             });          
         }
+
+        function addReport()
+        {
+            $.ajax({
+                url:'{{route("teacher.get-report")}}',
+                type:"post",
+                data: {
+                    _method		    : 'PUT',                
+                    exam_id 	    : "{{$exam->id}}",
+                    _token		    : '{{ csrf_token() }}'
+                    },
+                dataType: 'json',
+                success: function(data){
+                    $('#report').val(data);			
+                    
+                    $('#exam_id').val({{$exam->id}})
+                    $('#addReportModal').modal({backdrop: 'static', keyboard: false})
+                    $('#addReportModal').modal('show');
+                }
+            });            
+        }
+
+        $('#frmReport').on('submit',function(e){
+				e.preventDefault();
+				var form_data = new FormData($(this)[0]);
+				swal({
+					title: "{{trans('learning::local.report')}}",
+					text: "{{trans('learning::local.ask_add_report')}}",
+					showCancelButton: true,
+					confirmButtonColor: "#87B87F",
+					confirmButtonText: "{{trans('msg.yes')}}",
+					cancelButtonText: "{{trans('msg.no')}}",
+					closeOnConfirm: false,
+					},
+					function() {
+						$.ajax({
+							url:"{{route('teacher.exam-report')}}",
+							method:"POST",
+							data:form_data,
+							cache       : false,
+							contentType : false,
+							processData : false,
+							dataType:"json",
+							// display succees message
+							success:function(data)
+							{
+							    $('#addReportModal').modal('hide');
+								swal("{{trans('learning::local.report')}}", "{{trans('learning::local.add_report_successfully')}}", "success");
+							}
+						})
+						
+					}
+				);
+			});        
     </script>
 
 @endsection

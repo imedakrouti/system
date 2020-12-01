@@ -93,8 +93,10 @@ class ExamController extends Controller
             'duration',
             'total_mark',                
             'no_question_per_page',                
-            'description',   
-            'subject_id',       
+            'description', 
+            'subject_id',         
+            'auto_correct',
+            'show_results',
             'admin_id',
         ];
     }

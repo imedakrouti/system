@@ -234,15 +234,16 @@ class UserStudentController extends Controller
     public function startExam($exam_id)
     {
         $count = UserExam::where('exam_id',$exam_id)->where('user_id',userAuthInfo()->id)->count();
-        if ($count > 0) {
-            return view('layouts.front-end.student.exams.finished_exam');
-        }
+        // if ($count > 0) {
+        //     return view('layouts.front-end.student.exams.finished_exam');
+        // }
         $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
         // attend exam
         UserExam::create(['exam_id' => $exam_id,'user_id'=>userAuthInfo()->id]);
 
         $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
-        ->get();    
+        ->get();  
+
         $questions = $questions->shuffle();   
                 
         $n = 1;
@@ -253,11 +254,6 @@ class UserStudentController extends Controller
 
     public function submitExam()
     {               
-        $count = UserExam::where('exam_id',request('exam_id'))->where('user_id',userAuthInfo()->id)->count();
-        if ($count > 0) {
-            return view('layouts.front-end.student.exams.finished_exam');
-        }   
-
         DB::transaction(function(){
             $questions_count = request('questions_count');
             $this->resetExam();
@@ -323,7 +319,9 @@ class UserStudentController extends Controller
         })
         ->whereHas('questions',function($q){})
         ->whereHas('userExams',function($q){})        
-        ->orderBy('start_date')->get();
+        ->orderBy('start_date')
+        ->where('show_results','yes')
+        ->get();
 
         if (request()->ajax()) {
             return $this->dataTableResults($data);
@@ -368,8 +366,15 @@ class UserStudentController extends Controller
             return '<a class="btn btn-primary btn-sm" href="'.route('student.answers',$data->id).'">
                 '.trans('student.answers').'
             </a>';                
-        })                          
-        ->rawColumns(['date_exam','exam_name','subject','mark','answers','show_answers'])
+        }) 
+        ->addColumn('report',function($data){
+            foreach ($data->userExams as $user_exam) {
+                return empty($user_exam->report)? '':'<a class="btn btn-info btn-sm" onclick="getReport('.$user_exam->exam_id.')" href="#">
+                    '.trans('student.report').'
+                </a>';                                
+            }
+        })                                  
+        ->rawColumns(['date_exam','exam_name','subject','mark','answers','show_answers','report'])
         ->make(true);
     }
     
@@ -384,5 +389,13 @@ class UserStudentController extends Controller
         $n = 1;
         return view('layouts.front-end.student.exams.answers',
         compact('title','exam','questions','n'));
+    }
+
+    public function getReport()
+    {        
+        if (request()->ajax()) {
+            $report = UserExam::where('exam_id',request('exam_id'))->first()->report;
+            return json_encode($report);
+        }
     }
 }

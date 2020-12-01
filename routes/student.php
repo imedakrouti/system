@@ -39,7 +39,7 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent'],function(){
     
     Route::post('student/end-exam','UserStudentController@submitExam')->name('student.submit-exam');
     Route::get('student/exam/feedback/{exam_id}','UserStudentController@examFeedback')->name('student.feedback-exam');      
-
+    Route::put('student/exam/get/report','UserStudentController@getReport')->name('student.get-report');      
 
     
 

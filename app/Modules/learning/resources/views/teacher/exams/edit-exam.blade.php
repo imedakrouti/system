@@ -25,7 +25,7 @@
               <div class="form-body">
                   <h4 class="form-section"> {{ $title }}</h4>
                   @include('layouts.backEnd.includes._msg')   
-                  <div class="col-lg-4 col-md-12">
+                  <div class="col-lg-6 col-md-12">
                     <div class="form-group row">
                         <label>{{ trans('learning::local.exam_name') }}</label>
                         <input type="text" class="form-control" name="exam_name" value="{{old('exam_name',$exam->exam_name)}}" required>
@@ -59,9 +59,17 @@
                       <span class="red">{{ trans('learning::local.required') }}</span>                              
                     </div>
                   </div>
+                  <div class="col-lg-4 col-md-6">
+                      <div class="form-group">
+                        <label>{{ trans('learning::local.total_mark') }}</label>
+                        <input type="number" min="0" class="form-control " value="{{old('total_mark',$exam->total_mark)}}"
+                          name="total_mark" required>
+                          <span class="red">{{ trans('learning::local.required') }}</span>                              
+                      </div>
+                  </div>                   
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.start_date') }}</label>
                           <input type="date"  class="form-control " value="{{old('start_date',$exam->start_date)}}"
@@ -69,7 +77,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.start_time') }}</label>
                           <input type="time" class="form-control " value="{{old('start_time',$exam->start_time)}}"
@@ -77,9 +85,8 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>                                                                                                                                 
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
+
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.end_date') }}</label>
                           <input type="date"  class="form-control " value="{{old('end_date',$exam->end_date)}}"
@@ -87,7 +94,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.end_time') }}</label>
                           <input type="time" class="form-control " value="{{old('end_time',$exam->end_time)}}"
@@ -105,14 +112,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="form-group">
-                          <label>{{ trans('learning::local.total_mark') }}</label>
-                          <input type="number" min="0" class="form-control " value="{{old('total_mark',$exam->total_mark)}}"
-                            name="total_mark" required>
-                            <span class="red">{{ trans('learning::local.required') }}</span>                              
-                        </div>
-                    </div>    
+   
                     <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.no_question_per_page') }}</label>
@@ -129,7 +129,16 @@
                             <option {{old('auto_correct',$exam->auto_correct) == 'yes' ? 'selected' : ''}} value="yes">{{ trans('learning::local.yes') }}</option>
                           </select>                          
                         </div>
-                    </div>                                                                                                                                                   
+                    </div>     
+                    <div class="col-lg-3 col-md-6">
+                        <div class="form-group">
+                          <label>{{ trans('learning::local.show_results') }}</label>
+                          <select name="show_results" class="form-control">
+                            <option {{old('show_results',$exam->show_results) == 'no' ? 'selected' : ''}} value="no">{{ trans('learning::local.no') }}</option>
+                            <option {{old('show_results',$exam->show_results) == 'yes' ? 'selected' : ''}} value="yes">{{ trans('learning::local.yes') }}</option>
+                          </select>                          
+                        </div>
+                    </div>                                                                                                                                                                   
                 </div>
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group row">

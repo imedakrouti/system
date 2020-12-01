@@ -434,9 +434,10 @@ class TeacherController extends Controller
             'duration',
             'total_mark',                
             'no_question_per_page',                
-            'description',   
-            'subject_id',       
-            'auto_correct',       
+            'description', 
+            'subject_id',         
+            'auto_correct',
+            'show_results',
             'admin_id',
         ];
     }
@@ -920,6 +921,21 @@ class TeacherController extends Controller
             $answer = Answer::where('question_id',request('question_id'))->first()->answer_text;
             return json_encode($answer);
         }
+    }
+    public function getReport()
+    {        
+        if (request()->ajax()) {
+            $report = UserExam::where('exam_id',request('exam_id'))->first()->report;
+            return json_encode($report);
+        }
+    }
+
+    public function examReport()
+    {
+        if (request()->ajax()) {
+            UserExam::where('exam_id',request('exam_id'))->update(['report'=>request('report')]);
+        }
+        return response(['status'=>true]); 
     }
  
 }

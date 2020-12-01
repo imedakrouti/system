@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-4 col-md-12">
+                  <div class="col-lg-4 col-md-6">
                     <div class="form-group">
                         <label>{{ trans('learning::local.lessons_related_exam') }}</label>
                         <select name="lessons[]" class="form-control select2" multiple required>
@@ -74,7 +74,7 @@
                         <span class="red">{{ trans('learning::local.required') }}</span>                              
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-12">
+                  <div class="col-lg-4 col-md-6">
                     <div class="form-group">
                       <label>{{ trans('learning::local.subject') }}</label>
                       <select name="subject_id" class="form-control select2" required>                          
@@ -86,11 +86,18 @@
                       <span class="red">{{ trans('learning::local.required') }}</span>                              
                     </div>
                   </div>
-
+                  <div class="col-lg-4 col-md-6">
+                    <div class="form-group">
+                      <label>{{ trans('learning::local.total_mark') }}</label>
+                      <input type="number" min="0" class="form-control " value="{{old('total_mark')}}"
+                        name="total_mark" required>
+                        <span class="red">{{ trans('learning::local.required') }}</span>                              
+                    </div>
+                </div> 
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.start_date') }}</label>
                           <input type="date"  class="form-control " value="{{old('start_date')}}"
@@ -98,7 +105,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.start_time') }}</label>
                           <input type="time" class="form-control " value="{{old('start_time')}}"
@@ -106,10 +113,8 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>                                                                                                                                 
-                </div>
 
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.end_date') }}</label>
                           <input type="date"  class="form-control " value="{{old('end_date')}}"
@@ -117,7 +122,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.end_time') }}</label>
                           <input type="time" class="form-control " value="{{old('end_time')}}"
@@ -134,15 +139,7 @@
                             name="duration" required>
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="form-group">
-                          <label>{{ trans('learning::local.total_mark') }}</label>
-                          <input type="number" min="0" class="form-control " value="{{old('total_mark')}}"
-                            name="total_mark" required>
-                            <span class="red">{{ trans('learning::local.required') }}</span>                              
-                        </div>
-                    </div>    
+                    </div>   
                     <div class="col-lg-3 col-md-6">
                         <div class="form-group">
                           <label>{{ trans('learning::local.no_question_per_page') }}</label>
@@ -159,7 +156,16 @@
                             <option {{old('auto_correct') == 'yes' ? 'selected' : ''}} value="yes">{{ trans('learning::local.yes') }}</option>
                           </select>                          
                         </div>
-                    </div>                                                                                                                                
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                      <div class="form-group">
+                        <label>{{ trans('learning::local.show_results') }}</label>
+                        <select name="show_results" class="form-control">
+                          <option {{old('show_results') == 'no' ? 'selected' : ''}} value="no">{{ trans('learning::local.no') }}</option>
+                          <option {{old('show_results') == 'yes' ? 'selected' : ''}} value="yes">{{ trans('learning::local.yes') }}</option>
+                        </select>                          
+                      </div>
+                  </div>                                                                                                                                                    
                 </div>
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group row">

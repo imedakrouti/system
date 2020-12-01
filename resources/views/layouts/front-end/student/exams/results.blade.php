@@ -26,6 +26,7 @@
                               <th>{{trans('student.mark')}}</th>                                                                                                                             
                               <th>{{trans('student.answers')}}</th>                                                                                                                                                           
                               <th>{{trans('student.show_answers')}}</th>                                                                                                                                                           
+                              <th>{{trans('student.report')}}</th>                                                                                                                                                           
                         </tr>
                     </thead>
                     <tbody>
@@ -37,6 +38,7 @@
       </div>
     </div>
   </div>
+  @include('layouts.front-end.student.exams.includes._show-report')                                    
 @endsection
 
 @section('script')
@@ -60,13 +62,31 @@
                 {data: 'total_mark',    name: 'total_mark'},                                                          
                 {data: 'mark',          name: 'mark'},                                                          
                 {data: 'answers',       name: 'answers'},                                                                          
-                {data: 'show_answers',       name: 'show_answers'},                                                                          
+                {data: 'show_answers',  name: 'show_answers'},                                                                          
+                {data: 'report',        name: 'report'},                                                                          
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });  
-
+    function getReport(exam_id)
+        {          
+            $.ajax({
+                url:'{{route("student.get-report")}}',
+                type:"post",
+                data: {
+                    _method		    : 'PUT',                
+                    exam_id 	    : exam_id,
+                    _token		    : '{{ csrf_token() }}'
+                    },
+                dataType: 'json',
+                success: function(data){
+                    $('#report').val(data);			                                      
+                    $('#addReportModal').modal({backdrop: 'static', keyboard: false})
+                    $('#addReportModal').modal('show');
+                }
+            });            
+        }
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection
