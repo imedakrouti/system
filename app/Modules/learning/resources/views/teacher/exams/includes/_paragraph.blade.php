@@ -25,17 +25,30 @@
                         <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-3">
-                    <div class="form-group">
-                        <label>{{ trans('learning::local.mark') }}</label>
-                        <input type="number" min="0"  name="mark" class="form-control" required>
-                        <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="col-lg-12 col-md-9">
+                        <div class="form-group">
+                            <label>{{ trans('learning::local.correct_answer') }}</label>                            
+                            <textarea name="answer_text" class="form-control" required cols="30" rows="10"></textarea>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label>{{ trans('learning::local.add_image') }}</label>
-                    <input type="file" class="form-control" name="file_name">
+                  </div>
+                  <div class="col-lg-6">
+                      <div class="col-lg-2 col-md-3">
+                          <div class="form-group">
+                              <label>{{ trans('learning::local.mark') }}</label>
+                              <input type="number" min="0"  name="mark" class="form-control" required>
+                              <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                          </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <label>{{ trans('learning::local.add_image') }}</label>
+                          <input type="file" class="form-control" name="file_name">
+                        </div>
+                      </div>
                   </div>
                 </div>
     

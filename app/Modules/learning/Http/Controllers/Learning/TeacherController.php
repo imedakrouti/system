@@ -16,6 +16,9 @@ use Learning\Models\Learning\Exam;
 use Learning\Models\Learning\Matching;
 use Learning\Models\Learning\Question;
 use Learning\Models\Learning\UserAnswer;
+use Learning\Models\Learning\UserExam;
+
+use function GuzzleHttp\Promise\all;
 
 class TeacherController extends Controller
 {
@@ -381,7 +384,7 @@ class TeacherController extends Controller
                     return $btn;
             }) 
             ->addColumn('applicants',function($data){
-                $applicants = '<div class="badge badge-pill badge-danger">'.$data->userExams->count().'</div>';
+                $applicants = '<div class="badge badge-pill badge-dark">'.$data->userExams->count().'</div>';
                 $btn = '<a class="btn btn-secondary white btn-sm" href="'.route('teacher.applicants',$data->id).'">
                          '.trans('learning::local.applicants').' '.$applicants .'
                     </a>';
@@ -465,7 +468,7 @@ class TeacherController extends Controller
         $exam = Exam::with('subjects','classrooms')->where('admin_id',authInfo()->id)->where('id',$exam_id)->first();        
         $questions = Question::with('answers','matchings')->where('exam_id',$exam_id)->orderBy('question_type')
         ->get();    
-        $questions = $questions->shuffle();   
+        // $questions = $questions->shuffle();   
         
         $title = trans('learning::local.exams');
         $n = 1;
@@ -547,7 +550,7 @@ class TeacherController extends Controller
     }
 
     public function storeQuestion()
-    {
+    {        
         DB::transaction(function(){
             // check exist image
             if (request()->hasFile('file_name')) {
@@ -563,7 +566,7 @@ class TeacherController extends Controller
 
             if (request('question_type') == 'multiple_choice' || request('question_type') == 'complete') {
                 foreach (request('repeater-group') as $answer) {                 
-                    request()->user()->answers()->firstOrCreate([
+                    request()->user()->answers()->create([
                         'answer_text'   => $answer['answer_text'],
                         'answer_note'   => $answer['answer_note'],
                         'right_answer'  => $answer['right_answer'],
@@ -574,7 +577,7 @@ class TeacherController extends Controller
 
             if (request('question_type') == 'true_false') {
                 for ($i=0; $i < count(request('answer_text')); $i++) {                     
-                   request()->user()->answers()->firstOrCreate([
+                   request()->user()->answers()->create([
                        'answer_text'   => request('answer_text')[$i],
                        'answer_note'   => request('answer_note')[$i],
                        'right_answer'  => request('right_answer')[$i],
@@ -583,9 +586,9 @@ class TeacherController extends Controller
                 }                
             }
 
-            if (request('question_type') == 'essay') {
-                request()->user()->answers()->firstOrCreate([
-                    'answer_text'   => '',
+            if (request('question_type') == 'essay' || request('question_type') == 'paragraph') {
+                request()->user()->answers()->create([
+                    'answer_text'   => request('answer_text'),
                     'answer_note'   => '',
                     'right_answer'  => 'false',
                     'question_id'   => $question->id,
@@ -595,7 +598,7 @@ class TeacherController extends Controller
             if (request('question_type') == 'matching') {
                 // matchings
                 foreach (request('repeater-group-a') as $matching) {                 
-                    request()->user()->matchings()->firstOrCreate([
+                    request()->user()->matchings()->create([
                         'matching_item'     => $matching['matching_item'],
                         'matching_answer'   => $matching['matching_answer'],
                         'exam_id'           => request('exam_id'),
@@ -604,7 +607,7 @@ class TeacherController extends Controller
                 } 
                 // answers
                 foreach (request('repeater-group-b') as $answer) {                 
-                    request()->user()->answers()->firstOrCreate([
+                    request()->user()->answers()->create([
                         'answer_text'   => $answer['answer_text'],
                         'answer_note'   => '',
                         'right_answer'  => 'false',
@@ -627,7 +630,7 @@ class TeacherController extends Controller
     }
 
     public function updateQuestion($question_id)
-    {        
+    {               
         $question = Question::findOrFail($question_id);
         if (request()->has('remove_image')) {
             $this->removeImage();
@@ -653,7 +656,12 @@ class TeacherController extends Controller
                     'question_text' => request('question_text'),
                     'mark' => request('mark')
                 ]);
-            }              
+            }      
+            
+            if (request('question_type') == trans('learning::local.question_essay') ||
+            request('question_type') == trans('learning::local.question_paragraph')) {
+                Answer::where('question_id',request('question_id'))->update(['answer_text'=>request('answer_text')]);
+            }
             
             // true or false
             if (request('question_type') == trans('learning::local.question_true_false')) {
@@ -779,8 +787,13 @@ class TeacherController extends Controller
         return datatables($data)
             ->addIndexColumn()
             ->addColumn('check', function($data){
+                $user_id = '';
+                foreach ($data->userExams as $user_exam) {
+                    $user_id = $user_exam->user_id;
+                }
                 $btnCheck = '<label class="pos-rel">
-                            <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                            <input type="hidden" name="user_id" value="'.$user_id.'">
+                            <input type="checkbox" class="ace" name="exam_id" value="'.$data->id.'" />
                             <span class="lbl"></span>
                         </label>';
                 return $btnCheck;
@@ -866,16 +879,42 @@ class TeacherController extends Controller
     }
 
     public function correct()
-    {
-        // dd(request()->all());
-        for ($i=0; $i < count(request('question_id')) ; $i++) { 
-            
-            UserAnswer::where('question_id',request('question_id')[$i])->update([
-                'mark' => request('id')[$i]
-            ]);                      
-        }
+    {        
+        DB::transaction(function(){
+            for ($i=0; $i < count(request('question_id')) ; $i++) { 
+                
+                UserAnswer::where('question_id',request('question_id')[$i])->update([
+                    'mark' => request('id')[$i]
+                ]);                      
+            }
+            Exam::where('id', request('exam_id'))->update(['correct'=>'corrected']);
+        });
         toast(trans('learning::local.correct_answer_done'),'success');
         return redirect()->route('teacher.applicants',request('exam_id'));
+    }
+
+    public function destroyAnswers()
+    {     
+        if (request()->ajax()) {
+            DB::transaction(function(){
+                $where = [
+                    ['exam_id',request('exam_id')],
+                    ['user_id',request('user_id')]
+                ];
+                UserExam::where($where)->delete();
+                UserAnswer::where($where)->delete();
+                Exam::where('id',request('exam_id'))->update(['correct'=>null]);
+            });            
+        }  
+        return response(['status'=>true]); 
+    }
+
+    public function getAnswer()
+    {        
+        if (request()->ajax()) {
+            $answer = Answer::where('question_id',request('question_id'))->first()->answer_text;
+            return json_encode($answer);
+        }
     }
  
 }

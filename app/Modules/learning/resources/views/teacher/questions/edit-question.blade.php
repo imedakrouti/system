@@ -38,10 +38,20 @@
                               <textarea name="question_text" class="form-control" cols="30" rows="5">{{old('question_text',$question->question_text)}}</textarea>
                           </div>
                       </div>
-                      <div class="col-lg-2 col-md-2">
+                      <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label>{{ trans('learning::local.correct_answer') }}</label>
+                                @foreach ($question->answers as $answer)
+                                    @if ($question->id == $answer->question_id)
+                                        <textarea name="answer_text" class="form-control" cols="30" rows="10">{{old('answer_text',$answer->answer_text)}}</textarea>                                                                            
+                                    @endif
+                                @endforeach
+                            </div>
+                      </div>
+                      <div class="col-lg-1 col-md-2">
                           <div class="form-group">
                               <label>{{ trans('learning::local.mark') }}</label>
-                              <input type="text" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
+                              <input type="number" min="0" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
                           </div>
                       </div>
 
@@ -55,10 +65,20 @@
                               <textarea class="form-control" name="question_text" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('question_text',$question->question_text)}}</textarea>                          
                           </div>
                       </div>
+                      <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label>{{ trans('learning::local.correct_answer') }}</label>
+                            @foreach ($question->answers as $answer)
+                                @if ($question->id == $answer->question_id)
+                                    <textarea name="answer_text" class="form-control" cols="30" rows="10">{{old('answer_text',$answer->answer_text)}}</textarea>                                                                            
+                                @endif
+                            @endforeach
+                        </div>
+                      </div>                      
                       <div class="col-lg-2 col-md-2">
                           <div class="form-group">
                               <label>{{ trans('learning::local.mark') }}</label>
-                              <input type="text" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
+                              <input type="number" min="0" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
                           </div>
                       </div>
 
@@ -75,7 +95,7 @@
                       <div class="col-lg-2 col-md-2">
                           <div class="form-group row">
                               <label>{{ trans('learning::local.mark') }}</label>
-                              <input type="text" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
+                              <input type="number" min="0" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
                           </div>
                       </div>
 
@@ -116,7 +136,7 @@
                       <div class="col-lg-2 col-md-2">
                           <div class="form-group">
                               <label>{{ trans('learning::local.mark') }}</label>
-                              <input type="text" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
+                              <input type="number" min="0" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
                           </div>
                       </div>
 
@@ -144,7 +164,7 @@
                     <div class="col-lg-2 col-md-2">
                         <div class="form-group">
                             <label>{{ trans('learning::local.mark') }}</label>
-                            <input type="text" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
+                            <input type="number" min="0" class="form-control" name="mark" value="{{old('mark',$question->mark)}}">
                         </div>
                     </div>
 

@@ -64,15 +64,10 @@
         
         {{-- no posts --}}
         @empty(count($posts))
-        <div class="col-12">
-            <div class="card">
-              <div class="card-content collapse show">
-                <div class="card-body">
-                  <h5 class="red">{{ trans('learning::local.no_posts') }}</h5>       
-                </div>
-              </div>
-            </div>
-          </div>
+         <div class="alert bg-info alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+            <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+            {{ trans('learning::local.no_posts') }}
+        </div>             
         @endempty
 
         {{-- posts --}}

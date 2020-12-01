@@ -34,6 +34,8 @@
       Route::get('teacher/exam/applicants/{id}','TeacherController@applicants')->name('teacher.applicants');      
       Route::get('teacher/exam/show-answers/{id}','TeacherController@showAnswers')->name('teacher.show-answers');      
       Route::post('teacher/exam/correct-answers','TeacherController@correct')->name('teacher.correct-answers');      
+      Route::post('teacher/exam/destroy/answers','TeacherController@destroyAnswers')->name('teacher.destroy-answers');      
+      Route::put('teacher/exam/get/answer','TeacherController@getAnswer')->name('teacher.get-answer');      
 
       // questions
       Route::post('teacher/store-question','TeacherController@storeQuestion')->name('teacher.store-question');

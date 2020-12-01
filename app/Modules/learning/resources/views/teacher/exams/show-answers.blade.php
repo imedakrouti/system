@@ -122,7 +122,7 @@
                             $question->question_type == trans('learning::local.question_paragraph'))
                                 @foreach ($question->userAnswers as $user_answer)
                                     @if ($question->id == $user_answer->question_id)
-                                        <input type="number" min="" max="{{$question->mark}}" class="text-mark" name="id[]" value="{{$user_answer->mark}}">                                            
+                                        <input type="number" min="" max="{{$question->mark}}" class="text-mark" name="id[]" value="{{$user_answer->mark}}">                                                                                    
                                     @endif
                                 @endforeach
                             @endif
@@ -255,9 +255,14 @@
                                     <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
                                     @foreach ($question->userAnswers as $user_answer)
                                         @if ($question->id == $user_answer->question_id)
-                                            <textarea style="font-size: 18px" class="form-control" cols="30" rows="10" >{{$user_answer->user_answer}}</textarea>                                        
+                                            <div class="form-group">
+                                                <textarea style="font-size: 18px" class="form-control" cols="30" rows="10" >{{$user_answer->user_answer}}</textarea>                                        
+                                            </div>
                                         @endif
                                     @endforeach
+                                    <div class="form-group">                                        
+                                        <a  onclick="showAnswer('{{$question->id}}')" class="btn btn-info white">{{ trans('learning::local.correct_answer') }}</a>
+                                    </div>
                                 </div>
                             @endif
                     </div>
@@ -274,4 +279,28 @@
       </div>
     </div>
 </div>
+@include('learning::teacher.exams.includes._show-answer')                                    
+@endsection
+@section('script')
+    <script>
+        function showAnswer(question_id)
+        {                   
+            $.ajax({
+                url:'{{route("teacher.get-answer")}}',
+                type:"post",
+                data: {
+                    _method		    : 'PUT',                
+                    question_id 	: question_id,
+                    _token		    : '{{ csrf_token() }}'
+                    },
+                dataType: 'json',
+                success: function(data){
+                    $('.answer').val(data);			
+                    $('#showAnswerModal').modal({backdrop: 'static', keyboard: false})
+                    $('#showAnswerModal').modal('show');
+                }
+            });          
+        }
+    </script>
+
 @endsection

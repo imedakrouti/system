@@ -48,6 +48,7 @@ class QuestionController extends Controller
      */
     public function store()
     {        
+        
         DB::transaction(function(){
             // check exist image
             if (request()->hasFile('file_name')) {

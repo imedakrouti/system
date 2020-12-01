@@ -237,17 +237,17 @@ class UserStudentController extends Controller
     }
 
     public function submitExam()
-    {          
+    {               
         $count = UserExam::where('exam_id',request('exam_id'))->where('user_id',userAuthInfo()->id)->count();
         if ($count > 0) {
             return view('layouts.front-end.student.exams.finished_exam');
         }   
+
         DB::transaction(function(){
             $questions_count = request('questions_count');
             $this->resetExam();
 
-            request()->user()->userExam()->firstOrCreate(['exam_id'=>request('exam_id')]);
-            
+            request()->user()->userExam()->firstOrCreate(['exam_id'=>request('exam_id')]);            
 
             for ($i=0; $i < $questions_count; $i++) { 
                 request()->user()->userAnswers()->firstOrCreate([
@@ -257,6 +257,9 @@ class UserStudentController extends Controller
                 ]); 
             }
             $this->autoCorrectExam(request('exam_id'));
+            if (request('auto_correct') == 'yes') {
+                Exam::where('id', request('exam_id'))->update(['correct'=>'corrected']);
+            }
         });       
         return redirect()->route('student.feedback-exam',request('exam_id'));
     }
@@ -269,19 +272,21 @@ class UserStudentController extends Controller
 
     private function autoCorrectExam($exam_id)
     {
-        $user_answers = UserAnswer::where('exam_id',$exam_id)->get();
-        foreach ($user_answers as $ans) {
-            $total_mark = Question::findOrFail($ans->question_id)->mark;
-            
-            $correct_answer = Answer::where('question_id',$ans->question_id)->where('right_answer','true')->get();
-            foreach ($correct_answer as $answer) {
-                if ($ans->user_answer == $answer->answer_text) {
-                    UserAnswer::where('question_id',$ans->question_id)
-                    ->update(['mark'=>$total_mark]);
-                }
+        DB::transaction(function() use($exam_id){
+            $user_answers = UserAnswer::where('exam_id',$exam_id)->get();
+            foreach ($user_answers as $ans) {
+                $total_mark = Question::findOrFail($ans->question_id)->mark;
                 
-            }
-        }
+                $correct_answer = Answer::where('question_id',$ans->question_id)->where('right_answer','true')->get();
+                foreach ($correct_answer as $answer) {
+                    if ($ans->user_answer == $answer->answer_text) {
+                        UserAnswer::where('question_id',$ans->question_id)
+                        ->update(['mark'=>$total_mark]);
+                    }
+                    
+                }
+            }                        
+        });
     }
 
     public function examFeedback($exam_id)

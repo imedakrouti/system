@@ -21,15 +21,10 @@
 </h4>
 <div class="row mt-1">
     @empty(count($playlists))
-    <div class="col-12">
-      <div class="card">
-        <div class="card-content collapse show">
-          <div class="card-body">
-            <h5 class="red">{{ trans('learning::local.no_playlists') }}</h5>       
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="alert bg-info alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+        <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+        {{ trans('learning::local.no_playlists') }}
+    </div>     
     @endempty
 
     @foreach ($playlists as $playlist) 

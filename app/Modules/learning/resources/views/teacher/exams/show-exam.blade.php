@@ -139,7 +139,9 @@
                                 </div>                                                               
                             @endif
                         
-                        @if ($question->question_type != trans('learning::local.question_essay') && $question->question_type != trans('learning::local.question_matching'))
+                        @if ($question->question_type != trans('learning::local.question_essay') &&
+                        $question->question_type != trans('learning::local.question_paragraph') &&
+                         $question->question_type != trans('learning::local.question_matching'))
                             @if ($question->question_type == trans('learning::local.question_complete'))
                                
                                 <h5 class="black">   
