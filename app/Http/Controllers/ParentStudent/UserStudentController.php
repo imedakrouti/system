@@ -78,7 +78,7 @@ class UserStudentController extends Controller
     public function subjects()
     {
         $title = trans('student.subjects');
-        $subjects = studentSubjects();        
+        $subjects = studentSubjects();          
         return view('layouts.front-end.student.subjects.view-subjects',
         compact('subjects','title'));
     }

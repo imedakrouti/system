@@ -44,7 +44,7 @@ return [
     'msg_no_correct_exam'           => 'The exam has not been corrected yet!',
     'your_mark'                     => 'Your mark is :',
     'no_upcoming_exams'             => 'No upcoming exams',
-    ''      => '',
+    'last_lessons'                  => 'Last added lessons',
     ''      => '',
     ''      => '',
     ''      => '',

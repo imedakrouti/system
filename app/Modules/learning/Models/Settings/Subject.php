@@ -38,4 +38,8 @@ class Subject extends Model
     {
         return $this->hasMany('Learning\Models\Learning\Playlist','subject_id');
     }
+    public function lessons()
+    {
+        return $this->hasMany('Learning\Models\Learning\Lesson','subject_id')->orderBy('created_at','desc');
+    }
 }
