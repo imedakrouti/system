@@ -38,7 +38,15 @@ role="navigation" data-menu="menu-wrapper">
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.homeworks')}}" data-toggle="dropdown"><i class="la la-eyedropper"></i> {{ trans('learning::local.class_work') }}</a></li>           
       </ul>
     </li>
-
+    {{-- virtual classrooms --}}
+    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-vimeo-square"></i>
+      <span>{{ trans('admin.virtual_classrooms') }}</span></a>
+    <ul class="dropdown-menu">
+      <li data-menu=""><a class="dropdown-item" href="{{route('zoom.account')}}" data-toggle="dropdown"><i class="la la-gear"></i> {{ trans('learning::local.zoom_settings') }}</a></li>           
+      <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.view')}}" data-toggle="dropdown"><i class="la la-calendar-check-o"></i> {{ trans('learning::local.view_zoom_schedule') }}</a></li>                          
+      <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.index')}}" data-toggle="dropdown"><i class="la la-calendar"></i> {{ trans('learning::local.manage_zoom_schedule') }}</a></li>                          
+    </ul>
+  </li>
   </ul>
 </div>
 </div>

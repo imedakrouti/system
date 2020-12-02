@@ -234,9 +234,9 @@ class UserStudentController extends Controller
     public function startExam($exam_id)
     {
         $count = UserExam::where('exam_id',$exam_id)->where('user_id',userAuthInfo()->id)->count();
-        // if ($count > 0) {
-        //     return view('layouts.front-end.student.exams.finished_exam');
-        // }
+        if ($count > 0) {
+            return view('layouts.front-end.student.exams.finished_exam');
+        }
         $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
         // attend exam
         UserExam::create(['exam_id' => $exam_id,'user_id'=>userAuthInfo()->id]);

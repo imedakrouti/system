@@ -1,5 +1,6 @@
 <?php
 // user helpers
+
 require 'student.php';
 
 if (!function_exists('aurl')) {
@@ -281,3 +282,20 @@ if (!function_exists('prepareYoutubeURL')) {
 	}
 }
 
+if (!function_exists('employeeClassrooms')) {
+	function employeeClassrooms()
+	{				
+		return authInfo()->employeeUser->classrooms; 	
+	}
+}
+
+if (!function_exists('zoomMeetingID')) {
+	function zoomMeetingID()
+	{	
+		$meeting_id = \Learning\Models\Learning\ZoomAccount::where('admin_id',authInfo()->id)->first();
+		if (empty($meeting_id)) {
+			return 0;
+		}
+		return $meeting_id->meeting_id; 	
+	}
+}

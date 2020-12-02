@@ -429,4 +429,12 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\UserAnswer','admin_id');
     }
+    public function zoomAccounts()
+    {
+        return $this->hasMany('Learning\Models\Learning\ZoomAccount','admin_id');
+    }
+    public function zoomSchedules()
+    {
+        return $this->hasMany('Learning\Models\Learning\ZoomSchedule','admin_id');
+    }
 }

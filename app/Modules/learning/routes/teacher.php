@@ -56,5 +56,15 @@
       Route::get('homework/solve-homework-page/{id}','HomeworkController@solveHomeworkPage')->name('homework.solve-question');
       Route::post('homework/share-homework','HomeworkController@share')->name('homework.share');
   
+      // virtual classrooms
+      // zoom accounts
+      Route::get('virtual-classrooms/zoom/account','ZoomAccountController@zoomAccount')->name('zoom.account');
+      Route::post('virtual-classrooms/zoom/account','ZoomAccountController@storeZoomAccount')->name('zoom.store-account');
+
+      // zoom schedules
+      Route::resource('zoom-schedules','ZoomScheduleController')->except('destroy','show');
+      Route::get('zoom-schedules/view/zoom-schedule','ZoomScheduleController@viewZoomSchedule')->name('zoom-schedules.view');
+      Route::post('zoom-schedules/destroy','ZoomScheduleController@destroy')->name('zoom-schedules.destroy');
+      Route::get('zoom/live','ZoomScheduleController@zoomLive')->name('zoom.live');
     
     });  

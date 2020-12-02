@@ -15,6 +15,7 @@ class AddColumnExams extends Migration
     {
         Schema::connection('mysql')->table('exams', function (Blueprint $table) {
             $table->enum('auto_correct',['yes','no'])->default('no');
+            $table->string('correct',10)->nullable();        
         });
     }
 
@@ -27,6 +28,7 @@ class AddColumnExams extends Migration
     {
         Schema::connection('mysql')->table('exams', function (Blueprint $table) {
             $table->dropColumn('auto_correct');
+            $table->dropColumn('correct');
         });
     }
 }
