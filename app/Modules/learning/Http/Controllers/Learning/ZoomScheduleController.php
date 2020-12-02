@@ -13,8 +13,6 @@ class ZoomScheduleController extends Controller
      */
     public function index()
     {
-        // dd(date_format(\Carbon\Carbon::now(),"Y/m/d"));
-        // dd(date_format(\Carbon\Carbon::now(),"h:i a"));
         $title = trans('learning::local.manage_zoom_schedule');
         $data = ZoomSchedule::with('classroom')->orderBy('start_date','desc')->get();
         if (request()->ajax()) {
@@ -47,7 +45,7 @@ class ZoomScheduleController extends Controller
                 // today
                 if ($data->start_date <= date_format(\Carbon\Carbon::now(),"Y-m-d") && 
                     date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")) {
-                    $btn = '<a target="_blank" href="'.route('zoom.live').'" class="btn btn-primary btn-sm" href="'.route('teacher.show-exam',$data->id).'">
+                    $btn = '<a target="_blank" href="'.route('zoom.live').'" class="btn btn-primary btn-sm">
                                 <i class=" la la-video-camera"></i>   
                             </a>';
                 }
@@ -107,7 +105,7 @@ class ZoomScheduleController extends Controller
      
                 $data[] = array(
                     'id'        => $day->id,
-                    'title'     => $day->classroom->en_name_classroom,
+                    'title'     => session('lang') == 'ar' ? $day->classroom->ar_name_classroom: $day->classroom->en_name_classroom,
                     'start'     => $startDateTime,
                     'end'       => $startDateTime,
                     'color'     => $this->color($day->start_date,$day->start_time)
@@ -185,6 +183,7 @@ class ZoomScheduleController extends Controller
             'admin_id',  
             'start_time',    
             'classroom_id',               
+            'subject_id',               
             'notes'      
         ];
     }

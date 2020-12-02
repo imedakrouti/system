@@ -34,11 +34,13 @@ role="navigation" data-menu="menu-wrapper">
     </li>
 
     {{-- live --}}
-    <li class="dropdown nav-item">
-        <a class="nav-link" href="{{route('internal-regulations.teacher')}}"><i class="la la-youtube-play"></i>
-            <span>{{ trans('student.live') }}</span>
-        </a>
-    </li> 
+    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-vimeo-square"></i>
+        <span>{{ trans('student.virtual-classroom') }}</span></a>
+        <ul class="dropdown-menu">
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.view-schedule')}}" data-toggle="dropdown"><i class="la la-calendar-check-o"></i> {{ trans('student.view_schedule') }}</a></li>                          
+      <li data-menu=""><a class="dropdown-item" href="{{route('student.join-classroom')}}" data-toggle="dropdown"><i class="la la-paper-plane"></i> {{ trans('student.join_schedule') }}</a></li>                          
+        </ul>
+    </li>
 
     {{-- library --}}
     {{-- <li class="dropdown nav-item">

@@ -6,7 +6,7 @@
       <div class="card" style="min-height: 300px">
         <div class="card-content collapse show">
           <div class="card-body">
-              <h4>{{$lesson->lesson_title}}</h4> 
+              <h2><strong>{{$lesson->lesson_title}}</strong></h2> 
               <p>{{$lesson->description}}</p>
               <div class="mb-1">
                 @isset($lesson->video_url)              

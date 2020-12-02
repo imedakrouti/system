@@ -16,11 +16,8 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent'],function(){
     Route::post('student/comment','UserStudentController@storeComment')->name('student-store.comment');
     Route::get('student/comment/get','UserStudentController@comments')->name('student.comments');
 
-    
-    
     // view subjects
     Route::get('student/subjects','UserStudentController@subjects')->name('student.subjects');
-    
     // view playlists
     Route::get('student/playlists/{employee_id}','UserStudentController@playlists')->name('student.playlists');
     // show lessons
@@ -33,13 +30,18 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent'],function(){
     Route::get('student/my-exams','UserStudentController@exams')->name('student.exams');      
     Route::get('student/results','UserStudentController@results')->name('student.results');      
     Route::get('student/answers/{exam_id}','UserStudentController@answers')->name('student.answers');      
-    // start exam
     Route::get('student/pre-start-exams/{exam_id}','UserStudentController@preStartExam')->name('student.pre-start-exam');      
     Route::get('student/start-exam/{exam_id}','UserStudentController@startExam')->name('student.start-exam');      
-    
     Route::post('student/end-exam','UserStudentController@submitExam')->name('student.submit-exam');
     Route::get('student/exam/feedback/{exam_id}','UserStudentController@examFeedback')->name('student.feedback-exam');      
     Route::put('student/exam/get/report','UserStudentController@getReport')->name('student.get-report');      
+
+
+    // virtual classroom
+    Route::get('student/view-schedule','UserStudentController@viewSchedule')->name('student.view-schedule');      
+    Route::get('student/join-classroom','UserStudentController@joinClassroom')->name('student.join-classroom');      
+    Route::get('student/live-classroom/{employee_id}','UserStudentController@liveClassroom')->name('student.live-classroom');      
+
 
     
 

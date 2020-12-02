@@ -14,6 +14,7 @@ class ZoomSchedule extends Model
         'admin_id',  
         'start_time',    
         'classroom_id',           
+        'subject_id',           
         'notes'      
     ];
     public function __construct(Array $attributes = [])
@@ -30,5 +31,9 @@ class ZoomSchedule extends Model
     public function classroom()
     {
         return $this->belongsTo('Student\Models\Settings\Classroom','classroom_id');
+    }
+    public function subject()
+    {
+        return $this->belongsTo('Learning\Models\Settings\Subject','subject_id');
     }
 }

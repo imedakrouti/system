@@ -24,15 +24,29 @@
               @csrf
               <div class="form-body">
                   <h4 class="form-section"> {{ $title }}</h4>
-                  @include('layouts.backEnd.includes._msg')   
-                  <div class="col-lg-12 col-md-12">
-                        <div class="form-group row">
+                  @include('layouts.backEnd.includes._msg')  
+                  <div class="row">
+                  <div class="col-lg-9 col-md-12">
+                        <div class="form-group">
                             <label>{{ trans('learning::local.topic') }}</label>
                             <input type="text" class="form-control" name="topic" value="{{old('topic')}}" 
                             placeholder="{{ trans('learning::local.topic') }}" required>
                             <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                         </div>
                   </div>
+                  <div class="col-lg-3 col-md-6">
+                      <div class="form-group">
+                        <label>{{ trans('learning::local.subject') }}</label>
+                        <select name="subject_id" class="form-control" required>                                
+                            @foreach (employeeSubjects() as $subject)
+                                <option {{old('subject_id') == $subject->id ? 'selected' : ''}} value="{{$subject->id}}">
+                                    {{session('lang') =='ar' ?$subject->ar_name:$subject->en_name}}</option>                                    
+                            @endforeach
+                        </select>
+                        <span class="red">{{ trans('learning::local.required') }}</span>                              
+                      </div>
+                  </div>                  
+                </div>                  
                   
                   <div class="row">
                       <div class="col-lg-4 col-md-6">

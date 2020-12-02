@@ -74,7 +74,7 @@
             transform: perspective(600px) rotateY(0deg);
         }
         a:hover{
-          font-weight: 800
+          text-decoration: underline
         }
 
                
@@ -101,7 +101,7 @@
                           @foreach ($subject->lessons as $lesson)
                               <li>
                                 <a href="{{route('student.view-lesson',['id'=>$lesson->id, 'playlist_id' =>$lesson->playlist_id])}}" 
-                                  style="color: #fff;" href="#">
+                                  style="color: #fff; text-decoration: underline" href="#">
                                   {{$lesson->lesson_title}}</a> <br> 
                                 <span class="small"><i class="la la-clock-o"></i> {{$lesson->created_at->diffForHumans()}}</span>
                               </li>
@@ -117,10 +117,12 @@
                                     {{session('lang') == 'ar' ?                 
                                       $employee->ar_st_name .' ' .$employee->ar_nd_name : 
                                       $employee->en_st_name .' ' .$employee->en_nd_name}}                      
+                                  
+                                    <a href="{{ route('student.playlists',$employee->id) }}" class="btn btn-light float-right btn-sm" href="">{{ trans('student.view_all') }}</a></a>             
                                   @endif                    
                               @endforeach                   
                           @endforeach    
-                      </strong>              
+                      </strong> 
                   </h5>              
               </div>
               <div class="front">
