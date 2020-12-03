@@ -299,3 +299,38 @@ if (!function_exists('zoomMeetingID')) {
 		return $meeting_id->meeting_id; 	
 	}
 }
+
+if (!function_exists('startVirtualClass')) {
+	function startVirtualClass($start_date, $start_time)
+	{	
+		$time = new \Carbon\Carbon($start_time);
+		$btn = '';
+
+		// hidden before date & time
+		if($start_date >= date_format(\Carbon\Carbon::now(),"Y-m-d")){
+				$btn = '<span class="blue"><strong>'.trans('learning::local.not_yet').'</strong></span>';
+		}    
+
+		// today
+		if ($start_date <= date_format(\Carbon\Carbon::now(),"Y-m-d") && 
+			date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")) {
+			$btn = '<a target="_blank" href="'.route('zoom.live').'" class="btn btn-info btn-sm">
+						<i class=" la la-video-camera"></i>   
+					</a>';
+		}
+		if($start_date < date_format(\Carbon\Carbon::now(),"Y-m-d")){
+			$btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
+		}
+					
+		// hidden after date & time
+		
+		$time = $time->addMinutes(45);
+		
+		if($start_date == date_format(\Carbon\Carbon::now(),"Y-m-d") && 
+			date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")){
+			$btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
+		} 
+		
+		return $btn;	
+	}
+}

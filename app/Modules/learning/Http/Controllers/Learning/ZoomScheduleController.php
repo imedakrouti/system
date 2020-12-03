@@ -13,8 +13,18 @@ class ZoomScheduleController extends Controller
      */
     public function index()
     {
+        $classrooms = [];
+        foreach (employeeClassrooms() as $classroom) {
+            $classrooms[] = $classroom->id;
+        }
+
+        $data = ZoomSchedule::with('classroom')
+        ->whereHas('classroom',function($q) use($classrooms){
+            $q->whereIn('classroom_id',$classrooms);
+        })
+        ->orderBy('start_date','desc')->get();
+
         $title = trans('learning::local.manage_zoom_schedule');
-        $data = ZoomSchedule::with('classroom')->orderBy('start_date','desc')->get();
         if (request()->ajax()) {
             return $this->dataTable($data);
         }

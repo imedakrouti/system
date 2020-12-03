@@ -28,41 +28,45 @@
                 <div class="form-body">
                     <h4 class="form-section"> {{ $title }}</h4>
                     @include('layouts.backEnd.includes._msg')
-                    <div class="col-lg-3 col-md-6">
-                        <div class="form-group">
-                          <label>{{ trans('staff::local.start_at') }}</label>
-                          <input type="date" class="form-control " value="{{old('start_at')}}" 
-                          placeholder="{{ trans('staff::local.start_at') }}"
-                            name="start_at" required>
-                            <span class="red">{{ trans('staff::local.required') }}</span>                          
-                        </div>
+                    <div class="row">
+                      <div class="col-lg-3 col-md-6">
+                          <div class="form-group">
+                            <label>{{ trans('staff::local.start_at') }}</label>
+                            <input type="date" class="form-control " value="{{old('start_at')}}" 
+                            placeholder="{{ trans('staff::local.start_at') }}"
+                              name="start_at" required>
+                              <span class="red">{{ trans('staff::local.required') }}</span>                          
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-6">
+                          <div class="form-group">
+                            <label>{{ trans('staff::local.end_at') }}</label>
+                            <input type="date" class="form-control " value="{{old('end_at')}}" 
+                            placeholder="{{ trans('staff::local.end_at') }}"
+                              name="end_at" required>
+                              <span class="red">{{ trans('staff::local.required') }}</span>                          
+                          </div>
+                      </div>
+                      <div class="col-lg-3 col-md-6">
+                          <div class="form-group">
+                            <label>{{ trans('staff::local.domain_role') }}</label>
+                            <select name="domain_role[]" class="form-control select2" multiple required>                            
+                              <option {{old('domain_role') == 'super admin' ?'selected':''}} value="super admin">{{ trans('staff::local.super_admin') }}</option>
+                              <option {{old('domain_role') == 'manager' ?'selected':''}} value="manager">{{ trans('staff::local.manager') }}</option>
+                              <option {{old('domain_role') == 'super visor' ?'selected':''}} value="super visor">{{ trans('staff::local.super_visor') }}</option>
+                              <option {{old('domain_role') == 'staff' ?'selected':''}} value="staff">{{ trans('staff::local.staff') }}</option>
+                              <option {{old('domain_role') == 'teacher' ?'selected':''}} value="teacher">{{ trans('staff::local.teacher') }}</option>                    
+                            </select> <br>
+                            <span class="red">{{ trans('staff::local.required') }}</span>                                                   
+                          </div>
+                      </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="form-group">
-                          <label>{{ trans('staff::local.end_at') }}</label>
-                          <input type="date" class="form-control " value="{{old('end_at')}}" 
-                          placeholder="{{ trans('staff::local.end_at') }}"
-                            name="end_at" required>
-                            <span class="red">{{ trans('staff::local.required') }}</span>                          
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="form-group">
-                          <label>{{ trans('staff::local.domain_role') }}</label>
-                          <select name="domain_role[]" class="form-control select2" multiple required>                            
-                            <option {{old('domain_role') == 'super admin' ?'selected':''}} value="super admin">{{ trans('staff::local.super_admin') }}</option>
-                            <option {{old('domain_role') == 'manager' ?'selected':''}} value="manager">{{ trans('staff::local.manager') }}</option>
-                            <option {{old('domain_role') == 'super visor' ?'selected':''}} value="super visor">{{ trans('staff::local.super_visor') }}</option>
-                            <option {{old('domain_role') == 'staff' ?'selected':''}} value="staff">{{ trans('staff::local.staff') }}</option>
-                            <option {{old('domain_role') == 'teacher' ?'selected':''}} value="teacher">{{ trans('staff::local.teacher') }}</option>                    
-                          </select> <br>
+                    <div class="col-lg-9 col-md-12"> 
+                        <div class="form-group row">
+                          <label>{{ trans('staff::local.announcement') }}</label>
+                          <textarea class="form-control" name="announcement" cols="30" rows="5">{{old('announcement')}}</textarea>                                                                 
                           <span class="red">{{ trans('staff::local.required') }}</span>                                                   
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12"> 
-                        <label>{{ trans('staff::local.announcement') }}</label>
-                        <textarea class="form-control" name="announcement" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('announcement')}}</textarea>                                                                 
-                        <span class="red">{{ trans('staff::local.required') }}</span>                                                   
                     </div>                                  
                 </div>
                 <div class="form-actions left">
@@ -79,8 +83,4 @@
       </div>
     </div>
 </div>
-@endsection
-@section('script')
-<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
 @endsection
