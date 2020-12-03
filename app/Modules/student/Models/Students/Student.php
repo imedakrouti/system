@@ -178,5 +178,9 @@ class Student extends Model
     {        
         return $this->belongsToMany('Learning\Models\Settings\Subject','student_subject','student_id','subject_id');
     }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User','user_id');
+    }
 
 }

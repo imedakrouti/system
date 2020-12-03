@@ -54,7 +54,6 @@ if (!function_exists('classroom_id')) {
 		}else{
 			$student = $student;
 		}
-		
         foreach ($student->rooms as $classroom) {
             if ($classroom->year_id == currentYear()) {
                 $classroom_id = $classroom->classroom_id;

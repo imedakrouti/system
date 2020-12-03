@@ -13,6 +13,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <h2 class="center mb-2 blue"><strong>{{$classroom_name}}</strong></h2>
                 <div id='fc-basic-views'></div>
             </div>
         </div>

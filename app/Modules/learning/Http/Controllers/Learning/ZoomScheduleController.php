@@ -34,7 +34,6 @@ class ZoomScheduleController extends Controller
             })  
             ->addColumn('start_class', function($data){
                 $time = new Carbon( $data->start_time);
-                // dd( date_format($time,"H:i") > date_format(\Carbon\Carbon::now(),"H:i"));
                 $btn = '';
 
                 // hidden before date & time
@@ -58,7 +57,7 @@ class ZoomScheduleController extends Controller
                 $time = $time->addMinutes(45);
                 
                 if($data->start_date == date_format(\Carbon\Carbon::now(),"Y-m-d") && 
-                    date_format($time,"H:i") < date_format(\Carbon\Carbon::now(),"H:i")){
+                    date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")){
                     $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
                 } 
                 

@@ -13,10 +13,12 @@ use DB;
 use Illuminate\Http\Request;
 use Learning\Models\Learning\Answer;
 use Learning\Models\Learning\Exam;
+use Learning\Models\Learning\LessonUser;
 use Learning\Models\Learning\Matching;
 use Learning\Models\Learning\Question;
 use Learning\Models\Learning\UserAnswer;
 use Learning\Models\Learning\UserExam;
+use Student\Models\Students\Student;
 
 use function GuzzleHttp\Promise\all;
 
@@ -328,10 +330,10 @@ class TeacherController extends Controller
                         '<span class="primary small">'.$data->description.'</span>';
                     })
                     ->addColumn('visibility',function($data){
-                        return $data->visibility == 'show' ? '<a class="la la-eye btn btn-success white"></a>' : '<a class="la la-eye-slash btn btn-danger white"></a>';
+                        return $data->visibility == 'show' ? '<a class="la la-eye btn-sm btn btn-success white"></a>' : '<a class="la la-eye-slash btn-sm btn btn-danger white"></a>';
                     })
                     ->addColumn('approval',function($data){
-                        return $data->approval == 'pending' ? '<a class="la la-hourglass btn btn-danger white"></a>' : '<a class="la la-check btn btn-success white"></a>';
+                        return $data->approval == 'pending' ? '<a class="la la-hourglass btn-sm btn btn-danger white"></a>' : '<a class="la la-check btn-sm btn btn-success white"></a>';
                     })
                     ->addColumn('subject',function($data){
                         return session('lang') == 'ar' ? $data->subject->ar_name : $data->subject->en_name;
@@ -936,6 +938,35 @@ class TeacherController extends Controller
             UserExam::where('exam_id',request('exam_id'))->update(['report'=>request('report')]);
         }
         return response(['status'=>true]); 
+    }
+
+    public function studentViews($lesson_id)
+    {
+        $lesson = Lesson::findOrFail($lesson_id);
+        // students seen lesson
+        $students_seen = LessonUser::where('lesson_id',$lesson_id)->orderBy('created_at','desc')->get();
+        $users = [];
+        foreach ($students_seen as $student) {
+            $users [] = $student->user_id;
+        }
+        $seen = Student::whereIn('user_id',$users)->get();
+
+        // students not seen lesson
+        $classrooms = [];
+        foreach ($lesson->playlist->classes as $classroom) {
+            $classrooms[] = $classroom->id;
+        }
+        $not_seen = Student::with('rooms')->whereNotIn('user_id',$users)
+        ->whereHas('rooms',function($query) use($classrooms){
+            $query->whereIn('classroom_id',$classrooms);
+        })
+        ->orderBy('ar_student_name')
+        ->get();    
+        
+        $title  = trans('learning::local.views');
+        
+        return view('learning::teacher.lessons.student-views',
+        compact('title','lesson','seen','not_seen'));
     }
  
 }

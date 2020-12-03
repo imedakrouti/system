@@ -86,6 +86,12 @@
       <h3 class="content-header-title">{{$title}}</h3>      
     </div>      
 </div>
+@empty($subjects->count())
+    <div class="alert bg-info alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+        <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+        {{ trans('student.no_subjects') }}
+    </div>  
+@endempty
 <div class="row mt-1">
     @foreach ($subjects as $subject) 
       <div style="{{session('lang') == 'ar'?'margin-right:25px':'margin-left:25px'}}">

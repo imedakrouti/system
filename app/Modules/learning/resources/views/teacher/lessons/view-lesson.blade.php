@@ -2,7 +2,6 @@
 @section('content')
 <div class="content-header row">
     <div class="content-header-left col-md-6 col-12 mb-2">
-      <h3 class="content-header-title">{{$title}}</h3>
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
@@ -21,7 +20,8 @@
       <div class="card" style="min-height: 300px">
         <div class="card-content collapse show">
           <div class="card-body">
-              <h4>{{$lesson->lesson_title}} <span class="small"><a href="{{route('teacher.edit-lessons',$lesson->id)}}">{{ trans('learning::local.edit') }}</a></span></h4> 
+              <h3><strong>{{$lesson->lesson_title}} </strong>
+                <span class="small"><a href="{{route('teacher.edit-lessons',$lesson->id)}}">{{ trans('learning::local.edit') }}</a></span></h3> 
               <p>{{$lesson->description}}</p>
               <div class="mb-1">
                 @isset($lesson->video_url)              

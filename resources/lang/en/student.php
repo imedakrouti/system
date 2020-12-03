@@ -57,7 +57,7 @@ return [
     'join_class'                    => 'Join Class',
     'join'                          => 'Join',
     'pass_code'                     => 'Passcode',
-    ''      => '',
+    'no_subjects'                   => 'No subjects',
     ''      => '',
     ''      => '',
     ''      => '',

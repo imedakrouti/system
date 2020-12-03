@@ -15,12 +15,11 @@
       Route::get('teacher/view-lesson/{id}/{playlist_id}','TeacherController@viewLesson')->name('teacher.view-lesson');      
       Route::get('teacher/edit-lesson/{id}','TeacherController@editLesson')->name('teacher.edit-lessons');      
       Route::post('teacher/edit-lesson/update/{id}','TeacherController@updateLesson')->name('teacher.update-lessons');  
-
       Route::get('teacher/view-lessons','TeacherController@viewLessons')->name('teacher.view-lessons');
-      
       Route::post('teacher/attachment','TeacherController@attachment')->name('teacher.attachment');
       Route::post('teacher/attachment/destroy','TeacherController@attachmentDestroy')->name('teacher-attachment.destroy');
       Route::post('teacher/approval','TeacherController@approval')->name('teacher.approval');
+      Route::get('teacher/students-views/{id}','TeacherController@studentViews')->name('teacher.students-views');
       
       // exams
       Route::get('teacher/view-exams','TeacherController@viewExams')->name('teacher.view-exams');

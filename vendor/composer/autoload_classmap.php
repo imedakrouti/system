@@ -2125,6 +2125,7 @@ return array(
     'Learning\\Models\\Learning\\Homework' => $baseDir . '/app/Modules/learning/Models/Learning/Homework.php',
     'Learning\\Models\\Learning\\Lesson' => $baseDir . '/app/Modules/learning/Models/Learning/Lesson.php',
     'Learning\\Models\\Learning\\LessonFile' => $baseDir . '/app/Modules/learning/Models/Learning/LessonFile.php',
+    'Learning\\Models\\Learning\\LessonUser' => $baseDir . '/app/Modules/learning/Models/Learning/LessonUser.php',
     'Learning\\Models\\Learning\\Matching' => $baseDir . '/app/Modules/learning/Models/Learning/Matching.php',
     'Learning\\Models\\Learning\\Playlist' => $baseDir . '/app/Modules/learning/Models/Learning/Playlist.php',
     'Learning\\Models\\Learning\\Post' => $baseDir . '/app/Modules/learning/Models/Learning/Post.php',

@@ -16,6 +16,7 @@ use Learning\Models\Learning\UserExam;
 use Learning\Models\Learning\ZoomSchedule;
 use DB;
 use Carbon\Carbon;
+use Learning\Models\Learning\LessonUser;
 use Learning\Models\Learning\ZoomAccount;
 
 class UserStudentController extends Controller
@@ -71,11 +72,25 @@ class UserStudentController extends Controller
 
     public function viewLesson($lesson_id, $playlist_id)
     {
+
         $lessons = Lesson::where('playlist_id',$playlist_id)->sort()->get();        
         $lesson = Lesson::with('divisions','grades','years','files','playlist','admin')->where('id',$lesson_id)->first();          
         $title = $lesson->lesson_title;
+        // set view count
+        $this->lessonViews($lesson, $lesson->views);
         return view('layouts.front-end.student.view-lesson',
         compact('lessons','lesson','title'));
+    }
+    private function lessonViews($lesson, $views)
+    {
+        DB::transaction(function() use($lesson, $views){
+            $checkView = LessonUser::where('lesson_id',$lesson->id)
+            ->where('user_id',userAuthInfo()->id)->first();
+            if (empty($checkView)) {
+                $lesson->update(['views'=>$views+1]);
+            }
+            request()->user()->lessonUser()->firstOrCreate(['lesson_id'=>$lesson->id]);
+        });
     }
 
     public function subjects()
@@ -113,8 +128,8 @@ class UserStudentController extends Controller
         ->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
         })
-        ->where('start_date','>=',date_format(\Carbon\Carbon::now(),"Y/m/d"))
-        ->where('start_time','>',date_format(\Carbon\Carbon::now(),"h:i"))
+        ->where('start_date','>',date_format(\Carbon\Carbon::now(),"Y-m-d"))
+        // ->where('start_time','>',date_format(\Carbon\Carbon::now(),"H:i"))
         ->orderBy('start_date')->get();
 
         if (request()->ajax()) {
@@ -166,8 +181,8 @@ class UserStudentController extends Controller
         })
         ->whereHas('questions',function($q){})
         ->whereDoesntHave('userExams')
-        ->where('start_date','<=',date_format(\Carbon\Carbon::now(),"Y/m/d"))
-        ->where('start_time','<',date_format(\Carbon\Carbon::now(),"h:i"))
+        ->where('start_date','<=',date_format(\Carbon\Carbon::now(),"Y-m-d"))
+        ->where('start_time','<',date_format(\Carbon\Carbon::now(),"H:i"))
         
         ->orderBy('start_date')->get();
 
@@ -209,15 +224,37 @@ class UserStudentController extends Controller
             return '<span class="red">'.$data->userAnswers->count().'/'.$data->questions->count().'</span>';
         })     
         ->addColumn('start_exam', function($data){
-            if ($data->end_time < date_format(\Carbon\Carbon::now(),"h:i")) {
-                $btn = '';
-            }else{
-                $btn = '<a class="btn btn-success btn-sm" href="'.route('student.pre-start-exam',$data->id).'">
-                    '.trans('student.start_exam').'
-                </a>';
 
+            $time = new Carbon( $data->start_time);
+            $time_end = new Carbon( $data->start_end);
+            $btn = '';
+
+            // hidden before date & time
+            if($data->start_date >= date_format(\Carbon\Carbon::now(),"Y-m-d")){
+                    $btn = '<span class="blue"><strong>'.trans('learning::local.not_yet').'</strong></span>';
+            }    
+
+            // today
+            if ($data->start_date <= date_format(\Carbon\Carbon::now(),"Y-m-d") && 
+                date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")) {
+                    $btn = '<a class="btn btn-success btn-sm" href="'.route('student.pre-start-exam',$data->id).'">
+                        '.trans('student.start_exam').'
+                    </a>';
             }
-                return $btn;
+            if($data->start_date < date_format(\Carbon\Carbon::now(),"Y-m-d")){
+                $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
+            }
+                        
+            // hidden after date & time
+            
+            if($data->start_date == date_format(\Carbon\Carbon::now(),"Y-m-d") && 
+                date_format($time_end->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")){
+                $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
+            } 
+            
+            return $btn;
+
+
         })                       
         ->rawColumns(['start','end','exam_name','subject','mark','answers','start_exam'])
         ->make(true);
@@ -404,16 +441,22 @@ class UserStudentController extends Controller
 
     public function viewSchedule()
     {
+        $title = trans('student.view_schedule');
+        $classroom = Classroom::findOrFail(classroom_id());
+        $classroom_name = session('lang') == 'ar'?$classroom->ar_name_classroom : $classroom->en_name_classroom;
         if (request()->ajax()) {
             $subjects = [];
             foreach (studentSubjects() as $subject) {
                 $subjects[] = $subject->id;
             }
             $data = [];
-            $schedule = ZoomSchedule::with('subject')
+            $schedule = ZoomSchedule::with('subject','classroom')
             ->whereHas('subject',function($q) use ($subjects){
                 $q->whereIn('subject_id',$subjects);
             })
+            ->whereHas('classroom',function($q){
+                $q->where('classroom_id',classroom_id());
+            })            
             ->get();
             
             foreach ($schedule as  $day) {
@@ -433,7 +476,7 @@ class UserStudentController extends Controller
             return json_encode($data);
         }
         return view('layouts.front-end.student.virtual-classrooms.view-schedule',
-        ['title'=>trans('student.view_schedule')]);
+        compact('title','classroom_name'));
     }
 
     private function color($date, $time)
@@ -470,8 +513,15 @@ class UserStudentController extends Controller
 
     public function joinClassroom()
     {
-        $title = trans('student.join_classroom');
+        $subjects = [];
+        foreach (studentSubjects() as $subject) {
+            $subjects[] = $subject->id;
+        }
+        $title = trans('student.join_class');
         $data = ZoomSchedule::with('subject','classroom','admin')->orderBy('start_date','desc')
+        ->whereHas('subject',function($q) use($subjects){
+            $q->whereIn('subject_id',$subjects);
+        })
         ->whereHas('classroom',function($q){
             $q->where('classroom_id',classroom_id());
         })

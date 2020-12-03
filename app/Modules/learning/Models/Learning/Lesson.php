@@ -17,6 +17,7 @@ class Lesson extends Model
         'video_url',                
         'file_name',  
         'playlist_id',           
+        'views',           
         'admin_id',
     ];
     public function __construct(Array $attributes = [])

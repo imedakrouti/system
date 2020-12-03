@@ -74,4 +74,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\UserExam','user_id');
     }
+    public function lessonUser()
+    {
+        return $this->hasMany('Learning\Models\Learning\LessonUser','user_id');
+    }
 }

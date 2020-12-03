@@ -154,17 +154,6 @@
                                         </span>
                                         <span class="blue"><strong>{{ trans('learning::local.publish_new_exam') }}</strong></span> {{$post->post_text}}</h6>                                    
                                     <p class="card-text" style="white-space: pre-line">{{$post->description}}</p>
-                                    <h6>
-                                        <div class="mb-1">
-                                            <span class="purple">{{ trans('learning::local.exam_link') }}</span>  
-                                            @php
-                                                $str  = $post->url;
-                                                $url = explode(",", $str);                                                                                                
-                                            @endphp                                      
-                                            <a target="_blank" href="{{route('student.pre-start-exam',$url[0])}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>                                                                                  
-                                            
-                                        </div>
-                                    </h6>
                                     @isset($post->youtube_url)              
                                     <div class="mb-1">
                                         <iframe width="100%"  style="min-height: 500px;" allowfullscreen
