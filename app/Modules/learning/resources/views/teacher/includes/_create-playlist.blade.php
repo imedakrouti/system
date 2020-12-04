@@ -2,11 +2,11 @@
     <!-- Modal -->
     <div class="modal fade text-left" id="playlist" tabindex="-1" role="dialog" aria-labelledby="myModalLabel18"
     aria-hidden="true">
-      <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-dialog modal-sm " role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel18"><i class="la la-youtube-play"></i> {{ trans('learning::local.new_playlist') }}</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <div class="modal-header bg-info ">
+            <h4 class="modal-title white" id="myModalLabel18"><i class="la la-youtube-play"></i> {{ trans('learning::local.new_playlist') }}</h4>
+            <button type="button" class="close white" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -40,7 +40,7 @@
                     </div>
 
                 </div>
-    
+                <hr>
                 <div class="col-md-12">
                   <div class="form-group row">
                       {{-- <div class="col-md-4"></div> --}}

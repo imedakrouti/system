@@ -72,7 +72,6 @@ class UserStudentController extends Controller
 
     public function viewLesson($lesson_id, $playlist_id)
     {
-
         $lessons = Lesson::where('playlist_id',$playlist_id)->sort()->get();        
         $lesson = Lesson::with('divisions','grades','years','files','playlist','admin')->where('id',$lesson_id)->first();          
         $title = $lesson->lesson_title;
@@ -104,7 +103,7 @@ class UserStudentController extends Controller
     public function playlists($employee_id)
     {
         $employee = Employee::findOrFail($employee_id);
-        $playlists = Playlist::where('employee_id',$employee_id)->sort()->get();
+        $playlists = Playlist::where('employee_id',$employee_id)->sort()->get();        
         $title = trans('student.playlists');
         return view('layouts.front-end.student.subjects.view-playlists',
         compact('playlists','title','employee'));

@@ -1,11 +1,16 @@
 @extends('layouts.backEnd.teacher')
 @section('content')
-
+<div class="content-header row">
+  <div class="content-header-left col-md-6 col-12 mb-2">
+    <h3 class="content-header-title">{{ trans('admin.dashboard') }}</h3>
+  </div>
+</div>
 <div class="row">
     <div class="col-lg-12 mb-1">
         <img src="{{asset('images/website/code.png')}}" width="100%" alt="cover">           
     </div>
 </div> 
+
 <div class="row">
     <div class="col-xl-3 col-lg-6 col-12">
       <div class="card">
@@ -83,26 +88,8 @@
                             <th>{{ trans('staff::local.start') }}</th>
                         </tr>
                     </thead>
-                    <tbody>   
-                        @php
-                            $n=1;
-                        @endphp                 
-                        @foreach ($classes as $class)    
-                            <tr>
-                                <td>
-                                    {{session('lang') == 'ar' ? $class->classroom->ar_name_classroom : $class->classroom->en_name_classroom}}
-                                </td>
-                                <td>
-                                    <span class="blue">{{\Carbon\Carbon::parse( $class->start_date)->format('M d Y')}}<br>
-                                        {{\Carbon\Carbon::parse( $class->start_time)->format('h:i a')}}
-                                    </span>
-                                </td>
-                                <td>{!!startVirtualClass($class->start_date, $class->start_time)!!}</td>
-                            </tr>
-                            @php
-                                $n++;
-                            @endphp
-                        @endforeach                     
+                    <tbody id="schedule">   
+                                    
                     </tbody>
                 </table>                
           </div>
@@ -141,7 +128,7 @@
             <div class="card-content">
               <div class="media align-items-stretch">
                 <div class="bg-info p-2 media-middle">
-                  <i class="icon-pencil font-large-2 text-white"></i>
+                  <i class="la la-video-camera font-large-2 text-white"></i>
                 </div>
                 <div class="media-body p-2">
                   <h4 id="classroom">Classroom</h4>
@@ -220,50 +207,68 @@
 @endsection
 @section('script')
     <script>
-        $(document).ready(function(){
-        
-            var time = 10000;
+      
+        nextVirtualClassroom();
 
-            function getTimeRemaining(endtime) {
-                const total = Date.parse(endtime) - Date.parse(new Date());
-                const seconds = Math.floor((total / 1000) % 60);
-                const minutes = Math.floor((total / 1000 / 60) % 60);
-                const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
-                const days = Math.floor(total / (1000 * 60 * 60 * 24));
-                
-                return {
-                    total,
-                    days,
-                    hours,
-                    minutes,
-                    seconds
-                };
-            }
+        function getTimeRemaining(endtime) {
+            const total = Date.parse(endtime) - Date.parse(new Date());
+            const seconds = Math.floor((total / 1000) % 60);
+            const minutes = Math.floor((total / 1000 / 60) % 60);
+            const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(total / (1000 * 60 * 60 * 24));
+            
+            return {
+                total,
+                days,
+                hours,
+                minutes,
+                seconds
+            };
+        }
 
-            function initializeClock(id, endtime) {
-                const clock = document.getElementById(id);            
-                const hoursSpan = clock.querySelector('.hours');
-                const minutesSpan = clock.querySelector('.minutes');
-                const secondsSpan = clock.querySelector('.seconds');
+        function initializeClock(id, endtime) {
+            const clock = document.getElementById(id);            
+            const hoursSpan = clock.querySelector('.hours');
+            const minutesSpan = clock.querySelector('.minutes');
+            const secondsSpan = clock.querySelector('.seconds');
 
-                function updateClock() {
-                    const t = getTimeRemaining(endtime);
+            function updateClock() {
+                const t = getTimeRemaining(endtime);
 
-                    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-                    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-                    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
-                    if (t.total <= 0) {
-                    clearInterval(timeinterval);
-                    }
+                if (t.total <= 0) {
+                clearInterval(timeinterval);
                 }
-
-                updateClock();
-                const timeinterval = setInterval(updateClock, 1000);
             }
-            const deadline = new Date(Date.parse(new Date()) + time);
 
-            initializeClock('clockdiv', deadline);                        
-        })
+            updateClock();
+            const timeinterval = setInterval(updateClock, 1000);
+        }
+              
+        function nextVirtualClassroom()
+        {
+          $.ajax({
+                type:'get',
+                url:'{{route("next-virtual-classroom")}}',
+                dataType:'json',
+                success:function(data){
+                  const deadline = new Date(Date.parse(new Date()) + data.time);
+                  initializeClock('clockdiv', deadline);                   
+
+                  $('#classroom').html(data.classroom);
+                  $('#schedule').html(data.schedule);                  
+                }
+            });
+                  
+        }
+
+        setInterval(function()
+        {
+         nextVirtualClassroom();
+        },50000); //1000 second
+                
     </script>
 @endsection

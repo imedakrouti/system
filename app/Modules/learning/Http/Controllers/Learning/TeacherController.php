@@ -386,8 +386,8 @@ class TeacherController extends Controller
                     return $btn;
             }) 
             ->addColumn('applicants',function($data){
-                $applicants = '<div class="badge badge-pill badge-dark">'.$data->userExams->count().'</div>';
-                $btn = '<a class="btn btn-secondary white btn-sm" href="'.route('teacher.applicants',$data->id).'">
+                $applicants = '<div class="badge badge-pill badge-danger">'.$data->userExams->count().'</div>';
+                $btn = '<a class="btn btn-danger white btn-sm" href="'.route('teacher.applicants',$data->id).'">
                          '.trans('learning::local.applicants').' '.$applicants .'
                     </a>';
                 return $btn;
@@ -761,19 +761,6 @@ class TeacherController extends Controller
             
         toast(trans('learning::local.set_classes_successfully'),'success');
         return redirect()->route('teacher.show-exam',request('exam_id'));
-    }
-
-    public function classrooms()
-    {
-        $classrooms = Classroom::with('employees')->sort()
-        ->whereHas('employees',function($q){
-            $q->where('employee_id',employee_id());
-        })
-        ->get();
-
-        $title = trans('learning::local.classrooms');
-        return view('learning::teacher.classrooms',
-        compact('title','classrooms'));        
     }
 
     public function applicants($exam_id)

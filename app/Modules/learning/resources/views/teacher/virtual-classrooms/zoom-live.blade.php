@@ -48,9 +48,9 @@
         }
 
         jQuery(function ($) {
-            var fiveMinutes = 60 * 0.15,
+            var min = 60 * 0.15,
             display = $('#time');                
-            startTimer(fiveMinutes, display);
+            startTimer(min, display);
 
         });        
       })

@@ -43,9 +43,6 @@
       Route::get('teacher/edit-question/{id}','TeacherController@editQuestion')->name('teacher.edit-question');
       Route::post('teacher/update-question/{id}','TeacherController@updateQuestion')->name('teacher.update-question');
 
-      // show classrooms
-      Route::get('teacher/show-classrooms','TeacherController@classrooms')->name('teacher.classrooms');
-
       // homework
       Route::resource('homeworks','HomeworkController')->except('destroy');
       Route::get('teacher/homeworks','HomeworkController@teacherHomeworks')->name('teacher.homeworks');

@@ -20,7 +20,7 @@
       <div class="card" style="min-height: 300px">
         <div class="card-content collapse show">
           <div class="card-body">
-              <h3><strong>{{$lesson->lesson_title}} </strong>
+              <h3 class="mb-2"><strong>{{$lesson->lesson_title}} </strong>
                 <span class="small"><a href="{{route('teacher.edit-lessons',$lesson->id)}}">{{ trans('learning::local.edit') }}</a></span></h3> 
               <p>{{$lesson->description}}</p>
               <div class="mb-1">

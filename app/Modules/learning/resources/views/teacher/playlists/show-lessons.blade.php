@@ -47,14 +47,14 @@
                 <div class="card collapse-icon accordion-icon-rotate">
 
                       <div id="headingCollapse_{{$lesson->id}}" class="card-header " style="border: .2px solid #c0c0c07d;">
-                        <a style="color: #41494e"  data-toggle="collapse" href="#collapse_{{$lesson->id}}" aria-expanded="false" aria-controls="collapse_{{$lesson->id}}"
+                        <a style="color: #7f888f;font-size:20px;font-weight:800"  data-toggle="collapse" href="#collapse_{{$lesson->id}}" aria-expanded="false" aria-controls="collapse_{{$lesson->id}}"
                         class="card-title lead collapsed"><strong>{{$n}} - {{$lesson->lesson_title}}</strong></a>
                       </div>
                       <div id="collapse_{{$lesson->id}}" role="tabpanel" aria-labelledby="headingCollapse_{{$lesson->id}}" class="card-collapse collapse " style="border: .2px solid #c0c0c07d;"
                       aria-expanded="true">
                         <div class="card-content">
                           <div class="card-body">
-                            <p class="black">{{$lesson->description}}.</p>
+                            <p>{{$lesson->description}}</p>
                             <div class="form-group">
                                 <h6 class="small"><strong>{{ trans('learning::local.created_by') }} : </strong>{{session('lang') == 'ar' ? $lesson->admin->ar_name : $lesson->admin->name}}
                                 | <strong>{{ trans('learning::local.created_at') }} : </strong>{{$lesson->created_at->diffForHumans()}}

@@ -20,47 +20,46 @@
 </div>
 <div class="row mt-1">
     @empty(count($playlists))
-    <div class="col-12">
+    <div class="alert bg-info alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+        <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+        {{ trans('learning::local.no_playlists') }}
+    </div>     
+    @endempty
+    <div class="col-lg-12 col-md-12">
       <div class="card">
-        <div class="card-content collapse show">
+        <div class="card-content">
           <div class="card-body">
-            <h5 class="red">{{ trans('learning::local.no_playlists') }}</h5>       
+            <ul class="list-group">
+                @php
+                    $n=1;
+                @endphp
+                @foreach ($playlists as $playlist) 
+                    <li class="list-group-item">                                
+                        <span class="badge badge-info badge-pill float-right">{{ trans('student.lessons') }} {{$playlist->lessons->count()}}</span>
+                        <a style="color: #7f888f;font-size:20px;font-weight:800" href="{{route('teacher.show-lessons',$playlist->id)}}">
+                          {{$n}} - {{$playlist->playlist_name}}</a>
+                        <br>
+                        @foreach ($playlist->classes as $class)                          
+                            <div class="mb-1 badge badge-danger">
+                                <span>{{session('lang') == 'ar' ? $class->ar_name_classroom : $class->en_name_classroom}}</span>
+                                <i class="la la-group font-medium-3"></i>
+                            </div>
+                        @endforeach
+                        <div class="mb-1 badge badge-primary">
+                            <span>{{session('lang') == 'ar' ? $playlist->subjects->ar_shortcut : $playlist->subjects->en_shortcut}}</span>
+                            <i class="la la-book font-medium-3"></i>
+                        </div>
+
+                    </li>
+                    @php
+                        $n++;
+                    @endphp
+              @endforeach  
+            </ul>
           </div>
         </div>
       </div>
-    </div>
-    @endempty
-    @foreach ($playlists as $playlist) 
-        <div class="col-xl-3 col-lg-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left mb-1">
-                      <h3 class="danger">{{$playlist->lessons->count()}}</h3>
-                      <span><a href="{{route('teacher.show-lessons',$playlist->id)}}">{{$playlist->playlist_name}}</a></span>
-
-                    </div>
-                    <div class="align-self-center">
-                      <a href="{{route('teacher.show-lessons',$playlist->id)}}"><i class="la la-youtube-play info font-large-2 float-right"></i></a>
-                    </div>
-                  </div>
-     
-                  @foreach ($playlist->classes as $class)                          
-                      <div class="mb-1 badge badge-danger">
-                          <span>{{session('lang') == 'ar' ? $class->ar_name_classroom : $class->en_name_classroom}}</span>
-                          <i class="la la-group font-medium-3"></i>
-                      </div>
-                  @endforeach
-                  <div class="mb-1 badge badge-primary">
-                      <span>{{session('lang') == 'ar' ? $playlist->subjects->ar_shortcut : $playlist->subjects->en_shortcut}}</span>
-                      <i class="la la-book font-medium-3"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>  
-    @endforeach
+  </div>
 </div>
 @include('learning::teacher.includes._create-playlist')
 

@@ -19,10 +19,12 @@
         $employee->ar_st_name .' ' .$employee->ar_nd_name.' '.$employee->ar_rd_name 
         : 
         $employee->en_st_name .' ' .$employee->en_nd_name.' '.$employee->en_rd_name}}         
-    </strong>                   
+    </strong>  
+    {{-- <div class="mt-1 badge badge-warning">
+        <span>ee</span>
+        <i class="la la-book font-medium-3"></i>
+    </div>                 --}}
 </h2>
-
-
 
 <div class="row mt-1">
     @empty(count($playlists))
@@ -43,16 +45,12 @@
                   @foreach ($playlists as $playlist) 
                     @foreach ($playlist->classes as $classroom)
                          @if ($classroom->id == classroom_id())
-                            <li class="list-group-item">
-                                
+                            <li class="list-group-item">                                
                                 <span class="badge badge-info badge-pill float-right">{{ trans('student.lessons') }} {{$playlist->lessons->count()}}</span>
-                                <a style="color: #464855;font-size:20px;font-weight:800" href="{{route('student.show-lessons',$playlist->id)}}">
+                                <a style="color: #084872;font-size:20px;font-weight:800" href="{{route('student.show-lessons',$playlist->id)}}">
                                    {{$n}} - {{$playlist->playlist_name}}</a>
                                 <br>
-                                <div class="mt-1 badge badge-primary">
-                                    <span>{{session('lang') == 'ar' ? $playlist->subjects->ar_shortcut : $playlist->subjects->en_shortcut}}</span>
-                                    <i class="la la-book font-medium-3"></i>
-                                </div>
+
                             </li>
                         @endif
                     @endforeach

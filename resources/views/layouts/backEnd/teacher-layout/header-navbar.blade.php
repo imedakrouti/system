@@ -31,13 +31,25 @@ role="navigation" data-menu="menu-wrapper">
     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-book"></i>
         <span>{{ trans('admin.e_learning') }}</span></a>
       <ul class="dropdown-menu">
+        <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
+          <a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown"><i class="la la-share-alt"></i>{{ trans('learning::local.classrooms') }}</a>
+          <ul class="dropdown-menu">
+            @foreach (employeeClassrooms() as $classroom)
+              <li data-menu="">
+                <a href="{{route('posts.index',$classroom->id)}}" class="dropdown-item" href="card-bootstrap.html" data-toggle="dropdown">
+                  {{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}
+                </a>
+              </li>                            
+            @endforeach
+          </ul>
+        </li>
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.playlists')}}" data-toggle="dropdown"><i class="la la-youtube-play"></i> {{ trans('learning::local.playlists') }}</a></li>           
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-lessons')}}" data-toggle="dropdown"><i class="la la-book"></i> {{ trans('learning::local.lessons') }}</a></li>           
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.view-exams')}}" data-toggle="dropdown"><i class="la la-tasks"></i> {{ trans('learning::local.exams') }}</a></li>           
-        <li data-menu=""><a class="dropdown-item" href="{{route('teacher.classrooms')}}" data-toggle="dropdown"><i class="la la-share-alt"></i> {{ trans('learning::local.shares') }}</a></li>           
         <li data-menu=""><a class="dropdown-item" href="{{route('teacher.homeworks')}}" data-toggle="dropdown"><i class="la la-eyedropper"></i> {{ trans('learning::local.class_work') }}</a></li>           
       </ul>
     </li>
+    
     {{-- virtual classrooms --}}
     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-vimeo-square"></i>
       <span>{{ trans('admin.virtual_classrooms') }}</span></a>
