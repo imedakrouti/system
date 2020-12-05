@@ -38,8 +38,9 @@
                             <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                         </div>
                     </div>
-
-                </div>
+                  </div>
+                  <p class="blue"><strong>{{ trans('learning::local.sort_tip') }}</strong></p>
+                  
                 <hr>
                 <div class="col-md-12">
                   <div class="form-group row">

@@ -617,6 +617,9 @@ class VacationController extends Controller
             })  
             ->addColumn('vacation_type',function($data){
                 return $data->vacation_type . '<br> <strong>' . $data->date_vacation .'</strong>';
+            }) 
+            ->addColumn('updated_at',function($data){
+                return \Carbon\Carbon::parse( $data->updated_at)->format('M d Y, D h:i'); 
             })                                    
             ->addColumn('attachments',function($data){
                 $file =  '<a target="_blank" class="btn btn-success btn-sm" href="'.asset('images/attachments/'.$data->file_name).'">
@@ -624,7 +627,7 @@ class VacationController extends Controller
                         </a>';
                 return empty($data->file_name) ? '' : $file;   
             })            
-            ->rawColumns(['approval1','approval2','vacation_period','attachments','vacation_type'])
+            ->rawColumns(['approval1','approval2','vacation_period','attachments','vacation_type','updated_at'])
             ->make(true);
     }
 }

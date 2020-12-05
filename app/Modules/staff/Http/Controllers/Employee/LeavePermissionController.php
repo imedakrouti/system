@@ -325,9 +325,9 @@ class LeavePermissionController extends Controller
     }
     private function checkDateRequest()
     {
-        // if (request('dateLeave') > Carbon\Carbon::now()->addDays(7) ||request('date_leave') < Carbon\Carbon::now()->subDays(25)) {
-        //     return false;
-        // }
+        if (request('dateLeave') > Carbon\Carbon::now()->addDays(7) ||request('date_leave') < Carbon\Carbon::now()->subDays(25)) {
+            return false;
+        }
         return true;
     }
 
@@ -853,11 +853,14 @@ class LeavePermissionController extends Controller
                                     </div>'. $username;                         
                     }
                     
-                })                                   
+                })    
+                ->addColumn('updated_at',function($data){
+                    return \Carbon\Carbon::parse( $data->updated_at)->format('M d Y, D h:i'); 
+                })                               
                 ->addColumn('leave_permission_id',function($data){
                     return session('lang') == 'ar' ? $data->leaveType->ar_leave:$data->leaveType->ar_leave ;
                 })
-                ->rawColumns(['approval1','approval2','leave_permission_id'])
+                ->rawColumns(['approval1','approval2','leave_permission_id','updated_at'])
                 ->make(true);
         }
     }

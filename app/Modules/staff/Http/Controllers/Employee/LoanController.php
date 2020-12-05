@@ -413,8 +413,11 @@ class LoanController extends Controller
                                     </div>'. $username;                         
                     }
                     
-                })                            
-                ->rawColumns(['approval1','approval2'])
+                })  
+                ->addColumn('updated_at',function($data){
+                    return \Carbon\Carbon::parse( $data->updated_at)->format('M d Y, D h:i'); 
+                })                           
+                ->rawColumns(['approval1','approval2','updated_at'])
                 ->make(true);
             
         }

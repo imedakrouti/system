@@ -470,12 +470,14 @@ class DeductionController extends Controller
                     }
                     
                 })                   
-            
+                ->addColumn('updated_at',function($data){
+                    return \Carbon\Carbon::parse( $data->updated_at)->format('M d Y, D h:i'); 
+                }) 
                 ->addColumn('reason',function($data){
                     return '<a href="#" onclick="reason('."'".$data->reason."'".')">'.trans('staff::local.reason').'</a>';
                 })        
 
-                ->rawColumns(['check','approval1','approval2','reason'])
+                ->rawColumns(['check','approval1','approval2','reason','updated_at'])
                 ->make(true);            
         }
     }

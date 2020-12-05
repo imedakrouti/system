@@ -212,7 +212,7 @@ return [
     'join_time'                             => 'Last attempt to join',
     'no_join_attempt'                       => 'Attempts to join the virtual class were not found',
     'save_marks'                            => 'Save marks',
-    ''               => '',
+    'sort_tip'                              => 'The sort that appears on the student page',
     ''               => '',
     ''               => '',
     ''               => '',
