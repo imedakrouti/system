@@ -8,7 +8,7 @@ class InternalRegulation extends Model
 {
     protected $table = "internal_regulations";
 
-    protected $fillable = ['internal_regulation_text'];
+    protected $fillable = ['internal_regulation_text','en_internal_regulation'];
 
     public function __construct(Array $attributes = [])
     {

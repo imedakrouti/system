@@ -28,8 +28,15 @@
           <div class="row">                      
             <div class="col-lg-12 col-md-12"> 
                 <form class="form form-horizontal" action="{{route('internal-regulations.update')}}" method="post">
-                    @csrf                    
-                    <textarea class="form-control" name="internal_regulation_text" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('internal_regulation_text',$internal->internal_regulation_text)}}</textarea>                          
+                    @csrf                      
+                      <div class="form-group">
+                          <label>{{ trans('staff::local.ar_internal_regulation') }}</label>
+                          <textarea class="form-control" name="internal_regulation_text" cols="30" rows="10" class="ckeditor">{{old('internal_regulation_text',$internal->internal_regulation_text)}}</textarea>                                                
+                      </div> 
+                      <div class="form-group">
+                          <label>{{ trans('staff::local.en_internal_regulation') }}</label>
+                          <textarea class="form-control" name="en_internal_regulation" cols="30" rows="10" class="ckeditor">{{old('en_internal_regulation',$internal->en_internal_regulation)}}</textarea>                                                
+                      </div>                                       
                     <div class="form-actions left">
                         <button type="submit" class="btn btn-success">
                             <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
@@ -43,8 +50,4 @@
     </div>
   </div>
 </div>
-@endsection
-@section('script')
-<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
 @endsection

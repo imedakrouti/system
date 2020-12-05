@@ -15,7 +15,7 @@ class InternalRegulationController extends Controller
     public function update()
     {
         $internal = InternalRegulation::first();
-        $internal->update(request()->only(['internal_regulation_text'])); 
+        $internal->update(request()->only(['internal_regulation_text','en_internal_regulation'])); 
         toast(trans('msg.updated_successfully'),'success');
         return redirect()->route('internal-regulations.index');  
     }

@@ -19,7 +19,11 @@
       <div class="card">
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
-            {!! $internal->internal_regulation_text!!}
+            @if (session('lang') == 'ar')
+                {!! $internal->internal_regulation_text!!}              
+            @else                
+              {!! $internal->en_internal_regulation!!}              
+            @endif
           </div>
         </div>
       </div>
