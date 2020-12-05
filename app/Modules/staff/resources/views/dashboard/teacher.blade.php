@@ -104,17 +104,8 @@
                         <th>{{ trans('staff::local.admin_message') }}</th>
                     </tr>
                 </thead>
-                <tbody>                    
-                    @foreach ($announcements as $announcement)    
-                        <tr>
-                            <td>
-                                {!!$announcement->announcement!!}
-                                <br>
-                                {{session('lang') == 'ar' ? $announcement->admin->ar_name : $announcement->admin->name}} | 
-                                <span style="font-size: 12px;">{{$announcement->updated_at->diffForHumans()}}</span>       
-                            </td>
-                        </tr>
-                    @endforeach                     
+                <tbody id="announcements">                    
+                    
                 </tbody>
             </table>                
           </div>
@@ -137,9 +128,9 @@
                 <div class="media-right p-2 media-middle">
                   <h1 class="info">
                     <div id="clockdiv">
-                        <span class="hours"></span> :
-                        <span class="minutes"></span> :
-                        <span class="seconds"></span>                                      
+                        <span class="hours">00</span> :
+                        <span class="minutes">00</span> :
+                        <span class="seconds">00</span>                                      
                     </div>                       
                   </h1>
                 </div>
@@ -209,6 +200,7 @@
     <script>
       
         nextVirtualClassroom();
+        announcements();
 
         function getTimeRemaining(endtime) {
             const total = Date.parse(endtime) - Date.parse(new Date());
@@ -255,20 +247,64 @@
                 url:'{{route("next-virtual-classroom")}}',
                 dataType:'json',
                 success:function(data){
-                  const deadline = new Date(Date.parse(new Date()) + data.time);
-                  initializeClock('clockdiv', deadline);                   
-
-                  $('#classroom').html(data.classroom);
-                  $('#schedule').html(data.schedule);                  
+                  if (data.time != 0) {
+                    const deadline = new Date(Date.parse(new Date()) + data.time);
+                    initializeClock('clockdiv', deadline);                   
+  
+                    $('#classroom').html(data.classroom);
+                    $('#schedule').html(data.schedule);                                      
+                  }
                 }
             });
                   
         }
 
+        function schedule()
+        {
+          $.ajax({
+                type:'get',
+                url:'{{route("next-virtual-classroom")}}',
+                dataType:'json',
+                success:function(data){
+                  $('#schedule').html(data.schedule);   
+                  if (data.time != 0) {
+                    nextVirtualClassroom();                    
+                  }else{
+                    $('#clockdiv').html('00 : 00 : 00')
+                  }               
+                }
+            }); 
+        }
+
         setInterval(function()
         {
-         nextVirtualClassroom();
-        },50000); //1000 second
+          let hours = $('.hours').text();
+          let minutes = $('.minutes').text();
+          let seconds = $('.seconds').text();
+   
+          if (hours == '00' && minutes == '00' && seconds == '00') {            
+            schedule()
+          }
+        },5000); //1000 second
+
+        function announcements()
+        {
+          $.ajax({
+                type:'get',
+                url:'{{route("announcements")}}',
+                dataType:'json',
+                success:function(data){
+                  $('#announcements').html(data);   
+                             
+                }
+            });  
+        }
+
+        setInterval(function()
+        {
+          announcements();
+          schedule()  
+        },60000); //1000 second
                 
     </script>
 @endsection

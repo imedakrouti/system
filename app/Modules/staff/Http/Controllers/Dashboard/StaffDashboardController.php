@@ -29,12 +29,10 @@ class StaffDashboardController extends Controller
         // total posts
         $posts = Post::where('admin_id',authInfo()->id)->count();
         // total lessons
-        $lessons = Lesson::where('admin_id',authInfo()->id)->count();
-        // administrative messages
-        $announcements = $this->announcements();        
+        $lessons = Lesson::where('admin_id',authInfo()->id)->count();            
         
         return view('staff::dashboard.teacher',
-        compact('announcements','students','classrooms','posts','lessons'));
+        compact('students','classrooms','posts','lessons'));
     }
 
     private function totalStudents()
@@ -51,12 +49,25 @@ class StaffDashboardController extends Controller
         
     }
 
-    private function announcements()
+    public function announcements()
     {
-        return Announcement::where('domain_role','teacher')
+        $announcements =  Announcement::with('admin')->where('domain_role','teacher')
         ->where('start_at','<=',\Carbon\Carbon::today())
-        ->where('end_at','>=',\Carbon\Carbon::today())
+        ->where('end_at','>=',\Carbon\Carbon::today())        
         ->orderBy('id','desc')->limit(5)->get();
+        $msgs = '';        
+        foreach ($announcements as $announcement) {
+            $admin = session('lang') == 'ar' ? $announcement->admin->ar_name : $announcement->admin->name;
+            $msgs .='<tr>
+                        <td>
+                            '.$announcement->announcement.'
+                            <br>
+                            '.$admin.' | 
+                            <span class="small">'.$announcement->updated_at->diffForHumans().'</span>       
+                        </td>
+                    </tr>';
+        }
+        return json_encode($msgs);
     } 
 
     public function nextVirtualClassroom()
@@ -72,26 +83,32 @@ class StaffDashboardController extends Controller
 
             $virtual_classroom = $this->virtualClassroom($classrooms);
 
-            $data['classroom'] = $this->classroomName($virtual_classroom->classroom_id);
-
+            if (!empty($virtual_classroom)) {
+                $data['classroom'] = $this->classroomName($virtual_classroom->classroom_id);                
+            }
 
             // Classroom schedules
             $n=1;
-            $schedule ='';    
-            foreach ($this->classrooms($classrooms) as $class)  {
-            $schedule .= '<tr>
-                        <td>
-                            '. $this->classroomName($class->classroom->id).'
-                        </td>
-                        <td>
-                            <span class="blue">'.\Carbon\Carbon::parse( $class->start_date)->format('M d Y').'<br>
-                                '.\Carbon\Carbon::parse( $class->start_time)->format('h:i a').'
-                            </span>
-                        </td>
-                        <td>'.startVirtualClass($class->start_date, $class->start_time).'</td>
-                    </tr>';
-                    $n++;
-            } 
+            $schedule = '';  
+            
+            if (count($this->classrooms($classrooms)) != 0) {
+                foreach ($this->classrooms($classrooms) as $class)  {
+                $schedule .= '<tr>
+                            <td>
+                                '. $this->classroomName($class->classroom->id).'
+                            </td>
+                            <td>
+                                <span class="blue">'.\Carbon\Carbon::parse( $class->start_date)->format('M d Y').'<br>
+                                    '.\Carbon\Carbon::parse( $class->start_time)->format('h:i a').'
+                                </span>
+                            </td>
+                            <td>'.startVirtualClass($class->start_date, $class->start_time).'</td>
+                        </tr>';
+                        $n++;
+                }                 
+            } else{
+                $schedule  = '<tr><td colspan="3">'.trans('learning::local.no_virtual_classes').'</td></tr>';
+            }
             $data['schedule'] = $schedule;
             
             return json_encode($data);
@@ -104,8 +121,8 @@ class StaffDashboardController extends Controller
         ->whereHas('classroom',function($q) use($employeeClassrooms){
             $q->whereIn('classroom_id',$employeeClassrooms);
         })
-        ->where('start_date','>=',date_format(\Carbon\Carbon::now(),"Y-m-d"))
-        ->where('start_time','>=',date_format(\Carbon\Carbon::now(),"H:i"))
+        ->where('start_date','=',date_format(\Carbon\Carbon::now(),"Y-m-d"))
+        ->where('start_time','>',date_format(\Carbon\Carbon::now(),"H:i"))
         ->orderBy('start_time','asc')->first();
     }
 
@@ -113,9 +130,12 @@ class StaffDashboardController extends Controller
     private function getRemainingTime($employeeClassrooms)
     {
         $virtual_class = $this->virtualClassroom($employeeClassrooms);
-
-         return Carbon::parse(date_format(\Carbon\Carbon::now(),"H:i"))
-        ->diffInMinutes(Carbon::parse($virtual_class->start_time));
+        if (!empty($virtual_class)) {
+            return Carbon::parse(date_format(\Carbon\Carbon::now(),"H:i"))
+           ->diffInMinutes(Carbon::parse($virtual_class->start_time));            
+        }else{
+            return 0;
+        }
     }
 
     private function classroomName($classroom_id)
@@ -133,5 +153,6 @@ class StaffDashboardController extends Controller
         ->where('start_date',date_format(\Carbon\Carbon::now(),"Y-m-d"))
         ->orderBy('start_time','asc')->get();
     }
+    
 
 }

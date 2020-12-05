@@ -602,7 +602,7 @@ return [
     'time_remain'                       => 'Time remaining',
     'start'                             => 'Start',
     'next_class'                        => 'Next Classroom',
-    ''               => '',
+    'now'                               => 'Now',
     ''               => '',
     ''               => '',
     ''               => '',
