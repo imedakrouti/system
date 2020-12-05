@@ -48,9 +48,9 @@ div.dataTables_wrapper div.dataTables_length label {
 
 .fc-day-grid-event .fc-content {  
     color: white;
-    font-size: 18px;
+    /* font-size: 18px; */
     text-align: right;
-    padding: 7px;
+    padding: 3px;
 }
 .f-1{
     font-size: 18px;;

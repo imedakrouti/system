@@ -37,17 +37,31 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="bs-callout-info callout-border-left mb-1 p-1">
-                                <strong>What is a Zoom meeting ID?</strong>
-                                <p>A meeting ID is the 10-digit meeting number associated with an instant or scheduled meeting. When a meeting is created, Zoom generates a meeting ID and each ID number is individual to each meeting that is created.
+                              @if (session('lang') == 'ar')
+                                    <strong>ما هو معرف اجتماع Meeting ID؟</strong>
+                                    <p>
+                                      معرف الاجتماع هو رقم الاجتماع المكون من 10 أرقام المرتبط باجتماع فوري أو مجدول. عند إنشاء اجتماع ، يُنشئ Zoom معرّف الاجتماع ويكون كل رقم معرّف فرديًا لكل اجتماع يتم إنشاؤه. عند الانضمام إلى اجتماع ، ستتم مطالبتك بإدخال رقم معرف الاجتماع. هذا الرقم موجود في طلب الاجتماع ..
+                                    </p>
+                                @else
+                                  <strong>What is a Zoom meeting ID?</strong>
+                                    <p>A meeting ID is the 10-digit meeting number associated with an instant or scheduled meeting. When a meeting is created, Zoom generates a meeting ID and each ID number is individual to each meeting that is created.
 
-                                    When you join a meeting, you are prompted for the Meeting ID number. This number is located in the Meeting request..
-                                </p>
+                                        When you join a meeting, you are prompted for the Meeting ID number. This number is located in the Meeting request..
+                                    </p>                                    
+                                @endif
                             </div>  
                             <div class="bs-callout-info callout-border-left mb-1 p-1">
-                                <strong>Passcode</strong>
-                                <p>Zoom account to require passcodes for your own meetings.</p>
-                                <P>The student cannot attend any virtual class without obtaining the passcode .. 
-                                    The system will send the password to students according to the schedule specified for the virtual classes</P>
+                              @if (session('lang') == 'ar')
+                              <strong>رمز المرور Passcode</strong>
+                              <p>حساب زووم يطلب رمز المرور للسماح للطلاب بالانضمام للحصة الافتراضية</p>
+                              <P>لا يمكن للطالب حضور أي حصة افتراضية دون الحصول على رمز المرور ..
+                                سيقوم النظام بإرسال كلمة المرور إلى الطلاب وفقًا للجدول المحدد للفصول الافتراضية</P>                                  
+                              @else
+                                  <strong>Passcode</strong>
+                                  <p>Zoom account to require passcodes for your own meetings.</p>
+                                  <P>The student cannot attend any virtual class without obtaining the passcode .. 
+                                      The system will send the password to students according to the schedule specified for the virtual classes</P>                                  
+                              @endif
                             </div>                                                         
                         </div>
                     </div>                    

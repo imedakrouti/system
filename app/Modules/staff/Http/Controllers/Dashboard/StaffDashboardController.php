@@ -102,7 +102,7 @@ class StaffDashboardController extends Controller
                                     '.\Carbon\Carbon::parse( $class->start_time)->format('h:i a').'
                                 </span>
                             </td>
-                            <td>'.startVirtualClass($class->start_date, $class->start_time).'</td>
+                            <td>'.startVirtualClass($class->start_date, $class->start_time,$class->id).'</td>
                         </tr>';
                         $n++;
                 }                 

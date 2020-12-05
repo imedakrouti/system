@@ -1,6 +1,10 @@
 @extends('layouts.backEnd.teacher')
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{asset('cpanel/app-assets/vendors/css/calendars/fullcalendar.min.css')}}">
+<style>
+    .fc-time{font-size: 15px;}
+    .fc-title{font-size: 15px;}
+</style>
 @endsection
 
 @section('content')

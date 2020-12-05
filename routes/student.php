@@ -40,7 +40,7 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent'],function(){
     // virtual classroom
     Route::get('student/view-schedule','UserStudentController@viewSchedule')->name('student.view-schedule');      
     Route::get('student/join-classroom','UserStudentController@joinClassroom')->name('student.join-classroom');      
-    Route::get('student/live-classroom/{employee_id}','UserStudentController@liveClassroom')->name('student.live-classroom');      
+    Route::get('student/live-classroom/{employee_id}/{zoom_schedule_id}','UserStudentController@liveClassroom')->name('student.live-classroom');      
 
 
     

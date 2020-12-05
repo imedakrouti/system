@@ -122,7 +122,7 @@
                   <i class="la la-video-camera font-large-2 text-white"></i>
                 </div>
                 <div class="media-body p-2">
-                  <h4 id="classroom">Classroom</h4>
+                  <h4 id="classroom">{{ trans('admin.virtual_classrooms') }}</h4>
                   <span>{{ trans('staff::local.next_class') }}</span>
                 </div>
                 <div class="media-right p-2 media-middle">

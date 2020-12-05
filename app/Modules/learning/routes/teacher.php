@@ -61,6 +61,8 @@
       Route::resource('zoom-schedules','ZoomScheduleController')->except('destroy','show');
       Route::get('zoom-schedules/view/zoom-schedule','ZoomScheduleController@viewZoomSchedule')->name('zoom-schedules.view');
       Route::post('zoom-schedules/destroy','ZoomScheduleController@destroy')->name('zoom-schedules.destroy');
-      Route::get('zoom/live','ZoomScheduleController@zoomLive')->name('zoom.live');
+      Route::get('zoom-schedules/live/{id}','ZoomScheduleController@zoomLive')->name('zoom.live');
+      Route::get('zoom-schedules/attendances/{id}','ZoomScheduleController@attendances')->name('zoom.attendances');
+      Route::put('zoom-schedules/attendances/join-time','ZoomScheduleController@joinTime')->name('zoom.join-time');
     
     });  

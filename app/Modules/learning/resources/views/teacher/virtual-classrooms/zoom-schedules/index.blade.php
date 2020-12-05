@@ -31,6 +31,7 @@
                               <th>{{trans('learning::local.topic')}}</th>                                
                               <th>{{trans('learning::local.date')}} &  {{trans('learning::local.time')}}</th>                                                                                            
                               <th>{{trans('learning::local.classroom')}}</th>                                                                
+                              <th>{{trans('learning::local.attempt_to_join')}}</th>                                                                
                               <th>{{trans('learning::local.start_class')}}</th>                                                                
                               <th>{{trans('student::local.edit')}}</th>
                           </tr>
@@ -66,6 +67,7 @@
               {data: 'topic',            name: 'topic'},
               {data: 'start_date',       name: 'start_date'},                            
               {data: 'classroom',        name: 'classroom'},                      
+              {data: 'attendances',      name: 'attendances'},                          
               {data: 'start_class',      name: 'start_class'},                          
               {data: 'action', 	         name: 'action', orderable: false, searchable: false},
           ],

@@ -301,7 +301,7 @@ if (!function_exists('zoomMeetingID')) {
 }
 
 if (!function_exists('startVirtualClass')) {
-	function startVirtualClass($start_date, $start_time)
+	function startVirtualClass($start_date, $start_time, $id)
 	{	
 		$time = new \Carbon\Carbon($start_time);
 		$btn = '';
@@ -314,7 +314,7 @@ if (!function_exists('startVirtualClass')) {
 		// today
 		if ($start_date <= date_format(\Carbon\Carbon::now(),"Y-m-d") && 
 			date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")) {
-			$btn = '<a target="_blank" href="'.route('zoom.live').'" class="btn btn-info btn-sm">
+			$btn = '<a target="_blank" href="'.route('zoom.live',$id).'" class="btn btn-info btn-sm">
 						<i class=" la la-video-camera"></i>  
 					</a> <span class="red">'.trans('staff::local.now').'</span>';
 		}

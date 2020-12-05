@@ -39,9 +39,9 @@
         <div class="card">
             <div class="card-content collapse show">
                 <div class="card-body">
-                    <h2 class="purple"><strong>{!!$student_name!!}</strong> </h2>
+                    <h2><strong>{!!$student_name!!}</strong> </h2>
 
-                    <table class="table">
+                    <table class="table mt-2">
                         <thead>
                             <th>{{ trans('student.exam_name') }}</th>
                             <th>{{ trans('student.exam_date') }}</th>
@@ -87,7 +87,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <h4 class="mt-1 mb-1"><strong>{{ trans('student.equivalency') }}</strong></h4>
+                    <h4 class="mt-2 mb-1"><strong>{{ trans('student.equivalency') }}</strong></h4>
                     <table class="table table-border center">
                         <thead>
                         <tr>
@@ -287,7 +287,7 @@
                     @endphp
                 @endforeach
                     <div class="form-group center mt-1">
-                        <button type="submit" class="btn btn-info">{{ trans('student.end_exam') }}</button>
+                        <button type="submit" class="btn btn-success">{{ trans('learning::local.save_marks') }}</button>
                     </div>
               </form>                
           </div>

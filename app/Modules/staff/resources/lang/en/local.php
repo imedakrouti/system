@@ -591,7 +591,7 @@ return [
     'no_announcements'                  => 'No announcements',
     'start_at'                          => 'Begins on a date',
     'end_at'                            => 'Ends on a date',
-    'admin_message'                     => 'Administrative Messages',
+    'admin_message'                     => 'Alerts from the school administration',
     'lessons'                           => 'Lessons',
     'classrooms'                        => 'Classrooms',
     'students'                          => 'Students',

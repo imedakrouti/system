@@ -327,7 +327,7 @@ class TeacherController extends Controller
                     ->addIndexColumn()
                     ->addColumn('lesson_title',function($data){
                         return '<a href="'.route('teacher.view-lesson',['id'=>$data->id,'playlist_id'=>$data->playlist_id]).'"><span><strong>'.$data->lesson_title.'</strong></span></a> </br>' .
-                        '<span class="primary small">'.$data->description.'</span>';
+                        '<span class="">'.$data->description.'</span>';
                     })
                     ->addColumn('visibility',function($data){
                         return $data->visibility == 'show' ? '<a class="la la-eye btn-sm btn btn-success white"></a>' : '<a class="la la-eye-slash btn-sm btn btn-danger white"></a>';
@@ -835,10 +835,10 @@ class TeacherController extends Controller
         $classroom = Classroom::findOrFail(classroom_id($data));       
         if (session('lang') == 'ar') {
             return $data->ar_student_name.' '. $data->father->ar_st_name .' '. $data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name 
-            .'<br> <span class="blue"><strong>'. $classroom->ar_name_classroom .'</strong></span>';    
+            .' <span class="blue"><strong>'. $classroom->ar_name_classroom .'</strong></span>';    
         }else{
             return $data->en_student_name.' '. $data->father->en_st_name .' '. $data->father->en_nd_name.' '.$data->father->en_rd_name.' '.$data->father->en_th_name 
-            .'<br> <span class="blue"><strong>'. $classroom->en_name_classroom .'</strong></span>';    
+            .' <span class="blue"><strong>'. $classroom->en_name_classroom .'</strong></span>';    
         }
     }
     private function studentImage($data)

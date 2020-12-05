@@ -3,6 +3,8 @@ namespace Learning\Http\Controllers\Learning;
 use App\Http\Controllers\Controller;
 use Learning\Models\Learning\ZoomSchedule;
 use Carbon\Carbon;
+use Learning\Models\Learning\ZoomAttendance;
+use DB;
 
 class ZoomScheduleController extends Controller
 {
@@ -54,7 +56,7 @@ class ZoomScheduleController extends Controller
                 // today
                 if ($data->start_date <= date_format(\Carbon\Carbon::now(),"Y-m-d") && 
                     date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")) {
-                    $btn = '<a target="_blank" href="'.route('zoom.live').'" class="btn btn-primary btn-sm">
+                    $btn = '<a target="_blank" href="'.route('zoom.live',$data->id).'" class="btn btn-primary btn-sm">
                                 <i class=" la la-video-camera"></i>   
                             </a>';
                 }
@@ -73,6 +75,11 @@ class ZoomScheduleController extends Controller
                 
                 return $btn;
             }) 
+            ->addColumn('attendances',function($data){
+                return '<a href="'.route('zoom.attendances',$data->id).'" class="btn btn-info btn-sm">
+                            <i class=" la la-eye"></i>   
+                        </a>';
+            })
             ->addColumn('start_date',function($data){
                 return '<span class="blue">'.\Carbon\Carbon::parse( $data->start_date)->format('M d Y').'<br>
                 '.\Carbon\Carbon::parse( $data->start_time)->format('h:i a').'
@@ -88,7 +95,7 @@ class ZoomScheduleController extends Controller
                             </label>';
                     return $btnCheck;
             })
-            ->rawColumns(['action','check','start_date','start_class','classroom'])
+            ->rawColumns(['action','check','start_date','start_class','classroom','attendances'])
             ->make(true);
     }
 
@@ -158,9 +165,11 @@ class ZoomScheduleController extends Controller
         return $color;        
     }
 
-    public function zoomLive()
+    public function zoomLive($zoom_schedule_id)
     {
         $title = "";
+        // attempt to join class
+        request()->user()->zoomAttendances()->create(['zoom_schedule_id'=>$zoom_schedule_id]);
         return view('learning::teacher.virtual-classrooms.zoom-live',
         compact('title'));
     }
@@ -247,5 +256,57 @@ class ZoomScheduleController extends Controller
             }
         }
         return response(['status'=>true]);
+    }
+
+    public function attendances($zoom_schedule_id)
+    {
+        $title = trans('learning::local.attendances');
+        $zoom_schedule = ZoomSchedule::findOrFail($zoom_schedule_id);
+        return view('learning::teacher.virtual-classrooms.zoom-schedules.attendances',
+        compact('title','zoom_schedule'));
+    }
+    
+    public function joinTime()
+    {
+        if (request()->ajax()) {
+            $students = DB::table('students')
+            ->join('fathers','students.father_id','=','fathers.id')
+            ->join('zoom_attendances','students.user_id','=','zoom_attendances.user_id')
+            ->select('student_image','ar_student_name','en_student_name','zoom_attendances.created_at','gender',
+            'zoom_schedule_id','ar_st_name','ar_nd_name','ar_rd_name','en_st_name','en_nd_name','en_rd_name')
+            ->where('zoom_schedule_id',request('zoom_schedule_id'))
+            ->limit(50)->orderBy('created_at','desc')->get();
+            
+            $output = '';
+            if (count($students)>0) {
+                foreach ($students as $student) {
+                    $output .= '<tr>                                
+                                    <td>'.$this->getStudentImage($student).'</td>
+                                    <td>'.$this->getStudentName($student).'</td>
+                                    <td>'.\Carbon\Carbon::parse( $student->created_at)->format('M d Y, D h:i ').'</td>
+                                </tr>';
+                }                
+            }else{
+                $output = '<tr><td colspan="3">'.trans('learning::local.no_join_attempt').'</td></tr>';
+            }
+            
+            return json_encode($output);
+
+        }
+
+    }
+    private function getStudentName($student)
+    {
+        return session('lang')=='ar' ? $student->ar_student_name .' ' . $student->ar_st_name .' ' .$student->ar_nd_name .' ' .$student->ar_rd_name: 
+        $student->en_student_name .' ' . $student->en_st_name .' ' .$student->en_nd_name .' ' .$student->en_rd_name;
+    }
+    private function getStudentImage($student)
+    {
+        $path_image = $student->gender == 'male' ? 
+        'images/studentsImages/37.jpeg' : 'images/studentsImages/39.png';       
+        return empty($student->student_image) ? '<img class=" editable img-responsive student-image" alt="" id="avatar2" 
+        src="'.asset($path_image).'" />' : 
+        '<img class=" editable img-responsive student-image" alt="" id="avatar2" 
+        src="'.asset('images/studentsImages/'.$student->student_image).'" />';
     }
 }

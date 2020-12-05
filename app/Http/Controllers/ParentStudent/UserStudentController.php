@@ -549,7 +549,8 @@ class UserStudentController extends Controller
                 if ($data->start_date <= date_format(\Carbon\Carbon::now(),"Y-m-d") && 
                     date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")) {
                     $employees = $data->subject->employees;                    
-                    $btn = '<a target="_blank" href="'.route('student.live-classroom',$this->employeeID($employees)).'" 
+                    $btn = '<a target="_blank" href="'.route('student.live-classroom',['employee_id'=>$this->employeeID($employees),
+                    'zoom_schedule_id'=>$data->id]).'" 
                                 class="btn btn-purple btn-sm" ">'.trans('student.join').' 
                             </a>';
                 }
@@ -629,10 +630,14 @@ class UserStudentController extends Controller
         return  ZoomAccount::where('employee_id',$employee_id)->first()->pass_code;        
     }
     
-    public function liveClassroom($employee_id)
+    public function liveClassroom($employee_id, $zoom_schedule_id)
     {
         $title = "";
-        $meeting_id = ZoomAccount::where('employee_id',$employee_id)->first()->meeting_id;        
+        $meeting_id = ZoomAccount::where('employee_id',$employee_id)->first()->meeting_id;
+        
+        // attempt to join class
+        request()->user()->zoomAttendances()->create(['zoom_schedule_id'=>$zoom_schedule_id]);
+
         return view('layouts.front-end.student.virtual-classrooms.live-classroom',
         compact('title','meeting_id'));
     }

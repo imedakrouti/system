@@ -78,4 +78,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\LessonUser','user_id');
     }
+    public function zoomAttendances()
+    {
+        return $this->hasMany('Learning\Models\Learning\ZoomAttendance','user_id');
+    }
 }
