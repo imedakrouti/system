@@ -54,7 +54,7 @@
           <div class="card-body card-dashboard">
             <div class="table-responsive">
               <table class="table table-striped" >
-                <thead class="bg-info white">
+                <thead>
                     <tr class="center">                                                                                                                                                                    
                           <th width="120px">{{trans('staff::local.attend_days')}}</th>
                           <th width="120px">{{trans('staff::local.absent_days')}}</th>                                                      
@@ -81,7 +81,7 @@
           <div class="card-body card-dashboard">
               <div class="table-responsive">
                   <table id="dynamic-table" class="table table-striped" >
-                      <thead class="bg-info white">
+                      <thead>
                           <tr>                                                                
                                 <th width="65px">#</th>  
                                 <th width="120px">{{trans('staff::local.week')}}</th>

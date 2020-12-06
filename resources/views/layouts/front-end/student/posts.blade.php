@@ -1,6 +1,5 @@
 @extends('layouts.front-end.student.index')
 @section('styles')
-
     <style>
             /* Top left text */
             .top-left {

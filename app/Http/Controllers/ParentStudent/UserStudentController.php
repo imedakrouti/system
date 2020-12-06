@@ -26,11 +26,11 @@ class UserStudentController extends Controller
         $exams = Exam::with('classrooms','subjects')->whereHas('classrooms',function($q){
             $q->where('classroom_id',classroom_id());
         })
-        ->where('start_date','>=',date_format(\Carbon\Carbon::now(),"Y/m/d"))
-        ->where('start_time','>',date_format(\Carbon\Carbon::now(),"h:i"))
+        ->where('start_date','>',date_format(\Carbon\Carbon::now(),"Y-m-d"))
         ->orderBy('start_date','asc')
         ->limit(6)
-        ->get();          
+        ->get(); 
+
         $classroom = Classroom::findOrFail(classroom_id());
 
         $posts = Post::with('admin')->where('classroom_id',classroom_id())->orderBy('created_at','desc')->limit(30)->get();

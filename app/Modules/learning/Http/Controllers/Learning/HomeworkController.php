@@ -18,10 +18,7 @@ class HomeworkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+
     public function teacherHomeworks()
     {
         $classrooms = Classroom::with('employees')->whereHas('employees',function($q){
@@ -360,22 +357,7 @@ class HomeworkController extends Controller
         return view('learning::teacher.homework.show',
         compact('title','homework','classrooms','lessons'));
     }
-    public function edit(Homework $Homework)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Homework  $Homework
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Homework $Homework)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

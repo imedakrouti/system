@@ -20,7 +20,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table">
-                        <thead class="bg-info white">
+                        <thead>
                             <tr>
                                 <th colspan="2">{{ trans('learning::local.student_name') }}</th>
                                 <th>{{ trans('learning::local.join_time') }}</th>

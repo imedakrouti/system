@@ -44,7 +44,7 @@
       Route::post('teacher/update-question/{id}','TeacherController@updateQuestion')->name('teacher.update-question');
 
       // homework
-      Route::resource('homeworks','HomeworkController')->except('destroy');
+      Route::resource('homeworks','HomeworkController')->except('destroy','index');
       Route::get('teacher/homeworks','HomeworkController@teacherHomeworks')->name('teacher.homeworks');
       Route::post('teacher/homeworks/destroy','HomeworkController@destroy')->name('homeworks.destroy');
       Route::get('homework/question/{id}','HomeworkController@questionPage')->name('homework-question');

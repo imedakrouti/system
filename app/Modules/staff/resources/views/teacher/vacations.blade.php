@@ -23,7 +23,7 @@
           <div class="card-body card-dashboard">
             <div class="table-responsive">
                 <table id="dynamic-table" class="table data-table" style="width: 100%">
-                    <thead class="bg-info white">
+                    <thead>
                         <tr>                              
                               <th>#</th>                              
                               <th>{{trans('staff::local.vacation_type')}}</th>                                                              

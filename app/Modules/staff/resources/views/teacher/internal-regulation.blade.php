@@ -20,9 +20,9 @@
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
             @if (session('lang') == 'ar')
-                {!! $internal->internal_regulation_text!!}              
+                <p style="white-space: pre-line;font-size:16px;">{!! $internal->internal_regulation_text!!}</p>
             @else                
-              {!! $internal->en_internal_regulation!!}              
+              <p style="white-space: pre-line;font-size:16px;">{!! $internal->en_internal_regulation!!}</p>
             @endif
           </div>
         </div>

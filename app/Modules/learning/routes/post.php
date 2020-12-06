@@ -2,7 +2,7 @@
     Route::group(['namespace'=>'Post'],function(){
 
       // posts
-      Route::resource('teacher/posts','PostController')->except('index','create');
+      Route::resource('teacher/posts','PostController')->except('index','create','show');
       Route::get('teacher/posts/index/{id}','PostController@index')->name('posts.index');
 
   

@@ -27,7 +27,7 @@
                 <form action="" id='formData' method="post">
                   @csrf
                   <table id="dynamic-table" class="table data-table" >
-                      <thead class="bg-info white">
+                      <thead>
                           <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>

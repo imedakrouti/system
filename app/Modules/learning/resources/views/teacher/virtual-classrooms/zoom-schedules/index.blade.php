@@ -8,9 +8,11 @@
       <h3 class="content-header-title">{{$title}}</h3>
     </div>    
     <div class="content-header-right col-md-6 col-12">
-
+        <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+          <a href="#"  onclick="deleteSchedule()" class="btn btn-danger box-shadow round mr-1">{{ trans('learning::local.delete_schedule') }}</a>          
+        </div> 
         <div class="btn-group mr-1 mb-1 float-right">
-            <a href="{{route('zoom-schedules.create')}}" class="btn btn-success">{{ trans('learning::local.add_zoom_schedule') }}</a>
+            <a href="{{route('zoom-schedules.create')}}" class="btn btn-success round">{{ trans('learning::local.add_zoom_schedule') }}</a>
         </div>
     </div>  
 </div>
@@ -24,7 +26,7 @@
                 <form action="" id='formData' method="post">
                   @csrf
                   <table id="dynamic-table" class="table data-table" >
-                      <thead class="bg-info white">
+                      <thead>
                           <tr>
                               <th><input type="checkbox" class="ace" /></th>
                               <th>#</th>
@@ -52,14 +54,15 @@
 <script>
     $(function () {
         var myTable = $('#dynamic-table').DataTable({
-        @include('layouts.backEnd.includes.datatables._datatableConfig')            
-            buttons: [
-                // delete btn
-                @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'zoom-schedules.destroy'])
-
-                // default btns
-                @include('layouts.backEnd.includes.datatables._datatableBtn')
-            ],
+          processing: true,
+          serverSide: false,
+          "paging": true,
+          "ordering": true,
+          "info":     true,
+          "pageLength": 10, // set page records
+          "lengthMenu": [10,20, 50, 100, 200,500],
+          "bLengthChange" : true,  
+          dom: 'blfrtip',              
           ajax: "{{ route('zoom-schedules.index') }}",
           columns: [
               {data: 'check',            name: 'check', orderable: false, searchable: false},
@@ -76,6 +79,47 @@
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });  
 
+    function deleteSchedule() {
+      var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
+        if (itemChecked > 0) {
+            var form_data = $('#formData').serialize();
+            swal({
+                    title: "{{trans('msg.delete_confirmation')}}",
+                    text: "{{trans('learning::local.msg_delete_schedule')}}",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#D15B47",
+                    confirmButtonText: "{{trans('msg.yes')}}",
+                    cancelButtonText: "{{trans('msg.no')}}",
+                    closeOnConfirm: false,
+                },
+                function() {
+                    $.ajax({
+                        url:"{{route('zoom-schedules.destroy')}}",
+                        method:"POST",
+                        data:form_data,
+                        dataType:"json",
+                        // display succees message
+                        success:function(data)
+                        {
+                            $('.data-table').DataTable().ajax.reload();
+                        }
+                    })
+                    // display success confirm message
+                    .done(function(data) {
+                        if(data.status == true)
+                        {
+                            swal("{{trans('msg.delete')}}", "{{trans('msg.delete_successfully')}}", "success");
+                        }else{
+                            swal("{{trans('msg.delete')}}", data.msg, "error");                        
+                        }
+                    });
+                }
+            );
+        }	else{
+            swal("{{trans('msg.delete_confirmation')}}", "{{trans('msg.no_records_selected')}}", "info");
+        }      
+    }
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

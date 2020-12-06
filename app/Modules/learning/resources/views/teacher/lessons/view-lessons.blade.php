@@ -8,10 +8,10 @@
       <h3 class="content-header-title">{{$title}}</h3>
     </div>  
     <div class="content-header-right col-md-6 col-12">
-      <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-        <a href="#"  onclick="deleteLesson()" class="btn btn-danger box-shadow round mr-1">{{ trans('learning::local.delete_lesson') }}</a>          
-      </div>      
-  </div>   
+        <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+          <a href="#"  onclick="deleteLesson()" class="btn btn-danger box-shadow round mr-1">{{ trans('learning::local.delete_lesson') }}</a>          
+        </div>      
+    </div>   
 </div>
 
 <div class="row">
@@ -23,7 +23,7 @@
                 <form action="" id='formData' method="post">
                   @csrf
                   <table id="dynamic-table" class="table data-table" >
-                      <thead class="bg-info white">
+                      <thead>
                           <tr>
                               <th><input type="checkbox" class="ace" /></th>
                               <th>#</th>

@@ -18,7 +18,7 @@
                 <form action="" id='formData' method="post">
                   @csrf
                   <table id="dynamic-table" class="table data-table" >
-                      <thead class="bg-info white">
+                      <thead>
                           <tr>
                               <th>#</th>
                               <th>{{trans('learning::local.topic')}}</th>                                

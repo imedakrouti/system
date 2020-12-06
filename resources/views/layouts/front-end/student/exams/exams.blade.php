@@ -16,7 +16,7 @@
           <div class="card-body card-dashboard">
               <div class="table-responsive">
                 <table id="dynamic-table" class="table data-table" >
-                    <thead class="bg-info white">
+                    <thead>
                         <tr>                              
                               <th>#</th>
                               <th>{{trans('student.exam_name')}}</th>                                                                                               
