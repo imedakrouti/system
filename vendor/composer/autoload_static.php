@@ -631,6 +631,7 @@ class ComposerStaticInitb3a377e2d181ad966f2d0660cb04b278
         'Alkoumi\\LaravelArabicTafqeet\\LaravelArabicTafqeetServiceProvider' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/LaravelArabicTafqeetServiceProvider.php',
         'Alkoumi\\LaravelArabicTafqeet\\Tafqeet' => __DIR__ . '/..' . '/alkoumi/laravel-arabic-tafqeet/src/Tafqeet.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\DeliverHomework' => __DIR__ . '/../..' . '/app/DeliverHomework.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AdminAuth' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminAuth.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',

@@ -36,13 +36,15 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent'],function(){
     Route::get('student/exam/feedback/{exam_id}','UserStudentController@examFeedback')->name('student.feedback-exam');      
     Route::put('student/exam/get/report','UserStudentController@getReport')->name('student.get-report');      
 
-
     // virtual classroom
     Route::get('student/view-schedule','UserStudentController@viewSchedule')->name('student.view-schedule');      
     Route::get('student/join-classroom','UserStudentController@joinClassroom')->name('student.join-classroom');      
     Route::get('student/live-classroom/{employee_id}/{zoom_schedule_id}','UserStudentController@liveClassroom')->name('student.live-classroom');      
 
-
+    // homework
+    Route::get('student/my-homeworks','UserStudentController@homeworks')->name('student.homeworks');      
+    Route::get('student/my-homeworks/deliver/{homework_id}','UserStudentController@deliverHomework')->name('student.deliver-homeworks');      
+    Route::post('student/my-homeworks/store','UserStudentController@storeHomework')->name('student.store-homework');      
     
 
 });

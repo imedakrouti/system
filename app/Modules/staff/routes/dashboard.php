@@ -6,5 +6,6 @@
         
         Route::get('/dashboard/next-classroom','StaffDashboardController@nextVirtualClassroom')->name('next-virtual-classroom');
         Route::get('/dashboard/announcements','StaffDashboardController@announcements')->name('announcements');
+        Route::get('/dashboard/homeworks','StaffDashboardController@homeworks')->name('dashboard-homeworks');
     
     });  

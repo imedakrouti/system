@@ -38,5 +38,9 @@ class Homework extends Model
     {
         return $this->belongsToMany('Student\Models\Settings\Classroom','classroom_homework','homework_id','classroom_id');
     }
+    public function deliverHomeworks()
+    {
+        return $this->hasMany('Learning\Models\Learning\DeliverHomework','homework_id');
+    }
 
 }

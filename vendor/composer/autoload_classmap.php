@@ -15,6 +15,7 @@ return array(
     'Alkoumi\\LaravelArabicTafqeet\\LaravelArabicTafqeetServiceProvider' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/LaravelArabicTafqeetServiceProvider.php',
     'Alkoumi\\LaravelArabicTafqeet\\Tafqeet' => $vendorDir . '/alkoumi/laravel-arabic-tafqeet/src/Tafqeet.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\DeliverHomework' => $baseDir . '/app/DeliverHomework.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Admin\\AdminAuth' => $baseDir . '/app/Http/Controllers/Admin/AdminAuth.php',
     'App\\Http\\Controllers\\Admin\\AdminController' => $baseDir . '/app/Http/Controllers/Admin/AdminController.php',

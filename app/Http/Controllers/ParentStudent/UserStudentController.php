@@ -16,6 +16,7 @@ use Learning\Models\Learning\UserExam;
 use Learning\Models\Learning\ZoomSchedule;
 use DB;
 use Carbon\Carbon;
+use Learning\Models\Learning\Homework;
 use Learning\Models\Learning\LessonUser;
 use Learning\Models\Learning\ZoomAccount;
 
@@ -640,6 +641,88 @@ class UserStudentController extends Controller
 
         return view('layouts.front-end.student.virtual-classrooms.live-classroom',
         compact('title','meeting_id'));
+    }
+
+    public function homeworks()
+    {
+        $title = trans('student.available_homeworks');
+        $data = Homework::with('lessons','classrooms','subject')
+        ->whereHas('classrooms',function($q){
+            $q->where('classroom_id',classroom_id());
+        })        
+        ->whereDoesntHave('deliverHomeworks')        
+        ->get();        
+
+        if (request()->ajax()) {
+            return $this->homeworkDataTable($data);
+        }
+
+        return view('layouts.front-end.student.homeworks.available-homework',
+        compact('title'));
+    }
+
+    private function homeworkDataTable($data)
+    {
+        return datatables($data)
+        ->addIndexColumn()
+        ->addColumn('lessons',function($data){
+            $lessons = '';
+            foreach ($data->lessons as $lesson) {                
+                $lessons .='<div class="mt-1 mr-1 badge badge-info">
+                    <i class="la la-book font-medium-3"></i>
+                    <span><a target="_blank" href="'.route('student.view-lesson',['id'=>$lesson->id,'playlist_id'=>$lesson->playlist_id]).'">'.$lesson->lesson_title.'</a></span>
+                </div>';
+            }
+            return $lessons;
+        })
+        ->addColumn('due_date',function($data){
+            return \Carbon\Carbon::parse( $data->due_date)->format('M d Y');
+        }) 
+        ->addColumn('subject',function($data){
+            $subject = session("lang") == "ar" ? $data->subject->ar_name : $data->subject->en_name;
+            return '<span class="purple">'.$subject.'</span>';
+        })   
+        ->addColumn('file_name',function($data){
+            return empty($data->file_name) ? '':'<a target="_blank"  href="'.asset('images/homework_attachments/'.$data->file_name).'"
+             class="btn btn-primary btn-sm" href="#"><i class=" la la-download"></i></a>';
+        }) 
+        ->addColumn('deliver',function($data){            
+            return $data->due_date < date_format(\Carbon\Carbon::now(),"Y-m-d") ? '':
+            '<a class="btn btn-light btn-sm" href="'.route('student.deliver-homeworks',$data->id).'"><i class=" la la-level-up"></i></a>';                            
+        })     
+                       
+        ->rawColumns(['lessons','due_date','subject','file_name','deliver'])
+        ->make(true);
+    }
+
+    public function deliverHomework($homework_id)
+    {
+        $title = trans('student.deliver_homework');
+        $homework = Homework::findOrFail($homework_id);
+        $questions = Question::where('homework_id',$homework_id)->first();
+        $path = '';
+        
+        if (empty($questions)) {
+            $path = 'layouts.front-end.student.homeworks.deliver-homework';            
+        }else{
+            $path = 'layouts.front-end.student.homeworks.questions-homework';
+        }
+        return view($path,
+        compact('title','homework'));
+
+    }
+    public function storeHomework()
+    {
+        if (request()->hasFile('file_name')) {
+            $image_path = '';                                        
+                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/homework_attachments');                                             
+        }
+        request()->user()->deliverHomework()->firstOrCreate([
+            'homework_id'   =>  request('homework_id'),
+            'user_answer'   =>  request('user_answer'),
+        ]);
+        toast(trans('student.msg_deliver'),'success');
+        return redirect()->route('student.homeworks');
     }
 
 }

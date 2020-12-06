@@ -1,0 +1,19 @@
+-- SHOW VARIABLES LIKE '%_server' ;
+SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';
+
+  set global character_set_server = utf8;
+  
+  
+  SET collation_connection = 'utf8mb4_general_ci';
+  
+  SET NAMES utf8mb4 COLLATE utf8mb4_general_ci;
+  
+  
+  
+  DB_CONNECTION=mysql
+DB_HOST=bzrcppd1oq47cakfj8wt-mysql.services.clever-cloud.com
+DB_PORT=3306
+DB_DATABASE=bzrcppd1oq47cakfj8wt
+DB_USERNAME=uahh42gqfu8bakwn
+DB_PASSWORD=nGWGAheekttX4kL8S1q5
+  

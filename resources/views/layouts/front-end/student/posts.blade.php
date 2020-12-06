@@ -21,13 +21,13 @@
 {{-- images --}}
 <div class="row">
     <div class="col-lg-12 mb-1">
-        <img src="{{asset('images/website/img_code.jpg')}}" width="100%" alt="cover">    
+        <img style="border-radius: 15px;" src="{{asset('images/website/img_code.jpg')}}" width="100%" alt="cover">    
         <h1 class="top-left"><strong>{{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}</strong></h1>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-3 col-md-12">
-        <div class="card">          
+    <div class="col-lg-3 col-md-12" >
+        <div class="card" style="border-radius: 10px;">          
         <div class="card-content">
             <div class="card-body">   
                 <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.next_exams') }}</strong></h4>
@@ -72,8 +72,8 @@
         {{-- posts --}}
         @foreach ($posts as $post)                        
                 <div class="col-md-12 col-sm-12 mb-1">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-header"  style="border-radius: 15px;">
          
                             <h4 class="card-title" id="heading-icon-dropdown">
                                 <span class="avatar avatar-online">

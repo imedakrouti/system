@@ -16,11 +16,13 @@ role="navigation" data-menu="menu-wrapper">
     </li>  
 
     {{-- homeworks --}}
-    <li class="dropdown nav-item">
-        <a class="nav-link" href="{{route('internal-regulations.teacher')}}"><i class="la la-eyedropper"></i>
-            <span>{{ trans('student.homeworks') }}</span>
-        </a>
-    </li>      
+    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-eyedropper"></i>
+        <span>{{ trans('student.homeworks') }}</span></a>
+        <ul class="dropdown-menu">            
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.homeworks')}}" data-toggle="dropdown"><i class="la la-clock-o"></i> {{ trans('student.available_homeworks') }}</a></li>                            
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.results')}}" data-toggle="dropdown"><i class="la la-check-circle"></i> {{ trans('student.results') }}</a></li>                            
+        </ul>
+    </li>
     
     {{-- exams --}}
     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-tasks"></i>

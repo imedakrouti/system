@@ -55,7 +55,7 @@ class HomeworkController extends Controller
                                 '.trans('learning::local.show_homework').'
                             </a>';                            
                         }else{
-                            $btn = '<a class="btn btn-primary" href="'.route('homeworks.show',$data->id).'">
+                            $btn = '<a class="btn btn-purple btn-sm" href="'.route('homeworks.show',$data->id).'">
                                 '.trans('learning::local.show_homework').'
                             </a>';                            
                         }
@@ -142,7 +142,7 @@ class HomeworkController extends Controller
             ]);
             foreach (request('classroom_id') as $classroom_id) {
                 // add to homework_classroom table
-                DB::table('classroom_homework')->where('classroom_id',$classroom_id)->delete();
+                // DB::table('classroom_homework')->where('classroom_id',$classroom_id)->delete();
                 $this->homework->classrooms()->attach($classroom_id);  
                 // add post
                 if (request()->has('instruction')) {
@@ -381,6 +381,11 @@ class HomeworkController extends Controller
     public function solveHomeworkPage($homework_id)
     {
         dd($homework_id);
+    }
+
+    public function edit($id)
+    {
+        dd($id);
     }
 
 }

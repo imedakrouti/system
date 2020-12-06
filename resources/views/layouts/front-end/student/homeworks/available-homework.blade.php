@@ -19,11 +19,12 @@
                     <thead>
                         <tr>                              
                               <th>#</th>
-                              <th>{{trans('student.exam_name')}}</th>                                                                                               
-                              <th>{{trans('student.date')}}</th>                                
+                              <th width="220">{{trans('student.title')}}</th>                                                                                               
+                              <th>{{trans('student.subject')}}</th>                                
+                              <th>{{trans('student.lessons')}}</th>                                
                               <th>{{trans('student.expire_date')}}</th>                                                                                               
-                              <th>{{trans('student.subject')}}</th>                                                              
-                              <th>{{trans('student.lessons')}}</th>                                                                                                                             
+                              <th>{{trans('student.attachments')}}</th>                                                                                              
+                              <th>{{trans('student.deliver')}}</th>                                                                                              
                         </tr>
                     </thead>
                     <tbody>
@@ -49,15 +50,15 @@
             "pageLength": 10, // set page records            
             "bLengthChange" : true,
             dom: 'blfrtip',
-            
-          ajax: "{{ route('student.upcoming-exams') }}",
+          ajax: "{{ route('student.homeworks') }}",
           columns: [                
                 {data: 'DT_RowIndex',   name: 'DT_RowIndex', orderable: false, searchable: false},
-                {data: 'exam_name',     name: 'exam_name'},
-                {data: 'start',         name: 'start'},
-                {data: 'end',           name: 'end'},
+                {data: 'title',         name: 'title'},
                 {data: 'subject',       name: 'subject'},                
-                {data: 'lessons',       name: 'lessons'},                                                          
+                {data: 'lessons',       name: 'lessons'},                
+                {data: 'due_date',      name: 'due_date'},
+                {data: 'file_name',     name: 'file_name'},
+                {data: 'deliver',       name: 'deliver'},                                                          
           ],
           @include('layouts.backEnd.includes.datatables._datatableLang')
       });

@@ -145,47 +145,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-
                             <th colspan="2">{{ trans('staff::local.today_deliver_homework') }}</th>
                         </tr>
                     </thead>
-                    <tbody>                    
-                        <tr>
-                            <td width="60"> <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                                src="{{asset('images/studentsImages/37.jpeg')}}" />
-                            </td>    
-                            <td>Amr Ali <br> 3-12-2020</td>
-                        </tr> 
-                        <tr>
-                            <td width="60"> <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                                src="{{asset('images/studentsImages/37.jpeg')}}" />
-                            </td>    
-                            <td>Amr Ali <br> 3-12-2020</td>
-                        </tr>  
-                        <tr>
-                            <td width="60"> <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                                src="{{asset('images/studentsImages/37.jpeg')}}" />
-                            </td>    
-                            <td>Amr Ali <br> 3-12-2020</td>
-                        </tr> 
-                        <tr>
-                            <td width="60"> <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                                src="{{asset('images/studentsImages/37.jpeg')}}" />
-                            </td>    
-                            <td>Amr Ali <br> 3-12-2020</td>
-                        </tr>  
-                        <tr>
-                            <td width="60"> <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                                src="{{asset('images/studentsImages/37.jpeg')}}" />
-                            </td>    
-                            <td>Amr Ali <br> 3-12-2020</td>
-                        </tr> 
-                        <tr>
-                            <td width="60"> <img class=" editable img-responsive student-image" alt="" id="avatar2" 
-                                src="{{asset('images/studentsImages/37.jpeg')}}" />
-                            </td>    
-                            <td>Amr Ali <br> 3-12-2020</td>
-                        </tr>                                           
+                    <tbody id="homeworks">                    
+                                          
                     </tbody>
                 </table>                
               </div>
@@ -201,6 +165,7 @@
       
         nextVirtualClassroom();
         announcements();
+        homeworks();
 
         function getTimeRemaining(endtime) {
             const total = Date.parse(endtime) - Date.parse(new Date());
@@ -300,9 +265,23 @@
             });  
         }
 
+        function homeworks()
+        {
+          $.ajax({
+                type:'get',
+                url:'{{route("dashboard-homeworks")}}',
+                dataType:'json',
+                success:function(data){
+                  $('#homeworks').html(data);   
+                             
+                }
+            });  
+        }
+
         setInterval(function()
         {
           announcements();
+          homeworks();
           schedule()  
         },60000); //1000 second
                 

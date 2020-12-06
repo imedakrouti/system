@@ -47,7 +47,8 @@
             "ordering": false,
             "info":     true,
             "pageLength": 10, // set page records            
-            "bLengthChange" : false,
+            "bLengthChange" : true,
+            dom: 'blfrtip',
             
           ajax: "{{ route('student.exams') }}",
           columns: [                
