@@ -78,7 +78,8 @@
     <div class="col-lg-7 col-md-12">
       <div class="card">
         <div class="card-content collapse show">
-          <div class="card-body card-dashboard">            
+          <div class="card-body card-dashboard"> 
+            <div class="table-responsive">
                 <h4><strong>{{ trans('staff::local.today_virtual_classes') }}</strong></h4>              
                 <table class="table">
                     <thead>
@@ -91,23 +92,26 @@
                     <tbody id="schedule">   
                                     
                     </tbody>
-                </table>                
+                </table>                              
+            </div>           
           </div>
         </div>
       </div>
       <div class="card">
         <div class="card-content collapse show">
-          <div class="card-body card-dashboard">                          
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{{ trans('staff::local.admin_message') }}</th>
-                    </tr>
-                </thead>
-                <tbody id="announcements">                    
-                    
-                </tbody>
-            </table>                
+          <div class="card-body card-dashboard">     
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ trans('staff::local.admin_message') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="announcements">                    
+                        
+                    </tbody>
+                </table>                              
+            </div>                     
           </div>
         </div>
       </div>
@@ -141,17 +145,19 @@
         <div class="card">
             <div class="card-content collapse show">
               <div class="card-body card-dashboard">
-                {{-- get last 10 students deliverd homework --}}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th colspan="2">{{ trans('staff::local.today_deliver_homework') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody id="homeworks">                    
-                                          
-                    </tbody>
-                </table>                
+                <div class="table-responsive">
+                      {{-- get last 10 students deliverd homework --}}
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th colspan="2">{{ trans('staff::local.today_deliver_homework') }}</th>
+                              </tr>
+                          </thead>
+                          <tbody id="homeworks">                    
+                                                
+                          </tbody>
+                      </table>                
+                </div>
               </div>
             </div>
         </div>
@@ -162,7 +168,7 @@
 @endsection
 @section('script')
     <script>
-      
+        schedule()
         nextVirtualClassroom();
         announcements();
         homeworks();

@@ -4,11 +4,11 @@ namespace Learning\Http\Controllers\Learning;
 use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
 use Learning\Models\Learning\Homework;
-use DB;
+use Learning\Models\Learning\DeliverHomework;
 use Learning\Models\Learning\Lesson;
 use Learning\Models\Learning\Question;
 use Student\Models\Settings\Classroom;
-
+use DB;
 class HomeworkController extends Controller
 {
     private $file_name;
@@ -27,7 +27,7 @@ class HomeworkController extends Controller
 
         $lessons = Lesson::with('subject')->where('admin_id',authInfo()->id)->orderBy('lesson_title')->get(); 
 
-        $data = Homework::where('admin_id',authInfo()->id)->orderBy('created_at','desc')->get();
+        $data = Homework::with('deliverHomeworks')->where('admin_id',authInfo()->id)->orderBy('created_at','desc')->get();
         $title = trans('learning::local.class_work');
         if (request()->ajax()) {
             return $this->dataTable($data);
@@ -38,7 +38,10 @@ class HomeworkController extends Controller
     private function dataTable($data)
     {
         return datatables($data)
-                    ->addIndexColumn()        
+                    ->addIndexColumn()  
+                    ->addColumn('due_date',function($data){
+                        return \Carbon\Carbon::parse( $data->due_date)->format('M d Y, D');
+                    })      
                     ->addColumn('subject',function($data){
                         return session('lang') == 'ar' ? $data->subject->ar_name : $data->subject->en_name;
                     })
@@ -68,7 +71,15 @@ class HomeworkController extends Controller
                                     </label>';
                             return $btnCheck;
                     })
-                    ->rawColumns(['action','check','subject','show_homework'])
+                    ->addColumn('applicants',function($data){
+                        $applicants = '<div class="badge badge-pill badge-danger">'.$data->deliverHomeworks->count().'</div>';
+                        $btn = '<a class="btn btn-danger white btn-sm" href="'.route('teacher.homework-applicants',$data->id).'">
+                                 '.trans('learning::local.applicants').' '.$applicants .'
+                            </a>';
+                        return $btn;
+        
+                    })                    
+                    ->rawColumns(['action','check','subject','show_homework','due_date','applicants'])
                     ->make(true);
     }
     public function questionPage($homework_id)
@@ -137,26 +148,17 @@ class HomeworkController extends Controller
                 $file_path = '';                                        
                 $this->file_name = uploadFileOrImage($file_path,request('file_name'),'images/homework_attachments');                                             
             }
+
            $this->homework = request()->user()->homeworks()->firstOrCreate(request()->only($this->attributes()) + [
             'file_name' => $this->file_name,
             ]);
             foreach (request('classroom_id') as $classroom_id) {
                 // add to homework_classroom table
-                // DB::table('classroom_homework')->where('classroom_id',$classroom_id)->delete();
+                DB::table('classroom_homework')->where('classroom_id',$classroom_id)->delete();
                 $this->homework->classrooms()->attach($classroom_id);  
+                
                 // add post
-                if (request()->has('instruction')) {
-                    $url = route('homework.solve-question',$this->homework->id);
-                    request()->user()->posts()->create(
-                        [                        
-                            'post_type'     => 'assignment',                        
-                            'post_text'     => $this->homework->instruction,                        
-                            'description'   => $this->homework->title,                        
-                            'url'           => $url,                        
-                            'youtube_url'   => null,                        
-                            'classroom_id'  => $classroom_id,
-                        ]);                    
-                }
+                $this->addPost($classroom_id);
             }
             DB::table('lesson_homework')->where('homework_id',$this->homework->id)->delete();
             foreach (request('lessons') as $lesson_id) {
@@ -172,6 +174,22 @@ class HomeworkController extends Controller
 
         return redirect()->route('homework-question',$this->homework->id);
     }
+
+    private function addPost($classroom_id)
+    {
+        if (request()->has('instruction')) {                    
+            request()->user()->posts()->create(
+                [                        
+                    'post_type'     => 'assignment',                        
+                    'post_text'     => $this->homework->instruction,                        
+                    'description'   => $this->homework->title,                        
+                    'url'           => $this->homework->id,                        
+                    'youtube_url'   => null,                        
+                    'classroom_id'  => $classroom_id,
+                ]);                    
+        }
+    }
+
     private function questionAttributes()
     {
         return [
@@ -378,14 +396,204 @@ class HomeworkController extends Controller
         return response(['status'=>true]);
     }
 
-    public function solveHomeworkPage($homework_id)
+    public function edit($id)
+    { 
+        $arr_classes = [];
+        $arr_lessons = [];
+        
+        $title = trans('learning::local.edit_homework');
+        $lessons = Lesson::with('subject')->where('admin_id',authInfo()->id)->orderBy('lesson_title')->get();
+        $homework = Homework::findOrFail($id);
+
+        foreach (employeeClassrooms() as $class) {
+            $arr_classes []= $class->id;            
+        }    
+
+        // get all lessons related to this homework
+        $homework_lessons = DB::table('lesson_homework')->where('homework_id',$id)->get();
+        foreach ($homework_lessons as $lesson) {
+            $arr_lessons []= $lesson->lesson_id;            
+        }    
+        return view('learning::teacher.homework.edit',
+        compact('title','homework','lessons','arr_classes','arr_lessons'));
+    }
+    public function update(Request $request, $id)
     {
-        dd($homework_id);
+        DB::transaction(function() use ($id, $request){
+            $homework = Homework::findOrFail($id);
+            if ($request->hasFile('file_name')) {
+                $file_path = '';                                        
+                $this->file_name = uploadFileOrImage($file_path,request('file_name'),'images/homework_attachments');                                             
+            }            
+            $homework->update($request->only($this->attributes())+ [
+                'file_name' => $this->file_name,
+                ]);
+            $this->homework = $homework;
+    
+            foreach (request('classroom_id') as $classroom_id) {
+                // add to homework_classroom table
+                DB::table('classroom_homework')->where('classroom_id',$classroom_id)->delete();
+                $homework->classrooms()->attach($classroom_id);  
+
+                // add post
+                $this->addPost($classroom_id);
+            }            
+            DB::table('lesson_homework')->where('homework_id',$homework->id)->delete();
+            foreach (request('lessons') as $lesson_id) {
+                $homework->lessons()->attach($lesson_id);                        
+            }
+
+        });
+
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('teacher.homeworks');
     }
 
-    public function edit($id)
+    public function homeworkApplicants($homework_id)
     {
-        dd($id);
+        $title = trans('learning::local.applicants');
+        $homework = Homework::findOrFail($homework_id);
+        $data = Homework::with('deliverHomeworks')->where('id',$homework_id)
+        ->whereHas('deliverHomeworks')
+        ->get();    
+                
+        if (request()->ajax()) {            
+            return $this->applicantsDataTable($data);
+        }
+        return view('learning::teacher.homework.applicants',
+        compact('title','homework'));
+    }
+    
+    private function applicantsDataTable($data)
+    {
+        return datatables($data)
+            ->addIndexColumn()
+            ->addColumn('check', function($data){
+                $user_id = '';
+                foreach ($data->deliverHomeworks as $deliver_homework) {
+                    $user_id = $deliver_homework->user_id;
+                }
+                $btnCheck = '<label class="pos-rel">
+                            <input type="hidden" name="user_id" value="'.$user_id.'">
+                            <input type="checkbox" class="ace" name="homework_id" value="'.$data->id.'" />
+                            <span class="lbl"></span>
+                        </label>';
+                return $btnCheck;
+            })
+            ->addColumn('student_name',function($data){
+                $user = '';
+                foreach ($data->deliverHomeworks as $deliver_homework) {             
+                    $user =  $this->getFullStudentName($deliver_homework->user->studentUser);
+                }
+                return $user;
+            })
+            ->addColumn('student_image',function($data){
+                $user_image = '';
+                foreach ($data->deliverHomeworks as $deliver_homework) {
+                    $user_image =  $this->studentImage($deliver_homework->user->studentUser);
+                }
+                return $user_image;
+            })
+            ->addColumn('updated_at', function($data){
+                foreach ($data->deliverHomeworks as $deliver_homework) {
+                    return '<span class="blue">'. \Carbon\Carbon::parse( $deliver_homework->updated_at)->format('M d Y, D h:i a').'</span>';                
+                }   
+            })  
+            ->addColumn('mark', function($data){
+                return empty($data->correct) ? '<span class="red"><strong>'.trans('learning::local.need_correct').'</strong></span>':$data->deliverHomeworks->sum('mark').'/'.$data->total_mark;
+            }) 
+            ->addColumn('evaluation',function($data){
+                return empty($data->correct)?'<span class="red"><strong>'.trans('learning::local.need_correct').'</strong></span>':evaluation($data->total_mark,$data->deliverHomeworks->sum('mark'));
+            })
+            ->addColumn('answers',function($data){
+                $answers =  '<a class="btn btn-success btn-sm" href="'.route('homework.show-answers',$data->id).'">
+                                '.trans('student.answers').'
+                            </a>';                
+                $correct =  '<a class="btn btn-danger btn-sm" href="'.route('homework.show-answers',$data->id).'">
+                    '.trans('student.correct').'
+                </a>';                    
+                return $data->correct == '' &&  $data->deliverHomeworks->sum('mark') == 0 ? $correct : $answers;
+                })      
+            ->rawColumns(['check','student_name','updated_at','mark','evaluation','answers','student_image'])
+            ->make(true);
+    }
+
+    private function getFullStudentName($data)
+    {          
+        $classroom = Classroom::findOrFail(classroom_id($data));       
+        if (session('lang') == 'ar') {
+            return $data->ar_student_name.' '. $data->father->ar_st_name .' '. $data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name 
+            .' <span class="blue"><strong></br>'. $classroom->ar_name_classroom .'</strong></span>';    
+        }else{
+            return $data->en_student_name.' '. $data->father->en_st_name .' '. $data->father->en_nd_name.' '.$data->father->en_rd_name.' '.$data->father->en_th_name 
+            .' <span class="blue"><strong></br>'. $classroom->en_name_classroom .'</strong></span>';    
+        }
+    }
+    private function studentImage($data)
+    {
+        $student_id = isset($data->id) ? $data->id : $data->student_id; 
+        $path_image = $data->gender == trans('student::local.male') ? 'images/studentsImages/37.jpeg' : 'images/studentsImages/39.png';       
+        return !empty($data->student_image)?
+            '<a href="'.route('students.show',$student_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset('images/studentsImages/'.$data->student_image).'" />
+            </a>':
+            '<a href="'.route('students.show',$student_id).'">
+                <img class=" editable img-responsive student-image" alt="" id="avatar2" 
+                src="'.asset($path_image).'" />
+            </a>';
+    }
+
+    public function destroyAnswers()
+    {     
+        if (request()->ajax()) {
+            DB::transaction(function(){
+                $where = [
+                    ['homework_id',request('homework_id')],
+                    ['user_id',request('user_id')]
+                ];                
+                $user_answer = DeliverHomework::where($where)->first();  
+
+                if ($user_answer->file_name != '') {
+                    $file_path = public_path()."/images/homework_attachments/".$user_answer->file_name;                                                             
+                    removeFileOrImage($file_path); // remove file from directory                
+                }
+                $user_answer->delete();              
+                
+            });            
+        }  
+        return response(['status'=>true]); 
+    }
+
+    public function showAnswers($homework_id)
+    {
+        $homework = Homework::with('deliverHomeworks','questions')->where('id',$homework_id)->first();        
+        
+        $questions = Question::with('answers','matchings','userAnswers')
+        ->where('homework_id',$homework_id)->orderBy('question_type')
+        ->get(); 
+        
+        $title = trans('learning::local.applicants');
+        
+        foreach ($homework->deliverHomeworks as $deliver_homework) {
+            $student_name =  $this->getFullStudentName($deliver_homework->user->studentUser);
+        }
+
+        $n = 1;
+        return view('learning::teacher.homework.show-answers',
+        compact('title','homework','questions','n','student_name'));
+    }
+
+    public function setHomeworkMark()
+    {
+        DB::transaction(function(){
+            $deliver_homework = DeliverHomework::where('homework_id',request('homework_id'))->first();
+            $deliver_homework->update(['mark'=>request('mark')]);
+
+            Homework::where('id',request('homework_id'))->update(['correct'=>'corrected']);
+        });
+        toast(trans('learning::local.msg_set_homework_mark'),'success');
+        return redirect()->route('homework.show-answers',request('homework_id'));
     }
 
 }

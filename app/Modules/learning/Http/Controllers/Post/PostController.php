@@ -40,7 +40,7 @@ class PostController extends Controller
         $posts = Post::where($where)->orderBy('created_at','desc')->limit(30)->get();
         $title = trans('learning::local.posts');
         return view('learning::teacher.posts.index',
-        compact('title','classroom','posts','classrooms','exams','lessons'));
+        compact('title','classroom','posts','exams','lessons'));
     }
 
     private function attributes()

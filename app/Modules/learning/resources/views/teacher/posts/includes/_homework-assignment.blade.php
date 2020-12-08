@@ -25,7 +25,7 @@
                     <div class="col-lg-12 col-md-12">
                       <div class="form-group row">
                           <label>{{ trans('learning::local.instruction') }}</label>                                                        
-                          <textarea class="form-control" name="instruction" cols="30" rows="10" ></textarea>                          
+                          <textarea class="form-control" name="instruction" cols="30" rows="10" required></textarea>                          
                           <span class="red">{{ trans('staff::local.required') }}</span>                                                      
                       </div>
                     </div>
@@ -40,9 +40,9 @@
                   <div class="col-lg-4">
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group row">
-                          <label>{{ trans('learning::local.classrooms') }}</label>
+                          <label>{{ trans('learning::local.share_with_class') }}</label>
                           <select name="classroom_id[]" class="form-control select2" id="filter_room_id" multiple required>
-                                @foreach ($classrooms as $class)
+                                @foreach (employeeClassrooms() as $class)
                                     <option value="{{$class->id}}">
                                     {{session('lang') == 'ar'? $class->ar_name_classroom : $class->en_name_classroom}}
                                     </option>
@@ -90,7 +90,7 @@
                         <div class="form-group row">
                             <label>{{ trans('learning::local.total_mark') }}</label>
                             <input type="number" min="0"  name="total_mark" class="form-control" required>
-                            <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                            <span class="red">{{ trans('learning::local.required') }}</span>                                                      
                         </div>
                     </div>
                   </div>

@@ -14,7 +14,8 @@ class Homework extends Model
         'file_name',
         'subject_id',
         'admin_id',                
-        'total_mark',                        
+        'total_mark', 
+        'correct'                       
     ];
     public function __construct(Array $attributes = [])
     {
@@ -41,6 +42,10 @@ class Homework extends Model
     public function deliverHomeworks()
     {
         return $this->hasMany('Learning\Models\Learning\DeliverHomework','homework_id');
+    }
+    public function questions()
+    {
+        return $this->hasMany('Learning\Models\Learning\Question','exam_id');
     }
 
 }

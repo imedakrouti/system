@@ -573,7 +573,7 @@ return [
     'employee_not_in_sheet'             => 'The employee is not registered in the payroll',
     'no_sector_found'                   => 'The sector and section must be specified',
     'by_department'                     => 'According to the department',
-    'my_account'                        => 'Account',
+    'my_account'                        => 'HR',
     'my_vacation'                       => 'Vacations',
     'my_permssions'                     => 'Permissions',
     'my_loans'                          => 'Loans',

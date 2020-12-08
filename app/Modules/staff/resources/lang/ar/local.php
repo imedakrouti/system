@@ -574,7 +574,7 @@ return [
     'employee_not_in_sheet'             => 'الموظف غير مسجل في كشف المرتبات',
     'no_sector_found'                   => 'يجب تحديد القطاع والقسم',
     'by_department'                     => 'طبقا للقسم',
-    'my_account'                        => 'حسابي',
+    'my_account'                        => 'شئون العاملين',
     'my_vacation'                       => 'الاجازات',
     'my_permssions'                     => 'الاذونات',
     'my_loans'                          => 'السلف',

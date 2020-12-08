@@ -63,7 +63,7 @@ return [
     'attachments'                   => 'Attachments',
     'deliver'                       => 'Deliver',    
     'deliver_homework'              => 'Deliver homework',
-    ''      => '',
+    'msg_deliver'                   => 'Your answers have been sent successfully',
     ''      => '',
     ''      => '',
     ''      => '',

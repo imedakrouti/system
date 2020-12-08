@@ -17,7 +17,14 @@
         </div>
       </div>          
     </div>  
-
+    <div class="content-header-right col-md-6 col-12 mb-1">
+      <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+        <a href="#"  onclick="deleteAnswer()" class="btn btn-danger box-shadow round mr-1"><i class="la la-trash"></i> {{ trans('learning::local.delete_answers') }}</a>          
+      </div>   
+      <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+        <a href="#"  onclick="printReport()" class="btn btn-info box-shadow round mr-1"><i class="la la-print"></i> {{ trans('learning::local.print_report') }}</a>          
+      </div>    
+  </div>  
 </div>
 
 <div class="row">
@@ -28,6 +35,15 @@
             <h4 class="card-title mb-1"><strong>{{$exam->exam_name}}</strong></h4>
             <p>{{$exam->description}}</p>
           </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-content collapse show">
         <div class="card-body card-dashboard">
             <div class="table-responsive">
                 <form action="" id='formData' method="post">
@@ -61,57 +77,15 @@
 <script>
     $(function () {
         var myTable = $('#dynamic-table').DataTable({
-        @include('layouts.backEnd.includes.datatables._datatableConfig')            
-            buttons: [
-                // delete btn                
-                {
-                  "text": "{{trans('admin.delete')}}",
-                  "className": "btn btn-danger buttons-print btn-danger mr-1",
-                  action: function ( e, dt, node, config ) {
-                      var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
-                      if (itemChecked > 0) {
-                          var form_data = $('#formData').serialize();
-                          swal({
-                                  title: "{{trans('msg.delete_confirmation')}}",
-                                  text: "{!!trans('learning::local.msg_ask_del_student_mark')!!}",
-                                  type: "warning",
-                                  showCancelButton: true,
-                                  confirmButtonColor: "#D15B47",
-                                  confirmButtonText: "{{trans('msg.yes')}}",
-                                  cancelButtonText: "{{trans('msg.no')}}",
-                                  closeOnConfirm: false,
-                              },
-                              function() {
-                                  $.ajax({
-                                      url:"{{route('teacher.destroy-answers')}}",
-                                      method:"POST",
-                                      data:form_data,
-                                      dataType:"json",
-                                      // display succees message
-                                      success:function(data)
-                                      {
-                                          $('.data-table').DataTable().ajax.reload();
-                                      }
-                                  })
-                                  // display success confirm message
-                                  .done(function(data) {
-                                      if(data.status == true)
-                                      {
-                                          swal("{{trans('msg.delete')}}", "{{trans('msg.delete_successfully')}}", "success");
-                                      }else{
-                                          swal("{{trans('msg.delete')}}", data.msg, "error");                        
-                                      }
-                                  });
-                              }
-                          );
-                      }	else{
-                          swal("{{trans('msg.delete_confirmation')}}", "{{trans('msg.no_records_selected')}}", "info");
-                      }
-                  }
-              },
-               // default btns
-              @include('layouts.backEnd.includes.datatables._datatableBtn')
-            ],
+          processing: true,
+          serverSide: false,
+          "paging": true,
+          "ordering": true,
+          "info":     true,
+          "pageLength": 10, // set page records
+          "lengthMenu": [10,20, 50, 100, 200,500],
+          "bLengthChange" : true,  
+          dom: 'blfrtip', 
           ajax: "{{ route('teacher.applicants',$exam_id) }}",
           columns: [
                 {data: 'check',         name: 'check', orderable: false, searchable: false},
@@ -129,6 +103,48 @@
       @include('layouts.backEnd.includes.datatables._multiSelect')
     });  
 
+    function deleteAnswer()
+    {
+        var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
+        if (itemChecked > 0) {
+            var form_data = $('#formData').serialize();
+            swal({
+                    title: "{{trans('msg.delete_confirmation')}}",
+                    text: "{!!trans('learning::local.msg_ask_del_student_mark')!!}",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#D15B47",
+                    confirmButtonText: "{{trans('msg.yes')}}",
+                    cancelButtonText: "{{trans('msg.no')}}",
+                    closeOnConfirm: false,
+                },
+                function() {
+                    $.ajax({
+                        url:"{{route('teacher.destroy-answers')}}",
+                        method:"POST",
+                        data:form_data,
+                        dataType:"json",
+                        // display succees message
+                        success:function(data)
+                        {
+                            $('.data-table').DataTable().ajax.reload();
+                        }
+                    })
+                    // display success confirm message
+                    .done(function(data) {
+                        if(data.status == true)
+                        {
+                            swal("{{trans('msg.delete')}}", "{{trans('msg.delete_successfully')}}", "success");
+                        }else{
+                            swal("{{trans('msg.delete')}}", data.msg, "error");                        
+                        }
+                    });
+                }
+            );
+        }	else{
+            swal("{{trans('msg.delete_confirmation')}}", "{{trans('msg.no_records_selected')}}", "info");
+        }  
+    }
 </script>
 @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

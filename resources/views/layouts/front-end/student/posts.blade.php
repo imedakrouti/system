@@ -132,7 +132,7 @@
                                     <h6>
                                         <div class="mb-1">
                                             <span class="purple">{{ trans('learning::local.solve_homework_link') }}</span>                                                                                    
-                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
+                                            <a target="_blank" href="{{route('student.deliver-homeworks',$post->url)}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
                                         </div>
                                     </h6>                                        
                                     @endempty

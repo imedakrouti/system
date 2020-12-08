@@ -16,7 +16,7 @@ class CreateTableUserAnswers extends Migration
         Schema::connection('mysql')->create('user_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('user_answer')->nullable();
-            $table->integer('mark')->default(0);
+            $table->decimal('mark',4,1)->default(0);
             $table->unsignedBigInteger('exam_id');
             $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade')->onUpdate('cascade');                        
             $table->unsignedBigInteger('question_id');

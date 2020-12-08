@@ -10,10 +10,10 @@
     </div>  
     <div class="content-header-right col-md-6 col-12 mb-1">
         <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-          <a href="#"  onclick="deleteExam()" class="btn btn-danger box-shadow round mr-1">{{ trans('learning::local.delete_exam') }}</a>          
+          <a href="#"  onclick="deleteExam()" class="btn btn-danger box-shadow round mr-1"><i class="la la-trash"></i> {{ trans('learning::local.delete_exam') }}</a>          
         </div>      
         <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-          <a href="{{route('teacher.new-exam')}}"  class="btn btn-success box-shadow round mr-1">{{ trans('learning::local.new_exam') }}</a>          
+          <a href="{{route('teacher.new-exam')}}"  class="btn btn-success box-shadow round mr-1"><i class="la la-plus"></i> {{ trans('learning::local.new_exam') }}</a>          
         </div>
     </div>  
 </div>

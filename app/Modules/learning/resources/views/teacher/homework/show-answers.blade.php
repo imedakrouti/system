@@ -2,7 +2,7 @@
 @section('styles')
     <style>
         .text-mark{
-            width: 7%;
+            width: 10%;
             text-align: center;
             padding: 0.75rem 1rem;
             font-size: 1rem;
@@ -23,9 +23,9 @@
       <div class="row breadcrumbs-top">
         <div class="breadcrumb-wrapper col-12">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('teacher.view-exams')}}">{{ trans('learning::local.exams') }}</a>
+            <li class="breadcrumb-item"><a href="{{route('teacher.homeworks')}}">{{ trans('learning::local.class_work') }}</a>
             </li>         
-            <li class="breadcrumb-item"><a href="{{route('teacher.applicants',$exam->id)}}">{{ trans('learning::local.applicants') }}</a>
+            <li class="breadcrumb-item"><a href="{{route('teacher.homework-applicants',$homework->id)}}">{{ trans('learning::local.applicants') }}</a>
             </li>     
             <li class="breadcrumb-item active">{{$title}}
             </li>
@@ -41,85 +41,104 @@
             <div class="card-content collapse show">
                 <div class="card-body">
                     <h2><strong>{!!$student_name!!}</strong> </h2>
+                    <div class="table-responsive">
+                        <table class="table mt-2">
+                            <thead>                            
+                                <th>{{ trans('learning::local.deliver_date') }}</th>
+                                <th>{{ trans('student.total_mark') }}</th>
+                                <th>{{ trans('student.mark') }}</th>
+                                <th>{{ trans('student.evaluation') }}</th>                            
+                            </thead>
+                            <tbody>
+                                <tr>                                
+                                    <td>
+                                        @foreach ($homework->deliverHomeworks as $deliver_homework)                            
+                                            {{\Carbon\Carbon::parse( $deliver_homework->updated_at)->format('M d Y, D h:i a ')}}
+                                        @endforeach                                
+                                    </td>
+                                    <td>{{$homework->total_mark}}</td>
+                                    <td>{{$homework->deliverHomeworks->sum('mark')}}</td>
+                                    <td><strong>{{evaluation($homework->total_mark, $homework->deliverHomeworks->sum('mark'))}}</strong></td>                                
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                    <table class="table mt-2">
-                        <thead>
-                            <th>{{ trans('student.exam_name') }}</th>
-                            <th>{{ trans('student.exam_date') }}</th>
-                            <th>{{ trans('student.total_mark') }}</th>
-                            <th>{{ trans('student.mark') }}</th>
-                            <th>{{ trans('student.evaluation') }}</th>
-                            <th>{{ trans('student.right_answer') }}</th>
-                            <th>{{ trans('student.wrong_answer') }}</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$exam->exam_name}}</td>
-                                <td>
-                                    @foreach ($exam->userExams as $user_exam)                            
-                                        {{\Carbon\Carbon::parse( $user_exam->created_at)->format('M d Y, D h:i a ')}}
-                                    @endforeach                                
-                                </td>
-                                <td>{{$exam->total_mark}}</td>
-                                <td>{{$exam->userAnswers->sum('mark')}}</td>
-                                <td><strong>{{evaluation($exam->total_mark, $exam->userAnswers->sum('mark'))}}</strong></td>
-                                <td>
-                                    @php
-                                        $right_answers = 0;
-                                        foreach ($exam->userAnswers as $answer) {
-                                            if ($answer->mark != 0) {
-                                                $right_answers ++;
-                                            }
-                                        }
-                                    @endphp 
-                                    {{$right_answers}}                                
-                                </td>
-                                <td>
-                                    @php
-                                        $wrong_answers = 0;
-                                        foreach ($exam->userAnswers as $answer) {
-                                            if ($answer->mark == 0) {
-                                                $wrong_answers ++;
-                                            }
-                                        }
-                                    @endphp 
-                                    {{$wrong_answers}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <h4 class="mt-2 mb-1"><strong>{{ trans('student.equivalency') }}</strong></h4>
-                    <table class="table table-border center">
-                        <thead>
-                        <tr>
-                            <th>{{ trans('student.evaluation') }}</th>
-                            <th>A+</th>
-                            <th>A</th>
-                            <th>B</th>
-                            <th>C</th>
-                            <th>D</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{{ trans('student.percentage') }}</td>
-                            <td>95% ~ 100%</td>
-                            <td>85% ~ 94%</td>
-                            <td>75% ~ 84%</td>
-                            <td>65% ~ 74%</td>
-                            <td>0 ~ 64%</td>
-                        </tr>
-                        </tbody>
-                    </table> 
-                    <div class="form-group">
-                        <a href="#" onclick="addReport()" class="btn btn-primary ">{{ trans('learning::local.add_report') }}</a>
-                    </div>                   
+
+                    <div class="table-responsive">
+                        <table class="table table-border center">
+                            <thead>
+                            <tr>
+                                <th>{{ trans('student.evaluation') }}</th>
+                                <th>A+</th>
+                                <th>A</th>
+                                <th>B</th>
+                                <th>C</th>
+                                <th>D</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{{ trans('student.percentage') }}</td>
+                                <td>95% ~ 100%</td>
+                                <td>85% ~ 94%</td>
+                                <td>75% ~ 84%</td>
+                                <td>65% ~ 74%</td>
+                                <td>0 ~ 64%</td>
+                            </tr>
+                            </tbody>
+                        </table>                  
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{{-- assignment --}}
+@empty($homework->questions->count())
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="red"><strong>{{$homework->title}}</strong></h3>
+                    <p class="card-text" style="white-space: pre-line">{!!$homework->instruction!!}</p>
+                    <form action="{{route('set-homework-mark')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="homework_id" value="{{$homework->id}}">
+                        <span class="red">{{ trans('learning::local.mark') }} {{$homework->mark}}</span> </strong>                        
+                        @foreach ($homework->deliverHomeworks as $user_answer)
+                            <div class="form-group">
+                                <input type="number"  min="0"  step="0.5" max="{{$homework->total_mark}}" class="text-mark" 
+                                name="mark" value="{{$user_answer->mark}}">                                                                                    
+                                @if ($user_answer->file_name != '')
+                                <div class="pull-right">                                  
+                                    <a target="_blank" href="{{asset('images/homework_attachments/'.$user_answer->file_name)}}" class="btn btn-info"><i class="la la-download"></i> {{ trans('learning::local.attachments') }}</a>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="form-group"> 
+                                <textarea name="user_answer" class="form-control" cols="30" rows="10">{{$user_answer->user_answer}}</textarea>                                
+                            </div>                        
+                        @endforeach
+                        
+                        <div class="form-actions left">
+                            <button type="submit" class="btn btn-success">
+                                <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
+                              </button>
+                            <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('teacher.homework-applicants',$homework->id)}}';">
+                            <i class="ft-x"></i> {{ trans('admin.cancel') }}
+                          </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endempty
 
+{{-- questions --}}
+@if (count($homework->questions) > 0)
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -297,83 +316,5 @@
       </div>
     </div>
 </div>
-@include('learning::teacher.exams.includes._show-answer')                                    
-@include('learning::teacher.exams.includes._add-report')                                    
-@endsection
-@section('script')
-    <script>
-        function showAnswer(question_id)
-        {                   
-            $.ajax({
-                url:'{{route("teacher.get-answer")}}',
-                type:"post",
-                data: {
-                    _method		    : 'PUT',                
-                    question_id 	: question_id,
-                    _token		    : '{{ csrf_token() }}'
-                    },
-                dataType: 'json',
-                success: function(data){
-                    $('.answer').val(data);			
-                    $('#showAnswerModal').modal({backdrop: 'static', keyboard: false})
-                    $('#showAnswerModal').modal('show');
-                }
-            });          
-        }
-
-        function addReport()
-        {
-            $.ajax({
-                url:'{{route("teacher.get-report")}}',
-                type:"post",
-                data: {
-                    _method		    : 'PUT',                
-                    exam_id 	    : "{{$exam->id}}",
-                    _token		    : '{{ csrf_token() }}'
-                    },
-                dataType: 'json',
-                success: function(data){
-                    $('#report').val(data);			
-                    
-                    $('#exam_id').val({{$exam->id}})
-                    $('#addReportModal').modal({backdrop: 'static', keyboard: false})
-                    $('#addReportModal').modal('show');
-                }
-            });            
-        }
-
-        $('#frmReport').on('submit',function(e){
-				e.preventDefault();
-				var form_data = new FormData($(this)[0]);
-				swal({
-					title: "{{trans('learning::local.report')}}",
-					text: "{{trans('learning::local.ask_add_report')}}",
-					showCancelButton: true,
-					confirmButtonColor: "#87B87F",
-					confirmButtonText: "{{trans('msg.yes')}}",
-					cancelButtonText: "{{trans('msg.no')}}",
-					closeOnConfirm: false,
-					},
-					function() {
-						$.ajax({
-							url:"{{route('teacher.exam-report')}}",
-							method:"POST",
-							data:form_data,
-							cache       : false,
-							contentType : false,
-							processData : false,
-							dataType:"json",
-							// display succees message
-							success:function(data)
-							{
-							    $('#addReportModal').modal('hide');
-								swal("{{trans('learning::local.report')}}", "{{trans('learning::local.add_report_successfully')}}", "success");
-							}
-						})
-						
-					}
-				);
-			});        
-    </script>
-
+@endif
 @endsection

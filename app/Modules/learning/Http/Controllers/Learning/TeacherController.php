@@ -809,7 +809,7 @@ class TeacherController extends Controller
             })
             ->addColumn('exam_date', function($data){
                 foreach ($data->userExams as $user_exam) {
-                    return '<span class="blue">'. \Carbon\Carbon::parse( $user_exam->created_at)->format('M d Y, D h:m a').'</span>';                
+                    return '<span class="blue">'. \Carbon\Carbon::parse( $user_exam->created_at)->format('M d Y, D h:i a').'</span>';                
                 }   
             })  
             ->addColumn('mark', function($data){
@@ -835,10 +835,10 @@ class TeacherController extends Controller
         $classroom = Classroom::findOrFail(classroom_id($data));       
         if (session('lang') == 'ar') {
             return $data->ar_student_name.' '. $data->father->ar_st_name .' '. $data->father->ar_nd_name.' '.$data->father->ar_rd_name.' '.$data->father->ar_th_name 
-            .' <span class="blue"><strong>'. $classroom->ar_name_classroom .'</strong></span>';    
+            .' <span class="blue"><strong></br>'. $classroom->ar_name_classroom .'</strong></span>';    
         }else{
             return $data->en_student_name.' '. $data->father->en_st_name .' '. $data->father->en_nd_name.' '.$data->father->en_rd_name.' '.$data->father->en_th_name 
-            .' <span class="blue"><strong>'. $classroom->en_name_classroom .'</strong></span>';    
+            .' <span class="blue"><strong></br>'. $classroom->en_name_classroom .'</strong></span>';    
         }
     }
     private function studentImage($data)

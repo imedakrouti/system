@@ -16,12 +16,15 @@ use Learning\Models\Learning\UserExam;
 use Learning\Models\Learning\ZoomSchedule;
 use DB;
 use Carbon\Carbon;
+use Learning\Models\Learning\DeliverHomework;
 use Learning\Models\Learning\Homework;
 use Learning\Models\Learning\LessonUser;
 use Learning\Models\Learning\ZoomAccount;
 
 class UserStudentController extends Controller
 {
+    private $file_name;
+
     public function dashboard()
     {                
         $exams = Exam::with('classrooms','subjects')->whereHas('classrooms',function($q){
@@ -700,29 +703,69 @@ class UserStudentController extends Controller
         $title = trans('student.deliver_homework');
         $homework = Homework::findOrFail($homework_id);
         $questions = Question::where('homework_id',$homework_id)->first();
-        $path = '';
         
+        // homework corrected 
+        $current_answer = $this->currentAnswer($homework_id);
+        if (!empty($homework->correct)) {
+            // return to homework results
+            
+        }
+
+        $path = '';
+        // check type of homework assignment or questions
         if (empty($questions)) {
             $path = 'layouts.front-end.student.homeworks.deliver-homework';            
         }else{
             $path = 'layouts.front-end.student.homeworks.questions-homework';
         }
-        return view($path,
-        compact('title','homework'));
+
+        return view($path, compact('title','homework','current_answer'));
 
     }
     public function storeHomework()
     {
+        $current_answer = $this->currentAnswer(request('homework_id'));
         if (request()->hasFile('file_name')) {
-            $image_path = '';                                        
-                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/homework_attachments');                                             
+            $where = [
+                ['homework_id',request('homework_id')],
+                ['user_id',userAuthInfo()->id]
+            ]; 
+            $user_answer = DeliverHomework::where($where)->first(); 
+            if (!empty($current_answer)) { 
+                if ($user_answer->file_name != '') {
+                    $image_path = public_path()."/images/homework_attachments/".$user_answer->file_name;                                                             
+                    removeFileOrImage($image_path); // remove file from directory                
+                }
+                $image_path = '';                  
+            } 
+            
+            $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/homework_attachments');                                             
         }
-        request()->user()->deliverHomework()->firstOrCreate([
-            'homework_id'   =>  request('homework_id'),
-            'user_answer'   =>  request('user_answer'),
-        ]);
+
+        if (!empty($current_answer)) {            
+            $current_answer->update(
+                [
+                    'user_answer'   =>  request('user_answer'),
+                    'file_name'     =>  $this->file_name
+                ]);
+        }else{
+            request()->user()->deliverHomework()->firstOrCreate([
+                'homework_id'   =>  request('homework_id'),
+                'user_answer'   =>  request('user_answer'),
+                'file_name'     =>  $this->file_name
+            ]);
+        }
         toast(trans('student.msg_deliver'),'success');
         return redirect()->route('student.homeworks');
+    }
+
+    private function currentAnswer($homework_id)
+    {
+        $where = [
+            ['homework_id',request('homework_id')],
+            ['user_id',userAuthInfo()->id]
+        ];
+        return DeliverHomework::where($where)->first();
     }
 
 }

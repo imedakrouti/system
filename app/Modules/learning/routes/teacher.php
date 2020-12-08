@@ -51,7 +51,10 @@
       Route::post('homework/store-question','HomeworkController@storeQuestion')->name('homework.store-question');
       Route::get('homework/solve-homework-page/{id}','HomeworkController@solveHomeworkPage')->name('homework.solve-question');
       Route::post('homework/share-homework','HomeworkController@share')->name('homework.share');
-  
+      Route::get('teacher/homework/applicants/{id}','HomeworkController@homeworkApplicants')->name('teacher.homework-applicants');      
+      Route::post('teacher/homework/destroy/answers','HomeworkController@destroyAnswers')->name('homework.destroy-answers');      
+      Route::get('teacher/homework/show-answers/{id}','HomeworkController@showAnswers')->name('homework.show-answers');      
+      Route::post('teacher/homework/set-mark/answers','HomeworkController@setHomeworkMark')->name('set-homework-mark');      
       // virtual classrooms
       // zoom accounts
       Route::get('virtual-classrooms/zoom/account','ZoomAccountController@zoomAccount')->name('zoom.account');

@@ -24,7 +24,7 @@
                     <input type="hidden" name="homework_id" value="{{$homework->id}}">
                     <div class="form-group">
                         <label>{{ trans('student.your_answer') }}:</label>
-                        <textarea required name="user_answer" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea required name="user_answer" class="form-control" cols="30" rows="10">{{old('user_answer',empty($current_answer)?'':$current_answer->user_answer)}}</textarea>
                     </div>
                     <input type="file" name="file_name" class="form-control">
                     <div class="form-actions left">

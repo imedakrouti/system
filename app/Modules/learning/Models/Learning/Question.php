@@ -49,7 +49,7 @@ class Question extends Model
     {
         return $this->belongsTo('Learning\Models\Learning\Exam','exam_id');
     }
-    public function question()
+    public function homework()
     {
         return $this->belongsTo('Learning\Models\Learning\Homework','homework_id');
     }

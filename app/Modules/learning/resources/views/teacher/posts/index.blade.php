@@ -53,7 +53,7 @@
               <hr>             
               <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.classrooms') }}</strong></h4>
               <ol>
-                  @foreach ($classrooms as $class_item)
+                  @foreach (employeeClassrooms() as $class_item)
                     @if ($class_item->id == $classroom->id)
                         <li>{{session('lang') == 'ar' ? $class_item->ar_name_classroom : $class_item->en_name_classroom}}</li>
                     @else
@@ -108,7 +108,7 @@
                         <div class="form-control">
                             <label>{{ trans('learning::local.share_with_class') }}</label>
                             <select name="classroom_id[]" class="form-control select2" id="filter_room_id" multiple>
-                                    @foreach ($classrooms as $class)
+                                    @foreach (employeeClassrooms() as $class)
                                         @if ($class->id != $classroom->id)
                                             <option value="{{$class->id}}">
                                                 {{session('lang') == 'ar'? $class->ar_name_classroom : $class->en_name_classroom}}
@@ -229,14 +229,7 @@
                                         </span>
                                         <span class="blue"><strong>{{ trans('learning::local.publish_new_assignment') }}</strong></span> {{$post->description}}</h6>
                                     <p>{{$post->post_text}}</p>
-                                    @empty(!$post->url)
-                                    <h6>
-                                        <div class="mb-1">
-                                            <span class="purple">{{ trans('learning::local.solve_homework_link') }}</span>                                                                                    
-                                            <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{ trans('learning::local.press_here') }}</a>
-                                        </div>
-                                    </h6>                                        
-                                    @endempty
+                     
                                     @isset($post->youtube_url)              
                                     <div class="mb-1">
                                         <iframe width="100%"  style="min-height: 500px;" allowfullscreen

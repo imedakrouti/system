@@ -16,7 +16,7 @@ class CreateDeliverHomeworkTable extends Migration
         Schema::connection('mysql')->create('deliver_homework', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('user_answer')->nullable();
-            $table->integer('mark')->default(0);
+            $table->decimal('mark',4,1)->default(0);
             $table->string('remark')->nullable();
             $table->string('file_name')->nullable();
             $table->unsignedBigInteger('homework_id');

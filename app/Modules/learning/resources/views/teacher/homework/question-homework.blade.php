@@ -18,7 +18,26 @@
           </ol>
         </div>
       </div>
-    </div>    
+    </div> 
+    <div class="content-header-right col-md-6 col-12 mb-1" style="margin-left: -50px">
+        <div class="btn-group float-right">
+            <button type="button" class="btn btn-primary btn-min-width dropdown-toggle round" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">{{ trans('learning::local.share') }}</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="share()" href="#"><i class="la la-share-alt"></i> {{ trans('learning::local.share') }}</a>
+                <a class="dropdown-item" onclick="deleteQuestions()" href="#"><i class="la la-trash"></i> {{ trans('learning::local.delete_question') }}</a>                
+            </div>            
+        </div>
+        <div class="btn-group mr-1 float-right">
+            <button type="button" class="btn btn-success btn-min-width dropdown-toggle round" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">{{ trans('learning::local.add_question') }}</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="multiChoice()" href="#"><i class="la la-question"></i> {{ trans('learning::local.multiple_choice') }}</a>
+                <a class="dropdown-item" onclick="trueFalse()" href="#"><i class="la la-question"></i> {{ trans('learning::local.true_false') }}</a>
+                <a class="dropdown-item" onclick="complete()" href="#"><i class="la la-question"></i> {{ trans('learning::local.complete') }}</a>                
+            </div>            
+        </div>
+    </div>     
 </div>
 <div class="row">
     <div class="col-lg-8 col-md-12">
@@ -27,24 +46,7 @@
           <div class="card-body" style="min-height: 300px;">
             <div class="row">
               <div class="col-12">                  
-                  <div class="form-group">
-                      <!-- Single Button Dropdown -->
-                      <div class="btn-group">    
-                        <a href="#" onclick="deleteQuestions()" class="btn btn-danger mr-1"><i class="la la-trash"></i> {{ trans('learning::local.delete_question') }}</a>                                                            
-                        {{-- share --}}
-                        <a href="#" onclick="share()" class="btn btn-purple btn-am mr-1"><i class="la la-share-alt"></i></a>                                                            
-                          {{-- add question --}}
-                          <button type="button" class="btn btn-success btn-min-width dropdown-toggle" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="true">{{ trans('learning::local.add_question') }}</button>
-                          <div class="dropdown-menu">
-                              <a class="dropdown-item" style="padding: 0.25rem 0.5rem;" onclick="multiChoice()" href="#"><i class="la la-question"></i> {{ trans('learning::local.multiple_choice') }}</a>
-                              <a class="dropdown-item" style="padding: 0.25rem 0.5rem;" onclick="trueFalse()" href="#"><i class="la la-question"></i> {{ trans('learning::local.true_false') }}</a>
-                              <a class="dropdown-item" style="padding: 0.25rem 0.5rem;" onclick="complete()" href="#"><i class="la la-question"></i> {{ trans('learning::local.complete') }}</a>
-                              <a class="dropdown-item" style="padding: 0.25rem 0.5rem;" onclick="matching()" href="#"><i class="la la-question"></i> {{ trans('learning::local.matching') }}</a>
-                          </div>
-                      </div>                    
-                  </div>
-                  <hr>
+
                   <h4>{{ trans('learning::local.questions_count') }} : {{count($questions)}}</h4>
                   <form id="formData" action="">
                     @csrf      
@@ -72,7 +74,7 @@
                                         <h4 class="red">
                                             <label class="pos-rel">
                                                 <input type="checkbox" class="ace" name="id[]" value="{{$question->id}}">
-                                                <span class="lbl"></span> {!!$question->question_text!!}                               
+                                                <span class="lbl"></span> <span class="red"><strong>{!!$question->question_text!!}</strong></span>                               
                                             </label>  
                                         </h4>
                                     </div>                                                               
