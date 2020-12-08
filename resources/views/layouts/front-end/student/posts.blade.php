@@ -7,8 +7,8 @@
             top: 50px;
             left: 70px;
             font-weight: bold;
-            color: #fff;
-            text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+            color: #483b80;
+            /* text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7); */
             }    
             .comment-form{
                 padding:5px;                
@@ -21,7 +21,7 @@
 {{-- images --}}
 <div class="row">
     <div class="col-lg-12 mb-1">
-        <img style="border-radius: 15px;" src="{{asset('images/website/img_code.jpg')}}" width="100%" alt="cover">    
+        <img style="border-radius: 15px;" src="{{asset('images/website/banner.jpg')}}" width="100%" alt="cover">    
         <h1 class="top-left"><strong>{{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}</strong></h1>
     </div>
 </div>

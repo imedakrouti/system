@@ -63,26 +63,8 @@
                                   <div class="ml-3">
                                       <div class="badge badge-danger">
                                           <span><a href="{{ route('student.view-lesson', ['id'=>$lesson->id,'playlist_id'=>$lesson->playlist_id]) }}">{{ trans('student.watch') }}</a></span>
-                                          <i class="la la-tv font-medium-3"></i>
-                                      </div>                                
-                                      @foreach ($lesson->divisions as $division)                    
-                                          <div class="badge badge-info">
-                                              <span>{{session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name}}</span>
-                                              <i class="la la-folder-o font-medium-3"></i>
-                                          </div>
-                                      @endforeach
-                                      @foreach ($lesson->grades as $grade)                    
-                                          <div class="badge badge-success">
-                                          <span>{{session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name}}</span>
-                                          <i class="la la-folder-o font-medium-3"></i>
-                                      </div>
-                                      @endforeach
-                                      @foreach ($lesson->years as $year)                    
-                                          <div class="badge badge-primary">
-                                          <span>{{$year->name}}</span>
-                                          <i class="la la-calendar font-medium-3"></i>
-                                      </div>
-                                      @endforeach                          
+                                          <i class="la la-play font-medium-3"></i>
+                                      </div>                                                                                               
                                   </div>
                                 </div>
                               </div>

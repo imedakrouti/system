@@ -46,5 +46,10 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent'],function(){
     Route::get('student/my-homeworks/deliver/{homework_id}','UserStudentController@deliverHomework')->name('student.deliver-homeworks');      
     Route::post('student/my-homeworks/store','UserStudentController@storeHomework')->name('student.store-homework');      
     
+    Route::get('student/homework/get-questions-page/{homework_id}','UserStudentController@questionsPage')->name('questions.page');
+    Route::post('student/homework/store-answers','UserStudentController@storeQuestionsAnswers')->name('homework.store-answers');
+
+    Route::get('student/homework/results','UserStudentController@homeworkResults')->name('homework.results');
+    Route::get('student/homework/answers/{homework_id}','UserStudentController@homeworkAnswers')->name('homework.answers');
 
 });

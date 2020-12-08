@@ -46,8 +46,7 @@
                             <thead>                            
                                 <th>{{ trans('learning::local.deliver_date') }}</th>
                                 <th>{{ trans('student.total_mark') }}</th>
-                                <th>{{ trans('student.mark') }}</th>
-                                <th>{{ trans('student.evaluation') }}</th>                            
+                                <th>{{ trans('student.mark') }}</th>                                
                             </thead>
                             <tbody>
                                 <tr>                                
@@ -57,85 +56,16 @@
                                         @endforeach                                
                                     </td>
                                     <td>{{$homework->total_mark}}</td>
-                                    <td>{{$homework->deliverHomeworks->sum('mark')}}</td>
-                                    <td><strong>{{evaluation($homework->total_mark, $homework->deliverHomeworks->sum('mark'))}}</strong></td>                                
+                                    <td>{{$homework->deliverHomeworks->sum('mark')}}</td>                                    
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-
-                    <h4 class="mt-2 mb-1"><strong>{{ trans('student.equivalency') }}</strong></h4>
-
-                    <div class="table-responsive">
-                        <table class="table table-border center">
-                            <thead>
-                            <tr>
-                                <th>{{ trans('student.evaluation') }}</th>
-                                <th>A+</th>
-                                <th>A</th>
-                                <th>B</th>
-                                <th>C</th>
-                                <th>D</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>{{ trans('student.percentage') }}</td>
-                                <td>95% ~ 100%</td>
-                                <td>85% ~ 94%</td>
-                                <td>75% ~ 84%</td>
-                                <td>65% ~ 74%</td>
-                                <td>0 ~ 64%</td>
-                            </tr>
-                            </tbody>
-                        </table>                  
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{{-- assignment --}}
-@empty($homework->questions->count())
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="red"><strong>{{$homework->title}}</strong></h3>
-                    <p class="card-text" style="white-space: pre-line">{!!$homework->instruction!!}</p>
-                    <form action="{{route('set-homework-mark')}}" method="post">
-                        @csrf
-                        <input type="hidden" name="homework_id" value="{{$homework->id}}">
-                        <span class="red">{{ trans('learning::local.mark') }} {{$homework->mark}}</span> </strong>                        
-                        @foreach ($homework->deliverHomeworks as $user_answer)
-                            <div class="form-group">
-                                <input type="number"  min="0"  step="0.5" max="{{$homework->total_mark}}" class="text-mark" 
-                                name="mark" value="{{$user_answer->mark}}">                                                                                    
-                                @if ($user_answer->file_name != '')
-                                <div class="pull-right">                                  
-                                    <a target="_blank" href="{{asset('images/homework_attachments/'.$user_answer->file_name)}}" class="btn btn-info"><i class="la la-download"></i> {{ trans('learning::local.attachments') }}</a>
-                                </div>
-                                @endif
-                            </div>
-                            <div class="form-group"> 
-                                <textarea name="user_answer" class="form-control" cols="30" rows="10">{{$user_answer->user_answer}}</textarea>                                
-                            </div>                        
-                        @endforeach
-                        
-                        <div class="form-actions left">
-                            <button type="submit" class="btn btn-success">
-                                <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
-                              </button>
-                            <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('teacher.homework-applicants',$homework->id)}}';">
-                            <i class="ft-x"></i> {{ trans('admin.cancel') }}
-                          </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-@endempty
 
 {{-- questions --}}
 @if (count($homework->questions) > 0)
@@ -148,7 +78,7 @@
               <h4>{{ trans('learning::local.questions_count') }} : {{count($questions)}}</h4>
               <form id="formData" action="{{route('teacher.correct-answers')}}" method="POST">
                 @csrf      
-                <input type="hidden" name="exam_id" value="{{$exam->id}}">
+                <input type="hidden" name="homework_id" value="{{$homework->id}}">
                 {{-- fetch questions --}}
                 @foreach ($questions as $question)
                     <div class="bs-callout-info callout-border-left callout-square callout-bordered callout-transparent mt-1 p-1">
@@ -205,7 +135,7 @@
                                     {{-- student answer --}}
                                     <h5 class="black">   
                                         <strong>{{ trans('student.your_answer') }} : </strong>
-                                        @foreach ($exam->userAnswers as $user_answer)
+                                        @foreach ($homework->deliverHomeworks as $user_answer)
                                             @if ($question->id == $user_answer->question_id )
                                                 {{$user_answer->user_answer}} 
                                                 @if ($user_answer->mark != 0)
@@ -235,7 +165,7 @@
                                     {{-- student answer --}}
                                     <h5 class="black">   
                                         <strong>{{ trans('student.your_answer') }} : </strong>
-                                        @foreach ($exam->userAnswers as $user_answer)
+                                        @foreach ($homework->deliverHomeworks as $user_answer)
                                             @if ($question->id == $user_answer->question_id )
                                                 {{$user_answer->user_answer}} 
                                                 @if ($user_answer->mark != 0)
@@ -307,13 +237,50 @@
                         $n++;
                     @endphp
                 @endforeach
-                    <div class="form-group center mt-1">
-                        <button type="submit" class="btn btn-success">{{ trans('learning::local.save_marks') }}</button>
-                    </div>
               </form>                
           </div>
         </div>
       </div>
+    </div>
+</div>
+@else
+{{-- assignment --}}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="red"><strong>{{$homework->title}}</strong></h3>
+                <p class="card-text" style="white-space: pre-line">{!!$homework->instruction!!}</p>
+                <form action="{{route('set-homework-mark')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="homework_id" value="{{$homework->id}}">
+                    <span class="red">{{ trans('learning::local.mark') }} {{$homework->mark}}</span> </strong>                        
+                    @foreach ($homework->deliverHomeworks as $user_answer)
+                        <div class="form-group">
+                            <input type="number"  min="0"  step="0.5" max="{{$homework->total_mark}}" class="text-mark" 
+                            name="mark" value="{{$user_answer->mark}}">                                                                                    
+                            @if ($user_answer->file_name != '')
+                            <div class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}">                                  
+                                <a target="_blank" href="{{asset('images/homework_attachments/'.$user_answer->file_name)}}" class="btn btn-info"><i class="la la-download"></i> {{ trans('learning::local.attachments') }}</a>
+                            </div>
+                            @endif
+                        </div>
+                        <div class="form-group"> 
+                            <textarea name="user_answer" class="form-control" cols="30" rows="10">{{$user_answer->user_answer}}</textarea>                                
+                        </div>                        
+                    @endforeach
+                    
+                    <div class="form-actions left">
+                        <button type="submit" class="btn btn-success">
+                            <i class="la la-check-square-o"></i> {{ trans('admin.save') }}
+                          </button>
+                        <button type="button" class="btn btn-warning mr-1" onclick="location.href='{{route('teacher.homework-applicants',$homework->id)}}';">
+                        <i class="ft-x"></i> {{ trans('admin.cancel') }}
+                      </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @endif

@@ -45,7 +45,7 @@ class Homework extends Model
     }
     public function questions()
     {
-        return $this->hasMany('Learning\Models\Learning\Question','exam_id');
+        return $this->hasMany('Learning\Models\Learning\Question','homework_id');
     }
 
 }

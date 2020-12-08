@@ -100,14 +100,13 @@ class HomeworkController extends Controller
     {
         if (request()->ajax()) {
             if (request()->has('homework_id')) {
-                $homework = Homework::with('classrooms')->where('id',request('homework_id'))->first();
-                $url = route('homework.solve-question',$homework->id);
+                $homework = Homework::with('classrooms')->where('id',request('homework_id'))->first();                
                 foreach ($homework->classrooms as $classroom) {
                     request()->user()->posts()->create(
                         [                        
                             'post_type'     => 'assignment',                        
                             'post_text'     => $homework->title,                        
-                            'url'           => $url,                        
+                            'url'           => $homework->id,                        
                             'description'   => null,                        
                             'youtube_url'   => null,                        
                             'classroom_id'  => $classroom->id
@@ -152,9 +151,9 @@ class HomeworkController extends Controller
            $this->homework = request()->user()->homeworks()->firstOrCreate(request()->only($this->attributes()) + [
             'file_name' => $this->file_name,
             ]);
+            DB::table('classroom_homework')->where('homework_id',$this->homework->id)->delete();
             foreach (request('classroom_id') as $classroom_id) {
                 // add to homework_classroom table
-                DB::table('classroom_homework')->where('classroom_id',$classroom_id)->delete();
                 $this->homework->classrooms()->attach($classroom_id);  
                 
                 // add post
@@ -500,11 +499,9 @@ class HomeworkController extends Controller
                 }   
             })  
             ->addColumn('mark', function($data){
-                return empty($data->correct) ? '<span class="red"><strong>'.trans('learning::local.need_correct').'</strong></span>':$data->deliverHomeworks->sum('mark').'/'.$data->total_mark;
+                return empty($data->correct) ? '<span class="red"><strong>'.trans('learning::local.need_correct').'</strong></span>':$data->deliverHomeworks->sum('mark').
+                '/<strong>'.$data->total_mark.'</strong>';
             }) 
-            ->addColumn('evaluation',function($data){
-                return empty($data->correct)?'<span class="red"><strong>'.trans('learning::local.need_correct').'</strong></span>':evaluation($data->total_mark,$data->deliverHomeworks->sum('mark'));
-            })
             ->addColumn('answers',function($data){
                 $answers =  '<a class="btn btn-success btn-sm" href="'.route('homework.show-answers',$data->id).'">
                                 '.trans('student.answers').'
@@ -514,7 +511,7 @@ class HomeworkController extends Controller
                 </a>';                    
                 return $data->correct == '' &&  $data->deliverHomeworks->sum('mark') == 0 ? $correct : $answers;
                 })      
-            ->rawColumns(['check','student_name','updated_at','mark','evaluation','answers','student_image'])
+            ->rawColumns(['check','student_name','updated_at','mark','answers','student_image'])
             ->make(true);
     }
 

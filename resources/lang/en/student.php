@@ -1,7 +1,7 @@
 <?php
 return [
     'subjects'                      => 'Subjects',
-    'exams'                         => 'Exams & Quizzes',
+    'exams'                         => 'Exams',
     'homeworks'                     => 'Homework',
     'live'                          => 'Zoom',
     'library'                       => 'Library',
@@ -64,10 +64,10 @@ return [
     'deliver'                       => 'Deliver',    
     'deliver_homework'              => 'Deliver homework',
     'msg_deliver'                   => 'Your answers have been sent successfully',
-    ''      => '',
-    ''      => '',
-    ''      => '',
-    ''      => '',
+    'send'                          => 'Send',
+    'quizzes'                       => 'Quizzes',
+    'search'                        => 'Search',
+    'not_correct'                   => 'Not corrected yet',
     ''      => '',
     ''      => '',
     ''      => '',

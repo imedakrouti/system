@@ -56,8 +56,7 @@
                                 <th>{{trans('student::local.student_image')}}</th>                                
                                 <th>{{trans('learning::local.student_name')}}</th>                                
                                 <th>{{trans('learning::local.deliver_date')}}</th>                                
-                                <th>{{trans('student.mark')}}</th>                                                                                                                               
-                                <th>{{trans('student.evaluation')}}</th>                                                                                                                               
+                                <th>{{trans('student.mark')}}</th>                                                                                                                                                               
                                 <th>{{trans('student.answers')}}</th>
                           </tr>
                       </thead>
@@ -93,8 +92,7 @@
                 {data: 'student_image', name: 'student_image'},
                 {data: 'student_name',  name: 'student_name'},
                 {data: 'updated_at',    name: 'updated_at'},
-                {data: 'mark',          name: 'mark'},                
-                {data: 'evaluation',    name: 'evaluation'},                                          
+                {data: 'mark',          name: 'mark'},                                
                 {data: 'answers',       name: 'answers'},                                          
                 
           ],

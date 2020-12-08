@@ -160,7 +160,7 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
     
     <div class="col-lg-4 col-md-12">
         <div class="card">
@@ -194,6 +194,7 @@
                             <i class="la la-book font-medium-3"></i>
                         </div>
                     @endforeach
+                    
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ role="navigation" data-menu="menu-wrapper">
         <span>{{ trans('student.homeworks') }}</span></a>
         <ul class="dropdown-menu">            
             <li data-menu=""><a class="dropdown-item" href="{{route('student.homeworks')}}" data-toggle="dropdown"><i class="la la-clock-o"></i> {{ trans('student.available_homeworks') }}</a></li>                            
-            <li data-menu=""><a class="dropdown-item" href="{{route('student.results')}}" data-toggle="dropdown"><i class="la la-check-circle"></i> {{ trans('student.results') }}</a></li>                            
+            <li data-menu=""><a class="dropdown-item" href="{{route('homework.results')}}" data-toggle="dropdown"><i class="la la-check-circle"></i> {{ trans('student.results') }}</a></li>                            
         </ul>
     </li>
     
@@ -35,6 +35,15 @@ role="navigation" data-menu="menu-wrapper">
         </ul>
     </li>
 
+    {{-- quzies --}}
+    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-tasks"></i>
+        <span>{{ trans('student.quizzes') }}</span></a>
+        <ul class="dropdown-menu">            
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.exams')}}" data-toggle="dropdown"><i class="la la-certificate"></i> {{ trans('student.available_exams') }}</a></li>                            
+            <li data-menu=""><a class="dropdown-item" href="{{route('student.results')}}" data-toggle="dropdown"><i class="la la-check-circle"></i> {{ trans('student.results') }}</a></li>                            
+        </ul>
+    </li>
+
     {{-- live --}}
     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-vimeo-square"></i>
         <span>{{ trans('student.virtual-classroom') }}</span></a>
@@ -43,6 +52,13 @@ role="navigation" data-menu="menu-wrapper">
       <li data-menu=""><a class="dropdown-item" href="{{route('student.join-classroom')}}" data-toggle="dropdown"><i class="la la-paper-plane"></i> {{ trans('student.join_schedule') }}</a></li>                          
         </ul>
     </li>
+
+    {{-- search --}}
+    <li class="dropdown nav-item">
+        <a class="nav-link" href="{{route('student.subjects')}}"><i class="la la-search"></i>
+            <span>{{ trans('student.search') }}</span>
+        </a>
+    </li>  
 
     {{-- library --}}
     {{-- <li class="dropdown nav-item">

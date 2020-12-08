@@ -3,7 +3,6 @@ namespace Learning\Http\Controllers\Learning;
 use App\Http\Controllers\Controller;
 use Learning\Models\Learning\ZoomSchedule;
 use Carbon\Carbon;
-use Learning\Models\Learning\ZoomAttendance;
 use DB;
 
 class ZoomScheduleController extends Controller

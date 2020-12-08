@@ -20,7 +20,6 @@ use Learning\Models\Learning\UserAnswer;
 use Learning\Models\Learning\UserExam;
 use Student\Models\Students\Student;
 
-use function GuzzleHttp\Promise\all;
 
 class TeacherController extends Controller
 {
@@ -281,7 +280,6 @@ class TeacherController extends Controller
         if (request('approval') == 'accepted') {
             // publish
             $url = $lesson->id.",".$lesson->playlist_id;
-            // dd($lesson->playlist->classes);
             foreach ($lesson->playlist->classes as $classroom) {
                 
                 request()->user()->posts()->create(

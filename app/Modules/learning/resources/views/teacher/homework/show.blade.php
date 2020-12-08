@@ -51,7 +51,7 @@
                     </h5>
                     <h5 class="mb-1"><strong>{{ trans('learning::local.total_mark') }} : </strong>{{$homework->total_mark}}</h5>
 
-                    <h5><strong>{{ trans('learning::local.classrooms') }}  </strong></h5>
+                    <h5><strong>{{ trans('learning::local.classrooms') }} : </strong></h5>
                     @foreach ($homework->classrooms as $classroom)
                         <div class="mb-1 badge badge-info">
                             <span><a target="_blank" href="{{route('posts.index',$classroom->id)}}">{{session('lang') == 'ar' ?$classroom->ar_name_classroom : $classroom->en_name_classroom}}</a></span>
@@ -59,7 +59,7 @@
                         </div>
                     @endforeach
 
-                    <h5><strong>{{ trans('learning::local.lessons') }}  </strong></h5>
+                    <h5><strong>{{ trans('learning::local.lessons') }} : </strong></h5>
                     @foreach ($homework->lessons as $lesson)
                         <div class="mb-1 badge badge-primary">
                             <span><a target="_blank" href="{{route('teacher.view-lesson',['id'=>$lesson->id,'playlist_id'=>$lesson->playlist_id])}}">
@@ -67,6 +67,14 @@
                             <i class="la la-book font-medium-3"></i>
                         </div>
                     @endforeach
+                    <hr>
+                    @if ($homework->file_name != '')
+                        <h5><strong>{{ trans('learning::local.attachments') }} : </strong>                    
+                            <a target="_blank" href="{{asset('images/homework_attachments/'.$homework->file_name)}}" 
+                            class="btn btn-primary btn-sm"><i class="la la-download"></i></a>
+                        </h5>
+                    @endif
+
                 </div>
             </div>
         </div>
