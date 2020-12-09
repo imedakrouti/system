@@ -314,9 +314,7 @@ if (!function_exists('startVirtualClass')) {
 		// today
 		if ($start_date <= date_format(\Carbon\Carbon::now(),"Y-m-d") && 
 			date_format($time->subMinutes(1),"H:i") < date_format(\Carbon\Carbon::now(),"H:i")) {
-			$btn = '<a target="_blank" href="'.route('zoom.live',$id).'" class="btn btn-info btn-sm">
-						<i class=" la la-video-camera"></i>  
-					</a> <span class="red">'.trans('staff::local.now').'</span>';
+			$btn = '<span class="red"><strong>'.trans('staff::local.now').'</strong></span>';
 		}
 		if($start_date < date_format(\Carbon\Carbon::now(),"Y-m-d")){
 			$btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';

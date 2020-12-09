@@ -87,7 +87,6 @@ class StaffDashboardController extends Controller
             }
 
             // Classroom schedules
-            $n=1;
             $schedule = '';  
             
             if (count($this->classrooms($classrooms)) != 0) {
@@ -103,7 +102,6 @@ class StaffDashboardController extends Controller
                             </td>
                             <td>'.startVirtualClass($class->start_date, $class->start_time,$class->id).'</td>
                         </tr>';
-                        $n++;
                 }                 
             } else{
                 $schedule  = '<tr><td colspan="3">'.trans('learning::local.no_virtual_classes').'</td></tr>';
