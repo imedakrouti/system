@@ -75,8 +75,7 @@ class ExamController extends Controller
         ->whereHas('questions',function($q){})
         ->whereDoesntHave('userExams')
         ->where('start_date','<=',date_format(Carbon::now(),"Y-m-d"))
-        ->where('start_time','<',date_format(Carbon::now(),"H:i"))
-        
+        ->where('start_time','<',date_format(Carbon::now(),"H:i"))        
         ->orderBy('start_date')->get();
 
         if (request()->ajax()) {
@@ -140,7 +139,7 @@ class ExamController extends Controller
                         
             // hidden after date & time
             
-            if($data->start_date == date_format(Carbon::now(),"Y-m-d") && 
+            if($data->start_end == date_format(Carbon::now(),"Y-m-d") && 
                 date_format($time_end->subMinutes(1),"H:i") < date_format(Carbon::now(),"H:i")){
                 $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
             } 
@@ -186,7 +185,7 @@ class ExamController extends Controller
     }
 
     public function submitExam()
-    {               
+    {        
         DB::transaction(function(){
             $questions_count = request('questions_count');
             $this->resetExam();

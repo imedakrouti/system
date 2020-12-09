@@ -33,7 +33,7 @@ return [
     'finished_exam'                 => 'لقد أجريت هذا الاختبار بالفعل من قبل.',
     'available_exams'               => 'الاختبارات المتاحة',
     'show_answers'                  => 'أظهر الاجابات',
-    'your_answer'                   => 'أجابتم',
+    'your_answer'                   => 'أجابتك',
     'correct'                       => 'صح',
     'wrong'                         => 'خطأ',
     'the_answers'                   => 'اﻷجابات',

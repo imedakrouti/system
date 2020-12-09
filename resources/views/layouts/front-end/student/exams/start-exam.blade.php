@@ -66,101 +66,99 @@
                     @csrf          
                     <input type="hidden" name="questions_count" value="{{count($questions)}}">
                     <input type="hidden" name="auto_correct" value="{{$exam->auto_correct}}">
-                    <input type="hidden" name="exam_id" value="{{$exam->exam_id}}">
+                    <input type="hidden" name="exam_id" value="{{$exam->id}}">
+             
                     @foreach ($questions as $question)
-                        <div class="tab">
-                            {{-- @for ($i = 0; $i < $exam->no_question_per_page; $i++) --}}
-                                <div class="bs-callout-info callout-border-left callout-square callout-bordered callout-transparent mt-1 mb-1 p-1">
-                                    <strong class="black">{{$n}} - {{$question->question_type}} |  <span class="blue">{{ trans('learning::local.mark') }} 
-                                        {{$question->mark}}</span></strong>
-                                        @isset($question->file_name)
-                                            <div class="form-group center">                                    
-                                                <img class="mt-1" width="75%" src="{{asset('images/questions_attachments/'.$question->file_name)}}" alt="" >
-                                            </div>
-                                        @endisset
-                                        @if ($question->question_type == trans('learning::local.question_matching'))
-                                            <div class="mb-1 mt-1">
-                                                <h4 class="red">
-                                                    {{ trans('learning::local.matching_between_columns') }}      
-                                                </h4>
-                                            </div>  
-                                        @else
-                                            <div class="mb-1 mt-1">
-                                                <h4 class="red">
-                                                    {!!$question->question_text!!} 
-                                                    @if ($question->question_type == trans('learning::local.question_essay') ||
-                                                        $question->question_type == trans('learning::local.question_paragraph'))
+                            <div class="tab">
+                                    <div class="bs-callout-info callout-border-left callout-square callout-bordered callout-transparent mt-1 mb-1 p-1">
+                                        <strong class="black">{{$n}} - {{$question->question_type}} |  <span class="blue">{{ trans('learning::local.mark') }} 
+                                            {{$question->mark}}</span></strong>
+                                            @isset($question->file_name)
+                                                <div class="form-group center">                                    
+                                                    <img class="mt-1" width="75%" src="{{asset('images/questions_attachments/'.$question->file_name)}}" alt="" >
+                                                </div>
+                                            @endisset
+                                            @if ($question->question_type == trans('learning::local.question_matching'))
+                                                <div class="mb-1 mt-1">
+                                                    <h4 class="red">
+                                                        {{ trans('learning::local.matching_between_columns') }}      
+                                                    </h4>
+                                                </div>  
+                                            @else
+                                                <div class="mb-1 mt-1">
+                                                    <h4 class="red">
+                                                        {!!$question->question_text!!} 
+                                                        @if ($question->question_type == trans('learning::local.question_essay') ||
+                                                            $question->question_type == trans('learning::local.question_paragraph'))
+                                                            <div class="form-group mt-1">
+                                                                <input type="hidden" name="question_id[]" value="{{$question->id}}">
+                                                                <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
+                                                                <textarea name="{{$question->id}}" class="form-control" cols="30" rows="10" ></textarea>
+                                                            </div>
+                                                        @endif
+            
+                                                        @if ($question->question_type == trans('learning::local.question_complete'))
                                                         <div class="form-group mt-1">
                                                             <input type="hidden" name="question_id[]" value="{{$question->id}}">
                                                             <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
-                                                            <textarea name="{{$question->id}}" class="form-control" cols="30" rows="10" ></textarea>
+                                                            <input type="text" class="form-control" name="{{$question->id}}">
                                                         </div>
                                                     @endif
-        
-                                                    @if ($question->question_type == trans('learning::local.question_complete'))
-                                                    <div class="form-group mt-1">
-                                                        <input type="hidden" name="question_id[]" value="{{$question->id}}">
-                                                        <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
-                                                        <input type="text" class="form-control" name="{{$question->id}}">
-                                                    </div>
-                                                @endif
-                                                </h4>
-                                            </div>                                                               
+                                                    </h4>
+                                                </div>                                                               
+                                            @endif
+                                        
+                                        @if ($question->question_type != trans('learning::local.question_essay') && 
+                                        $question->question_type != trans('learning::local.question_paragraph') &&
+                                        $question->question_type != trans('learning::local.question_matching'))
+                                            @if ($question->question_type != trans('learning::local.question_complete')) 
+                                            <input type="hidden" name="question_id[]" value="{{$question->id}}">                                                                               
+                                            <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
+                                                @foreach ($question->answers->shuffle() as $answer)                        
+                                                    <h5 class="black">
+                                                        <label class="pos-rel">
+                                                            <input type="radio" class="ace" name="{{$question->id}}" value="{{$answer->answer_text}}">
+                                                            <span class="lbl"></span> {{$answer->answer_text}} 
+                                                    
+                                                        </label>                                
+                                                    </h5>
+                                                @endforeach                                                            
+                                            @endif
                                         @endif
-                                    
-                                    @if ($question->question_type != trans('learning::local.question_essay') && 
-                                    $question->question_type != trans('learning::local.question_paragraph') &&
-                                    $question->question_type != trans('learning::local.question_matching'))
-                                        @if ($question->question_type != trans('learning::local.question_complete')) 
-                                        <input type="hidden" name="question_id[]" value="{{$question->id}}">                                                                               
-                                        <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
-                                            @foreach ($question->answers->shuffle() as $answer)                        
-                                                <h5 class="black">
-                                                    <label class="pos-rel">
-                                                        <input type="radio" class="ace" name="{{$question->id}}" value="{{$answer->answer_text}}">
-                                                        <span class="lbl"></span> {{$answer->answer_text}} 
-                                                
-                                                    </label>                                
-                                                </h5>
-                                            @endforeach                                                            
-                                        @endif
-                                    @endif
-                                    
-                                    {{-- matching --}}
-                                    @if ($question->question_type == trans('learning::local.question_matching'))
-                                        <input type="hidden" name="question_id[]" value="{{$question->id}}">
-                                        <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
-                                        <div class="row">
-                                            <div class="col-lg-9 col-md-12">
-                                                <ol>
-                                                @foreach ($question->matchings->shuffle() as $matching)
-                                                    <li>
-                                                        <strong>{{$matching->matching_item}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        [ @foreach ($question->answers as $answer)                            
-                                                            <label class="pos-rel">
-                                                                <input type="radio" class="ace" name="{{$question->id}}_{{$answer->id}}[]" value="{{$answer->answer_text}}">
-                                                                <span class="lbl"></span> {{$answer->answer_text}}                               
-                                                            </label>                                                      
-                                                        @endforeach  ]                                      
-                                                    </li>
-                                                @endforeach
-                                                </ol>
+                                        
+                                        {{-- matching --}}
+                                        @if ($question->question_type == trans('learning::local.question_matching'))
+                                            <input type="hidden" name="question_id[]" value="{{$question->id}}">
+                                            <input type="hidden" name="question_type[]" value="{{$question->question_type}}">
+                                            <div class="row">
+                                                <div class="col-lg-9 col-md-12">
+                                                    <ol>
+                                                    @foreach ($question->matchings->shuffle() as $matching)
+                                                        <li>
+                                                            <strong>{{$matching->matching_item}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            [ @foreach ($question->answers as $answer)                            
+                                                                <label class="pos-rel">
+                                                                    <input type="radio" class="ace" name="{{$question->id}}_{{$answer->id}}[]" value="{{$answer->answer_text}}">
+                                                                    <span class="lbl"></span> {{$answer->answer_text}}                               
+                                                                </label>                                                      
+                                                            @endforeach  ]                                      
+                                                        </li>
+                                                    @endforeach
+                                                    </ol>
+                                                </div>
+                                                <div class="col-lg-3 col-md-12">
+                                                    <ol type="I">
+                                                    @foreach ($question->answers->shuffle() as $answer)
+                                                        <li>{{$answer->answer_text}}</li>
+                                                    @endforeach
+                                                    </ol>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-3 col-md-12">
-                                                <ol type="I">
-                                                @foreach ($question->answers->shuffle() as $answer)
-                                                    <li>{{$answer->answer_text}}</li>
-                                                @endforeach
-                                                </ol>
-                                            </div>
-                                        </div>
-                                    @endif                                               
-                                </div>
-                              
-                            {{-- @endfor --}}
-                        </div>
-                                             
-                            
+                                        @endif                                               
+                                    </div>
+                                    
+                            </div>   
+                    
                         @php
                             $n++;
                         @endphp
