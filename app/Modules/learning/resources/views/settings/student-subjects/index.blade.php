@@ -23,17 +23,13 @@
 <div class="row">
     <div class="col-12">
       <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">{{$title}}</h4>
-          <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>          
-        </div>
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
               <div class="table-responsive">
                   <form action="" id='formData' method="post">
                     @csrf
                     <table id="dynamic-table" class="table data-table" >
-                        <thead class="bg-info white">
+                        <thead>
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>                                

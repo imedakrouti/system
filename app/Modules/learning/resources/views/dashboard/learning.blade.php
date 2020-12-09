@@ -15,6 +15,7 @@
       </div>
     </div>
 </div>
+
 {{-- statistics --}}
 <div class="row">
   <div class="col-xl-3 col-lg-6 col-12">
@@ -99,7 +100,7 @@
                           <th>{{ trans('staff::local.classrooms') }}</th>
                           <th>{{ trans('learning::local.subject') }}</th>
                           <th>{{ trans('learning::local.time') }}</th>
-                          <th>{{ trans('staff::local.start') }}</th>
+                          <th>{{ trans('staff::local.status') }}</th>
                       </tr>
                   </thead>
                   <tbody id="schedule" class="center">   
