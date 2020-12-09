@@ -1,5 +1,7 @@
 <?php
     Route::group(['namespace'=>'Learning'],function(){
+        
+
         // playlists
         Route::resource('playlists','PlaylistController')->except('destroy');
         Route::post('playlists/destroy','PlaylistController@destroy')->name('playlists.destroy');

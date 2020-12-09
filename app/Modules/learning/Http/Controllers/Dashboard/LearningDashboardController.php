@@ -48,7 +48,7 @@ class LearningDashboardController extends Controller
                         $teacher_name = $this->getFullEmployeeName($employee->id);
                     }
 
-                    $subject = session('lang') == 'ar' ? $class->subject->ar_shortcut:$class->subject->en_shortcut;
+                    $subject = session('lang') == 'ar' ? $class->subject->ar_name:$class->subject->en_name;
 
                     $schedule .= '<tr>
                                 <td>
@@ -157,7 +157,7 @@ class LearningDashboardController extends Controller
                         $teacher_name = $this->getFullEmployeeName($employee->id);
                     }
 
-                    $subject = session('lang') == 'ar' ? $class->subject->ar_shortcut:$class->subject->en_shortcut;
+                    $subject = session('lang') == 'ar' ? $class->subject->ar_name:$class->subject->en_name;
 
                     $schedule .= '<tr>
                                 <td>
@@ -206,8 +206,10 @@ class LearningDashboardController extends Controller
             $output = '';
             foreach ($lessons as $lesson) {
                 $created_at = ' | <strong>'.trans('learning::local.since').'</strong> ' . $lesson->created_at->diffForHumans();
-                $create_by = '<br><span class="small"><strong>'.trans('learning::local.created_by').'</strong> ' . $lesson->admin->name.$created_at.'</span>';
-                $subject = session('lang') == 'ar' ? $lesson->subject->ar_shortcut:$lesson->subject->en_shortcut;
+                $name = $this->getFullEmployeeName($lesson->admin->employeeUser->id);
+
+                $create_by = '<br><span class="small"><strong>'.trans('learning::local.created_by').'</strong> ' . $name.$created_at.'</span>';
+                $subject = session('lang') == 'ar' ? $lesson->subject->ar_name:$lesson->subject->en_name;
                 $output .= '<tr>
                                 <td>'.$lesson->lesson_title.$create_by.'</td>
                                 <td>'.$subject.'</td>

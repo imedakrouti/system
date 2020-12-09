@@ -1,6 +1,8 @@
-@extends('layouts.backEnd.teacher')
+@extends('layouts.backEnd.cpanel')
+@section('sidebar')
+    @include('layouts.backEnd.includes.sidebars._learning')
+@endsection
 @section('styles')
-
     <style>
             /* Top left text */
             .top-left {
@@ -15,59 +17,103 @@
                 padding:5px;                
                 width:100%;
             }               
-         
+            ul, #myUL {
+            list-style-type: none;
+            }
+
+            #myUL {
+            margin: 0;
+            padding: 0;
+            }
+
+            .caret {
+            
+            cursor: pointer;
+            -webkit-user-select: none; /* Safari 3.1+ */
+            -moz-user-select: none; /* Firefox 2+ */
+            -ms-user-select: none; IE 10+
+            user-select: none;
+            }
+
+            .caret::before {
+            content: "\25B6";
+            color: black;
+            display: none;
+            margin-right: 6px;
+            }
+
+            .caret-down::before {
+            -ms-transform: rotate(0deg); /* IE 9 */
+            -webkit-transform: rotate(0deg); /* Safari */'
+            transform: rotate(0deg);  
+            }
+
+            .nested {
+            display: none;
+            }
+
+            .active {
+            display: block;
+            }         
     </style>
 @endsection
 @section('content')
-{{-- images --}}
+{{-- image --}}
 <div class="row">
     <div class="col-lg-12 mb-1">
         <img style="border-radius: 10px;" src="{{asset('images/website/img_code.jpg')}}" width="100%" alt="cover">    
         <h1 class="top-left"><strong>{{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}</strong></h1>
     </div>
 </div>
+
 <div class="row">
+    {{-- classrooms --}}
     <div class="col-lg-3 col-md-12">
         <div class="card" style="border-radius: 15px;">          
         <div class="card-content">
-            <div class="card-body">   
-                {{-- homework --}}
-                <div class="btn-group mr-1 mb-1">
-                    <button type="button" class="btn btn-info btn-min-width dropdown-toggle btn-sm" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false"><i class="la la-plus"></i> {{ trans('learning::local.class_work') }}</button>
-                    <div class="dropdown-menu">
-                    <a class="dropdown-item" onclick="assignment()" href="#"><i class="la la-sticky-note"></i>{{ trans('learning::local.assignment') }}</a>
-                    <a class="dropdown-item" onclick="question()" href="#"><i class="la la-question"></i>{{ trans('learning::local.add_questions') }}</a>                  
-                    </div>
+            <div class="card-body">
+                <div class="card-body">
+                    <h4>{{ trans('learning::local.classrooms') }} <span class="small">
+                        <a href="{{route('admin.posts')}}">{{ trans('learning::local.view_all') }}</a></span></h4>
+                    <ul id="myUL">
+                        @foreach ($divisions as $division)
+                        <li><span class="caret"><i class="la la-slack"></i> 
+                            {{session('lang') == 'ar' ?$division->ar_division_name:$division->en_division_name}}
+                        </span>
+                                <ul class="nested {{$classroom->division_id == $division->id ? 'active' :''}}">
+                                    @foreach ($grades as $grade)
+                                        <li><span class="caret"><i class="la la-minus"></i> 
+                                            {{session('lang') == 'ar' ?$grade->ar_grade_name:$grade->en_grade_name}}
+                                        </span>
+                                            <ul class="nested {{$classroom->grade_id == $grade->id ? 'active' :''}}">
+                                            @foreach ($classrooms as $classroom)
+                                                @if ($classroom->division_id == $division->id && $classroom->grade_id == $grade->id)
+                                                    @if ($classroom->id == $classroom_id)
+                                                        <li><span> 
+                                                            <strong>{{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}</strong>
+                                                        </span></li>                                                                                                        
+                                                    @else
+                                                        <li><span> <a href="{{route('posts.by-classroom',$classroom->id)}}">
+                                                            {{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}
+                                                        </a></span></li>                                                                                                        
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                            </ul>
+                                        </li>                                  
+                                    @endforeach                            
+                                </ul>
+                            </li>                            
+                        @endforeach
+                    </ul>
+                
                 </div>
-                {{-- end homework --}}
-              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.next_exams') }}</strong></h4>
-              <ul>
-                  @empty(count($exams))
-                    <p class="card-text">{{ trans('learning::local.no_works') }}</p>                   
-                  @endempty
-                  @foreach ($exams as $exam)
-                      <li><a target="_blank" href="{{route('teacher.preview-exam',$exam->id)}}">{{$exam->exam_name}}</a></li>
-                  @endforeach
-              </ul>
-              <hr>             
-              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.classrooms') }}</strong></h4>
-              <ol>
-                  @foreach (employeeClassrooms() as $class_item)
-                    @if ($class_item->id == $classroom->id)
-                        <li>{{session('lang') == 'ar' ? $class_item->ar_name_classroom : $class_item->en_name_classroom}}</li>
-                    @else
-                        <li><a href="{{route('posts.index',$class_item->id)}}">{{session('lang') == 'ar' ? $class_item->ar_name_classroom : $class_item->en_name_classroom}}</a></li>
-                    @endif
-                  @endforeach
-              </ol>
-              <hr>
-              <h4 class="card-title" id="heading-icon-dropdown"><strong>{{ trans('learning::local.attachments') }}</strong></h4>
-
-            </div>
+              </div>
           </div>
         </div>
     </div>
+
+    {{-- posts --}}
     <div class="col-lg-9 col-md-12">
 
         {{-- create post --}}
@@ -92,7 +138,7 @@
             </div>
             <div class="card hidden" id="my-post">
                 <div class="card-header">   
-                    <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data" id="form_post">
+                    <form action="{{route('admin.store-post')}}" method="post" enctype="multipart/form-data" id="form_post">
                         @csrf   
                         <input type="hidden" name="classroom_id[]" value="{{$classroom->id}}">                       
                         <input type="hidden" name="post_type" value="post">                       
@@ -105,18 +151,6 @@
                          @include('learning::teacher.posts.includes._upload-file')                                    
                          @include('learning::teacher.posts.includes._link')                                    
                          @include('learning::teacher.posts.includes._youtube-url')                                    
-                        <div class="form-control">
-                            <label>{{ trans('learning::local.share_with_class') }}</label>
-                            <select name="classroom_id[]" class="form-control select2" id="filter_room_id" multiple>
-                                    @foreach (employeeClassrooms() as $class)
-                                        @if ($class->id != $classroom->id)
-                                            <option value="{{$class->id}}">
-                                                {{session('lang') == 'ar'? $class->ar_name_classroom : $class->en_name_classroom}}
-                                            </option>                                
-                                        @endif
-                                    @endforeach
-                            </select>           
-                        </div>                               
                          
                          <hr>
                         <div class="form-group mt-1">
@@ -316,9 +350,6 @@
         @endforeach                        
     </div>    
 </div>
-
-@include('learning::teacher.posts.includes._homework-assignment')                                    
-@include('learning::teacher.posts.includes._homework-question')                                    
 @endsection
 @section('script')
 
@@ -417,17 +448,6 @@
             $('#youtube-url-modal').modal('show');
         }
 
-        function assignment()
-        {            
-            $('#assignment').modal({backdrop: 'static', keyboard: false})
-            $('#assignment').modal('show');
-        }
-        function question()
-        {            
-            $('#question').modal({backdrop: 'static', keyboard: false})
-            $('#question').modal('show');
-        }
-
         function getFile()
         {
             var filename = $('#file-name').val();
@@ -488,6 +508,18 @@
      
 
 	
+    </script>
+
+    <script>
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+        
+        for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function() {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+        });
+        }
     </script>
     <script src="{{asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js')}}"></script>
 @endsection

@@ -1,6 +1,8 @@
 <?php
 // user helpers
 
+use Student\Models\Settings\Classroom;
+
 require 'student.php';
 
 if (!function_exists('aurl')) {

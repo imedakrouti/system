@@ -1,14 +1,14 @@
-<div class="pull-left" id=""><i class="la la-comments"></i> {{ trans('learning::local.comments') }}
+<div class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" id=""><i class="la la-comments"></i> {{ trans('learning::local.comments') }}
     <span>{{$comment_count}}</span></div>
 @foreach($comments as $comment)
 <h4 class="card-title" id="heading-icon-dropdown">
 
     @empty($comment->ar_name)
         <span class="avatar avatar-online">
-            @isset(userAuthInfo()->image_profile)
-            <img src="{{asset('images/imagesProfile/'.userAuthInfo()->image_profile)}}" alt="avatar">                          
+            @isset($comment->user->image_profile)
+            <img src="{{asset('images/imagesProfile/'.$comment->user->image_profile)}}" alt="avatar">                          
             @endisset
-            @empty(userAuthInfo()->image_profile)                          
+            @empty($comment->user->image_profile)                          
             <img src="{{asset('images/studentsImages/37.jpeg')}}" alt="avatar">                          
             @endempty
         </span>
@@ -17,10 +17,10 @@
     
     @empty($comment->ar_student_name)
         <span class="avatar avatar-online">
-            @isset(authInfo()->image_profile)
-            <img src="{{asset('images/imagesProfile/'.authInfo()->image_profile)}}" alt="avatar">                          
+            @isset($comment->admin->image_profile)
+            <img src="{{asset('images/imagesProfile/'.$comment->admin->image_profile)}}" alt="avatar">                          
             @endisset
-            @empty(authInfo()->image_profile)                          
+            @empty($comment->admin->image_profile)                          
             <img src="{{asset('images/website/male.png')}}" alt="avatar">                          
             @endempty
         </span>

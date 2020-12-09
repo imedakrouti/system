@@ -13,6 +13,12 @@
                 </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.dashboard') }}</span>
             </a>
         </li> 
+        {{-- posts --}}
+        <li class=" nav-item {{request()->segment(2)=='posts'?'active':''}}">
+            <a href="{{route('admin.posts')}}"><i class="la la-share-alt">
+                </i><span class="menu-title" data-i18n="nav.support_raise_support.main">{{ trans('admin.posts') }}</span>
+            </a>
+        </li> 
         {{-- playlists --}}
         <li class=" nav-item {{request()->segment(2)=='playlists'?'active':''}}">
             <a href="{{route('playlists.index')}}"><i class="la la-youtube-play">

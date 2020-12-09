@@ -8,10 +8,53 @@ use Illuminate\Http\Request;
 use Learning\Models\Learning\Exam;
 use Learning\Models\Learning\Lesson;
 use Student\Models\Settings\Classroom;
+use Student\Models\Settings\Division;
+use Student\Models\Settings\Grade;
 
 class PostController extends Controller
 {
     private $file_name;
+
+    public function allPosts()
+    {
+        $classrooms = Classroom::sort()->where('year_id',currentYear())->get();
+        $divisions = Division::sort()->get();
+        $grades = Grade::sort()->get();
+        $posts = Post::orderBy('created_at','desc')->get();
+        $title = trans('learning::local.posts');
+        return view('learning::posts.all-posts',
+        compact('title','posts','classrooms','divisions','grades'));
+    }
+
+    public function allPostsByClassroom($classroom_id)
+    {        
+        $classrooms = Classroom::sort()->where('year_id',currentYear())->get();
+        $classroom = Classroom::findOrFail($classroom_id);
+        $divisions = Division::sort()->get();
+        $grades = Grade::sort()->get();
+        $posts = Post::where('classroom_id', $classroom_id)->orderBy('created_at','desc')->get();
+        $title = trans('learning::local.posts');
+        return view('learning::posts.all-posts-by-class',
+        compact('title','posts','classrooms','divisions','grades','classroom_id','classroom'));
+    }
+
+    public function adminStorePost(Request $request)
+    {        
+        if ($request->hasFile('file_name')) {
+            $image_path = '';                                        
+                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/posts_attachments');                                             
+        }
+        foreach (request('classroom_id') as $classroom_id) {
+            $request->user()->posts()->firstOrCreate($request->only($this->attributes())+
+                [
+                    'file_name'     => $this->file_name,
+                    'classroom_id'  => $classroom_id,
+                ]);            
+        }
+        toast(trans('msg.stored_successfully'),'success');
+        return redirect()->route('admin.posts');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +72,7 @@ class PostController extends Controller
         $classroom = Classroom::findOrFail($classroom_id);
         $where = [
             ['classroom_id',$classroom_id],  
-            ['admin_id',authInfo()->id]  
+            // ['admin_id',authInfo()->id]  
         ];
         $classrooms = Classroom::with('employees')->whereHas('employees',function($q){
             $q->where('employee_id',employee_id());

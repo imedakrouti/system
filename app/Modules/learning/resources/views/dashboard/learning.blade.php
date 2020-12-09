@@ -40,7 +40,7 @@
             <i class="la la-group font-large-2 text-white"></i>
           </div>
           <div class="p-2 bg-gradient-x-danger text-white media-body rounded-right">
-            <h5 class="text-white">{{ trans('staff::local.classrooms') }}</h5>
+            <h5 class="text-white">{{ trans('learning::local.teachers') }}</h5>
             <h5 class="text-white text-bold-400 mb-0">{{$teachers}}</h5>
           </div>
         </div>
