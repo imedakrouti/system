@@ -45,13 +45,7 @@ class PlaylistController extends Controller
                     }) 
                     ->addColumn('subjects',function($data){
                         return session('lang') == 'ar' ? $data->subjects->ar_name : $data->subjects->en_name;
-                    })
-                    ->addColumn('action', function($data){
-                           $btn = '<a class="btn btn-warning btn-sm" href="'.route('playlists.edit',$data->id).'">
-                           <i class=" la la-edit"></i>
-                       </a>';
-                            return $btn;
-                    })                              
+                    })                            
                     ->addColumn('check', function($data){
                            $btnCheck = '<label class="pos-rel">
                                         <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
@@ -61,7 +55,7 @@ class PlaylistController extends Controller
                     })
 
 
-                    ->rawColumns(['action','check','subjects','attendance_id','employee_name','working_data','playlist_name'])
+                    ->rawColumns(['check','subjects','attendance_id','employee_name','working_data','playlist_name'])
                     ->make(true);
     }
     private function getFullEmployeeName($data)
@@ -76,36 +70,24 @@ class PlaylistController extends Controller
         }
         return $employee_name;
     }
+
     private function workingData($data)
     {
         $sector = '';
         if (!empty($data->sector->ar_sector)) {
-            $sector = session('lang') == 'ar' ?  '<span class="blue">'.$data->sector->ar_sector . '</span>': '<span class="blue">'.$data->sector->en_sector . '</span>';            
+            $sector = session('lang') == 'ar' ?  '<span class="primary">'.$data->sector->ar_sector . '</span>': '<span class="primary">'.$data->sector->en_sector . '</span>';            
         }
         $department = '';
         if (!empty($data->department->ar_department)) {
-            $department = session('lang') == 'ar' ?  '<span class="purple">'.$data->department->ar_department . '</span>': '<span class="blue">'.$data->department->en_department . '</span>';            
+            $department = session('lang') == 'ar' ?  '<span class="purple">'.$data->department->ar_department . '</span>': '<span class="purple">'.$data->department->en_department . '</span>';            
         }
         $section = '';
         if (!empty($data->section->ar_section)) {
-            $section = session('lang') == 'ar' ?  '<span class="red">'.$data->section->ar_section . '</span>': '<span class="blue">'.$data->section->en_section . '</span>';            
+            $section = session('lang') == 'ar' ?  '<span class="red">'.$data->section->ar_section . '</span>': '<span class="red">'.$data->section->en_section . '</span>';            
         }
         return $sector . ' '. $department . '<br>' .  $section ;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {      
-        $employees = Employee::work()->orderBy('attendance_id')->get();
-        $subjects = Subject::sort()->get();   
-        $title = trans('learning::local.new_playlist');
-        return view('learning::playlists.create',
-        compact('title','subjects','employees'));
-    }
 
     private function attributes()
     {
@@ -118,61 +100,15 @@ class PlaylistController extends Controller
         ];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        request()->user()->playlists()->firstOrCreate(request()->only($this->attributes()));
-        toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('playlists.index');
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \Learning\Models\Learning\Playlist  $playlist
-     * @return \Illuminate\Http\Response
-     */
     public function show(Playlist $playlist)
     {
-        $lessons = Lesson::where('playlist_id',$playlist->id)->sort()->get();
+        $lessons = Lesson::where('playlist_id',$playlist->id)->sort()->paginate(10);
         $title = trans('learning::local.playlists');
         return view('learning::playlists.show',
         compact('title','playlist','lessons'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Learning\Models\Learning\Playlist  $playlist
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Playlist $playlist)
-    {
-        $employees = Employee::work()->orderBy('attendance_id')->get();
-        $subjects = Subject::sort()->get();   
-        $title = trans('learning::local.edit_playlist');
-        return view('learning::playlists.edit',
-        compact('title','subjects','employees','playlist'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Learning\Models\Learning\Playlist  $playlist
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Playlist $playlist)
-    {
-        $playlist->update(request()->only($this->attributes()));
-        toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('playlists.index');
-    }
 
     /**
      * Remove the specified resource from storage.

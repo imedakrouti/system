@@ -41,14 +41,14 @@
                     <span class="alert-icon"><i class="la la-info-circle"></i></span>               
                     {{ trans('learning::local.no_lessons') }}
                 </div>  
-              @endempty              
+              @endempty             
               <div class="col-lg-12 col-md-12">
-                @foreach ($lessons as $lesson)
+                @foreach ($lessons as $index=>$lesson)
                 <div class="card collapse-icon accordion-icon-rotate">
 
                       <div id="headingCollapse_{{$lesson->id}}" class="card-header " style="border: .2px solid #c0c0c07d;">
                         <a style="color: #7f888f;font-size:20px;font-weight:800"  data-toggle="collapse" href="#collapse_{{$lesson->id}}" aria-expanded="false" aria-controls="collapse_{{$lesson->id}}"
-                        class="card-title lead collapsed"><strong>{{$n}} - {{$lesson->lesson_title}}</strong></a>
+                        class="card-title lead collapsed"><strong>{{++$index}} - {{$lesson->lesson_title}}</strong></a>
                       </div>
                       <div id="collapse_{{$lesson->id}}" role="tabpanel" aria-labelledby="headingCollapse_{{$lesson->id}}" class="card-collapse collapse " style="border: .2px solid #c0c0c07d;"
                       aria-expanded="true">
@@ -77,9 +77,6 @@
                       </div>                        
                       
                 </div>
-                @php
-                    $n++;
-                @endphp
                 @endforeach
           </div>                                                
           {{$lessons->links()}}

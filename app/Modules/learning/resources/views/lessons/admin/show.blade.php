@@ -23,7 +23,7 @@
       <div class="card" style="min-height: 300px">
         <div class="card-content collapse show">
           <div class="card-body">
-              <h4>{{$lesson->lesson_title}} <span class="small"><a href="{{route('lessons.edit',$lesson->id)}}">{{ trans('learning::local.edit') }}</a></span></h4> 
+              <h4>{{$lesson->lesson_title}}</h4> 
               <p>{{$lesson->description}}</p>
               <div class="mb-1">                      
                 @isset($lesson->video_url)              
@@ -52,11 +52,8 @@
         <div class="card" style="min-height: 300px">
           <div class="card-content collapse show">
             <div class="card-body">
-                <h4>{{ trans('learning::local.attachments') }}</h4>
-                <div class="form-group">
-                    <a href="#" onclick="attachments()" class="btn btn-success btn-sm"><i class="la la-paperclip"></i> {{ trans('learning::local.add_attachments') }}</a>
-                    <a href="#" onclick="attachmentDestroy()" class="btn btn-danger btn-sm"><i class="la la-trash"></i> {{ trans('admin.delete') }}</a>
-                </div>
+                <h4><strong>{{ trans('learning::local.attachments') }}</strong></h4>
+          
                 {{-- attachments --}}
                 @if (count($lesson->files) > 0)       
                     <form action="" method="post" id="formData">

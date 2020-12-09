@@ -23,17 +23,13 @@
 <div class="row">
     <div class="col-12">
       <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">{{$title}}</h4>
-          <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>          
-        </div>
         <div class="card-content collapse show">
           <div class="card-body card-dashboard">
               <div class="table-responsive">
                   <form action="" id='formData' method="post">
                     @csrf
                     <table id="dynamic-table" class="table data-table" >
-                        <thead class="bg-info white">
+                        <thead>
                             <tr>
                                 <th><input type="checkbox" class="ace" /></th>
                                 <th>#</th>
@@ -41,7 +37,6 @@
                                 <th>{{trans('learning::local.subject')}}</th>                                
                                 <th>{{trans('staff::local.employee_name')}}</th>                                                                                               
                                 <th>{{trans('staff::local.working_data')}}</th>                                                                                               
-                                <th>{{trans('student::local.edit')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,14 +56,6 @@
         var myTable = $('#dynamic-table').DataTable({
         @include('layouts.backEnd.includes.datatables._datatableConfig')            
             buttons: [
-                // new btn
-                {
-                    "text": "{{trans('learning::local.new_playlist')}}",
-                    "className": "btn btn-success buttons-print btn-success mr-1",
-                    action : function ( e, dt, node, config ) {
-                        window.location.href = "{{route('playlists.create')}}";
-                        }
-                },
                 // delete btn
                 @include('layouts.backEnd.includes.datatables._deleteBtn',['route'=>'playlists.destroy'])
 

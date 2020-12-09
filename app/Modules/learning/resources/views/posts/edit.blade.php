@@ -1,4 +1,7 @@
-@extends('layouts.backEnd.teacher')
+@extends('layouts.backEnd.cpanel')
+@section('sidebar')
+    @include('layouts.backEnd.includes.sidebars._learning')
+@endsection
 @section('styles')
     <style>
             /* Top left text */
@@ -24,11 +27,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12 col-md-12">
+    <div class="col-lg12 col-md-12">
         <div class="card">
             <div class="card-content collapse show">
             <div class="card-body">
-                <form class="form form-horizontal" method="POST" action="{{route('posts.update',$post->id)}}" enctype="multipart/form-data">
+                <form class="form form-horizontal" method="POST" action="{{route('admin.update-posts',$post->id)}}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-body">

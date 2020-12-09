@@ -14,6 +14,10 @@ use Student\Models\Settings\Grade;
 class PostController extends Controller
 {
     private $file_name;
+    /**
+     * 
+     * Admin Posts
+     */
 
     public function allPosts()
     {
@@ -54,6 +58,35 @@ class PostController extends Controller
         toast(trans('msg.stored_successfully'),'success');
         return redirect()->route('admin.posts');
     }
+
+    public function adminEditPost($id)
+    {
+        $post = Post::findOrFail($id);
+        $title = trans('learning::local.edit_post');
+        return view('learning::posts.edit',
+        compact('title','post'));
+    }
+
+    public function adminUpdatePost($id)
+    {      
+        $post = Post::findOrFail($id);  
+        $post->update(request()->only($this->attributes()));
+        toast(trans('msg.updated_successfully'),'success');
+        return redirect()->route('admin.posts');
+    }
+
+    public function adminDestroyPost($id)
+    {
+        $post = Post::findOrFail($id);  
+        $post->delete();
+        toast(trans('msg.delete_successfully'),'success');
+        return redirect()->route('admin.posts');
+    }
+
+    /**
+     * 
+     * End Admin posts
+     */
     
     /**
      * Display a listing of the resource.

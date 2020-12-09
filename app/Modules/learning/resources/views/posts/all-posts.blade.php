@@ -204,7 +204,7 @@
                         <div class="heading-elements ">                                
                             <div class="form-group text-center">
                                 <!-- Floating icon Outline button -->
-                                <form class="form-horizontal frm-post" action="{{route('posts.destroy',$post->id)}}" method="post" >
+                                <form class="form-horizontal frm-post" action="{{route('admin.destroy-posts',$post->id)}}" method="post" >
                                     @csrf 
                                     @method('DELETE') 
                                     <input type="hidden" name="classroom_id" value="{{$post->classroom_id}}">
@@ -212,7 +212,7 @@
                                     <button style="width: 35px;height: 35px;padding: 0px;" type="button" 
                                     class="btn btn-float btn-square btn-outline-warning"  data-toggle="tooltip" data-placement="top"
                                     title="{{ trans('learning::local.edit') }}"
-                                    onclick="location.href='{{route('posts.edit',$post->id)}}';"><i class="la la-edit"></i></button>                                        
+                                    onclick="location.href='{{route('admin.edit-posts',$post->id)}}';"><i class="la la-edit"></i></button>                                        
                                     {{-- delete --}}
                                     <button style="width: 35px;height: 35px;padding: 0px;" type="submit" 
                                     class="btn btn-float btn-square btn-outline-danger delete-post"  data-toggle="tooltip" data-placement="top"

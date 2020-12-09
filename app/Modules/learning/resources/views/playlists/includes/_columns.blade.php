@@ -4,6 +4,5 @@ columns: [
     {data: 'playlist_name',           name: 'playlist_name'},
     {data: 'subjects',                name: 'subjects'},
     {data: 'employee_name',           name: 'employee_name'},
-    {data: 'working_data',            name: 'working_data'},                              
-    {data: 'action', 	              name: 'action', orderable: false, searchable: false},
+    {data: 'working_data',            name: 'working_data'},                                  
 ]

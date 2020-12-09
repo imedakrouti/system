@@ -3,12 +3,12 @@
         
 
         // playlists
-        Route::resource('playlists','PlaylistController')->except('destroy');
+        Route::resource('playlists','PlaylistController')->only('index','show');
         Route::post('playlists/destroy','PlaylistController@destroy')->name('playlists.destroy');
         Route::get('playlists/employee/{id}','PlaylistController@employee')->name('playlists.employee');
 
         // lessons
-        Route::resource('lessons','LessonController')->except('destroy');
+        Route::resource('lessons','LessonController')->only('index','show');
         Route::post('lessons/destroy','LessonController@destroy')->name('lessons.destroy');
         Route::post('lessons/attachment','LessonController@attachment')->name('lessons.attachment');
         Route::post('lessons/attachment/destroy','LessonController@attachmentDestroy')->name('lesson-attachment.destroy');

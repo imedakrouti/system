@@ -170,26 +170,29 @@
                             </h4>
                             {{-- mobile --}}
                             <span class="small  d-inline-block d-sm-none">{{$post->created_at->diffForHumans()}}</span>
-                            
-                            <div class="heading-elements ">                                
-                                <div class="form-group text-center">
-                                    <!-- Floating icon Outline button -->
-                                    <form class="form-horizontal frm-post" action="{{route('posts.destroy',$post->id)}}" method="post" >
-                                        @csrf 
-                                        @method('DELETE') 
-                                        <input type="hidden" name="classroom_id" value="{{$post->classroom_id}}">
-                                        {{-- edit --}}
-                                        <button style="width: 35px;height: 35px;padding: 0px;" type="button" 
-                                        class="btn btn-float btn-square btn-outline-warning"  data-toggle="tooltip" data-placement="top"
-                                        title="{{ trans('learning::local.edit') }}"
-                                        onclick="location.href='{{route('posts.edit',$post->id)}}';"><i class="la la-edit"></i></button>                                        
-                                        {{-- delete --}}
-                                        <button style="width: 35px;height: 35px;padding: 0px;" type="submit" 
-                                        class="btn btn-float btn-square btn-outline-danger delete-post"  data-toggle="tooltip" data-placement="top"
-                                        title="{{ trans('admin.delete') }}"><i class="la la-trash"></i></button>
-                                    </form>
-                                </div>
-                            </div>
+                            {{-- edit and delete --}}
+                            @if (authinfo()->id == $post->admin->id)
+                                <div class="heading-elements ">                                
+                                    <div class="form-group text-center">
+                                        <!-- Floating icon Outline button -->
+                                        <form class="form-horizontal frm-post" action="{{route('posts.destroy',$post->id)}}" method="post" >
+                                            @csrf 
+                                            @method('DELETE') 
+                                            <input type="hidden" name="classroom_id" value="{{$post->classroom_id}}">
+                                            {{-- edit --}}
+                                            <button style="width: 35px;height: 35px;padding: 0px;" type="button" 
+                                            class="btn btn-float btn-square btn-outline-warning"  data-toggle="tooltip" data-placement="top"
+                                            title="{{ trans('learning::local.edit') }}"
+                                            onclick="location.href='{{route('posts.edit',$post->id)}}';"><i class="la la-edit"></i></button>                                        
+                                            {{-- delete --}}
+                                            <button style="width: 35px;height: 35px;padding: 0px;" type="submit" 
+                                            class="btn btn-float btn-square btn-outline-danger delete-post"  data-toggle="tooltip" data-placement="top"
+                                            title="{{ trans('admin.delete') }}"><i class="la la-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>                                
+                            @endif
+
                         </div>
                         <div class="card-content">
                             <div class="card-body">
