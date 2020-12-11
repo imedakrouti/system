@@ -90,6 +90,7 @@ class PayrollProcessController extends Controller
         return view('staff::payrolls.process-payroll.index',
         compact('sectors','departments','title','employees'));  
     }
+
     public function show($code)
     {
         $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',$code)->first();        
@@ -107,6 +108,7 @@ class PayrollProcessController extends Controller
         return view('staff::payrolls.process-payroll.show',
         compact('employees','title','salary_components'));
     }
+
     private function reports($data)
     {        
         return '<div class="btn-group mr-1 mb-1">
@@ -124,6 +126,7 @@ class PayrollProcessController extends Controller
                 </div>
             </div>';
     }
+
     public function create()
     {
         if (request()->ajax()) {
@@ -136,6 +139,7 @@ class PayrollProcessController extends Controller
         return view('staff::payrolls.process-payroll.create',
         compact('payrollSheets','title'));
     }
+
     private function dataTable($data)
     {
         return datatables($data)
@@ -156,6 +160,7 @@ class PayrollProcessController extends Controller
         ->rawColumns(['employee_name','working_data','position','employee_image'])
         ->make(true);
     }
+
     private function getFullEmployeeName($data)
     {
         $employee_name = '';
@@ -168,11 +173,13 @@ class PayrollProcessController extends Controller
         }
         return $employee_name;
     }
+
     private function workingData($data)
     {
         $sector = '';
         if (!empty($data->sector->ar_sector)) {
-            $sector = session('lang') == 'ar' ?  '<span class="blue">'.$data->sector->ar_sector . '</span>': '<span class="blue">'.$data->sector->en_sector . '</span>';            
+            $sector = session('lang') == 'ar' ?  '<span class="blue">'.$data->sector->ar_sector . '</span>':
+                '<span class="blue">'.$data->sector->en_sector . '</span>';
         }
         $department = '';
         if (!empty($data->department->ar_department)) {
@@ -184,10 +191,12 @@ class PayrollProcessController extends Controller
         }
         return $sector . ' '. $department . '<br>' .  $section ;
     }
+
     private function employeeImage($data)
     {
-        $employee_id = isset($data->id) ? $data->id : $data->employee_id;   
-        $image_path = $data->gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';     
+        $employee_id = isset($data->id) ? $data->id : $data->employee_id;
+        //$image_path = $data->gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';
+        $image_path = employee_default_image($data->gender);
         return !empty($data->employee_image)?
             '<a href="'.route('employees.show',$employee_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 
@@ -279,6 +288,7 @@ class PayrollProcessController extends Controller
         return redirect()->route('payroll-process.index');               
         
     }
+
     private function storeEmployeesNotInFixedTemporaryTables()
     {
         $employees_temporary = Employee::whereDoesntHave('temporaryComponent')->with('payrollSheetEmployee')
@@ -318,6 +328,7 @@ class PayrollProcessController extends Controller
             ->get();
         
     }
+
     private function categoryTypes()
     {
         $this->category = SalaryComponent::has('payrollSheet')
@@ -463,12 +474,14 @@ class PayrollProcessController extends Controller
         }
 
     }
+
     private function prepareFormula($formula)
     {
         $pattern = $this->pattern();
         $replacement = $this->replacement();        
         return preg_replace( $pattern, $replacement, $formula);
     }
+
     private function loadPattern()
     {
         $this->other_pattern = DB::table('external_codes')->select('pattern')->get();
@@ -528,6 +541,7 @@ class PayrollProcessController extends Controller
         }
         return $replacement;
     }
+
     private function calculateComponents($component_type)
     {               
         $amounts = array();
@@ -589,7 +603,6 @@ class PayrollProcessController extends Controller
         ]);
     }
     // parameters
-
     public function days_attendance()
     {
         foreach($this->get_data_attendance as $row)
@@ -651,6 +664,7 @@ class PayrollProcessController extends Controller
         ->where('approval2','Accepted')
         ->sum('amount');
     }
+
     private function deductions()
     {
         return Deduction::where('employee_id',$this->employee_id)
@@ -659,6 +673,7 @@ class PayrollProcessController extends Controller
         ->where('approval2','Accepted')
         ->sum('amount');
     }
+
     private function get_data_attendance()
     {        
         $this->get_data_attendance  = DB::table('last_main_view')
@@ -688,6 +703,7 @@ class PayrollProcessController extends Controller
         }
         return count($data);
     }
+
     public function num_calculated_absences()
     {
         foreach($this->get_data_attendance as $row)
@@ -707,6 +723,7 @@ class PayrollProcessController extends Controller
         }
         return array_sum($data);
     }
+
     public function num_no_attend()
     {
         foreach($this->get_data_attendance as $row)
@@ -728,6 +745,7 @@ class PayrollProcessController extends Controller
         }
         return count($data);
     }
+
     public function num_no_leave()
     {
         foreach($this->get_data_attendance as $row)
@@ -749,6 +767,7 @@ class PayrollProcessController extends Controller
         }
         return count($data);
     }
+
     public function num_minutes_late()
     {
         foreach($this->get_data_attendance as $row)
@@ -770,6 +789,7 @@ class PayrollProcessController extends Controller
         }
         return array_sum($data);
     }
+
     public function num_leave_early()
     {
         foreach($this->get_data_attendance as $row)
@@ -918,6 +938,7 @@ class PayrollProcessController extends Controller
         $pdf = PDF::loadView('staff::payrolls.process-payroll.reports.department', $data,[],$config);
         return $pdf->stream(trans('staff::local.payroll_sheet').'.pdf');
     }
+
     public function review()
     {
         $employees = Employee::work()->orderBy('attendance_id')->get();
@@ -925,6 +946,7 @@ class PayrollProcessController extends Controller
         return view('staff::payrolls.process-payroll.review-salary',
         compact('employees','title')); 
     }
+
     public function setSalaryReview()
     {        
         if (request()->ajax()) {

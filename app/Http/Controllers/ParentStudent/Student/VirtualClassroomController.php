@@ -2,9 +2,11 @@
 namespace App\Http\Controllers\ParentStudent\Student;
 use App\Http\Controllers\Controller;
 use Learning\Models\Learning\ZoomSchedule;
+use mysql_xdevapi\DatabaseObject;
 use Student\Models\Settings\Classroom;
 use Learning\Models\Learning\ZoomAccount;
 use Carbon\Carbon;
+use Yajra\DataTables\Contracts\DataTable;
 
 class VirtualClassroomController extends Controller
 {
@@ -105,85 +107,86 @@ class VirtualClassroomController extends Controller
     private function joinClassroomDataTable($data)
     {
         return datatables($data)
-            ->addIndexColumn()
-            ->addColumn('start_class', function($data){
-                $time = new Carbon( $data->start_time);
-                $btn = '';
+                ->addIndexColumn()
+                ->addColumn('start_class', function($data){
+                    $time = new Carbon( $data->start_time);
+                    $btn = '';
 
-                // hidden before date & time
-                if($data->start_date >= date_format(Carbon::now(),"Y-m-d")){
-                        $btn = '<span class="blue"><strong>'.trans('learning::local.not_yet').'</strong></span>';
-                }    
+                    // hidden before date & time
+                    if($data->start_date >= date_format(Carbon::now(),"Y-m-d")){
+                            $btn = '<span class="blue"><strong>'.trans('learning::local.not_yet').'</strong></span>';
+                    }
 
-                // today
-                if ($data->start_date <= date_format(Carbon::now(),"Y-m-d") && 
-                    date_format($time->subMinutes(1),"H:i") < date_format(Carbon::now(),"H:i")) {
-                    $employees = $data->subject->employees;                    
-                    $btn = '<a target="_blank" href="'.route('student.live-classroom',['employee_id'=>$this->employeeID($employees),
-                    'zoom_schedule_id'=>$data->id]).'" 
-                                class="btn btn-purple btn-sm" ">'.trans('student.join').' 
-                            </a>';
-                }
-                if($data->start_date < date_format(Carbon::now(),"Y-m-d")){
-                    $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
-                }
-                            
-                // hidden after date & time
-                
-                $time = $time->addMinutes(45);
-                
-                if($data->start_date == date_format(Carbon::now(),"Y-m-d") && 
-                    date_format($time,"H:i") < date_format(Carbon::now(),"H:i")){
-                    $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
-                } 
-                
-                return $btn;
-            }) 
-            ->addColumn('start_date',function($data){
-                return '<span class="blue">'.Carbon::parse( $data->start_date)->format('M d Y').'<br>
-                '.Carbon::parse( $data->start_time)->format('h:i a').'
-                </span>';
-            })  
-            ->addColumn('subject',function($data){
-                return session('lang') == 'ar' ? $data->subject->ar_name : $data->subject->en_name;
-            })   
-            ->addColumn('pass_code',function($data){
-                $time = new Carbon( $data->start_time);
-                $passcode = '';
+                    // today
+                    if ($data->start_date <= date_format(Carbon::now(),"Y-m-d") &&
+                        $this->passcode($data->subject->employees) != 'Err 404' &&
+                        date_format($time->subMinutes(1),"H:i") < date_format(Carbon::now(),"H:i")) {
+                        $employees = $data->subject->employees;
+                        $btn = '<a target="_blank" href="'.route('student.live-classroom',['employee_id'=>$this->employeeID($employees),
+                        'zoom_schedule_id'=>$data->id]).'" 
+                                    class="btn btn-purple btn-sm" ">'.trans('student.join').' 
+                                </a>';
+                    }
+                    if($data->start_date < date_format(Carbon::now(),"Y-m-d")){
+                        $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
+                    }
 
-                // hidden before date & time
-                if($data->start_date >= date_format(Carbon::now(),"Y-m-d")){
-                    $passcode = '*****';
-                }    
+                    // hidden after date & time
 
-                // today
-                if ($data->start_date <= date_format(Carbon::now(),"Y-m-d") && 
-                    date_format($time->subMinutes(1),"H:i") < date_format(Carbon::now(),"H:i")) {
-                    $employees = $data->subject->employees;                    
-                    $passcode = $this->passcode($employees);
-                }
+                    $time = $time->addMinutes(45);
 
-                if($data->start_date < date_format(Carbon::now(),"Y-m-d")){
-                    $passcode = '*****';
-                }
-                            
-                // hidden after date & time
-                
-                $time = $time->addMinutes(45);
-                
-                if($data->start_date == date_format(Carbon::now(),"Y-m-d") && 
-                    date_format($time,"H:i") < date_format(Carbon::now(),"H:i")){
-                    $passcode = '*****';
-                } 
-                
-                return $passcode;
+                    if($data->start_date == date_format(Carbon::now(),"Y-m-d") &&
+                        date_format($time,"H:i") < date_format(Carbon::now(),"H:i")){
+                        $btn = '<span class="red"><strong>'.trans('learning::local.finished').'</strong></span>';
+                    }
 
-            })                                  
-            ->rawColumns(['start_date','start_class','subject','pass_code'])
-            ->make(true);
+                    return $btn;
+                })
+                ->addColumn('start_date',function($data){
+                    return '<span class="blue">'.Carbon::parse( $data->start_date)->format('M d Y').'<br>
+                    '.Carbon::parse( $data->start_time)->format('h:i a').'
+                    </span>';
+                })
+                ->addColumn('subject',function($data){
+                    return session('lang') == 'ar' ? $data->subject->ar_name : $data->subject->en_name;
+                })
+                ->addColumn('pass_code',function($data){
+                    $time = new Carbon( $data->start_time);
+                    $passcode = '';
+
+                    // hidden before date & time
+                    if($data->start_date >= date_format(Carbon::now(),"Y-m-d")){
+                        $passcode = '*****';
+                    }
+
+                    // today
+                    if ($data->start_date <= date_format(Carbon::now(),"Y-m-d") &&
+                        date_format($time->subMinutes(1),"H:i") < date_format(Carbon::now(),"H:i")) {
+                        $employees = $data->subject->employees;
+                        $passcode = $this->passcode($employees);
+                    }
+
+                    if($data->start_date < date_format(Carbon::now(),"Y-m-d")){
+                        $passcode = '*****';
+                    }
+
+                    // hidden after date & time
+
+                    $time = $time->addMinutes(45);
+
+                    if($data->start_date == date_format(Carbon::now(),"Y-m-d") &&
+                        date_format($time,"H:i") < date_format(Carbon::now(),"H:i")){
+                        $passcode = '*****';
+                    }
+
+                    return $passcode;
+
+                })
+                ->rawColumns(['start_date','start_class','subject','pass_code'])
+                ->make(true);
     }
     
-    private function employeeID($employees)
+    private function employeeID($employees) :int
     {
         $employee_id = '';
         foreach ($employees as $employee) {
@@ -198,7 +201,8 @@ class VirtualClassroomController extends Controller
         foreach ($employees as $employee) {
             $employee_id = $employee->id;
         }
-        return  ZoomAccount::where('employee_id',$employee_id)->first()->pass_code;        
+        $pass_code =ZoomAccount::where('employee_id',$employee_id)->first();
+        return  empty($pass_code) ? 'Err 404' : $pass_code->pass_code;
     }
     
     public function liveClassroom($employee_id, $zoom_schedule_id)

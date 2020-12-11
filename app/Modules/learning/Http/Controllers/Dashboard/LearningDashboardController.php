@@ -101,7 +101,7 @@ class LearningDashboardController extends Controller
     private function getFullEmployeeName($employee_id)
     {
         $data = Employee::findOrFail($employee_id);
-        $employee_name = '';
+
         if (session('lang') == 'ar') {
             $employee_name = '<a target="blank" href="'.route('employees.show',$data->id).'">' .$data->ar_st_name . ' ' . $data->ar_nd_name.
             ' ' . $data->ar_rd_name.' ' . $data->ar_th_name.'</a>';
@@ -115,7 +115,7 @@ class LearningDashboardController extends Controller
     private function employeeImage($employee_id)
     {
         $data = Employee::findOrFail($employee_id);
-        $image_path = $data->gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';     
+        $image_path = employee_default_image($data->gender);
         return !empty($data->employee_image)?
             '<a href="'.route('employees.show',$employee_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 

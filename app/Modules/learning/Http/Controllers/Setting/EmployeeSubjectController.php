@@ -66,8 +66,9 @@ class EmployeeSubjectController extends Controller
     }
     private function employeeImage($data)
     {
-        $employee_id = isset($data->id) ? $data->id : $data->employee_id;   
-        $image_path = $data->gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';     
+        $employee_id = isset($data->id) ? $data->id : $data->employee_id;
+        //$image_path = $data->gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';
+        $image_path = employee_default_image($data->gender);
         return !empty($data->employee_image)?
             '<a href="'.route('employees.show',$employee_id).'">
                 <img class=" editable img-responsive student-image" alt="" id="avatar2" 

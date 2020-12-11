@@ -334,3 +334,11 @@ if (!function_exists('startVirtualClass')) {
 		return $btn;	
 	}
 }
+
+if (!function_exists('employee_default_image')) {
+    function employee_default_image($gender) : string
+    {
+        return $gender == trans('staff::local.male') ? 'images/website/male.png' : 'images/website/female.png';
+    }
+}
+
