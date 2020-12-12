@@ -1,6 +1,7 @@
 <?php
 
 namespace Learning\Http\Controllers\Learning;
+
 use App\Http\Controllers\Controller;
 use Learning\Models\Learning\Exam;
 use Illuminate\Http\Request;
@@ -20,49 +21,51 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
+    {
         $title = trans('learning::local.exams');
         $data = Exam::orderBy('start_date')->get();
         if (request()->ajax()) {
             return $this->dataTable($data);
         }
-        return view('learning::exams.index',
-        compact('title'));
+        return view(
+            'learning::exams.index',
+            compact('title')
+        );
     }
     private function dataTable($data)
     {
         return datatables($data)
             ->addIndexColumn()
-            ->addColumn('exam_name',function($data){
-                return '<a href="'.route('exams.show',$data->id).'"><span><strong>'.$data->exam_name.'</strong></span></a> </br>' .
-                '<span class="black small">'.$data->description.'</span>';
+            ->addColumn('exam_name', function ($data) {
+                return '<a href="' . route('exams.show', $data->id) . '"><span><strong>' . $data->exam_name . '</strong></span></a> </br>' .
+                    '<span class="black small">' . $data->description . '</span>';
             })
-            ->addColumn('action', function($data){
-                    $btn = '<a class="btn btn-warning btn-sm" href="'.route('exams.edit',$data->id).'">
+            ->addColumn('action', function ($data) {
+                $btn = '<a class="btn btn-warning btn-sm" href="' . route('exams.edit', $data->id) . '">
                     <i class=" la la-edit"></i>
                 </a>';
-                    return $btn;
-            })  
-            ->addColumn('show_questions', function($data){
-                $btn = '<a class="btn btn-primary" href="'.route('exams.show',$data->id).'">
-                    '.trans('learning::local.show_questions').'
+                return $btn;
+            })
+            ->addColumn('show_questions', function ($data) {
+                $btn = '<a class="btn btn-primary" href="' . route('exams.show', $data->id) . '">
+                    ' . trans('learning::local.show_questions') . '
                 </a>';
-                    return $btn;
-            }) 
-            ->addColumn('start',function($data){
-                return '<span class="blue">'.$data->start_date.'</span>' . ' - ' . $data->start_time;
-            })  
-            ->addColumn('end',function($data){
-                return '<span class="red">'.$data->end_date.'</span>' . ' - ' . $data->end_time;
-            })                            
-            ->addColumn('check', function($data){
-                    $btnCheck = '<label class="pos-rel">
-                                <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+                return $btn;
+            })
+            ->addColumn('start', function ($data) {
+                return '<span class="blue">' . $data->start_date . '</span>' . ' - ' . $data->start_time;
+            })
+            ->addColumn('end', function ($data) {
+                return '<span class="red">' . $data->end_date . '</span>' . ' - ' . $data->end_time;
+            })
+            ->addColumn('check', function ($data) {
+                $btnCheck = '<label class="pos-rel">
+                                <input type="checkbox" class="ace" name="id[]" value="' . $data->id . '" />
                                 <span class="lbl"></span>
                             </label>';
-                    return $btnCheck;
+                return $btnCheck;
             })
-            ->rawColumns(['action','check','start','end','exam_name','show_questions'])
+            ->rawColumns(['action', 'check', 'start', 'end', 'exam_name', 'show_questions'])
             ->make(true);
     }
 
@@ -72,14 +75,16 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {          
-        $subjects = Subject::sort()->get();   
-        $divisions = Division::sort()->get();     
-        $grades = Grade::sort()->get();      
-        $lessons = Lesson::with('subject')->orderBy('lesson_title')->get(); 
+    {
+        $subjects = Subject::sort()->get();
+        $divisions = Division::sort()->get();
+        $grades = Grade::sort()->get();
+        $lessons = Lesson::with('subject')->orderBy('lesson_title')->get();
         $title = trans('learning::local.new_exam');
-        return view('learning::exams.create',
-        compact('title','subjects','lessons','divisions','grades'));
+        return view(
+            'learning::exams.create',
+            compact('title', 'subjects', 'lessons', 'divisions', 'grades')
+        );
     }
 
     private function attributes()
@@ -91,10 +96,10 @@ class ExamController extends Controller
             'end_date',
             'end_time',
             'duration',
-            'total_mark',                
-            'no_question_per_page',                
-            'description', 
-            'subject_id',         
+            'total_mark',
+            'no_question_per_page',
+            'description',
+            'subject_id',
             'auto_correct',
             'show_results',
             'admin_id',
@@ -108,30 +113,30 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
-        DB::transaction(function() use ($request){
+    {
+        DB::transaction(function () use ($request) {
             $this->exam =  $request->user()->exams()->firstOrCreate(request()->only($this->attributes()));
             if (request()->has('lessons')) {
-                DB::table('lesson_exam')->where('exam_id',$this->exam->id)->delete();
-                
+                DB::table('lesson_exam')->where('exam_id', $this->exam->id)->delete();
+
                 foreach (request('lessons') as $lesson_id) {
-                    $this->exam->lessons()->attach($lesson_id);                        
+                    $this->exam->lessons()->attach($lesson_id);
                 }
             }
-            DB::table('exam_division')->where('exam_id',$this->exam->id)->delete();
-                
+            DB::table('exam_division')->where('exam_id', $this->exam->id)->delete();
+
             foreach (request('divisions') as $division_id) {
-                $this->exam->divisions()->attach($division_id);                        
+                $this->exam->divisions()->attach($division_id);
             }
 
-            DB::table('exam_grade')->where('exam_id',$this->exam->id)->delete();
-                
+            DB::table('exam_grade')->where('exam_id', $this->exam->id)->delete();
+
             foreach (request('grades') as $grade_id) {
-                $this->exam->grades()->attach($grade_id);                        
+                $this->exam->grades()->attach($grade_id);
             }
-        });      
-        toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('exams.show',$this->exam->id);
+        });
+        toast(trans('msg.stored_successfully'), 'success');
+        return redirect()->route('exams.show', $this->exam->id);
     }
 
     /**
@@ -141,16 +146,18 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Exam $exam)
-    {        
-        $exam = Exam::with('subjects')->where('id',$exam->id)->first();        
-        $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
-        ->get();    
-        $questions = $questions->shuffle();   
-        
+    {
+        $exam = Exam::with('subjects')->where('id', $exam->id)->first();
+        $questions = Question::with('answers', 'matchings')->where('exam_id', $exam->id)->orderBy('question_type')
+            ->get();
+        $questions = $questions->shuffle();
+
         $title = trans('learning::local.exams');
         $n = 1;
-        return view('learning::exams.show',
-        compact('title','exam','questions','n'));
+        return view(
+            'learning::exams.show',
+            compact('title', 'exam', 'questions', 'n')
+        );
     }
 
     /**
@@ -161,28 +168,39 @@ class ExamController extends Controller
      */
     public function edit(Exam $exam)
     {
-        $subjects = Subject::sort()->get();  
-        $divisions = Division::sort()->get();     
-        $grades = Grade::sort()->get();      
-        $lessons = Lesson::with('subject')->orderBy('lesson_title')->get();   
+        $subjects = Subject::sort()->get();
+        $divisions = Division::sort()->get();
+        $grades = Grade::sort()->get();
+        $lessons = Lesson::with('subject')->orderBy('lesson_title')->get();
         $title = trans('learning::local.edit_exam');
         $arr_lessons = [];
         $arr_divisions = [];
         $arr_grades = [];
 
         foreach ($exam->lessons as $lesson) {
-            $arr_lessons []= $lesson->id;            
-        } 
+            $arr_lessons[] = $lesson->id;
+        }
         foreach ($exam->divisions as $division) {
-            $arr_divisions []= $division->id;            
-        }   
+            $arr_divisions[] = $division->id;
+        }
         foreach ($exam->grades as $grade) {
-            $arr_grades []= $grade->id;            
-        }   
+            $arr_grades[] = $grade->id;
+        }
 
-        return view('learning::exams.edit',
-        compact('title','exam','subjects','lessons','arr_lessons','divisions',
-        'grades','arr_divisions','arr_grades'));
+        return view(
+            'learning::exams.edit',
+            compact(
+                'title',
+                'exam',
+                'subjects',
+                'lessons',
+                'arr_lessons',
+                'divisions',
+                'grades',
+                'arr_divisions',
+                'arr_grades'
+            )
+        );
     }
 
     /**
@@ -193,29 +211,29 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Exam $exam)
-    {    
-        DB::transaction(function() use ($exam){
+    {
+        DB::transaction(function () use ($exam) {
             $exam->update(request()->only($this->attributes()));
 
-            DB::table('lesson_exam')->where('exam_id',$exam->id)->delete();
-            if (request()->has('lessons')) {            
+            DB::table('lesson_exam')->where('exam_id', $exam->id)->delete();
+            if (request()->has('lessons')) {
                 foreach (request('lessons') as $lesson_id) {
-                    $exam->lessons()->attach($lesson_id);                        
+                    $exam->lessons()->attach($lesson_id);
                 }
             }
 
-            DB::table('exam_division')->where('exam_id',$exam->id)->delete();                   
+            DB::table('exam_division')->where('exam_id', $exam->id)->delete();
             foreach (request('divisions') as $division_id) {
-                $exam->divisions()->attach($division_id);                        
+                $exam->divisions()->attach($division_id);
             }
-    
-            DB::table('exam_grade')->where('exam_id',$exam->id)->delete();
-                
+
+            DB::table('exam_grade')->where('exam_id', $exam->id)->delete();
+
             foreach (request('grades') as $grade_id) {
-                $exam->grades()->attach($grade_id);                        
+                $exam->grades()->attach($grade_id);
             }
         });
-        toast(trans('msg.updated_successfully'),'success');
+        toast(trans('msg.updated_successfully'), 'success');
         return redirect()->route('exams.index');
     }
 
@@ -228,25 +246,26 @@ class ExamController extends Controller
     public function destroy()
     {
         if (request()->ajax()) {
-            if (request()->has('id'))
-            {
+            if (request()->has('id')) {
                 foreach (request('id') as $id) {
                     Exam::destroy($id);
                 }
             }
         }
-        return response(['status'=>true]);
+        return response(['status' => true]);
     }
     public function preview($exam_id)
     {
-        $exam = Exam::with('subjects','divisions','grades')->where('id',$exam_id)->first();            
-        $questions = Question::with('answers','matchings')->where('exam_id',$exam->id)->orderBy('question_type')
-        ->get();    
-        $questions = $questions->shuffle();   
-                
+        $exam = Exam::with('subjects', 'divisions', 'grades')->where('id', $exam_id)->first();
+        $questions = Question::with('answers', 'matchings')->where('exam_id', $exam->id)->orderBy('question_type')
+            ->get();
+        $questions = $questions->shuffle();
+
         $n = 1;
         $title = trans('learning::local.preview_exam');
-        return view('learning::exams.preview',
-        compact('title','exam','questions','n'));
+        return view(
+            'learning::exams.preview',
+            compact('title', 'exam', 'questions', 'n')
+        );
     }
 }

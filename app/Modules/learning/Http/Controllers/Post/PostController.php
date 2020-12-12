@@ -1,6 +1,7 @@
 <?php
 
 namespace Learning\Http\Controllers\Post;
+
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Learning\Models\Learning\Post;
@@ -21,41 +22,45 @@ class PostController extends Controller
 
     public function allPosts()
     {
-        $classrooms = Classroom::sort()->where('year_id',currentYear())->get();
+        $classrooms = Classroom::sort()->where('year_id', currentYear())->get();
         $divisions = Division::sort()->get();
         $grades = Grade::sort()->get();
-        $posts = Post::orderBy('created_at','desc')->get();
+        $posts = Post::orderBy('created_at', 'desc')->get();
         $title = trans('learning::local.posts');
-        return view('learning::posts.all-posts',
-        compact('title','posts','classrooms','divisions','grades'));
+        return view(
+            'learning::posts.all-posts',
+            compact('title', 'posts', 'classrooms', 'divisions', 'grades')
+        );
     }
 
     public function allPostsByClassroom($classroom_id)
-    {        
-        $classrooms = Classroom::sort()->where('year_id',currentYear())->get();
+    {
+        $classrooms = Classroom::sort()->where('year_id', currentYear())->get();
         $classroom = Classroom::findOrFail($classroom_id);
         $divisions = Division::sort()->get();
         $grades = Grade::sort()->get();
-        $posts = Post::where('classroom_id', $classroom_id)->orderBy('created_at','desc')->get();
+        $posts = Post::where('classroom_id', $classroom_id)->orderBy('created_at', 'desc')->get();
         $title = trans('learning::local.posts');
-        return view('learning::posts.all-posts-by-class',
-        compact('title','posts','classrooms','divisions','grades','classroom_id','classroom'));
+        return view(
+            'learning::posts.all-posts-by-class',
+            compact('title', 'posts', 'classrooms', 'divisions', 'grades', 'classroom_id', 'classroom')
+        );
     }
 
     public function adminStorePost(Request $request)
-    {        
+    {
         if ($request->hasFile('file_name')) {
-            $image_path = '';                                        
-                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/posts_attachments');                                             
+            $image_path = '';
+            $this->file_name = uploadFileOrImage($image_path, request('file_name'), 'images/posts_attachments');
         }
         foreach (request('classroom_id') as $classroom_id) {
-            $request->user()->posts()->firstOrCreate($request->only($this->attributes())+
+            $request->user()->posts()->firstOrCreate($request->only($this->attributes()) +
                 [
                     'file_name'     => $this->file_name,
                     'classroom_id'  => $classroom_id,
-                ]);            
+                ]);
         }
-        toast(trans('msg.stored_successfully'),'success');
+        toast(trans('msg.stored_successfully'), 'success');
         return redirect()->route('admin.posts');
     }
 
@@ -63,23 +68,25 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $title = trans('learning::local.edit_post');
-        return view('learning::posts.edit',
-        compact('title','post'));
+        return view(
+            'learning::posts.edit',
+            compact('title', 'post')
+        );
     }
 
     public function adminUpdatePost($id)
-    {      
-        $post = Post::findOrFail($id);  
+    {
+        $post = Post::findOrFail($id);
         $post->update(request()->only($this->attributes()));
-        toast(trans('msg.updated_successfully'),'success');
+        toast(trans('msg.updated_successfully'), 'success');
         return redirect()->route('admin.posts');
     }
 
     public function adminDestroyPost($id)
     {
-        $post = Post::findOrFail($id);  
+        $post = Post::findOrFail($id);
         $post->delete();
-        toast(trans('msg.delete_successfully'),'success');
+        toast(trans('msg.delete_successfully'), 'success');
         return redirect()->route('admin.posts');
     }
 
@@ -87,7 +94,7 @@ class PostController extends Controller
      * 
      * End Admin posts
      */
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -95,39 +102,41 @@ class PostController extends Controller
      */
     public function index($classroom_id)
     {
-         $exams = Exam::with('classrooms')->whereHas('classrooms',function($q) use($classroom_id){
-            $q->where('classroom_id',$classroom_id);
-         })
-         ->where('start_date','>=',\Carbon\Carbon::today())
-         ->where('admin_id',authInfo()->id)
-         ->get();         
+        $exams = Exam::with('classrooms')->whereHas('classrooms', function ($q) use ($classroom_id) {
+            $q->where('classroom_id', $classroom_id);
+        })
+            ->where('start_date', '>=', \Carbon\Carbon::today())
+            ->where('admin_id', authInfo()->id)
+            ->get();
 
         $classroom = Classroom::findOrFail($classroom_id);
         $where = [
-            ['classroom_id',$classroom_id],  
+            ['classroom_id', $classroom_id],
             // ['admin_id',authInfo()->id]  
         ];
-        $classrooms = Classroom::with('employees')->whereHas('employees',function($q){
-            $q->where('employee_id',employee_id());
+        $classrooms = Classroom::with('employees')->whereHas('employees', function ($q) {
+            $q->where('employee_id', employee_id());
         })->get();
-        
-        $lessons = Lesson::with('subject')->where('admin_id',authInfo()->id)->orderBy('lesson_title')->get(); 
 
-        $posts = Post::where($where)->orderBy('created_at','desc')->limit(30)->get();
+        $lessons = Lesson::with('subject')->where('admin_id', authInfo()->id)->orderBy('lesson_title')->get();
+
+        $posts = Post::where($where)->orderBy('created_at', 'desc')->limit(30)->get();
         $title = trans('learning::local.posts');
-        return view('learning::teacher.posts.index',
-        compact('title','classroom','posts','exams','lessons'));
+        return view(
+            'learning::teacher.posts.index',
+            compact('title', 'classroom', 'posts', 'exams', 'lessons')
+        );
     }
 
     private function attributes()
     {
-        return [        
-            'post_text',                               
-            'youtube_url',                       
-            'url',                                               
-            'post_type',                                               
-            'description',                                               
-            'admin_id',                                   
+        return [
+            'post_text',
+            'youtube_url',
+            'url',
+            'post_type',
+            'description',
+            'admin_id',
         ];
     }
 
@@ -138,20 +147,20 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {
         if ($request->hasFile('file_name')) {
-            $image_path = '';                                        
-                $this->file_name = uploadFileOrImage($image_path,request('file_name'),'images/posts_attachments');                                             
+            $image_path = '';
+            $this->file_name = uploadFileOrImage($image_path, request('file_name'), 'images/posts_attachments');
         }
         foreach (request('classroom_id') as $classroom_id) {
-            $request->user()->posts()->firstOrCreate($request->only($this->attributes())+
+            $request->user()->posts()->firstOrCreate($request->only($this->attributes()) +
                 [
                     'file_name'     => $this->file_name,
                     'classroom_id'  => $classroom_id,
-                ]);            
+                ]);
         }
-        toast(trans('msg.stored_successfully'),'success');
-        return redirect()->route('posts.index',request('classroom_id'));
+        toast(trans('msg.stored_successfully'), 'success');
+        return redirect()->route('posts.index', request('classroom_id'));
     }
 
     /**
@@ -163,8 +172,10 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $title = trans('learning::local.edit_post');
-        return view('learning::teacher.posts.edit-post',
-        compact('title','post'));
+        return view(
+            'learning::teacher.posts.edit-post',
+            compact('title', 'post')
+        );
     }
 
     /**
@@ -175,10 +186,10 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
-    {        
+    {
         $post->update(request()->only($this->attributes()));
-        toast(trans('msg.updated_successfully'),'success');
-        return redirect()->route('posts.index',$post->classroom_id);
+        toast(trans('msg.updated_successfully'), 'success');
+        return redirect()->route('posts.index', $post->classroom_id);
     }
 
     /**
@@ -190,8 +201,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        toast(trans('msg.delete_successfully'),'success');
-        return redirect()->route('posts.index',request('classroom_id'));
+        toast(trans('msg.delete_successfully'), 'success');
+        return redirect()->route('posts.index', request('classroom_id'));
     }
-
 }

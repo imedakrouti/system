@@ -3,19 +3,19 @@ namespace Staff\Http\Controllers\Payroll;
 use App\Http\Controllers\Controller;
 use Staff\Models\Employees\Deduction;
 use Staff\Models\Employees\Loan;
-use DB;
 use Staff\Models\Payrolls\FixedComponent;
 use Staff\Models\Payrolls\PayrollComponent;
 use Staff\Models\Payrolls\PayrollSheet;
 use Staff\Models\Payrolls\TemporaryComponent;
 use Staff\Models\Settings\SalaryComponent;
-use Carbon;
-use PDF;
 use Staff\Models\Employees\Employee;
 use Staff\Models\Payrolls\PayrollSheetEmployee;
 use Staff\Models\Settings\Department;
 use Staff\Models\Settings\HrReport;
 use Staff\Models\Settings\Sector;
+use DB;
+use Carbon;
+use PDF;
 
 class PayrollProcessController extends Controller
 {

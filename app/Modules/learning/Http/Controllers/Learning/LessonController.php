@@ -1,6 +1,7 @@
 <?php
 
 namespace Learning\Http\Controllers\Learning;
+
 use App\Http\Controllers\Controller;
 use Learning\Models\Learning\Lesson;
 use Learning\Http\Requests\LessonRequest;
@@ -22,59 +23,61 @@ class LessonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
+    {
         $title = trans('learning::local.lessons');
-        $data = Lesson::with('subject','admin')->sort()->get();
+        $data = Lesson::with('subject', 'admin')->sort()->get();
         if (request()->ajax()) {
             return $this->dataTable($data);
         }
-        return view('learning::lessons.admin.index',
-        compact('title'));
+        return view(
+            'learning::lessons.admin.index',
+            compact('title')
+        );
     }
     private function dataTable($data)
     {
         return datatables($data)
             ->addIndexColumn()
-            ->addColumn('lesson_title',function($data){
+            ->addColumn('lesson_title', function ($data) {
                 $division_name = '';
-                foreach ($data->divisions as $division) {     
+                foreach ($data->divisions as $division) {
                     $sub = session('lang') == 'ar' ? $division->ar_division_name : $division->en_division_name;
                     $division_name .= '<div class="badge badge-primary mt-1">
-                                            <span>'. $sub.'</span>
+                                            <span>' . $sub . '</span>
                                             <i class="la la-folder-o font-medium-3"></i>
-                                        </div> ' ;
+                                        </div> ';
                 }
                 $grade_name = '';
-                foreach ($data->grades as $grade) {     
+                foreach ($data->grades as $grade) {
                     $sub = session('lang') == 'ar' ? $grade->ar_grade_name : $grade->en_grade_name;
                     $grade_name .= '<div class="badge badge-danger">
-                                        <span>'. $sub.'</span>
+                                        <span>' . $sub . '</span>
                                         <i class="la la-folder-o font-medium-3"></i>
-                                    </div> ' ;
+                                    </div> ';
                 }
-                $arabic_name = $data->admin->employeeUser->ar_st_name .  ' ' .$data->admin->employeeUser->ar_nd_name .' '. $data->admin->employeeUser->ar_rd_name;
-                $english_name = $data->admin->employeeUser->en_st_name .  ' ' .$data->admin->employeeUser->en_nd_name .' '. $data->admin->employeeUser->en_rd_name;
+                $arabic_name = $data->admin->employeeUser->ar_st_name .  ' ' . $data->admin->employeeUser->ar_nd_name . ' ' . $data->admin->employeeUser->ar_rd_name;
+                $english_name = $data->admin->employeeUser->en_st_name .  ' ' . $data->admin->employeeUser->en_nd_name . ' ' . $data->admin->employeeUser->en_rd_name;
 
-                $teacher_name = '(<span class="small">'.trans('learning::local.created_by').' ';
-                $teacher_name .= session('lang') == 'ar' ? $arabic_name : $english_name .'</span>)';
-                return '<a href="'.route('lessons.show',$data->id).'"><span><strong>'.$data->lesson_title.'</strong>  </span></a> '.$teacher_name.' </br>' .
-                '<span class="small">'.$data->description.'</span><br>' . $division_name .$grade_name;
+                $teacher_name = '(<span class="small">' . trans('learning::local.created_by') . ' ';
+                $teacher_name .= session('lang') == 'ar' ? $arabic_name : $english_name . '</span>)';
+                return '<a href="' . route('lessons.show', $data->id) . '"><span><strong>' . $data->lesson_title . '</strong>  </span></a> ' . $teacher_name . ' </br>' .
+                    '<span class="small">' . $data->description . '</span><br>' . $division_name . $grade_name;
             })
-            ->addColumn('visibility',function($data){
+            ->addColumn('visibility', function ($data) {
                 return $data->visibility == 'show' ? '<a class="la la-eye btn btn-success white"></a>' : '<a class="la la-eye-slash btn btn-primary white"></a>';
             })
-            ->addColumn('subject',function($data){
+            ->addColumn('subject', function ($data) {
                 return session('lang') == 'ar' ? $data->subject->ar_name : $data->subject->en_name;
             })
-                    
-            ->addColumn('check', function($data){
-                    $btnCheck = '<label class="pos-rel">
-                                <input type="checkbox" class="ace" name="id[]" value="'.$data->id.'" />
+
+            ->addColumn('check', function ($data) {
+                $btnCheck = '<label class="pos-rel">
+                                <input type="checkbox" class="ace" name="id[]" value="' . $data->id . '" />
                                 <span class="lbl"></span>
                             </label>';
-                    return $btnCheck;
+                return $btnCheck;
             })
-            ->rawColumns(['check','lesson_title','subject','visibility'])
+            ->rawColumns(['check', 'lesson_title', 'subject', 'visibility'])
             ->make(true);
     }
 
@@ -93,9 +96,9 @@ class LessonController extends Controller
             'explanation',
             'sort',
             'visibility',
-            'approval',  
-            'video_url',              
-            'playlist_id',              
+            'approval',
+            'video_url',
+            'playlist_id',
             'admin_id',
         ];
     }
@@ -107,26 +110,25 @@ class LessonController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Lesson $lesson)
-    {        
-        $lessons = Lesson::where('playlist_id',$lesson->playlist_id)->sort()->get();
-        $title = trans('learning::local.lessons');   
-        $lesson = Lesson::with('divisions','grades','years','files','playlist','admin')->where('id',$lesson->id)->first();          
-        return view('learning::lessons.admin.show',
-        compact('lesson','title','lessons'));
+    {
+        $lessons = Lesson::where('playlist_id', $lesson->playlist_id)->sort()->get();
+        $title = trans('learning::local.lessons');
+        $lesson = Lesson::with('divisions', 'grades', 'years', 'files', 'playlist', 'admin')->where('id', $lesson->id)->first();
+        return view(
+            'learning::lessons.admin.show',
+            compact('lesson', 'title', 'lessons')
+        );
     }
 
     public function destroy(Lesson $lesson)
     {
         if (request()->ajax()) {
-            if (request()->has('id'))
-            {
+            if (request()->has('id')) {
                 foreach (request('id') as $id) {
                     Lesson::destroy($id);
                 }
             }
         }
-        return response(['status'=>true]);
+        return response(['status' => true]);
     }
-
-
 }
