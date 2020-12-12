@@ -1,6 +1,5 @@
 @extends('layouts.backEnd.teacher')
 @section('styles')
-
     <style>
             /* Top left text */
             .top-left {
@@ -14,7 +13,20 @@
             .comment-form{
                 padding:5px;                
                 width:100%;
-            }               
+            }  
+            .comment-text{
+                border: 1px solid #ccc;
+                width: 100%;
+                padding: 5px;
+                border-radius: 20px;
+                background-color: #F0F2F5;
+                color: #333;                
+                
+            }  
+            .load-comments{
+                cursor: pointer;
+                color:#1e9ff2;
+            }           
          
     </style>
 @endsection
@@ -92,49 +104,8 @@
             </div>
             <div class="card hidden" id="my-post">
                 <div class="card-header">   
-                    <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data" id="form_post">
-                        @csrf   
-                        <input type="hidden" name="classroom_id[]" value="{{$classroom->id}}">                       
-                        <input type="hidden" name="post_type" value="post">                       
-                        <textarea required name="post_text" class="form-control" cols="30" rows="5" style="border: 0; min-height:50px;max-height:200px;"
-                         placeholder="{{ trans('learning::local.share_classroom') }}"></textarea>
-                         <div id="file_name"></div>
-                         <div id="url-link"></div>
-                         <div id="youtube-url"></div>
-
-                         @include('learning::teacher.posts.includes._upload-file')                                    
-                         @include('learning::teacher.posts.includes._link')                                    
-                         @include('learning::teacher.posts.includes._youtube-url')                                    
-                        <div class="form-control">
-                            <label>{{ trans('learning::local.share_with_class') }}</label>
-                            <select name="classroom_id[]" class="form-control select2" id="filter_room_id" multiple>
-                                    @foreach (employeeClassrooms() as $class)
-                                        @if ($class->id != $classroom->id)
-                                            <option value="{{$class->id}}">
-                                                {{session('lang') == 'ar'? $class->ar_name_classroom : $class->en_name_classroom}}
-                                            </option>                                
-                                        @endif
-                                    @endforeach
-                            </select>           
-                        </div>                               
-                         
-                         <hr>
-                        <div class="form-group mt-1">
-                            <div class="btn-group mr-1 mb-1">
-                                <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">{{ trans('learning::local.attachments') }}</button>
-                                <div class="dropdown-menu">
-                                    <a onclick="uploadFile()" class="dropdown-item" href="#"><i class="la la-upload"></i> {{ trans('learning::local.upload_file') }}</a>                                    
-                                    <a onclick="link()" class="dropdown-item" href="#"><i class="la la-external-link"></i> {{ trans('learning::local.link') }}</a>                                    
-                                    <a onclick="youtubeURL()" class="dropdown-item" href="#"><i class="la la-youtube"></i> {{ trans('learning::local.youtube_url') }}</a>                                                        
-                                </div>                                
-                                <button type="submit" class="btn btn-success btn-sm ml-1">{{ trans('learning::local.post') }}</button>
-                            </div>
-                            <button onclick="cancel()" class="btn btn-light btn-sm {{session('lang') == 'ar' ? 'pull-left' : 'pull-right'}}">{{ trans('learning::local.cancel') }}</button>
-                        </div>    
-                        
-                    </form>                                         
-            </div>
+                    @include('learning::teacher.posts.includes._create-post')                              
+                </div>
         </div>
         
         {{-- no posts --}}
@@ -203,7 +174,7 @@
                                         <span class="avatar avatar-online mr-1" >
                                             <img style="border-radius: 0;max-width:110%;width:110%" src="{{asset('images/website/lesson.png')}}" alt="avatar">  
                                         </span>
-                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_lesson') }}</strong></span> {{$post->post_text}}</h6>                                    
+                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_lesson') }}</strong></span> {!!$post->post_text!!}</h6>                                    
                                         <p class="card-text" style="white-space: pre-line">{{$post->description}}</p>
                                     <h6>
                                         <div class="mb-1">
@@ -231,7 +202,7 @@
                                             <img style="border-radius: 0;max-width:110%;width:110%" src="{{asset('images/website/hw.png')}}" alt="avatar">  
                                         </span>
                                         <span class="blue"><strong>{{ trans('learning::local.publish_new_assignment') }}</strong></span> {{$post->description}}</h6>
-                                    <p>{{$post->post_text}}</p>
+                                    <p>{!!$post->post_text!!}</p>
                      
                                     @isset($post->youtube_url)              
                                     <div class="mb-1">
@@ -248,7 +219,7 @@
                                         <span class="avatar avatar-online mr-1">
                                             <img style="border-radius: 0;max-width:160%;width:160%" src="{{asset('images/website/test.png')}}" alt="avatar">  
                                         </span>
-                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_exam') }}</strong></span> {{$post->post_text}}</h6>                                    
+                                        <span class="blue"><strong>{{ trans('learning::local.publish_new_exam') }}</strong></span> {!!$post->post_text!!}</h6>                                    
                                     <p class="card-text" style="white-space: pre-line">{{$post->description}}</p>
                                     <h6>
                                         <div class="mb-1">
@@ -267,7 +238,7 @@
 
                                 {{-- post type post --}}
                                 @if ($post->post_type == 'post')
-                                    <p class="card-text" style="white-space: pre-line">{{$post->post_text}}</p>
+                                    <p class="card-text" style="white-space: pre-line">{!!$post->post_text!!}</p>
                                     @isset($post->url)
                                     <div class="mb-1">
                                         <a target="_blank" href="{{$post->url}}"><i class="la la-external-link"></i> {{$post->url}}</a>
@@ -286,31 +257,38 @@
                                     </div>
                                     @endisset
                                 @endif
-                                    <hr>                                    
-                                    <button type="button" class="btn btn-info round btn-sm comment mb-1" value="{{ $post->id }}">{{ trans('learning::local.comments') }}</button>
-                                   
+                                <hr>   
+
+                                {{-- button comments and count of comments --}}                                
+                                
+                                <button type="button" class="btn btn-info round btn-sm comment mb-3" value="{{ $post->id }}">
+                                    {{ trans('learning::local.comments') }}</button>
+                                <div class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-comments"></i> 
+                                    {{ trans('learning::local.comments') }}   
+                                    <span id="count_{{$post->id}}">{{$post->comments->count()}}</span>
+                                </div>   
+                                
                                 {{-- add comment --}}
                                                                             
-                                <div id="commentField_{{ $post->id }}" class="panel panel-default" style="padding:10px; margin-top:-20px; display:none;">
-                                    <div id="comment_{{ $post->id }}">
-                                    </div>
-                                    <form id="commentForm_{{ $post->id }}">
-                                        @csrf
-                                        <input type="hidden" value="{{ $post->id }}" name="post_id">
-                                        <div class="row"> 
-                                            <div class="col-md-12">                                                
-                                                <fieldset>
-                                                    <div class="input-group">
-                                                    <input type="text" name="comment_text" data-id="{{ $post->id }}" class="form-control round commenttext" aria-describedby="button-addon2"
-                                                        placeholder="{{ trans('learning::local.add_comment') }}">
-                                                        <div class="input-group-append">
-                                                        <button type="button" class="btn btn-info round submitComment" value="{{ $post->id }}"><i class="fa fa-comment"></i> {{ trans('learning::local.set_comment') }}</button>
-                                                        </div>
-                                                    </div>
-                                                </fieldset>                                                 
-                                            </div>                                            
-                                        </div>                                        
-                                    </form>
+                                <div id="commentField_{{ $post->id }}" class="panel panel-default" style="padding:10px; margin-top:-20px; display:none;">                                    
+                                    <div id="comment_{{ $post->id }}"> </div>
+                                    <fieldset class="mt-2"> 
+                                        <form id="commentForm_{{ $post->id }}">
+                                            @csrf
+                                            <input type="hidden" value="{{ $post->id }}" name="post_id">
+                                            <div class="form-group">
+                                                <textarea name="comment_text" id="text_{{ $post->id }}"  data-id="{{ $post->id }}" cols="30" rows="10" class="form-control editor" ></textarea>
+                                            </div>    
+                                            <div class="form-group">
+                                            <button type="button" class="btn btn-info round submitComment" value="{{ $post->id }}"><i class="fa fa-comment"></i> 
+                                                {{ trans('learning::local.add_comment') }}</button>
+                                            </div>                                       
+                                        </form> 
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-info round submitComment hidden" value="{{ $post->id }}"><i class="fa fa-comment"></i> {{ trans('learning::local.set_comment') }}</button>
+                                        </div>
+                                        
+                                    </fieldset> 
                                 </div>                                    
                             </div>
                         </div>
@@ -320,24 +298,30 @@
     </div>    
 </div>
 
+                                   
+                        
 @include('learning::teacher.posts.includes._homework-assignment')                                    
 @include('learning::teacher.posts.includes._homework-question')                                    
 @endsection
 @section('script')
-
+    {{-- comments --}}
     <script>
         var post_id;
+
         $(document).ready(function(){
             $('.commenttext').keypress(function(event){
                 var keycode = (event.keyCode ? event.keyCode : event.which);
                 if(keycode == '13'){
-                    
+                    $(".submitComment").click();
                     return false;
                 }
             });
+
             $(document).on('click', '.submitComment', function(){
                 event.preventDefault();
                 var id = $(this).val();            
+                $('.editor').val(  CKEDITOR.instances['text_'+id].getData());
+
                 var form_data = new FormData($('#commentForm_'+id)[0]);
 
                 $.ajax({
@@ -351,12 +335,26 @@
                         // display succees message
                         success:function(data)
                         {	
-                            getComment(id);							
                             $('#commentForm_'+id)[0].reset();
+                            getComment(id);	
+                            CKEDITOR.instances['text_'+id].setData('');
+
+                            $('#comment-modal').modal('hide');
                         }
                     });
             });
         });
+
+        function loadComments(id) {
+                post_id = id;
+                if($('#commentField_'+id).is(':visible')){
+                    $('#commentField_'+id).slideUp();
+                }
+                else{
+                    $('#commentField_'+id).slideDown();
+                    getComment(id);
+                }
+        }
 
         $(document).on('click', '.comment', function(){
             var id = $(this).val();
@@ -375,10 +373,53 @@
                 url: "{{route('comments.index')}}",
                 data: {id:id},
                 success: function(data){                
-                    $('#comment_'+id).html(data);                                 
+                    $('#comment_'+id).html(data);
+                    countComment(id);                               
                 }
             });
         }
+
+        function countComment(id){
+            $.ajax({
+                url: "{{route('comments.count')}}",
+                data: {id:id},
+                success: function(data){                
+                    $('#count_'+id).html(data);                                 
+                }
+            });
+        }
+
+        function deleteComment(comment_id) {
+            swal({
+                    title: "{{trans('msg.delete_confirmation')}}",
+                    text: "{{trans('learning::local.ask_delete_comment')}}",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#D15B47",
+                    confirmButtonText: "{{trans('msg.yes')}}",
+                    cancelButtonText: "{{trans('msg.no')}}",
+                    closeOnConfirm: false,
+                },
+                function() {
+                    $.ajax({
+                        url: "{{route('comment.destroy')}}",
+                        method:"POST",
+                        dataType:"json",
+                        data: {comment_id:comment_id,_token : '{{ csrf_token() }}'},
+                        success: function(data){                
+                            getComment(data);                                 
+                        }
+                    })
+                    // display success confirm message
+                    .done(function(data) {
+                        swal("{{trans('msg.delete')}}", "{{trans('msg.delete_successfully')}}", "success");
+                    });
+                }
+            );
+
+
+        }
+
         setInterval(function()
         {
             getComment(post_id)
@@ -386,12 +427,16 @@
     </script>
 
     <script>
- 
+
         $('#post').on('focus',function(){
+            $('#create-post-modal').modal({backdrop: 'static', keyboard: false})
+            $('#create-post-modal').modal('show');
+
             $('#create-post').hide();
             $('#my-post').removeClass('hidden');
             
         })
+
         function cancel()
         {
             event.preventDefault();
@@ -402,6 +447,15 @@
             $('#youtube-url').html('');
             $('#my-post').addClass('hidden');
             $('#post').blur()
+        }
+        function closeYoutubeModal() {
+            $('#youtube-url-modal').modal('toggle');
+        }
+        function closeURL() {
+            $('#link-modal').modal('toggle');
+        }
+        function closeUploadFile() {
+            $('#upload-file-modal').modal('toggle');
         }
         function uploadFile()
         {
@@ -488,9 +542,35 @@
                 event.preventDefault();                   
             }
         })
-     
 
-	
     </script>
+
     <script src="{{asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js')}}"></script>
+
+    {{-- use ckeditor --}}
+    <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>    
+    <script>        
+        CKEDITOR.replace( 'ckeditor', {
+            toolbar: [
+                        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+                        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },                   
+                        { name: 'styles', items: ['FontSize' ] },
+                        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                        { name: 'tools', items: [ 'Maximize' ] },                
+                    ]        
+            });
+
+        $(".editor").each(function () {
+            let id = $(this).attr('id');
+            CKEDITOR.replace(id, {
+                toolbar: [
+                            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+                            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },                   
+                            { name: 'styles', items: ['FontSize' ] },
+                            { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                            { name: 'tools', items: [ 'Maximize' ] },                
+                        ]        
+                });
+        });
+    </script>
 @endsection

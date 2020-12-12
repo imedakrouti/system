@@ -89,11 +89,8 @@ class PostController extends Controller
         toast(trans('msg.delete_successfully'), 'success');
         return redirect()->route('admin.posts');
     }
-
-    /**
-     * 
-     * End Admin posts
-     */
+    
+    // End admin posts 
 
     /**
      * Display a listing of the resource.

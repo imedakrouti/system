@@ -17,12 +17,11 @@ class CommentController extends Controller
                 ->leftJoin('admins', 'comments.admin_id', '=', 'admins.id')
                 ->leftJoin('users', 'comments.user_id', '=', 'users.id')
                 ->select('comments.*', 'admins.name', 'admins.ar_name', 'users.name as en_student_name', 'users.ar_name as ar_student_name')
+                ->limit(10)
                 ->get();
-
-            $comment_count = Comment::where('post_id', request('id'))->count();
             return view(
                 'learning::teacher.posts.includes._comments',
-                compact('comments', 'comment_count')
+                compact('comments')
             );
         }
     }
@@ -40,9 +39,28 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
+        // dd(request()->all());
         if (request()->ajax()) {
             $request->user()->comments()->create($request->only($this->attributes()));
         }
         return response(['status' => true]);
+    }
+
+    public function count()
+    {
+        if (request()->ajax()) {
+            $comment_count = Comment::where('post_id', request('id'))->count();
+            return json_encode($comment_count);
+        }
+    }
+
+    public function destroy()
+    {
+        if (request()->ajax()) {
+            $comment = Comment::findOrFail(request('comment_id'));
+            $post_id = $comment->post_id;
+            $comment->delete();
+            return json_encode($post_id);
+        }
     }
 }

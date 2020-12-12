@@ -12,6 +12,8 @@
       Route::delete('posts/destroy/{post_id}','PostController@adminDestroyPost')->name('admin.destroy-posts');
   
       // comments
-      Route::resource('teacher/comments','CommentController')->only('index','store');   
+      Route::resource('teacher/comments','CommentController')->only('index','store','destroy');  
+      Route::get('teacher/comments/count','CommentController@count')->name('comments.count') ;
+      Route::post('teacher/comment/destroy','CommentController@destroy')->name('comment.destroy') ;
     
     });  

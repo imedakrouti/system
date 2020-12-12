@@ -41,7 +41,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group row">
                           <label>{{ trans('learning::local.share_with_class') }}</label>
-                          <select name="classroom_id[]" class="form-control select2" id="filter_room_id" multiple required>
+                          <select name="classroom_id[]" class="form-control select2" multiple required>
                                 @foreach (employeeClassrooms() as $class)
                                     <option value="{{$class->id}}">
                                     {{session('lang') == 'ar'? $class->ar_name_classroom : $class->en_name_classroom}}

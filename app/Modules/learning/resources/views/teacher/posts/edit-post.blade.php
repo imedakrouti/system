@@ -35,8 +35,8 @@
                         <h4 class="form-section"> {{ $title }}</h4>
                         @include('layouts.backEnd.includes._msg')  
                         <div class="col-lg-12">
-                            <div class="form-group row">
-                                <textarea required name="post_text" class="form-control" cols="30" rows="5" style="border: 0; min-height:50px;max-height:200px;"
+                            <div class="form-group">
+                                <textarea required name="post_text" class="form-control" cols="30" rows="10" id="ckeditor"
                                 placeholder="{{ trans('learning::local.share_classroom') }}">{{old('post_text',$post->post_text)}}</textarea>                                                                
                             </div>
                                                             
@@ -76,4 +76,18 @@
         </div>
     </div>    
 </div>
+@endsection
+@section('script')
+<script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>    
+<script>        
+    CKEDITOR.replace( 'ckeditor', {
+        toolbar: [
+                    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+                    { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },                   
+                    { name: 'styles', items: ['FontSize' ] },
+                    { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                    { name: 'tools', items: [ 'Maximize' ] },                
+                ]        
+        });
+</script>
 @endsection

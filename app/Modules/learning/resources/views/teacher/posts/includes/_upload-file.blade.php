@@ -21,7 +21,7 @@
                       {{-- <div class="col-md-4"></div> --}}
                       <div class="col-md-8">
                         <button type="button" onclick="getFile()" class="btn btn-success">{{ trans('admin.add') }}</button>                   
-                        <button type="button" data-dismiss="modal" class="btn btn-light">{{ trans('admin.cancel') }}</button>                                                                                              
+                        <button type="button" onclick="closeUploadFile()" class="btn btn-light">{{ trans('admin.cancel') }}</button>                                                                                              
                       </div>
                     </div>
               </div>                                                       
