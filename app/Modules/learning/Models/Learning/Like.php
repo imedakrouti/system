@@ -4,14 +4,19 @@ namespace Learning\Models\Learning;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LessonUser extends Model
+class Like extends Model
 {
-    protected $table = "lesson_user";
-
+    public $timestamps = false;
+    
     protected $fillable = [
-        'lesson_id',
+        'post_id',
+        'comment_id',
+        'admin_id',
         'user_id',
+        'like'
     ];
+
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -23,4 +28,10 @@ class LessonUser extends Model
     {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
+
+    public function admin()
+    {
+        return $this->belongsTo('App\Models\Admin', 'admin_id');
+    }
+        
 }

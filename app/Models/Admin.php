@@ -441,4 +441,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\ZoomAttendance','admin_id');
     }
+    public function like()
+    {
+        return $this->hasMany('Learning\Models\Learning\Like','admin_id');
+    }
 }

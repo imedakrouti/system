@@ -15,12 +15,13 @@
                 width:100%;
             }  
             .comment-text{
-                border: 1px solid #ccc;
-                width: 100%;
-                padding: 5px;
-                border-radius: 20px;
-                background-color: #F0F2F5;
-                color: #333;                
+                background-color: #F0F2F5; border-radius: 10px;display:inline-block;border: 1px solid #dadada;
+                padding-left: 7px;
+                padding-right: 7px;
+                padding-top: 7px;
+                margin-top: 5px;
+                /* margin-left: 15px; */
+                /* padding-bottom: -10px; */
                 
             }  
             .load-comments{
@@ -260,13 +261,65 @@
                                 <hr>   
 
                                 {{-- button comments and count of comments --}}                                
-                                
-                                <button type="button" class="btn btn-info round btn-sm comment mb-3" value="{{ $post->id }}">
-                                    {{ trans('learning::local.comments') }}</button>
-                                <div class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-comments"></i> 
-                                    {{ trans('learning::local.comments') }}   
-                                    <span id="count_{{$post->id}}">{{$post->comments->count()}}</span>
-                                </div>   
+                                <div class="mb-3">
+                                    <button type="button" style="width: 35px;height: 35px;padding: 0px;" type="button" 
+                                    class="btn btn-float btn-square btn-outline-primary comment" value="{{ $post->id }}" data-toggle="tooltip" data-placement="top"
+                                    title="{{ trans('learning::local.comments') }}"><i class="la la-comments"></i></button> 
+                                    @php
+                                        $like = null;
+                                        $dislike = null;
+                                    @endphp
+
+                                    @foreach ($post->likes as $like)
+                                        @isset($like->admin_id)
+                                            @if ($like->admin_id == authInfo()->id )
+                                                @php
+                                                    $like = 'active'
+                                                @endphp
+                                            @endif                                        
+                                        @endisset
+                                    @endforeach
+
+                                    @foreach ($post->dislikes as $dislike)
+                                        @isset($dislike->admin_id)
+                                            @if ($dislike->admin_id == authInfo()->id )
+                                                @php
+                                                    $dislike = 'active'
+                                                @endphp
+                                            @endif                                                
+                                        @endisset
+                                    @endforeach
+                                    {{-- like --}}
+                                    <button style="width: 35px;height: 35px;padding: 0px;" type="button" 
+                                    class="btn btn-float btn-square btn-outline-info {{$like}}"  
+                                    data-toggle="tooltip" data-placement="top"
+                                    title="{{ trans('learning::local.like') }}"
+                                    id="btn_like_{{$post->id}}"
+                                    onclick="likePost({{$post->id}})"><i class="la la-thumbs-up"></i></button> 
+                                    
+                                    {{-- dislike --}}
+                                    <button style="width: 35px;height: 35px;padding: 0px;" type="button" 
+                                    class="btn btn-float btn-square btn-outline-danger {{$dislike}}"  
+                                    data-toggle="tooltip" data-placement="top"
+                                    title="{{ trans('learning::local.dislike') }}"
+                                    id="btn_dislike_{{$post->id}}"
+                                    onclick="dislikePost({{$post->id}})"><i class="la la-thumbs-down"></i></button> 
+
+                                    {{-- comments --}}
+                                    <a href="#" class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-comments"></i> 
+                                        {{ trans('learning::local.comments') }}   <span id="count_{{$post->id}}">{{$post->comments->count()}}</span>                                    
+                                    </a href="#">   
+
+                                    {{-- count of post like --}}
+                                    <span class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-thumbs-down"></i> 
+                                        {{ trans('learning::local.dislike') }}   <span id="count_dislike_{{$post->id}}">{{$post->dislikes->count()}}</span>                                    
+                                    </span> 
+
+                                    {{-- count of post dislike --}}
+                                    <span  class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-thumbs-up"></i> 
+                                        {{ trans('learning::local.like') }}   <span id="count_like_{{$post->id}}">{{$post->likes->count()}}</span>                                    
+                                    </span >  
+                                </div>
                                 
                                 {{-- add comment --}}
                                                                             
@@ -286,8 +339,7 @@
                                         </form> 
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-info round submitComment hidden" value="{{ $post->id }}"><i class="fa fa-comment"></i> {{ trans('learning::local.set_comment') }}</button>
-                                        </div>
-                                        
+                                        </div>                                        
                                     </fieldset> 
                                 </div>                                    
                             </div>
@@ -298,14 +350,43 @@
     </div>    
 </div>
 
-                                   
-                        
 @include('learning::teacher.posts.includes._homework-assignment')                                    
 @include('learning::teacher.posts.includes._homework-question')                                    
 @endsection
 @section('script')
     {{-- comments --}}
     <script>
+        function likePost(post_id) {
+            $.ajax({
+                url: "{{route('post.like')}}",
+                method:"POST",
+                dataType:"json",
+                data: {post_id:post_id,_token : '{{ csrf_token() }}'},
+                success: function(data){                
+                    $('#count_like_'+ post_id).html(data.like);  
+                    $('#count_dislike_'+ post_id).html(data.dislike);  
+                    $('#btn_like_'+post_id).addClass('active');
+                    $('#btn_dislike_'+post_id).removeClass('active');
+                }
+            })
+        }
+
+        function dislikePost(post_id) {
+            $.ajax({
+                url: "{{route('post.dislike')}}",
+                method:"POST",
+                dataType:"json",
+                data: {post_id:post_id,_token : '{{ csrf_token() }}'},
+                success: function(data){      
+                    $('#count_like_'+post_id).html(data.like);            
+                    $('#count_dislike_'+post_id).html(data.dislike);  
+                    $('#btn_dislike_'+post_id).addClass('active');                               
+                    $('#btn_like_'+post_id).removeClass('active');                               
+                }
+            })
+        }
+
+
         var post_id;
 
         $(document).ready(function(){
@@ -416,14 +497,12 @@
                     });
                 }
             );
-
-
         }
 
         setInterval(function()
         {
             getComment(post_id)
-        },20000); //1000 second
+        },2000000); //1000 second
     </script>
 
     <script>

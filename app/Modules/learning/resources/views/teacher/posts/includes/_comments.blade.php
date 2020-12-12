@@ -1,6 +1,6 @@
 
 @foreach($comments as $comment)
-<div class="comment-text mb-1">
+
     <div id="heading-icon-dropdown">
         @empty($comment->ar_name)
             <span class="avatar avatar-online">
@@ -28,10 +28,21 @@
         <span class="small d-none d-sm-inline-block">{{$comment->created_at->diffForHumans()}}            
             
         </span>
-        <a class="red pull-right mr-2" onclick="deleteComment({{$comment->id}})"><i class="la la-trash"></i> {{ trans('learning::local.delete_comment') }}</a>
+        <a class="red {{session('lang') == 'ar'? ' pull-left ml-2':' pull-right mr-2'}}" onclick="deleteComment({{$comment->id}})"><i class="la la-trash"></i> {{ trans('learning::local.delete_comment') }}</a>
         </div>
     <span class="small d-inline-block d-sm-none">{{$comment->created_at->diffForHumans()}}</span>
-    <div class="ml-2 mt-1">{!!$comment->comment_text!!}</div>  
-</div>
-
+    <div>
+        <span class="comment-text {{session('lang') == 'ar' ? 'ml-3':'mr-3'}}" style="">
+            <strong>{!!$comment->comment_text!!}</strong></span>          
+    </div>
+    <div class="mb-1">
+        <a class="ml-2 secandary"   value="{{ $comment->id }}">
+            <span class="la la-thumbs-up font-medium-3"></span> <strong>{{ trans('learning::local.like') }}   
+            <span id="count_{{$comment->id}}">{{$comment->count()}}</span> </strong>                                 
+        </a>
+        <a class="secandary"   value="{{ $comment->id }}">
+            <span class="la la-thumbs-down font-medium-3"></span> <strong>{{ trans('learning::local.dislike') }}   
+            <span id="count_{{$comment->id}}">{{$comment->count()}}</span> </strong>                                 
+        </a>
+    </div>
 @endforeach

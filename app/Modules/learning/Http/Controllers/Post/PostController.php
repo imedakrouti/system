@@ -8,6 +8,7 @@ use Learning\Models\Learning\Post;
 use Illuminate\Http\Request;
 use Learning\Models\Learning\Exam;
 use Learning\Models\Learning\Lesson;
+use Learning\Models\Learning\Like;
 use Student\Models\Settings\Classroom;
 use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
@@ -89,7 +90,7 @@ class PostController extends Controller
         toast(trans('msg.delete_successfully'), 'success');
         return redirect()->route('admin.posts');
     }
-    
+
     // End admin posts 
 
     /**
@@ -200,5 +201,55 @@ class PostController extends Controller
         $post->delete();
         toast(trans('msg.delete_successfully'), 'success');
         return redirect()->route('posts.index', request('classroom_id'));
+    }
+
+    public function likePost()
+    {
+        if (request()->ajax()) {
+            $post = Like::where('post_id', request('post_id'))->first();
+            if ($post == null) {                
+                request()->user()->like()->firstOrCreate([
+                    'post_id' => request('post_id'),
+                    'like'    => true
+                ]);
+            }else{
+                $post->update(['like'=>true]);
+            }
+
+            $data['like'] = Like::where('post_id', request('post_id'))
+            ->where('like',1)
+            ->count();
+
+            $data['dislike'] = Like::where('post_id', request('post_id'))
+            ->where('like',0)
+            ->count();
+
+            return json_encode($data);
+        }
+    }
+
+    public function dislikePost()
+    {
+        if (request()->ajax()) {
+            $post = Like::where('post_id', request('post_id'))->first();
+            if ($post == null) {                
+                request()->user()->like()->firstOrCreate([
+                    'post_id' => request('post_id'),
+                    'like'    => false
+                ]);
+            }else{
+                $post->update(['like'=>false]);
+            }
+
+            $data['like'] = Like::where('post_id', request('post_id'))
+            ->where('like',1)
+            ->count();
+
+            $data['dislike'] = Like::where('post_id', request('post_id'))
+            ->where('like',0)
+            ->count();
+
+            return json_encode($data);
+        }
     }
 }
