@@ -32,7 +32,7 @@
         </div>
     <span class="small d-inline-block d-sm-none">{{$comment->created_at->diffForHumans()}}</span>
     <div>
-        <span class="comment-text {{session('lang') == 'ar' ? 'ml-3':'mr-3'}}" style="">
+        <span class="comment-text ml-3">
             <strong>{!!$comment->comment_text!!}</strong></span>          
     </div>
     <div class="mb-1">

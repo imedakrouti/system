@@ -300,24 +300,26 @@
                                     {{-- dislike --}}
                                     <button style="width: 35px;height: 35px;padding: 0px;" type="button" 
                                     class="btn btn-float btn-square btn-outline-danger {{$dislike}}"  
-                                    data-toggle="tooltip" data-placement="top"
-                                    title="{{ trans('learning::local.dislike') }}"
+                                    data-toggle="tooltip" data-placement="top" title="{{ trans('learning::local.dislike') }}"
                                     id="btn_dislike_{{$post->id}}"
                                     onclick="dislikePost({{$post->id}})"><i class="la la-thumbs-down"></i></button> 
 
                                     {{-- comments --}}
-                                    <a href="#" class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-comments"></i> 
-                                        {{ trans('learning::local.comments') }}   <span id="count_{{$post->id}}">{{$post->comments->count()}}</span>                                    
+                                    <a href="#" class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" 
+                                        data-toggle="tooltip" data-placement="top" title="{{ trans('learning::local.comments') }}">
+                                        <i class="la la-comments"></i> <span id="count_{{$post->id}}">{{$post->comments->count()}}</span>                                    
                                     </a href="#">   
 
                                     {{-- count of post like --}}
-                                    <span class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-thumbs-down"></i> 
-                                        {{ trans('learning::local.dislike') }}   <span id="count_dislike_{{$post->id}}">{{$post->dislikes->count()}}</span>                                    
+                                    <span class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" 
+                                        data-toggle="tooltip" data-placement="top" title="{{ trans('learning::local.dislike') }}">
+                                        <i class="la la-thumbs-down"></i><span  class="mr-1" id="count_dislike_{{$post->id}}">{{$post->dislikes->count()}}</span>                                    
                                     </span> 
 
                                     {{-- count of post dislike --}}
-                                    <span  class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" ><i class="la la-thumbs-up"></i> 
-                                        {{ trans('learning::local.like') }}   <span id="count_like_{{$post->id}}">{{$post->likes->count()}}</span>                                    
+                                    <span  class="{{session('lang') == 'ar' ? 'pull-left':'pull-right'}}" 
+                                        data-toggle="tooltip" data-placement="top" title="{{ trans('learning::local.like') }}">
+                                        <i class="la la-thumbs-up"></i> <span  class="mr-1" id="count_like_{{$post->id}}">{{$post->likes->count()}}</span>                                    
                                     </span >  
                                 </div>
                                 
