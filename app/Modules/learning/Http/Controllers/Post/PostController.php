@@ -118,7 +118,7 @@ class PostController extends Controller
 
         $lessons = Lesson::with('subject')->where('admin_id', authInfo()->id)->orderBy('lesson_title')->get();
 
-        $posts = Post::where($where)->orderBy('created_at', 'desc')->limit(30)->get();
+        $posts = Post::with('comments', 'likes', 'dislikes', 'admin')->where($where)->orderBy('created_at', 'desc')->limit(30)->get();
         $title = trans('learning::local.posts');
         return view(
             'learning::teacher.posts.index',
@@ -206,23 +206,24 @@ class PostController extends Controller
     public function likePost()
     {
         if (request()->ajax()) {
-            $post = Like::where('post_id', request('post_id'))->first();
-            if ($post == null) {                
+            $post = Like::with('admin')->where('post_id', request('post_id'))
+                ->where('admin_id', authInfo()->id)->first();
+            if ($post == null) {
                 request()->user()->like()->firstOrCreate([
                     'post_id' => request('post_id'),
                     'like'    => true
                 ]);
-            }else{
-                $post->update(['like'=>true]);
+            } else {
+                $post->update(['like' => true]);
             }
 
             $data['like'] = Like::where('post_id', request('post_id'))
-            ->where('like',1)
-            ->count();
+                ->where('like', 1)
+                ->count();
 
             $data['dislike'] = Like::where('post_id', request('post_id'))
-            ->where('like',0)
-            ->count();
+                ->where('like', 0)
+                ->count();
 
             return json_encode($data);
         }
@@ -231,23 +232,23 @@ class PostController extends Controller
     public function dislikePost()
     {
         if (request()->ajax()) {
-            $post = Like::where('post_id', request('post_id'))->first();
-            if ($post == null) {                
+            $post = Like::with('admin')->where('post_id', request('post_id'))->where('admin_id', authInfo()->id)->first();
+            if ($post == null) {
                 request()->user()->like()->firstOrCreate([
                     'post_id' => request('post_id'),
                     'like'    => false
                 ]);
-            }else{
-                $post->update(['like'=>false]);
+            } else {
+                $post->update(['like' => false]);
             }
 
             $data['like'] = Like::where('post_id', request('post_id'))
-            ->where('like',1)
-            ->count();
+                ->where('like', 1)
+                ->count();
 
             $data['dislike'] = Like::where('post_id', request('post_id'))
-            ->where('like',0)
-            ->count();
+                ->where('like', 0)
+                ->count();
 
             return json_encode($data);
         }

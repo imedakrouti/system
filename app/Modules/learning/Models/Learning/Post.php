@@ -35,6 +35,7 @@ class Post extends Model
     {
         return $this->hasMany('Learning\Models\Learning\Comment','post_id');
     }
+
     public function likes()
     {
         return $this->hasMany('Learning\Models\Learning\Like','post_id')->where('like',1);

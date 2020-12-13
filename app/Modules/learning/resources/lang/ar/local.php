@@ -233,7 +233,7 @@ return [
     'view_more_comments'                    => 'مشاهدة التعليقات',    
     'ask_delete_comment'                    => 'هل تريد حذف التعليق؟',
     'delete_comment'                        => 'حذف التعليق',
-    'show_comments'                         => 'التعليقات',
+    'show_comments'                         => 'عرض كل التعليقات',
     'like'                                  => 'أعجبني',
     'dislike'                               => 'لم يعجبني',
     ''               => '',

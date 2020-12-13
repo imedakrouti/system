@@ -19,5 +19,12 @@
       // likes
       Route::post('teacher/post/like','PostController@likePost')->name('post.like') ;
       Route::post('teacher/post/dislike','PostController@dislikePost')->name('post.dislike') ;
-    
+      
+      Route::post('teacher/comment/like','CommentController@likeComment')->name('comment.like') ;
+      Route::post('teacher/comment/dislike','CommentController@dislikeComment')->name('comment.dislike') ;
+
+      // show likes names comments
+      Route::put('teacher/comments/show-like-names','CommentController@showLikeNames')->name('comment.show-likes') ;
+      Route::put('teacher/comments/show-dislike-names','CommentController@showDislikeNames')->name('comment.show-dislike') ;
+
     });  

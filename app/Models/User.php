@@ -86,4 +86,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\DeliverHomework','user_id');
     }
+    public function like()
+    {
+        return $this->hasMany('Learning\Models\Learning\Like','user_id');
+    }
 }

@@ -30,4 +30,13 @@ class Comment extends Model
     {
         return $this->belongsTo('Learning\Models\Learning\Post','post_id');
     }
+    public function likes()
+    {
+        return $this->hasMany('Learning\Models\Learning\Like','comment_id')->where('like',1);
+    }
+
+    public function dislikes()
+    {
+        return $this->hasMany('Learning\Models\Learning\Like','comment_id')->where('like',0);
+    }
 }
