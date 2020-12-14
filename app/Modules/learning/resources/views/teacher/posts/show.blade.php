@@ -1,0 +1,637 @@
+@extends('layouts.backEnd.teacher')
+@section('styles')
+<style>
+    /* Top left text */
+    .top-left {
+        position: absolute;
+        top: 50px;
+        left: 70px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .comment-form {
+        padding: 5px;
+        width: 100%;
+    }
+
+    .comment-text {
+        background-color: #F0F2F5;
+        border-radius: 10px;
+        display: inline-block;
+        border: 1px solid #dadada;
+        padding-left: 7px;
+        padding-right: 7px;
+        padding-top: 7px;
+        margin-top: 5px;
+        /* margin-left: 15px; */
+        /* padding-bottom: -10px; */
+
+    }
+
+    .load-comments {
+        cursor: pointer;
+        color: #1e9ff2;
+    }
+
+</style>
+@endsection
+@section('content')
+    {{-- images --}}
+    <div class="row">
+        <div class="col-lg-12 mb-1">
+            <img style="border-radius: 10px;" src="{{ asset('images/website/img_code.jpg') }}" width="100%" alt="cover">
+            <h1 class="top-left">
+                <a class="white" href="{{route('posts.index',$classroom->id)}}">
+                    <strong>{{ session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom }}</strong>
+                </a>                
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card" style="border-radius: 15px;">
+                <div class="card-header" style="border-radius: 15px;">
+                    <h4 class="card-title" id="heading-icon-dropdown">
+                        <span class="avatar avatar-online">
+                            @isset($post->admin->image_profile)
+                                <img src="{{ asset('images/imagesProfile/' . $post->admin->image_profile) }}"
+                                    alt="avatar">
+                            @endisset
+                            @empty($post->admin->image_profile)
+                                <img src="{{ asset('images/website/male.png') }}" alt="avatar">
+                            @endempty
+                        </span>
+                        <strong>{{ session('lang') == 'ar' ? $post->admin->ar_name : $post->admin->name }}
+                        </strong>
+                        <span
+                            class="small  d-none d-sm-inline-block">{{ $post->created_at->diffForHumans() }}</span>
+                    </h4>
+                    {{-- mobile --}}
+                    <span
+                        class="small  d-inline-block d-sm-none">{{ $post->created_at->diffForHumans() }}</span>
+                    {{-- edit and delete --}}
+                    @if (authinfo()->id == $post->admin->id)
+                        <div class="heading-elements ">
+                            <div class="form-group text-center">
+                                <!-- Floating icon Outline button -->
+                                <form class="form-horizontal frm-post"
+                                    action="{{ route('posts.destroy', $post->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="classroom_id" value="{{ $post->classroom_id }}">
+                                    {{-- edit --}}
+                                    <button style="width: 35px;height: 35px;padding: 0px;" type="button"
+                                        class="btn btn-float btn-square btn-outline-warning"
+                                        data-toggle="tooltip" data-placement="top"
+                                        title="{{ trans('learning::local.edit') }}"
+                                        onclick="location.href='{{ route('posts.edit', $post->id) }}';"><i
+                                            class="la la-edit"></i>
+                                    </button>                             
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        {{-- post type lesson --}}
+                        @if ($post->post_type == 'lesson')
+                            <h6>
+                                <span class="avatar avatar-online mr-1">
+                                    <img style="border-radius: 0;max-width:110%;width:110%"
+                                        src="{{ asset('images/website/lesson.png') }}" alt="avatar">
+                                </span>
+                                <span
+                                    class="blue"><strong>{{ trans('learning::local.publish_new_lesson') }}</strong></span>
+                                {!! $post->post_text !!}
+                            </h6>
+                            <p class="card-text" style="white-space: pre-line">{{ $post->description }}</p>
+                            <h6>
+                                <div class="mb-1">
+                                    <span class="purple">{{ trans('learning::local.lesson_link') }}</span>
+                                    @php
+                                    $str = $post->url;
+                                    $url = explode(",", $str);
+                                    @endphp
+                                    <a target="_blank"
+                                        href="{{ route('teacher.view-lesson', ['id' => $url[0], 'playlist_id' => $url[0]]) }}"><i
+                                            class="la la-external-link"></i>
+                                        {{ trans('learning::local.press_here') }}</a>
+                                </div>
+                            </h6>
+                            @isset($post->youtube_url)
+                                <div class="mb-1">
+                                    <iframe width="100%" style="min-height: 500px;" allowfullscreen
+                                        src="https://www.youtube.com/embed/{{ prepareYoutubeURL($post->youtube_url) }}">
+                                    </iframe>
+                                </div>
+                            @endisset
+                        @endif
+
+                        {{-- post type assignment --}}
+                        @if ($post->post_type == 'assignment')
+                            <h6>
+                                <span class="avatar avatar-online mr-1">
+                                    <img style="border-radius: 0;max-width:110%;width:110%"
+                                        src="{{ asset('images/website/hw.png') }}" alt="avatar">
+                                </span>
+                                <span
+                                    class="blue"><strong>{{ trans('learning::local.publish_new_assignment') }}</strong></span>
+                                {{ $post->description }}
+                            </h6>
+                            <p>{!! $post->post_text !!}</p>
+
+                            @isset($post->youtube_url)
+                                <div class="mb-1">
+                                    <iframe width="100%" style="min-height: 500px;" allowfullscreen
+                                        src="https://www.youtube.com/embed/{{ prepareYoutubeURL($post->youtube_url) }}">
+                                    </iframe>
+                                </div>
+                            @endisset
+                        @endif
+
+                        {{-- post type exam --}}
+                        @if ($post->post_type == 'exam')
+                            <h6>
+                                <span class="avatar avatar-online mr-1">
+                                    <img style="border-radius: 0;max-width:160%;width:160%"
+                                        src="{{ asset('images/website/test.png') }}" alt="avatar">
+                                </span>
+                                <span
+                                    class="blue"><strong>{{ trans('learning::local.publish_new_exam') }}</strong></span>
+                                {!! $post->post_text !!}
+                            </h6>
+                            <p class="card-text" style="white-space: pre-line">{{ $post->description }}</p>
+                            <h6>
+                                <div class="mb-1">
+                                    <span class="purple">{{ trans('learning::local.exam_link') }}</span>
+                                    <a target="_blank" href="{{ $post->url }}"><i
+                                            class="la la-external-link"></i>
+                                        {{ trans('learning::local.press_here') }}</a>
+                                </div>
+                            </h6>
+                            @isset($post->youtube_url)
+                                <div class="mb-1">
+                                    <iframe width="100%" style="min-height: 500px;" allowfullscreen
+                                        src="https://www.youtube.com/embed/{{ prepareYoutubeURL($post->youtube_url) }}">
+                                    </iframe>
+                                </div>
+                            @endisset
+                        @endif
+
+                        {{-- post type post --}}
+                        @if ($post->post_type == 'post')
+                            <p class="card-text" style="white-space: pre-line">{!! $post->post_text !!}</p>
+                            @isset($post->url)
+                                <div class="mb-1">
+                                    <a target="_blank" href="{{ $post->url }}"><i class="la la-external-link"></i>
+                                        {{ $post->url }}</a>
+                                </div>
+                            @endisset
+                            @isset($post->file_name)
+                                <div class="mb-1">
+                                    <a target="_blank"
+                                        href="{{ asset('images/posts_attachments/' . $post->file_name) }}"><i
+                                            class="la la-download"></i> {{ $post->file_name }}</a>
+                                </div>
+                            @endisset
+                            @isset($post->youtube_url)
+                                <div class="mb-1">
+                                    <iframe width="100%" style="min-height: 500px;" allowfullscreen
+                                        src="https://www.youtube.com/embed/{{ prepareYoutubeURL($post->youtube_url) }}">
+                                    </iframe>
+                                </div>
+                            @endisset
+                        @endif
+                        <hr>
+
+                        {{-- button comments and count of comments
+                        --}}
+                        <div class="mb-3">                            
+                            <strong><span class="la la-comments"></span> {{ trans('learning::local.comments') }}</strong>
+                            <strong><span id="count_{{ $post->id }}">{{ $post->comments->count() }}</span></strong>                            
+           
+                            {{-- like and dislike from teacher account
+                            --}}
+                            @php
+                            $like = null;
+                            $dislike = null;
+                            @endphp
+
+                            @foreach ($post->likes as $like)
+                                @isset($like->admin_id)
+                                    @if ($like->admin_id == authInfo()->id)
+                                        @php
+                                        $like = 'blue'
+                                        @endphp
+                                    @endif
+                                @endisset
+                            @endforeach
+
+                            @foreach ($post->dislikes as $dislike)
+                                @isset($dislike->admin_id)
+                                    @if ($dislike->admin_id == authInfo()->id)
+                                        @php
+                                        $dislike = 'red'
+                                        @endphp
+                                    @endif
+                                @endisset
+                            @endforeach
+
+                            {{-- like --}}
+                            <a class="{{ $like }}" onclick="likePost({{ $post->id }})" id="btn_like_{{ $post->id }}">
+                                <strong><span class="la la-thumbs-up"></span> {{ trans('learning::local.like') }}</strong>
+                            </a>
+                            {{-- count of post like --}}
+                            <strong>
+                                <span id="tooltip_like_{{ $post->id }}"
+                                    data-toggle="tooltip" data-placement="top" data-html="true" data-original-title="
+                                    {{-- get names of likes --}}
+                                        @if(count($post->likes) > 0)
+                                            @foreach ($post->likes as $admin)
+                                                {{-- teachers and admins --}}
+                                                @isset($admin->admin->employeeUser)
+                                                    {{ session('lang') == 'ar' ? $admin->admin->employeeUser->ar_st_name . ' ' . $admin->admin->employeeUser->ar_nd_name : $admin->admin->employeeUser->en_st_name . ' ' . $admin->admin->employeeUser->en_nd_name }}
+                                                    </br>
+                                                @endisset
+                                                {{-- students --}}
+                                                @isset($admin->user->studentUser)
+                                                    {{ session('lang') == 'ar' ? $admin->user->studentUser->ar_student_name . ' ' . $admin->user->studentUser->father->ar_st_name : $admin->user->studentUser->en_student_name . ' ' . $admin->user->studentUser->father->en_st_name }}
+                                                    </br>
+                                                @endisset
+                                            @endforeach
+                                        @else
+                                            {{ trans('learning::local.none') }}
+                                        @endif
+                                        ">
+                                    <span
+                                        id="count_like_{{ $post->id }}">{{ $post->likes->count() }}</span>
+                                </span>
+                            </strong>
+                           
+                            {{-- dislike --}}
+                            <a class="{{ $dislike }}" onclick="dislikePost({{ $post->id }})" id="btn_dislike_{{ $post->id }}">
+                                <strong><span class="la la-thumbs-down"></span> 
+                                    {{ trans('learning::local.dislike') }}</strong>
+                            </a>
+                            {{-- count of post dislike --}}
+                            <strong>
+                                <span id="tooltip_dislike_{{ $post->id }}" data-toggle="tooltip" data-placement="top"
+                                    data-html="true" data-original-title="
+                                    {{-- get names of dislikes --}}
+                                    @if(count($post->dislikes) > 0)
+                                        @foreach ($post->dislikes as $admin)
+                                            {{-- teachers and admins
+                                            --}}
+                                            @isset($admin->admin->employeeUser)
+                                                {{ session('lang') == 'ar' ? $admin->admin->employeeUser->ar_st_name . ' ' . $admin->admin->employeeUser->ar_nd_name : $admin->admin->employeeUser->en_st_name . ' ' . $admin->admin->employeeUser->en_nd_name }}
+                                                </br>
+                                            @endisset
+                                            {{-- students --}}
+                                            @isset($admin->user->studentUser)
+                                                {{ session('lang') == 'ar' ? $admin->user->studentUser->ar_student_name . ' ' . $admin->user->studentUser->father->ar_st_name : $admin->user->studentUser->en_student_name . ' ' . $admin->user->studentUser->father->en_st_name }}
+                                                </br>
+                                            @endisset
+                                        @endforeach
+                                    @else
+                                        {{ trans('learning::local.none') }}
+                                    @endif">                                                
+                                    <span id="count_dislike_{{ $post->id }}">{{ $post->dislikes->count() }}</span>
+                                </span>
+                            </strong>
+                        </div>
+
+                        {{-- add comment --}}
+
+                        <div id="commentField_{{ $post->id }}" class="panel panel-default"
+                            style="padding:10px; margin-top:-20px; display:none;">
+                            <div id="comment_{{ $post->id }}"> </div>
+                            <fieldset class="mt-2">
+                                <form id="commentForm_{{ $post->id }}">
+                                    @csrf
+                                    <input type="hidden" value="{{ $post->id }}" name="post_id">
+                                    <div class="form-group">
+                                        <textarea name="comment_text" id="text_{{ $post->id }}" data-id="{{ $post->id }}" cols="30"
+                                            rows="10" class="form-control editor"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info round submitComment" value="{{ $post->id }}">
+                                            <i class="la la-comment"></i> {{ trans('learning::local.add_comment') }}
+                                        </button>                                       
+                                    </div>
+                                </form>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
+@section('script')
+    {{-- comments --}}
+    <script>
+        // likes post and comments
+        // like post
+        function likePost(post_id) {
+            $.ajax({
+                url: "{{ route('post.like') }}",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    post_id: post_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#count_like_' + post_id).html(data.like);
+                    $('#count_dislike_' + post_id).html(data.dislike);
+                    $('#btn_like_' + post_id).addClass('blue');
+                    $('#btn_dislike_' + post_id).removeClass('red');
+                }
+            })
+        }
+        // dislike post
+        function dislikePost(post_id) {
+            $.ajax({
+                url: "{{ route('post.dislike') }}",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    post_id: post_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#count_like_' + post_id).html(data.like);
+                    $('#count_dislike_' + post_id).html(data.dislike);
+                    $('#btn_dislike_' + post_id).addClass('red');
+                    $('#btn_like_' + post_id).removeClass('blue');
+                }
+            })
+        }
+        // like comment
+        function likeComment(comment_id) {
+            $.ajax({
+                url: "{{ route('comment.like') }}",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    comment_id: comment_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#count_comment_like_' + comment_id).html(data.like);
+                    $('#count_comment_dislike_' + comment_id).html(data.dislike);
+                    $('#btn_comment_like_' + comment_id).addClass('blue');
+                    $('#btn_comment_dislike_' + comment_id).removeClass('red');
+                }
+            })
+        }
+        // dislike comment
+        function dislikeComment(comment_id) {
+            $.ajax({
+                url: "{{ route('comment.dislike') }}",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    comment_id: comment_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#count_comment_like_' + comment_id).html(data.like);
+                    $('#count_comment_dislike_' + comment_id).html(data.dislike);
+                    $('#btn_comment_dislike_' + comment_id).addClass('red');
+                    $('#btn_comment_like_' + comment_id).removeClass('blue');
+                }
+            })
+        }
+
+        // show likes comments
+        function showLikes(comment_id) {
+            $.ajax({
+                url: "{{ route('comment.show-likes') }}",
+                type: "post",
+                data: {
+                    _method: 'PUT',
+                    comment_id: comment_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#names_likes').html(data);
+                }
+            })
+            $('#like-comments-modal').modal('show');
+        }
+
+        function showDislikes(comment_id) {
+            $.ajax({
+                url: "{{ route('comment.show-dislike') }}",
+                type: "post",
+                data: {
+                    _method: 'PUT',
+                    comment_id: comment_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#names_dislikes').html(data);
+                }
+            })
+            $('#dislike-comments-modal').modal('show');
+        }
+
+        var post_id;
+
+        $(document).ready(function() {
+            $('.commenttext').keypress(function(event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13') {
+                    $(".submitComment").click();
+                    return false;
+                }
+            });
+
+            $(document).on('click', '.submitComment', function() {
+                event.preventDefault();
+                var id = $(this).val();
+                $('.editor').val(CKEDITOR.instances['text_' + id].getData());
+
+                var form_data = new FormData($('#commentForm_' + id)[0]);
+
+                $.ajax({
+                    url: "{{ route('comments.store') }}",
+                    method: "POST",
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    // display succees message
+                    success: function(data) {
+                        $('#commentForm_' + id)[0].reset();
+                        getComment(id);
+                        CKEDITOR.instances['text_' + id].setData('');
+
+                        $('#comment-modal').modal('hide');
+                    }
+                });
+            });
+        });
+        loadComments({{$post->id}});
+        function loadComments(id) {
+            post_id = id;
+            if ($('#commentField_' + id).is(':visible')) {
+                $('#commentField_' + id).slideUp();
+            } else {
+                $('#commentField_' + id).slideDown();
+                getComment(id);
+            }
+        }
+
+        $(document).on('click', '.comment', function() {
+            var id = $(this).val();
+            post_id = id;
+            if ($('#commentField_' + id).is(':visible')) {
+                $('#commentField_' + id).slideUp();
+            } else {
+                $('#commentField_' + id).slideDown();
+                getComment(id);
+            }
+        });
+
+        function getComment(id) {
+            $.ajax({
+                url: "{{ route('comments.index') }}",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    $('#comment_' + id).html(data);
+                    countComment(id);
+                }
+            });
+        }
+
+        function countComment(id) {
+            $.ajax({
+                url: "{{ route('comments.count') }}",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    $('#count_' + id).html(data);
+                }
+            });
+        }
+
+        function deleteComment(comment_id) {
+            swal({
+                    title: "{{ trans('msg.delete_confirmation') }}",
+                    text: "{{ trans('learning::local.ask_delete_comment') }}",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#D15B47",
+                    confirmButtonText: "{{ trans('msg.yes') }}",
+                    cancelButtonText: "{{ trans('msg.no') }}",
+                    closeOnConfirm: false,
+                },
+                function() {
+                    $.ajax({
+                            url: "{{ route('comment.destroy') }}",
+                            method: "POST",
+                            dataType: "json",
+                            data: {
+                                comment_id: comment_id,
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(data) {
+                                getComment(data);
+                            }
+                        })
+                        // display success confirm message
+                        .done(function(data) {
+                            swal("{{ trans('msg.delete') }}", "{{ trans('msg.delete_successfully') }}", "success");
+                        });
+                }
+            );
+        }
+
+        setInterval(function() {
+            getComment(post_id)
+        }, 2000000); //1000 second
+
+    </script>    
+<script src="{{ asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js') }}"></script>
+{{-- use ckeditor --}}
+<script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('ckeditor', {
+        toolbar: [{
+                name: 'basicstyles',
+                groups: ['basicstyles', 'cleanup'],
+                items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-',
+                    'RemoveFormat'
+                ]
+            },
+            {
+                name: 'paragraph',
+                groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
+                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',
+                    'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock',
+                    '-', 'BidiLtr', 'BidiRtl', 'Language'
+                ]
+            },
+            {
+                name: 'styles',
+                items: ['FontSize']
+            },
+            {
+                name: 'colors',
+                items: ['TextColor', 'BGColor']
+            },
+            {
+                name: 'tools',
+                items: ['Maximize']
+            },
+        ]
+    });
+
+    $(".editor").each(function() {
+        let id = $(this).attr('id');
+        CKEDITOR.replace(id, {
+            toolbar: [{
+                    name: 'basicstyles',
+                    groups: ['basicstyles', 'cleanup'],
+                    items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript',
+                        '-', 'RemoveFormat'
+                    ]
+                },
+                {
+                    name: 'paragraph',
+                    groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
+                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
+                        'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter',
+                        'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'
+                    ]
+                },
+                {
+                    name: 'styles',
+                    items: ['FontSize']
+                },
+                {
+                    name: 'colors',
+                    items: ['TextColor', 'BGColor']
+                },
+                {
+                    name: 'tools',
+                    items: ['Maximize']
+                },
+            ]
+        });
+    });
+
+</script>    
+@endsection

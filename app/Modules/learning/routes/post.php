@@ -1,7 +1,7 @@
 <?php
     Route::group(['namespace'=>'Post'],function(){
       // posts
-      Route::resource('teacher/posts','PostController')->except('index','create','show');
+      Route::resource('teacher/posts','PostController')->except('index','create');
       Route::get('teacher/posts/index/{id}','PostController@index')->name('posts.index');
       
       Route::get('posts/all','PostController@allPosts')->name('admin.posts');
@@ -26,5 +26,6 @@
       // show likes names comments
       Route::put('teacher/comments/show-like-names','CommentController@showLikeNames')->name('comment.show-likes') ;
       Route::put('teacher/comments/show-dislike-names','CommentController@showDislikeNames')->name('comment.show-dislike') ;
+
 
     });  

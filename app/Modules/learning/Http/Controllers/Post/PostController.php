@@ -3,7 +3,7 @@
 namespace Learning\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Models\Admin;
 use Learning\Models\Learning\Post;
 use Illuminate\Http\Request;
 use Learning\Models\Learning\Exam;
@@ -108,17 +108,29 @@ class PostController extends Controller
             ->get();
 
         $classroom = Classroom::findOrFail($classroom_id);
-        $where = [
-            ['classroom_id', $classroom_id],
-            // ['admin_id',authInfo()->id]  
-        ];
+
         $classrooms = Classroom::with('employees')->whereHas('employees', function ($q) {
             $q->where('employee_id', employee_id());
         })->get();
 
         $lessons = Lesson::with('subject')->where('admin_id', authInfo()->id)->orderBy('lesson_title')->get();
 
-        $posts = Post::with('comments', 'likes', 'dislikes', 'admin')->where($where)->orderBy('created_at', 'desc')->limit(30)->get();
+        $where = [
+            ['classroom_id', $classroom_id],
+        ];
+        $all_admins = Admin::where('domain_role', '!=', 'teacher')->get();
+        $admins = [];
+        foreach ($all_admins as $admin) {
+            $admins[] = $admin->id;
+        }
+
+        $posts = Post::with('comments', 'likes', 'dislikes', 'admin')
+            ->where($where)
+            ->where('admin_id', authInfo()->id)
+            ->orWhereIn('admin_id', $admins)
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
         $title = trans('learning::local.posts');
         return view(
             'learning::teacher.posts.index',
@@ -225,6 +237,9 @@ class PostController extends Controller
                 ->where('like', 0)
                 ->count();
 
+            $data['like_names'] = $this->getLikeNames();
+            $data['dislike_names'] = $this->getDislikeNames();
+
             return json_encode($data);
         }
     }
@@ -250,7 +265,60 @@ class PostController extends Controller
                 ->where('like', 0)
                 ->count();
 
+            $data['like_names'] = $this->getLikeNames();
+            $data['dislike_names'] = $this->getDislikeNames();
+
             return json_encode($data);
         }
+    }
+
+    public function show($id)
+    {
+        $post = Post::with('comments', 'likes', 'dislikes', 'admin')->where('id', $id)->first();
+        $classroom = Classroom::findOrFail($post->classroom_id);
+        $title = trans('learning::local.show_post');
+        return view(
+            'learning::teacher.posts.show',
+            compact('title', 'post', 'classroom')
+        );
+    }
+
+    private function getLikeNames()
+    {
+        $names_like = Like::with('admin')->where('post_id', request('post_id'))->where('like', 1)->get();
+        $names = [];
+        foreach ($names_like as $name) {
+            // teachers
+            if (isset($name->admin->employeeUser)) {
+                $names[] = session('lang') == 'ar' ? $name->admin->employeeUser->ar_st_name . ' ' . $name->admin->employeeUser->ar_nd_name :
+                    $name->admin->employeeUser->en_st_name . ' ' . $name->admin->employeeUser->en_nd_name. '</br>';
+            }
+            // students
+            if (isset($name->user->studentUser)) {
+                $names[] = session('lang') == 'ar' ? $name->user->studentUser->ar_student_name . ' ' . $name->user->studentUser->father->ar_st_name :
+                    $name->user->studentUser->en_student_name . ' ' . $name->user->studentUser->father->en_st_name. '</br>';
+            }
+        }
+        return $names;
+    }
+
+    private function getDislikeNames()
+    {
+        $names_dislike = Like::with('admin')->where('post_id', request('post_id'))->where('like', 0)->get();
+        $names = [];
+        foreach ($names_dislike as $name) {
+            // teachers
+            if (isset($name->admin->employeeUser)) {
+                $names[] = session('lang') == 'ar' ? $name->admin->employeeUser->ar_st_name . ' ' . $name->admin->employeeUser->ar_nd_name :
+                    $name->admin->employeeUser->en_st_name . ' ' . $name->admin->employeeUser->en_nd_name . '</br>';
+            }
+            // students
+            if (isset($name->user->studentUser)) {
+                $names[] = session('lang') == 'ar' ? $name->user->studentUser->ar_student_name . ' ' . $name->user->studentUser->father->ar_st_name :
+                    $name->user->studentUser->en_student_name . ' ' . $name->user->studentUser->father->en_st_name. '</br>';
+            }
+        }
+
+        return $names;
     }
 }

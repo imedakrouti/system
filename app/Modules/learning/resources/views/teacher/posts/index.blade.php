@@ -148,7 +148,6 @@
                     <div class="col-md-12 col-sm-12 mb-1">
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-header" style="border-radius: 15px;">
-
                                 <h4 class="card-title" id="heading-icon-dropdown">
                                     <span class="avatar avatar-online">
                                         @isset($post->admin->image_profile)
@@ -162,13 +161,14 @@
                                     <strong>{{ session('lang') == 'ar' ? $post->admin->ar_name : $post->admin->name }}
                                     </strong>
                                     <span
-                                        class="small  d-none d-sm-inline-block">{{ $post->created_at->diffForHumans() }}</span>
+                                        class="small  d-none d-sm-inline-block">{{ $post->created_at->diffForHumans() }}
+                                    </span>
                                 </h4>
                                 {{-- mobile --}}
                                 <span
                                     class="small  d-inline-block d-sm-none">{{ $post->created_at->diffForHumans() }}</span>
                                 {{-- edit and delete --}}
-                                @if (authinfo()->id == $post->admin->id)
+                                @if (authinfo()->id == $post->admin->id )
                                     <div class="heading-elements ">
                                         <div class="form-group text-center">
                                             <!-- Floating icon Outline button -->
@@ -177,18 +177,22 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="hidden" name="classroom_id" value="{{ $post->classroom_id }}">
-                                                {{-- edit --}}
-                                                <button style="width: 35px;height: 35px;padding: 0px;" type="button"
-                                                    class="btn btn-float btn-square btn-outline-warning"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    title="{{ trans('learning::local.edit') }}"
-                                                    onclick="location.href='{{ route('posts.edit', $post->id) }}';"><i
-                                                        class="la la-edit"></i></button>
+                                                @if ($post->post_type == 'post')
+                                                    {{-- edit --}}
+                                                    <button style="width: 35px;height: 35px;padding: 0px;" type="button"
+                                                        class="btn btn-float btn-square btn-outline-warning"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="{{ trans('learning::local.edit') }}"
+                                                        onclick="location.href='{{ route('posts.edit', $post->id) }}';"><i
+                                                            class="la la-edit"></i>
+                                                    </button>
+                                                @endif
                                                 {{-- delete --}}
                                                 <button style="width: 35px;height: 35px;padding: 0px;" type="submit"
                                                     class="btn btn-float btn-square btn-outline-danger delete-post"
                                                     data-toggle="tooltip" data-placement="top"
-                                                    title="{{ trans('admin.delete') }}"><i class="la la-trash"></i></button>
+                                                    title="{{ trans('admin.delete') }}"><i class="la la-trash"></i>
+                                                </button>                                                       
                                             </form>
                                         </div>
                                     </div>
@@ -197,7 +201,6 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-
                                     {{-- post type lesson --}}
                                     @if ($post->post_type == 'lesson')
                                         <h6>
@@ -312,12 +315,13 @@
                                     {{-- button comments and count of comments
                                     --}}
                                     <div class="mb-3">
-                                        <button type="button" style="width: 35px;height: 35px;padding: 0px;" type="button"
-                                            class="btn btn-float btn-square btn-outline-primary comment"
-                                            value="{{ $post->id }}" data-toggle="tooltip" data-placement="top"
-                                            title="{{ trans('learning::local.comments') }}"><i
-                                                class="la la-comments"></i></button>
-
+                                        <a onclick="loadComments({{ $post->id }})">
+                                            <strong><span class="la la-comments"></span> {{ trans('learning::local.comments') }}</strong>
+                                        </a>
+                                        <a href="{{route('posts.show',$post->id)}}">
+                                            <strong><span id="count_{{ $post->id }}">{{ $post->comments->count() }}</span></strong>
+                                        </a>
+                       
                                         {{-- like and dislike from teacher account
                                         --}}
                                         @php
@@ -329,7 +333,7 @@
                                             @isset($like->admin_id)
                                                 @if ($like->admin_id == authInfo()->id)
                                                     @php
-                                                    $like = 'active'
+                                                    $like = 'blue'
                                                     @endphp
                                                 @endif
                                             @endisset
@@ -339,69 +343,57 @@
                                             @isset($dislike->admin_id)
                                                 @if ($dislike->admin_id == authInfo()->id)
                                                     @php
-                                                    $dislike = 'active'
+                                                    $dislike = 'red'
                                                     @endphp
                                                 @endif
                                             @endisset
                                         @endforeach
 
                                         {{-- like --}}
-                                        <button style="width: 35px;height: 35px;padding: 0px;" type="button"
-                                            class="btn btn-float btn-square btn-outline-info {{ $like }}"
-                                            data-toggle="tooltip" data-placement="top"
-                                            title="{{ trans('learning::local.like') }}" id="btn_like_{{ $post->id }}"
-                                            onclick="likePost({{ $post->id }})"><i class="la la-thumbs-up"></i></button>
-
-                                        {{-- dislike --}}
-                                        <button style="width: 35px;height: 35px;padding: 0px;" type="button"
-                                            class="btn btn-float btn-square btn-outline-danger {{ $dislike }}"
-                                            data-toggle="tooltip" data-placement="top"
-                                            title="{{ trans('learning::local.dislike') }}" id="btn_dislike_{{ $post->id }}"
-                                            onclick="dislikePost({{ $post->id }})"><i
-                                                class="la la-thumbs-down"></i></button>
-
-                                        {{-- comments --}}
-                                        <a href="#" class="{{ session('lang') == 'ar' ? 'pull-left' : 'pull-right' }}"
-                                            data-toggle="tooltip" data-placement="top"
-                                            title="{{ trans('learning::local.show_comments') }}">
-                                            <i class="la la-comments"></i> <span
-                                                id="count_{{ $post->id }}">{{ $post->comments->count() }}</span>
-                                        </a href="#">
-
-                                        {{-- count of post like
-                                        --}}
-                                        <span class="{{ session('lang') == 'ar' ? 'pull-left' : 'pull-right' }}"
-                                            id="tooltip_dislike_{{ $post->id }}" data-toggle="tooltip" data-placement="top"
-                                            data-html="true" data-original-title="
-                                            {{-- get names of dislikes --}}
-                                            @if(count($post->dislikes) > 0)
-                                                @foreach ($post->dislikes as $admin)
-                                                    {{-- teachers and admins
-                                                    --}}
-                                                    @isset($admin->admin->employeeUser)
-                                                        {{ session('lang') == 'ar' ? $admin->admin->employeeUser->ar_st_name . ' ' . $admin->admin->employeeUser->ar_nd_name : $admin->admin->employeeUser->en_st_name . ' ' . $admin->admin->employeeUser->en_nd_name }}
-                                                        </br>
-                                                    @endisset
-                                                    {{-- students --}}
-                                                    @isset($admin->user->studentUser)
-                                                        {{ session('lang') == 'ar' ? $admin->user->studentUser->ar_student_name . ' ' . $admin->user->studentUser->father->ar_st_name : $admin->user->studentUser->en_student_name . ' ' . $admin->user->studentUser->father->en_st_name }}
-                                                        </br>
-                                                    @endisset
-                                                @endforeach
-                                            @else
-                                                {{ trans('learning::local.none') }}
-                                            @endif">
-                                            <i class="la la-thumbs-down"></i>
-                                            <span class="mr-1" id="count_dislike_{{ $post->id }}">{{ $post->dislikes->count() }}</span>
-                                        </span>
-
+                                        <a class="{{ $like }}" onclick="likePost({{ $post->id }})" id="btn_like_{{ $post->id }}">
+                                            <strong><span class="la la-thumbs-up"></span> {{ trans('learning::local.like') }}</strong>
+                                        </a>
                                         {{-- count of post like --}}
-                                        <span class="{{ session('lang') == 'ar' ? 'pull-left' : 'pull-right' }}" id="tooltip_like_{{ $post->id }}"
-                                            data-toggle="tooltip" data-placement="top" data-html="true" data-original-title="
-                                            {{-- get names of likes --}}
-                                                @if(count($post->likes) > 0)
-                                                    @foreach ($post->likes as $admin)
-                                                        {{-- teachers and admins --}}
+                                        <strong>
+                                            <span id="tooltip_like_{{ $post->id }}" data-toggle="tooltip" data-placement="top" 
+                                                data-html="true" data-original-title="
+                                                {{-- get names of likes --}}                                                    
+                                                    @if(count($post->likes) > 0)
+                                                        @foreach ($post->likes as $admin)
+                                                            {{-- teachers and admins --}}
+                                                            @isset($admin->admin->employeeUser)
+                                                                {{ session('lang') == 'ar' ? $admin->admin->employeeUser->ar_st_name . ' ' . $admin->admin->employeeUser->ar_nd_name : $admin->admin->employeeUser->en_st_name . ' ' . $admin->admin->employeeUser->en_nd_name }}
+                                                                </br>
+                                                            @endisset
+                                                            {{-- students --}}
+                                                            @isset($admin->user->studentUser)
+                                                                {{ session('lang') == 'ar' ? $admin->user->studentUser->ar_student_name . ' ' . $admin->user->studentUser->father->ar_st_name : $admin->user->studentUser->en_student_name . ' ' . $admin->user->studentUser->father->en_st_name }}
+                                                                </br>
+                                                            @endisset
+                                                        @endforeach
+                                                    @else
+                                                        {{ trans('learning::local.none') }}
+                                                    @endif                                                    
+                                                    ">
+                                                <span
+                                                    id="count_like_{{ $post->id }}">{{ $post->likes->count() }}</span>
+                                            </span>
+                                        </strong>
+                                       
+                                        {{-- dislike --}}
+                                        <a class="{{ $dislike }}" onclick="dislikePost({{ $post->id }})" id="btn_dislike_{{ $post->id }}">
+                                            <strong><span class="la la-thumbs-down"></span> 
+                                                {{ trans('learning::local.dislike') }}</strong>
+                                        </a>
+                                        {{-- count of post dislike --}}
+                                        <strong>
+                                            <span id="tooltip_dislike_{{ $post->id }}" data-toggle="tooltip" data-placement="top"
+                                                data-html="true" data-original-title="
+                                                {{-- get names of dislikes --}}
+                                                @if(count($post->dislikes) > 0)
+                                                    @foreach ($post->dislikes as $admin)
+                                                        {{-- teachers and admins
+                                                        --}}
                                                         @isset($admin->admin->employeeUser)
                                                             {{ session('lang') == 'ar' ? $admin->admin->employeeUser->ar_st_name . ' ' . $admin->admin->employeeUser->ar_nd_name : $admin->admin->employeeUser->en_st_name . ' ' . $admin->admin->employeeUser->en_nd_name }}
                                                             </br>
@@ -414,45 +406,43 @@
                                                     @endforeach
                                                 @else
                                                     {{ trans('learning::local.none') }}
-                                                @endif
-                                                ">
-                                            <i class="la la-thumbs-up"></i> <span class="mr-1"
-                                                id="count_like_{{ $post->id }}">{{ $post->likes->count() }}</span>
-                                        </span>
+                                                @endif">                                                
+                                                <span id="count_dislike_{{ $post->id }}">{{ $post->dislikes->count() }}</span>
+                                            </span>
+                                        </strong>
                                     </div>
 
-            {{-- add comment --}}
-
-            <div id="commentField_{{ $post->id }}" class="panel panel-default"
-                style="padding:10px; margin-top:-20px; display:none;">
-                <div id="comment_{{ $post->id }}"> </div>
-                <fieldset class="mt-2">
-                    <form id="commentForm_{{ $post->id }}">
-                        @csrf
-                        <input type="hidden" value="{{ $post->id }}" name="post_id">
-                        <div class="form-group">
-                            <textarea name="comment_text" id="text_{{ $post->id }}" data-id="{{ $post->id }}" cols="30"
-                                rows="10" class="form-control editor"></textarea>
+                                    {{-- add comment --}}
+                                    <div id="commentField_{{ $post->id }}" class="panel panel-default"
+                                        style="padding:10px; margin-top:-20px; display:none;">
+                                        <div id="comment_{{ $post->id }}"> </div>
+                                        <fieldset class="mt-2">
+                                            <form id="commentForm_{{ $post->id }}">
+                                                @csrf
+                                                <input type="hidden" value="{{ $post->id }}" name="post_id">
+                                                <div class="form-group">
+                                                    <textarea name="comment_text" id="text_{{ $post->id }}" data-id="{{ $post->id }}" cols="30"
+                                                        rows="10" class="form-control editor"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-info round submitComment" value="{{ $post->id }}">
+                                                        <i class="la la-comment"></i> {{ trans('learning::local.add_comment') }}
+                                                    </button>
+                                                    <button type="button" class="btn btn-light round" onclick="loadComments({{ $post->id }})">
+                                                        {{ trans('learning::local.close') }}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-info round submitComment" value="{{ $post->id }}">
-                                <i class="la la-comment"></i> {{ trans('learning::local.add_comment') }}
-                            </button>
-                            <button type="button" class="btn btn-light round" onclick="loadComments({{ $post->id }})">
-                                {{ trans('learning::local.close') }}
-                            </button>
-                        </div>
-                    </form>
-                </fieldset>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    @endforeach
-    </div>
-    </div>
-
     @include('learning::teacher.posts.includes._homework-assignment')
     @include('learning::teacher.posts.includes._homework-question')
     @include('learning::teacher.posts.includes._show-likes-comments')
@@ -475,8 +465,12 @@
                 success: function(data) {
                     $('#count_like_' + post_id).html(data.like);
                     $('#count_dislike_' + post_id).html(data.dislike);
-                    $('#btn_like_' + post_id).addClass('active');
-                    $('#btn_dislike_' + post_id).removeClass('active');
+                    $('#btn_like_' + post_id).addClass('blue');
+                    $('#btn_dislike_' + post_id).removeClass('red');
+
+                    // get all like names
+                    $('#tooltip_like_' + post_id).attr('data-original-title',data.like_names);
+                    $('#tooltip_dislike_' + post_id).attr('data-original-title',data.dislike_names);
                 }
             })
         }
@@ -493,8 +487,12 @@
                 success: function(data) {
                     $('#count_like_' + post_id).html(data.like);
                     $('#count_dislike_' + post_id).html(data.dislike);
-                    $('#btn_dislike_' + post_id).addClass('active');
-                    $('#btn_like_' + post_id).removeClass('active');
+                    $('#btn_dislike_' + post_id).addClass('red');
+                    $('#btn_like_' + post_id).removeClass('blue');
+
+                    // get all like names
+                    $('#tooltip_like_' + post_id).attr('data-original-title',data.like_names);
+                    $('#tooltip_dislike_' + post_id).attr('data-original-title',data.dislike_names);
                 }
             })
         }

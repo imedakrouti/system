@@ -64,25 +64,25 @@
         @endisset
     @endforeach
     {{-- end teacher account --}}
+    
+    {{-- like and dislike for comments --}}
     <div class="mb-1">
         <a class="ml-2 secandary {{ $like_comment }}" id="btn_comment_like_{{ $comment->id }}"
             onclick="likeComment({{ $comment->id }})">
-            <span class="la la-thumbs-up"></span>
+            <span class="la la-thumbs-up"></span> {{ trans('learning::local.like') }}
         </a>
         <a onclick="showLikes({{ $comment->id }})">
             <strong>
-                {{ trans('learning::local.like') }}
+                
                 <span id="count_comment_like_{{ $comment->id }}">{{ $comment->likes->count() }}</span>
             </strong>
         </a>
         <a class="secandary  {{ $dislike_comment }}" id="btn_comment_dislike_{{ $comment->id }}"
             onclick="dislikeComment({{ $comment->id }})">
-            <span class="la la-thumbs-down"></span>
-
+            <span class="la la-thumbs-down"></span> {{ trans('learning::local.dislike') }}
         </a>
         <a onclick="showDislikes({{ $comment->id }})">
-            <strong>
-                {{ trans('learning::local.dislike') }}
+            <strong>                
                 <span id="count_comment_dislike_{{ $comment->id }}">{{ $comment->dislikes->count() }}</span>
             </strong>
         </a>
