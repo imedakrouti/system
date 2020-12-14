@@ -19,7 +19,7 @@
     </div>  
     <div class="content-header-right col-md-6 col-12 mb-1">
       <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-        <a href="#"  onclick="deleteAnswer()" class="btn btn-danger box-shadow round mr-1"><i class="la la-trash"></i> {{ trans('learning::local.delete_answers') }}</a>          
+        <a href="#"  onclick="deleteAnswer()" class="btn btn-primary box-shadow round mr-1"><i class="la la-retweet"></i> {{ trans('learning::local.delete_answers') }}</a>          
       </div>   
       <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
         <a href="#"  onclick="printReport()" class="btn btn-info box-shadow round mr-1"><i class="la la-print"></i> {{ trans('learning::local.print_report') }}</a>          
@@ -109,7 +109,7 @@
         if (itemChecked > 0) {
             var form_data = $('#formData').serialize();
             swal({
-                    title: "{{trans('msg.delete_confirmation')}}",
+                    title: "{{trans('learning::local.new_chance')}}",
                     text: "{!!trans('learning::local.msg_ask_del_student_mark')!!}",
                     type: "warning",
                     showCancelButton: true,

@@ -75,8 +75,7 @@
                                   <option {{old('subject_id',$lesson->subject_id) == $subject->id ? 'selected' : ''}} value="{{$subject->id}}">
                                       {{session('lang') =='ar' ?$subject->ar_name:$subject->en_name}}</option>                                    
                               @endforeach
-                          </select>
-                          <span class="red">{{ trans('learning::local.required') }}</span>                              
+                          </select>                          
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
@@ -89,7 +88,7 @@
                     </div>   
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-6 col-md-6">
                         <div class="form-group">
                             <label>{{ trans('learning::local.division') }}</label>
                             <select name="division_id[]" class="form-control select2" required multiple>                                                                        
@@ -102,7 +101,7 @@
                             <span class="red">{{ trans('learning::local.required') }}</span>                              
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-6 col-md-6">
                         <div class="form-group"> 
                             <label>{{ trans('learning::local.grade') }}</label>
                             <select name="grade_id[]" class="form-control select2" multiple required >                                    
@@ -117,7 +116,7 @@
                     </div>   
   
                 </div>               
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-12 col-md-12">
                    <div class="form-group row">
                         <label>{{ trans('learning::local.video_url') }}</label>                           
                         <input type="text" name="video_url" class="form-control" value="{{old('video_url',$lesson->video_url)}}">
@@ -157,8 +156,7 @@
                     <div class="col-lg-12 col-md-12">
                         <div class="form-group">
                           <label>{{ trans('learning::local.explanation') }}</label>
-                          <textarea required class="form-control" name="explanation" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('explanation',$lesson->explanation)}}</textarea>                          
-                          <span class="red">{{ trans('learning::local.required') }}</span>                              
+                          <textarea class="form-control" name="explanation" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('explanation',$lesson->explanation)}}</textarea>                                                    
                         </div>
                     </div>  
                 </div>                                                                                                
@@ -181,6 +179,74 @@
 @endsection
 
 @section('script')
-<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
+<script src="{{ asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js') }}"></script>
+{{-- use ckeditor --}}
+<script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('ckeditor', {
+        toolbar: [{
+                name: 'basicstyles',
+                groups: ['basicstyles', 'cleanup'],
+                items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-',
+                    'RemoveFormat'
+                ]
+            },
+            {
+                name: 'paragraph',
+                groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
+                items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',
+                    'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock',
+                    '-', 'BidiLtr', 'BidiRtl', 'Language'
+                ]
+            },
+            {
+                name: 'styles',
+                items: ['FontSize']
+            },
+            {
+                name: 'colors',
+                items: ['TextColor', 'BGColor']
+            },
+            {
+                name: 'tools',
+                items: ['Maximize']
+            },
+        ]
+    });
+
+    $(".editor").each(function() {
+        let id = $(this).attr('id');
+        CKEDITOR.replace(id, {
+            toolbar: [{
+                    name: 'basicstyles',
+                    groups: ['basicstyles', 'cleanup'],
+                    items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript',
+                        '-', 'RemoveFormat'
+                    ]
+                },
+                {
+                    name: 'paragraph',
+                    groups: ['list', 'indent', 'blocks', 'align', 'bidi'],
+                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
+                        'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter',
+                        'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'
+                    ]
+                },
+                {
+                    name: 'styles',
+                    items: ['FontSize']
+                },
+                {
+                    name: 'colors',
+                    items: ['TextColor', 'BGColor']
+                },
+                {
+                    name: 'tools',
+                    items: ['Maximize']
+                },
+            ]
+        });
+    });
+
+</script>  
 @endsection

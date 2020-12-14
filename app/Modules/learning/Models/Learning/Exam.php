@@ -19,6 +19,7 @@ class Exam extends Model
         'subject_id',         
         'auto_correct',
         'show_results',
+        'exam_type',
         'admin_id',
     ];
     public function __construct(Array $attributes = [])

@@ -5,10 +5,12 @@ namespace Learning\Http\Controllers\Learning;
 use App\Http\Controllers\Controller;
 
 use Learning\Models\Learning\Playlist;
-use Illuminate\Http\Request;
 use Learning\Models\Learning\Lesson;
-use Learning\Models\Settings\Subject;
 use Staff\Models\Employees\Employee;
+use Student\Models\Settings\Classroom;
+
+use DB;
+use Learning\Http\Requests\PlaylistRequest;
 
 class PlaylistController extends Controller
 {
@@ -29,6 +31,7 @@ class PlaylistController extends Controller
             compact('title')
         );
     }
+
     private function dataTable($data)
     {
         return datatables($data)
@@ -61,6 +64,7 @@ class PlaylistController extends Controller
             ->rawColumns(['check', 'subjects', 'attendance_id', 'employee_name', 'working_data', 'playlist_name'])
             ->make(true);
     }
+
     private function getFullEmployeeName($data)
     {
         $employee_name = '';
@@ -91,19 +95,6 @@ class PlaylistController extends Controller
         return $sector . ' ' . $department . '<br>' .  $section;
     }
 
-
-    private function attributes()
-    {
-        return [
-            'playlist_name',
-            'subject_id',
-            'employee_id',
-            'sort',
-            'admin_id',
-        ];
-    }
-
-
     public function show(Playlist $playlist)
     {
         $lessons = Lesson::where('playlist_id', $playlist->id)->sort()->paginate(10);
@@ -113,7 +104,6 @@ class PlaylistController extends Controller
             compact('title', 'playlist', 'lessons')
         );
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -132,6 +122,7 @@ class PlaylistController extends Controller
         }
         return response(['status' => true]);
     }
+
     public function employee($employee_id)
     {
         $employee = Employee::findOrFail($employee_id);
@@ -142,5 +133,97 @@ class PlaylistController extends Controller
             'learning::playlists.employee-playlists',
             compact('title', 'playlists', 'employee_name')
         );
+    }
+
+    // for teachers
+
+    public function playlists()
+    {
+        $playlists = Playlist::with('lessons', 'classes')->orderBy('id', 'desc')
+            ->where('employee_id', employee_id())
+            ->get();
+
+        $title = trans('learning::local.playlists');
+        return view(
+            'learning::teacher.playlists.index',
+            compact('title', 'playlists')
+        );
+    }
+
+    public function storePlaylist(PlaylistRequest $request)
+    {
+        $playlist = $request->user()->playlists()->firstOrCreate([
+            'playlist_name'     => $request->playlist_name,
+            'subject_id'        => $request->subject_id,
+            'sort'              => $request->sort,
+            'employee_id'       => employee_id(),
+        ]);
+        toast(trans('msg.stored_successfully'), 'success');
+        return redirect()->route('teacher.show-lessons', $playlist->id);
+    }
+
+    public function editPlaylist($playlist_id)
+    {
+        $playlist = Playlist::findOrFail($playlist_id);
+        $title = trans('learning::local.edit_playlist');
+        return view(
+            'learning::teacher.playlists.edit-playlist',
+            compact('title', 'playlist')
+        );
+    }
+
+    public function updatePlaylist(PlaylistRequest $request, $playlist_id)
+    {
+        $playlist = Playlist::findOrFail($playlist_id);
+        $playlist->update([
+            'playlist_name'     => $request->playlist_name,
+            'subject_id'        => $request->subject_id,
+            'sort'              => $request->sort,
+            'employee_id'       => employee_id(),
+        ]);
+        toast(trans('msg.updated_successfully'), 'success');
+        return redirect()->route('teacher.show-lessons', $playlist_id);
+    }
+
+    public function destroyPlaylist()
+    {
+        if (request()->ajax()) {
+            Playlist::destroy(request('playlist_id'));
+        }
+        return response(['status' => true]);
+    }
+
+    public function showLessons($playlist_id)
+    {
+        $lessons = Lesson::where('playlist_id', $playlist_id)->paginate(10);
+        $playlist = Playlist::findOrFail($playlist_id);
+        $classes = Classroom::with('employees')->whereHas('employees', function ($q) {
+            $q->where('employee_id', employee_id());
+        })->get();
+        // all classes related to teacher - get through playlist that related to teacher
+        $arr_classes = [];
+        foreach ($playlist->classes as $class) {
+            $arr_classes[] = $class->id;
+        }
+
+        $title = $playlist->playlist_name;
+        $n = 1;
+        return view(
+            'learning::teacher.playlists.show-lessons',
+            compact('playlist', 'title', 'lessons', 'n', 'classes', 'arr_classes')
+        );
+    }
+
+
+
+    public function setClasses()
+    {
+        $playlist = Playlist::find(request('playlist_id'));
+        DB::table('playlist_classroom')->where('playlist_id', $playlist->id)->delete();
+        foreach (request('classroom_id') as $classroom_id) {
+            $playlist->classes()->attach($classroom_id);
+        }
+        toast(trans('learning::local.set_classes_successfully'), 'success');
+        return redirect()->route('teacher.show-lessons', request('playlist_id'));
     }
 }

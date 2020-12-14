@@ -25,7 +25,7 @@
               <div class="form-body">
                   <h4 class="form-section"> {{ $title }}</h4>
                   @include('layouts.backEnd.includes._msg')   
-                  <div class="col-lg-6 col-md-12">
+                  <div class="col-lg-12 col-md-12">
                     <div class="form-group row">
                         <label>{{ trans('learning::local.exam_name') }}</label>
                         <input type="text" class="form-control" name="exam_name" value="{{old('exam_name',$exam->exam_name)}}" required>
@@ -55,8 +55,7 @@
                               <option {{old('subject_id',$exam->subject_id) == $subject->id ? 'selected' : ''}} value="{{$subject->id}}">
                                   {{session('lang') =='ar' ?$subject->ar_name:$subject->en_name}}</option>                                    
                           @endforeach
-                      </select>
-                      <span class="red">{{ trans('learning::local.required') }}</span>                              
+                      </select>                      
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6">
@@ -143,8 +142,7 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="form-group row">
                         <label>{{ trans('learning::local.description') }}</label>
-                        <textarea required name="description" class="form-control" cols="30" rows="5">{{old('description',$exam->description)}}</textarea>
-                        <span class="red">{{ trans('learning::local.required') }}</span>                              
+                        <textarea name="description" class="form-control" cols="30" rows="5">{{old('description',$exam->description)}}</textarea>                        
                     </div>
                 </div>                                                                           
               </div>

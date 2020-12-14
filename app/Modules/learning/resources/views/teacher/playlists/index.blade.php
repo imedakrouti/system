@@ -29,6 +29,7 @@
       <div class="card">
         <div class="card-content">
           <div class="card-body">
+            @include('layouts.backEnd.includes._msg')
             <ul class="list-group">
                 @php
                     $n=1;

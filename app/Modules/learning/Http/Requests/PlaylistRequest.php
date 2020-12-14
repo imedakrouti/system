@@ -4,7 +4,7 @@ namespace Learning\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LessonRequest extends FormRequest
+class PlaylistRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,19 +24,15 @@ class LessonRequest extends FormRequest
     public function rules()
     {
         return [
-            'lesson_title'     => 'required|max:75',
-            'division_id'      => 'required',            
-            'grade_id'         => 'required',            
+            'playlist_name'    => 'required|max:75',            
             'sort'             => 'required'
         ];
     }
     public function messages()
     {
         return [
-            'lesson_title.required'     => trans('learning::local.lesson_title_required'),
-            'lesson_title.max'          => trans('learning::local.lesson_title_max_75'),
-            'division_id.required'      => trans('learning::local.division_id_required'),
-            'grade_id.required'         => trans('learning::local.grade_id_required'),            
+            'playlist_name.required'    => trans('learning::local.playlist_name_required'),
+            'playlist_name.max'         => trans('learning::local.playlist_name_max_75'),                   
             'sort.required'             => trans('learning::local.sort_required'),
             
         ];
