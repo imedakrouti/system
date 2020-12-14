@@ -978,26 +978,35 @@ class StudentController extends Controller
         $division  = session('lang') == 'ar' ? $student->division->ar_division_name : $student->division->en_division_name;
         $grade  = session('lang') == 'ar' ? $student->grade->ar_grade_name : $student->grade->en_grade_name;
 
-        $content = str_replace('student_name', $student_name, $content);
-        $content = str_replace('nationality', $student->nationalities->ar_name_nat_male, $content);
-        $content = str_replace('religion', $student->religion, $content);
-
+        
         $dob =  DateTime::createFromFormat("Y-m-d", $student->dob);
-
-        $content = str_replace('dob', $dob->format("Y/m/d"), $content);
-
-        $content = str_replace('division', $division, $content);
-        $content = str_replace('grade', $grade, $content);
-        $content = str_replace('national_id', $student->student_id_number, $content);
-
-        $content = str_replace('school_name', getSchoolName($division_id), $content);
-
+        
+        
         $year = fullAcademicYear();
-        $content = str_replace('year', $year, $content);
-
+        
         $date = Carbon\Carbon::today();
-        $content = str_replace('date', date_format($date, "Y/m/d"), $content);
 
+        $content = str_replace('[[اسم الطالب]]', $student_name, $content);
+        $content = str_replace('[[الجنسية]]', $student->nationalities->ar_name_nat_male, $content);
+        $content = str_replace('[[الديانة]]', $student->religion, $content);
+        $content = str_replace('[[تاريخ الميلاد]]', $dob->format("Y/m/d"), $content);
+        $content = str_replace('[[القسم الاكاديمي]]', $division, $content);
+        $content = str_replace('[[الصف الدراسي]]', $grade, $content);
+        $content = str_replace('[[الرقم القومي للطالب]]', $student->student_id_number, $content);
+        $content = str_replace('[[اسم المدرسة]]', getSchoolName($division_id), $content);
+        $content = str_replace('[[العام الدراسي]]', $year, $content);
+        $content = str_replace('[[التاريخ]]', date_format($date, "Y/m/d"), $content);
+
+        $content = str_replace('[[Student name]]', $student_name, $content);
+        $content = str_replace('[[Nationality]]', $student->nationalities->ar_name_nat_male, $content);
+        $content = str_replace('[[Religion]]', $student->religion, $content);
+        $content = str_replace('[[Date of birth]]', $dob->format("Y/m/d"), $content);
+        $content = str_replace('[[Division]]', $division, $content);
+        $content = str_replace('[[Grade]]', $grade, $content);
+        $content = str_replace('[[Student national id number]]', $student->student_id_number, $content);
+        $content = str_replace('[[School name]]', getSchoolName($division_id), $content);
+        $content = str_replace('[[Academic Year]]', $year, $content);
+        $content = str_replace('[[Date]]', date_format($date, "Y/m/d"), $content);
 
         $data = [
             'title'                         => trans('student::local.proof_enrollment'),

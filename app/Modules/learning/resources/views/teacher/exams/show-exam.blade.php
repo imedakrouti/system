@@ -318,6 +318,17 @@
     <script src="{{asset('cpanel/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
     <script src="{{asset('cpanel/app-assets/js/scripts/forms/form-repeater.js')}}"></script>
 
-    <script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-    <script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>  
+    <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>    
+    <script>        
+        CKEDITOR.replace( 'ckeditor', {
+            language: "{{session('lang')}}",
+            toolbar: [
+                        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+                        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },                   
+                        { name: 'styles', items: ['FontSize' ] },
+                        { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                        { name: 'tools', items: [ 'Maximize' ] },                
+                    ]        
+            });
+    </script>
 @endsection

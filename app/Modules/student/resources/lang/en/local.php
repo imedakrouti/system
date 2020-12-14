@@ -884,5 +884,9 @@ return [
     'edit_to_archive'               => 'Edit archive data',
     'serial'                        => '#',
     'school_statement'              => 'Register students for  ',
-    '' => '',
+    'elements'                      => 'Student',
+    'elements_title'                => 'Student data',
+    ''=> '',
+    ''=> '',
+
 ];

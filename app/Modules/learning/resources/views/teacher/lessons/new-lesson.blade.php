@@ -144,6 +144,7 @@
 <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
 <script>
     CKEDITOR.replace('ckeditor', {
+        language: "{{session('lang')}}",
         toolbar: [{
                 name: 'basicstyles',
                 groups: ['basicstyles', 'cleanup'],
