@@ -1,17 +1,19 @@
 <?php
 
 namespace Staff\Http\Controllers\Employee;
+
 use App\Http\Controllers\Controller;
-use Staff\Models\Employees\Announcement;
-use Carbon;
+use Staff\Models\Settings\LeaveType;
+
 class TeacherController extends Controller
 {
     public function permissions()
     {
-        return view('staff::teacher.permissions');
+        $leave_types = LeaveType::sort()->get();
+        return view('staff::teacher.permissions', compact('leave_types'));
     }
     public function vacations()
-    {        
+    {
         return view('staff::teacher.vacations');
     }
     public function loans()
@@ -38,5 +40,4 @@ class TeacherController extends Controller
     {
         return view('staff::teacher.password');
     }
-
 }
