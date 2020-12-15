@@ -25,56 +25,8 @@
         <div class="card-body">
           <h3 class="red"><strong>{{$title}}</strong></h3>
           <hr>
-          <div class="row">
-            <div class="col-lg-4 col-md-12">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>{{ trans('student::local.item') }}</th>
-                    <th>{{ trans('student::local.description') }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>student_name</td>
-                    <td>{{ trans('student::local.student_name') }}</td>
-                  </tr>
-                  <tr>
-                    <td>parent_name</td>
-                    <td>{{ trans('student::local.parent_name') }}</td>
-                  </tr>                    
-                  <tr>
-                    <td>father_name</td>
-                    <td>{{ trans('student::local.father_name') }}</td>
-                  </tr>  
-                  <tr>
-                    <td>father_national_id</td>
-                    <td>{{ trans('student::local.father_id_number') }}</td>
-                  </tr>  
-                  <tr>
-                    <td>mother_name</td>
-                    <td>{{ trans('student::local.mother_name') }}</td>
-                  </tr>  
-                  <tr>
-                    <td>mother_national_id</td>
-                    <td>{{ trans('student::local.id_number_m') }}</td>
-                  </tr>  
-                  <tr>                      
-                    <td>grade</td>
-                    <td>{{ trans('student::local.grade') }}</td>
-                  </tr>    
-                  <tr>
-                      <td>year</td>
-                      <td>{{ trans('student::local.year') }}</td>
-                  </tr>                                                                                                                                       
-                  <tr>
-                      <td>date</td>
-                      <td>{{ trans('student::local.date') }}</td>
-                  </tr>                     
-                </tbody>
-              </table>
-            </div>            
-              <div class="col-lg-8 col-md-12"> 
+          <div class="row">         
+              <div class="col-lg-12 col-md-12"> 
                 <form class="form form-horizontal" action="{{route('leave-request.update')}}" method="post">
                     @csrf                    
                     <textarea class="form-control" name="endorsement" id="ckeditor" cols="30" rows="10" class="ckeditor">{{old('endorsement',$content->endorsement)}}</textarea>                          
@@ -85,7 +37,6 @@
                     </div>                  
                 </form>               
               </div>
-   
             </div>
         </div>
       </div>
@@ -93,7 +44,62 @@
   </div>
 </div>
 @endsection
-@section('script')
-<script src="{{asset('cpanel/app-assets/vendors/js/editors/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('cpanel/app-assets/js/scripts/editors/editor-ckeditor.js')}}"></script>    
+@section('script')    
+    <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'ckeditor', {
+            language: "{{session('lang')}}",
+            toolbarGroups: [
+                { name: 'mode' },
+                { name: 'basicstyles' },
+                { name: 'colors' },
+                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+                { name: 'tools' },
+                { name: 'styles' }        
+        ]   ,
+            on: {        
+                pluginsLoaded: function() {
+                    var editor = this,
+                        config = editor.config;
+                    
+                    // Let the party on!            
+                    editor.ui.addRichCombo( 'myCombo', {
+                        label: "{{trans('student::local.elements')}}",
+                        title: "{{trans('student::local.elements')}}",
+                        toolbar: 'styles',
+                        panel: {
+                            css: [ CKEDITOR.skin.getPath( 'editor' ) ].concat( config.contentsCss ),
+                            multiSelect: false
+                        },
+            
+                        // Let's populate the list of available items.
+                        init: function() {
+                            this.startGroup( "{{trans('student::local.elements_title')}}" );
+                            var ar_items = [ ' [[الجنسية]] ', ' [[اسم الطالب]] ', ' [[اسم ولي الامر]] ', ' [[اسم الاب]] ' , ' [[اسم الام]] ' ,
+                            ' [[الرقم القومي للطالب]] ',' [[الرقم القومي للاب]] ',' [[الرقم القومي للام]] ',' [[الديانة]] ',' [[تاريخ الميلاد]] ',
+                            ' [[القسم الاكاديمي]] ',' [[الصف الدراسي]] ',' [[العام الدراسي]] ',' [[اسم المدرسة]] ',' [[التاريخ]] ' ];
+                            var en_items = [ ' [[Nationality]] ', ' [[Student name]] ', ' [[Parent name]] ', ' [[Father name]] ', ' [[Mother name]] ' ,
+                            ' [[Student national id number]] ',' [[Father national id]] ',' [[Mother national id]] ',' [[Religion]] ',
+                            ' [[Date of birth]] ', ' [[Division]] ',' [[Grade]] ',' [[Academic Year]] ',' [[School name]] ',' [[Date]] ' ];
+                            var lang = "{{session('lang') == 'ar' ? 'ar' : 'en'}}";
+                            var items = lang == 'ar' ? ar_items : en_items;
+
+                            for ( var i = 0; i < items.length; i++ ) {
+                                var item = items[ i ];
+                                // Add entry to the panel.
+                                this.add( item, item );
+                            }
+                        },
+                        // This is what happens when the item is clicked.
+                        onClick: function( value ) {
+                            editor.focus();
+                            editor.fire( 'saveSnapshot' );
+                            editor.insertHtml(value );                    
+                            editor.fire( 'saveSnapshot' );
+                        }
+                    } );            
+                }
+            }
+        } );
+    </script> 
 @endsection

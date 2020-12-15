@@ -20,20 +20,16 @@ use Student\Models\Settings\Step;
 use Student\Models\Students\Student;
 use DB;
 use PDF;
-use Student\Models\Settings\Design;
 use Student\Models\Students\SetMigration;
 use Student\Models\Students\StudentStatement;
 use Carbon;
 use Student\Models\Students\ReportContent;
 use DateTime;
 use Student\Models\Settings\Classroom;
-use Student\Models\Settings\DocumentGrade;
 use Student\Models\Students\Room;
 
 class StudentController extends Controller
 {
-    private $father_id;
-    private $dd;
     private $mm;
     private $yy;
     private $student_image;
@@ -978,12 +974,12 @@ class StudentController extends Controller
         $division  = session('lang') == 'ar' ? $student->division->ar_division_name : $student->division->en_division_name;
         $grade  = session('lang') == 'ar' ? $student->grade->ar_grade_name : $student->grade->en_grade_name;
 
-        
+
         $dob =  DateTime::createFromFormat("Y-m-d", $student->dob);
-        
-        
+
+
         $year = fullAcademicYear();
-        
+
         $date = Carbon\Carbon::today();
 
         $content = str_replace('[[اسم الطالب]]', $student_name, $content);

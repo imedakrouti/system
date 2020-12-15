@@ -2,13 +2,6 @@
 @section('sidebar')
     @include('layouts.backEnd.includes.sidebars._admission')
 @endsection
-@section('styles')
-    <style>
-        .cke_skin_kama .cke_button_pluging_name .cke_label {
-            display: inline;
-        }
-    </style>
-@endsection
 @section('content')
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">

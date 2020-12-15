@@ -262,8 +262,7 @@ class ExamController extends Controller
             })
             ->whereHas('userExams', function ($q) {
             })
-            ->orderBy('start_date')
-            ->where('show_results', 'yes')
+            ->orderBy('start_date')            
             ->get();
 
         if (request()->ajax()) {
