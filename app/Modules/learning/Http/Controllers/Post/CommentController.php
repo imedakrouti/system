@@ -41,8 +41,7 @@ class CommentController extends Controller
     }
 
     public function store(Request $request)
-    {
-         dd(request()->all());
+    {   
         if (request()->ajax()) {
             $request->user()->comments()->create($request->only($this->attributes()));
         }

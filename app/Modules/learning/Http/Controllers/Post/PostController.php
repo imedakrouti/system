@@ -285,18 +285,18 @@ class PostController extends Controller
 
     private function getLikeNames()
     {
-        $names_like = Like::with('admin')->where('post_id', request('post_id'))->where('like', 1)->get();
+        $names_like = Like::with('admin', 'user')->where('post_id', request('post_id'))->where('like', 1)->get();
         $names = [];
         foreach ($names_like as $name) {
             // teachers
             if (isset($name->admin->employeeUser)) {
                 $names[] = session('lang') == 'ar' ? $name->admin->employeeUser->ar_st_name . ' ' . $name->admin->employeeUser->ar_nd_name :
-                    $name->admin->employeeUser->en_st_name . ' ' . $name->admin->employeeUser->en_nd_name. '</br>';
+                    $name->admin->employeeUser->en_st_name . ' ' . $name->admin->employeeUser->en_nd_name . '</br>';
             }
             // students
             if (isset($name->user->studentUser)) {
                 $names[] = session('lang') == 'ar' ? $name->user->studentUser->ar_student_name . ' ' . $name->user->studentUser->father->ar_st_name :
-                    $name->user->studentUser->en_student_name . ' ' . $name->user->studentUser->father->en_st_name. '</br>';
+                    $name->user->studentUser->en_student_name . ' ' . $name->user->studentUser->father->en_st_name . '</br>';
             }
         }
         return $names;
@@ -304,7 +304,7 @@ class PostController extends Controller
 
     private function getDislikeNames()
     {
-        $names_dislike = Like::with('admin')->where('post_id', request('post_id'))->where('like', 0)->get();
+        $names_dislike = Like::with('admin', 'user')->where('post_id', request('post_id'))->where('like', 0)->get();
         $names = [];
         foreach ($names_dislike as $name) {
             // teachers
@@ -315,7 +315,7 @@ class PostController extends Controller
             // students
             if (isset($name->user->studentUser)) {
                 $names[] = session('lang') == 'ar' ? $name->user->studentUser->ar_student_name . ' ' . $name->user->studentUser->father->ar_st_name :
-                    $name->user->studentUser->en_student_name . ' ' . $name->user->studentUser->father->en_st_name. '</br>';
+                    $name->user->studentUser->en_student_name . ' ' . $name->user->studentUser->father->en_st_name . '</br>';
             }
         }
 

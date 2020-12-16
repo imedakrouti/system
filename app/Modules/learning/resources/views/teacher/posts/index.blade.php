@@ -599,8 +599,7 @@
                         $('#commentForm_' + id)[0].reset();
                         getComment(id);
                         CKEDITOR.instances['text_' + id].setData('');
-
-                        $('#comment-modal').modal('hide');
+                    
                     }
                 });
             });
@@ -686,7 +685,7 @@
 
         setInterval(function() {
             getComment(post_id)
-        }, 2000000); //1000 second
+        }, 10000); //1000 second
 
     </script>
 

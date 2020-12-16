@@ -407,7 +407,7 @@
         setInterval(function()
         {
             getComment(post_id)
-        },20000); //1000 second
+        },5000); //1000 second
     </script>
 
     <script>
