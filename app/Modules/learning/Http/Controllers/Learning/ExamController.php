@@ -9,13 +9,12 @@ use Learning\Models\Learning\Lesson;
 use Learning\Models\Learning\Question;
 use Learning\Models\Settings\Subject;
 use Learning\Models\Learning\Answer;
-use Learning\Models\Learning\LessonUser;
 use Learning\Models\Learning\UserAnswer;
 use Learning\Models\Learning\UserExam;
 use Student\Models\Settings\Classroom;
 use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
-use Student\Models\Students\Student;
+
 use DB;
 
 class ExamController extends Controller
@@ -881,34 +880,5 @@ class ExamController extends Controller
         return response(['status' => true]);
     }
 
-    public function studentViews($lesson_id)
-    {
-        $lesson = Lesson::findOrFail($lesson_id);
-        // students seen lesson
-        $students_seen = LessonUser::where('lesson_id', $lesson_id)->orderBy('created_at', 'desc')->get();
-        $users = [];
-        foreach ($students_seen as $student) {
-            $users[] = $student->user_id;
-        }
-        $seen = Student::whereIn('user_id', $users)->get();
 
-        // students not seen lesson
-        $classrooms = [];
-        foreach ($lesson->playlist->classes as $classroom) {
-            $classrooms[] = $classroom->id;
-        }
-        $not_seen = Student::with('rooms')->whereNotIn('user_id', $users)
-            ->whereHas('rooms', function ($query) use ($classrooms) {
-                $query->whereIn('classroom_id', $classrooms);
-            })
-            ->orderBy('ar_student_name')
-            ->get();
-
-        $title  = trans('learning::local.views');
-
-        return view(
-            'learning::teacher.lessons.student-views',
-            compact('title', 'lesson', 'seen', 'not_seen')
-        );
-    }
 }

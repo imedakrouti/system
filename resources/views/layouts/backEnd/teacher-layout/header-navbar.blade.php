@@ -28,7 +28,7 @@ role="navigation" data-menu="menu-wrapper">
         <span>{{ trans('staff::local.classrooms') }}</span></a>
         <ul class="dropdown-menu">
           @foreach (employeeClassrooms() as $classroom)         
-            <li data-menu=""><a class="dropdown-item" href="{{route('posts.index',$classroom->id)}}" data-toggle="dropdown">
+            <li data-menu=""><a class="dropdown-item" href="{{route('students.name-list',$classroom->id)}}" data-toggle="dropdown">
               {{session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom}}</a>
             </li>                                     
           @endforeach   

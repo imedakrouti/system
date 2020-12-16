@@ -67,5 +67,8 @@
       Route::get('zoom-schedules/live/{id}','ZoomScheduleController@zoomLive')->name('zoom.live');
       Route::get('zoom-schedules/attendances/{id}','ZoomScheduleController@attendances')->name('zoom.attendances');
       Route::put('zoom-schedules/attendances/join-time','ZoomScheduleController@joinTime')->name('zoom.join-time');
+
+      // classrooms name list
+      Route::get('students/name-list/{classroom_id}','TeacherController@nameList')->name('students.name-list');
     
     });  

@@ -214,8 +214,6 @@ class PlaylistController extends Controller
         );
     }
 
-
-
     public function setClasses()
     {
         $playlist = Playlist::find(request('playlist_id'));
