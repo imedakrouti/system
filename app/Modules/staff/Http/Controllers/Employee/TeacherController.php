@@ -8,16 +8,6 @@ use App\Http\Controllers\Controller;
 class TeacherController extends Controller
 {
 
-    public function deductions()
-    {
-        return view('staff::teacher.deductions');
-    }
-
-    public function payrolls()
-    {
-        return view('staff::teacher.payrolls');
-    }
-
     public function attendance()
     {
         return view('staff::teacher.attendance');

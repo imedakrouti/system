@@ -48,6 +48,10 @@ Route::group(['namespace'=>'Payroll'],function(){
     Route::get('/payrolls/reports/cash/{code}','PayrollReportController@cashReport')->name('payroll-report.cash');
     
 
+    // payrolls for teacher account
+    Route::get('teacher/payrolls','PayrollProcessController@profile')->name('teacher.payrolls');
+    Route::put('teacher/payrolls/salary-slip','PayrollProcessController@salarySlip')->name('teacher.salary-slip');
+
 
 
 

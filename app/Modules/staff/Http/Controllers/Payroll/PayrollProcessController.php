@@ -1044,15 +1044,40 @@ class PayrollProcessController extends Controller
             ->get();
 
             return datatables($data)
-                    ->addIndexColumn()
-           
-                    ->addColumn('payrollSheet',function($data){
-                        $sheet_name = session('lang') == 'ar' ? $data->ar_sheet_name : $data->en_sheet_name; 
-                        return $sheet_name;
-                    })
-                    ->rawColumns(['check','payrollSheet'])
-                    ->make(true);
+                ->addIndexColumn()           
+                ->addColumn('payrollSheet',function($data){
+                    $sheet_name = session('lang') == 'ar' ? $data->ar_sheet_name : $data->en_sheet_name; 
+                    return $sheet_name;
+                })
+                ->addColumn('salary_slip', function($data){
+                    return '<a href="#" class="btn btn-info btn-sm" onclick="salarySlip(`'.$data->code.'`,'.$data->employee_id.')">'.
+                    trans('staff::local.salary_slip').'</a>';
+                })
+                ->rawColumns(['check','payrollSheet','salary_slip'])
+                ->make(true);
         }
+        return view('staff::teacher.payrolls');
+    }
+
+    public function salarySlip()
+    {
+        if (request()->ajax()) {
+            $where = [
+                ['code', request('code')],
+                ['employee_id', request('employee_id')]
+            ];
+            $payroll_sheet_data = PayrollComponent::with('payrollSheet')->where('code',request('code'))->first();        
+            $salary_components = SalaryComponent::where('payroll_sheet_id',$payroll_sheet_data->payroll_sheet_id)->sort()->get();
+            $employees = Employee::work()->with('payrollComponents')
+            ->whereHas('payrollComponents',function($q) {
+                $q->where('code',request('code'));                                    
+            })
+            ->where('id', request('employee_id'))
+            ->orderBy('attendance_id','asc')        
+            ->get();
+            return view('staff::teacher.includes._salary-clip-details',compact('salary_components','employees'));
+        }
+        return response(['status'=>true]);
     }
 
 }

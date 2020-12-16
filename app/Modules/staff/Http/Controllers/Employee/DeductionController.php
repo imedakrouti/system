@@ -432,7 +432,6 @@ class DeductionController extends Controller
 
             return datatables($data)
                 ->addIndexColumn()
-
                 ->addColumn('approval1', function ($data) {
                     $username = empty($data->approval_one_user) ? '' :
                      '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalOne->ar_name : $data->approvalOne->name);
@@ -486,9 +485,9 @@ class DeductionController extends Controller
                 ->addColumn('reason', function ($data) {
                     return '<a href="#" onclick="reason(' . "'" . $data->reason . "'" . ')">' . trans('staff::local.reason') . '</a>';
                 })
-
                 ->rawColumns(['check', 'approval1', 'approval2', 'reason', 'updated_at'])
                 ->make(true);
         }
+        return view('staff::teacher.deductions');
     }
 }

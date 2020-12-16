@@ -12,8 +12,10 @@
    Route::get('teacher/loans','LoanController@profile')->name('teacher.loans');
    Route::post('teacher/loan/store','LoanController@storeLoan')->name('teacher.store-loan');
 
-   Route::get('teacher/deductions','TeacherController@deductions')->name('teacher.deductions');
-   Route::get('teacher/payrolls','TeacherController@payrolls')->name('teacher.payrolls');
+   // deductions 
+   Route::get('teacher/deductions','DeductionController@profile')->name('teacher.deductions');
+
+
    Route::get('teacher/attendance','TeacherController@attendance')->name('teacher.attendance');
    Route::get('/internal-regulation/teacher','InternalRegulationController@showForTeacher')->name('internal-regulations.teacher');
    Route::get('teacher/account','TeacherController@account')->name('teacher.account');
