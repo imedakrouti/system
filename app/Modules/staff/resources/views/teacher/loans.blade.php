@@ -52,7 +52,9 @@
                 var myTable = $('#dynamic-table').DataTable({
               "info":     true,              
               "bLengthChange" : false,          
-              "pageLength": 5, // set page records
+              "pageLength": 10, // set page records            
+              "bLengthChange" : true,
+              dom: 'blfrtip',
               ajax:{
                   type:'POST',
                   url:'{{route("loans.profile")}}',

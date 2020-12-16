@@ -71,6 +71,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::put('vacations/search/get/employee/confirm','VacationController@byEmployeeConfirm')->name('vacations.employee-confirm');
     Route::put('vacations/search/get/employee/profile','VacationController@profile')->name('vacations.profile');
 
+
     // Leave Permissions
     Route::resource('leave-permissions','LeavePermissionController')->except('destroy','show','edit','update');
     Route::post('leave-permissions/destroy','LeavePermissionController@destroy')->name('leave-permissions.destroy');  
@@ -110,21 +111,8 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::get('reports/print/contract','EmployeeController@contract')->name('employees.contract');
     Route::get('reports/print/salarySuspended','EmployeeController@salarySuspended')->name('employees.salarySuspended');
     Route::get('reports/print/timetable','EmployeeController@noTimetable')->name('employees.timetable');
-    Route::get('reports/print/requiredDocument','EmployeeController@requiredDocument')->name('employees.requiredDocument');
-
-    // Teacher Account
-
-    Route::get('teacher/permissions','TeacherController@permissions')->name('teacher.permissions');
-    Route::get('teacher/vacations','TeacherController@vacations')->name('teacher.vacations');
-    Route::get('teacher/loans','TeacherController@loans')->name('teacher.loans');
-    Route::get('teacher/deductions','TeacherController@deductions')->name('teacher.deductions');
-    Route::get('teacher/payrolls','TeacherController@payrolls')->name('teacher.payrolls');
-    Route::get('teacher/attendance','TeacherController@attendance')->name('teacher.attendance');
-    Route::get('/internal-regulation/teacher','InternalRegulationController@showForTeacher')->name('internal-regulations.teacher');
-    Route::get('teacher/account','TeacherController@account')->name('teacher.account');
-    Route::get('teacher/password','TeacherController@password')->name('teacher.password');
+    Route::get('reports/print/requiredDocument','EmployeeController@requiredDocument')->name('employees.requiredDocument'); 
     
-
     // internal regulation
     Route::get('/internal-regulation','InternalRegulationController@index')->name('internal-regulations.index');
     Route::post('/internal-regulation','InternalRegulationController@update')->name('internal-regulations.update');
@@ -133,6 +121,7 @@ Route::group(['namespace'=>'Employee'],function(){
     Route::resource('announcements','AnnouncementController')->except('destroy','show');
     Route::post('announcements/destroy','AnnouncementController@destroy')->name('announcements.destroy');  
 
-
+    // teacher
+    require 'teacher_hr.php';
 
 });  

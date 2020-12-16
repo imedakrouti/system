@@ -606,6 +606,11 @@ return [
     'now'                               => 'الان',
     'ar_internal_regulation'            => 'اللائحة الداخلية بالعربي',
     'en_internal_regulation'            => 'اللائحة الداخلية بالانجليزية',
+    'confirm_save_vacation'             => 'تسجل أجازة',
+    'ask_save_vacation'                 => 'هل ترغب في تسجيل هذه الاجازة؟',
+    'cancel_vacation'                   => 'الغاء أجازة',
+    'day'                               => 'يوم',
+    ''               => '',
     ''               => '',
     ''               => '',
 ];
