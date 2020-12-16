@@ -79,7 +79,8 @@ class LeavePermissionController extends Controller
                 return $this->getFullEmployeeName($data);
             })
             ->addColumn('approval1', function ($data) {
-                $username = empty($data->approvalOne->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalOne->username;
+                $username = empty($data->approval_one_user) ? '' :
+                 '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalOne->ar_name : $data->approvalOne->name);
                 switch ($data->approval1) {
                     case trans('staff::local.accepted'):
                         return '<div class="badge badge-primary round">
@@ -624,7 +625,8 @@ class LeavePermissionController extends Controller
                 return $this->getFullEmployeeName($data);
             })
             ->addColumn('approval1', function ($data) {
-                $username = empty($data->approvalOne->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalOne->username;
+                $username = empty($data->approval_one_user) ? '' :
+                 '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalOne->ar_name : $data->approvalOne->name);
                 switch ($data->approval1) {
                     case trans('staff::local.accepted'):
                         return '<div class="badge badge-primary round">
@@ -649,7 +651,8 @@ class LeavePermissionController extends Controller
                 }
             })
             ->addColumn('approval2', function ($data) {
-                $username = empty($data->approvalTwo->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalTwo->username;
+                $username = empty($data->approval_two_user) ? '' :
+                 '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalTwo->ar_name : $data->approvalTwo->name);
                 switch ($data->approval2) {
                     case trans('staff::local.accepted'):
                         return '<div class="badge badge-success round">
@@ -885,48 +888,50 @@ class LeavePermissionController extends Controller
                 ->addIndexColumn()
 
                 ->addColumn('approval1', function ($data) {
-                    $username = empty($data->approvalOne->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalOne->username;
+                    $username = empty($data->approval_one_user) ? '' :
+                     '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalOne->ar_name : $data->approvalOne->name);
                     switch ($data->approval1) {
                         case trans('staff::local.accepted'):
                             return '<div class="badge badge-primary round">
-                                        <span>' . trans('staff::local.accepted_done') . '</span>
-                                        <i class="la la-check font-medium-2"></i>
-                                    </div>' . $username;
+                                    <span>' . trans('staff::local.accepted_done') . '</span>
+                                    <i class="la la-check font-medium-2"></i>
+                                </div>' . $username;
                         case trans('staff::local.rejected'):
                             return '<div class="badge badge-warning round">
-                                        <span>' . trans('staff::local.rejected_done') . '</span>
-                                        <i class="la la-close font-medium-2"></i>
-                                    </div>' . $username;
+                                    <span>' . trans('staff::local.rejected_done') . '</span>
+                                    <i class="la la-close font-medium-2"></i>
+                                </div>' . $username;
                         case trans('staff::local.canceled'):
                             return '<div class="badge badge-info round">
-                                        <span>' . trans('staff::local.canceled_done') . '</span>
-                                        <i class="la la-hand-paper-o font-medium-2"></i>
-                                    </div>' . $username;
+                                    <span>' . trans('staff::local.canceled_done') . '</span>
+                                    <i class="la la-hand-paper-o font-medium-2"></i>
+                                </div>' . $username;
                         case trans('staff::local.pending'):
                             return '<div class="badge badge-dark round">
-                                        <span>' . trans('staff::local.pending') . '</span>
-                                        <i class="la la-hourglass-1 font-medium-2"></i>
-                                    </div>' . $username;
+                                    <span>' . trans('staff::local.pending') . '</span>
+                                    <i class="la la-hourglass-1 font-medium-2"></i>
+                                </div>' . $username;
                     }
                 })
                 ->addColumn('approval2', function ($data) {
-                    $username = empty($data->approvalTwo->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalTwo->username;
+                    $username = empty($data->approval_two_user) ? '' :
+                     '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalTwo->ar_name : $data->approvalTwo->name);
                     switch ($data->approval2) {
                         case trans('staff::local.accepted'):
                             return '<div class="badge badge-success round">
-                                        <span>' . trans('staff::local.accepted_done') . '</span>
-                                        <i class="la la-check font-medium-2"></i>
-                                    </div>' . $username;
+                                    <span>' . trans('staff::local.accepted_done') . '</span>
+                                    <i class="la la-check font-medium-2"></i>
+                                </div>' . $username;
                         case trans('staff::local.rejected'):
                             return '<div class="badge badge-danger round">
-                                        <span>' . trans('staff::local.rejected_done') . '</span>
-                                        <i class="la la-close font-medium-2"></i>
-                                    </div>' . $username;
+                                    <span>' . trans('staff::local.rejected_done') . '</span>
+                                    <i class="la la-close font-medium-2"></i>
+                                </div>' . $username;
                         case trans('staff::local.pending'):
                             return '<div class="badge badge-dark round">
-                                        <span>' . trans('staff::local.pending') . '</span>
-                                        <i class="la la-hourglass-1 font-medium-2"></i>
-                                    </div>' . $username;
+                                    <span>' . trans('staff::local.pending') . '</span>
+                                    <i class="la la-hourglass-1 font-medium-2"></i>
+                                </div>' . $username;
                     }
                 })
                 ->addColumn('updated_at', function ($data) {
@@ -945,5 +950,7 @@ class LeavePermissionController extends Controller
                 ->rawColumns(['approval1', 'approval2', 'leave_permission_id', 'updated_at', 'check'])
                 ->make(true);
         }
+        $leave_types = LeaveType::sort()->get();
+        return view('staff::teacher.permissions', compact('leave_types'));
     }
 }

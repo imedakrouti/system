@@ -14,7 +14,7 @@ Route::namespace(getNamespaceController($moduleName))->middleware(['web','admin'
                
         require 'learning.php'; 
 
-        require 'teacher.php';    
+        require 'teacher_learning.php';    
 
         require 'post.php';        
            

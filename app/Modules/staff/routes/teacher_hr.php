@@ -1,15 +1,20 @@
 <?php
    // Teacher Account
-   Route::get('teacher/permissions','TeacherController@permissions')->name('teacher.permissions');
-   Route::get('teacher/vacations','TeacherController@vacations')->name('teacher.vacations');
-   Route::get('teacher/loans','TeacherController@loans')->name('teacher.loans');
+   // permissions
+   Route::get('teacher/permissions','LeavePermissionController@profile')->name('teacher.permissions');
+   Route::post('teacher/permission/store','LeavePermissionController@storePermission')->name('teacher.store-permission');
+
+   // vacations
+   Route::get('teacher/vacations','VacationController@profile')->name('teacher.vacations');
+   Route::post('teacher/vacation/store','VacationController@storeVacation')->name('teacher.store-vacation');
+   
+   // loans
+   Route::get('teacher/loans','LoanController@profile')->name('teacher.loans');
+   Route::post('teacher/loan/store','LoanController@storeLoan')->name('teacher.store-loan');
+
    Route::get('teacher/deductions','TeacherController@deductions')->name('teacher.deductions');
    Route::get('teacher/payrolls','TeacherController@payrolls')->name('teacher.payrolls');
    Route::get('teacher/attendance','TeacherController@attendance')->name('teacher.attendance');
    Route::get('/internal-regulation/teacher','InternalRegulationController@showForTeacher')->name('internal-regulations.teacher');
    Route::get('teacher/account','TeacherController@account')->name('teacher.account');
    Route::get('teacher/password','TeacherController@password')->name('teacher.password');
-
-   // store vacation
-   Route::post('teacher/vacation/store','TeacherController@storeVacation')->name('teacher.store-vacation');
-   Route::post('teacher/permission/store','LeavePermissionController@storePermission')->name('teacher.store-permission');

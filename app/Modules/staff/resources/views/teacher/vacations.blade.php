@@ -171,18 +171,6 @@
                             swal("{{ trans('msg.success') }}", "{{ trans('msg.stored_successfully') }}",
                                 "success");
                             $('#new-vacation-modal').modal('hide');
-
-                        },
-                        // display validations error in page
-                        error: function(data_error, exception) {
-                            if (exception == 'error') {
-                                $('.alert-danger').show();
-                                $.each(data_error.responseJSON.errors, function(index, value) {
-                                    $('.alert-danger ul').append("<li>" + value + "</li>");
-                                })
-                            } else {
-                                $('.alert-danger').hide();
-                            }
                         }
                     })
                 }

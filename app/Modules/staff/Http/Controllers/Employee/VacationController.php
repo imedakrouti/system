@@ -63,7 +63,8 @@ class VacationController extends Controller
                 return '<a href="#" onclick="notes(' . "'" . $data->notes . "'" . ')">' . $data->vacation_type . '</a>';
             })
             ->addColumn('approval1', function ($data) {
-                $username = empty($data->approvalOne->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalOne->username;
+                $username = empty($data->approval_one_user) ? '' :
+                 '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalOne->ar_name : $data->approvalOne->name);
                 switch ($data->approval1) {
                     case trans('staff::local.accepted'):
                         return '<div class="badge badge-primary round">
@@ -176,6 +177,37 @@ class VacationController extends Controller
         $interval = $datetime1->diff($datetime2);
 
         return $interval->invert == 0 ? $interval->format('%a') + 1 : 'invalid'; //now do whatever you like with $days
+    }
+
+    public function storeVacation(VacationRequest $request)
+    {
+        if (request()->ajax()) {
+            $message = '';
+            if ($this->getDaysCount() == 'invalid') {
+                return response(['status' => 'invalid', 'msg' => trans('staff::local.invalid_vacation_period')]);
+            }
+
+            if (request()->hasFile('file_name')) {
+                $this->file_name = uploadFileOrImage(null, request('file_name'), 'images/attachments');
+            }
+
+            foreach (request('employee_id') as $employee_id) {
+                $employee = Employee::findOrFail($employee_id);
+
+                $vacation_allocated = $employee->vacation_allocated;
+                if (request('vacation_type') == trans('staff::local.regular_vacation') || request('vacation_type') == 'Regular vacation') { //vacation_type
+                    if ($vacation_allocated < $this->getDaysCount() + 1) {
+                        $message .=  ' - ' . trans('staff::local.check_vacation_balance') . ' [' . $employee->attendance_id . ' ]';
+                    } else {
+                        $this->insertVacation(request(), $employee_id, $vacation_allocated);
+                    }
+                } else {
+                    $message = '';
+                    $this->insertVacation(request(), $employee_id, $vacation_allocated);
+                }
+            }
+        }
+        return response(['status' => true]);
     }
 
     public function store(VacationRequest $request)
@@ -384,7 +416,8 @@ class VacationController extends Controller
                 return $this->getFullEmployeeName($data);
             })
             ->addColumn('approval2', function ($data) {
-                $username = empty($data->approvalTwo->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalTwo->username;
+                $username = empty($data->approval_two_user) ? '' :
+                 '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalTwo->ar_name : $data->approvalTwo->name);
                 switch ($data->approval2) {
                     case trans('staff::local.accepted'):
                         return '<div class="badge badge-success round">
@@ -568,87 +601,92 @@ class VacationController extends Controller
 
     public function profile()
     {
-        $data = Vacation::orderBy('id', 'desc')
-            ->where('employee_id', request('employee_id'))
-            ->get();
-
-        return datatables($data)
-            ->addIndexColumn()
-            ->addColumn('approval1', function ($data) {
-                $username = empty($data->approvalOne->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalOne->username;
-                switch ($data->approval1) {
-                    case trans('staff::local.accepted'):
-                        return '<div class="badge badge-primary round">
+        if (request()->ajax()) {
+            $data = Vacation::orderBy('id', 'desc')
+                ->where('employee_id', request('employee_id'))
+                ->get();
+    
+            return datatables($data)
+                ->addIndexColumn()
+                ->addColumn('approval1', function ($data) {
+                    $username = empty($data->approval_one_user) ? '' :
+                     '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalOne->ar_name : $data->approvalOne->name);
+                    switch ($data->approval1) {
+                        case trans('staff::local.accepted'):
+                            return '<div class="badge badge-primary round">
                                     <span>' . trans('staff::local.accepted_done') . '</span>
                                     <i class="la la-check font-medium-2"></i>
                                 </div>' . $username;
-                    case trans('staff::local.rejected'):
-                        return '<div class="badge badge-warning round">
+                        case trans('staff::local.rejected'):
+                            return '<div class="badge badge-warning round">
                                     <span>' . trans('staff::local.rejected_done') . '</span>
                                     <i class="la la-close font-medium-2"></i>
                                 </div>' . $username;
-                    case trans('staff::local.canceled'):
-                        return '<div class="badge badge-info round">
+                        case trans('staff::local.canceled'):
+                            return '<div class="badge badge-info round">
                                     <span>' . trans('staff::local.canceled_done') . '</span>
                                     <i class="la la-hand-paper-o font-medium-2"></i>
                                 </div>' . $username;
-                    case trans('staff::local.pending'):
-                        return '<div class="badge badge-dark round">
+                        case trans('staff::local.pending'):
+                            return '<div class="badge badge-dark round">
                                     <span>' . trans('staff::local.pending') . '</span>
                                     <i class="la la-hourglass-1 font-medium-2"></i>
                                 </div>' . $username;
-                }
-            })
-            ->addColumn('approval2', function ($data) {
-                $username = empty($data->approvalTwo->username) ? '' : '<br><strong>' . trans('admin.by') . '</strong> : ' . $data->approvalTwo->username;
-                switch ($data->approval2) {
-                    case trans('staff::local.accepted'):
-                        return '<div class="badge badge-success round">
+                    }
+                })
+                ->addColumn('approval2', function ($data) {
+                    $username = empty($data->approval_two_user) ? '' :
+                     '<br><strong>' . trans('admin.by') . '</strong> : ' . (session('lang') == 'ar' ?$data->approvalTwo->ar_name : $data->approvalTwo->name);
+                    switch ($data->approval2) {
+                        case trans('staff::local.accepted'):
+                            return '<div class="badge badge-success round">
                                     <span>' . trans('staff::local.accepted_done') . '</span>
                                     <i class="la la-check font-medium-2"></i>
                                 </div>' . $username;
-                    case trans('staff::local.rejected'):
-                        return '<div class="badge badge-danger round">
+                        case trans('staff::local.rejected'):
+                            return '<div class="badge badge-danger round">
                                     <span>' . trans('staff::local.rejected_done') . '</span>
                                     <i class="la la-close font-medium-2"></i>
                                 </div>' . $username;
-                    case trans('staff::local.pending'):
-                        return '<div class="badge badge-dark round">
+                        case trans('staff::local.pending'):
+                            return '<div class="badge badge-dark round">
                                     <span>' . trans('staff::local.pending') . '</span>
                                     <i class="la la-hourglass-1 font-medium-2"></i>
                                 </div>' . $username;
-                }
-            })
-            ->addColumn('vacation_period', function ($data) {
-                if ($data->from_date == $data->to_date) {
-                    return '<span class="red"><strong>' . trans('staff::local.day') . '</strong></span> ' .
-                        \Carbon\Carbon::parse($data->from_date)->format('M d Y, D');
-                }
-                return '<span class="red"><strong>' . trans('staff::local.from') . '</strong></span> ' .
-                    \Carbon\Carbon::parse($data->from_date)->format('M d Y, D')
-                    . '<br><span class="success"><strong>' . trans('staff::local.to') . '</strong></span> ' .
-                    \Carbon\Carbon::parse($data->to_date)->format('M d Y, D');
-            })
-            ->addColumn('vacation_type', function ($data) {
-                return $data->vacation_type . '<br> <strong>' . $data->date_vacation . '</strong>';
-            })
-            ->addColumn('updated_at', function ($data) {
-                return \Carbon\Carbon::parse($data->updated_at)->format('M d Y, D h:i');
-            })
-            ->addColumn('attachments', function ($data) {
-                $file =  '<a target="_blank" class="btn btn-success btn-sm" href="' . asset('images/attachments/' . $data->file_name) . '">
-                            <i class=" la la-download"></i>
-                        </a>';
-                return empty($data->file_name) ? '' : $file;
-            })
-            ->addColumn('check', function ($data) {
-                $btnCheck = '<label class="pos-rel">
-                             <input type="checkbox" class="ace" name="id[]" value="' . $data->id . '" />
-                             <span class="lbl"></span>
-                         </label>';
-                return $btnCheck;
-            })
-            ->rawColumns(['approval1', 'approval2', 'vacation_period', 'attachments', 'vacation_type', 'updated_at', 'check'])
-            ->make(true);
+                    }
+                })
+                ->addColumn('vacation_period', function ($data) {
+                    if ($data->from_date == $data->to_date) {
+                        return '<span class="red"><strong>' . trans('staff::local.day') . '</strong></span> ' .
+                            \Carbon\Carbon::parse($data->from_date)->format('M d Y, D');
+                    }
+                    return '<span class="red"><strong>' . trans('staff::local.from') . '</strong></span> ' .
+                        \Carbon\Carbon::parse($data->from_date)->format('M d Y, D')
+                        . '<br><span class="success"><strong>' . trans('staff::local.to') . '</strong></span> ' .
+                        \Carbon\Carbon::parse($data->to_date)->format('M d Y, D');
+                })
+                ->addColumn('vacation_type', function ($data) {
+                    return $data->vacation_type . '<br> <strong>' . $data->date_vacation . '</strong>';
+                })
+                ->addColumn('updated_at', function ($data) {
+                    return \Carbon\Carbon::parse($data->updated_at)->format('M d Y, D h:i');
+                })
+                ->addColumn('attachments', function ($data) {
+                    $file =  '<a target="_blank" class="btn btn-success btn-sm" href="' . asset('images/attachments/' . $data->file_name) . '">
+                                <i class=" la la-download"></i>
+                            </a>';
+                    return empty($data->file_name) ? '' : $file;
+                })
+                ->addColumn('check', function ($data) {
+                    $btnCheck = '<label class="pos-rel">
+                                 <input type="checkbox" class="ace" name="id[]" value="' . $data->id . '" />
+                                 <span class="lbl"></span>
+                             </label>';
+                    return $btnCheck;
+                })
+                ->rawColumns(['approval1', 'approval2', 'vacation_period', 'attachments', 'vacation_type', 'updated_at', 'check'])
+                ->make(true);            
+        }
+        return view('staff::teacher.vacations');
     }
 }
