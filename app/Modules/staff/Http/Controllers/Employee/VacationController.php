@@ -620,10 +620,9 @@ class VacationController extends Controller
                 }
             })
             ->addColumn('vacation_period', function ($data) {
-                if ($data->from_date == $data->to_date ) {
+                if ($data->from_date == $data->to_date) {
                     return '<span class="red"><strong>' . trans('staff::local.day') . '</strong></span> ' .
-                    \Carbon\Carbon::parse($data->from_date)->format('M d Y, D')
-                   ;
+                        \Carbon\Carbon::parse($data->from_date)->format('M d Y, D');
                 }
                 return '<span class="red"><strong>' . trans('staff::local.from') . '</strong></span> ' .
                     \Carbon\Carbon::parse($data->from_date)->format('M d Y, D')

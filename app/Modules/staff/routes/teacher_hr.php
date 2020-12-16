@@ -12,3 +12,4 @@
 
    // store vacation
    Route::post('teacher/vacation/store','TeacherController@storeVacation')->name('teacher.store-vacation');
+   Route::post('teacher/permission/store','LeavePermissionController@storePermission')->name('teacher.store-permission');

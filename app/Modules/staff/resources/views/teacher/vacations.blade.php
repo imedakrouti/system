@@ -168,7 +168,7 @@
 
                             $('#vacationForm')[0].reset();
                             $('#dynamic-table').DataTable().ajax.reload();
-                            swal("{{ trans('msg.success') }}", "{{ trans('msg.doneInsert') }}",
+                            swal("{{ trans('msg.success') }}", "{{ trans('msg.stored_successfully') }}",
                                 "success");
                             $('#new-vacation-modal').modal('hide');
 

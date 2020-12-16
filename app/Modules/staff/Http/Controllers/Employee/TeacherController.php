@@ -21,6 +21,8 @@ class TeacherController extends Controller
         return view('staff::teacher.permissions', compact('leave_types'));
     }
 
+
+
     public function vacations()
     {
         return view('staff::teacher.vacations');
@@ -44,7 +46,6 @@ class TeacherController extends Controller
         if (request()->ajax()) {
             $message = '';
             if ($this->getDaysCount() == 'invalid') {
-                // toast(trans('staff::local.invalid_vacation_period'), 'error');
                 return response(['status' => 'invalid', 'msg' => trans('staff::local.invalid_vacation_period')]);
             }
 

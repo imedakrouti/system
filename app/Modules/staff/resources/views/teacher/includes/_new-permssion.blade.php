@@ -12,7 +12,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form form-horizontal" method="POST" action="{{ route('leave-permissions.store') }}">
+                    <div id="alert"  class="hidden alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+                        <span class="alert-icon"><i class="la la-info-circle"></i></span>               
+                        <span id="msg" ></span>
+                    </div>
+                    <form class="form form-horizontal" id="permissionForm" method="POST" action="">
                         @csrf
                         <div class="form-body">
                             <input type="hidden" name="employee_id[]" value="{{employee_id()}}">

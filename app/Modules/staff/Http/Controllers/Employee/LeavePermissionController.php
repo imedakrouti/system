@@ -176,6 +176,83 @@ class LeavePermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function storePermission(LeavePermissionRequest $request)
+    {
+        if (request()->ajax()) {
+            if (!$this->checkDateRequest()) {
+                return response(['status' => 'invalid_date', 'msg' => trans('staff::local.invalid_date_leave')]);
+            }
+
+            if (!$this->checkAvailableDay()) {
+                return response(['status' => 'deny_day', 'msg' => trans('staff::local.deny_day_leave')]);
+            }
+
+            $employee_no_balance = '';
+            $employee_no_department = '';
+            $department_no_balance = '';
+            $employee_has_current_permission = '';
+            $available_time = '';
+
+            foreach (request('employee_id') as $employee_id) {
+                if (!$this->haveBalance($employee_id)) {
+                    $employee_no_balance .= ' [' . $this->getAttendanceId($employee_id) . '] ';
+                }
+
+                if (!$this->hasDepartment($employee_id)) {
+                    $employee_no_department .= ' [' . $this->getAttendanceId($employee_id) . '] ';
+                }
+
+                if (!$this->departmentHasBalance($employee_id)) {
+                    $department_no_balance .= ' [' . $this->department_name . '] ';
+                }
+
+                if (!$this->employeeHasTodayPermission($employee_id)) {
+                    $employee_has_current_permission .= ' [' . $this->getAttendanceId($employee_id) . '] ';
+                }
+
+                if (!$this->availableTimeLeave($employee_id)) {
+                    $available_time .= ' [' . $this->getAttendanceId($employee_id) . '] ';
+                }
+            }
+
+            if (!empty($employee_no_balance)) {
+                return response(['status' => 'no_enough_balance', 'msg' => trans('staff::local.no_enough_balance')]);
+            }
+
+            if (!empty($employee_no_department)) {
+                return response(['status' => 'no_department_found', 'msg' => trans('staff::local.no_department_found')]);
+            }
+
+            if (!empty($department_no_balance)) {
+                return response(['status' => 'no_balance_department', 'msg' => trans('staff::local.no_balance_department')]);
+            }
+
+            if (!empty($employee_has_current_permission)) {
+                return response(['status' => 'employee_has_current_permission', 'msg' => trans('staff::local.employee_has_current_permission')]);
+            }
+
+            if (!empty($available_time)) {
+                return response(['status' => 'available_time', 'msg' => trans('staff::local.available_time')]);
+            }
+
+            $leave_type = LeaveType::findOrFail(request('leave_type_id'));
+            $reason = $leave_type->ar_leave . ' - ' . $leave_type->en_leave;
+
+            foreach (request('employee_id') as $employee_id) {
+                DB::transaction(function () use ($employee_id, $request, $reason) {
+                    $leave_permission_id = $request->user()->leavePermissions()->create($request->only($this->attributes()) +
+                        [
+                            'employee_id'   => $employee_id,
+                        ]);
+                    $this->hasDeduction($employee_id, $leave_permission_id, $reason);
+                });
+            }
+
+            return response(['status' => true]);
+        }
+    }
+
     public function store(LeavePermissionRequest $request)
     {
 
@@ -254,9 +331,11 @@ class LeavePermissionController extends Controller
                 $this->hasDeduction($employee_id, $leave_permission_id, $reason);
             });
         }
+
         toast(trans('msg.stored_successfully'), 'success');
         return redirect()->route('leave-permissions.index');
     }
+
     // requirements
 
     private function hasDeduction($employee_id, $leave_permission_id, $reason)
@@ -501,7 +580,8 @@ class LeavePermissionController extends Controller
         if (request()->ajax()) {
             foreach (request('id') as $id) {
                 DB::transaction(function () use ($id) {
-                    LeavePermission::where('id', $id)->update(['approval1' => 'Canceled', 'approval2' => 'Pending', 'approval_one_user' => authInfo()->id]);
+                    LeavePermission::where('id', $id)->where('approval1', 'Pending')->orWhere('approval2', 'Pending')
+                        ->update(['approval1' => 'Canceled', 'approval2' => 'Pending', 'approval_one_user' => authInfo()->id]);
 
                     Deduction::where('leave_permission_id', $id)->update(['approval1' => 'Canceled', 'approval2' => 'Pending', 'approval_one_user' => authInfo()->id]);
                 });
@@ -855,7 +935,14 @@ class LeavePermissionController extends Controller
                 ->addColumn('leave_permission_id', function ($data) {
                     return session('lang') == 'ar' ? $data->leaveType->ar_leave : $data->leaveType->ar_leave;
                 })
-                ->rawColumns(['approval1', 'approval2', 'leave_permission_id', 'updated_at'])
+                ->addColumn('check', function ($data) {
+                    $btnCheck = '<label class="pos-rel">
+                                    <input type="checkbox" class="ace" name="id[]" value="' . $data->id . '" />
+                                    <span class="lbl"></span>
+                                </label>';
+                    return $btnCheck;
+                })
+                ->rawColumns(['approval1', 'approval2', 'leave_permission_id', 'updated_at', 'check'])
                 ->make(true);
         }
     }
