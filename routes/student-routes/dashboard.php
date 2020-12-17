@@ -22,4 +22,5 @@ Route::group(['middleware'=>['user'],'namespace'=>'ParentStudent\Student'],funct
     Route::put('student/comments/show-dislike-names','DashboardController@showDislikeNames')->name('student-comment.show-dislike') ;
 
     Route::get('student/comments/count','DashboardController@count')->name('student-comments.count') ;
+    Route::get('student/comments/show/{post_id}','DashboardController@show')->name('student-comments.show') ;
 });

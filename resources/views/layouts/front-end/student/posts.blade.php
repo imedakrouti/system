@@ -234,7 +234,7 @@
                                 <a onclick="loadComments({{ $post->id }})">
                                     <strong><span class="la la-comments"></span> {{ trans('learning::local.comments') }}</strong>
                                 </a>
-                                <a href="{{route('posts.show',$post->id)}}">
+                                <a href="{{route('student-comments.show',$post->id)}}">
                                     <strong><span id="count_{{ $post->id }}">{{ $post->comments->count() }}</span></strong>
                                 </a>
                
@@ -246,8 +246,8 @@
                                 @endphp
 
                                 @foreach ($post->likes as $like)
-                                    @isset($like->admin_id)
-                                        @if ($like->admin_id == userAuthInfo()->id)
+                                    @isset($like->user_id)
+                                        @if ($like->user_id == userAuthInfo()->id)
                                             @php
                                             $like = 'blue'
                                             @endphp
@@ -256,8 +256,8 @@
                                 @endforeach
 
                                 @foreach ($post->dislikes as $dislike)
-                                    @isset($dislike->admin_id)
-                                        @if ($dislike->admin_id == userAuthInfo()->id)
+                                    @isset($dislike->user_id)
+                                        @if ($dislike->user_id == userAuthInfo()->id)
                                             @php
                                             $dislike = 'red'
                                             @endphp
@@ -358,7 +358,8 @@
         @endforeach
         </div>
     </div>
-
+    @include('learning::teacher.posts.includes._show-likes-comments')
+    @include('learning::teacher.posts.includes._show-dislikes-comments')
 @endsection
 @section('script')
     <script>

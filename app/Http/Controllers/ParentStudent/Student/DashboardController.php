@@ -129,12 +129,12 @@ class DashboardController extends Controller
     }
 
     public function show($id)
-    {
+    {        
         $post = Post::with('comments', 'likes', 'dislikes', 'admin')->where('id', $id)->first();
         $classroom = Classroom::findOrFail($post->classroom_id);
         $title = trans('learning::local.show_post');
         return view(
-            'learning::teacher.posts.show',
+            'layouts.front-end.student.show-post',
             compact('title', 'post', 'classroom')
         );
     }
@@ -323,4 +323,5 @@ class DashboardController extends Controller
             return json_encode($comment_count);
         }
     }
+    
 }

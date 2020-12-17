@@ -1,4 +1,4 @@
-@extends('layouts.backEnd.teacher')
+@extends('layouts.front-end.student.index')
 @section('styles')
 <style>
     /* Top left text */
@@ -71,30 +71,6 @@
                     {{-- mobile --}}
                     <span
                         class="small  d-inline-block d-sm-none">{{ $post->created_at->diffForHumans() }}</span>
-                    {{-- edit and delete --}}
-                    @isset(authinfo()->id)
-                        @if (authinfo()->id == $post->admin->id)
-                            <div class="heading-elements ">
-                                <div class="form-group text-center">
-                                    <!-- Floating icon Outline button -->
-                                    <form class="form-horizontal frm-post"
-                                        action="{{ route('posts.destroy', $post->id) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="classroom_id" value="{{ $post->classroom_id }}">
-                                        {{-- edit --}}
-                                        <button style="width: 35px;height: 35px;padding: 0px;" type="button"
-                                            class="btn btn-float btn-square btn-outline-warning"
-                                            data-toggle="tooltip" data-placement="top"
-                                            title="{{ trans('learning::local.edit') }}"
-                                            onclick="location.href='{{ route('posts.edit', $post->id) }}';"><i
-                                                class="la la-edit"></i>
-                                        </button>                             
-                                    </form>
-                                </div>
-                            </div>
-                        @endif                        
-                    @endisset
                 </div>
                 <div class="card-content">
                     <div class="card-body">
@@ -223,8 +199,8 @@
                             @endphp
 
                             @foreach ($post->likes as $like)
-                                @isset($like->admin_id)
-                                    @if ($like->admin_id == authInfo()->id)
+                                @isset($like->user_id)
+                                    @if ($like->user_id == userAuthInfo()->id)
                                         @php
                                         $like = 'blue'
                                         @endphp
@@ -233,8 +209,8 @@
                             @endforeach
 
                             @foreach ($post->dislikes as $dislike)
-                                @isset($dislike->admin_id)
-                                    @if ($dislike->admin_id == authInfo()->id)
+                                @isset($dislike->user_id)
+                                    @if ($dislike->user_id == userAuthInfo()->id)
                                         @php
                                         $dislike = 'red'
                                         @endphp
@@ -337,11 +313,12 @@
 @section('script')
     {{-- comments --}}
     <script>
+         loadComments({{$post->id}});
         // likes post and comments
         // like post
         function likePost(post_id) {
             $.ajax({
-                url: "{{ route('post.like') }}",
+                url: "{{ route('student-post.like') }}",
                 method: "POST",
                 dataType: "json",
                 data: {
@@ -353,13 +330,17 @@
                     $('#count_dislike_' + post_id).html(data.dislike);
                     $('#btn_like_' + post_id).addClass('blue');
                     $('#btn_dislike_' + post_id).removeClass('red');
+
+                    // get all like names
+                    $('#tooltip_like_' + post_id).attr('data-original-title',data.like_names);
+                    $('#tooltip_dislike_' + post_id).attr('data-original-title',data.dislike_names);
                 }
             })
         }
         // dislike post
         function dislikePost(post_id) {
             $.ajax({
-                url: "{{ route('post.dislike') }}",
+                url: "{{ route('student-post.dislike') }}",
                 method: "POST",
                 dataType: "json",
                 data: {
@@ -371,13 +352,17 @@
                     $('#count_dislike_' + post_id).html(data.dislike);
                     $('#btn_dislike_' + post_id).addClass('red');
                     $('#btn_like_' + post_id).removeClass('blue');
+
+                    // get all like names
+                    $('#tooltip_like_' + post_id).attr('data-original-title',data.like_names);
+                    $('#tooltip_dislike_' + post_id).attr('data-original-title',data.dislike_names);
                 }
             })
         }
         // like comment
         function likeComment(comment_id) {
             $.ajax({
-                url: "{{ route('comment.like') }}",
+                url: "{{ route('student-comment.like') }}",
                 method: "POST",
                 dataType: "json",
                 data: {
@@ -395,7 +380,7 @@
         // dislike comment
         function dislikeComment(comment_id) {
             $.ajax({
-                url: "{{ route('comment.dislike') }}",
+                url: "{{ route('student-comment.dislike') }}",
                 method: "POST",
                 dataType: "json",
                 data: {
@@ -414,7 +399,7 @@
         // show likes comments
         function showLikes(comment_id) {
             $.ajax({
-                url: "{{ route('comment.show-likes') }}",
+                url: "{{ route('student-comment.show-likes') }}",
                 type: "post",
                 data: {
                     _method: 'PUT',
@@ -431,7 +416,7 @@
 
         function showDislikes(comment_id) {
             $.ajax({
-                url: "{{ route('comment.show-dislike') }}",
+                url: "{{ route('student-comment.show-dislike') }}",
                 type: "post",
                 data: {
                     _method: 'PUT',
@@ -444,46 +429,8 @@
                 }
             })
             $('#dislike-comments-modal').modal('show');
-        }
+        }    
 
-        var post_id;
-
-        $(document).ready(function() {
-            $('.commenttext').keypress(function(event) {
-                var keycode = (event.keyCode ? event.keyCode : event.which);
-                if (keycode == '13') {
-                    $(".submitComment").click();
-                    return false;
-                }
-            });
-
-            $(document).on('click', '.submitComment', function() {
-                event.preventDefault();
-                var id = $(this).val();
-                $('.editor').val(CKEDITOR.instances['text_' + id].getData());
-
-                var form_data = new FormData($('#commentForm_' + id)[0]);
-
-                $.ajax({
-                    url: "{{ route('comments.store') }}",
-                    method: "POST",
-                    data: form_data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    dataType: "json",
-                    // display succees message
-                    success: function(data) {
-                        $('#commentForm_' + id)[0].reset();
-                        getComment(id);
-                        CKEDITOR.instances['text_' + id].setData('');
-
-                        $('#comment-modal').modal('hide');
-                    }
-                });
-            });
-        });
-        loadComments({{$post->id}});
         function loadComments(id) {
             post_id = id;
             if ($('#commentField_' + id).is(':visible')) {
@@ -493,6 +440,32 @@
                 getComment(id);
             }
         }
+
+        var post_id;
+        $(document).ready(function() {
+            $(document).on('click', '.submitComment', function() {
+                event.preventDefault();
+                var id = $(this).val();
+                $('.editor').val(CKEDITOR.instances['text_' + id].getData());
+                var form_data = new FormData($('#commentForm_' + id)[0]);
+
+                $.ajax({
+                    url: "{{ route('student-store.comment') }}",
+                    method: "POST",
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    // display succees message
+                    success: function(data) {
+                        getComment(id);
+                        $('#commentForm_' + id)[0].reset();
+                        CKEDITOR.instances['text_' + id].setData('');
+                    }
+                });
+            });
+        });
 
         $(document).on('click', '.comment', function() {
             var id = $(this).val();
@@ -507,20 +480,20 @@
 
         function getComment(id) {
             $.ajax({
-                url: "{{ route('comments.index') }}",
+                url: "{{ route('student.comments') }}",
                 data: {
                     id: id
                 },
                 success: function(data) {
-                    $('#comment_' + id).html(data);
                     countComment(id);
+                    $('#comment_' + id).html(data);
                 }
             });
         }
 
         function countComment(id) {
             $.ajax({
-                url: "{{ route('comments.count') }}",
+                url: "{{ route('student-comments.count') }}",
                 data: {
                     id: id
                 },
@@ -530,43 +503,12 @@
             });
         }
 
-        function deleteComment(comment_id) {
-            swal({
-                    title: "{{ trans('msg.delete_confirmation') }}",
-                    text: "{{ trans('learning::local.ask_delete_comment') }}",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#D15B47",
-                    confirmButtonText: "{{ trans('msg.yes') }}",
-                    cancelButtonText: "{{ trans('msg.no') }}",
-                    closeOnConfirm: false,
-                },
-                function() {
-                    $.ajax({
-                            url: "{{ route('comment.destroy') }}",
-                            method: "POST",
-                            dataType: "json",
-                            data: {
-                                comment_id: comment_id,
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function(data) {
-                                getComment(data);
-                            }
-                        })
-                        // display success confirm message
-                        .done(function(data) {
-                            swal("{{ trans('msg.delete') }}", "{{ trans('msg.delete_successfully') }}", "success");
-                        });
-                }
-            );
-        }
-
         setInterval(function() {
             getComment(post_id)
         }, 10000); //1000 second
 
-    </script>    
+    </script>  
+
 <script src="{{ asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js') }}"></script>
 {{-- use ckeditor --}}
 <script src="//cdn.ckeditor.com/4.14.0/full/ckeditor.js"></script>
