@@ -75,8 +75,8 @@ class ExamController extends Controller
             ->whereHas('questions', function ($q) {
             })
             ->whereDoesntHave('userExams')
-            ->where('start_date', '<=', date_format(Carbon::now(), "Y-m-d"))
-            ->where('start_time', '<', date_format(Carbon::now(), "H:i"))
+            // ->where('start_date', '<=', date_format(Carbon::now(), "Y-m-d"))
+            // ->where('start_time', '<', date_format(Carbon::now(), "H:i"))
             ->orderBy('start_date')->get();
 
         if (request()->ajax()) {
@@ -120,31 +120,31 @@ class ExamController extends Controller
             ->addColumn('start_exam', function ($data) {
 
                 $time = new Carbon($data->start_time);
-                $time_end = new Carbon($data->start_end);
+                $time_end = new Carbon($data->end_time);
                 $btn = '';
-
                 // hidden before date & time
-                if ($data->start_date >= date_format(Carbon::now(), "Y-m-d")) {
+                if ($data->start_date == date_format(Carbon::now(), "Y-m-d") &&
+                date_format($time, "H:i") > date_format(Carbon::now(), "H:i")) {
                     $btn = '<span class="blue"><strong>' . trans('learning::local.not_yet') . '</strong></span>';
                 }
 
                 // today
                 if (
-                    $data->start_date <= date_format(Carbon::now(), "Y-m-d") &&
-                    date_format($time->subMinutes(1), "H:i") < date_format(Carbon::now(), "H:i")
+                    $data->start_date == date_format(Carbon::now(), "Y-m-d") &&
+                    date_format($time, "H:i") <= date_format(Carbon::now(), "H:i")
                 ) {
                     $btn = '<a class="btn btn-success btn-sm" href="' . route('student.pre-start-exam', $data->id) . '">
                         ' . trans('student.start_exam') . '
                     </a>';
                 }
-                if ($data->start_date < date_format(Carbon::now(), "Y-m-d")) {
+
+                if ($data->end_date < date_format(Carbon::now(), "Y-m-d")) {
                     $btn = '<span class="red"><strong>' . trans('learning::local.finished') . '</strong></span>';
                 }
 
                 // hidden after date & time
-
                 if (
-                    $data->start_end == date_format(Carbon::now(), "Y-m-d") &&
+                    $data->end_date == date_format(Carbon::now(), "Y-m-d") &&
                     date_format($time_end->subMinutes(1), "H:i") < date_format(Carbon::now(), "H:i")
                 ) {
                     $btn = '<span class="red"><strong>' . trans('learning::local.finished') . '</strong></span>';
