@@ -47,6 +47,7 @@
             </h1>
         </div>
     </div>
+    @include('layouts.backEnd.includes._msg') 
     <div class="row">
         <div class="col-lg-3 col-md-12">
             <div class="card" style="border-radius: 15px;">
@@ -91,11 +92,7 @@
                                     </li>
                                 @endif
                             @endforeach
-                        </ol>
-                        <hr>
-                        <h4 class="card-title" id="heading-icon-dropdown">
-                            <strong>{{ trans('learning::local.attachments') }}</strong></h4>
-
+                        </ol>               
                     </div>
                 </div>
             </div>

@@ -38,8 +38,7 @@
                         <div class="col-lg-12 col-md-12">
                           <div class="form-group row">
                               <label>{{ trans('learning::local.instruction') }}</label>                                                        
-                              <textarea class="form-control" name="instruction" cols="30" rows="10" >{{old('instruction',$homework->instruction)}}</textarea>                          
-                              <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                              <textarea class="form-control" name="instruction" cols="30" rows="10" >{{old('instruction',$homework->instruction)}}</textarea>                                                        
                           </div>
                         </div>
                         <div class="col-lg-12 col-md-12">

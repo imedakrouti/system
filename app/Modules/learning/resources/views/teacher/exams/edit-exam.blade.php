@@ -24,26 +24,37 @@
               @csrf
               <div class="form-body">
                   <h4 class="form-section"> {{ $title }}</h4>
-                  @include('layouts.backEnd.includes._msg')   
-                  <div class="col-lg-12 col-md-12">
-                    <div class="form-group row">
-                        <label>{{ trans('learning::local.exam_name') }}</label>
-                        <input type="text" class="form-control" name="exam_name" value="{{old('exam_name',$exam->exam_name)}}" required>
-                        <span class="red">{{ trans('staff::local.required') }}</span>                                                      
-                    </div>
-                </div>
+                  @include('layouts.backEnd.includes._msg') 
+                  <div class="row">
+                      <div class="col-lg-9 col-md-9">
+                          <div class="form-group">
+                              <label>{{ trans('learning::local.exam_name') }}</label>
+                              <input type="text" class="form-control" name="exam_name" value="{{old('exam_name',$exam->exam_name)}}" required>
+                              <span class="red">{{ trans('staff::local.required') }}</span>                                                      
+                          </div>
+                      </div>
+                      
+                      <div class="col-lg-3 col-md-3">
+                        <div class="form-group">
+                            <label>{{ trans('learning::local.exam_type') }}</label>
+                            <select name="exam_type" class="form-control">
+                                <option {{old('exam_type',$exam->exam_type) == 'quiz' ? 'selected' : ''}} value="quiz">{{trans('learning::local.quiz')}}</option>
+                                <option {{old('exam_type',$exam->exam_type) == 'exam' ? 'selected' : ''}} value="exam">{{trans('learning::local.exam')}}</option>
+                            </select>
+                        </div>
+                      </div>                     
+                  </div>  
                 <div class="row">
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                         <label>{{ trans('learning::local.lessons_related_exam') }}</label>
-                        <select name="lessons[]" class="form-control select2" multiple required>
+                        <select name="lessons[]" class="form-control select2" multiple>
                             <option value="">{{ trans('staff::local.select') }}</option>
                             @foreach ($lessons as $lesson)
                                 <option {{in_array( $lesson->id,$arr_lessons) ? 'selected' : ''}} value="{{$lesson->id}}">{{$lesson->lesson_title}} 
                                     [{{session('lang') == 'ar' ? $lesson->subject->ar_name : $lesson->subject->en_name}}]</option>
                             @endforeach
-                        </select>
-                        <span class="red">{{ trans('learning::local.required') }}</span>                              
+                        </select>                        
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-6">

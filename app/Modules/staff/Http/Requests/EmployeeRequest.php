@@ -32,7 +32,8 @@ class EmployeeRequest extends FormRequest
             'attendance_id'  => 'required|unique:employees,attendance_id,'.$id,
             'national_id'    => 'required|max:15|unique:employees,national_id,'.$id,
             'salary'         => 'required|numeric',
-            'leave_balance'  => 'required|numeric'
+            'leave_balance'  => 'required|numeric',
+            'employee_image' => 'image|mimes:jpeg,png,jpg|max:1024',            
         ];
     }
     public function messages()

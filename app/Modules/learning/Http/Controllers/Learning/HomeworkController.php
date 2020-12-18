@@ -3,13 +3,13 @@
 namespace Learning\Http\Controllers\Learning;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Learning\Models\Learning\Homework;
 use Learning\Models\Learning\DeliverHomework;
 use Learning\Models\Learning\Lesson;
 use Learning\Models\Learning\Question;
 use Student\Models\Settings\Classroom;
 use DB;
+use Learning\Http\Requests\HomeworkRequest;
 
 class HomeworkController extends Controller
 {
@@ -146,7 +146,7 @@ class HomeworkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HomeworkRequest $request)
     {
         DB::transaction(function () use ($request) {
             if ($request->hasFile('file_name')) {
@@ -185,7 +185,7 @@ class HomeworkController extends Controller
             request()->user()->posts()->create(
                 [
                     'post_type'     => 'assignment',
-                    'post_text'     => $this->homework->instruction,
+                    'post_text'     => empty($this->homework->instruction) ? '' : $this->homework->instruction,
                     'description'   => $this->homework->title,
                     'url'           => $this->homework->id,
                     'youtube_url'   => null,
@@ -428,7 +428,7 @@ class HomeworkController extends Controller
             compact('title', 'homework', 'lessons', 'arr_classes', 'arr_lessons')
         );
     }
-    public function update(Request $request, $id)
+    public function update(HomeworkRequest $request, $id)
     {
         DB::transaction(function () use ($id, $request) {
             $homework = Homework::findOrFail($id);

@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-        
+
     }
 
     /**
@@ -37,13 +37,10 @@ class HomeController extends Controller
                 'name'          => $employee->en_st_name,
                 'ar_name'       => $employee->ar_st_name,
                 'domain_role'   => 'teacher',
-                'username'      => strtolower(str_replace(' ', '', trim($employee->en_st_name))).$employee->attendance_id,
+                'username'      => strtolower(str_replace(' ', '', trim($employee->en_st_name))) . $employee->attendance_id,
                 'email'         => $employee->email,
-                'password'      => 'password'.$employee->attendance_id                
+                'password'      => 'password' . $employee->attendance_id
             ]);
         }
-        
     }
-
-
 }

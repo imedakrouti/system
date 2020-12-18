@@ -16,6 +16,7 @@ use Student\Models\Settings\Division;
 use Student\Models\Settings\Grade;
 
 use DB;
+use Learning\Http\Requests\QuestionRequest;
 
 class ExamController extends Controller
 {
@@ -107,6 +108,7 @@ class ExamController extends Controller
             'subject_id',
             'auto_correct',
             'show_results',
+            'exam_type',
             'admin_id',
         ];
     }
@@ -365,6 +367,7 @@ class ExamController extends Controller
             'subject_id',
             'auto_correct',
             'show_results',
+            'exam_type',
             'admin_id',
         ];
     }
@@ -494,7 +497,7 @@ class ExamController extends Controller
         ];
     }
 
-    public function storeQuestion()
+    public function storeQuestion(QuestionRequest $request)
     {
         DB::transaction(function () {
             // check exist image
@@ -575,7 +578,7 @@ class ExamController extends Controller
         );
     }
 
-    public function updateQuestion($question_id)
+    public function updateQuestion(QuestionRequest $request, $question_id)
     {
         $question = Question::findOrFail($question_id);
         if (request()->has('remove_image')) {
@@ -879,6 +882,4 @@ class ExamController extends Controller
         }
         return response(['status' => true]);
     }
-
-
 }

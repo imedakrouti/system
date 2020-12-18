@@ -27,7 +27,8 @@ class LessonRequest extends FormRequest
             'lesson_title'     => 'required|max:75',
             'division_id'      => 'required',            
             'grade_id'         => 'required',            
-            'sort'             => 'required'
+            'sort'             => 'required',
+            'file_name'        => 'mimetypes:video/avi,video/mpeg,video/quicktime|max:5000',
         ];
     }
     public function messages()

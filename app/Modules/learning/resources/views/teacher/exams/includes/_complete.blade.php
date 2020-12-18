@@ -39,7 +39,7 @@
                 <div class="col-lg-12">
                   <div class="form-group row">
                     <label>{{ trans('learning::local.add_image') }}</label>
-                    <input type="file" class="form-control" name="file_name">
+                    <input type="file" class="form-control" name="file_name" accept=".png, .jpg, .jpeg">
                   </div>
                 </div>
                 <div class="form-group col-12 contact-repeater">

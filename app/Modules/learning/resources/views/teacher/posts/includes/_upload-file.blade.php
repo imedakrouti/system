@@ -14,7 +14,8 @@
                 <div class="modal-body">
                     <div class="col-lg-12">
                         <div class="form-group row">
-                            <input type="file" class="form-control" name="file_name" id="file-name">
+                            <input type="file" class="form-control" name="file_name" id="file-name"
+                            accept=".png, .jpg, .jpeg , .dox, .docx, .pdf, .xls, .xlsx, .ppt, .pptx">
                         </div>
                     </div>
                     <div class="col-md-12">

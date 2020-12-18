@@ -46,7 +46,7 @@
                       <div class="col-lg-12">
                         <div class="form-group">
                           <label>{{ trans('learning::local.add_image') }}</label>
-                          <input type="file" class="form-control" name="file_name">
+                          <input type="file" class="form-control" name="file_name" accept=".png, .jpg, .jpeg">
                         </div>
                       </div>
                   </div>

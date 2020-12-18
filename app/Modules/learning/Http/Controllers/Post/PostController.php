@@ -5,7 +5,7 @@ namespace Learning\Http\Controllers\Post;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Learning\Models\Learning\Post;
-use Illuminate\Http\Request;
+use Learning\Http\Requests\PostRequest;
 use Learning\Models\Learning\Exam;
 use Learning\Models\Learning\Lesson;
 use Learning\Models\Learning\Like;
@@ -48,7 +48,7 @@ class PostController extends Controller
         );
     }
 
-    public function adminStorePost(Request $request)
+    public function adminStorePost(PostRequest $request)
     {
         if ($request->hasFile('file_name')) {
             $image_path = '';
@@ -156,7 +156,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         if ($request->hasFile('file_name')) {
             $image_path = '';
@@ -195,7 +195,7 @@ class PostController extends Controller
      * @param  \Learning\Models\Learning\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         $post->update(request()->only($this->attributes()));
         toast(trans('msg.updated_successfully'), 'success');

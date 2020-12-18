@@ -43,7 +43,7 @@ class StudentRequest extends FormRequest
             'division_id'           => 'required',
             'application_date'      => 'required',
             'registration_status_id'=> 'required',
-            'student_image'         => 'mimes:jpeg,png,jpg|max:1024',            
+            'student_image'         => 'image|mimes:jpeg,png,jpg|max:1024',            
         ];
     }
     public function messages()
