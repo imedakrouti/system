@@ -168,12 +168,27 @@ class Employee extends Model
     }
 
     public function getEmployeeNameAttribute()
-    {
-        
+    {        
+        if (session('lang') == 'ar') {
+            return $this->ar_st_name . ' ' . $this->ar_nd_name . ' ' . $this->ar_rd_name . ' ' . $this->ar_th_name;
+        } else {
+            return ucfirst($this->en_st_name) . ' ' . ucfirst($this->en_nd_name) . ' ' . ucfirst($this->en_rd_name) . ' ' . ucfirst($this->en_th_name);
+        }
+    }
+    public function getEmployeeIdAttribute()
+    {        
         if (session('lang') == 'ar') {
             return '[' . $this->attendance_id . '] ' . $this->ar_st_name . ' ' . $this->ar_nd_name . ' ' . $this->ar_rd_name . ' ' . $this->ar_th_name;
         } else {
             return '[' . $this->attendance_id . '] ' . ucfirst($this->en_st_name) . ' ' . ucfirst($this->en_nd_name) . ' ' . ucfirst($this->en_rd_name) . ' ' . ucfirst($this->en_th_name);
+        }
+    }
+    public function getEmployeeShortNameAttribute()
+    {        
+        if (session('lang') == 'ar') {
+            return $this->ar_st_name . ' ' . $this->ar_nd_name ;
+        } else {
+            return ucfirst($this->en_st_name) . ' ' . ucfirst($this->en_nd_name);
         }
     }
 }

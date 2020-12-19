@@ -531,13 +531,7 @@ class HomeworkController extends Controller
     private function getFullStudentName($data)
     {
         $classroom = Classroom::findOrFail(classroom_id($data));
-        if (session('lang') == 'ar') {
-            return $data->ar_student_name . ' ' . $data->father->ar_st_name . ' ' . $data->father->ar_nd_name . ' ' . $data->father->ar_rd_name . ' ' . $data->father->ar_th_name
-                . ' <span class="blue"><strong></br>' . $classroom->ar_name_classroom . '</strong></span>';
-        } else {
-            return $data->en_student_name . ' ' . $data->father->en_st_name . ' ' . $data->father->en_nd_name . ' ' . $data->father->en_rd_name . ' ' . $data->father->en_th_name
-                . ' <span class="blue"><strong></br>' . $classroom->en_name_classroom . '</strong></span>';
-        }
+        return $data->student_name .'<br> <span class="blue"><strong>' . $classroom->class_name . '</strong></span>';
     }
     private function studentImage($data)
     {

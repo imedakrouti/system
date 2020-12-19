@@ -47,5 +47,9 @@ class Classroom extends Model
     {        
         return $this->belongsToMany('Staff\Models\Employees\Employee','employee_classroom','classroom_id','employee_id');
     }
+    public function getClassNameAttribute()
+    {
+        return session('lang') == 'ar' ? $this->ar_name_classroom : $this->en_name_classroom;
+    }
 
 }

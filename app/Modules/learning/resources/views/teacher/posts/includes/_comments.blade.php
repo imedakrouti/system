@@ -2,7 +2,7 @@
 
     <div id="heading-icon-dropdown">
         {{-- from user account --}}
-        @empty($comment->ar_name)
+        @empty($comment->ar_student_name)
             <span class="avatar avatar-online">
                 @isset($comment->user->studentUser->student_image)
                     <img src="{{ asset('images/studentsImages/' . $comment->user->studentUser->student_image) }}" alt="avatar">
@@ -15,7 +15,7 @@
         @endempty
 
         {{-- from admin account --}}
-        @empty($comment->ar_student_name)
+        @empty($comment->ar_name)
             <span class="avatar avatar-online">
                 @isset($comment->admin->image_profile)
                     <img src="{{ asset('images/imagesProfile/' . $comment->admin->image_profile) }}" alt="avatar">

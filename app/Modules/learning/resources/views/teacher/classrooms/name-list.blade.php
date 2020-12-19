@@ -25,22 +25,7 @@
                         </div>
                         <div class="card-body">
                             <h4 class="card-title">
-                                @if (session('lang') == 'ar')
-                                    <h4>
-                                        {{ $student->ar_student_name }}
-                                        {{ $student->father->ar_st_name }}
-                                        {{ $student->father->ar_nd_name }}
-                                        {{ $student->father->ar_rd_name }}
-                                    </h4>
-                                @else
-                                    <h4>
-                                        {{ $student->en_student_name }}
-                                        {{ $student->father->en_st_name }}
-                                        {{ $student->father->en_nd_name }}
-                                        {{ $student->father->en_rd_name }}
-                                    </h4>
-
-                                @endif
+                               {{$student->student_name}}
                             </h4>
                         </div>
                         <div class="text-center">

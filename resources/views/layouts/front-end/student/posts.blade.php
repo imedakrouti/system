@@ -43,7 +43,7 @@
         <div class="col-lg-12 mb-1">
             <img style="border-radius: 15px;" src="{{ asset('images/website/banner.jpg') }}" width="100%" alt="cover">
             <h1 class="top-left">
-                <strong>{{ session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom }}</strong>
+                <strong>{{ $classroom->class_name }}</strong>
             </h1>
         </div>
     </div>
@@ -278,12 +278,12 @@
                                                 @foreach ($post->likes as $admin)
                                                     {{-- teachers and admins --}}
                                                     @isset($admin->admin->employeeUser)
-                                                        {{ session('lang') == 'ar' ? $admin->admin->employeeUser->ar_st_name . ' ' . $admin->admin->employeeUser->ar_nd_name : $admin->admin->employeeUser->en_st_name . ' ' . $admin->admin->employeeUser->en_nd_name }}
+                                                        {{$admin->admin->employeeUser->employee_short_name}}                                                        
                                                         </br>
                                                     @endisset
                                                     {{-- students --}}
                                                     @isset($admin->user->studentUser)
-                                                        {{ session('lang') == 'ar' ? $admin->user->studentUser->ar_student_name . ' ' . $admin->user->studentUser->father->ar_st_name : $admin->user->studentUser->en_student_name . ' ' . $admin->user->studentUser->father->en_st_name }}
+                                                        {{$admin->user->studentUser->student_short_name}}                                                        
                                                         </br>
                                                     @endisset
                                                 @endforeach

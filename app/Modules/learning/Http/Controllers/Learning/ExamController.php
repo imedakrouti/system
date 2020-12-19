@@ -470,17 +470,6 @@ class ExamController extends Controller
                     $exam->lessons()->attach($lesson_id);
                 }
             }
-
-            // DB::table('exam_division')->where('exam_id',$exam->id)->delete();                   
-            // foreach (request('divisions') as $division_id) {
-            //     $exam->divisions()->attach($division_id);                        
-            // }
-
-            // DB::table('exam_grade')->where('exam_id',$exam->id)->delete();
-
-            // foreach (request('grades') as $grade_id) {
-            //     $exam->grades()->attach($grade_id);                        
-            // }          
         });
         toast(trans('msg.updated_successfully'), 'success');
         return redirect()->route('teacher.view-exams');
@@ -785,13 +774,7 @@ class ExamController extends Controller
     private function getFullStudentName($data)
     {
         $classroom = Classroom::findOrFail(classroom_id($data));
-        if (session('lang') == 'ar') {
-            return $data->ar_student_name . ' ' . $data->father->ar_st_name . ' ' . $data->father->ar_nd_name . ' ' . $data->father->ar_rd_name . ' ' . $data->father->ar_th_name
-                . ' <span class="blue"><strong></br>' . $classroom->ar_name_classroom . '</strong></span>';
-        } else {
-            return $data->en_student_name . ' ' . $data->father->en_st_name . ' ' . $data->father->en_nd_name . ' ' . $data->father->en_rd_name . ' ' . $data->father->en_th_name
-                . ' <span class="blue"><strong></br>' . $classroom->en_name_classroom . '</strong></span>';
-        }
+        return $data->student_name .'<br> <span class="blue"><strong>' . $classroom->class_name . '</strong></span>';
     }
 
     private function studentImage($data)

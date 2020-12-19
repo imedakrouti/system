@@ -55,30 +55,13 @@
                                                     @endisset
                                                 </div>
                                                 <div class="{{ session('lang') == 'ar' ? 'pull-right' : 'pull-left' }}">
-                                                    {{-- student name
-                                                    --}}
-                                                    @if (session('lang') == 'ar')
-                                                        <h4>
-                                                            {{ $student->ar_student_name }}
-                                                            {{ $student->father->ar_st_name }}
-                                                            {{ $student->father->ar_nd_name }}
-                                                            {{ $student->father->ar_rd_name }}
-                                                        </h4>
-                                                    @else
-                                                        <h4>
-                                                            {{ $student->en_student_name }}
-                                                            {{ $student->father->en_st_name }}
-                                                            {{ $student->father->en_nd_name }}
-                                                            {{ $student->father->en_rd_name }}
-                                                        </h4>
-
-                                                    @endif
+                                                    {{$student->student_name}}
 
                                                     {{-- classroom
                                                     --}}
                                                     @foreach ($student->classrooms as $classroom)
                                                         @if ($classroom->year_id == currentYear())
-                                                            <span><strong>{{ session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom }}</strong></span>
+                                                            <span><strong>{{ $classroom->class_name }}</strong></span>
                                                         @endif
                                                     @endforeach
                                                     <br>
@@ -123,30 +106,13 @@
                                                     @endisset
                                                 </div>
                                                 <div class="{{ session('lang') == 'ar' ? 'pull-right' : 'pull-left' }}">
-                                                    {{-- student name
-                                                    --}}
-                                                    @if (session('lang') == 'ar')
-                                                        <h4>
-                                                            {{ $student->ar_student_name }}
-                                                            {{ $student->father->ar_st_name }}
-                                                            {{ $student->father->ar_nd_name }}
-                                                            {{ $student->father->ar_rd_name }}
-                                                        </h4>
-                                                    @else
-                                                        <h4>
-                                                            {{ $student->en_student_name }}
-                                                            {{ $student->father->en_st_name }}
-                                                            {{ $student->father->en_nd_name }}
-                                                            {{ $student->father->en_rd_name }}
-                                                        </h4>
+                                                    {{-- student name --}}
+                                                            <h4>{{$student->student_name}}</h4>
 
-                                                    @endif
-
-                                                    {{-- classroom
-                                                    --}}
+                                                    {{-- classroom --}}
                                                     @foreach ($student->classrooms as $classroom)
                                                         @if ($classroom->year_id == currentYear())
-                                                            <span><strong>{{ session('lang') == 'ar' ? $classroom->ar_name_classroom : $classroom->en_name_classroom }}</strong></span>
+                                                            <span><strong>{{ $classroom->class_name }}</strong></span>
                                                         @endif
                                                     @endforeach
                                                     <br>

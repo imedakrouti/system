@@ -45,49 +45,49 @@ class Student extends Model
         'siblings',
         'twins',
         'user_id',
-    
+
     ];
-    public function __construct(Array $attributes = [])
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        
+
         $this->setConnection(session('connection')); // see config/database.php where you have specified this second connection to a different DB
     }
     public function admin()
     {
-        return $this->belongsTo('App\Models\Admin','admin_id');
+        return $this->belongsTo('App\Models\Admin', 'admin_id');
     }
     public function nationalities()
     {
-        return $this->belongsTo('Student\Models\Settings\Nationality','nationality_id');
+        return $this->belongsTo('Student\Models\Settings\Nationality', 'nationality_id');
     }
     public function regStatus()
     {
-        return $this->belongsTo('Student\Models\Settings\RegistrationStatus','registration_status_id');
+        return $this->belongsTo('Student\Models\Settings\RegistrationStatus', 'registration_status_id');
     }
     public function division()
     {
-        return $this->belongsTo('Student\Models\Settings\Division','division_id')->orderBy('sort','asc');
+        return $this->belongsTo('Student\Models\Settings\Division', 'division_id')->orderBy('sort', 'asc');
     }
     public function father()
     {
-        return $this->belongsTo('Student\Models\Parents\Father','father_id');
+        return $this->belongsTo('Student\Models\Parents\Father', 'father_id');
     }
     public function mother()
     {
-        return $this->belongsTo('Student\Models\Parents\Mother','mother_id');
+        return $this->belongsTo('Student\Models\Parents\Mother', 'mother_id');
     }
     public function grade()
     {
-        return $this->belongsTo('Student\Models\Settings\Grade','grade_id')->orderBy('sort','asc');
+        return $this->belongsTo('Student\Models\Settings\Grade', 'grade_id')->orderBy('sort', 'asc');
     }
     public function medical()
     {
-        return $this->hasOne('Student\Models\Students\Medical','student_id');
+        return $this->hasOne('Student\Models\Students\Medical', 'student_id');
     }
     public function addresses()
     {
-        return $this->hasMany('Student\Models\Students\Address','student_id');
+        return $this->hasMany('Student\Models\Students\Address', 'student_id');
     }
     public function getStudentTypeAttribute()
     {
@@ -95,19 +95,19 @@ class Student extends Model
     }
     public function guardian()
     {
-        return $this->belongsTo('Student\Models\Guardians\Guardian','guardian_id');
+        return $this->belongsTo('Student\Models\Guardians\Guardian', 'guardian_id');
     }
     public function employee()
     {
-        return $this->belongsTo('App\Models\Admin','employee_id');
+        return $this->belongsTo('App\Models\Admin', 'employee_id');
     }
     public function assessments()
     {
-        return $this->hasMany('Student\Models\Admissions\Assessment','student_id');
+        return $this->hasMany('Student\Models\Admissions\Assessment', 'student_id');
     }
     public function statements()
     {
-        return $this->hasMany('Student\Models\Students\StudentStatement','student_id');
+        return $this->hasMany('Student\Models\Students\StudentStatement', 'student_id');
     }
     public function getGenderAttribute()
     {
@@ -116,43 +116,43 @@ class Student extends Model
     public function getReligionAttribute()
     {
         if ($this->attributes['gender'] == 'male') {
-            return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim') : trans('student::local.non_muslim');            
-        }else{
-            return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim_m') : trans('student::local.non_muslim_m');            
+            return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim') : trans('student::local.non_muslim');
+        } else {
+            return $this->attributes['religion'] == 'muslim' ? trans('student::local.muslim_m') : trans('student::local.non_muslim_m');
         }
-    }   
+    }
     public function scopeStudent($q)
     {
-        return $q->where('student_type','student');
+        return $q->where('student_type', 'student');
     }
     public function native()
     {
-        return $this->belongsTo('Student\Models\Settings\Language','native_lang_id');
+        return $this->belongsTo('Student\Models\Settings\Language', 'native_lang_id');
     }
     public function languages()
     {
-        return $this->belongsTo('Student\Models\Settings\Language','second_lang_id');
+        return $this->belongsTo('Student\Models\Settings\Language', 'second_lang_id');
     }
     public function rooms()
     {
-        return $this->hasMany('Student\Models\Students\Room','student_id');
+        return $this->hasMany('Student\Models\Students\Room', 'student_id');
     }
     public function classrooms()
     {
-        return $this->belongsToMany('Student\Models\Settings\Classroom','rooms','student_id','classroom_id');
+        return $this->belongsToMany('Student\Models\Settings\Classroom', 'rooms', 'student_id', 'classroom_id');
     }
     public function leaveRequests()
     {
-        return $this->hasMany('Student\Models\Students\LeaveRequest','student_id');
-    } 
+        return $this->hasMany('Student\Models\Students\LeaveRequest', 'student_id');
+    }
     public function transfers()
     {
-        return $this->hasMany('Student\Models\Students\Transfer','student_id');
-    }  
+        return $this->hasMany('Student\Models\Students\Transfer', 'student_id');
+    }
     public function absence()
     {
-        return $this->hasMany('Student\Models\Students\Absence','student_id');
-    }  
+        return $this->hasMany('Student\Models\Students\Absence', 'student_id');
+    }
     public function getRegTypeAttribute()
     {
         switch ($this->attributes['reg_type']) {
@@ -164,9 +164,9 @@ class Student extends Model
                 break;
             case 'arrival':
                 return trans('student::local.arrival');
-                break;                                    
+                break;
             default:
-                return trans('student::local.return');                
+                return trans('student::local.return');
                 break;
         }
     }
@@ -175,12 +175,38 @@ class Student extends Model
         return $this->attributes['en_student_name'] = ucfirst($value);
     }
     public function subjects()
-    {        
-        return $this->belongsToMany('Learning\Models\Settings\Subject','student_subject','student_id','subject_id');
+    {
+        return $this->belongsToMany('Learning\Models\Settings\Subject', 'student_subject', 'student_id', 'subject_id');
     }
     public function user()
     {
-        return $this->belongsTo('App\Models\User','user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
-
+    // get full name for student
+    public function getStudentNameAttribute()
+    {
+        if (session('lang') == 'ar') {
+            return $this->ar_student_name . ' ' . $this->father->ar_st_name . ' ' . $this->father->ar_nd_name . ' ' . $this->father->ar_rd_name;
+        } else {
+            return $this->en_student_name . ' ' . $this->father->en_st_name . ' ' . $this->father->en_nd_name . ' ' . $this->father->en_rd_name;
+        }
+    }
+    // sort name for student
+    public function getStudentShortNameAttribute()
+    {
+        if (session('lang') == 'ar') {
+            return $this->ar_student_name . ' ' . $this->father->ar_st_name;
+        } else {
+            return $this->en_student_name . ' ' . $this->father->en_st_name;
+        }
+    }
+    // get full name for student and student number
+    public function getStudentNumberAttribute()
+    {
+        if (session('lang') == 'ar') {
+            return '[' . $this->student_number . '] ' . $this->ar_student_name . ' ' . $this->father->ar_st_name . ' ' . $this->father->ar_nd_name . ' ' . $this->father->ar_rd_name;
+        } else {
+            return '[' . $this->student_number . '] ' . $this->en_student_name . ' ' . $this->father->en_st_name . ' ' . $this->father->en_nd_name . ' ' . $this->father->en_rd_name;
+        }
+    }
 }
