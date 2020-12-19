@@ -485,9 +485,30 @@ class DeductionController extends Controller
                 ->addColumn('reason', function ($data) {
                     return '<a href="#" onclick="reason(' . "'" . $data->reason . "'" . ')">' . trans('staff::local.reason') . '</a>';
                 })
+                ->addColumn('check', function ($data) {
+                    $btnCheck = '<label class="pos-rel">
+                                <input type="checkbox" class="ace" name="id[]" value="' . $data->id . '" />
+                                <span class="lbl"></span>
+                            </label>';
+                    return $btnCheck;
+                })
                 ->rawColumns(['check', 'approval1', 'approval2', 'reason', 'updated_at'])
                 ->make(true);
         }
-        return view('staff::teacher.deductions');
+        $employees = Employee::where('direct_manager_id', employee_id())->work()->get();
+        return view('staff::teacher.deductions',compact('employees'));
+    }
+
+    public function deductionStore(DeductionRequest $request)
+    {
+        if (request()->ajax()) {
+            $request->user()->deductions()->create($request->only($this->attributes()) +
+                [
+                    'employee_id'   => request('employee_id'),
+                    'days'          => request('amount'),
+                    'amount' => request('amount') * $this->salaryPerDay(request('employee_id'))
+                ]);            
+        }
+        return response(['status' => true]);        
     }
 }

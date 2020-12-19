@@ -204,7 +204,7 @@
                     "text": "{{trans('staff::local.canceled')}}",
                     "className": "btn btn-info mr-1",
                     action : function ( e, dt, node, config ) {
-                      var form_data = $('#formData').serialize();
+                        var form_data = $('#formData').serialize();
                         var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
                         if (itemChecked == "0") {
                             swal("{{trans('staff::local.deductions')}}", "{{trans('msg.no_records_selected')}}", "info");

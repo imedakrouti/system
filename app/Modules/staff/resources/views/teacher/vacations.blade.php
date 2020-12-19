@@ -32,6 +32,22 @@
             <div class="card">
                 <div class="card-content collapse show">
                     <div class="card-body card-dashboard">
+                        @if (authInfo()->domain_role == trans('staff::local.super_visor'))
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group row">
+                                    <select class="form-control" id="vacation">
+                                        <option value="{{ employee_id() }}">
+                                            {{ trans('staff::local.me') }}
+                                        </option>
+                                        @foreach ($employees as $employee)
+                                            <option {{ old('employee_id') == $employee->id ? 'selected' : '' }}
+                                                value="{{ $employee->id }}">{{ $employee->employee_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                        @endif
                         <div class="table-responsive">
                             <form action="" id='formData' method="post">
                                 @csrf
@@ -63,69 +79,78 @@
 @endsection
 @section('script')
     <script>
-        $(function() {
-            var employee_id = "{{ authInfo()->employeeUser->id }}"
-            $('#dynamic-table').DataTable().destroy();
-            var myTable = $('#dynamic-table').DataTable({
-                "info": true,
-                "bLengthChange": false,
-                "pageLength": 10, // set page records            
-                "bLengthChange": true,
-                dom: 'blfrtip',
-                ajax: {
-                    type: 'POST',
-                    url: '{{ route("vacations.profile") }}',
-                    data: {
-                        _method: 'PUT',
-                        employee_id: employee_id,
-                        _token: '{{ csrf_token() }}'
-                    }
-                },
-                // columns
-                columns: [{
-                        data: 'check',
-                        name: 'check',
-                        orderable: false,
-                        searchable: false
-                    }, {
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'vacation_type',
-                        name: 'vacation_type'
-                    },
-                    {
-                        data: 'vacation_period',
-                        name: 'vacation_period'
-                    },
-                    {
-                        data: 'count',
-                        name: 'count'
-                    },
-                    {
-                        data: 'approval1',
-                        name: 'approval1'
-                    },
-                    {
-                        data: 'approval2',
-                        name: 'approval2'
-                    },
-                    {
-                        data: 'attachments',
-                        name: 'attachments'
-                    },
-                    {
-                        data: 'updated_at',
-                        name: 'updated_at'
-                    },
-                ],
-                @include('layouts.backEnd.includes.datatables._datatableLang')
+        $(document).ready(function(){
+            getData({{ employee_id() }})
+        
+            $('#vacation').on('change',function(){
+                var employee_id = $('#vacation').val();
+                getData(employee_id);
             });
-            @include('layouts.backEnd.includes.datatables._multiSelect')
+
+            function getData(employee_id) {
+                $('#dynamic-table').DataTable().destroy();
+                var myTable = $('#dynamic-table').DataTable({
+                    "info": true,
+                    "bLengthChange": false,
+                    "pageLength": 10, // set page records            
+                    "bLengthChange": true,
+                    dom: 'blfrtip',
+                    ajax: {
+                        type: 'POST',
+                        url: '{{ route("vacations.profile") }}',
+                        data: {
+                            _method: 'PUT',
+                            employee_id: employee_id,
+                            _token: '{{ csrf_token() }}'
+                        }
+                    },
+                    // columns
+                    columns: [{
+                            data: 'check',
+                            name: 'check',
+                            orderable: false,
+                            searchable: false
+                        }, {
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'vacation_type',
+                            name: 'vacation_type'
+                        },
+                        {
+                            data: 'vacation_period',
+                            name: 'vacation_period'
+                        },
+                        {
+                            data: 'count',
+                            name: 'count'
+                        },
+                        {
+                            data: 'approval1',
+                            name: 'approval1'
+                        },
+                        {
+                            data: 'approval2',
+                            name: 'approval2'
+                        },
+                        {
+                            data: 'attachments',
+                            name: 'attachments'
+                        },
+                        {
+                            data: 'updated_at',
+                            name: 'updated_at'
+                        },
+                    ],
+                    @include('layouts.backEnd.includes.datatables._datatableLang')
+                });
+                @include('layouts.backEnd.includes.datatables._multiSelect')
+            }
         });
+  
 
         function newVacation() {
             $('#new-vacation-modal').modal({
@@ -168,7 +193,8 @@
 
                             $('#vacationForm')[0].reset();
                             $('#dynamic-table').DataTable().ajax.reload();
-                            swal("{{ trans('msg.success') }}", "{{ trans('msg.stored_successfully') }}",
+                            swal("{{ trans('msg.success') }}",
+                                "{{ trans('msg.stored_successfully') }}",
                                 "success");
                             $('#new-vacation-modal').modal('hide');
                         }

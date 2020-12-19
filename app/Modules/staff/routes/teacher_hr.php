@@ -11,9 +11,10 @@
    // loans
    Route::get('teacher/loans','LoanController@profile')->name('teacher.loans');
    Route::post('teacher/loan/store','LoanController@storeLoan')->name('teacher.store-loan');
-
+   
    // deductions 
    Route::get('teacher/deductions','DeductionController@profile')->name('teacher.deductions');
+   Route::post('teacher/deduction/store','DeductionController@deductionStore')->name('teacher.store-deduction');
 
 
    Route::get('teacher/attendance','TeacherController@attendance')->name('teacher.attendance');

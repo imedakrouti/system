@@ -18,19 +18,36 @@
           </div>
           <div class="content-header-right col-md-6 col-12">
             <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-                <a href="#" onclick="cancelVacation()"
-                    class="btn btn-info ml-1 box-shadow round">{{ trans('staff::local.cancel_vacation') }}</a>
+                <a href="#" onclick="cancelPermission()"
+                    class="btn btn-info ml-1 box-shadow round">{{ trans('staff::local.cancel_permission') }}</a>
             </div>
             <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
               <a href="#" onclick="newPermission()" class="btn btn-success box-shadow round">{{ trans('staff::local.new_leave_permission') }}</a>
             </div>
           </div>
     </div>
+    
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-content collapse show">
                     <div class="card-body card-dashboard">
+                        @if (authInfo()->domain_role == trans('staff::local.super_visor'))
+                                <div class="col-lg-3 col-md-12">                      
+                                    <div class="form-group row">
+                                        <select class="form-control" id="teacher_attendance_id">
+                                            <option value="{{employee_id()}}">
+                                                {{trans('staff::local.me')}}
+                                            </option>
+                                            @foreach ($employees as $employee)
+                                                <option {{ old('employee_id') == $employee->id ? 'selected' : '' }}
+                                                    value="{{ $employee->id }}">{{$employee->employee_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                            @endif
                         <div class="table-responsive">
                             <form action="" id='formData' method="post">
                                 @csrf
@@ -60,11 +77,17 @@
 @include('staff::teacher.includes._new-permssion')
 @endsection
 @section('script')
-    <script>
-        $(function() {
-            $('#dynamic-table').DataTable().destroy();
-            var employee_id = "{{ authInfo()->employeeUser->id }}"
+    <script>    
+    $(document).ready(function(){
+        getData({{ employee_id() }})
+        
+        $('#teacher_attendance_id').on('change',function(){
+            var employee_id = $('#teacher_attendance_id').val();
+            getData(employee_id);
+        });
 
+        function getData(employee_id) {
+            $('#dynamic-table').DataTable().destroy();
             var myTable = $('#dynamic-table').DataTable({
                 "info": true,
                 "bLengthChange": false,
@@ -73,7 +96,7 @@
                 dom: 'blfrtip',
                 ajax: {
                     type: 'POST',
-                    url: '{{ route('leave-permissions.profile') }}',
+                    url: '{{ route("leave-permissions.profile") }}',
                     data: {
                         _method: 'PUT',
                         employee_id: employee_id,
@@ -120,7 +143,8 @@
                 @include('layouts.backEnd.includes.datatables._datatableLang')
             });
             @include('layouts.backEnd.includes.datatables._multiSelect')
-        });
+        }
+    })
 
          // add new permission
         $('#permissionForm').on('submit', function(e) {
@@ -209,7 +233,7 @@
         }
 
         // cancel vacation
-        function cancelVacation() {
+        function cancelPermission() {
             var form_data = $('#formData').serialize();
             var itemChecked = $('input[class="ace"]:checkbox').filter(':checked').length;
             if (itemChecked == "0") {
@@ -244,7 +268,6 @@
             );
             // end swal
         }
-
     </script>
     @include('layouts.backEnd.includes.datatables._datatable')
 @endsection

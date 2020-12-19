@@ -19,7 +19,25 @@
                     <form class="form form-horizontal" id="vacationForm" method="POST" action="">
                         @csrf
                         <div class="form-body">
-                            <input type="hidden" name="employee_id[]" value="{{employee_id()}}">
+                            @if (authInfo()->domain_role == trans('staff::local.super_visor'))
+                                <div class="col-lg-4 col-md-12">                      
+                                    <div class="form-group row">
+                                        <select class="form-control" name="employee_id[]">
+                                            <option value="{{employee_id()}}">
+                                                {{trans('staff::local.me')}}
+                                            </option>
+                                            @foreach ($employees as $employee)
+                                                <option {{ old('employee_id') == $employee->id ? 'selected' : '' }}
+                                                    value="{{ $employee->id }}">{{$employee->employee_name}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                            @else
+                                <input type="hidden" name="employee_id[]" value="{{employee_id()}}">
+                            @endif
                             
                             <div class="row">
                                 <div class="col-lg-4 col-md-6">
