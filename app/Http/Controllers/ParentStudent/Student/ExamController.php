@@ -123,8 +123,10 @@ class ExamController extends Controller
                 $time_end = new Carbon($data->end_time);
                 $btn = '';
                 // hidden before date & time
-                if ($data->start_date == date_format(Carbon::now(), "Y-m-d") &&
-                date_format($time, "H:i") > date_format(Carbon::now(), "H:i")) {
+                if (
+                    $data->start_date == date_format(Carbon::now(), "Y-m-d") &&
+                    date_format($time, "H:i") > date_format(Carbon::now(), "H:i")
+                ) {
                     $btn = '<span class="blue"><strong>' . trans('learning::local.not_yet') . '</strong></span>';
                 }
 
@@ -258,11 +260,9 @@ class ExamController extends Controller
             ->whereHas('classrooms', function ($q) {
                 $q->where('classroom_id', classroom_id());
             })
-            ->whereHas('questions', function ($q) {
-            })
-            ->whereHas('userExams', function ($q) {
-            })
-            ->orderBy('start_date')            
+            ->whereHas('questions')
+            ->whereHas('userExams')
+            ->orderBy('start_date')
             ->get();
 
         if (request()->ajax()) {
@@ -344,6 +344,4 @@ class ExamController extends Controller
             return json_encode($report);
         }
     }
-
-    
 }

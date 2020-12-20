@@ -1,6 +1,6 @@
 @extends('layouts.backEnd.teacher')
 @section('styles')
-    <link rel="stylesheet" href="{{asset('cpanel/app-assets/css-rtl/plugins/animate/animate.css')}}">
+    <link rel="stylesheet" href="{{ asset('cpanel/app-assets/css-rtl/plugins/animate/animate.css') }}">
 @endsection
 @section('content')
     <div class="content-header row">
@@ -17,30 +17,34 @@
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="card">
                     <div class="text-center">
-                        <div class="card-body">                                                    
-                            <img src="{{ asset($student->show_student) }}" class="rounded-circle  height-150 width-150" alt="Card image">                                                        
+                        <div class="card-body">
+                            <img src="{{ asset($student->show_student) }}" class="rounded-circle  height-150 width-150"
+                                alt="Card image">
                         </div>
-                        
+
                         <h4 class="card-title"><strong>{{ $student->student_name }}</strong></h4>
                         <div class="text-center">
-                            <a href="#" onclick="studentData({{ $student->id }})" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"
-                                data-toggle="tooltip" data-placement="top" data-html="true" title="{{ trans('learning::local.student_data') }}">
-                              <span class="la la-user"></span>
+                            <a href="#" onclick="studentData({{ $student->id }})"
+                                class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin" data-toggle="tooltip"
+                                data-placement="top" data-html="true" title="{{ trans('learning::local.student_data') }}">
+                                <span class="la la-user"></span>
                             </a>
-                            <a href="#" onclick="homeworks({{ $student->user_id }})" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"
-                                data-toggle="tooltip" data-placement="top" data-html="true" title="{{ trans('learning::local.class_work') }}">
-                              <span class="la la-edit"></span>
+                            <a href="#" onclick="homeworks({{ $student->user_id }})"
+                                class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin" data-toggle="tooltip"
+                                data-placement="top" data-html="true" title="{{ trans('learning::local.class_work') }}">
+                                <span class="la la-edit"></span>
                             </a>
-                            <a href="#" onclick="exams()" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"
-                            data-toggle="tooltip" data-placement="top" data-html="true" title="{{ trans('learning::local.exams') }}">
+                            <a href="#" onclick="exams({{ $student->user_id }})" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"
+                                data-toggle="tooltip" data-placement="top" data-html="true"
+                                title="{{ trans('learning::local.exams') }}">
                                 <span class="la la-tasks"></span>
-                              </a>
-                            <a href="#" class="btn btn-social-icon mb-1 btn-outline-linkedin"
-                            data-toggle="tooltip" data-placement="top" data-html="true" title="{{ trans('learning::local.reports') }}">
-                              <span class="la la-file font-medium-4"></span>
                             </a>
-                            
-                          </div>
+                            <a href="#" class="btn btn-social-icon mb-1 btn-outline-linkedin" data-toggle="tooltip"
+                                data-placement="top" data-html="true" title="{{ trans('learning::local.reports') }}">
+                                <span class="la la-file font-medium-4"></span>
+                            </a>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,6 +52,7 @@
     </div>
     @include('learning::teacher.classrooms.includes._student-data')
     @include('learning::teacher.classrooms.includes._homeworks')
+    @include('learning::teacher.classrooms.includes._exams')
 @endsection
 @section('script')
     <script>
@@ -85,6 +90,23 @@
 
         }
 
+        function exams(user_id) {
+            $.ajax({
+                type: "GET",
+                data: {
+                    user_id: user_id
+                },
+                url: "{{ route('teacher.exams') }}",
+                dataType: "html",
+                success: function(data) {
+                    $('#exam').html(data);
+                    $('#exam_modal').modal('show');
+                }
+            })
+
+
+        }
+
     </script>
-<script src="{{ asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js') }}"></script>
+    <script src="{{ asset('cpanel/app-assets/js/scripts/tooltip/tooltip.js') }}"></script>
 @endsection

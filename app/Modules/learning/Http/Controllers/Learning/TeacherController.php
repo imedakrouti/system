@@ -4,6 +4,7 @@ namespace Learning\Http\Controllers\Learning;
 
 use App\Http\Controllers\Controller;
 use Learning\Models\Learning\DeliverHomework;
+use Learning\Models\Learning\Exam;
 use Student\Models\Settings\Classroom;
 use Student\Models\Students\Student;
 
@@ -46,5 +47,17 @@ class TeacherController extends Controller
             return view('learning::teacher.classrooms.ajax-views.homework', compact('homeworks'));
         }
     }
-    
+
+    public function exams()
+    {
+        if (request()->ajax()) {
+            $exams = Exam::with('userExams', 'userAnswers')
+                ->whereHas('userExams',function($q){
+                    $q->where('user_id', request('user_id'));
+                })
+                ->take(10)
+                ->get();
+            return view('learning::teacher.classrooms.ajax-views.exams', compact('exams'));
+        }
+    }
 }

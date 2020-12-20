@@ -279,7 +279,7 @@ return [
     'attendance'                            => 'Attendance & Absences',
     'behaviour'                             => 'Behaviour',
     'manage_reports'                        => 'Manage Student Report',
-    ''               => '',
+    'evaluation'                            => 'Evaluation',
     ''               => '',
     ''               => '',
     ''               => '',

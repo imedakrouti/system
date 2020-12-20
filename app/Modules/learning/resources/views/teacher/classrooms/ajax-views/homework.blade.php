@@ -11,7 +11,7 @@
             <tr>
                 <td>{{ $home->homework->title }}</td>
                 <td>{{ $home->created_at }}</td>
-                <td>{{ $home->mark }} / {{ $home->homework->total_mark }}</td>
+                <td>{{ $home->mark }} / <strong>{{ $home->homework->total_mark }}</strong></td>
             </tr>
         @endforeach
 </tbody>
