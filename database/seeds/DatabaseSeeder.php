@@ -18,5 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DaysSeeder::class);
         $this->call(DateListSeeder::class);
         $this->call(InternalRegulationSeeder::class);
+        $this->call(WeekSeeder::class);
+        $this->call(MonthSeeder::class);
     }
 }
