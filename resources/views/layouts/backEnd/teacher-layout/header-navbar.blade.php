@@ -66,6 +66,15 @@ role="navigation" data-menu="menu-wrapper">
       <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.view')}}" data-toggle="dropdown"><i class="la la-calendar-check-o"></i> {{ trans('learning::local.view_zoom_schedule') }}</a></li>                          
       <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.index')}}" data-toggle="dropdown"><i class="la la-calendar"></i> {{ trans('learning::local.manage_zoom_schedule') }}</a></li>                          
     </ul>
+
+    {{-- student --}}
+    <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-users"></i>
+      <span>{{ trans('admin.students') }}</span></a>
+    <ul class="dropdown-menu">
+      <li data-menu=""><a class="dropdown-item" href="{{route('zoom.account')}}" data-toggle="dropdown"><i class="la la-calendar"></i> {{ trans('learning::local.attendance') }}</a></li>           
+      <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.view')}}" data-toggle="dropdown"><i class="la la-ban"></i> {{ trans('learning::local.behaviour') }}</a></li>                          
+      <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.index')}}" data-toggle="dropdown"><i class="la la-gear"></i> {{ trans('learning::local.manage_reports') }}</a></li>                          
+    </ul>
   </li>
   </ul>
 </div>
