@@ -201,12 +201,25 @@ class Student extends Model
         }
     }
     // get full name for student and student number
-    public function getStudentNumberAttribute()
+    public function getNationalityAttribute()
     {
         if (session('lang') == 'ar') {
-            return '[' . $this->student_number . '] ' . $this->ar_student_name . ' ' . $this->father->ar_st_name . ' ' . $this->father->ar_nd_name . ' ' . $this->father->ar_rd_name;
+            if ($this->gender == trans('student::local.male')) {
+                return $this->nationalities->ar_name_nat_male;                
+            }else{
+                return $this->nationalities->ar_name_nat_female;                
+            }
         } else {
-            return '[' . $this->student_number . '] ' . $this->en_student_name . ' ' . $this->father->en_st_name . ' ' . $this->father->en_nd_name . ' ' . $this->father->en_rd_name;
+            return $this->nationalities->en_name_nationality;
         }
+    }
+
+    public function getShowStudentAttribute()
+    {        
+        if ($this->student_image) {
+            return 'images/studentsImages/' . $this->student_image;
+        }
+        return $this->gender == trans('student::local.male') ?
+        'images/studentsImages/37.jpeg' : 'images/studentsImages/39.png';
     }
 }

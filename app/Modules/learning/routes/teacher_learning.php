@@ -70,5 +70,7 @@
 
       // classrooms name list
       Route::get('students/name-list/{classroom_id}','TeacherController@nameList')->name('students.name-list');
+      Route::get('teacher/name-list/student-data','TeacherController@studentData')->name('teacher.student-data');
+      Route::get('teacher/name-list/homework','TeacherController@homework')->name('teacher.homework');
     
     });  

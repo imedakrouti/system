@@ -17,22 +17,26 @@ class DeliverHomework extends Model
         'question_id',
         'user_id',
     ];
-    public function __construct(Array $attributes = [])
+    public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        
+
         $this->setConnection(session('connection')); // see config/database.php where you have specified this second connection to a different DB
     }
     public function user()
     {
-        return $this->belongsTo('App\Models\User','user_id');
+        return $this->belongsTo('App\Models\User', 'user_id');
     }
     public function question()
     {
-        return $this->belongsTo('Learning\Models\Learning\Question','question_id');
+        return $this->belongsTo('Learning\Models\Learning\Question', 'question_id');
     }
     public function homework()
     {
-        return $this->belongsTo('Learning\Models\Learning\Homework','homework_id');
+        return $this->belongsTo('Learning\Models\Learning\Homework', 'homework_id');
+    }
+    public function getCreatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('M d Y, D h:i a');
     }
 }

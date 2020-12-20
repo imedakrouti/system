@@ -24,7 +24,7 @@
                       <label>{{ trans('learning::local.classrooms') }}</label>
                       <select name="classroom_id[]" class="form-control select2" id="filter_room_id" multiple required>
                             @foreach ($classes as $class)
-                                <option  {{in_array( $class->id,$arr_classes) ? 'selected' : ''}}  value="{{$class->id}}">
+                                <option  {{in_array( $class->id,$exam->classrooms->pluck('id')->toArray()) ? 'selected' : ''}}  value="{{$class->id}}">
                                 {{session('lang') == 'ar'? $class->ar_name_classroom : $class->en_name_classroom}}
                                 </option>
                             @endforeach

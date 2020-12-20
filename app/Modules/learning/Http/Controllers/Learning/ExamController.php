@@ -411,49 +411,25 @@ class ExamController extends Controller
         $classes = Classroom::with('employees')->whereHas('employees', function ($q) {
             $q->where('employee_id', employee_id());
         })->get();
-        // all classes related to teacher - get through playlist that related to teacher
-        $arr_classes = [];
-        foreach ($exam->classrooms as $class) {
-            $arr_classes[] = $class->id;
-        }
+        
         return view(
             'learning::teacher.exams.show-exam',
-            compact('title', 'exam', 'questions', 'n', 'classes', 'arr_classes')
+            compact('title', 'exam', 'questions', 'n', 'classes', )
         );
     }
 
     public function editExam($exam_id)
     {
-        $exam = Exam::findOrFail($exam_id);
-        $divisions = Division::sort()->get();
-        $grades = Grade::sort()->get();
+        $exam = Exam::findOrFail($exam_id);        
         $lessons = Lesson::with('subject')->orderBy('lesson_title')->get();
         $title = trans('learning::local.edit_exam');
-        $arr_lessons = [];
-        $arr_divisions = [];
-        $arr_grades = [];
-
-        foreach ($exam->lessons as $lesson) {
-            $arr_lessons[] = $lesson->id;
-        }
-        foreach ($exam->divisions as $division) {
-            $arr_divisions[] = $division->id;
-        }
-        foreach ($exam->grades as $grade) {
-            $arr_grades[] = $grade->id;
-        }
-
+      
         return view(
             'learning::teacher.exams.edit-exam',
             compact(
                 'title',
                 'exam',
-                'lessons',
-                'arr_lessons',
-                'divisions',
-                'grades',
-                'arr_divisions',
-                'arr_grades'
+                'lessons',                                           
             )
         );
     }
@@ -463,13 +439,7 @@ class ExamController extends Controller
         $exam = Exam::findOrFail($exam_id);
         DB::transaction(function () use ($exam) {
             $exam->update(request()->only($this->examAttributes()));
-
-            DB::table('lesson_exam')->where('exam_id', $exam->id)->delete();
-            if (request()->has('lessons')) {
-                foreach (request('lessons') as $lesson_id) {
-                    $exam->lessons()->attach($lesson_id);
-                }
-            }
+            $exam->lessons()->sync(request('lessons'));         
         });
         toast(trans('msg.updated_successfully'), 'success');
         return redirect()->route('teacher.view-exams');
@@ -680,21 +650,7 @@ class ExamController extends Controller
     public function setExamClasses()
     {
         $exam = Exam::find(request('exam_id'));
-
-        DB::table('exam_classroom')->where('exam_id', $exam->id)->delete();
-        foreach (request('classroom_id') as $classroom_id) {
-            $exam->classrooms()->attach($classroom_id);
-            request()->user()->posts()->firstOrCreate(
-                [
-                    'post_type'     => 'exam',
-                    'url'           => $exam->id,
-                    'post_text'     => $exam->exam_name,
-                    'youtube_url'   => null,
-                    'description'   => $exam->description,
-                    'classroom_id'  => $classroom_id,
-                ]
-            );
-        }
+        $exam->classrooms()->sync(request('classroom_id'));
 
         toast(trans('learning::local.set_classes_successfully'), 'success');
         return redirect()->route('teacher.show-exam', request('exam_id'));

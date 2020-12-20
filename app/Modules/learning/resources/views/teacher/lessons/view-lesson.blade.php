@@ -186,16 +186,8 @@
 @section('script')
     <script>
         function attachments() {
-            $('#lesson_id').val({
-                {
-                    $lesson - > id
-                }
-            });
-            $('#playlist_id').val({
-                {
-                    $lesson - > playlist_id
-                }
-            });
+            $('#lesson_id').val("{{ $lesson->id }}");
+            $('#playlist_id').val("{{ $lesson->playlist_id }}");
             $('#attachments').modal({
                 backdrop: 'static',
                 keyboard: false

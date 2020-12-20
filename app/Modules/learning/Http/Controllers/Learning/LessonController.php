@@ -149,16 +149,10 @@ class LessonController extends Controller
 
             $this->lesson = $request->user()->lessons()->firstOrCreate($request->only($this->attributes()) +
                 ['file_name' => $this->video_file_name]);
-
-            $_lessons = Lesson::find($this->lesson->id);
-            foreach (request('division_id') as $division_id) {
-                $_lessons->divisions()->attach($division_id);
-            }
-            foreach (request('grade_id') as $grade_id) {
-                $_lessons->grades()->attach($grade_id);
-            }
-
-            $_lessons->years()->attach(currentYear());
+                
+            $this->lesson->divisions()->attach(request('division_id'));
+            $this->lesson->grades()->attach(request('grade_id'));        
+            $this->lesson->years()->attach(currentYear());
         });
         toast(trans('msg.stored_successfully'), 'success');
         return redirect()->route('teacher.view-lesson', ['id' => $this->lesson->id, 'playlist_id' => request('playlist_id')]);
@@ -187,22 +181,9 @@ class LessonController extends Controller
         $grades = Grade::sort()->get();
         $years = Year::open()->current()->get();
 
-        $arr_divisions = [];
-        $arr_grades = [];
-        $arr_years = [];
-
-        foreach ($lesson->divisions as $division) {
-            $arr_divisions[] = $division->id;
-        }
-        foreach ($lesson->grades as $grade) {
-            $arr_grades[] = $grade->id;
-        }
-        foreach ($lesson->years as $year) {
-            $arr_years[] = $year->id;
-        }
         return view(
             'learning::teacher.lessons.edit-lesson',
-            compact('playlists', 'title', 'divisions', 'grades', 'years', 'arr_divisions', 'arr_grades', 'arr_years', 'lesson')
+            compact('playlists', 'title', 'divisions', 'grades', 'years', 'lesson')
         );
     }
 
@@ -233,17 +214,8 @@ class LessonController extends Controller
                 }
             }
 
-            $_lessons = Lesson::findOrFail($lesson_id);
-            DB::table('lesson_division')->where('lesson_id', $_lessons->id)->delete();
-
-            foreach (request('division_id') as $division_id) {
-                $_lessons->divisions()->attach($division_id);
-            }
-
-            DB::table('lesson_grade')->where('lesson_id', $_lessons->id)->delete();
-            foreach (request('grade_id') as $grade_id) {
-                $_lessons->grades()->attach($grade_id);
-            }
+            $lesson_->divisions()->sync(request('division_id'));
+            $lesson_->grades()->sync(request('grade_id'));      
         });
         toast(trans('msg.updated_successfully'), 'success');
         return redirect()->route('teacher.view-lesson', ['id' => $lesson_->id, 'playlist_id' => $lesson_->playlist_id]);

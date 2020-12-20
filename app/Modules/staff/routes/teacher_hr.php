@@ -21,3 +21,7 @@
    Route::get('/internal-regulation/teacher','InternalRegulationController@showForTeacher')->name('internal-regulations.teacher');
    Route::get('teacher/account','TeacherController@account')->name('teacher.account');
    Route::get('teacher/password','TeacherController@password')->name('teacher.password');
+   
+   
+   
+

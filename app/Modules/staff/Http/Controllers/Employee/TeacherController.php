@@ -4,6 +4,7 @@ namespace Staff\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use Staff\Models\Employees\Employee;
+use Student\Models\Students\Student;
 
 class TeacherController extends Controller
 {
@@ -26,4 +27,6 @@ class TeacherController extends Controller
     {
         return view('staff::teacher.password');
     }
+
+
 }

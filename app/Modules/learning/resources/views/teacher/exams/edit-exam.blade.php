@@ -51,7 +51,7 @@
                         <select name="lessons[]" class="form-control select2" multiple>
                             <option value="">{{ trans('staff::local.select') }}</option>
                             @foreach ($lessons as $lesson)
-                                <option {{in_array( $lesson->id,$arr_lessons) ? 'selected' : ''}} value="{{$lesson->id}}">{{$lesson->lesson_title}} 
+                                <option {{in_array( $lesson->id, $exam->lessons->pluck('id')->toArray()) ? 'selected' : ''}} value="{{$lesson->id}}">{{$lesson->lesson_title}} 
                                     [{{session('lang') == 'ar' ? $lesson->subject->ar_name : $lesson->subject->en_name}}]</option>
                             @endforeach
                         </select>                        
