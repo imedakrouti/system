@@ -1,6 +1,6 @@
 <div class="form-group">     
     <!-- Modal -->
-    <div class="modal fade text-left" id="student_data_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel18"
+    <div class="modal  text-left animated fadeIn" id="student_data_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel18"
     aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

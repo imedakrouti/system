@@ -1,4 +1,7 @@
 @extends('layouts.backEnd.teacher')
+@section('styles')
+    <link rel="stylesheet" href="{{asset('cpanel/app-assets/css-rtl/plugins/animate/animate.css')}}">
+@endsection
 @section('content')
     <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
