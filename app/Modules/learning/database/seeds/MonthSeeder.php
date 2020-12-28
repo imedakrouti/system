@@ -11,17 +11,17 @@ class MonthSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('months')->insert(['month_name'=>'January']);
-        \DB::table('months')->insert(['month_name'=>'February']);
-        \DB::table('months')->insert(['month_name'=>'March']);
-        \DB::table('months')->insert(['month_name'=>'April']);
-        \DB::table('months')->insert(['month_name'=>'May']);
-        \DB::table('months')->insert(['month_name'=>'June']);
-        \DB::table('months')->insert(['month_name'=>'July']);
-        \DB::table('months')->insert(['month_name'=>'August']);
-        \DB::table('months')->insert(['month_name'=>'September']);
-        \DB::table('months')->insert(['month_name'=>'October']);
-        \DB::table('months')->insert(['month_name'=>'November']);
-        \DB::table('months')->insert(['month_name'=>'December']);
+        \DB::table('months')->insert(['en_month_name'=>'January','ar_month_name' => 'يناير']);
+        \DB::table('months')->insert(['en_month_name'=>'February','ar_month_name' => 'فبراير']);
+        \DB::table('months')->insert(['en_month_name'=>'March','ar_month_name' => 'مارس']);
+        \DB::table('months')->insert(['en_month_name'=>'April','ar_month_name' => 'ابريل']);
+        \DB::table('months')->insert(['en_month_name'=>'May','ar_month_name' => 'مايو']);
+        \DB::table('months')->insert(['en_month_name'=>'June','ar_month_name' => 'يونيو']);
+        \DB::table('months')->insert(['en_month_name'=>'July','ar_month_name' => 'يوليو']);
+        \DB::table('months')->insert(['en_month_name'=>'August','ar_month_name' => 'أغسطس']);
+        \DB::table('months')->insert(['en_month_name'=>'September','ar_month_name' => 'سبتمبر']);
+        \DB::table('months')->insert(['en_month_name'=>'October','ar_month_name' => 'أكتوبر']);
+        \DB::table('months')->insert(['en_month_name'=>'November','ar_month_name' => 'نوفمبر']);
+        \DB::table('months')->insert(['en_month_name'=>'December','ar_month_name' => 'ديسمبر']);
     }
 }

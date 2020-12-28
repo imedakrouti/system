@@ -191,7 +191,7 @@ class Student extends Model
             return $this->en_student_name . ' ' . $this->father->en_st_name . ' ' . $this->father->en_nd_name . ' ' . $this->father->en_rd_name;
         }
     }
-    // sort name for student
+    // name for student
     public function getStudentShortNameAttribute()
     {
         if (session('lang') == 'ar') {
@@ -221,5 +221,15 @@ class Student extends Model
         }
         return $this->gender == trans('student::local.male') ?
         'images/studentsImages/37.jpeg' : 'images/studentsImages/39.png';
+    }
+
+    public function scopeSort($q)
+    {
+        return $q->orderBy('ar_student_name');
+    }
+
+    public function behaviours()
+    {
+        return $this->hasMany('Learning\Models\Learning\Behaviour','student_id')->orderBy('month_id');
     }
 }

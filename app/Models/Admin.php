@@ -445,4 +445,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany('Learning\Models\Learning\Like','admin_id');
     }
+    public function behaviours()
+    {
+        return $this->hasMany('Learning\Models\Learning\Behaviour','admin_id');
+    }
 }

@@ -15,7 +15,8 @@ class CreateTableMonths extends Migration
     {
         Schema::connection('mysql')->create('months', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('month_name',10);
+            $table->string('ar_month_name',10);
+            $table->string('en_month_name',10);
         });
     }
 

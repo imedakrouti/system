@@ -73,5 +73,12 @@
       Route::get('teacher/name-list/student-data','TeacherController@studentData')->name('teacher.student-data');
       Route::get('teacher/name-list/homework','TeacherController@homework')->name('teacher.homework');
       Route::get('teacher/name-list/exams','TeacherController@exams')->name('teacher.exams');
+
+
+      // behaviour
+      Route::resource('/behaviour','BehaviourController')->except('destroy');
+      Route::post('/behaviour/destroy','BehaviourController@destroy')->name('behaviour.destroy');
+      // Absences
+      Route::resource('/absences','AbsencesController');
     
     });  

@@ -71,11 +71,21 @@ role="navigation" data-menu="menu-wrapper">
     <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-users"></i>
       <span>{{ trans('admin.students') }}</span></a>
     <ul class="dropdown-menu">
-      <li data-menu=""><a class="dropdown-item" href="{{route('zoom.account')}}" data-toggle="dropdown"><i class="la la-calendar"></i> {{ trans('learning::local.attendance') }}</a></li>           
-      <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.view')}}" data-toggle="dropdown"><i class="la la-ban"></i> {{ trans('learning::local.behaviour') }}</a></li>                          
+      <li data-menu=""><a class="dropdown-item" href="{{route('absences.index')}}" data-toggle="dropdown"><i class="la la-calendar"></i> {{ trans('learning::local.attendance') }}</a></li>           
+      
+      <li class="dropdown dropdown-submenu" data-menu="dropdown-submenu">
+        <a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown"><i class="la la-ban"></i>{{ trans('learning::local.behaviour') }}</a>
+        <ul class="dropdown-menu">
+          @foreach (employeeClassrooms() as $classroom)
+              <li data-menu=""><a class="dropdown-item" href="{{route('behaviour.index',['classroom_id'=> $classroom->id,'class_name' => $classroom->class_name])}}"
+                 data-toggle="dropdown">{{$classroom->class_name }}</a></li>              
+          @endforeach
+        </ul>
+      </li>
       <li data-menu=""><a class="dropdown-item" href="{{route('zoom-schedules.index')}}" data-toggle="dropdown"><i class="la la-gear"></i> {{ trans('learning::local.manage_reports') }}</a></li>                          
     </ul>
   </li>
+  
   </ul>
 </div>
 </div>
