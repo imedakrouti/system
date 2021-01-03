@@ -61,9 +61,9 @@ Route::group(['prefix' => 'admin','namespace' => 'Admin'],function(){
 
 Route::get('/set-users','HomeController@index');
 
-Route::get('/week',function(){
-   return \Carbon\Carbon::now()->week();
-});
+// Route::get('/week',function(){
+//    return \Carbon\Carbon::now()->week();
+// });
 
 
     
