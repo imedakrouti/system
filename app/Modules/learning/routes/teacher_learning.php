@@ -80,6 +80,6 @@
       Route::post('/behaviour/destroy','BehaviourController@destroy')->name('behaviour.destroy');
       Route::get('behaviour-subjects','BehaviourController@behaviourSubjects')->name('behaviour-subjects');
       // Absences
-      Route::resource('/absences','AbsencesController');
+      // Route::resource('/absences','AbsencesController');
     
     });  
