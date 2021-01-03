@@ -13,15 +13,15 @@ class CreateTableBehaviorMonth extends Migration
      */
     public function up()
     {
-        Schema::create('behaviour_month', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('month_id')->nullable();
-            $table->foreign('month_id')->references('id')->on('months')->onDelete('cascade')->onUpdate('cascade'); 
-            $table->unsignedBigInteger('behaviour_id')->nullable();
-            $table->foreign('behaviour_id')->references('id')->on('behaviours')->onDelete('cascade')->onUpdate('cascade'); 
-            $table->unsignedBigInteger('year_id')->nullable();
-            $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade')->onUpdate('cascade');
-        });
+        // Schema::create('behaviour_month', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->unsignedBigInteger('month_id')->nullable();
+        //     $table->foreign('month_id')->references('id')->on('months')->onDelete('cascade')->onUpdate('cascade'); 
+        //     $table->unsignedBigInteger('behaviour_id')->nullable();
+        //     $table->foreign('behaviour_id')->references('id')->on('behaviours')->onDelete('cascade')->onUpdate('cascade'); 
+        //     $table->unsignedBigInteger('year_id')->nullable();
+        //     $table->foreign('year_id')->references('id')->on('years')->onDelete('cascade')->onUpdate('cascade');
+        // });
     }
 
     /**
