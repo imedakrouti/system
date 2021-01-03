@@ -12,13 +12,24 @@ use Student\Models\Students\Student;
 
 class BehaviourController extends Controller
 {
+
+    public function behaviourSubjects()
+    {
+        $class_name = request('class_name');
+        $classroom_id = request('classroom_id');
+        $title = trans('learning::local.behaviour');
+        return view(
+            'learning::teacher.behaviour.behaviour-subjects',
+            compact('title', 'class_name','classroom_id')
+        );
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {        
         $students = Student::with('father', 'classrooms', 'behaviours')
             ->whereHas('classrooms', function ($q) {
                 $q->where('classroom_id', request('classroom_id'));
@@ -28,10 +39,10 @@ class BehaviourController extends Controller
         $title = trans('learning::local.behaviour');
         $class_name = request('class_name');
         $classroom_id = request('classroom_id');
-        $months = Month::whereHas('behaviours',function($q){
+        $months = Month::whereHas('behaviours', function ($q) {
             $q->where('classroom_id', request('classroom_id'));
-        })        
-        ->get();
+        })
+            ->get();
         return view(
             'learning::teacher.behaviour.index',
             compact('title', 'months', 'students', 'class_name', 'classroom_id')
@@ -91,7 +102,7 @@ class BehaviourController extends Controller
                     'student_id'    => request('student_id')[$i],
                     'behaviour_mark'    => request('behaviour_mark')[$i],
                 ]);
-            
+
             $classroom = Classroom::findOrFail($behaviour->classroom_id);
         }
         toast(trans('learning::local.saved_behaviours'), 'success');

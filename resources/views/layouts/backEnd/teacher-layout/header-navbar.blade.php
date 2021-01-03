@@ -77,7 +77,7 @@ role="navigation" data-menu="menu-wrapper">
         <a class="dropdown-item dropdown-toggle" href="#" data-toggle="dropdown"><i class="la la-ban"></i>{{ trans('learning::local.behaviour') }}</a>
         <ul class="dropdown-menu">
           @foreach (employeeClassrooms() as $classroom)
-              <li data-menu=""><a class="dropdown-item" href="{{route('behaviour.index',['classroom_id'=> $classroom->id,'class_name' => $classroom->class_name])}}"
+              <li data-menu=""><a class="dropdown-item" href="{{route('behaviour-subjects',['classroom_id'=> $classroom->id,'class_name' => $classroom->class_name])}}"
                  data-toggle="dropdown">{{$classroom->class_name }}</a></li>              
           @endforeach
         </ul>

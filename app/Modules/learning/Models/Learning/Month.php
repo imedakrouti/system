@@ -16,7 +16,6 @@ class Month extends Model
     }
     public function behaviours()
     {
-        return $this->hasMany('Learning\Models\Learning\Behaviour','month_id');
+        return $this->hasMany('Learning\Models\Learning\Behaviour','behaviour_month', 'month_id','behaviour_id');
     }
-
 }

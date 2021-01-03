@@ -30,15 +30,12 @@
         <div class="card-content">
           <div class="card-body">
             @include('layouts.backEnd.includes._msg')
-            <ul class="list-group">
-                @php
-                    $n=1;
-                @endphp
-                @foreach ($playlists as $playlist) 
+            <ul class="list-group">     
+                @foreach ($playlists as $index => $playlist) 
                     <li class="list-group-item">                                
                         <span class="badge badge-info badge-pill float-right">{{ trans('student.lessons') }} {{$playlist->lessons->count()}}</span>
                         <a style="color: #7f888f;font-size:20px;font-weight:800" href="{{route('teacher.show-lessons',$playlist->id)}}">
-                          {{$n}} - {{$playlist->playlist_name}}</a>
+                          {{$index+1}} - {{$playlist->playlist_name}}</a>
                         <br>
                         @foreach ($playlist->classes as $class)                          
                             <div class="mb-1 badge badge-danger">
@@ -52,9 +49,7 @@
                         </div>
 
                     </li>
-                    @php
-                        $n++;
-                    @endphp
+        
               @endforeach  
             </ul>
           </div>

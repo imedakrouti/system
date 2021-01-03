@@ -27,4 +27,9 @@ class Behaviour extends Model
     {
         return $this->belongsTo('App\Models\Admin', 'admin_id');
     }
+    public function month()
+    {        
+        return $this->hasMany('Learning\Models\Learning\Month','behaviour_month', 'behaviour_id','month_id');
+    }
+
 }

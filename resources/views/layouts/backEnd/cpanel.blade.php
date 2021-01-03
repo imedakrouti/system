@@ -60,6 +60,8 @@
   @else
   <link rel="stylesheet" type="text/css" href="{{asset('cpanel/assets/css/style.css')}}">
   @endif
+
+  <link rel="stylesheet" href="{{asset('cpanel/assets/css/animsition.min.css')}}">
   <!-- END Custom CSS-->
   @if (session('lang') == trans('admin.ar') || session('lang') == 'ar')
     <style>
@@ -96,7 +98,8 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   @yield('sidebar')
   {{-- {{dd(Config('app.locale'))}} --}}
     {{-- {{dd(session('lang'))}} --}}
-  <div class="app-content content">
+  <div class="app-content content animsition"  data-animsition-in-class="fade-in-left-sm" data-animsition-in-duration="1000" 
+  data-animsition-out-class="fade-out-right-sm" data-animsition-out-duration="800">
     <div class="content-wrapper">
 
         @yield('content')
@@ -110,7 +113,12 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- BEGIN VENDOR JS-->
   <script src="{{asset('cpanel/app-assets/vendors/js/vendors.min.js')}}" type="text/javascript"></script>
   <script src="{{asset('cpanel/app-assets/vendors/js/forms/select/select2.full.min.js')}}" type="text/javascript"></script>
-  
+  <script src="{{asset('cpanel/assets/js/animsition.min.js')}}"></script>
+  <script>
+    $(document).ready(function() {
+      $('.animsition').animsition();
+    });
+    </script>
   @yield('script')
   <!-- BEGIN VENDOR JS-->
   <!-- BEGIN PAGE VENDOR JS-->
@@ -123,7 +131,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <script src="{{asset('cpanel/app-assets/js/scripts/customizer.js')}}" type="text/javascript"></script>
   <!-- END MODERN JS-->
   <!-- BEGIN PAGE LEVEL JS-->
-  
+
   {{-- sweet alert --}}
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
