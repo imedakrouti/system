@@ -98,8 +98,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   @yield('sidebar')
   {{-- {{dd(Config('app.locale'))}} --}}
     {{-- {{dd(session('lang'))}} --}}
-  <div class="app-content content animsition"  data-animsition-in-class="fade-in-left-sm" data-animsition-in-duration="1000" 
-  data-animsition-out-class="fade-out-right-sm" data-animsition-out-duration="800">
+  <div class="app-content content animsition"  data-animsition-in-class="fade-in-{{session('lang') =='ar'?'right':'left'}}-sm" data-animsition-in-duration="1000">
     <div class="content-wrapper">
 
         @yield('content')

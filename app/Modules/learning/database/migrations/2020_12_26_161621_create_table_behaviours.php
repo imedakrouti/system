@@ -29,7 +29,7 @@ class CreateTableBehaviours extends Migration
         //     $table->unsignedBigInteger('admin_id')->nullable();
         //     $table->foreign('admin_id')->references('id')->on('admins');
         //     $table->timestamps();
-        });
+        // });
     }
 
     /**
